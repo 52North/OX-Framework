@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<project name="52°north SOS xmlbindings" default="all" basedir=".">
+	
+<!-- ==================================================
+	 ==	properties needed for build the XML bindings ==
+     ================================================== -->
+	
+	<property environment="env"/>
+	
+	<property name="xmlbeans.generationfolder" value="${basedir}/.xmlbeans" />
+	<property name="generated-sources" value="${xmlbeans.generationfolder}/sources" />
+	<property name="generated-classes" value="${xmlbeans.generationfolder}/classes" />
+	
+	<property name="bindingsfolder" value="${basedir}/bindings" />
+	
+	
+	<!-- jar-names for OGC-jars -->
+	<property name="jar.name" value="wmsConfig.jar" />
+		
+	
+<!-- ================================
+	 == initialize the environment ==
+     ================================ -->			
+	<target name="init">		
+		<available property="xmlbeans.lib" value="C:/Programme/Java/xmlbeans-2.1.0/lib" file="C:/Programme/Java/xmlbeans-2.1.0/lib/xbean.jar"/>
+		<fail message="You must include the xmlbeans libraries in the lib folder."  unless="xmlbeans.lib"/>		
+		<echo message="xmlbeans.lib: ${xmlbeans.lib}"/>		
+		
+		<path id="xmlbeans.path">
+		    <fileset dir="${bindingsfolder}" includes="*.jar"/>
+			<fileset dir="C:/Programme/Java/xmlbeans-2.1.0/lib" includes="*.jar"/>
+		</path>		
+		<taskdef name="xmlbean" 
+			classname="org.apache.xmlbeans.impl.tool.XMLBean" 
+			classpathref="xmlbeans.path"/>
+	</target>
+
+	
+<!-- =======================================================
+	 ==	Generate all bindings required by the 52north SPS ==
+     ======================================================= -->
+	<target name="all" depends="init,wmsConfig"/>
+	
+		<target name="wmsConfig"  depends="init">
+			
+			<!-- cleanup before generation -->
+			<delete failonerror="false" dir="${xmlbeans.generationfolder}" />
+			<delete failonerror="false" file="${bindingsfolder}/${jar.name}" />
+			
+			
+			<!-- compile schemas -->
+			<xmlbean
+				classgendir="${generated-classes}" 
+				srcgendir="${generated-sources}"	
+				destfile="${bindingsfolder}/${jar.name}"			
+				memoryMaximumSize="512m" 
+				failonerror="false"
+				classpathref="xmlbeans.path"
+				download="true">	
+				<fileset dir="${basedir}">
+					<include name="wmsConfig_schema.xsd"/>
+				</fileset>
+			</xmlbean>
+			<jar destfile="${bindingsfolder}/${jar.name}" update="true">
+			</jar>
+			
+			<!-- cleanup after generation -->
+			<delete failonerror="false" dir="${xmlbeans.generationfolder}" />
+			
+		</target>
+	
+</project>

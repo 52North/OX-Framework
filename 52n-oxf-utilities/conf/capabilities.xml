@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding="ISO-8859-1" standalone="no" ?>
+<!DOCTYPE WMT_MS_Capabilities SYSTEM "http://schemas.opengis.net/wms/1.1.1/WMS_MS_Capabilities.dtd"
+ [
+ <!ELEMENT VendorSpecificCapabilities EMPTY>
+ ]><!-- end of DOCTYPE declaration -->
+
+<WMT_MS_Capabilities version="1.1.1">
+	<Service>
+		<Name>OGC:WMS</Name>
+		<Title>WMS - cascades SOS of NRW</Title>
+		<Abstract>WMS - cascades SOS of NRW</Abstract>
+		<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@SERVICEURL@" />
+		<ContactInformation>
+			<ContactPersonPrimary>
+				<ContactPerson>Arne Broering</ContactPerson>
+				<ContactOrganization>52° North</ContactOrganization>
+			</ContactPersonPrimary>
+			<ContactAddress>
+				<AddressType></AddressType>
+				<Address></Address>
+				<City>Münster</City>
+				<StateOrProvince></StateOrProvince>
+				<PostCode></PostCode>
+				<Country>Germany</Country>
+			</ContactAddress>
+			<ContactElectronicMailAddress>broering@52north.org</ContactElectronicMailAddress>
+		</ContactInformation>
+		<Fees>none</Fees>
+		<AccessConstraints>none</AccessConstraints>
+	</Service>
+
+	<Capability>
+		<Request>
+			<GetCapabilities>
+				<Format>application/vnd.ogc.wms_xml</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@SERVICEURL@" />
+						</Get>
+						<Post>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@SERVICEURL@" />
+						</Post>
+					</HTTP>
+				</DCPType>
+			</GetCapabilities>
+			<GetMap>
+				<Format>image/png</Format>
+				<DCPType>
+					<HTTP>
+						<Get>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@SERVICEURL@" />
+						</Get>
+						<Post>
+							<OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="@SERVICEURL@" />
+						</Post>
+					</HTTP>
+				</DCPType>
+			</GetMap>
+		</Request>
+		<Exception>
+			<Format>application/vnd.ogc.se_xml</Format>
+		</Exception>
+		<VendorSpecificCapabilities />
+
+		<Layer>
+			<Title>SOS</Title>
+			XXXX_anchor_XXXX
+		</Layer>
+	</Capability>
+</WMT_MS_Capabilities>

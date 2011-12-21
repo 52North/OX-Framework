@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Arne Bröring (Westfälische Wilhelms-Universität Münster) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:oxf="http://www.n52.org/oxf/ui/wms/configSchema" targetNamespace="http://www.n52.org/oxf/ui/wms/configSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="wmsConfig">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="layer" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="name"/>
+							<xs:element name="title"/>
+							<xs:element name="abstract" minOccurs="0"/>
+							<xs:element name="serviceURL"/>
+							<xs:element name="LatLonBoundingBox">
+								<xs:complexType>
+									<xs:attribute name="minx" type="xs:double" use="required"/>
+									<xs:attribute name="miny" type="xs:double" use="required"/>
+									<xs:attribute name="maxx" type="xs:double" use="required"/>
+									<xs:attribute name="maxy" type="xs:double" use="required"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="BoundingBox" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="minx" type="xs:double" use="required"/>
+									<xs:attribute name="miny" type="xs:double" use="required"/>
+									<xs:attribute name="maxx" type="xs:double" use="required"/>
+									<xs:attribute name="maxy" type="xs:double" use="required"/>
+									<xs:attribute name="SRS" type="xs:string" use="required"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SRS" maxOccurs="unbounded"/>
+							<xs:element name="serviceConnectors">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="serviceAdapter"/>
+										<xs:element name="renderer"/>
+										<xs:element name="featureStore" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="parameter" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="value" maxOccurs="unbounded"/>
+									</xs:sequence>
+									<xs:attribute name="name" type="xs:string" use="required"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="opaque" type="xs:boolean" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

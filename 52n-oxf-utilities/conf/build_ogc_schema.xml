@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<project name="OGC xmlbindings" default="all" basedir=".">
+	
+<!-- ==================================================
+	 ==	properties needed for build the XML bindings ==
+     ================================================== -->
+	
+	<property environment="env"/>
+	
+	<property name="xmlbeans.inst.folder" value="C:/Programme/Java/xmlbeans-2.3.0" />
+	
+	<property name="xmlbeans.generationfolder" value="${basedir}/.xmlbeans" />
+	<property name="generated-sources" value="${xmlbeans.generationfolder}/sources" />
+	<property name="generated-classes" value="${xmlbeans.generationfolder}/classes" />
+	
+	<property name="bindingsfolder" value="${basedir}/bindings" />
+
+	<property name="existing.ogc.bindings.folder" value="E:/Eigene Dateien/_Job/OXFramework/oxf-adapters/lib" />
+	
+	<property name="wns.xsd.dir" value="E:/temp/OWS-5-SVN/swe/trunk/wns/0.0.0" />
+	<property name="wns.jar.name" value="ogcWnsXBs_000.jar" />
+
+	<property name="sas.xsd.dir" value="E:/temp/OWS-5-SVN/swe/trunk/sas/0.0.0" />
+	<property name="sas.jar.name" value="ogcSasXBs_000.jar" />
+	
+	
+<!-- ================================
+	 == initialize the environment ==
+     ================================ -->			
+	<target name="init">		
+		<available property="xmlbeans.lib" value="${xmlbeans.inst.folder}/lib" file="${xmlbeans.inst.folder}/lib/xbean.jar"/>
+		<fail message="You must include the xmlbeans libraries in the lib folder."  unless="xmlbeans.lib"/>		
+		<echo message="xmlbeans.lib: ${xmlbeans.lib}"/>		
+		
+		<path id="xmlbeans.path">
+		    <fileset dir="${bindingsfolder}" includes="*.jar"/>
+			<fileset dir="${xmlbeans.inst.folder}/lib" includes="*.jar"/>
+			<fileset dir="${existing.ogc.bindings.folder}" includes="*.jar"/>
+		</path>
+		
+		<taskdef name="xmlbean" 
+			classname="org.apache.xmlbeans.impl.tool.XMLBean" 
+			classpathref="xmlbeans.path"/>
+	</target>
+
+	
+	<target name="all" depends="init,buildSAS,cleanUp"/>
+	
+	<target name="buildWNS"  depends="init">
+		
+		<!-- cleanup before generation -->
+		<delete failonerror="false" dir="${xmlbeans.generationfolder}" />
+		<delete failonerror="false" file="${bindingsfolder}/${wns.jar.name}" />
+		
+		
+		<!-- compile schemas -->
+		<xmlbean
+			classgendir="${generated-classes}" 
+			srcgendir="${generated-sources}"	
+			destfile="${bindingsfolder}/${wns.jar.name}"			
+			memoryMaximumSize="512m" 
+			failonerror="false"
+			classpathref="xmlbeans.path"
+			download="true">	
+			<fileset dir="${wns.xsd.dir}">
+				<include name="wnsAll.xsd"/>
+			</fileset>
+		</xmlbean>
+		<jar destfile="${bindingsfolder}/${wns.jar.name}" update="true">
+			<manifest>
+	    		<section name="net/opengis/wns">
+	        		<attribute name="Specification-Title" value="Web Notification Service"/>
+	    			<attribute name="Specification-Version" value="0.0.0"/>
+					<attribute name="Specification-Vendor" value="Open Geospatial Consortium (OGC)"/>
+	      		</section>
+		    </manifest>
+		</jar>
+		
+	</target>
+	
+	<target name="buildSAS"  depends="init">
+			
+		<!-- cleanup before generation -->
+		<delete failonerror="false" dir="${xmlbeans.generationfolder}" />
+		<delete failonerror="false" file="${bindingsfolder}/${sas.jar.name}" />
+		
+		<!-- -->
+		<path id="classpath">
+		    <fileset dir="${bindingsfolder}" includes=".jar" />
+			<fileset dir="${xmlbeans.inst.folder}/lib" includes="*.jar"/>
+			<fileset dir="${existing.ogc.bindings.folder}" includes="*.jar"/>
+		</path>
+		
+		<!-- compile schemas -->
+		<xmlbean
+			classgendir="${generated-classes}" 
+			srcgendir="${generated-sources}"	
+			destfile="${bindingsfolder}/${sas.jar.name}"			
+			memoryMaximumSize="512m" 
+			failonerror="false"
+			classpathref="xmlbeans.path"
+			download="true">	
+			<fileset dir="${sas.xsd.dir}">
+				<include name="sasAll.xsd"/>
+			</fileset>
+		</xmlbean>
+		<jar destfile="${bindingsfolder}/${sas.jar.name}" update="true">
+			<manifest>
+	    		<section name="net/opengis/sas">
+	        		<attribute name="Specification-Title" value="Sensor Alert Service"/>
+	    			<attribute name="Specification-Version" value="0.0.0"/>
+					<attribute name="Specification-Vendor" value="Open Geospatial Consortium (OGC)"/>
+	      		</section>
+		    </manifest>
+		</jar>
+		
+	</target>
+	
+	<target name="cleanUp">
+		<!-- cleanup after generation -->
+		<delete failonerror="false" dir="${xmlbeans.generationfolder}" />
+	</target>
+	
+</project>

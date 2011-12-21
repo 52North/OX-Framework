@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wmsConfig
+	xmlns="http://www.n52.org/oxf/ui/wms/configSchema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.n52.org/oxf/ui/wms/configSchema wmsConfig_schema.xsd">
+	
+	<!-- use the following URL to request the layer: -->
+	<!-- @SERVICEURL@REQUEST=GetMap&LAYERS=SOS-WeatherSA-BarometricPressure-InverseDistance&CRS=EPSG:4326&BBOX=16.530000686645508,-34.41999816894531,34.10356903076172,-22.26999855041504&WIDTH=200&HEIGHT=200 -->
+	<layer opaque="1">
+		<name>SOS-WeatherSA-BarometricPressure-InverseDistance</name>
+		<title>Barometric pressure in South Africa - Inverse distance rendered</title>
+		<abstract>The barometric pressure measured in South Africa and rendered with the inverse distance interpolation method.</abstract>
+		<serviceURL>http://mars.uni-muenster.de:8080/52nSosWSA_art/sos</serviceURL>
+		<LatLonBoundingBox minx="16.53" miny="-34.42" maxx="32.4" maxy="-22.27" />
+		<BoundingBox SRS="EPSG:4326" minx="16.53" miny="-34.42" maxx="32.4" maxy="-22.27" />
+		<SRS>EPSG:4326</SRS>
+		<serviceConnectors>
+			<serviceAdapter>org.n52.oxf.serviceAdapters.sos.SOSAdapter</serviceAdapter>
+			<renderer>org.n52.oxf.render.sos.IDWRenderer</renderer>
+			<featureStore>org.n52.oxf.feature.sos.SOSObservationStore</featureStore>
+		</serviceConnectors>
+		
+		<!-- parameters needed for the data request: -->
+		<parameter name="service"><value>SOS</value></parameter>
+		<parameter name="version"><value>0.0.0</value></parameter>
+		<parameter name="offering"><value>WeatherSA</value></parameter>
+		<parameter name="observedProperty"><value>urn:ogc:def:phenomenon:OGC:1.0.30:barometricPressure</value></parameter>
+		<parameter name="eventTime"><value>2007-04-06T00:00:0/2007-04-07T00:00:0</value></parameter>
+		<parameter name="responseFormat"><value>text/xml;subtype="om/0.0.0"</value></parameter>
+	</layer>
+
+	<!-- use the following URL to request the layer: -->
+	<!-- @SERVICEURL@REQUEST=GetMap&LAYERS=SOS-WeatherSA-BarometricPressure-NearestNeighbour&CRS=EPSG:4326&BBOX=16.530000686645508,-34.41999816894531,34.10356903076172,-22.26999855041504&WIDTH=200&HEIGHT=200 -->
+	<layer opaque="1">
+		<name>SOS-WeatherSA-BarometricPressure-NearestNeighbour</name>
+		<title>Barometric pressure in South Africa - Nearest Neighbour rendered</title>
+		<abstract>The barometric pressure measured in South Africa and rendered with the nearest neighbour interpolation method.</abstract>
+		<serviceURL>http://mars.uni-muenster.de:8080/52nSosWSA_art/sos</serviceURL>
+		<LatLonBoundingBox minx="16.53" miny="-34.42" maxx="32.4" maxy="-22.27" />
+		<BoundingBox SRS="EPSG:4326" minx="16.53" miny="-34.42" maxx="32.4" maxy="-22.27" />
+		<SRS>EPSG:4326</SRS>
+		<serviceConnectors>
+			<serviceAdapter>org.n52.oxf.serviceAdapters.sos.SOSAdapter</serviceAdapter>
+			<renderer>org.n52.oxf.render.sos.NNRenderer</renderer>
+			<featureStore>org.n52.oxf.feature.sos.SOSObservationStore</featureStore>
+		</serviceConnectors>
+		
+		<!-- parameters needed for the data request: -->
+		<parameter name="service"><value>SOS</value></parameter>
+		<parameter name="version"><value>0.0.0</value></parameter>
+		<parameter name="offering"><value>WeatherSA</value></parameter>
+		<parameter name="observedProperty"><value>urn:ogc:def:phenomenon:OGC:1.0.30:barometricPressure</value></parameter>
+		<parameter name="eventTime"><value>2007-04-06T00:00:0/2007-04-07T00:00:0</value></parameter>
+		<parameter name="responseFormat"><value>text/xml;subtype="om/0.0.0"</value></parameter>
+	</layer>
+	
+	<!-- use the following URL to request the layer: -->
+	<!-- @SERVICEURL@REQUEST=GetMap&LAYERS=SOS-WeatherSA-Temperature-TimeSeriesCharts&CRS=EPSG:4326&BBOX=16.530000686645508,-34.41999816894531,34.10356903076172,-22.26999855041504&WIDTH=800&HEIGHT=800 -->
+	<layer opaque="0">
+		<name>SOS-WeatherSA-Temperature-TimeSeriesCharts</name>
+		<title>Temperature in South Africa - Time series charts.</title>
+		<abstract>The temperature measured in South Africa at 2 weather stations.</abstract>
+		<serviceURL>http://mars.uni-muenster.de:8080/52nSosWSA_art/sos</serviceURL>
+		<LatLonBoundingBox minx="16.53" miny="-34.42" maxx="32.4" maxy="-22.27" />
+		<BoundingBox SRS="EPSG:4326" minx="16.53" miny="-34.42" maxx="32.4" maxy="-22.27" />
+		<SRS>EPSG:4326</SRS>
+		<serviceConnectors>
+			<serviceAdapter>org.n52.oxf.serviceAdapters.sos.SOSAdapter</serviceAdapter>
+			<renderer>org.n52.oxf.render.sos.TimeSeriesMapChartRenderer</renderer>
+			<featureStore>org.n52.oxf.feature.sos.SOSObservationStore</featureStore>
+		</serviceConnectors>
+		
+		<!-- parameters needed for the data request: -->
+		<parameter name="service"><value>SOS</value></parameter>
+		<parameter name="version"><value>0.0.0</value></parameter>
+		<parameter name="offering"><value>WeatherSA</value></parameter>
+		<parameter name="observedProperty"><value>urn:ogc:def:phenomenon:OGC:1.0.30:barometricPressure</value></parameter>
+		<parameter name="eventTime"><value>2007-04-01T00:00:0/2007-04-14T00:00:0</value></parameter>
+		<parameter name="responseFormat"><value>text/xml;subtype="om/0.0.0"</value></parameter>
+		<parameter name="featureOfInterest">
+			<value>68155</value>
+			<value>68174</value>
+		</parameter>
+	</layer>
+	
+	<!-- use the following URL to request the layer: -->
+	<!-- @SERVICEURL@REQUEST=GetMap&LAYERS=SOS-WeatherSA-FOIs&CRS=EPSG:4326&BBOX=16.530000686645508,-34.41999816894531,34.10356903076172,-22.26999855041504&TIME=2006-05-10/2006-06-16&WIDTH=200&HEIGHT=200 -->
+	<layer opaque="0">
+		<name>SOS-WeatherSA-FOIs</name>
+		<title>weather stations in South Africa</title>
+		<abstract>A network of weather stations distributed across South Africa.</abstract>
+		<serviceURL>http://mars.uni-muenster.de:8080/52nSosWSA_art/sos</serviceURL>
+		<LatLonBoundingBox minx="16.53" miny="-34.42" maxx="32.4" maxy="-22.27" />
+		<BoundingBox SRS="EPSG:4326" minx="16.53" miny="-34.42" maxx="32.4" maxy="-22.27" />
+		<SRS>EPSG:4326</SRS>
+		<serviceConnectors>
+			<serviceAdapter>org.n52.oxf.serviceAdapters.sos.SOSAdapter</serviceAdapter>
+			<renderer>org.n52.oxf.render.sos.FeatureGeometryRenderer</renderer>
+			<featureStore>org.n52.oxf.feature.sos.SOSFoiStore</featureStore>
+		</serviceConnectors>
+		
+		<!-- parameters needed for the data request: -->
+		<parameter name="service"><value>SOS</value></parameter>
+		<parameter name="version"><value>0.0.0</value></parameter>
+		<parameter name="offering"><value>WeatherSA</value></parameter>
+		<parameter name="featureOfInterestId">
+			<value>68155</value>
+			<value>68174</value>
+			<value>68174</value>
+			<value>68180</value>
+			<value>68182</value>
+			<value>68183</value>
+			<value>68185</value>
+			<value>68188</value>
+			<value>68191</value>
+			<value>682421</value>
+			<value>68253</value>
+			<value>68255</value>
+			<value>68262</value>
+			<value>68267</value>
+			<value>68268</value>
+			<value>68271</value>
+			<value>68272</value>
+			<value>68273</value>
+			<value>68287</value>
+			<value>68289</value>
+			<value>68294</value>
+			<value>68296</value>
+			<value>68297</value>
+			<value>68333</value>
+			<value>68335</value>
+			<value>68338</value>
+			<value>68345</value>
+			<value>68347</value>
+			<value>68350</value>
+			<value>68353</value>
+			<value>683531</value>
+			<value>68355</value>
+			<value>68361</value>
+			<value>68372</value>
+			<value>68377</value>
+			<value>68385</value>
+			<value>68387</value>
+			<value>68403</value>
+			<value>68424</value>
+			<value>68429</value>
+			<value>68438</value>
+			<value>68443</value>
+			<value>68449</value>
+			<value>68461</value>
+			<value>68479</value>
+			<value>68485</value>
+			<value>68493</value>
+			<value>68495</value>
+			<value>68496</value>
+			<value>68512</value>
+			<value>68538</value>
+			<value>68541</value>
+			<value>68546</value>
+			<value>685701</value>
+			<value>68572</value>
+			<value>68575</value>
+			<value>68581</value>
+			<value>685881</value>
+			<value>68589</value>
+			<value>68591</value>
+			<value>68614</value>
+			<value>68618</value>
+			<value>68647</value>
+			<value>68668</value>
+			<value>68711</value>
+			<value>68713</value>
+			<value>68715</value>
+			<value>68719</value>
+			<value>68722</value>
+			<value>68727</value>
+			<value>68737</value>
+			<value>68744</value>
+			<value>68747</value>
+			<value>68752</value>
+			<value>68816</value>
+			<value>68819</value>
+			<value>68821</value>
+			<value>68827</value>
+			<value>68828</value>
+			<value>68833</value>
+			<value>68839</value>
+			<value>68842</value>
+			<value>688421</value>
+			<value>68849</value>
+			<value>68858</value>
+			<value>68911</value>
+			<value>68912</value>
+			<value>68916</value>
+			<value>68918</value>
+			<value>68926</value>
+			<value>68927</value>
+			<value>68931</value>
+			<value>68999</value>
+		</parameter>
+	</layer>
+</wmsConfig>

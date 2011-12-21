@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.n52.swe</groupId>
+		<artifactId>52n-swe-oxf</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>52n-oxf-webapp</artifactId>
+	<name>52North OxFramework Web Application</name>
+	<description>Provides oxf Web Application</description>
+	<packaging>war</packaging>
+	<dependencies>
+		<!--
+		<dependency>
+			<groupId></groupId>
+			<artifactId></artifactId>
+			<version></version>
+		</dependency>
+		-->
+	</dependencies>
+	<build>
+		<!--
+		<plugins>
+
+		</plugins>
+		-->
+	</build>
+</project>
