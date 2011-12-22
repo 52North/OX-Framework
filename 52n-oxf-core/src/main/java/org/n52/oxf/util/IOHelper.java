@@ -122,8 +122,8 @@ public class IOHelper {
         httpClient.setHostConfiguration(hostConfig);
         httpClient.executeMethod(method);
 
-        LOGGER.info("POST-request sent to: " + method.getURI());
-        LOGGER.info("Sent request was: " + request);
+        LOGGER.trace("POST-request sent to: " + method.getURI());
+        LOGGER.trace("Sent request was: " + request);
         
         is = method.getResponseBodyAsStream();
 
@@ -311,7 +311,7 @@ public class IOHelper {
      * helper-method for compressFilesToZip
      */
     private static File[] removeDoubleFiles(File[] files) {
-        ArrayList tmpList = new ArrayList();
+        ArrayList<File> tmpList = new ArrayList<File>();
 
         for (int i = 0; i < files.length; i++) {
             if ( !tmpList.contains(files[i])) {
@@ -321,7 +321,7 @@ public class IOHelper {
 
         File[] res = new File[tmpList.size()];
         for (int i = 0; i < tmpList.size(); i++) {
-            res[i] = (File) tmpList.get(i);
+            res[i] = tmpList.get(i);
         }
 
         return res;
