@@ -29,7 +29,7 @@
 			<!-- temporary local repo for libs not migrated to maven dependency mechanism -->
 			<id>52n-local-lib</id>
 			<name>localLibsRepo</name>
-			<url>file:///${basedir}/../52n-local-lib/</url>
+			<url>file:///${basedir}/../lib-repository/</url>
 		</repository>
 	</repositories>
 	<properties>
