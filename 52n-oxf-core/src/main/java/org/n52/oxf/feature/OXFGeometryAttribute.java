@@ -26,8 +26,6 @@
 
 package org.n52.oxf.feature;
 
-import org.opengis.feature.DataType;
-
 import com.vividsolutions.jts.geom.Geometry;
 
 /**

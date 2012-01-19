@@ -111,30 +111,28 @@ public class IOHelper {
      */
     public static InputStream sendPostMessage(String serviceURL, String request) throws IOException {
 
-        InputStream is = null;
-
         HttpClient httpClient = new HttpClient();
-        PostMethod method = new PostMethod(serviceURL);
-
+        PostMethod method = new PostMethod(serviceURL.trim());
         method.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));
+
+        LOGGER.trace("Service Endpoint: " + method.getURI());
+        LOGGER.trace("Request to send: " + request);
       
         HostConfiguration hostConfig = getHostConfiguration(new URL(serviceURL));
         httpClient.setHostConfiguration(hostConfig);
         httpClient.executeMethod(method);
-
-        LOGGER.trace("POST-request sent to: " + method.getURI());
-        LOGGER.trace("Sent request was: " + request);
-        
-        is = method.getResponseBodyAsStream();
-
-        return is;
+        return method.getResponseBodyAsStream();
     }
     
     protected static HostConfiguration getHostConfiguration(URL serviceURL) {
         HostConfiguration hostConfig = new HostConfiguration();
         
+        
         // apply proxy settings:
         String host = System.getProperty("http.proxyHost");
+        if (host != null && host.isEmpty()) {
+            return hostConfig;
+        }
         String port = System.getProperty("http.proxyPort");
         String nonProxyHosts = System.getProperty("http.nonProxyHosts");
         

@@ -107,21 +107,14 @@ public class SOSObservationStore implements IFeatureStore {
             throw new IllegalStateException("Store was not initialized with an operationResult!");
         }
         try {
-            OXFObservationCollectionType obsCollectionType = new OXFObservationCollectionType();
             if (isOM100ObservationCollectionDocument(xmlObject)) {
                 net.opengis.om.x10.ObservationCollectionDocument obsCollectionDoc = (ObservationCollectionDocument) xmlObject;
-                ObservationCollectionType obsCollection = obsCollectionDoc.getObservationCollection();
-                String obsCollectionId = obsCollection.getId();
-                OXFFeatureCollection featureCollection = new OXFFeatureCollection(obsCollectionId, obsCollectionType);
-                obsCollectionType.initializeFeature(featureCollection, obsCollection);
-                return featureCollection;
+                ObservationCollectionType observation = obsCollectionDoc.getObservationCollection();
+                return OXFObservationCollectionType.createFeatureCollection(observation.getId(), observation);
             } else if (isWaterML200TimeSeriesObservationDocument(xmlObject)) {
                 net.opengis.waterml.x20.TimeseriesObservationDocument timeseriesObservationDoc = (TimeseriesObservationDocument) xmlObject;
-                TimeseriesObservationType timeseriesObservation = timeseriesObservationDoc.getTimeseriesObservation();
-                String timeseriesObservationId = timeseriesObservation.getId();
-                OXFFeatureCollection featureCollection = new OXFFeatureCollection(timeseriesObservationId, obsCollectionType);
-                obsCollectionType.initializeFeature(featureCollection, timeseriesObservation);
-                return featureCollection;
+                TimeseriesObservationType observation = timeseriesObservationDoc.getTimeseriesObservation();
+                return OXFObservationCollectionType.createFeatureCollection(observation.getId(), observation);
             } else {
                 throw new OXFException("Unknown result type.");
             }

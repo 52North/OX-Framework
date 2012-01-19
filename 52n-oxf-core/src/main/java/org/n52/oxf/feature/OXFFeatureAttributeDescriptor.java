@@ -26,10 +26,8 @@
 
 package org.n52.oxf.feature;
 
-import org.opengis.feature.*;
 
-public class OXFFeatureAttributeDescriptor implements
-        org.opengis.feature.FeatureAttributeDescriptor {
+public class OXFFeatureAttributeDescriptor /*implements org.opengis.feature.FeatureAttributeDescriptor*/ {
 
     protected String name;
     protected DataType dataType;

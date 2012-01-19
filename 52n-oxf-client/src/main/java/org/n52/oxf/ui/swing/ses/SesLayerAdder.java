@@ -45,6 +45,7 @@ import net.opengis.om.x10.ObservationDocument;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.context.LayerContext;
+import org.n52.oxf.feature.DataType;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureAttributeDescriptor;
@@ -63,8 +64,6 @@ import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.OMParser;
 import org.n52.oxf.util.OXFEvent;
 import org.n52.oxf.util.OXFEventException;
-import org.opengis.feature.DataType;
-import org.opengis.feature.FeatureAttributeDescriptor;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -135,22 +134,22 @@ public class SesLayerAdder implements HttpHandler{
 			layer.setIDName(layerName);
 			
 			String fTypeName = "SESNotifications";
-			FeatureAttributeDescriptor positionAttribute = new OXFFeatureAttributeDescriptor(SAMPLING_POINT, DataType.OBJECT, Point.class, 1, 1,
+			OXFFeatureAttributeDescriptor positionAttribute = new OXFFeatureAttributeDescriptor(SAMPLING_POINT, DataType.OBJECT, Point.class, 1, 1,
 					"This attribute stores the geometrical position of the notification.");
 
-			FeatureAttributeDescriptor resultValueAttribute = new OXFFeatureAttributeDescriptor(RESULT_VALUE, DataType.OBJECT, Object.class, 1, 1,
+			OXFFeatureAttributeDescriptor resultValueAttribute = new OXFFeatureAttributeDescriptor(RESULT_VALUE, DataType.OBJECT, Object.class, 1, 1,
 					"This attribute stores the value of the notification.");
 			
-			FeatureAttributeDescriptor resultTypeAttribute = new OXFFeatureAttributeDescriptor(OBSERVED_PROPERTY, DataType.OBJECT, String.class, 1, 1,
+			OXFFeatureAttributeDescriptor resultTypeAttribute = new OXFFeatureAttributeDescriptor(OBSERVED_PROPERTY, DataType.OBJECT, String.class, 1, 1,
 			"This attribute stores the value type of the notification.");
 			
-			FeatureAttributeDescriptor foiIdAttribute = new OXFFeatureAttributeDescriptor(FOI_ID, DataType.OBJECT, Object.class, 1, 1,
+			OXFFeatureAttributeDescriptor foiIdAttribute = new OXFFeatureAttributeDescriptor(FOI_ID, DataType.OBJECT, Object.class, 1, 1,
 			"This attribute stores the feature of interest id of the notification.");
 			
-			FeatureAttributeDescriptor timeAttribute = new OXFFeatureAttributeDescriptor(SAMPLING_TIME, DataType.OBJECT, Object.class, 1, 1,
+			OXFFeatureAttributeDescriptor timeAttribute = new OXFFeatureAttributeDescriptor(SAMPLING_TIME, DataType.OBJECT, Object.class, 1, 1,
 			"This attribute stores the location name of the notification.");
 			
-			List<FeatureAttributeDescriptor> attributeList = new ArrayList<FeatureAttributeDescriptor>();
+			List<OXFFeatureAttributeDescriptor> attributeList = new ArrayList<OXFFeatureAttributeDescriptor>();
 			attributeList.add(positionAttribute);
 			attributeList.add(resultValueAttribute);
 			attributeList.add(resultTypeAttribute);

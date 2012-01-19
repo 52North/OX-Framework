@@ -31,17 +31,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 
-import org.opengis.feature.FeatureAttributeDescriptor;
-import org.opengis.feature.FeatureCollection;
-import org.opengis.feature.FeatureType;
-
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
-public class OXFFeature implements org.opengis.feature.Feature {
+public class OXFFeature /*implements org.opengis.feature.Feature*/ {
 
     /**
      * reference to an existing immutable (-> final) schema reference (<code>FeatureType</code>). This
@@ -64,7 +60,7 @@ public class OXFFeature implements org.opengis.feature.Feature {
     /**
      * the collection in which this Feature is contained.
      */
-    private FeatureCollection parent = null;
+    private OXFFeatureCollection parent = null;
 
     /**
      * 
@@ -86,7 +82,7 @@ public class OXFFeature implements org.opengis.feature.Feature {
      * 
      * 
      */
-    public OXFFeature(String id, OXFFeatureType featureType, FeatureCollection parent) {
+    public OXFFeature(String id, OXFFeatureType featureType, OXFFeatureCollection parent) {
         this(id, featureType);
 
         this.parent = parent;
@@ -183,7 +179,7 @@ public class OXFFeature implements org.opengis.feature.Feature {
             throw new NullPointerException("Value of attribute '" + name + "' of feature '"+ getID() + "' is null.");
         }
         else {
-            FeatureAttributeDescriptor attribDesc = featureType.getAttributeDescriptor(name);
+            OXFFeatureAttributeDescriptor attribDesc = featureType.getAttributeDescriptor(name);
             if (attribDesc.getObjectClass().isAssignableFrom(value.getClass())) {
                 attributeMap.put(name, value);
             }
@@ -209,7 +205,7 @@ public class OXFFeature implements org.opengis.feature.Feature {
     /**
      * Returns the collection in which this Feature is contained.
      */
-    public FeatureCollection getParent() {
+    public OXFFeatureCollection getParent() {
         return parent;
     }
 
@@ -257,22 +253,4 @@ public class OXFFeature implements org.opengis.feature.Feature {
         
         return res;
     }
-    
-    // unsupported methods:
-
-    /** not supported */
-    public void setAttribute(int index, Object value) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-
-    /** not supported */
-    public Object getAttribute(int index) throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-
-    /** not supported */
-    public org.opengis.spatialschema.geometry.Envelope getBounds() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-
 }

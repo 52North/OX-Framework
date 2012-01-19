@@ -36,8 +36,6 @@ import net.opengis.gml.PointType;
 
 import org.apache.log4j.Logger;
 import org.n52.oxf.util.LoggingHandler;
-import org.opengis.feature.DataType;
-import org.opengis.feature.FeatureAttributeDescriptor;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -69,9 +67,9 @@ public class OXFAbstractFeatureType extends org.n52.oxf.feature.OXFFeatureType {
      * @param doc
      * @return
      */
-    protected List<FeatureAttributeDescriptor> generateAttributeDescriptors() {
+    protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
-        List<FeatureAttributeDescriptor> attributeDescriptors = new ArrayList<FeatureAttributeDescriptor>();
+        List<OXFFeatureAttributeDescriptor> attributeDescriptors = new ArrayList<OXFFeatureAttributeDescriptor>();
 
         OXFFeatureAttributeDescriptor description = new OXFFeatureAttributeDescriptor(DESCRIPTION,
                                                                                       DataType.STRING,
@@ -133,13 +131,15 @@ public class OXFAbstractFeatureType extends org.n52.oxf.feature.OXFFeatureType {
             feature.setAttribute(NAME, new String[] {name});
         }
 
-        // create the LOCATION-attribute:
-        AbstractGeometryType abstractGeometry = xb_abstractFeature.getLocation().getGeometry();
-        if (xb_abstractFeature.getLocation() != null && abstractGeometry != null) {
+     // create the LOCATION-attribute:
+        if (xb_abstractFeature.getLocation() != null
+                && xb_abstractFeature.getLocation().getGeometry() != null) {
 
             // TODO: Spec-Too-Flexible-Problem --> various geometry types are possible:
-            if (abstractGeometry instanceof PointType) {
-                PointType xb_point = (PointType) abstractGeometry;
+            if (xb_abstractFeature.getLocation().getGeometry() instanceof PointType) {
+
+                PointType xb_point = (PointType) xb_abstractFeature.getLocation().getGeometry();
+
                 CoordinatesType xb_coords = xb_point.getCoordinates();
                 String[] coordsArray = xb_coords.getStringValue().split(" ");
 
@@ -158,7 +158,7 @@ public class OXFAbstractFeatureType extends org.n52.oxf.feature.OXFFeatureType {
             }
             else {
                 throw new IllegalArgumentException("The geometry type '"
-                        + abstractGeometry.getClass()
+                        + xb_abstractFeature.getLocation().getGeometry().getClass()
                         + "' is not supported.");
             }
         }

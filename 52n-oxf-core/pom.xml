@@ -54,10 +54,6 @@
 			<artifactId>jai_codec</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>geoapi</groupId>
-			<artifactId>geoapi</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>jfree</groupId>
 			<artifactId>jfreechart</artifactId>
 		</dependency>

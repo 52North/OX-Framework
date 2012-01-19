@@ -31,8 +31,6 @@ import org.apache.log4j.Logger;
 import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
 import org.n52.oxf.owsCommon.capabilities.ITime;
 import org.n52.oxf.util.LoggingHandler;
-import org.opengis.feature.DataType;
-import org.opengis.feature.FeatureAttributeDescriptor;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -55,9 +53,9 @@ public class OXFTemporalObservationType extends OXFAbstractObservationType {
      * 
      */
     @Override
-    protected List<FeatureAttributeDescriptor> generateAttributeDescriptors() {
+    protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
-        List<FeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
+        List<OXFFeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
 
         OXFFeatureAttributeDescriptor result = new OXFFeatureAttributeDescriptor(RESULT,
                                                                                  DataType.DATETIME,

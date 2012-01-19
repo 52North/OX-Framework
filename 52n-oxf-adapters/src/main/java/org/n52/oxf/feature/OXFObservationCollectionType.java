@@ -40,7 +40,6 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.util.LoggingHandler;
-import org.opengis.feature.FeatureAttributeDescriptor;
 import org.w3c.dom.Node;
 
 /**
@@ -51,27 +50,17 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
 
     private static Logger LOGGER = LoggingHandler.getLogger(OXFObservationCollectionType.class);
 
-    /**
-     * 
-     */
     public OXFObservationCollectionType() {
         super();
         typeName = "OXFObservationCollectionType";
         featureAttributeDescriptors = generateAttributeDescriptors();
     }
 
-    /**
-     * 
-     */
-    /**
-     * 
-     */
     @Override
-    protected List<FeatureAttributeDescriptor> generateAttributeDescriptors() {
+    protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
+        List<OXFFeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
 
-        List<FeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
-
-        /**
+        /*
          * the "member" attribute is realized through the features-attribute in the class
          * <code>OXFFeatureCollection<code><br>
          * <br>
@@ -81,10 +70,17 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
         return attributeDescriptors;
     }
 
+    public static OXFFeatureCollection createFeatureCollection(String id, ObservationCollectionType obsCollection) throws OXFException {
+    	OXFObservationCollectionType type = new OXFObservationCollectionType();
+    	OXFFeatureCollection featureCollection = new OXFFeatureCollection(id, type);
+		type.initializeFeature(featureCollection, obsCollection);
+		return featureCollection;
+    }
+    
     /**
      * supports O&M 1.0
      */
-    public void initializeFeature(OXFFeatureCollection featureCollection, ObservationCollectionType observationCollection) throws OXFException {
+    private void initializeFeature(OXFFeatureCollection featureCollection, ObservationCollectionType observationCollection) throws OXFException {
         
         super.initializeFeature(featureCollection, observationCollection);
         ObservationPropertyType[] memberArray = observationCollection.getMemberArray();
@@ -117,14 +113,16 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
      * supports WaterML 2.0.0
      * @throws OXFException 
      */
-    public void initializeFeature(OXFFeatureCollection featureCollection,
+    public static OXFFeatureCollection createFeatureCollection(String id,
 		TimeseriesObservationType timeseriesObservation) throws OXFException {
-    	
-		addMember(featureCollection, timeseriesObservation);
+    	OXFObservationCollectionType type = new OXFObservationCollectionType();
+    	OXFFeatureCollection featureCollection = new OXFFeatureCollection(id, type);
+		type.addMember(featureCollection, timeseriesObservation);
+		return featureCollection;
 	}
 
 	/**
-     * supports O&M 0.0 and 1.0
+     * supports 1.0
      */
     private void addMember(OXFFeatureCollection featureCollection, XmlObject xb_memberDocument) throws OXFException {
         

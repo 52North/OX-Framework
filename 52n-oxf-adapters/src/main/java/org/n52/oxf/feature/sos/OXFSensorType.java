@@ -53,14 +53,13 @@ import net.opengis.swe.x101.VectorType;
 import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.OXFRuntimeException;
+import org.n52.oxf.feature.DataType;
 import org.n52.oxf.feature.OXFAbstractFeatureType;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureAttributeDescriptor;
 import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.SrsHelper;
 import org.n52.oxf.util.XmlBeansHelper;
-import org.opengis.feature.DataType;
-import org.opengis.feature.FeatureAttributeDescriptor;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -122,9 +121,9 @@ public class OXFSensorType extends OXFAbstractFeatureType {
      * @see org.n52.oxf.feature.OXFAbstractFeatureType#generateAttributeDescriptors()
      */
     @Override
-    protected List<FeatureAttributeDescriptor> generateAttributeDescriptors() {
+    protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
-        List<FeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
+        List<OXFFeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
         // location (abstract feature type)
 
         // TODO should this attribute not have the DataType.GEOMETRY

@@ -28,9 +28,6 @@ package org.n52.oxf.feature;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.opengis.feature.DataType;
-import org.opengis.feature.FeatureAttributeDescriptor;
-
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
@@ -51,21 +48,21 @@ public class HowToFeatureModel {
 
         // the feature type has got 2 attributes: 'POSITION' and 'SENSOR'
         // a WeatherStation must have exactly 1 POSITION : 
-        FeatureAttributeDescriptor positionAttribute = new OXFFeatureAttributeDescriptor("POSITION",
+        OXFFeatureAttributeDescriptor positionAttribute = new OXFFeatureAttributeDescriptor("POSITION",
                                                                                          DataType.OBJECT,
                                                                                          Point.class,
                                                                                          1,
                                                                                          1,
                                                                                          "This attribute stores the geometrical position of the station.");
         // a WeatherStation is associated with 1 or multiple SENSORs : 
-        FeatureAttributeDescriptor sensorAttribute = new OXFFeatureAttributeDescriptor("SENSOR",
+        OXFFeatureAttributeDescriptor sensorAttribute = new OXFFeatureAttributeDescriptor("SENSOR",
                                                                                        DataType.STRING,
                                                                                        String[].class,
                                                                                        1,
                                                                                        Integer.MAX_VALUE,
                                                                                        "This attribute stores the id of a sensor affiliated with the station.");
         // wrap these attributes up in a list...
-        List<FeatureAttributeDescriptor> attributeList = new ArrayList<FeatureAttributeDescriptor>();
+        List<OXFFeatureAttributeDescriptor> attributeList = new ArrayList<OXFFeatureAttributeDescriptor>();
         attributeList.add(positionAttribute);
         attributeList.add(sensorAttribute);
         

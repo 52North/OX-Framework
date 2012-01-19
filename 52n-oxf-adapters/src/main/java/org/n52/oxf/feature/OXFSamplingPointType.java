@@ -32,9 +32,6 @@ import net.opengis.gml.PointType;
 import net.opengis.sampling.x10.SamplingPointDocument;
 import net.opengis.sampling.x10.SamplingPointType;
 
-import org.opengis.feature.DataType;
-import org.opengis.feature.FeatureAttributeDescriptor;
-
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
@@ -80,9 +77,9 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
      * @param doc
      * @return
      */
-    protected List<FeatureAttributeDescriptor> generateAttributeDescriptors() {
+    protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
-        List<FeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
+        List<OXFFeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
 
         OXFFeatureAttributeDescriptor position = new OXFFeatureAttributeDescriptor(POSITION,
                                                                                    DataType.OBJECT,

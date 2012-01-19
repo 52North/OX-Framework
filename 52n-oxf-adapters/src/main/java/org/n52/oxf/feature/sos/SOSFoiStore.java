@@ -46,13 +46,13 @@ import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFAbstractFeatureCollectionType;
 import org.n52.oxf.feature.OXFFeature;
+import org.n52.oxf.feature.OXFFeatureAttributeDescriptor;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.OXFFeatureType;
 import org.n52.oxf.feature.OXFGmlPointType;
 import org.n52.oxf.feature.OXFSamplingPointType;
 import org.n52.oxf.feature.OXFSamplingSurfaceType;
 import org.n52.oxf.serviceAdapters.OperationResult;
-import org.opengis.feature.FeatureAttributeDescriptor;
 
 /**
  * This FeatureStore unmarshals the features of interest received by the GetFeatureOfInterest operation of the
@@ -183,7 +183,7 @@ public class SOSFoiStore implements IFeatureStore {
             String featureId = samplingFeatureType.getIdentifier().getStringValue();
             String featureType = samplingFeatureType.getType().getHref();
             // XXX check if setting featureAttributeDescriptors is appropriate
-            List<FeatureAttributeDescriptor> featureAttributeDescriptors = new OXFSamplingPointType().getAttributeDescriptors();
+            List<OXFFeatureAttributeDescriptor> featureAttributeDescriptors = new OXFSamplingPointType().getAttributeDescriptors();
             return new OXFFeature(featureId, new OXFFeatureType(featureType, featureAttributeDescriptors));
         }
     }

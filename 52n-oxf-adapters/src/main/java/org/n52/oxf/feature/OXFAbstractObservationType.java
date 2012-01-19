@@ -41,8 +41,6 @@ import org.n52.oxf.feature.sos.SOSFoiStore;
 import org.n52.oxf.owsCommon.capabilities.ITime;
 import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.valueDomains.time.TimeFactory;
-import org.opengis.feature.DataType;
-import org.opengis.feature.FeatureAttributeDescriptor;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -73,9 +71,9 @@ public class OXFAbstractObservationType extends OXFAbstractFeatureType {
     /**
      * 
      */
-    protected List<FeatureAttributeDescriptor> generateAttributeDescriptors() {
+    protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
-        List<FeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
+        List<OXFFeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
 
         OXFFeatureAttributeDescriptor procedure = new OXFFeatureAttributeDescriptor(PROCEDURE,
                                                                                     DataType.STRING,

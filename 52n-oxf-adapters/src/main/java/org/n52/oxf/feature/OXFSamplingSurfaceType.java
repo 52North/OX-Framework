@@ -33,9 +33,6 @@ import net.opengis.gml.SurfacePropertyType;
 import net.opengis.sampling.x10.SamplingSurfaceDocument;
 import net.opengis.sampling.x10.SamplingSurfaceType;
 
-import org.opengis.feature.DataType;
-import org.opengis.feature.FeatureAttributeDescriptor;
-
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Polygon;
 
@@ -80,9 +77,9 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
      * @param doc
      * @return
      */
-    protected List<FeatureAttributeDescriptor> generateAttributeDescriptors() {
+    protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
-        List<FeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
+        List<OXFFeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
 
         OXFFeatureAttributeDescriptor position = new OXFFeatureAttributeDescriptor(GEOMETRY,
                                                                                    DataType.OBJECT,

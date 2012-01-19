@@ -35,7 +35,6 @@ import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.sos.SOSFoiStore;
 import org.n52.oxf.util.LoggingHandler;
-import org.opengis.feature.FeatureAttributeDescriptor;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -58,9 +57,9 @@ public class OXFAbstractFeatureCollectionType extends OXFAbstractFeatureType {
     /**
      * 
      */
-    protected List<FeatureAttributeDescriptor> generateAttributeDescriptors() {
+    protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
-        List<FeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
+        List<OXFFeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
 
         /**
          * the "featureMember" attribute is realized through the features-attribute in the class

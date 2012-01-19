@@ -26,9 +26,17 @@
 
 package org.n52.oxf.feature;
 
-import com.vividsolutions.jts.geom.*;
-import java.util.*;
-import org.opengis.feature.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -136,8 +144,8 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
      * @throws OutOfMemoryError
      *         if the feature collection is too large to fit into memory.
      */
-    public Feature[] toArray() throws OutOfMemoryError {
-        Feature[] featureArray = new Feature[size()];
+    public OXFFeature[] toArray() throws OutOfMemoryError {
+        OXFFeature[] featureArray = new OXFFeature[size()];
         features.toArray(featureArray);
 
         return featureArray;
@@ -185,14 +193,14 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
     /**
      * Checks if the given feature is a member of this collection.
      */
-    public boolean contains(Feature f) {
+    public boolean contains(OXFFeature f) {
         return features.contains(f);
     }
 
     /**
      * Checks if every feature in the given collection is also a member of this feature collection.
      */
-    public boolean containsAll(Collection<Feature> c) {
+    public boolean containsAll(Collection<OXFFeature> c) {
         return features.contains(c);
     }
 

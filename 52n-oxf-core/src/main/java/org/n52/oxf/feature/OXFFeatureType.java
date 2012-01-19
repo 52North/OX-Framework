@@ -26,15 +26,13 @@
 
 package org.n52.oxf.feature;
 
-import java.util.*;
-import org.opengis.feature.*;
-import org.opengis.util.*;
+import java.util.List;
 
-public class OXFFeatureType implements org.opengis.feature.FeatureType {
+public class OXFFeatureType /*implements org.opengis.feature.FeatureType*/ {
 
     protected String typeName;
 
-    protected List<FeatureAttributeDescriptor> featureAttributeDescriptors;
+    protected List<OXFFeatureAttributeDescriptor> featureAttributeDescriptors;
 
     /**
      * 
@@ -42,7 +40,7 @@ public class OXFFeatureType implements org.opengis.feature.FeatureType {
      * @param featureAttributeDescriptors
      * @param defaultShapeAttribute
      */
-    public OXFFeatureType(String typeName, List<FeatureAttributeDescriptor> featureAttributeDescriptors) {
+    public OXFFeatureType(String typeName, List<OXFFeatureAttributeDescriptor> featureAttributeDescriptors) {
         this.typeName = typeName;
         this.featureAttributeDescriptors = featureAttributeDescriptors;
     }
@@ -61,7 +59,7 @@ public class OXFFeatureType implements org.opengis.feature.FeatureType {
      * @return true, if there is an FeatureAttributeDescriptor which has got the specified attributeName.
      */
     public boolean hasAttribute(String attributeName) {
-        for (FeatureAttributeDescriptor attributeDesc : featureAttributeDescriptors) {
+        for (OXFFeatureAttributeDescriptor attributeDesc : featureAttributeDescriptors) {
             if (attributeDesc.getName().equals(attributeName)) {
                 return true;
             }
@@ -75,8 +73,8 @@ public class OXFFeatureType implements org.opengis.feature.FeatureType {
      * @return the FeatureAttributeDescriptor with the specified name; or <code>null</code> if there is no
      *         such FeatureAttributeDescriptor.
      */
-    public FeatureAttributeDescriptor getAttributeDescriptor(String attributeName) {
-        for (FeatureAttributeDescriptor attributeDesc : featureAttributeDescriptors) {
+    public OXFFeatureAttributeDescriptor getAttributeDescriptor(String attributeName) {
+        for (OXFFeatureAttributeDescriptor attributeDesc : featureAttributeDescriptors) {
             if (attributeDesc.getName().equals(attributeName)) {
                 return attributeDesc;
             }
@@ -91,15 +89,8 @@ public class OXFFeatureType implements org.opengis.feature.FeatureType {
      * Returns a list of descriptors that lists all of the attributes that a {@link Feature} of this type will
      * have.
      */
-    public List<FeatureAttributeDescriptor> getAttributeDescriptors() {
+    public List<OXFFeatureAttributeDescriptor> getAttributeDescriptors() {
         return featureAttributeDescriptors;
-    }
-
-    /**
-     * Returns true if features of this type can be cast to {@link FeatureCollection}.
-     */
-    public boolean isCollectionType() {
-        return this instanceof FeatureCollection;
     }
 
     /**
@@ -110,22 +101,6 @@ public class OXFFeatureType implements org.opengis.feature.FeatureType {
         return "FeatureType:'" + typeName + "'";
     }
     
-    // unsupported methods:
-
-    /** not supported */
-    public Feature createFeature() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-
-    /** not supported */
-    public GenericName getName() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
-
-    /** not supported */
-    public String getPreferredPrefix() throws UnsupportedOperationException {
-        throw new UnsupportedOperationException();
-    }
 
     /** not supported */
     public List getChildTypes() throws UnsupportedOperationException {
