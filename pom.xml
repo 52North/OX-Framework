@@ -298,7 +298,7 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>2.3.2</version>
 					<configuration>
-						 <compilerVersion>1.5</compilerVersion>
+						 <compilerVersion>1.6</compilerVersion>
 					</configuration>
 				  </plugin>
 			</plugins>
