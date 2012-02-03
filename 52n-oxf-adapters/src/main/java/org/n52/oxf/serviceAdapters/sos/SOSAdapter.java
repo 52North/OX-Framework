@@ -94,21 +94,14 @@ public class SOSAdapter implements IServiceAdapter {
     protected String serviceVersion = null;
 
     /**
-     * constructor which instantiates
-     */
-    public SOSAdapter() {
-        this(SUPPORTED_VERSIONS[0]); // FIXME deprecated?
-    }
-
-    /**
      * 
      * @param serviceVersion
      *        the schema version for which this adapter instance shall be initialized.
      */
     public SOSAdapter(String serviceVersion) {
         this.serviceVersion = serviceVersion;
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Instanciated " + this.getClass().getName());
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("Instanciated " + this.getClass().getName());
         }
     }
 
