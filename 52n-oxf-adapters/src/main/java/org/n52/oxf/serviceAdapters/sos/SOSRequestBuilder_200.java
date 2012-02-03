@@ -56,9 +56,6 @@ import org.n52.oxf.valueDomains.time.TimeFactory;
 
 /**
  * contains attributes and methods to encode SOSOperationRequests as String in xml-format
- * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * @author <a href="mailto:ehjuerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  */
 public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 
@@ -248,13 +245,6 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         TemporalFilter spatialFilter = xb_getObs.addNewTemporalFilter();
         spatialFilter.setTemporalOps(xb_binTempOp);
         
-//        // rename elements: FIXME still needed?
-//        cursor = eventTime.newCursor();
-//        cursor.toChild(new QName("http://www.opengis.net/ogc", "temporalOps"));
-//        cursor.setName(new QName("http://www.opengis.net/ogc", "TM_Equals"));
-//
-//        cursor.toChild(new QName("http://www.opengis.net/gml", "_TimeObject"));
-//        cursor.setName(new QName("http://www.opengis.net/gml", timeType));
     }
     
     
