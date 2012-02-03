@@ -39,12 +39,8 @@ public abstract class AbstractTreeNode extends DefaultMutableTreeNode {
     private String text = "";
     private String toolTip = "";
 
-    /**
-     * 
-     */
     public AbstractTreeNode() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     public String getText() {

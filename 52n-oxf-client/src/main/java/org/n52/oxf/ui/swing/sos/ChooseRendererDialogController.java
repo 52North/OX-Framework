@@ -41,12 +41,12 @@ import org.n52.oxf.serviceAdapters.sos.*;
 import org.n52.oxf.ui.swing.*;
 import org.n52.oxf.ui.swing.tree.*;
 import org.n52.oxf.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
 public class ChooseRendererDialogController {
+	
+	private final static Logger LOGGER = LoggerFactory.getLogger(ChooseRendererDialogController.class);
 
     private ChooseRendererDialog view;
     private URL sosUrl;
@@ -54,28 +54,23 @@ public class ChooseRendererDialogController {
     private ContentTree tree;
     private SOSAdapter adapter;
 
-    /**
-     * 
-     */
     public ChooseRendererDialogController(ChooseRendererDialog view,
                                           MapCanvas map,
                                           ContentTree tree,
                                           URL sosUrl,
                                           SOSAdapter adapter) {
-
         this.view = view;
         this.sosUrl = sosUrl;
         this.adapter = adapter;
         this.map = map;
         this.tree = tree;
-        
         postInitView();
     }
 
     public void postInitView() {
         view.getUrlTextField().setText(sosUrl.toString());
 
-        // TODO: verfügbare Renderer aus Konfigurationsdatei auslesen
+        // TODO: verfï¿½gbare Renderer aus Konfigurationsdatei auslesen
 
         //((DefaultListModel) view.getRendererList().getModel()).addElement(new IDWRenderer());
 
@@ -118,8 +113,7 @@ public class ChooseRendererDialogController {
                 
                 ((DefaultListModel) view.getRendererList().getModel()).addElement(rendererInstance);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                LOGGER.warn("Could load renderer '" + className + "'.", e);
             }
         }
     }
