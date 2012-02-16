@@ -67,12 +67,6 @@ import org.n52.oxf.owsCommon.capabilities.ServiceProvider;
  */
 public class SESCapabilitiesMapper_00 {
 
-    /**
-     * 
-     * @param capsDoc
-     * @return
-     * @throws OXFException
-     */
     public ServiceDescriptor mapCapabilities(net.opengis.ses.x00.CapabilitiesDocument capsDoc) throws OXFException {
 
         String version = mapVersion(capsDoc);

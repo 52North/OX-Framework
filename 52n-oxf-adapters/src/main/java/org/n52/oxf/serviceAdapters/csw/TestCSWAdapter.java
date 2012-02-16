@@ -88,7 +88,6 @@ public class TestCSWAdapter {
 //    			System.out.println(bs.readLine());
 //    		}while(bs.ready());
 //		} catch (IOException e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
     }

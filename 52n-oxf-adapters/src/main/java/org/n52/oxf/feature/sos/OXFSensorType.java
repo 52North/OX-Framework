@@ -45,6 +45,8 @@ import net.opengis.sensorML.x101.SystemType;
 import net.opengis.sensorML.x101.TermDocument.Term;
 import net.opengis.swe.x101.AbstractDataRecordType;
 import net.opengis.swe.x101.AnyScalarPropertyType;
+import net.opengis.swe.x101.DataComponentPropertyType;
+import net.opengis.swe.x101.DataRecordType;
 import net.opengis.swe.x101.PositionType;
 import net.opengis.swe.x101.SimpleDataRecordType;
 import net.opengis.swe.x101.VectorPropertyType;
@@ -275,23 +277,47 @@ public class OXFSensorType extends OXFAbstractFeatureType {
 
         for (Capabilities capabilities : xb_capsArray) {
             AbstractDataRecordType xb_abstractDataRecord = capabilities.getAbstractDataRecord();
-            SimpleDataRecordType simpleDataRec = (SimpleDataRecordType) xb_abstractDataRecord.substitute(new QName(XmlBeansHelper.SWE_1_0_1_NAMESPACE_URI,
-                                                                                                                   "SimpleDataRecord"),
-                                                                                                         SimpleDataRecordType.type);
-            AnyScalarPropertyType[] xb_fieldArray = simpleDataRec.getFieldArray();
-            for (AnyScalarPropertyType anyScalarPropertyType : xb_fieldArray) {
-                String name = anyScalarPropertyType.getName();
-                if (name.equals(ACTIVE_PARAMETER_NAME)) {
-                    boolean active = anyScalarPropertyType.getBoolean().getValue();
-                    feature.setAttribute(ACTIVE, Boolean.valueOf(active));
-                    // System.out.println("OXFSensorType - active=" + active);
-                }
-                if (name.equals(MOBILE_PARAMETER_NAME)) {
-                    boolean mobile = anyScalarPropertyType.getBoolean().getValue();
-                    feature.setAttribute(MOBILE, Boolean.valueOf(mobile));
-                    // System.out.println("OXFSensorType - mobile=" + mobile);
-                }
-            }
+            if (xb_abstractDataRecord instanceof SimpleDataRecordType) {
+				SimpleDataRecordType simpleDataRec = (SimpleDataRecordType) xb_abstractDataRecord
+						.substitute(new QName(
+								XmlBeansHelper.SWE_1_0_1_NAMESPACE_URI,
+								"SimpleDataRecord"), SimpleDataRecordType.type);
+				AnyScalarPropertyType[] xb_fieldArray = simpleDataRec
+						.getFieldArray();
+				for (AnyScalarPropertyType anyScalarPropertyType : xb_fieldArray) {
+					String name = anyScalarPropertyType.getName();
+					if (name.equals(ACTIVE_PARAMETER_NAME)) {
+						boolean active = anyScalarPropertyType.getBoolean()
+								.getValue();
+						feature.setAttribute(ACTIVE, Boolean.valueOf(active));
+					}
+					if (name.equals(MOBILE_PARAMETER_NAME)) {
+						boolean mobile = anyScalarPropertyType.getBoolean()
+								.getValue();
+						feature.setAttribute(MOBILE, Boolean.valueOf(mobile));
+					}
+				}
+			} else if (xb_abstractDataRecord instanceof DataRecordType) {
+				DataRecordType simpleDataRec = (DataRecordType) xb_abstractDataRecord
+						.substitute(new QName(
+								XmlBeansHelper.SWE_1_0_1_NAMESPACE_URI,
+								"SimpleDataRecord"), SimpleDataRecordType.type);
+				DataComponentPropertyType[] xb_fieldArray = simpleDataRec
+						.getFieldArray();
+				for (DataComponentPropertyType dataComponent : xb_fieldArray) {
+					String name = dataComponent.getName();
+					if (name.equals(ACTIVE_PARAMETER_NAME)) {
+						boolean active = dataComponent.getBoolean()
+								.getValue();
+						feature.setAttribute(ACTIVE, Boolean.valueOf(active));
+					}
+					if (name.equals(MOBILE_PARAMETER_NAME)) {
+						boolean mobile = dataComponent.getBoolean()
+								.getValue();
+						feature.setAttribute(MOBILE, Boolean.valueOf(mobile));
+					}
+				}
+			}
         }
 
         /** input list **/
@@ -305,11 +331,6 @@ public class OXFSensorType extends OXFAbstractFeatureType {
         feature.setAttribute(OUTPUTS, outputArray);
     }
 
-    /**
-     * 
-     * @param feature
-     * @param xb_sensor
-     */
     private void initializePosition(OXFFeature feature, SystemType xb_sensor) {
         if (xb_sensor.getPosition() != null && xb_sensor.getPosition().getPosition() != null
                 && xb_sensor.getPosition().getPosition().getLocation() != null) {
