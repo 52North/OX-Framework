@@ -77,7 +77,7 @@ public class IOHelper {
 
         httpClient.executeMethod(method);
 
-        LOGGER.info("GET-method sended to: " + method.getURI());
+        LOGGER.debug("GET-method sended to: " + method.getURI());
 
         is = method.getResponseBodyAsStream();
 
@@ -95,7 +95,7 @@ public class IOHelper {
 
         httpClient.executeMethod(method);
 
-        LOGGER.info("GET-method sended to: " + method.getURI());
+        LOGGER.debug("GET-method sended to: " + method.getURI());
 
         is = method.getResponseBodyAsStream();
 
