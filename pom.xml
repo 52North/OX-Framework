@@ -11,11 +11,13 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<name>52North OxFramework</name>
 	<description>Provides middleware components for 52n Sensor Web architecture</description>
+	<inceptionYear>2012</inceptionYear>
 	<packaging>pom</packaging>
 	<modules>
 		<module>52n-oxf-core</module>
 		<module>52n-oxf-adapters</module>
 		<module>52n-oxf-client</module>
+		<module>52n-oxf-xmlbeans</module>
 	</modules>
 	<scm>
         <connection>scm:svn:https://svn.52north.org/svn/swe/incubation/ox-framework-2.0/52n-oxf/trunk/</connection>
