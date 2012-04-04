@@ -79,7 +79,7 @@ public class XMLBeansParser {
 	public static XmlObject parse(String source) throws XMLHandlingException {
 		return parse(source, true);
 	}
-
+	
 	/**
 	 * Reads the given source. The source may be only the xml-document or
 	 * contain an application/x-www-form-url encoded string. In this case, the
@@ -91,13 +91,32 @@ public class XMLBeansParser {
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
 	public static XmlObject parse(String source, boolean validate) throws XMLHandlingException {
+		return parse(source, validate, true);
+	}
+
+	/**
+	 * Reads the given source. The source may be only the xml-document or
+	 * contain an application/x-www-form-url encoded string. In this case, the
+	 * request must have the form <em>request=</em>
+	 * 
+	 * @param source The xml source.
+	 * @param validate Validate the source?
+	 * @param lax consider registered {@link LaxValidationCase} instances?
+	 * @return The parsed xbeans XmlObject
+	 * @throws XMLHandlingException thrown if the XML is incorrect
+	 */
+	public static XmlObject parse(String source, boolean validate, boolean lax) throws XMLHandlingException {
 
 		XmlObject doc;
 		try {
 
 			doc = XmlObject.Factory.parse(source);
 			if (validate) {
-				validate(doc);
+				if (lax) {
+					laxValidate(doc);
+				} else {
+					validate(doc);
+				}
 			}
 			return doc;
 
@@ -115,20 +134,35 @@ public class XMLBeansParser {
 	public static XmlObject parse(InputStream resourceAsStream) throws XMLHandlingException {
 		return parse(resourceAsStream, true);
 	}
-
+	
 	/**
-	 * @param resourceAsStream The source as a stream.
+	 * @param resourceAsStream the xml source as stream
 	 * @param validate Validate the source?
 	 * @return The parsed xbeans XmlObject
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
 	public static XmlObject parse(InputStream resourceAsStream, boolean validate) throws XMLHandlingException {
+		return parse(resourceAsStream, validate, true);
+	}
+
+	/**
+	 * @param resourceAsStream The source as a stream.
+	 * @param validate Validate the source?
+	 * @param lax consider registered {@link LaxValidationCase} instances?
+	 * @return The parsed xbeans XmlObject
+	 * @throws XMLHandlingException thrown if the XML is incorrect
+	 */
+	public static XmlObject parse(InputStream resourceAsStream, boolean validate, boolean lax) throws XMLHandlingException {
 		XmlObject doc;
 		try {
 			doc = XmlObject.Factory.parse(resourceAsStream);
 
 			if (validate) {
-				validate(doc);
+				if (lax) {
+					laxValidate(doc);
+				} else {
+					validate(doc);
+				}
 			}
 			return doc;
 
@@ -157,7 +191,20 @@ public class XMLBeansParser {
 			throw new XMLHandlingException("Cannot read the document: Transmission interrupted!", e);
 		}
 	}
-
+	
+	/**
+	 * Reads the given source. The source may be only the xml-document or
+	 * contain an application/x-www-form-url encoded string. In this case, the
+	 * request must have the form <em>request=</em>
+	 * 
+	 * @param xmlnode The xml source.
+	 * @return The parsed xbeans XmlObject
+	 * @throws XMLHandlingException thrown if the XML is incorrect
+	 */
+	public static XmlObject parse(Node xmlnode) throws XMLHandlingException {
+		return parse(xmlnode, true);
+	}
+	
 	/**
 	 * Reads the given source. The source may be only the xml-document or
 	 * contain an application/x-www-form-url encoded string. In this case, the
@@ -169,12 +216,31 @@ public class XMLBeansParser {
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
 	public static XmlObject parse(Node xmlnode, boolean validate) throws XMLHandlingException {
+		return parse(xmlnode, validate, true);
+	}
+
+	/**
+	 * Reads the given source. The source may be only the xml-document or
+	 * contain an application/x-www-form-url encoded string. In this case, the
+	 * request must have the form <em>request=</em>
+	 * 
+	 * @param xmlnode The xml source.
+	 * @param validate Validate the source?
+	 * @param lax consider registered {@link LaxValidationCase} instances?
+	 * @return The parsed xbeans XmlObject
+	 * @throws XMLHandlingException thrown if the XML is incorrect
+	 */
+	public static XmlObject parse(Node xmlnode, boolean validate, boolean lax) throws XMLHandlingException {
 		XmlObject doc;
 		try {
 			doc = XmlObject.Factory.parse(xmlnode);
 
 			if (validate) {
-				validate(doc);
+				if (lax) {
+					laxValidate(doc);
+				} else {
+					validate(doc);
+				}
 			}
 			return doc;
 
@@ -253,7 +319,7 @@ public class XMLBeansParser {
 		registerLaxValidationCase(new GMLAbstractFeatureCase());
 
 		try {
-			laxValidate(xb_doc);
+			validate(xb_doc);
 		} catch (XMLHandlingException e) {
 			/*
 			 * "business" logic ok? I guess so, because it is only
