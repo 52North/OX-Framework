@@ -58,11 +58,25 @@ public class XMLBeansParser {
 	 * use this list to define special validation cases (mostly substitution groups)
 	 */
 	private static List<LaxValidationCase> laxValidationCases;
+	private static boolean validationGlobally = true;
 
 	static {
 		laxValidationCases = new ArrayList<LaxValidationCase>();
 	}
 	
+	/**
+	 * Use this method to set the state of the validation flag.
+	 */
+	public static void setValidationGloballyEnabled(boolean b) {
+		validationGlobally = b;
+	}
+	
+	/**
+	 * Register a new {@link LaxValidationCase} which should
+	 * let pass corresponding "invalid" documents.
+	 * 
+	 * @param lvc a new lax case
+	 */
 	public static void registerLaxValidationCase(LaxValidationCase lvc) {
 		laxValidationCases.add(lvc);
 	}
@@ -111,7 +125,7 @@ public class XMLBeansParser {
 		try {
 
 			doc = XmlObject.Factory.parse(source);
-			if (validate) {
+			if (validate && validationGlobally) {
 				if (lax) {
 					laxValidate(doc);
 				} else {
@@ -157,7 +171,7 @@ public class XMLBeansParser {
 		try {
 			doc = XmlObject.Factory.parse(resourceAsStream);
 
-			if (validate) {
+			if (validate && validationGlobally) {
 				if (lax) {
 					laxValidate(doc);
 				} else {
@@ -235,7 +249,7 @@ public class XMLBeansParser {
 		try {
 			doc = XmlObject.Factory.parse(xmlnode);
 
-			if (validate) {
+			if (validate && validationGlobally) {
 				if (lax) {
 					laxValidate(doc);
 				} else {
@@ -459,5 +473,6 @@ public class XMLBeansParser {
 			}
 		}
 	}
+
 	
 }
