@@ -105,11 +105,11 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
         // --- initialize the POSITION-attribute:
 
         SurfacePropertyType shape = xb_saSurface.getShape();
-        AbstractSurfaceType surface = shape.getSurface();
+        AbstractSurfaceType surface = shape.getAbstractSurface();
         if (shape != null
         		&& surface != null
                 && ((PolygonType)surface).getExterior() != null
-                && ((PolygonType)surface).getExterior().getRing() != null) {
+                && ((PolygonType)surface).getExterior().getAbstractRing() != null) {
 
             PolygonType xb_polygon = (PolygonType)surface;
 
