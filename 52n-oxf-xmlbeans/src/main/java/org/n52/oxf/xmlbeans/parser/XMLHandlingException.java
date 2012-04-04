@@ -23,58 +23,118 @@
  */
 package org.n52.oxf.xmlbeans.parser;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.xmlbeans.XmlError;
+
 /**
  * @author Jan Torben Heuer <jan.heuer@uni-muenster.de>
- *
+ * 
  */
 public class XMLHandlingException extends Exception {
-	
+
 	/**
-	 * auto generated serialVerionUID 
+	 * auto generated serialVerionUID
 	 */
 	private static final long serialVersionUID = -5705266650634591453L;
-	
-	private String message = "";
-	
+
+	protected String message = "";
+
 	/**
-	 * @param xmlErrors the errors string.
-	 * @param cause the cause
+	 * @param xmlErrors
+	 *            the errors string.
+	 * @param cause
+	 *            the cause
 	 */
 	public XMLHandlingException(String xmlErrors, Throwable cause) {
-		super(xmlErrors,cause);
+		super(xmlErrors, cause);
 	}
 
 	/**
-	 * @param xmlErrors the errors string.
+	 * @param xmlErrors
+	 *            the errors string.
 	 */
 	public XMLHandlingException(String xmlErrors) {
 		super(xmlErrors);
 	}
 
 	/**
-	 * @param xmlErrors The error string.
-	 * @param validationErrors List of validation errors.
+	 * @param xmlErrors
+	 *            The error string.
+	 * @param validationErrors
+	 *            List of validation errors.
 	 */
 	public XMLHandlingException(String xmlErrors, List<?> validationErrors) {
 		super(xmlErrors);
 		StringBuffer sb = new StringBuffer();
 		Iterator<?> iter = validationErrors.iterator();
-		
+
 		while (iter.hasNext()) {
 			sb.append("[Validation-Error] " + iter.next() + "\n");
 		}
 		this.message = sb.toString();
 	}
 	
-	/* (non-Javadoc)
+	public XMLHandlingException(XmlError err) {
+		super(err.getMessage());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Throwable#getMessage()
 	 */
 	@Override
 	public String getMessage() {
-		return super.getMessage()+ this.message;
+		return super.getMessage() + this.message;
+	}
+
+	/**
+	 * Subclass of {@link XMLHandlingException}. It takes multiple
+	 * {@link XmlError}s and stores its messages as instances
+	 * of {@link XMLHandlingException}. These can be retrieved by
+	 * calling {@link XMLHandlingExceptionCollection#getInnerExceptions()}.
+	 * 
+	 * @author matthes rieke
+	 *
+	 */
+	public static class XMLHandlingExceptionCollection extends XMLHandlingException {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 3976976393732393856L;
+		private List<XMLHandlingException> errors = new ArrayList<XMLHandlingException>();
+
+		public XMLHandlingExceptionCollection(List<XmlError> err) {
+			super("");
+			
+			this.message = "[";
+			for (XmlError xmlError : err) {
+				this.message += xmlError.getMessage() +", ";
+			}
+			this.message += "]";
+			
+			for (XmlError xe : err) {
+				this.errors.add(new XMLHandlingException(xe));
+			}
+		}
+
+		/**
+		 * @return the list of inner exceptions if multiple errors occurred
+		 */
+		public List<XMLHandlingException> getInnerExceptions() {
+			return this.errors;
+		}
+
+		@Override
+		public String getMessage() {
+			return this.message;
+		}
+
+		
 	}
 
 }

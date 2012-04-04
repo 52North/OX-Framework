@@ -31,10 +31,14 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlValidationError;
+import org.n52.oxf.xmlbeans.parser.XMLHandlingException.XMLHandlingExceptionCollection;
+import org.n52.oxf.xmlbeans.parser.sosexample.ExceptionCode;
+import org.n52.oxf.xmlbeans.parser.sosexample.OwsExceptionReport;
 import org.w3c.dom.Node;
 
 /**
@@ -45,6 +49,7 @@ import org.w3c.dom.Node;
  * 
  * @author Jan Torben Heuer <jan.heuer@uni-muenster.de>
  * @author Matthes Rieke <m.rieke@52north.org>
+ * @author Carsten Hollmann <c.hollmann@52north.org>
  * 
  */
 public class XMLBeansParser {
@@ -178,8 +183,6 @@ public class XMLBeansParser {
 		}
 	}
 	
-
-
 	/**
 	 * Validates an xml doc. If the validation fails, the exception contains a
 	 * detailed list of errors.
@@ -187,9 +190,8 @@ public class XMLBeansParser {
 	 * @param doc the document to validate
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
-	@SuppressWarnings("rawtypes")
 	public static void validate(XmlObject doc) throws XMLHandlingException {
-		ArrayList validationErrors = new ArrayList();
+		List<XmlError> validationErrors = new ArrayList<XmlError>();
 		XmlOptions validationOptions = new XmlOptions();
 		validationOptions.setErrorListener(validationErrors);
 
@@ -197,42 +199,199 @@ public class XMLBeansParser {
 
 		// create XmlException with error-message if the XML is invalid.
 		if (!isValid) {
-			
+			throw new XMLHandlingException("Invalid xml content\n", validationErrors);
+		}
+	}
+	
+	/**
+	 * Validates an xml doc. If the validation fails, the exception contains a
+	 * detailed list of errors.
+	 * 
+	 * @param doc the document to validate
+	 * @throws XMLHandlingException thrown if the XML is incorrect
+	 */
+	public static void laxValidate(XmlObject doc) throws XMLHandlingException {
+
+		// Create an XmlOptions instance and set the error listener.
+		ArrayList<XmlError> validationErrors = new ArrayList<XmlError>();
+		XmlOptions validationOptions = new XmlOptions();
+		validationOptions.setErrorListener(validationErrors);
+
+		// Validate the GetCapabilitiesRequest XML document
+		boolean isValid = doc.validate(validationOptions);
+
+		// Create Exception with error message if the xml document is invalid
+		if (!isValid) {
+
 			/*
 			 * check if we have special validation cases which could
 			 * let the message pass anyhow
 			 */
-			if (validationErrors.size() > 0) {
-				int shouldPassCount = 0;
-				for (Object o : validationErrors) {
-					if (o instanceof XmlValidationError) {
-						/*
-						 * iterate over all registered LaxValidationCases
-						 */
-						for (LaxValidationCase lvc : laxValidationCases) {
-							if (lvc.shouldPass((XmlValidationError) o)) {
-								shouldPassCount++;
-								break;
-							}
-						}
+			List<XmlError> errors = new ArrayList<XmlError>();
+			for (XmlError error : validationErrors) {
+				for (LaxValidationCase lvc : laxValidationCases) {
+					if (!lvc.shouldPass((XmlValidationError) error)) {
+						errors.add(error);
 					}
-				}
-				
-				/*
-				 * do we have a pass for every validation error?
-				 */
-				if (shouldPassCount == validationErrors.size()) {
-					/*
-					 * we can savely forward this xml object, even it is not valid
-					 */
-					return;
-				}
+				}	
 			}
-
-			throw new XMLHandlingException("Invalid xml content\n", validationErrors);
+			
+			if (!errors.isEmpty()) {
+				/*
+				 * throw the errors for enabling improved exception
+				 * handling in calling methods
+				 */
+				throw new XMLHandlingException.XMLHandlingExceptionCollection(errors);
+			}
 		}
 	}
 
-	
+	public void sosValidateExample(XmlObject xb_doc) throws OwsExceptionReport {
+		/*
+		 * this is just an example :-)
+		 */
+		registerLaxValidationCase(new GMLAbstractFeatureCase());
+
+		try {
+			laxValidate(xb_doc);
+		} catch (XMLHandlingException e) {
+			/*
+			 * "business" logic ok? I guess so, because it is only
+			 * doing exception-related handling. 
+			 */
+			String message = null;
+			String parameterName = null;
+			
+			List<XMLHandlingException> exs;
+			if (e instanceof XMLHandlingExceptionCollection) {
+				/*
+				 * multiple exceptions
+				 */
+				exs = ((XMLHandlingExceptionCollection) e).getInnerExceptions();
+			} else {
+				/*
+				 * one exception
+				 */
+				exs = new ArrayList<XMLHandlingException>(1);
+				exs.add(e);
+			}
+			
+			for (XMLHandlingException error : exs) {
+				// ExceptionCode for Exception
+				ExceptionCode exCode = null;
+
+				// get name of the missing or invalid parameter
+				message = error.getMessage();
+				if (message != null) {
+
+					// check, if parameter is missing or value of parameter
+					// is
+					// invalid to ensure, that correct
+					// exceptioncode in exception response is used
+
+					// invalid parameter value
+					if (message.startsWith("The value")) {
+						exCode = ExceptionCode.InvalidParameterValue;
+
+						// split message string to get attribute name
+						String[] messAndAttribute = message
+								.split("attribute '");
+						if (messAndAttribute.length == 2) {
+							parameterName = messAndAttribute[1]
+									.replace("'", "");
+						}
+					}
+
+					// invalid enumeration value --> InvalidParameterValue
+					else if (message.contains("not a valid enumeration value")) {
+						exCode = ExceptionCode.InvalidParameterValue;
+
+						// get attribute name
+						String[] messAndAttribute = message.split(" ");
+						parameterName = messAndAttribute[10];
+					}
+
+					// mandatory attribute is missing -->
+					// missingParameterValue
+					else if (message.startsWith("Expected attribute")) {
+						exCode = ExceptionCode.MissingParameterValue;
+
+						// get attribute name
+						String[] messAndAttribute = message
+								.split("attribute: ");
+						if (messAndAttribute.length == 2) {
+							String[] attrAndRest = messAndAttribute[1]
+									.split(" in");
+							if (attrAndRest.length == 2) {
+								parameterName = attrAndRest[0];
+							}
+						}
+					}
+
+					// mandatory element is missing -->
+					// missingParameterValue
+					else if (message.startsWith("Expected element")) {
+						exCode = ExceptionCode.MissingParameterValue;
+
+						// get element name
+						String[] messAndElements = message.split(" '");
+						if (messAndElements.length >= 2) {
+							String elements = messAndElements[1];
+							if (elements.contains("offering")) {
+								parameterName = "offering";
+							} else if (elements.contains("observedProperty")) {
+								parameterName = "observedProperty";
+							} else if (elements.contains("responseFormat")) {
+								parameterName = "responseFormat";
+							} else if (elements.contains("procedure")) {
+								parameterName = "procedure";
+							} else if (elements.contains("featureOfInterest")) {
+								parameterName = "featureOfInterest";
+							} else {
+								// TODO check if other elements are invalid
+							}
+						}
+					}
+					// invalidParameterValue
+					else if (message.startsWith("Element")) {
+						exCode = ExceptionCode.InvalidParameterValue;
+
+						// get element name
+						String[] messAndElements = message.split(" '");
+						if (messAndElements.length >= 2) {
+							String elements = messAndElements[1];
+							if (elements.contains("offering")) {
+								parameterName = "offering";
+							} else if (elements.contains("observedProperty")) {
+								parameterName = "observedProperty";
+							} else if (elements.contains("responseFormat")) {
+								parameterName = "responseFormat";
+							} else if (elements.contains("procedure")) {
+								parameterName = "procedure";
+							} else if (elements.contains("featureOfInterest")) {
+								parameterName = "featureOfInterest";
+							} else {
+								// TODO check if other elements are invalid
+							}
+						}
+					} else {
+						// create service exception
+						OwsExceptionReport se = new OwsExceptionReport();
+						se.addCodedException(ExceptionCode.InvalidRequest,
+								null, "[XmlBeans validation error:] " + message);
+//						LOGGER.error("The request is invalid!", se);
+						throw se;
+					}
+
+					// create service exception
+					OwsExceptionReport se = new OwsExceptionReport();
+					se.addCodedException(exCode, parameterName,
+							"[XmlBeans validation error:] " + message);
+//					LOGGER.error("The request is invalid!", se);
+					throw se;
+				}
+			}
+		}
+	}
 	
 }
