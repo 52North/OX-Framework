@@ -29,14 +29,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlValidationError;
-import org.n52.oxf.xmlbeans.parser.XMLHandlingException.XMLHandlingExceptionCollection;
 import org.n52.oxf.xmlbeans.parser.sosexample.ExceptionCode;
 import org.n52.oxf.xmlbeans.parser.sosexample.OwsExceptionReport;
 import org.w3c.dom.Node;
@@ -53,7 +55,7 @@ import org.w3c.dom.Node;
  * 
  */
 public class XMLBeansParser {
-	
+
 	/*
 	 * use this list to define special validation cases (mostly substitution groups)
 	 */
@@ -63,14 +65,14 @@ public class XMLBeansParser {
 	static {
 		laxValidationCases = new ArrayList<LaxValidationCase>();
 	}
-	
+
 	/**
 	 * Use this method to set the state of the validation flag.
 	 */
 	public static void setValidationGloballyEnabled(boolean b) {
 		validationGlobally = b;
 	}
-	
+
 	/**
 	 * Register a new {@link LaxValidationCase} which should
 	 * let pass corresponding "invalid" documents.
@@ -93,7 +95,8 @@ public class XMLBeansParser {
 	public static XmlObject parse(String source) throws XMLHandlingException {
 		return parse(source, true);
 	}
-	
+
+
 	/**
 	 * Reads the given source. The source may be only the xml-document or
 	 * contain an application/x-www-form-url encoded string. In this case, the
@@ -105,41 +108,22 @@ public class XMLBeansParser {
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
 	public static XmlObject parse(String source, boolean validate) throws XMLHandlingException {
-		return parse(source, validate, true);
-	}
-
-	/**
-	 * Reads the given source. The source may be only the xml-document or
-	 * contain an application/x-www-form-url encoded string. In this case, the
-	 * request must have the form <em>request=</em>
-	 * 
-	 * @param source The xml source.
-	 * @param validate Validate the source?
-	 * @param lax consider registered {@link LaxValidationCase} instances?
-	 * @return The parsed xbeans XmlObject
-	 * @throws XMLHandlingException thrown if the XML is incorrect
-	 */
-	public static XmlObject parse(String source, boolean validate, boolean lax) throws XMLHandlingException {
 
 		XmlObject doc;
 		try {
 
 			doc = XmlObject.Factory.parse(source);
-			if (validate && validationGlobally) {
-				if (lax) {
-					laxValidate(doc);
-				} else {
-					validate(doc);
-				}
-			}
-			return doc;
-
 		} catch (XmlException e) {
 			throw new XMLHandlingException("Cannot parse xml: "+e.getMessage(), e);
 		}
+		
+		if (validate) {
+			validateOnParse(doc);
+		}
+		return doc;
 	}
 
-	
+
 	/**
 	 * @param resourceAsStream the xml source as stream
 	 * @return The parsed xbeans XmlObject
@@ -148,44 +132,24 @@ public class XMLBeansParser {
 	public static XmlObject parse(InputStream resourceAsStream) throws XMLHandlingException {
 		return parse(resourceAsStream, true);
 	}
-	
+
+
 	/**
-	 * @param resourceAsStream the xml source as stream
+	 * @param resourceAsStream The source as a stream.
 	 * @param validate Validate the source?
 	 * @return The parsed xbeans XmlObject
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
 	public static XmlObject parse(InputStream resourceAsStream, boolean validate) throws XMLHandlingException {
-		return parse(resourceAsStream, validate, true);
-	}
-
-	/**
-	 * @param resourceAsStream The source as a stream.
-	 * @param validate Validate the source?
-	 * @param lax consider registered {@link LaxValidationCase} instances?
-	 * @return The parsed xbeans XmlObject
-	 * @throws XMLHandlingException thrown if the XML is incorrect
-	 */
-	public static XmlObject parse(InputStream resourceAsStream, boolean validate, boolean lax) throws XMLHandlingException {
 		XmlObject doc;
 		try {
 			doc = XmlObject.Factory.parse(resourceAsStream);
-
-			if (validate && validationGlobally) {
-				if (lax) {
-					laxValidate(doc);
-				} else {
-					validate(doc);
-				}
-			}
-			return doc;
-
 		} catch (XmlException e) {
-			
+
 			/* cannot parse xml string. Maybe a stream problem? try to read as String!
 			 * This has been implemented because of XmlBeans stream issues. */
 			BufferedReader b = new BufferedReader(new InputStreamReader(resourceAsStream));
-			
+
 			StringWriter w = new StringWriter();			
 			try {
 				while(b.ready()) {
@@ -194,18 +158,23 @@ public class XMLBeansParser {
 			} catch (IOException e2) {
 				throw new XMLHandlingException("Cannot read the document: Transmission interrupted!", e);
 			}
-			
+
 			try {
 				return XmlObject.Factory.parse(w.toString());
 			} catch (XmlException e1) {
 				throw new XMLHandlingException("The document you supplied was incomplete. Please try again.", e);
 			}
-			
+
 		} catch (IOException e) {
 			throw new XMLHandlingException("Cannot read the document: Transmission interrupted!", e);
 		}
+		
+		if (validate) {
+			validateOnParse(doc);
+		}
+		return doc;
 	}
-	
+
 	/**
 	 * Reads the given source. The source may be only the xml-document or
 	 * contain an application/x-www-form-url encoded string. In this case, the
@@ -218,7 +187,8 @@ public class XMLBeansParser {
 	public static XmlObject parse(Node xmlnode) throws XMLHandlingException {
 		return parse(xmlnode, true);
 	}
-	
+
+
 	/**
 	 * Reads the given source. The source may be only the xml-document or
 	 * contain an application/x-www-form-url encoded string. In this case, the
@@ -230,39 +200,37 @@ public class XMLBeansParser {
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
 	public static XmlObject parse(Node xmlnode, boolean validate) throws XMLHandlingException {
-		return parse(xmlnode, validate, true);
-	}
-
-	/**
-	 * Reads the given source. The source may be only the xml-document or
-	 * contain an application/x-www-form-url encoded string. In this case, the
-	 * request must have the form <em>request=</em>
-	 * 
-	 * @param xmlnode The xml source.
-	 * @param validate Validate the source?
-	 * @param lax consider registered {@link LaxValidationCase} instances?
-	 * @return The parsed xbeans XmlObject
-	 * @throws XMLHandlingException thrown if the XML is incorrect
-	 */
-	public static XmlObject parse(Node xmlnode, boolean validate, boolean lax) throws XMLHandlingException {
 		XmlObject doc;
 		try {
 			doc = XmlObject.Factory.parse(xmlnode);
-
-			if (validate && validationGlobally) {
-				if (lax) {
-					laxValidate(doc);
-				} else {
-					validate(doc);
-				}
-			}
-			return doc;
-
 		} catch (XmlException e) {
 			throw new XMLHandlingException("Cannot read the node", e);
 		}
+
+		if (validate) {
+			validateOnParse(doc);
+		}
+
+		return doc;
 	}
-	
+
+	/**
+	 * private helper method for throwing an exception if validation
+	 * was used within a parsing request.
+	 */
+	private static void validateOnParse(XmlObject doc) throws XMLHandlingException {
+		if (!validationGlobally) return;
+
+		Collection<XmlError> errors = validate(doc);
+		String errString = null;
+		for (XmlError xmlError : errors) {
+			errString = (errString == null) ?
+					xmlError.getMessage() :
+						errString +"; "+ xmlError.getMessage();
+		}
+		if (errString != null) throw new XMLHandlingException(errString);		
+	}
+
 	/**
 	 * Validates an xml doc. If the validation fails, the exception contains a
 	 * detailed list of errors.
@@ -270,7 +238,9 @@ public class XMLBeansParser {
 	 * @param doc the document to validate
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
-	public static void validate(XmlObject doc) throws XMLHandlingException {
+	public static void strictValidate(XmlObject doc) throws XMLHandlingException {
+		if (!validationGlobally) return;
+		
 		List<XmlError> validationErrors = new ArrayList<XmlError>();
 		XmlOptions validationOptions = new XmlOptions();
 		validationOptions.setErrorListener(validationErrors);
@@ -282,7 +252,7 @@ public class XMLBeansParser {
 			throw new XMLHandlingException("Invalid xml content\n", validationErrors);
 		}
 	}
-	
+
 	/**
 	 * Validates an xml doc. If the validation fails, the exception contains a
 	 * detailed list of errors.
@@ -290,8 +260,10 @@ public class XMLBeansParser {
 	 * @param doc the document to validate
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
-	public static void laxValidate(XmlObject doc) throws XMLHandlingException {
-
+	public static Collection<XmlError> validate(XmlObject doc) {
+		Set<XmlError> errors = new HashSet<XmlError>();
+		if (!validationGlobally) return errors;
+		
 		// Create an XmlOptions instance and set the error listener.
 		ArrayList<XmlError> validationErrors = new ArrayList<XmlError>();
 		XmlOptions validationOptions = new XmlOptions();
@@ -307,7 +279,6 @@ public class XMLBeansParser {
 			 * check if we have special validation cases which could
 			 * let the message pass anyhow
 			 */
-			List<XmlError> errors = new ArrayList<XmlError>();
 			for (XmlError error : validationErrors) {
 				for (LaxValidationCase lvc : laxValidationCases) {
 					if (!lvc.shouldPass((XmlValidationError) error)) {
@@ -315,164 +286,140 @@ public class XMLBeansParser {
 					}
 				}	
 			}
-			
-			if (!errors.isEmpty()) {
-				/*
-				 * throw the errors for enabling improved exception
-				 * handling in calling methods
-				 */
-				throw new XMLHandlingException.XMLHandlingExceptionCollection(errors);
-			}
+
 		}
+		return errors;
 	}
 
 	public void sosValidateExample(XmlObject xb_doc) throws OwsExceptionReport {
 		/*
 		 * this is just an example :-)
 		 */
-		registerLaxValidationCase(new GMLAbstractFeatureCase());
+		XMLBeansParser.registerLaxValidationCase(new GMLAbstractFeatureCase());
 
-		try {
-			validate(xb_doc);
-		} catch (XMLHandlingException e) {
-			/*
-			 * "business" logic ok? I guess so, because it is only
-			 * doing exception-related handling. 
-			 */
-			String message = null;
-			String parameterName = null;
-			
-			List<XMLHandlingException> exs;
-			if (e instanceof XMLHandlingExceptionCollection) {
-				/*
-				 * multiple exceptions
-				 */
-				exs = ((XMLHandlingExceptionCollection) e).getInnerExceptions();
-			} else {
-				/*
-				 * one exception
-				 */
-				exs = new ArrayList<XMLHandlingException>(1);
-				exs.add(e);
-			}
-			
-			for (XMLHandlingException error : exs) {
-				// ExceptionCode for Exception
-				ExceptionCode exCode = null;
+		/*
+		 * get errors. if empty, do not throw exception
+		 */
+		Collection<XmlError> exs = XMLBeansParser.validate(xb_doc);
 
-				// get name of the missing or invalid parameter
-				message = error.getMessage();
-				if (message != null) {
+		String message = null;
+		String parameterName = null;
+		for (XmlError error : exs) {
+			// ExceptionCode for Exception
+			ExceptionCode exCode = null;
 
-					// check, if parameter is missing or value of parameter
-					// is
-					// invalid to ensure, that correct
-					// exceptioncode in exception response is used
+			// get name of the missing or invalid parameter
+			message = error.getMessage();
+			if (message != null) {
 
-					// invalid parameter value
-					if (message.startsWith("The value")) {
-						exCode = ExceptionCode.InvalidParameterValue;
+				// check, if parameter is missing or value of parameter
+				// is
+				// invalid to ensure, that correct
+				// exceptioncode in exception response is used
 
-						// split message string to get attribute name
-						String[] messAndAttribute = message
-								.split("attribute '");
-						if (messAndAttribute.length == 2) {
-							parameterName = messAndAttribute[1]
-									.replace("'", "");
+				// invalid parameter value
+				if (message.startsWith("The value")) {
+					exCode = ExceptionCode.InvalidParameterValue;
+
+					// split message string to get attribute name
+					String[] messAndAttribute = message
+							.split("attribute '");
+					if (messAndAttribute.length == 2) {
+						parameterName = messAndAttribute[1]
+								.replace("'", "");
+					}
+				}
+
+				// invalid enumeration value --> InvalidParameterValue
+				else if (message.contains("not a valid enumeration value")) {
+					exCode = ExceptionCode.InvalidParameterValue;
+
+					// get attribute name
+					String[] messAndAttribute = message.split(" ");
+					parameterName = messAndAttribute[10];
+				}
+
+				// mandatory attribute is missing -->
+				// missingParameterValue
+				else if (message.startsWith("Expected attribute")) {
+					exCode = ExceptionCode.MissingParameterValue;
+
+					// get attribute name
+					String[] messAndAttribute = message
+							.split("attribute: ");
+					if (messAndAttribute.length == 2) {
+						String[] attrAndRest = messAndAttribute[1]
+								.split(" in");
+						if (attrAndRest.length == 2) {
+							parameterName = attrAndRest[0];
 						}
 					}
+				}
 
-					// invalid enumeration value --> InvalidParameterValue
-					else if (message.contains("not a valid enumeration value")) {
-						exCode = ExceptionCode.InvalidParameterValue;
+				// mandatory element is missing -->
+				// missingParameterValue
+				else if (message.startsWith("Expected element")) {
+					exCode = ExceptionCode.MissingParameterValue;
 
-						// get attribute name
-						String[] messAndAttribute = message.split(" ");
-						parameterName = messAndAttribute[10];
-					}
-
-					// mandatory attribute is missing -->
-					// missingParameterValue
-					else if (message.startsWith("Expected attribute")) {
-						exCode = ExceptionCode.MissingParameterValue;
-
-						// get attribute name
-						String[] messAndAttribute = message
-								.split("attribute: ");
-						if (messAndAttribute.length == 2) {
-							String[] attrAndRest = messAndAttribute[1]
-									.split(" in");
-							if (attrAndRest.length == 2) {
-								parameterName = attrAndRest[0];
-							}
+					// get element name
+					String[] messAndElements = message.split(" '");
+					if (messAndElements.length >= 2) {
+						String elements = messAndElements[1];
+						if (elements.contains("offering")) {
+							parameterName = "offering";
+						} else if (elements.contains("observedProperty")) {
+							parameterName = "observedProperty";
+						} else if (elements.contains("responseFormat")) {
+							parameterName = "responseFormat";
+						} else if (elements.contains("procedure")) {
+							parameterName = "procedure";
+						} else if (elements.contains("featureOfInterest")) {
+							parameterName = "featureOfInterest";
+						} else {
+							// TODO check if other elements are invalid
 						}
 					}
+				}
+				// invalidParameterValue
+				else if (message.startsWith("Element")) {
+					exCode = ExceptionCode.InvalidParameterValue;
 
-					// mandatory element is missing -->
-					// missingParameterValue
-					else if (message.startsWith("Expected element")) {
-						exCode = ExceptionCode.MissingParameterValue;
-
-						// get element name
-						String[] messAndElements = message.split(" '");
-						if (messAndElements.length >= 2) {
-							String elements = messAndElements[1];
-							if (elements.contains("offering")) {
-								parameterName = "offering";
-							} else if (elements.contains("observedProperty")) {
-								parameterName = "observedProperty";
-							} else if (elements.contains("responseFormat")) {
-								parameterName = "responseFormat";
-							} else if (elements.contains("procedure")) {
-								parameterName = "procedure";
-							} else if (elements.contains("featureOfInterest")) {
-								parameterName = "featureOfInterest";
-							} else {
-								// TODO check if other elements are invalid
-							}
+					// get element name
+					String[] messAndElements = message.split(" '");
+					if (messAndElements.length >= 2) {
+						String elements = messAndElements[1];
+						if (elements.contains("offering")) {
+							parameterName = "offering";
+						} else if (elements.contains("observedProperty")) {
+							parameterName = "observedProperty";
+						} else if (elements.contains("responseFormat")) {
+							parameterName = "responseFormat";
+						} else if (elements.contains("procedure")) {
+							parameterName = "procedure";
+						} else if (elements.contains("featureOfInterest")) {
+							parameterName = "featureOfInterest";
+						} else {
+							// TODO check if other elements are invalid
 						}
 					}
-					// invalidParameterValue
-					else if (message.startsWith("Element")) {
-						exCode = ExceptionCode.InvalidParameterValue;
-
-						// get element name
-						String[] messAndElements = message.split(" '");
-						if (messAndElements.length >= 2) {
-							String elements = messAndElements[1];
-							if (elements.contains("offering")) {
-								parameterName = "offering";
-							} else if (elements.contains("observedProperty")) {
-								parameterName = "observedProperty";
-							} else if (elements.contains("responseFormat")) {
-								parameterName = "responseFormat";
-							} else if (elements.contains("procedure")) {
-								parameterName = "procedure";
-							} else if (elements.contains("featureOfInterest")) {
-								parameterName = "featureOfInterest";
-							} else {
-								// TODO check if other elements are invalid
-							}
-						}
-					} else {
-						// create service exception
-						OwsExceptionReport se = new OwsExceptionReport();
-						se.addCodedException(ExceptionCode.InvalidRequest,
-								null, "[XmlBeans validation error:] " + message);
-//						LOGGER.error("The request is invalid!", se);
-						throw se;
-					}
-
+				} else {
 					// create service exception
 					OwsExceptionReport se = new OwsExceptionReport();
-					se.addCodedException(exCode, parameterName,
-							"[XmlBeans validation error:] " + message);
-//					LOGGER.error("The request is invalid!", se);
+					se.addCodedException(ExceptionCode.InvalidRequest,
+							null, "[XmlBeans validation error:] " + message);
+					//						LOGGER.error("The request is invalid!", se);
 					throw se;
 				}
+
+				// create service exception
+				OwsExceptionReport se = new OwsExceptionReport();
+				se.addCodedException(exCode, parameterName,
+						"[XmlBeans validation error:] " + message);
+				//					LOGGER.error("The request is invalid!", se);
+				throw se;
 			}
 		}
 	}
 
-	
+
 }

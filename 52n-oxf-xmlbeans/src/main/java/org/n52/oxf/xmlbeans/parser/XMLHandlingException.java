@@ -23,7 +23,6 @@
  */
 package org.n52.oxf.xmlbeans.parser;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,6 +30,7 @@ import org.apache.xmlbeans.XmlError;
 
 /**
  * @author Jan Torben Heuer <jan.heuer@uni-muenster.de>
+ * @author matthes rieke <m.rieke@52north.org>
  * 
  */
 public class XMLHandlingException extends Exception {
@@ -91,50 +91,5 @@ public class XMLHandlingException extends Exception {
 		return super.getMessage() + this.message;
 	}
 
-	/**
-	 * Subclass of {@link XMLHandlingException}. It takes multiple
-	 * {@link XmlError}s and stores its messages as instances
-	 * of {@link XMLHandlingException}. These can be retrieved by
-	 * calling {@link XMLHandlingExceptionCollection#getInnerExceptions()}.
-	 * 
-	 * @author matthes rieke
-	 *
-	 */
-	public static class XMLHandlingExceptionCollection extends XMLHandlingException {
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 3976976393732393856L;
-		private List<XMLHandlingException> errors = new ArrayList<XMLHandlingException>();
-
-		public XMLHandlingExceptionCollection(List<XmlError> err) {
-			super("");
-			
-			this.message = "[";
-			for (XmlError xmlError : err) {
-				this.message += xmlError.getMessage() +", ";
-			}
-			this.message += "]";
-			
-			for (XmlError xe : err) {
-				this.errors.add(new XMLHandlingException(xe));
-			}
-		}
-
-		/**
-		 * @return the list of inner exceptions if multiple errors occurred
-		 */
-		public List<XMLHandlingException> getInnerExceptions() {
-			return this.errors;
-		}
-
-		@Override
-		public String getMessage() {
-			return this.message;
-		}
-
-		
-	}
 
 }
