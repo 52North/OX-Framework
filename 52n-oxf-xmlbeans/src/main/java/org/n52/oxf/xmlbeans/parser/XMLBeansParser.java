@@ -280,6 +280,14 @@ public class XMLBeansParser {
 			 * let the message pass anyhow
 			 */
 			for (XmlError error : validationErrors) {
+				/*
+				 * if there are no exceptions, add the error
+				 */
+				if (laxValidationCases.isEmpty()) {
+					errors.add(error);
+					continue;
+				}
+				
 				for (LaxValidationCase lvc : laxValidationCases) {
 					if (!lvc.shouldPass((XmlValidationError) error)) {
 						errors.add(error);
