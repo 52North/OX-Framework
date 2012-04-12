@@ -549,7 +549,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     		}
     	}
     	//End Code for new Features
-    	featureProp.setAbstractFeature(sampPoint);
+    	featureProp.setFeature(sampPoint);
     	XmlCursor cursorProp = featureProp.newCursor();
     	cursorProp.toChild(new QName("http://www.opengis.net/gml", "_Feature"));
     	cursorProp.setName(new QName("http://www.opengis.net/sampling/1.0", "SamplingPoint"));
