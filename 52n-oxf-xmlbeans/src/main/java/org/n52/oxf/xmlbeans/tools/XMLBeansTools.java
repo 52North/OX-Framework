@@ -52,12 +52,18 @@ import org.w3c.dom.Node;
 @SuppressWarnings("deprecation")
 public class XMLBeansTools {
 
-	private final static XmlOptions PRETTYPRINT = new XmlOptions();
-	private final static XmlOptions FAST = new XmlOptions();
+	private final static XmlOptions OMIT_XML_FRAGMENTS = new XmlOptions();
+	private final static XmlOptions PRETTYPRINT;
+	private final static XmlOptions FAST;
 
 	static {
+		OMIT_XML_FRAGMENTS.setSaveOuter();
+		
+		PRETTYPRINT = new XmlOptions(OMIT_XML_FRAGMENTS);
 		PRETTYPRINT.setSavePrettyPrint();
 		PRETTYPRINT.setUseDefaultNamespace();
+
+		FAST = new XmlOptions(OMIT_XML_FRAGMENTS);
 		FAST.setUseDefaultNamespace();
 	}
 
