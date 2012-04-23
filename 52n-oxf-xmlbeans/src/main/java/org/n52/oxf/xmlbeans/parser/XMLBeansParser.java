@@ -108,10 +108,8 @@ public class XMLBeansParser {
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
 	public static XmlObject parse(String source, boolean validate) throws XMLHandlingException {
-
 		XmlObject doc;
 		try {
-
 			doc = XmlObject.Factory.parse(source);
 		} catch (XmlException e) {
 			throw new XMLHandlingException("Cannot parse xml: "+e.getMessage(), e);
@@ -145,26 +143,9 @@ public class XMLBeansParser {
 		try {
 			doc = XmlObject.Factory.parse(resourceAsStream);
 		} catch (XmlException e) {
-
 			/* cannot parse xml string. Maybe a stream problem? try to read as String!
 			 * This has been implemented because of XmlBeans stream issues. */
-			BufferedReader b = new BufferedReader(new InputStreamReader(resourceAsStream));
-
-			StringWriter w = new StringWriter();			
-			try {
-				while(b.ready()) {
-					w.write(b.readLine());
-				}
-			} catch (IOException e2) {
-				throw new XMLHandlingException("Cannot read the document: Transmission interrupted!", e);
-			}
-
-			try {
-				return XmlObject.Factory.parse(w.toString());
-			} catch (XmlException e1) {
-				throw new XMLHandlingException("The document you supplied was incomplete. Please try again.", e);
-			}
-
+			doc = parseAsStringDueToXmlBeansStreamIssues(resourceAsStream, e);
 		} catch (IOException e) {
 			throw new XMLHandlingException("Cannot read the document: Transmission interrupted!", e);
 		}
@@ -173,6 +154,27 @@ public class XMLBeansParser {
 			validateOnParse(doc);
 		}
 		return doc;
+	}
+
+	private static XmlObject parseAsStringDueToXmlBeansStreamIssues(
+			InputStream resourceAsStream, XmlException e)
+			throws XMLHandlingException {
+		BufferedReader b = new BufferedReader(new InputStreamReader(resourceAsStream));
+
+		StringWriter w = new StringWriter();			
+		try {
+			while(b.ready()) {
+				w.write(b.readLine());
+			}
+		} catch (IOException e2) {
+			throw new XMLHandlingException("Cannot read the document: Transmission interrupted!", e);
+		}
+
+		try {
+			return XmlObject.Factory.parse(w.toString());
+		} catch (XmlException e1) {
+			throw new XMLHandlingException("The document you supplied was incomplete. Please try again.", e);
+		}
 	}
 
 	/**
@@ -220,15 +222,17 @@ public class XMLBeansParser {
 	 */
 	private static void validateOnParse(XmlObject doc) throws XMLHandlingException {
 		if (!validationGlobally) return;
+		String errorString = createErrorMessage(validate(doc));
+		if (errorString.length() > 0) throw new XMLHandlingException(errorString);		
+	}
 
-		Collection<XmlError> errors = validate(doc);
-		String errString = null;
+	private static String createErrorMessage(Collection<XmlError> errors) {
+		StringBuilder errorBuilder = new StringBuilder();
 		for (XmlError xmlError : errors) {
-			errString = (errString == null) ?
-					xmlError.getMessage() :
-						errString +"; "+ xmlError.getMessage();
+			errorBuilder.append(xmlError.getMessage()).append(";");
 		}
-		if (errString != null) throw new XMLHandlingException(errString);		
+		errorBuilder.deleteCharAt(errorBuilder.length() - 1);
+		return errorBuilder.toString();
 	}
 
 	/**
@@ -261,13 +265,13 @@ public class XMLBeansParser {
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
 	public static Collection<XmlError> validate(XmlObject doc) {
-		Set<XmlError> errors = new HashSet<XmlError>();
-		if (!validationGlobally) return errors;
+		Set<XmlError> validationErrors = new HashSet<XmlError>();
+		if (!validationGlobally) return validationErrors;
 		
 		// Create an XmlOptions instance and set the error listener.
-		ArrayList<XmlError> validationErrors = new ArrayList<XmlError>();
+		List<XmlError> allValidationErrors = new ArrayList<XmlError>();
 		XmlOptions validationOptions = new XmlOptions();
-		validationOptions.setErrorListener(validationErrors);
+		validationOptions.setErrorListener(allValidationErrors);
 
 		// Validate the GetCapabilitiesRequest XML document
 		boolean isValid = doc.validate(validationOptions);
@@ -279,24 +283,25 @@ public class XMLBeansParser {
 			 * check if we have special validation cases which could
 			 * let the message pass anyhow
 			 */
-			for (XmlError error : validationErrors) {
-				/*
-				 * if there are no exceptions, add the error
-				 */
-				if (laxValidationCases.isEmpty()) {
-					errors.add(error);
-					continue;
-				}
-				
-				for (LaxValidationCase lvc : laxValidationCases) {
-					if (!lvc.shouldPass((XmlValidationError) error)) {
-						errors.add(error);
-					}
-				}	
-			}
+			filterValidationErrors(validationErrors, allValidationErrors);
 
 		}
-		return errors;
+		return validationErrors;
+	}
+
+	private static void filterValidationErrors(Set<XmlError> validationErrors, List<XmlError> allValidationErrors) {
+	    if (laxValidationCases.isEmpty()) {
+            validationErrors.addAll(allValidationErrors);
+            return;
+        }
+	    
+	    for (XmlError validationError : allValidationErrors) {
+			for (LaxValidationCase lvc : laxValidationCases) {
+				if (!lvc.shouldPass((XmlValidationError) validationError)) {
+					validationErrors.add(validationError);
+				}
+			}	
+		}
 	}
 
 	public void sosValidateExample(XmlObject xb_doc) throws OwsExceptionReport {

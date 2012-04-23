@@ -39,10 +39,7 @@ public class GMLAbstractFeatureCase implements LaxValidationCase {
 	private static final Object FEATURE_QN = new QName("http://www.opengis.net/gml", "_Feature");
 
 	public boolean shouldPass(XmlValidationError xve) {
-		if (xve.getExpectedQNames() != null && xve.getExpectedQNames().contains(FEATURE_QN)) {
-			return true;
-		}
-		return false;
+		return xve.getExpectedQNames() != null && xve.getExpectedQNames().contains(FEATURE_QN);
 	}
 
 }

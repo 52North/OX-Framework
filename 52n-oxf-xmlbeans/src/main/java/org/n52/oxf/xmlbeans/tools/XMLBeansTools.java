@@ -49,7 +49,6 @@ import org.w3c.dom.Node;
  * @author Jan Torben Heuer <jan.heuer@uni-muenster.de>
  *
  */
-@SuppressWarnings("deprecation")
 public class XMLBeansTools {
 
 	private final static XmlOptions OMIT_XML_FRAGMENTS = new XmlOptions();
@@ -122,7 +121,7 @@ public class XMLBeansTools {
 	 */
 	public static String objectToString(XmlObject doc, boolean validate, boolean prettyprint) throws XMLHandlingException {
 		if (validate) {
-			XMLBeansParser.validate(doc);
+			XMLBeansParser.strictValidate(doc);
 		}
 		if (prettyprint) {
 			return doc.xmlText(PRETTYPRINT);
@@ -153,14 +152,14 @@ public class XMLBeansTools {
 	 */
 	public static void writeObject(XmlObject doc, PrintWriter out, boolean validate) throws IOException, XMLHandlingException {
 		if (validate) {
-			XMLBeansParser.validate(doc);
+			XMLBeansParser.strictValidate(doc);
 		}
 		writeObject(doc, out);
 	}
 
 
 	/**
-	 * Builds an rg.w3c.dom.Node from a {@link XmlObject}.
+	 * Builds an org.w3c.dom.Node from a {@link XmlObject}.
 	 * 
 	 * ATTENTION: This solution looks strange but it is 
 	 * necessary to do it this way. When trying to call
@@ -173,19 +172,18 @@ public class XMLBeansTools {
 	 */
 	public static Node getDomNode(XmlObject input) throws XMLHandlingException {
 		try {
-			//XPath expression to get the root node
-			String xQuery = "/*";
-
-			//get the root node
-			XmlObject xmlObject = input.selectPath(xQuery)[0];
-
-			//get the DOM Node
-			return xmlObject.getDomNode();
+			XmlObject rootNode = getRootNode(input);
+			return rootNode.getDomNode();
 		}
 		catch (Throwable t) {
 			throw new XMLHandlingException(t.getMessage(), t);
 		}
 	}
+
+
+    private static XmlObject getRootNode(XmlObject input) {
+        return input.selectPath("/*")[0];
+    }
 
 	/**
 	 * Use this method if you have an instance of an abstract
@@ -199,15 +197,14 @@ public class XMLBeansTools {
 	public static void replaceXsiTypeWithInstance(XmlObject xobj, QName newInstance) {
 		XmlCursor cursor = xobj.newCursor();
 		cursor.setName(newInstance);
-		cursor.removeAttribute(new QName("http://www.w3.org/2001/XMLSchema-instance",
-				"type"));
+		QName qName = new QName("http://www.w3.org/2001/XMLSchema-instance", "type");
+        cursor.removeAttribute(qName);
 	}
 
 	/**
 	 * Strips out the text of an xml-element and returns as a String.
 	 * @param elems array of elements
 	 * @return the string value of the first element
-	 * @throws XMLHandlingException tranformations failed.
 	 */
 	public static String stripText(XmlObject[] elems) {
 		if (elems != null && elems.length > 0) {
@@ -219,7 +216,6 @@ public class XMLBeansTools {
 	/**
 	 * @param elem the text-containing element
 	 * @return the text value
-	 * @throws XMLHandlingException transformations failed.
 	 */
 	public static String stripText(XmlObject elem) {
 		if (elem != null) {
@@ -241,7 +237,6 @@ public class XMLBeansTools {
 	 * 
 	 * @param xml the xml Node 
 	 * @return a String representation of the given xml Node
-	 * @throws XMLHandlingException if transformation failed.
 	 */
 	private static String toString(Node xml) {
 		 short type = xml.getNodeType();
@@ -288,6 +283,7 @@ public class XMLBeansTools {
 	        }
 	        
 	        return writer.toString();
+	        
 //		if (domImpl == null) throw new RuntimeException("Could not access XML LS Serializer");
 //		LSSerializer serializer = domImpl.createLSSerializer();
 //		DOMConfiguration cfg = serializer.getDomConfig();
