@@ -194,7 +194,7 @@ public class XMLBeansTools {
 	 * @param xobj the abstract element
 	 * @param newInstance the new {@link QName} of the instance
 	 */
-	public static void replaceXsiTypeWithInstance(XmlObject xobj, QName newInstance) {
+	public static void qualifySubstitutionGroup(XmlObject xobj, QName newInstance) {
 		XmlCursor cursor = xobj.newCursor();
 		cursor.setName(newInstance);
 		QName qName = new QName("http://www.w3.org/2001/XMLSchema-instance", "type");
