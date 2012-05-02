@@ -27,7 +27,6 @@
         <url>https://svn.52north.org/cgi-bin/viewvc.cgi/incubation/ox-framework-2.0/52n-oxf/trunk/?root=sensorweb</url>
     </scm>
 	
-	
 	<repositories>
 		<repository>
 			<!-- temporary local repo for libs not migrated to maven dependency mechanism -->
@@ -86,6 +85,11 @@
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-oxf-swes</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>52n-oxf-xmlbeans</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
 			</dependency>
 			<!-- ### XML BINDING DEPENDENCIES ### -->
