@@ -22,12 +22,12 @@ public class NoApplicableCodeException extends OwsException {
     }
 
     private boolean hasValidRange(int httpStatusCode) {
-        return httpStatusCode < 300 && 500 < httpStatusCode;
+        return 300 <= httpStatusCode && httpStatusCode < 600;
     }
 
     @Override
     public int getHttpStatusCode() {
         return statusCode;
     }
-
+    
 }
