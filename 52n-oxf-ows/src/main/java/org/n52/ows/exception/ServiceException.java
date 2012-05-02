@@ -21,10 +21,32 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.swes;
+package org.n52.ows.exception;
 
-public class SwesException extends Exception {
+import net.opengis.ows.x11.ExceptionDocument;
+import net.opengis.ows.x11.ExceptionType;
 
-    private static final long serialVersionUID = -1052562220169780171L;
+
+public class ServiceException {
+
+    private OwsException owsException;
+    
+    public ServiceException(OwsException owsException) {
+        this.owsException = owsException;
+    }
+    
+    public ExceptionDocument createExceptionDocument() {
+        ExceptionDocument exception = ExceptionDocument.Factory.newInstance();
+        ExceptionType exceptionType = ExceptionType.Factory.newInstance();
+        exceptionType.setLocator(owsException.getLocator());
+        exceptionType.setExceptionCode(owsException.getExceptionCode());
+        exceptionType.setExceptionTextArray(owsException.getExceptionTextsAsArray());
+        exception.setException(exceptionType);
+        return exception;
+    }
+
+    public int getHttpResponseCode() {
+        return owsException.getHttpStatusCode();
+    }
 
 }
