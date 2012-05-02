@@ -1,4 +1,4 @@
-package org.n52.swes;
+package org.n52.oxf.swes;
 
 import org.n52.ows.exception.OwsException;
 
