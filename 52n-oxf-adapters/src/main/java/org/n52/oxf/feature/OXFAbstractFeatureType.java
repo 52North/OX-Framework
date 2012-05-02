@@ -133,12 +133,12 @@ public class OXFAbstractFeatureType extends org.n52.oxf.feature.OXFFeatureType {
 
      // create the LOCATION-attribute:
         if (xb_abstractFeature.getLocation() != null
-                && xb_abstractFeature.getLocation().getGeometry() != null) {
+                && xb_abstractFeature.getLocation().getAbstractGeometry() != null) {
 
             // TODO: Spec-Too-Flexible-Problem --> various geometry types are possible:
-            if (xb_abstractFeature.getLocation().getGeometry() instanceof PointType) {
+            if (xb_abstractFeature.getLocation().getAbstractGeometry() instanceof PointType) {
 
-                PointType xb_point = (PointType) xb_abstractFeature.getLocation().getGeometry();
+                PointType xb_point = (PointType) xb_abstractFeature.getLocation().getAbstractGeometry();
 
                 CoordinatesType xb_coords = xb_point.getCoordinates();
                 String[] coordsArray = xb_coords.getStringValue().split(" ");
@@ -158,7 +158,7 @@ public class OXFAbstractFeatureType extends org.n52.oxf.feature.OXFFeatureType {
             }
             else {
                 throw new IllegalArgumentException("The geometry type '"
-                        + xb_abstractFeature.getLocation().getGeometry().getClass()
+                        + xb_abstractFeature.getLocation().getAbstractGeometry().getClass()
                         + "' is not supported.");
             }
         }
