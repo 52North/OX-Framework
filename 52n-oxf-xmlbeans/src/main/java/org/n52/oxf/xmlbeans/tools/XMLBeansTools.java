@@ -51,9 +51,9 @@ import org.w3c.dom.Node;
  */
 public class XMLBeansTools {
 
-	private final static XmlOptions OMIT_XML_FRAGMENTS = new XmlOptions();
-	private final static XmlOptions PRETTYPRINT;
-	private final static XmlOptions FAST;
+	public final static XmlOptions OMIT_XML_FRAGMENTS = new XmlOptions();
+	public final static XmlOptions PRETTYPRINT;
+	public final static XmlOptions FAST;
 
 	static {
 		OMIT_XML_FRAGMENTS.setSaveOuter();
