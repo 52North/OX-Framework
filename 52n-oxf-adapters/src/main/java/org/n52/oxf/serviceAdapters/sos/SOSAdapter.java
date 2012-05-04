@@ -265,7 +265,7 @@ public class SOSAdapter implements IServiceAdapter {
             InputStream is;
             if (operation.getName().equals(GET_CAPABILITIES)) {
                 is = IOHelper.sendGetMessage(operation.getDcps()[0].getHTTPGetRequestMethods().get(0).getOnlineResource().getHref(),
-                                             "REQUEST=GetCapabilities&SERVICE=SOS");
+                                             "REQUEST=GetCapabilities&SERVICE=SOS&acceptversions="+serviceVersion);
             }
             else {
                 is = IOHelper.sendPostMessage(operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref(),
