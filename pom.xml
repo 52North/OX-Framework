@@ -14,8 +14,8 @@
 	<inceptionYear>2012</inceptionYear>
 	<packaging>pom</packaging>
 	<modules>
-		<module>52n-oxf-ows</module>
-		<module>52n-oxf-swes</module>
+		<module>52n-oxf-ows-v110</module>
+		<module>52n-oxf-swes-v20</module>
 		<module>52n-oxf-core</module>
 		<module>52n-oxf-adapters</module>
 		<module>52n-oxf-client</module>
@@ -79,12 +79,12 @@
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>52n-oxf-ows</artifactId>
+				<artifactId>52n-oxf-ows-v110</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>52n-oxf-swes</artifactId>
+				<artifactId>52n-oxf-swes-v20</artifactId>
 				<version>1.0.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
@@ -334,9 +334,68 @@
 						 <compilerVersion>1.6</compilerVersion>
 					</configuration>
 				  </plugin>
+				<plugin>
+					<!-- check for correct source file headers during test phase: http://code.google.com/p/maven-license-plugin/wiki/HowTo -->
+					<!-- run "mvn license:check -Dyear=2011" to check -->
+					<!-- run "mvn license:format -Dyear=2011" to add to the files -->
+					<groupId>com.mycila.maven-license-plugin</groupId>
+					<artifactId>maven-license-plugin</artifactId>
+					<version>1.9.0</version>
+					<configuration>
+						<excludes>
+							<exclude>**/log4j*</exclude>
+							<exclude>**/*.xml</exclude>
+							<exclude>**/*.html</exclude>
+							<exclude>**/webapp/codemirror/**</exclude>
+							<exclude>**/webapp/WEB-INF/web.xml</exclude>
+							<exclude>**/webapp/WEB-INF/wsdl/*.*</exclude>
+							<exclude>**/buildNumber.properties</exclude>
+						</excludes>
+						<includes>
+							<include>**/*.java</include>
+							<include>**/*.jsp</include>
+							<include>**/*.js</include>
+							<include>**/*.xsl</include>
+							<include>**/*.sql</include>
+						</includes>
+						<strictCheck>true</strictCheck>
+						<properties>
+							<year>${project.inceptionYear}</year>
+						</properties>
+						<mapping>
+							<sch>XML_STYLE</sch>
+						</mapping>
+					</configuration>
+					<executions>
+						<execution>
+							<phase>test</phase>
+							<!-- test will fail if license headers are not correct, run license:format 
+								to add the headers. -->
+							<goals>
+								<!-- <goal>check</goal> -->
+								<goal>format</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
 			</plugins>
+			
 		</pluginManagement>
 	</build>
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>apache-snapshots</id>
+			<name>Apache Snapshots</name>
+			<url>http://people.apache.org/repo/m2-snapshot-repository</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 	<profiles>
 		<profile>
 			<id>env-dev</id>
