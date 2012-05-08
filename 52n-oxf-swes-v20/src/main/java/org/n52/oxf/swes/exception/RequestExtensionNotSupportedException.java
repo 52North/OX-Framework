@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.swes;
+package org.n52.oxf.swes.exception;
 
 import org.n52.ows.exception.OwsException;
 
@@ -31,7 +31,7 @@ import org.n52.ows.exception.OwsException;
  * <br><br>
  * <b>Note:</b> A service shall add the complete unsupported request extension into the ExtensionText property of the
  * Exception. In the XML encoding, use CDATA to surround markup. If the encoded extension itself contains the
- * string “]]>�?, use two CDATA tags following this pattern: <![CDATA[content]]]]><![CDATA[>content]]>
+ * string “]]>�?, use two CDATA tags following this pattern: <![CDATA[content]]]]><![CDATA[>content]]>
  */
 public class RequestExtensionNotSupportedException extends OwsException {
 

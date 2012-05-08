@@ -21,10 +21,19 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.swes;
+package org.n52.oxf.swes.exception;
 
-public class SwesException extends Exception {
-
-    private static final long serialVersionUID = -1052562220169780171L;
-
+public enum SwesExceptionCode {
+    INVALID_REQUEST("InvalidRequest"),
+    REQUEST_EXTENSION_NOT_SUPPORTED("RequestExtensionNotSupported");
+    
+    private String exceptionCode;
+    
+    private SwesExceptionCode(String exceptionCode) {
+        this.exceptionCode = exceptionCode;
+    }
+    
+    public String getExceptionCode() {
+        return this.exceptionCode;
+    }
 }

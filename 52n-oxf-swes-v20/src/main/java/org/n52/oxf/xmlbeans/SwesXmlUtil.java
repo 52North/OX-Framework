@@ -27,7 +27,7 @@ import java.util.Collection;
 
 import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlObject;
-import org.n52.oxf.swes.InvalidRequestException;
+import org.n52.oxf.swes.exception.InvalidRequestException;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 
 public class SwesXmlUtil {
