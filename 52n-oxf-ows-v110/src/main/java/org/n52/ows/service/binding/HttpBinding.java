@@ -30,7 +30,7 @@ import net.opengis.ows.x11.RequestMethodType;
 
 public class HttpBinding {
     
-    private String externalDcpUrl; // external binding url
+    private String externalDcpUrl;
     
     // XXX GET KVP Binding mandatory?
     private String externalGetCapabilitiesGETDcpUrl = externalDcpUrl; // default
@@ -40,6 +40,9 @@ public class HttpBinding {
     private HttpMethod httpMethod;
     
     private String conformanceClass;
+    
+    /* flags extension endpoint to not add binding to normal SPS metadata operations */
+    private boolean extension = false;
     
     private HttpBinding() {
         // needed for injection
@@ -92,13 +95,41 @@ public class HttpBinding {
         this.conformanceClass = conformanceClass;
     }
     
+    public boolean isExtension() {
+        return this.extension;
+    }
+    
+    public void setExtension(boolean extension) {
+        this.extension = extension;
+    }
+    
     public HTTPDocument getHttpInfo() {
+        return getHttpInfo("");
+    }
+    
+    /**
+     * @param resource an extension string for a base http binding.
+     */
+    public HTTPDocument getHttpInfo(String resource) {
         HTTPDocument httpDocument = HTTPDocument.Factory.newInstance();
         HTTP http = httpDocument.addNewHTTP();
         RequestMethodType method = (httpMethod == GET) ? http.addNewGet() : http.addNewPost();
-        method.setHref(externalDcpUrl);
+        String concatenatedUrl = concatenateToDcpUrl(resource);
+        method.setHref(concatenatedUrl);
         method.setType(bindingType);
         return httpDocument;
+    }
+
+    private String concatenateToDcpUrl(String resource) {
+        if (isPathSeparatorNeeded(resource)) {
+            return externalDcpUrl + "/" + resource;
+        } else {
+            return externalDcpUrl + resource;
+        }
+    }
+
+    private boolean isPathSeparatorNeeded(String resource) {
+        return !externalDcpUrl.endsWith("/") && !resource.startsWith("/");
     }
     
     /**
