@@ -50,9 +50,12 @@ import org.n52.oxf.feature.OXFFeatureAttributeDescriptor;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.OXFFeatureType;
 import org.n52.oxf.feature.OXFGmlPointType;
+import org.n52.oxf.feature.OXFGrdcSamplingPointType;
 import org.n52.oxf.feature.OXFSamplingPointType;
 import org.n52.oxf.feature.OXFSamplingSurfaceType;
 import org.n52.oxf.serviceAdapters.OperationResult;
+
+import de.grdc.sampling.x10.GrdcSamplingPointDocument;
 
 /**
  * This FeatureStore unmarshals the features of interest received by the GetFeatureOfInterest operation of the
@@ -154,6 +157,20 @@ public class SOSFoiStore implements IFeatureStore {
                 throw new OXFException(e);
             }
         }
+        
+        // if feature is a GrdcSamplingPoint:
+        else if (c.toChild(new QName("http://www.grdc.de/sampling/1.0","GrdcSamplingPoint"))) {
+			try {
+				GrdcSamplingPointDocument xb_grdcSaPoDoc = GrdcSamplingPointDocument.Factory.parse(c.getDomNode());
+				
+				feature = OXFGrdcSamplingPointType.create(xb_grdcSaPoDoc);
+				
+				return feature;
+			} catch (Exception e) {
+				throw new OXFException(e);
+			}
+		}
+        
         
         // if feature is not known:
         else {

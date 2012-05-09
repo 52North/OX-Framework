@@ -147,9 +147,9 @@ public class SOSAdapter implements IServiceAdapter {
                 net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
                 return initService(capsDoc);
             } else if (SOSAdapter.isVersion200(serviceVersion)) {
-                throw new NotImplementedException("SOS Specification 2.0 not officially supported by now.");
-//                net.opengis.sos.x20.CapabilitiesDocument capsDoc = net.opengis.sos.x20.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
-//                return initService(capsDoc);
+//                throw new NotImplementedException("SOS Specification 2.0 not officially supported by now.");
+                net.opengis.sos.x20.CapabilitiesDocument capsDoc = net.opengis.sos.x20.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
+                return initService(capsDoc);
             } else {
                 throw new OXFException("Version is not supported: " + serviceVersion);
             }
@@ -162,14 +162,12 @@ public class SOSAdapter implements IServiceAdapter {
         }
     }
 
-    /*
     public ServiceDescriptor initService(net.opengis.sos.x20.CapabilitiesDocument capsDoc) throws OXFException {
         SOSCapabilitiesMapper_200 capsMapper = new SOSCapabilitiesMapper_200();
         ServiceDescriptor result = capsMapper.mapCapabilities(capsDoc);
 
         return result;
     }
-    */
     
     /**
      * 

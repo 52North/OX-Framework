@@ -36,7 +36,11 @@ import javax.xml.namespace.QName;
 
 import net.opengis.gml.FeatureCollectionDocument2;
 import net.opengis.gml.FeaturePropertyType;
+import net.opengis.gml.x32.AbstractTimeObjectType;
 import net.opengis.gml.x32.CodeWithAuthorityType;
+import net.opengis.gml.x32.TimePositionType;
+import net.opengis.gml.x32.impl.MeasureTypeImpl;
+import net.opengis.gml.x32.impl.TimeInstantTypeImpl;
 import net.opengis.om.x20.OMObservationType;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
@@ -328,27 +332,56 @@ public class GenericObservationParser {
                 fois.put(feature.getID(), feature);
             }
     
-            Map<String, String> uoms = new HashMap<String, String>();
-            List<String> definitions = new ArrayList<String>();
-            List<String> types = new ArrayList<String>();
-            List<String> names = new ArrayList<String>();
-            
-            XmlCursor cursor = omObservation.getResult().newCursor();
-            net.opengis.swe.x20.DataArrayType dataArray = parseFieldsForSWECommon200(uoms, definitions, types, names, cursor);
-            TextEncodingType xb_textBlock = (TextEncodingType) dataArray.getEncoding().getAbstractEncoding();
-    
-            String decimalSeparator = xb_textBlock.getDecimalSeparator();
-            String token = xb_textBlock.getTokenSeparator();
-            String block = xb_textBlock.getBlockSeparator();
-            String resultText = dataArray.getValues().getDomNode().getFirstChild().getNodeValue();
-            parseTextBlock(features, resultText, decimalSeparator, token, block, definitions, types, names, fois, uoms, procedure);
+            XmlObject result = omObservation.getResult();
+            if (result instanceof MeasureTypeImpl) {
+				features.add(createFeature(omObservation, procedure));
+			} else {
+				Map<String, String> uoms = new HashMap<String, String>();
+	            List<String> definitions = new ArrayList<String>();
+	            List<String> types = new ArrayList<String>();
+	            List<String> names = new ArrayList<String>();
+	            net.opengis.swe.x20.DataArrayType dataArray = parseFieldsForSWECommon200(uoms, definitions, types, names, result.newCursor());
+	            TextEncodingType xb_textBlock = (TextEncodingType) dataArray.getEncoding().getAbstractEncoding();
+	            String decimalSeparator = xb_textBlock.getDecimalSeparator();
+	            String token = xb_textBlock.getTokenSeparator();
+	            String block = xb_textBlock.getBlockSeparator();
+	            String resultText = dataArray.getValues().getDomNode().getFirstChild().getNodeValue();
+	            parseTextBlock(features, resultText, decimalSeparator, token, block, definitions, types, names, fois, uoms, procedure);
+			}
         }
         catch (Exception e) {
             throw new OXFException("Parsing observationType failed.", e);
         }
     }
 
-    private static DataArrayType parseFieldsForSWECommon200(Map<String, String> uoms,
+    private static OXFFeature createFeature(OMObservationType omObservation, String procedure) {
+    	MeasureTypeImpl result = (MeasureTypeImpl) omObservation.getResult();
+    	OXFMeasurementType oxf_measurementType = new OXFMeasurementType();
+        OXFFeature feature = new OXFFeature(omObservation.getFeatureOfInterest().getHref(), oxf_measurementType);
+        AbstractTimeObjectType abstractTimeObject = omObservation.getPhenomenonTime().getAbstractTimeObject();
+        ITime time = null;
+        if (abstractTimeObject instanceof TimeInstantTypeImpl) {
+        	TimePositionType timePosition = ((TimeInstantTypeImpl) abstractTimeObject).getTimePosition();
+        	time = TimeFactory.createTime(timePosition.getStringValue());
+		}
+        String urn = omObservation.getObservedProperty().getHref();
+        String uom = result.getUom();
+        OXFPhenomenonPropertyType phenPropType = new OXFPhenomenonPropertyType(urn, uom);
+        OXFMeasureType resultValue = new OXFMeasureType(uom, result.getDoubleValue());
+    	
+        oxf_measurementType.initializeFeature(feature,
+                                              null,
+                                              "anyDescription",
+                                              null,// featureOfInterestValue.getGeometry(),
+                                              time,
+                                              procedure,
+                                              phenPropType,
+                                              feature,
+                                              resultValue);
+    	return feature;
+	}
+
+	private static DataArrayType parseFieldsForSWECommon200(Map<String, String> uoms,
                                                                 List<String> definitions,
                                                                 List<String> types,
                                                                 List<String> names,
@@ -439,7 +472,8 @@ public class GenericObservationParser {
                 for (int i = 0; i < definitions.size(); i++) {
 
                     if (definitions.get(i).equals("urn:ogc:data:time:iso8601") 
-                            || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/SamplingTime")) {
+                            || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/SamplingTime") 
+                            || definitions.get(i).equals("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian")) {
                         // do nothing
                     }
                     

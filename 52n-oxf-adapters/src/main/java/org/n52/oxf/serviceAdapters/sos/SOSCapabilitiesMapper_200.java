@@ -26,88 +26,89 @@
 
 package org.n52.oxf.serviceAdapters.sos;
 
-//import java.io.IOException;
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Locale;
-//import java.util.Vector;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Vector;
 
-//import net.opengis.fes.x20.ComparisonOperatorType;
-//import net.opengis.fes.x20.ComparisonOperatorsType;
-//import net.opengis.fes.x20.FilterCapabilitiesDocument.FilterCapabilities;
-//import net.opengis.fes.x20.ScalarCapabilitiesType;
-//import net.opengis.fes.x20.SpatialCapabilitiesType;
-//import net.opengis.fes.x20.TemporalCapabilitiesType;
-//import net.opengis.gml.x32.CodeType;
-//import net.opengis.gml.x32.EnvelopeDocument;
-//import net.opengis.gml.x32.EnvelopeType;
-//import net.opengis.gml.x32.FeaturePropertyType;
-//import net.opengis.gml.x32.TimePeriodType;
-//import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
-//import net.opengis.ows.x11.ContactType;
-//import net.opengis.ows.x11.DCPDocument;
-//import net.opengis.ows.x11.DomainType;
-//import net.opengis.ows.x11.LanguageStringType;
-//import net.opengis.ows.x11.OperationDocument;
-//import net.opengis.ows.x11.RequestMethodType;
-//import net.opengis.ows.x11.ResponsiblePartySubsetType;
-//import net.opengis.ows.x11.ValueType;
-//import net.opengis.sos.x20.CapabilitiesDocument;
-//import net.opengis.sos.x20.CapabilitiesType;
-//import net.opengis.sos.x20.CapabilitiesType.Contents;
-//import net.opengis.sos.x20.ContentsType;
-//import net.opengis.sos.x20.ObservationOfferingDocument;
-//import net.opengis.sos.x20.ObservationOfferingType;
-//import net.opengis.sos.x20.ObservationOfferingType.ResultTime;
-//import net.opengis.swes.x20.AbstractContentsType.Offering;
-//import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
+import net.opengis.fes.x20.ComparisonOperatorType;
+import net.opengis.fes.x20.ComparisonOperatorsType;
+import net.opengis.fes.x20.FilterCapabilitiesDocument.FilterCapabilities;
+import net.opengis.fes.x20.ScalarCapabilitiesType;
+import net.opengis.fes.x20.SpatialCapabilitiesType;
+import net.opengis.fes.x20.TemporalCapabilitiesType;
+import net.opengis.gml.x32.CodeType;
+import net.opengis.gml.EnvelopeDocument;
+import net.opengis.gml.EnvelopeType;
+import net.opengis.gml.x32.FeaturePropertyType;
+import net.opengis.gml.x32.TimePeriodType;
+import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
+import net.opengis.ows.x11.ContactType;
+import net.opengis.ows.x11.DCPDocument;
+import net.opengis.ows.x11.DomainType;
+import net.opengis.ows.x11.LanguageStringType;
+import net.opengis.ows.x11.OperationDocument;
+import net.opengis.ows.x11.RequestMethodType;
+import net.opengis.ows.x11.ResponsiblePartySubsetType;
+import net.opengis.ows.x11.ValueType;
+import net.opengis.sos.x20.CapabilitiesDocument;
+import net.opengis.sos.x20.CapabilitiesType;
+import net.opengis.sos.x20.CapabilitiesType.Contents;
+import net.opengis.sos.x20.ContentsType;
+import net.opengis.sos.x20.ObservationOfferingDocument;
+import net.opengis.sos.x20.ObservationOfferingType;
+import net.opengis.sos.x20.ObservationOfferingType.ResultTime;
+import net.opengis.swes.x20.AbstractContentsType.Offering;
+import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
 
-//import org.apache.commons.httpclient.HttpClient;
-//import org.apache.commons.httpclient.HttpException;
-//import org.apache.commons.httpclient.methods.GetMethod;
-//import org.apache.xmlbeans.XmlException;
-//import org.apache.xmlbeans.XmlObject;
-//import org.n52.oxf.OXFException;
-//import org.n52.oxf.owsCommon.ServiceDescriptor;
-//import org.n52.oxf.owsCommon.capabilities.Contact;
-//import org.n52.oxf.owsCommon.capabilities.DCP;
-//import org.n52.oxf.owsCommon.capabilities.DatasetParameter;
-//import org.n52.oxf.owsCommon.capabilities.GetRequestMethod;
-//import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
-//import org.n52.oxf.owsCommon.capabilities.IDiscreteValueDomain;
-//import org.n52.oxf.owsCommon.capabilities.ITime;
-//import org.n52.oxf.owsCommon.capabilities.OnlineResource;
-//import org.n52.oxf.owsCommon.capabilities.Operation;
-//import org.n52.oxf.owsCommon.capabilities.OperationsMetadata;
-//import org.n52.oxf.owsCommon.capabilities.Parameter;
-//import org.n52.oxf.owsCommon.capabilities.PostRequestMethod;
-//import org.n52.oxf.owsCommon.capabilities.RequestMethod;
-//import org.n52.oxf.owsCommon.capabilities.ServiceContact;
-//import org.n52.oxf.owsCommon.capabilities.ServiceIdentification;
-//import org.n52.oxf.owsCommon.capabilities.ServiceProvider;
-//import org.n52.oxf.serviceAdapters.sos.caps.ObservationOffering;
-//import org.n52.oxf.serviceAdapters.sos.caps.SOSContents;
-//import org.n52.oxf.util.XmlBeansHelper;
-//import org.n52.oxf.valueDomains.StringValueDomain;
-//import org.n52.oxf.valueDomains.filter.ComparisonFilter;
-//import org.n52.oxf.valueDomains.filter.FilterValueDomain;
-//import org.n52.oxf.valueDomains.filter.IFilter;
-//import org.n52.oxf.valueDomains.spatial.BoundingBox;
-//import org.n52.oxf.valueDomains.time.TemporalValueDomain;
-//import org.n52.oxf.valueDomains.time.TimePeriod;
-//import org.w3c.dom.Node;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
+import org.n52.oxf.OXFException;
+import org.n52.oxf.owsCommon.ServiceDescriptor;
+import org.n52.oxf.owsCommon.capabilities.Contact;
+import org.n52.oxf.owsCommon.capabilities.DCP;
+import org.n52.oxf.owsCommon.capabilities.DatasetParameter;
+import org.n52.oxf.owsCommon.capabilities.GetRequestMethod;
+import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
+import org.n52.oxf.owsCommon.capabilities.IDiscreteValueDomain;
+import org.n52.oxf.owsCommon.capabilities.ITime;
+import org.n52.oxf.owsCommon.capabilities.OnlineResource;
+import org.n52.oxf.owsCommon.capabilities.Operation;
+import org.n52.oxf.owsCommon.capabilities.OperationsMetadata;
+import org.n52.oxf.owsCommon.capabilities.Parameter;
+import org.n52.oxf.owsCommon.capabilities.PostRequestMethod;
+import org.n52.oxf.owsCommon.capabilities.RequestMethod;
+import org.n52.oxf.owsCommon.capabilities.ServiceContact;
+import org.n52.oxf.owsCommon.capabilities.ServiceIdentification;
+import org.n52.oxf.owsCommon.capabilities.ServiceProvider;
+import org.n52.oxf.serviceAdapters.sos.caps.ObservationOffering;
+import org.n52.oxf.serviceAdapters.sos.caps.SOSContents;
+import org.n52.oxf.util.XmlBeansHelper;
+import org.n52.oxf.valueDomains.StringValueDomain;
+import org.n52.oxf.valueDomains.filter.ComparisonFilter;
+import org.n52.oxf.valueDomains.filter.FilterValueDomain;
+import org.n52.oxf.valueDomains.filter.IFilter;
+import org.n52.oxf.valueDomains.spatial.BoundingBox;
+import org.n52.oxf.valueDomains.time.TemporalValueDomain;
+import org.n52.oxf.valueDomains.time.TimePeriod;
+import org.w3c.dom.Node;
 
 public class SOSCapabilitiesMapper_200 {
-/*
+
     public ServiceDescriptor mapCapabilities(CapabilitiesDocument capabilitiesDoc) throws OXFException {
 
         String version = mapVersion(capabilitiesDoc);
         ServiceIdentification serviceIdentification = mapServiceIdentification(capabilitiesDoc.getCapabilities().getServiceIdentification());
         ServiceProvider serviceProvider = mapServiceProvider(capabilitiesDoc);
-        OperationsMetadata operationsMetadata = mapOperationsMetadata(capabilitiesDoc.getCapabilities().getOperationsMetadata());
+//        OperationsMetadata operationsMetadata = mapOperationsMetadata(capabilitiesDoc.getCapabilities().getOperationsMetadata());
+        OperationsMetadata operationsMetadata = null;
         SOSContents contents = mapContents(capabilitiesDoc);
 
-        addDatasetParameterFromContentsSection(operationsMetadata, contents);
+//        addDatasetParameterFromContentsSection(operationsMetadata, contents);
 
         ServiceDescriptor serviceDesc = new ServiceDescriptor(version,
                                                               serviceIdentification,
@@ -469,7 +470,6 @@ public class SOSCapabilitiesMapper_200 {
         }
         
     }
-    
 
     private ServiceIdentification mapServiceIdentification(net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification xb_serviceId) {
 
@@ -518,5 +518,5 @@ public class SOSCapabilitiesMapper_200 {
         
         return new ServiceProvider(name, serviceContact);
     }
-    */
+
 }
