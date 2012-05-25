@@ -27,12 +27,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 
-public class ExceptionReport {
+public class OwsExceptionReport {
 
     private List<OwsException> exceptionList = new ArrayList<OwsException>();
     
-    public ExceptionReport(OwsException exception) {
+    public OwsExceptionReport() {
+        // allow default construction
+    }
+    
+    public OwsExceptionReport(OwsException exception) {
         this.addOwsException(exception);
+    }
+    
+    public OwsException[] getOwsExceptionsArray() {
+        return exceptionList.toArray(new OwsException[exceptionList.size()]);
     }
     
     public void addOwsException(OwsException exception) {
@@ -41,6 +49,10 @@ public class ExceptionReport {
     
     public void addAllOwsExceptions(Collection<OwsException> exceptions) {
         this.exceptionList.addAll(exceptions);
+    }
+    
+    public boolean containsExceptions() {
+        return !exceptionList.isEmpty();
     }
     
 }

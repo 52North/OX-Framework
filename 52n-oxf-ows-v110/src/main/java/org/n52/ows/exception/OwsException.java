@@ -29,13 +29,13 @@ import java.util.List;
 
 public abstract class OwsException extends Exception {
     
+    private static final long serialVersionUID = 3899044347528650839L;
+    
     public static final int BAD_REQUEST = 400;
     public static final int FORBIDDEN = 403;
     public static final int GONE = 410;
     public static final int INTERNAL_SERVER_ERROR = 500;
     public static final int NOT_IMPLEMENTED = 501;
-
-    private static final long serialVersionUID = 4346872527665253094L;
 
     private List<String> exceptionTexts = new ArrayList<String>();
     private String exceptionCode;
