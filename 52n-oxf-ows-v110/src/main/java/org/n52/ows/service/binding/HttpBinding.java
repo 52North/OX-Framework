@@ -35,8 +35,6 @@ public class HttpBinding {
     // XXX GET KVP Binding mandatory?
     private String externalGetCapabilitiesGETDcpUrl = externalDcpUrl; // default
     
-    private String bindingType; // xml, soap, kvp
-    
     private HttpMethod httpMethod;
     
     private String conformanceClass;
@@ -48,10 +46,9 @@ public class HttpBinding {
         // needed for injection
     }
 
-    public HttpBinding(String externalDcpUrl, String bindingType, String httpMethod) {
+    public HttpBinding(String externalDcpUrl, String httpMethod) {
         this();
         this.externalDcpUrl = externalDcpUrl;
-        this.bindingType = bindingType;
         this.httpMethod = HttpMethod.getForString(httpMethod);
     }
 
@@ -69,14 +66,6 @@ public class HttpBinding {
     
     public void setExternalGetCapabilitiesGETDcpUrl(String externalGetCapabilitiesGETDcpUrl) {
         this.externalGetCapabilitiesGETDcpUrl = externalGetCapabilitiesGETDcpUrl;
-    }
-
-    public String getBindingType() {
-        return bindingType;
-    }
-
-    public void setBindingType(String bindingType) {
-        this.bindingType = bindingType;
     }
 
     public String getHttpMethod() {
@@ -116,7 +105,7 @@ public class HttpBinding {
         RequestMethodType method = (httpMethod == GET) ? http.addNewGet() : http.addNewPost();
         String concatenatedUrl = concatenateToDcpUrl(resource);
         method.setHref(concatenatedUrl);
-        method.setType(bindingType);
+        method.setType("simple");
         return httpDocument;
     }
 
