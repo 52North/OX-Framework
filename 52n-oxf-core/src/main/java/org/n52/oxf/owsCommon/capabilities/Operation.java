@@ -26,7 +26,11 @@
 
 package org.n52.oxf.owsCommon.capabilities;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -133,18 +137,26 @@ public class Operation {
         return res;
     }
 
-    public String toString() {
-        String res = "[Operation: '" + this.name + "' -> Parameters:\n";
-
-        for (Parameter param : parameters) {
-            res += "ServiceSidedName: " + param.getServiceSidedName() + "  CommonName: "
-                    + param.getCommonName() + "  ValueDomain-class: "
-                    + param.getValueDomain().getClass() + "\n";
-        }
-        res += "]";
-
-        return res;
-    }
+    @Override
+	public String toString() {
+    	String params = null;
+    	if (parameters != null) {
+    		params = "[";
+    		for (Parameter param : parameters) {
+                params += "ServiceSidedName: " 	+ param.getServiceSidedName() 
+                		+ "  CommonName: "		+ param.getCommonName()
+                		+ "  ValueDomain-class: "
+                					+ param.getValueDomain().getClass() + "\n";
+            }
+    		params += "]";
+    	}
+		return String.format(
+				"Operation [name=%s, parameters=%s, constraints=%s, dcps=%s]",
+				name,
+				(parameters!=null?params:parameters),
+				Arrays.toString(constraints),
+				Arrays.toString(dcps));
+	}
 
     /**
      * @return Returns the constraints.
