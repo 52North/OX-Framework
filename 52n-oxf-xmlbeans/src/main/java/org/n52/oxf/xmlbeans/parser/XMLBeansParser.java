@@ -273,7 +273,7 @@ public class XMLBeansParser {
 		XmlOptions validationOptions = new XmlOptions();
 		validationOptions.setErrorListener(allValidationErrors);
 
-		// Validate the GetCapabilitiesRequest XML document
+		// Validate the XML document
 		boolean isValid = doc.validate(validationOptions);
 
 		// Create Exception with error message if the xml document is invalid
@@ -296,11 +296,16 @@ public class XMLBeansParser {
         }
 	    
 	    for (XmlError validationError : allValidationErrors) {
+	    	boolean shouldPass = false;
 			for (LaxValidationCase lvc : laxValidationCases) {
-				if (!lvc.shouldPass((XmlValidationError) validationError)) {
-					validationErrors.add(validationError);
+				if (lvc.shouldPass((XmlValidationError) validationError)) {
+					shouldPass = true;
+					break;
 				}
-			}	
+			}
+			if (!shouldPass) {
+				validationErrors.add(validationError);
+			}
 		}
 	}
 
