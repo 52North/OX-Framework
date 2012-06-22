@@ -30,7 +30,11 @@ import org.n52.oxf.OXFException;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 
 /**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
+ * TODO Document fields and methods!
+ * 
+ * @author <a href="mailto:broering@52north.org">Arne Br&ouml;ring</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+ * @author <a href="mailto:h.bredel@52north.org">Henning Bredel</a>
  * 
  */
 public interface ISOSRequestBuilder {
@@ -100,6 +104,10 @@ public interface ISOSRequestBuilder {
     public static String REGISTER_SENSOR_POSITION_NAME_PARAMETER = "positionName";
     public static String REGISTER_SENSOR_POSITION_FIXED_PARAMETER = "fixed";
     public static String REGISTER_SENSOR_UOM_PARAMETER = "uom";
+    /**
+     * Mandatory: Used in the observation template
+     */
+    public static String REGISTER_SENSOR_DEFAULT_RESULT_VALUE = "defaultResultValue";
 
     public static String GET_OBSERVATION_BY_ID_SERVICE_PARAMETER = "service";
     public static String GET_OBSERVATION_BY_ID_VERSION_PARAMETER = "version";
@@ -107,19 +115,24 @@ public interface ISOSRequestBuilder {
     public static String GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER = "responseFormat";
     public static String GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER = "responseMode";
     public static String GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER = "resultModel";
-
-    public String buildGetCapabilitiesRequest(ParameterContainer parameters);
+	
+    public String buildGetCapabilitiesRequest(ParameterContainer parameters) throws OXFException;
 
     public String buildGetObservationRequest(ParameterContainer parameters) throws OXFException;
 
     public String buildGetObservationByIDRequest(ParameterContainer parameters) throws OXFException;
 
-    public String buildDescribeSensorRequest(ParameterContainer parameters);
+    public String buildDescribeSensorRequest(ParameterContainer parameters) throws OXFException;
 
-    public String buildGetFeatureOfInterestRequest(ParameterContainer parameters);
+    public String buildGetFeatureOfInterestRequest(ParameterContainer parameters) throws OXFException;
 
-    public String buildInsertObservation(ParameterContainer parameters);
+    public String buildInsertObservation(ParameterContainer parameters) throws OXFException;
 
+    /**
+     * Builds a RegisterSensor request and returns it.
+     * A SensorML file can either be passed along or a set of parameters is used to create one.
+     * @throws OXFException 
+     */
     public String buildRegisterSensor(ParameterContainer parameters) throws OXFException;
 
 }

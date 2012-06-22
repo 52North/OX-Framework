@@ -123,7 +123,7 @@ public class XmlBeansHelper {
     /**
      * Adds the default Namespaces to the target XML Object
      * 
-     * Use of xmlOptions recommended (see xmlOptionsForNamespaces())!
+     * @deprecated Use of xmlOptions recommended (see {@link #xmlOptionsForNamespaces()})!
      * 
      * @param target
      *        XML Object the Namespaces should be added to
@@ -142,7 +142,7 @@ public class XmlBeansHelper {
     }
 
     /**
-     * gives {@link XmlOptions} to set the default namespaces via {@link XmlObject}.xmlText(setOptions()).
+     * Gives {@link XmlOptions} to set the default namespaces via {@link XmlObject}.xmlText(setOptions()).
      * 
      * @return
      */
