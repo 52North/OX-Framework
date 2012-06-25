@@ -32,7 +32,6 @@ import java.io.InputStream;
 import net.opengis.ows.ExceptionReportDocument;
 import net.opengis.ows.ExceptionType;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
@@ -290,9 +289,10 @@ public class SOSAdapter implements IServiceAdapter {
                 // parseError --> no ExceptionReport was returned.
                 LOGGER.info("Service reported no 1.0.0 exceptions.");
             }
-        }
-        catch (IOException e) {
-            throw new OXFException(e);
+        } catch (IOException e) {
+        	String msg = String.format("Sending request to SOS instance caused this exception: %s",
+        			e.getMessage());
+            throw new OXFException(msg, e);
         }
 
         return result;
