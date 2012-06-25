@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,11 +65,10 @@ public class IOHelper {
     private static Logger LOGGER = LoggingHandler.getLogger(IOHelper.class);
 
     public static InputStream sendGetMessage(String serviceURL, List<NameValuePair> parameters) throws IOException {
-        InputStream is = null;
 
-        HttpClient httpClient = new HttpClient();
+        HttpClient httpClient = getDefaultHttpClient(serviceURL);
+        
         GetMethod method = new GetMethod(serviceURL);
-
         NameValuePair[] paramArray = new NameValuePair[parameters.size()];
         for (int i = 0; i < parameters.size(); i++) {
             paramArray[i] = parameters.get(i);
@@ -79,27 +79,26 @@ public class IOHelper {
 
         LOGGER.debug("GET-method sended to: " + method.getURI());
 
-        is = method.getResponseBodyAsStream();
-
-        return is;
+        return method.getResponseBodyAsStream();
     }
     
-    public static InputStream sendGetMessage(String serviceURL, String queryString) throws IOException {
-        InputStream is = null;
-
-        HttpClient httpClient = new HttpClient();
+	private static HttpClient getDefaultHttpClient(String serviceURL) throws MalformedURLException {
+		HttpClient httpClient = new HttpClient();
         httpClient.setHostConfiguration(getHostConfiguration(new URL(serviceURL)));
-        GetMethod method = new GetMethod(serviceURL);
+        return httpClient;
+	}
 
+	public static InputStream sendGetMessage(String serviceURL, String queryString) throws IOException {
+        HttpClient httpClient = getDefaultHttpClient(serviceURL);
+        
+        GetMethod method = new GetMethod(serviceURL);
         method.setQueryString(queryString);
 
         httpClient.executeMethod(method);
 
         LOGGER.debug("GET-method sended to: " + method.getURI());
 
-        is = method.getResponseBodyAsStream();
-
-        return is;
+        return method.getResponseBodyAsStream();
     }
 
     /**
@@ -110,16 +109,14 @@ public class IOHelper {
      * @return
      */
     public static InputStream sendPostMessage(String serviceURL, String request) throws IOException {
-
-        HttpClient httpClient = new HttpClient();
+        HttpClient httpClient = getDefaultHttpClient(serviceURL);
+        
         PostMethod method = new PostMethod(serviceURL.trim());
         method.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));
 
         LOGGER.trace("Service Endpoint: " + method.getURI());
         LOGGER.trace("Request to send: " + request);
       
-        HostConfiguration hostConfig = getHostConfiguration(new URL(serviceURL));
-        httpClient.setHostConfiguration(hostConfig);
         httpClient.executeMethod(method);
         return method.getResponseBodyAsStream();
     }
