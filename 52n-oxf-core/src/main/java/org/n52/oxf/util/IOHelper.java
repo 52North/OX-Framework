@@ -49,6 +49,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -58,14 +59,23 @@ import org.apache.log4j.Logger;
 /**
  * Some little helper methods for IO-handling.
  * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
+ * @author <a href="mailto:broering@52north.org">Arne Br&ouml;ring</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+ * @author <a href="mailto:h.bredel@52north.org">Henning Bredel</a>
  */
 public class IOHelper {
 
     private static Logger LOGGER = LoggingHandler.getLogger(IOHelper.class);
 
+    /**
+     * @deprecated Use {@link IOHelper#execute(HttpMethod)}. Before, create a new GetMethod object using:<br />
+	 * 		<code>GetMethod method = new GetMethod(serviceURL);</code><br />
+	 * 		<code>method.setQueryString(paramArray);</code><br />
+	 *      <code>[...]</code><br />
+	 *      <code>method.getResponseBodyAsStream();</code><br />
+	 * 		where <code>paramArray</code> is a {@link org.apache.commons.httpclient.NameValuePair NameValuePair}[] created from <code>parameters</code>.
+     */
     public static InputStream sendGetMessage(String serviceURL, List<NameValuePair> parameters) throws IOException {
-
         HttpClient httpClient = getDefaultHttpClient(serviceURL);
 
         GetMethod method = new GetMethod(serviceURL);
@@ -77,51 +87,64 @@ public class IOHelper {
 
         httpClient.executeMethod(method);
 
-        LOGGER.debug("GET-method sent to: " + method.getURI());
+        if (LOGGER.isDebugEnabled()) {
+        	LOGGER.debug("GET-method sent to: " + method.getURI());
+        }
 
         return method.getResponseBodyAsStream();
     }
+    
+	/**
+	 * @deprecated Use {@link IOHelper#execute(HttpMethod)}. Before, create a new GetMethod object using:<br />
+	 * 		<code>GetMethod method = new GetMethod(serviceURL);</code><br />
+	 * 		<code>method.setQueryString(queryString);</code><br />
+	 *      <code>[...]</code><br />
+	 *      <code>method.getResponseBodyAsStream();</code><br />
+	 * 		to get the same functionality this method offered.
+	 */
+	public static InputStream sendGetMessage(String serviceURL, String queryString) throws IOException {
+	    HttpClient httpClient = getDefaultHttpClient(serviceURL);
+	    GetMethod method = new GetMethod(serviceURL);
+	    method.setQueryString(queryString);
+	    httpClient.executeMethod(method);
+	    if (LOGGER.isDebugEnabled()) {
+	    	LOGGER.debug("GET-method sent to: " + method.getURI());
+	    }
+	    return method.getResponseBodyAsStream();
+	}
 
-    private static HttpClient getDefaultHttpClient(String serviceURL) throws MalformedURLException {
-        HttpClient httpClient = new HttpClient();
-        httpClient.setHostConfiguration(getHostConfiguration(new URL(serviceURL)));
-        return httpClient;
-    }
-
-    /**
-     * Note: Call {@link GetMethod#releaseConnection()} if response has been processed to close connection.
+	/**
+	 * Executing an HttpMethod using a proxy aware http client.<br />
+     * <b>Note</b>: Call {@link HttpMethod#releaseConnection()} if response has been processed to close connection.
+     * Without doing this HttpClient will wait <b>indefinitely</b> for a connection to free up so that it can be reused.
      * 
      * @param method
-     *        the GET method to send
+     *        the HTTP method to send
      * @return the method's response
      * @throws IOException
+     * @see {@link IOHelper#getDefaultHttpClient(String)}
+     * @see {@link IOHelper#getHostConfiguration(URL)}
      */
-    public static GetMethod execute(GetMethod method) throws IOException {
+    public static HttpMethod execute(HttpMethod method) throws IOException {
         HttpClient httpClient = getDefaultHttpClient(method.getURI().toString());
         int status = httpClient.executeMethod(method);
-        LOGGER.debug("GET-method has been sent (with status to: " + method.getURI());
+        if (LOGGER.isDebugEnabled()) {
+        	LOGGER.debug(String.format("httpmethod \"%s\" has been sent (with status %s): %s", 
+        			method.getClass().getSimpleName(),
+        			status,
+        			method.getURI()));
+        }
         return method;
     }
 
     /**
-     * @see use {@link IOHelper#execute(GetMethod)} instead.
-     */
-    @Deprecated
-    public static InputStream sendGetMessage(String serviceURL, String queryString) throws IOException {
-        HttpClient httpClient = getDefaultHttpClient(serviceURL);
-        GetMethod method = new GetMethod(serviceURL);
-        method.setQueryString(queryString);
-        httpClient.executeMethod(method);
-        LOGGER.debug("GET-method sent to: " + method.getURI());
-        return method.getResponseBodyAsStream();
-    }
-
-    /**
-     * sends a POST-request using org.apache.commons.httpclient.HttpClient.
+     * @deprecated Use {@link IOHelper#execute(HttpMethod)}. Before, create a new GetMethod object using:<br />
+	 * 		<code>PostMethod method = new PostMethod(serviceURL.trim());</code><br />
+	 *      <code>method.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));</code><br />
+	 *      <code>[...]</code><br />
+	 *      <code>method.getResponseBodyAsStream();</code><br />
+	 * 		to get the same functionality this method offered.
      * 
-     * @param serviceURL
-     * @param request
-     * @return
      */
     public static InputStream sendPostMessage(String serviceURL, String request) throws IOException {
         HttpClient httpClient = getDefaultHttpClient(serviceURL);
@@ -129,14 +152,22 @@ public class IOHelper {
         PostMethod method = new PostMethod(serviceURL.trim());
         method.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));
 
-        LOGGER.trace("Service Endpoint: " + method.getURI());
-        LOGGER.trace("Request to send: " + request);
+        if (LOGGER.isTraceEnabled()) {
+        	LOGGER.trace("Service Endpoint: " + method.getURI());
+        	LOGGER.trace("Request to send: " + request);
+        }
 
         httpClient.executeMethod(method);
         return method.getResponseBodyAsStream();
     }
 
-    protected static HostConfiguration getHostConfiguration(URL serviceURL) {
+    private static HttpClient getDefaultHttpClient(String serviceURL) throws MalformedURLException {
+		HttpClient httpClient = new HttpClient();
+	    httpClient.setHostConfiguration(getHostConfiguration(new URL(serviceURL)));
+	    return httpClient;
+	}
+
+	protected static HostConfiguration getHostConfiguration(URL serviceURL) {
         HostConfiguration hostConfig = new HostConfiguration();
 
         // apply proxy settings:
@@ -164,7 +195,9 @@ public class IOHelper {
         if (serviceIsNonProxyHost == false && host != null && host.length() > 0 && port != null && port.length() > 0) {
             int portNumber = Integer.parseInt(port);
             hostConfig.setProxy(host, portNumber);
-            LOGGER.info("Using proxy: " + host + " on port: " + portNumber);
+            if (LOGGER.isInfoEnabled()) {
+            	LOGGER.info("Using proxy: " + host + " on port: " + portNumber);
+            }
         }
 
         return hostConfig;
@@ -192,8 +225,8 @@ public class IOHelper {
         return readText(url.openStream());
     }
 
-    public static String readText(File file) throws IOException {
-        return readText(file.toURL());
+	public static String readText(File file) throws IOException {
+        return readText(file.toURI().toURL());
     }
 
     public static String supplyProperty(String key, URL url) throws IOException {
@@ -267,23 +300,23 @@ public class IOHelper {
         byte[] buf = new byte[4096];
         ZipInputStream in = new ZipInputStream(new FileInputStream(zipFile));
         while (true) {
-            // N�chsten Eintrag lesen
+            // Read next entry
             ZipEntry entry = in.getNextEntry();
             if (entry == null) {
                 break;
             }
 
-            // Ausgabedatei erzeugen
+            // create output file
             FileOutputStream out = new FileOutputStream(targetDirectory.getAbsolutePath() + "/"
                     + new File(entry.getName()).getName());
-            // Lese-Vorgang
+            // read process
             int len;
             while ( (len = in.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
             out.close();
 
-            // Eintrag schlie�en
+            // close input stream
             in.closeEntry();
         }
         in.close();
