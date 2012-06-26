@@ -67,7 +67,7 @@ public class IOHelper {
     public static InputStream sendGetMessage(String serviceURL, List<NameValuePair> parameters) throws IOException {
 
         HttpClient httpClient = getDefaultHttpClient(serviceURL);
-        
+
         GetMethod method = new GetMethod(serviceURL);
         NameValuePair[] paramArray = new NameValuePair[parameters.size()];
         for (int i = 0; i < parameters.size(); i++) {
@@ -77,27 +77,42 @@ public class IOHelper {
 
         httpClient.executeMethod(method);
 
-        LOGGER.debug("GET-method sended to: " + method.getURI());
+        LOGGER.debug("GET-method sent to: " + method.getURI());
 
         return method.getResponseBodyAsStream();
     }
-    
-	private static HttpClient getDefaultHttpClient(String serviceURL) throws MalformedURLException {
-		HttpClient httpClient = new HttpClient();
+
+    private static HttpClient getDefaultHttpClient(String serviceURL) throws MalformedURLException {
+        HttpClient httpClient = new HttpClient();
         httpClient.setHostConfiguration(getHostConfiguration(new URL(serviceURL)));
         return httpClient;
-	}
+    }
 
-	public static InputStream sendGetMessage(String serviceURL, String queryString) throws IOException {
+    /**
+     * Note: Call {@link GetMethod#releaseConnection()} if response has been processed to close connection.
+     * 
+     * @param method
+     *        the GET method to send
+     * @return the method's response
+     * @throws IOException
+     */
+    public static GetMethod execute(GetMethod method) throws IOException {
+        HttpClient httpClient = getDefaultHttpClient(method.getURI().toString());
+        int status = httpClient.executeMethod(method);
+        LOGGER.debug("GET-method has been sent (with status to: " + method.getURI());
+        return method;
+    }
+
+    /**
+     * @see use {@link IOHelper#execute(GetMethod)} instead.
+     */
+    @Deprecated
+    public static InputStream sendGetMessage(String serviceURL, String queryString) throws IOException {
         HttpClient httpClient = getDefaultHttpClient(serviceURL);
-        
         GetMethod method = new GetMethod(serviceURL);
         method.setQueryString(queryString);
-
         httpClient.executeMethod(method);
-
-        LOGGER.debug("GET-method sended to: " + method.getURI());
-
+        LOGGER.debug("GET-method sent to: " + method.getURI());
         return method.getResponseBodyAsStream();
     }
 
@@ -110,21 +125,20 @@ public class IOHelper {
      */
     public static InputStream sendPostMessage(String serviceURL, String request) throws IOException {
         HttpClient httpClient = getDefaultHttpClient(serviceURL);
-        
+
         PostMethod method = new PostMethod(serviceURL.trim());
         method.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));
 
         LOGGER.trace("Service Endpoint: " + method.getURI());
         LOGGER.trace("Request to send: " + request);
-      
+
         httpClient.executeMethod(method);
         return method.getResponseBodyAsStream();
     }
-    
+
     protected static HostConfiguration getHostConfiguration(URL serviceURL) {
         HostConfiguration hostConfig = new HostConfiguration();
-        
-        
+
         // apply proxy settings:
         String host = System.getProperty("http.proxyHost");
         if (host != null && host.isEmpty()) {
@@ -132,31 +146,27 @@ public class IOHelper {
         }
         String port = System.getProperty("http.proxyPort");
         String nonProxyHosts = System.getProperty("http.nonProxyHosts");
-        
+
         // check if service url is among the non-proxy-hosts:
         boolean serviceIsNonProxyHost = false;
-        if (nonProxyHosts != null && nonProxyHosts.length() > 0)
-        {   
+        if (nonProxyHosts != null && nonProxyHosts.length() > 0) {
             String[] nonProxyHostsArray = nonProxyHosts.split("\\|");
             String serviceHost = serviceURL.getHost();
-            
+
             for (String nonProxyHost : nonProxyHostsArray) {
-                if ( nonProxyHost.equals(serviceHost)) {
+                if (nonProxyHost.equals(serviceHost)) {
                     serviceIsNonProxyHost = true;
                     break;
                 }
             }
         }
         // set proxy:
-        if ( serviceIsNonProxyHost == false
-          && host != null && host.length() > 0
-          && port != null && port.length() > 0)
-        {
+        if (serviceIsNonProxyHost == false && host != null && host.length() > 0 && port != null && port.length() > 0) {
             int portNumber = Integer.parseInt(port);
             hostConfig.setProxy(host, portNumber);
             LOGGER.info("Using proxy: " + host + " on port: " + portNumber);
         }
-        
+
         return hostConfig;
     }
 
@@ -164,24 +174,24 @@ public class IOHelper {
         BufferedReader br = new BufferedReader(new InputStreamReader(in));
         String line;
         StringBuffer sb = new StringBuffer();
-        for (int i=0; (line = br.readLine()) != null; i++) {
-            
+        for (int i = 0; (line = br.readLine()) != null; i++) {
+
             // if not first line --> append "\n"
             if (i > 0) {
                 sb.append("\n");
             }
-            
+
             sb.append(line);
         }
         br.close();
 
         return sb.toString();
     }
-    
+
     public static String readText(URL url) throws IOException {
         return readText(url.openStream());
     }
-    
+
     public static String readText(File file) throws IOException {
         return readText(file.toURL());
     }
@@ -197,23 +207,23 @@ public class IOHelper {
     }
 
     public static void saveFile(OutputStream out, InputStream in) throws IOException {
-    	BufferedOutputStream bufout = new BufferedOutputStream(out);
+        BufferedOutputStream bufout = new BufferedOutputStream(out);
         int b;
         while ( (b = in.read()) != -1) {
-        	bufout.write(b);
+            bufout.write(b);
         }
         bufout.flush();
         bufout.close();
         out.flush();
         out.close();
     }
-    
+
     public static void saveFile(String filename, URL url) throws IOException {
         InputStream in = url.openConnection().getInputStream();
         OutputStream out = new BufferedOutputStream(new FileOutputStream(filename));
         saveFile(out, in);
     }
-    
+
     public static void saveFile(File file, InputStream in) throws IOException {
         OutputStream out = new BufferedOutputStream(new FileOutputStream(file));
         saveFile(out, in);
@@ -224,7 +234,7 @@ public class IOHelper {
         OutputStream out = new BufferedOutputStream(new FileOutputStream(filename));
         saveFile(out, in);
     }
-    
+
     public static void saveFile(File filename, String stringToStoreInFile) throws IOException {
         OutputStream out = new FileOutputStream(filename);
         out.write(stringToStoreInFile.getBytes());
@@ -249,8 +259,7 @@ public class IOHelper {
         writer.close();
     }
 
-    public static void decompressAll(File zipFile, File targetDirectory) throws IOException,
-            ZipException {
+    public static void decompressAll(File zipFile, File targetDirectory) throws IOException, ZipException {
 
         if ( !targetDirectory.isDirectory())
             throw new IOException("2nd Parameter targetDirectory is not a valid diectory!");
@@ -280,8 +289,7 @@ public class IOHelper {
         in.close();
     }
 
-    public static void compressFilesToZip(File[] files, File zipFile) throws IOException,
-            ZipException {
+    public static void compressFilesToZip(File[] files, File zipFile) throws IOException, ZipException {
         File[] clearedFiles = removeDoubleFiles(files);
 
         byte[] buf = new byte[4096];

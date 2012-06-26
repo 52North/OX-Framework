@@ -69,6 +69,10 @@ public abstract class OwsException extends Exception {
     public String getLocator() {
         return this.locator;
     }
+    
+    public boolean isSetLocator() {
+        return locator != null;
+    }
 
     public abstract int getHttpStatusCode();
 

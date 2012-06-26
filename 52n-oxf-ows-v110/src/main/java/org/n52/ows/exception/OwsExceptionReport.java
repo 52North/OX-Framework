@@ -27,8 +27,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class OwsExceptionReport {
+/**
+ * A container collecting {@link OwsException}s to be thrown together as OWS Exception Report (according to
+ * chapter 8 of [OGC 06-121r3]).
+ */
+public class OwsExceptionReport extends Exception {
 
+    private static final long serialVersionUID = 8369604913484927730L;
+    
     private List<OwsException> exceptionList = new ArrayList<OwsException>();
     
     public OwsExceptionReport() {

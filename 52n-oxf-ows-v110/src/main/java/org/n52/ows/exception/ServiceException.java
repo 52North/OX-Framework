@@ -79,7 +79,9 @@ public class ServiceException {
     }
     
     private void setExceptionContent(OwsException owsException, ExceptionType exceptionType) {
-        exceptionType.setLocator(owsException.getLocator());
+        if (owsException.isSetLocator()) {
+            exceptionType.setLocator(owsException.getLocator());
+        }
         exceptionType.setExceptionCode(owsException.getExceptionCode());
         exceptionType.setExceptionTextArray(owsException.getExceptionTextsAsArray());
     }

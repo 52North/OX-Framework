@@ -26,37 +26,27 @@
 
 package org.n52.oxf.util;
 
-import java.io.*;
-import org.apache.log4j.*;
-import org.apache.log4j.varia.*;
+import java.io.PrintStream;
 
-/**
- * 
- * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.WriterAppender;
+import org.apache.log4j.varia.LevelRangeFilter;
+
 public class LoggingHandler {
     
     private static LoggingOutputStream out = new LoggingOutputStream();
 
     private static WriterAppender writerAppender = new WriterAppender(new PatternLayout("%5p [%c] %m%n"), out);
     
-    /**
-     * 
-     * @param clazz
-     * @return
-     */
     public static Logger getLogger(Class clazz) {
         Logger logger = Logger.getLogger(clazz);
-        
         logger.addAppender(writerAppender);
-
         return logger;
     }
 
     /**
-     * 
      * @return the LoggingOutputStream to which the messages will be logged.<br>
      *         This LoggingOutputStream can be used for example to print the logging-statements into a separate
      *         message-concole of a GUI.
@@ -66,13 +56,11 @@ public class LoggingHandler {
     }
     
     /**
-     * 
      * @param level - valid values: OFF, FATAL, ERROR, WARN, INFO, DEBUG and ALL
      */
     public static void setLevel(Level level){
         LevelRangeFilter filter = new LevelRangeFilter();
         filter.setLevelMin(level);
-        
         writerAppender.clearFilters();
         writerAppender.addFilter(filter);
     }
