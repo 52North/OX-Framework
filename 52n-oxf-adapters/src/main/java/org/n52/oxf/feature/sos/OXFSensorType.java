@@ -68,10 +68,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 /**
- * This class is a wrapper for the SensorML System type.
- * 
- * @author <a href="mailto:daniel.nuest@uni-muenster.de">Daniel Nüst</a>
- * 
+ * Wrapper class for the SensorML System type.
  */
 public class OXFSensorType extends OXFAbstractFeatureType {
 

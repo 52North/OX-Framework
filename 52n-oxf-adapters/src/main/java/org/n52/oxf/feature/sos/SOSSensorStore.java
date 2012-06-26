@@ -27,105 +27,94 @@
 
 package org.n52.oxf.feature.sos;
 
-import java.io.IOException;
-
 import net.opengis.sensorML.x101.AbstractProcessType;
 import net.opengis.sensorML.x101.SensorMLDocument;
-import net.opengis.sensorML.x101.SensorMLDocument.SensorML;
 import net.opengis.sensorML.x101.SensorMLDocument.SensorML.Member;
 import net.opengis.sensorML.x101.SystemType;
 
 import org.apache.log4j.Logger;
-import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.util.LoggingHandler;
+import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
+import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 
 /**
- * 
- * Class to unmarshal a collection of OXFSensorTypes from an OperationResult, typically a 
+ * Unmarshalls a collection of OXFSensorTypes from an OperationResult, typically a 
  * SensorMLDocument containing a collection of SensorML SystemTypes.
- * 
- * @author <a href="mailto:daniel.nuest@uni-muenster.de">Daniel Nüst</a>
- * 
  */
-public class SOSSensorStore implements IFeatureStore {
-
-    public static final String SENSOR_ML_FEATURE_ID = "sml_id";
-    public static final String SENSOR_ML_FEATURE_COLLECTION_ID = "sml_id";
+public class SOSSensorStore extends OperationResultStore implements IFeatureStore {
 
     private static Logger LOGGER = LoggingHandler.getLogger(SOSSensorStore.class);
+    
+    public static final String SENSOR_ML_FEATURE_ID = "sml_id";
+    public static final String SENSOR_ML_FEATURE_COLLECTION_ID = "sml_id";
+    
+    @Deprecated
+    public SOSSensorStore() {
+        // for backward compatibility .. TODO remove when deprecated contructor is going to be removed
+    }
 
-    public OXFFeatureCollection unmarshalFeatures(OperationResult opsRes) throws OXFException {
+    public SOSSensorStore(OperationResult operationResult) throws OXFException {
+        super(operationResult);
+    }
+
+    public OXFFeatureCollection unmarshalFeatures() throws OXFException {
         if (LOGGER.isDebugEnabled()) {
-            String incoming = new String(opsRes.getIncomingResult());
-            LOGGER.debug("starting to unmarshal features, incoming is:\n" + incoming);
+            LOGGER.debug("Unmarshalling features from:\n" + xmlObject.xmlText());
         }
-
-        // parse incoming to SensorML document
-        SensorMLDocument xb_smlDoc;
-        try {
-            xb_smlDoc = SensorMLDocument.Factory.parse(opsRes.getIncomingResultAsStream());
+        
+        if (isSensorML101Document(xmlObject)) {
+            OXFFeatureCollection oxf_featureCollection = createFeatureCollection();
+            SensorMLDocument sensorMLDoc = (SensorMLDocument) xmlObject;
+            Member[] sensorMLMembers = sensorMLDoc.getSensorML().getMemberArray();
+            wrapMembersToFeatureCollection(sensorMLMembers, oxf_featureCollection);
+            return oxf_featureCollection;
+        } else {
+            throw new OXFException("Unknown OperationResult (" + xmlObject.schemaType() + ").");
         }
-        catch (XmlException e) {
-            LOGGER.error("xml error parsing SensorML document", e);
-            throw new OXFException(e);
-        }
-        catch (IOException e) {
-            LOGGER.error("io error parsing SensorML document", e);
-            throw new OXFException(e);
-        }
+    }
 
-        SensorML xb_sml = xb_smlDoc.getSensorML();
-        Member[] xb_memberArray = xb_sml.getMemberArray();
-
-        // wrap in feature collection
-        OXFFeatureCollection oxf_featureCollection = new OXFFeatureCollection(SENSOR_ML_FEATURE_COLLECTION_ID,
-                                                                              new OXFSensorType());
-
-        for (Member member : xb_memberArray) {
+    private void wrapMembersToFeatureCollection(Member[] members, OXFFeatureCollection oxf_featureCollection) throws OXFException {
+        for (Member member : members) {
             AbstractProcessType xb_proc = member.getProcess();
             if (xb_proc instanceof SystemType) {
                 SystemType xb_system = (SystemType) xb_proc;
-
-                // extract feature
-                OXFFeature feature = parseSensor(xb_system);
-
-                oxf_featureCollection.add(feature);
+                OXFFeature sensorFeature = OXFSensorType.create(xb_system);
+                oxf_featureCollection.add(sensorFeature);
             }
         }
-
-        return oxf_featureCollection;
     }
 
-    /**
-     * Can be used to parse a single feature entity to an OXFFeature object.
-     * 
-     * @throws OXFException
-     */
-    public OXFFeature parseSensor(SystemType xb_system) throws OXFException {
-        OXFFeature feature = null;
-        feature = OXFSensorType.create(xb_system);
-        return feature;
+    private boolean isSensorML101Document(XmlObject xmlObject) {
+        return xmlObject instanceof SensorMLDocument;
     }
 
+    private OXFFeatureCollection createFeatureCollection() {
+        return new OXFFeatureCollection(SENSOR_ML_FEATURE_COLLECTION_ID, new OXFSensorType());
+    }
+    
     /**
-     * 
-     * @param opResult
-     * @return
-     * @throws OXFException 
+     * @deprecated Use {@link SOSSensorStore#SOSSensorStore(OperationResult)} with {@link SOSSensorStore#unmarshalFeatures(OperationResult)}
      */
+    public OXFFeatureCollection unmarshalFeatures(OperationResult operationResult) throws OXFException {
+        try {
+            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsStream());
+            this.version = getVersion(operationResult);
+        } catch (XMLHandlingException e) {
+            throw new OXFException("Could not parse OperationResult", e);
+        }
+        return unmarshalFeatures();
+    }
+    
+
     public OXFFeatureCollection unmarshalFeaturesFromHistory(OperationResult opResult) throws OXFException {
         // TODO Auto-generated method stub
         return unmarshalFeatures(opResult);
     }
-
-	public OXFFeatureCollection unmarshalFeatures() throws OXFException {
-		// FIXME Implement
-		throw new RuntimeException("NOT YET IMPLEMENTED");
-	}
 
 }
