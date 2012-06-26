@@ -36,7 +36,6 @@ import net.opengis.sos.x20.GetObservationResponseType.ObservationData;
 import net.opengis.waterml.x20.TimeseriesObservationDocument;
 import net.opengis.waterml.x20.TimeseriesObservationType;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -56,7 +55,9 @@ public class SOSObservationStore implements IFeatureStore {
     private XmlObject xmlObject;
     private String version;
     
-    @Deprecated
+    /**
+     * @deprecated Use {@link SOSObservationStore#SOSObservationStore(OperationResult)} and {@link #unmarshalFeatures100()}
+     */
     public SOSObservationStore() {
         // TODO remove when removing deprecated #unmarshalFeatures100()
     }

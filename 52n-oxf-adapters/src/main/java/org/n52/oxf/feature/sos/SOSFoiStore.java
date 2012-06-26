@@ -204,4 +204,9 @@ public class SOSFoiStore implements IFeatureStore {
             return new OXFFeature(featureId, new OXFFeatureType(featureType, featureAttributeDescriptors));
         }
     }
+
+	public OXFFeatureCollection unmarshalFeatures() throws OXFException {
+		// FIXME IMPLEMENT
+		throw new RuntimeException("NOT YET IMPLEMENTED");
+	}
 }

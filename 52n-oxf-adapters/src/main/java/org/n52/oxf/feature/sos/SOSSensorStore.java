@@ -123,4 +123,9 @@ public class SOSSensorStore implements IFeatureStore {
         return unmarshalFeatures(opResult);
     }
 
+	public OXFFeatureCollection unmarshalFeatures() throws OXFException {
+		// FIXME Implement
+		throw new RuntimeException("NOT YET IMPLEMENTED");
+	}
+
 }
