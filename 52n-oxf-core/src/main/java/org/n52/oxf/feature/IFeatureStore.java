@@ -1,5 +1,5 @@
 /**********************************************************************************
- Copyright (C) 2009
+ Copyright (C) 2012
  by 52 North Initiative for Geospatial Open Source Software GmbH
 
  Contact: Andreas Wytzisk 
@@ -26,23 +26,34 @@
 
 package org.n52.oxf.feature;
 
-import org.n52.oxf.*;
-import org.n52.oxf.serviceAdapters.*;
+import org.n52.oxf.OXFException;
+import org.n52.oxf.serviceAdapters.OperationResult;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  */
 public interface IFeatureStore {
 
     /**
-     * this method unmarshals the specified dataToUnmarshal to the feature model of the framework.
+     * This method unmarshals the specified dataToUnmarshal to the feature model of the framework.
      * 
      * @param dataToUnmarshal
      *        an OperationResult containing an InputStream consisting of feature data.
      * @return an OXFFeatureCollection containing all the OXFFeatures are contained in the OperationResult.
      * 
      * @throws OXFException
+     * 
+     * @deprecated Use {@link IFeatureStore#unmarshalFeatures()}
      */
     public OXFFeatureCollection unmarshalFeatures(OperationResult dataToUnmarshal) throws OXFException;
+    
+    /**
+     * This method unmarshals the of this store to the feature model of the framework.
+     * 
+     * @return an OXFFeatureCollection containing all the OXFFeatures are contained {@link IFeatureStore} instance.
+     * 
+     * @throws OXFException
+     */
+    public OXFFeatureCollection unmarshalFeatures() throws OXFException;
 }
