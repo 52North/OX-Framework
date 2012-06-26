@@ -49,9 +49,9 @@ public interface IFeatureStore {
     public OXFFeatureCollection unmarshalFeatures(OperationResult dataToUnmarshal) throws OXFException;
     
     /**
-     * This method unmarshals the of this store to the feature model of the framework.
+     * This method unmarshals the features in this store to the feature model of the framework.
      * 
-     * @return an OXFFeatureCollection containing all the OXFFeatures are contained {@link IFeatureStore} instance.
+     * @return An OXFFeatureCollection containing all the OXFFeatures are contained {@link IFeatureStore} instance.
      * 
      * @throws OXFException
      */
