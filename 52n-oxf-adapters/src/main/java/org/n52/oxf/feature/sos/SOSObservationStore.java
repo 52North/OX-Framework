@@ -75,7 +75,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
             return unmarshalFeatures200();
         } else {
             LOGGER.error("Cannot unmarshal FeatureCollection.");
-            throw new OXFException(String.format("SOS version '%s' is not unsupported!", version));
+            throw new OXFException(String.format("SOS version '%s' is not supported!", version));
         }
     }
 
