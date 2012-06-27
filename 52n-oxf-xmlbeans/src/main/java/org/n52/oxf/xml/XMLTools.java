@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2012
- * by 52North Initiative for Geospatial Open Source Software GmbH
+ * by 52 North Initiative for Geospatial Open Source Software GmbH
  *
  * Contact: Andreas Wytzisk
  * 52 North Initiative for Geospatial Open Source Software GmbH
