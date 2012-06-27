@@ -31,7 +31,6 @@ import java.io.InputStream;
 
 import net.opengis.ows.ExceptionReportDocument;
 import net.opengis.ows.ExceptionType;
-import net.opengis.sos.x10.InsertObservationResponseDocument;
 
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -286,12 +285,8 @@ public class SOSAdapter implements IServiceAdapter {
                 	throw parseExceptionReport_000(result);
                 } else if (result_xb instanceof net.opengis.ows.x11.ExceptionReportDocument) {
                 	throw parseExceptionReport_100(result);
-                } else if (result_xb instanceof InsertObservationResponseDocument) {
-                	return result;
                 } else {
-                	String msg = String.format("XML response format not supported by this implementation. Found class: \"%s\"", 
-                			result_xb.getClass());
-                	throw new OXFException(msg);
+                	return result;
                 }
             }
             catch (XmlException e) {
