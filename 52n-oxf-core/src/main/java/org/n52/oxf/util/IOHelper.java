@@ -138,13 +138,12 @@ public class IOHelper {
     }
 
     /**
-     * @deprecated Use {@link IOHelper#execute(HttpMethod)}. Before, create a new GetMethod object using:<br />
+     * @deprecated Use {@link IOHelper#execute(HttpMethod)}. Before, create a new PostMethod object using:<br />
 	 * 		<code>PostMethod method = new PostMethod(serviceURL.trim());</code><br />
 	 *      <code>method.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));</code><br />
 	 *      <code>[...]</code><br />
 	 *      <code>method.getResponseBodyAsStream();</code><br />
 	 * 		to get the same functionality this method offered.
-     * 
      */
     public static InputStream sendPostMessage(String serviceURL, String request) throws IOException {
         HttpClient httpClient = getDefaultHttpClient(serviceURL);
