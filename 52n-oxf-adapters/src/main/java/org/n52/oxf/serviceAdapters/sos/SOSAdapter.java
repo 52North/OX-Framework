@@ -31,9 +31,15 @@ import java.io.InputStream;
 
 import net.opengis.ows.ExceptionReportDocument;
 import net.opengis.ows.ExceptionType;
+import net.opengis.sos.x10.InsertObservationResponseDocument;
 
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
@@ -203,7 +209,7 @@ public class SOSAdapter implements IServiceAdapter {
      * 
      * @return the result of the executed operation
      */
-    public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
+	public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
             OXFException {
 
         if (LOGGER.isDebugEnabled()) {
@@ -257,45 +263,53 @@ public class SOSAdapter implements IServiceAdapter {
         }
 
         // request = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"+request;
-
+        HttpMethod method = null;
         try {
-            InputStream is;
+        	InputStream is;
+            String uri = operation.getDcps()[0].getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
             if (operation.getName().equals(GET_CAPABILITIES)) {
-                is = IOHelper.sendGetMessage(operation.getDcps()[0].getHTTPGetRequestMethods().get(0).getOnlineResource().getHref(),
-                                             "REQUEST=GetCapabilities&SERVICE=SOS&acceptversions="+serviceVersion);
+            	String queryString = "REQUEST=GetCapabilities&SERVICE=SOS&acceptversions="+serviceVersion;
+            	method = new GetMethod(uri);
+            	method.setQueryString(queryString);
             }
             else {
-                is = IOHelper.sendPostMessage(operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref(),
-                                              request);
+                PostMethod post = new PostMethod(uri.trim());
+                post.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));
+                method = post;
             }
+            method = IOHelper.execute(method);
+            is = method.getResponseBodyAsStream();
             result = new OperationResult(is, parameters, request);
-
             try {
-                ExceptionReport execRep = parseExceptionReport_000(result);
-
-                throw execRep;
+                XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsStream());
+                if (result_xb instanceof ExceptionReportDocument) {
+                	throw parseExceptionReport_000(result);
+                } else if (result_xb instanceof net.opengis.ows.x11.ExceptionReportDocument) {
+                	throw parseExceptionReport_100(result);
+                } else if (result_xb instanceof InsertObservationResponseDocument) {
+                	return result;
+                } else {
+                	String msg = String.format("XML response format not supported by this implementation. Found class: \"%s\"", 
+                			result_xb.getClass());
+                	throw new OXFException(msg);
+                }
             }
             catch (XmlException e) {
-                // parseError --> no ExceptionReport was returned.
-                LOGGER.info("Service reported no 0.0.0 exceptions.");
-            }
-
-            try {
-                ExceptionReport execRep = parseExceptionReport_100(result);
-
-                throw execRep;
-            }
-            catch (XmlException e) {
-                // parseError --> no ExceptionReport was returned.
-                LOGGER.info("Service reported no 1.0.0 exceptions.");
+            	String msg = String.format("Received XML response could not be parsed to generic class \"%s\". Exception thrown: %s. Message: %s",
+            			XmlObject.class.getClass().getName(),
+            			e.getClass().getName(),
+            			e.getMessage());
+            	throw new OXFException(msg,e);
             }
         } catch (IOException e) {
-        	String msg = String.format("Sending request to SOS instance caused this exception: %s",
+        	String msg = String.format("Sending request to SOS instance caused this IOException: %s",
         			e.getMessage());
             throw new OXFException(msg, e);
+        } finally {
+        	if (method != null) {
+        		method.releaseConnection();
+        	}
         }
-
-        return result;
     }
 
     /**
@@ -337,11 +351,11 @@ public class SOSAdapter implements IServiceAdapter {
 
         OperationResult opResult = doOperation(op, paramCon);
 
-        IFeatureStore featureStore = new SOSObservationStore();
+		IFeatureStore featureStore = new SOSObservationStore(opResult);
 
         // The OperationResult can be used as an input for the 'unmarshalFeatures' operation of the
         // SOSObservationStore to parse the returned O&M document and to build up OXFFeature objects.
-        OXFFeatureCollection featureCollection = featureStore.unmarshalFeatures(opResult);
+        OXFFeatureCollection featureCollection = featureStore.unmarshalFeatures();
 
         return featureCollection;
     }
