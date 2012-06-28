@@ -697,11 +697,11 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 	 * @throws OXFException in the case of not valid request
 	 */
 	private void doLaxRequestValidation(XmlObject xmlDoc) throws OXFException {
-		XMLBeansParser.registerLaxValidationCase(new GMLAbstractFeatureCase());
-		XMLBeansParser.registerLaxValidationCase(new SASamplingPointCase());
+		XMLBeansParser.registerLaxValidationCase(GMLAbstractFeatureCase.getInstance());
+		XMLBeansParser.registerLaxValidationCase(SASamplingPointCase.getInstance());
 		
 		if (xmlDoc instanceof RegisterSensorDocument) {
-			XMLBeansParser.registerLaxValidationCase(new OfferingInSMLOutputsCase());
+			XMLBeansParser.registerLaxValidationCase(OfferingInSMLOutputsCase.getInstance());
 		}
 		
 		/*
