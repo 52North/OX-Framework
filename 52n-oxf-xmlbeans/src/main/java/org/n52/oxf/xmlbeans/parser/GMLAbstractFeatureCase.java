@@ -37,6 +37,17 @@ import org.apache.xmlbeans.XmlValidationError;
 public class GMLAbstractFeatureCase implements LaxValidationCase {
 
 	private static final Object FEATURE_QN = new QName("http://www.opengis.net/gml", "_Feature");
+	
+	private static GMLAbstractFeatureCase instance = null;
+	
+	private GMLAbstractFeatureCase() {}
+	
+	public static GMLAbstractFeatureCase getInstance() {
+		if (instance == null) {
+			instance = new GMLAbstractFeatureCase();
+		}
+		return instance;
+	}
 
 	public boolean shouldPass(XmlValidationError xve) {
 		return xve.getExpectedQNames() != null && xve.getExpectedQNames().contains(FEATURE_QN);

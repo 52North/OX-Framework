@@ -82,6 +82,14 @@ public class XMLBeansParser {
 	public static void registerLaxValidationCase(LaxValidationCase lvc) {
 		laxValidationCases.add(lvc);
 	}
+	
+	/**
+	 * Returns the list of currently registered {@link LaxValidationCase}s
+	 * @return a List<LaxValidationCase> containing the currently registered {@link LaxValidationCase}s
+	 */
+	public static List<LaxValidationCase> getRegisteredLaxValidationCases() {
+		return laxValidationCases;
+	}
 
 	/**
 	 * Reads the given source. The source may be only the xml-document or
@@ -313,7 +321,7 @@ public class XMLBeansParser {
 		/*
 		 * this is just an example :-)
 		 */
-		XMLBeansParser.registerLaxValidationCase(new GMLAbstractFeatureCase());
+		XMLBeansParser.registerLaxValidationCase(GMLAbstractFeatureCase.getInstance());
 
 		/*
 		 * get errors. if empty, do not throw exception

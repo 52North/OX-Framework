@@ -57,6 +57,17 @@ public class OfferingInSMLOutputsCase implements LaxValidationCase {
 	private static final QName QN_SOS_1_0_OFFERING = 
 			new QName("http://www.opengis.net/sos/1.0", "offering");
 	
+	private static OfferingInSMLOutputsCase instance = null;
+	
+	private OfferingInSMLOutputsCase() {}
+	
+	public static OfferingInSMLOutputsCase getInstance() {
+		if (instance == null) {
+			instance = new OfferingInSMLOutputsCase();
+		}
+		return instance;
+	}
+	
 	public boolean shouldPass(XmlValidationError xve) {
 		QName offending = xve.getOffendingQName();
 		List expected = xve.getExpectedQNames();

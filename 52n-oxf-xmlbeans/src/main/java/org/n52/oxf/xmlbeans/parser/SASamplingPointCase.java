@@ -46,6 +46,17 @@ public class SASamplingPointCase implements LaxValidationCase {
 	private static final QName QN_SA_1_0_SAMPLING_POINT = 
 			new QName("http://www.opengis.net/sampling/1.0", "SamplingPoint");
 	
+	private static SASamplingPointCase instance = null;
+	
+	private SASamplingPointCase() {}
+	
+	public static SASamplingPointCase getInstance() {
+		if (instance == null) {
+			instance = new SASamplingPointCase();
+		}
+		return instance;
+	}
+	
 	public boolean shouldPass(XmlValidationError xve) {
 		QName offending = xve.getOffendingQName();
 		List expected = xve.getExpectedQNames();

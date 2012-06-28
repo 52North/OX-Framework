@@ -27,9 +27,9 @@ import org.apache.xmlbeans.XmlValidationError;
 
 /**
  * Interface for providing exceptional cases
- * in XML validation (e.g. substituation groups).
+ * in XML validation (e.g. substitution groups).
  * 
- * @author matthes rieke <m.rieke@52north.org>
+ * @author <a href="mailto:m.rieke@52north.org">Matthes Rieke</a>
  *
  */
 public interface LaxValidationCase {
