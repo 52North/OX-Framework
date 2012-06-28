@@ -38,10 +38,9 @@ import net.opengis.fes.x20.FilterCapabilitiesDocument.FilterCapabilities;
 import net.opengis.fes.x20.ScalarCapabilitiesType;
 import net.opengis.fes.x20.SpatialCapabilitiesType;
 import net.opengis.fes.x20.TemporalCapabilitiesType;
-import net.opengis.gml.x32.CodeType;
 import net.opengis.gml.EnvelopeDocument;
 import net.opengis.gml.EnvelopeType;
-import net.opengis.gml.x32.FeaturePropertyType;
+import net.opengis.gml.x32.CodeType;
 import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
 import net.opengis.ows.x11.ContactType;
@@ -386,7 +385,6 @@ public class SOSCapabilitiesMapper_200 {
                 }
             }
 
-            String[] oc_resultModels = xb_obsOffering.getResultTypeArray();
             String[] oc_respModes = xb_obsOffering.getResponseFormatArray();
             String[] oc_obsProps = xb_obsOffering.getObservablePropertyArray();
             String[] oc_procedures = new String[] { xb_obsOffering.getProcedure() };
@@ -419,7 +417,7 @@ public class SOSCapabilitiesMapper_200 {
                                                                     oc_procedures,
                                                                     oc_relatedFeatures,
                                                                     oc_obsProps,
-                                                                    oc_resultModels,
+                                                                    null, // not supported in SOS 2.0
                                                                     oc_respModes,
                                                                     filterDomain);
 
