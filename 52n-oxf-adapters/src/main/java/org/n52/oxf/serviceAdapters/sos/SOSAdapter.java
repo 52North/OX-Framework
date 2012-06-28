@@ -51,7 +51,6 @@ import org.n52.oxf.serviceAdapters.IServiceAdapter;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.util.IOHelper;
-import org.n52.oxf.util.LoggingHandler;
 
 /**
  * SOS-Adapter for the OX-Framework
@@ -60,7 +59,7 @@ import org.n52.oxf.util.LoggingHandler;
  */
 public class SOSAdapter implements IServiceAdapter {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(SOSAdapter.class);
+    private static Logger logger = Logger.getLogger(SOSAdapter.class);
 
     public static final String GET_CAPABILITIES = "GetCapabilities";
     public static final String GET_OBSERVATION = "GetObservation";
@@ -104,8 +103,8 @@ public class SOSAdapter implements IServiceAdapter {
      */
     public SOSAdapter(String serviceVersion) {
         this.serviceVersion = serviceVersion;
-        if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace("Instanciated " + this.getClass().getName());
+        if (logger.isTraceEnabled()) {
+            logger.trace("Instanciated " + this.getClass().getName());
         }
     }
 
@@ -211,14 +210,14 @@ public class SOSAdapter implements IServiceAdapter {
 	public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
             OXFException {
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("starting Operation: " + operation + " with parameters: " + parameters);
+        if (logger.isDebugEnabled()) {
+            logger.debug(String.format("starting Operation: %s with parameters: %s",
+            		operation,
+            		parameters));
         }
 
         ISOSRequestBuilder requestBuilder = SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
-
         OperationResult result = null;
-
         String request = null;
 
         // GetCapabilities Operation
@@ -260,6 +259,12 @@ public class SOSAdapter implements IServiceAdapter {
         else {
             throw new OXFException("The operation '" + operation.getName() + "' is not supported.");
         }
+        
+        if (logger.isDebugEnabled()) {
+			logger.debug(String.format("Request builder class: %s; Request: \n%s", 
+					requestBuilder.getClass().toString(),
+					request));
+		}
 
         // request = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"+request;
         HttpMethod method = null;
@@ -301,8 +306,23 @@ public class SOSAdapter implements IServiceAdapter {
         			e.getMessage());
             throw new OXFException(msg, e);
         } finally {
+        	if (logger.isDebugEnabled()) {
+				logger.debug(String.format("Reached finally clause. Method: %s; isRequestSent? %b; hasBeenUsed: %s; statusCode: %d; statusText: %s",
+						method,
+						method.isRequestSent(),
+						method.hasBeenUsed(),
+						method.getStatusCode(),
+						method.getStatusText()
+						));
+			}
         	if (method != null) {
+        		if (logger.isDebugEnabled()) {
+					logger.debug("Will call releaseConnection()");
+				}
         		method.releaseConnection();
+        		if (logger.isDebugEnabled()) {
+					logger.debug("releaseConnection() called");
+				}
         	}
         }
     }
@@ -341,7 +361,7 @@ public class SOSAdapter implements IServiceAdapter {
 
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER, "inline");
 
-        LOGGER.info("Sending Request: "
+        logger.info("Sending Request: "
                 + SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildGetObservationRequest(paramCon));
 
         OperationResult opResult = doOperation(op, paramCon);
