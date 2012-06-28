@@ -83,7 +83,7 @@ public class SOSAdapter implements IServiceAdapter {
 
     /**
      * the Versions of the services which are connectable by this ServiceAdapter.
-     * Array contains: [0.0.0, 1.0.0]
+     * Array contains: [0.0.0, 1.0.0, 2.0.0]
      */
     public static final String[] SUPPORTED_VERSIONS = {"0.0.0", "1.0.0", "2.0.0"};
 
