@@ -25,7 +25,8 @@
  *********************************************************************************/
 package org.n52.oxf.owsCommon.capabilities;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Container for the different RequestMethods. Currently only HTTP POST and GET supported.
@@ -115,4 +116,10 @@ public class DCP {
     protected void addHTTPPost(PostRequestMethod postMethod) {
         this.requestMethods.add(postMethod);
     }
+
+	@Override
+	public String toString() {
+		return String.format("DCP [requestMethods=%s]", requestMethods);
+	}
+    
 }

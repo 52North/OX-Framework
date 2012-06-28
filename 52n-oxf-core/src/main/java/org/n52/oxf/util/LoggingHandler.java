@@ -49,7 +49,7 @@ public class LoggingHandler {
     /**
      * @return the LoggingOutputStream to which the messages will be logged.<br>
      *         This LoggingOutputStream can be used for example to print the logging-statements into a separate
-     *         message-concole of a GUI.
+     *         message-console of a GUI.
      */
     public static LoggingOutputStream getOutputStream() {
         return out;

@@ -31,9 +31,9 @@ import java.io.InputStream;
 
 /**
  * Encapsulates the result of an Operation of a ServiceAdapter. It contains the inputStream and the request
- * the adapter had sended.
+ * the adapter had sent.
  * 
- * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
+ * @author <a href="mailto:foerster@52north.org">Theodor F&ouml;rster</a>
  */
 public class OperationResult {
 

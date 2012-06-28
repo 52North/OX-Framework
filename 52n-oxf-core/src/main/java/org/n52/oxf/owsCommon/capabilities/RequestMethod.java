@@ -25,6 +25,8 @@
  *********************************************************************************/
 package org.n52.oxf.owsCommon.capabilities;
 
+import java.util.Arrays;
+
 /**
  *  Specifies the type of request of a specific operation. Only HTTP is supported.
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
@@ -93,5 +95,12 @@ public abstract class RequestMethod {
     protected void setOnlineResource(OnlineResource url) {
         this.or = url;
     }
+
+	@Override
+	public String toString() {
+		return String.format("RequestMethod [onlineResource=%s, constraints=%s]", 
+				or,
+				Arrays.toString(constraints));
+	}
     
 }
