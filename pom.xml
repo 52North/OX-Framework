@@ -171,7 +171,7 @@
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-sos-v20</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>1.0.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
