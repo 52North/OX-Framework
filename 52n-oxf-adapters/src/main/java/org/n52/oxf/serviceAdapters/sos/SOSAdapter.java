@@ -96,16 +96,30 @@ public class SOSAdapter implements IServiceAdapter {
      */
     protected String serviceVersion = null;
 
+    private ISOSRequestBuilder requestBuilder;
+
     /**
-     * 
      * @param serviceVersion
      *        the schema version for which this adapter instance shall be initialized.
      */
     public SOSAdapter(String serviceVersion) {
+        this.requestBuilder = SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
         this.serviceVersion = serviceVersion;
         if (logger.isTraceEnabled()) {
-            logger.trace("Instanciated " + this.getClass().getName());
+            logger.trace("Instantiated " + this.getClass().getName());
         }
+    }
+    
+    /**
+     * Allows to create an SOSAdapter with custom (non-default) instance of {@link ISOSRequestBuilder}.
+     * 
+     * @param serviceVersion the schema version for which this adapter instance shall be initialized.
+     * @param requestBuilder a custom request builder
+     * @see ISOSRequestBuilder
+     */
+    public SOSAdapter(String serviceVersion, ISOSRequestBuilder requestBuilder) {
+        this(serviceVersion);
+        this.requestBuilder = requestBuilder; // overwrite default
     }
 
     /**
@@ -136,13 +150,6 @@ public class SOSAdapter implements IServiceAdapter {
         return initService(opResult);
     }
 
-    /**
-     * 
-     * @param getCapabilitiesResult
-     * @return
-     * @throws ExceptionReport
-     * @throws OXFException
-     */
     public ServiceDescriptor initService(OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
 
         try {
@@ -150,7 +157,6 @@ public class SOSAdapter implements IServiceAdapter {
                 net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
                 return initService(capsDoc);
             } else if (SOSAdapter.isVersion200(serviceVersion)) {
-//                throw new NotImplementedException("SOS Specification 2.0 not officially supported by now.");
                 net.opengis.sos.x20.CapabilitiesDocument capsDoc = net.opengis.sos.x20.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
                 return initService(capsDoc);
             } else {
@@ -216,7 +222,6 @@ public class SOSAdapter implements IServiceAdapter {
             		parameters));
         }
 
-        ISOSRequestBuilder requestBuilder = SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
         OperationResult result = null;
         String request = null;
 
@@ -271,16 +276,22 @@ public class SOSAdapter implements IServiceAdapter {
         try {
         	InputStream is;
             String uri = operation.getDcps()[0].getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
-            if (operation.getName().equals(GET_CAPABILITIES)) {
-            	String queryString = "REQUEST=GetCapabilities&SERVICE=SOS&acceptversions="+serviceVersion;
-            	method = new GetMethod(uri);
-            	method.setQueryString(queryString);
-            }
-            else {
+
+            /* XXX What sense does it make to always perform a GET request for GetCapabilities?
+             * when the user is putting more information (like serviceVersion as CSV) into 
+             * the param container, they would not be sent to the service
+             */
+//            if (operation.getName().equals(GET_CAPABILITIES)) {
+//            	String queryString = "REQUEST=GetCapabilities&SERVICE=SOS&acceptversions="+serviceVersion;
+//            	method = new GetMethod(uri);
+//            	method.setQueryString(queryString);
+//            }
+//            else {
+            
                 PostMethod post = new PostMethod(uri.trim());
                 post.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));
                 method = post;
-            }
+//            }
             method = IOHelper.execute(method);
             is = method.getResponseBodyAsStream();
             result = new OperationResult(is, parameters, request);
@@ -472,7 +483,7 @@ public class SOSAdapter implements IServiceAdapter {
     }
 
     public ISOSRequestBuilder getRequestBuilder() {
-        return SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
+        return requestBuilder;
     }
 
     /**
