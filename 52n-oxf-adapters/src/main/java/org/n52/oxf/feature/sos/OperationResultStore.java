@@ -23,7 +23,7 @@ public abstract class OperationResultStore {
     
     protected OperationResultStore(OperationResult operationResult) throws OXFException {
         try {
-            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsStream());
+            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsStream(), false);
             this.version = getVersion(operationResult);
         }
         catch (XMLHandlingException e) {
