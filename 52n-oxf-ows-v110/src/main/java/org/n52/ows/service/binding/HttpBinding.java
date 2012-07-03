@@ -32,14 +32,13 @@ public class HttpBinding {
     
     private String externalDcpUrl;
     
-    // XXX GET KVP Binding mandatory?
     private String externalGetCapabilitiesGETDcpUrl = externalDcpUrl; // default
     
     private HttpMethod httpMethod;
     
     private String conformanceClass;
     
-    /* flags extension endpoint to not add binding to normal SPS metadata operations */
+    /* flags extension operation not defined within spec */
     private boolean extension = false;
     
     private HttpBinding() {
