@@ -23,6 +23,14 @@
 		<!-- ### XML BINDING DEPENDENCIES ### -->
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-ows-v100</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-ows-v110</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-xml-csw-v202</artifactId>
 		</dependency>
 		<dependency>
