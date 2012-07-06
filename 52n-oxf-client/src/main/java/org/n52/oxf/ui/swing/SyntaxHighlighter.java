@@ -1,28 +1,26 @@
-/**********************************************************************************
- Copyright (C) 2009
- by 52 North Initiative for Geospatial Open Source Software GmbH
-
- Contact: Andreas Wytzisk 
- 52 North Initiative for Geospatial Open Source Software GmbH
- Martin-Luther-King-Weg 24
- 48155 Muenster, Germany
- info@52north.org
-
- This program is free software; you can redistribute and/or modify it under the
- terms of the GNU General Public License version 2 as published by the Free
- Software Foundation.
-
- This program is distributed WITHOUT ANY WARRANTY; even without the implied
- WARRANTY OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- General Public License for more details.
-
- You should have received a copy of the GNU General Public License along with this 
- program (see gnu-gplv2.txt). If not, write to the Free Software Foundation, Inc., 
- 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or visit the Free Software
- Foundation web page, http://www.fsf.org.
- 
- Created on: 01.10.2006
- *********************************************************************************/
+/**
+ * ï»¿Copyright (C) 2012
+ * by 52 North Initiative for Geospatial Open Source Software GmbH
+ *
+ * Contact: Andreas Wytzisk
+ * 52 North Initiative for Geospatial Open Source Software GmbH
+ * Martin-Luther-King-Weg 24
+ * 48155 Muenster, Germany
+ * info@52north.org
+ *
+ * This program is free software; you can redistribute and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by the
+ * Free Software Foundation.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied
+ * WARRANTY OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program (see gnu-gpl v2.txt). If not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
+ * visit the Free Software Foundation web page, http://www.fsf.org.
+ */
 
 package org.n52.oxf.ui.swing;
 
@@ -60,7 +58,7 @@ class SyntaxHighlighter extends JFrame implements ActionListener{
   }
 
   /**
-     Initialisiert AttributeSets für die unterschiedlichen
+     Initialisiert AttributeSets fï¿½r die unterschiedlichen
      syntaktischen Bestandteile der XML-Datei.
    */
   private void initAttributeSets() {
@@ -88,7 +86,7 @@ class SyntaxHighlighter extends JFrame implements ActionListener{
     // this copyright and citation notice remains intact and that modifications
     // or additions are clearly identified.
     
-    // Angepaßt an java.util.regex.
+    // Angepaï¿½t an java.util.regex.
 
     String TextSE = "[^<]+";
     String UntilHyphen = "[^-]*-";
@@ -139,8 +137,8 @@ class SyntaxHighlighter extends JFrame implements ActionListener{
 
 
   /**
-     Lädt eine XML-Datei in die JTextPane und 
-     nimmt das Syntax-Highlighting für alle Parts vor.
+     Lï¿½dt eine XML-Datei in die JTextPane und 
+     nimmt das Syntax-Highlighting fï¿½r alle Parts vor.
    */
   public void actionPerformed(ActionEvent e) {
     loadFile();
@@ -155,13 +153,13 @@ class SyntaxHighlighter extends JFrame implements ActionListener{
   }
 
   /**
-     Öffnet einen JFileChooser und lädt die gegebenenfalls
-     ausgewählte XML-Datei in die JTextPane.
+     ï¿½ffnet einen JFileChooser und lï¿½dt die gegebenenfalls
+     ausgewï¿½hlte XML-Datei in die JTextPane.
    */
 
   private void loadFile() {
     JFileChooser chooser = new JFileChooser();
-    chooser.setDialogTitle("Wähle eine XML-Datei");
+    chooser.setDialogTitle("Wï¿½hle eine XML-Datei");
 
     chooser.setFileSelectionMode(JFileChooser.FILES_ONLY );
     chooser.setMultiSelectionEnabled(false );
@@ -231,7 +229,7 @@ class SyntaxHighlighter extends JFrame implements ActionListener{
   }
 
   /** 
-      Formatiert den Text der aktuellen Group (abzüglich bestimmter Ränder links und rechts)
+      Formatiert den Text der aktuellen Group (abzï¿½glich bestimmter Rï¿½nder links und rechts)
       des Matchers mit dem AttributeSet.
   */
   private void applyAttributeSet(Matcher m, AttributeSet attributeSet, int additionalOffset, int lengthReduction) {

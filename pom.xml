@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
-        <groupId>org.n52</groupId>
-        <artifactId>52-North</artifactId>
-        <version>5.4</version>
-    </parent>
+		<groupId>org.n52</groupId>
+		<artifactId>52-North</artifactId>
+		<version>5.4</version>
+	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.n52.sensorweb</groupId>
 	<artifactId>52n-oxf</artifactId>
@@ -22,11 +22,11 @@
 		<module>52n-oxf-xmlbeans</module>
 	</modules>
 	<scm>
-        <connection>scm:svn:https://svn.52north.org/svn/swe/incubation/ox-framework-2.0/52n-oxf/trunk/</connection>
-        <developerConnection>scm:svn:https://svn.52north.org/svn/swe/incubation/ox-framework-2.0/52n-oxf/trunk/</developerConnection>
-        <url>https://svn.52north.org/cgi-bin/viewvc.cgi/incubation/ox-framework-2.0/52n-oxf/trunk/?root=sensorweb</url>
-    </scm>
-	
+		<connection>scm:svn:https://svn.52north.org/svn/swe/incubation/ox-framework-2.0/52n-oxf/trunk/</connection>
+		<developerConnection>scm:svn:https://svn.52north.org/svn/swe/incubation/ox-framework-2.0/52n-oxf/trunk/</developerConnection>
+		<url>https://svn.52north.org/cgi-bin/viewvc.cgi/incubation/ox-framework-2.0/52n-oxf/trunk/?root=sensorweb</url>
+	</scm>
+
 	<repositories>
 		<repository>
 			<!-- temporary local repo for libs not migrated to maven dependency mechanism -->
@@ -231,19 +231,19 @@
 				<version>1.6.4</version>
 			</dependency>
 			<dependency>
-			   <groupId>javax.media</groupId>
-			   <artifactId>jai_core</artifactId>
-			   <version>1.1.3</version>
+				<groupId>javax.media</groupId>
+				<artifactId>jai_core</artifactId>
+				<version>1.1.3</version>
 			</dependency>
 			<dependency>
-			   <groupId>javax.media</groupId>
-			   <artifactId>jai_codec</artifactId>
-			   <version>1.1.3</version>
+				<groupId>javax.media</groupId>
+				<artifactId>jai_codec</artifactId>
+				<version>1.1.3</version>
 			</dependency>
 			<dependency>
-			   <groupId>javax.activation</groupId>
-			   <artifactId>activation</artifactId>
-			   <version>1.0.2</version>
+				<groupId>javax.activation</groupId>
+				<artifactId>activation</artifactId>
+				<version>1.0.2</version>
 			</dependency>
 			<dependency>
 				<groupId>com.vividsolutions</groupId>
@@ -251,20 +251,13 @@
 				<version>1.11</version>
 			</dependency>
 			<dependency>
-			   <groupId>commons-httpclient</groupId>
-			   <artifactId>commons-httpclient</artifactId>
-			   <version>3.1</version>
+				<groupId>commons-httpclient</groupId>
+				<artifactId>commons-httpclient</artifactId>
+				<version>3.1</version>
 			</dependency>
-			<!-- <dependency>
-				<groupId>geoapi</groupId>
-				<artifactId>geoapi</artifactId>
-				<version>1.0.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.geotools</groupId>
-				<artifactId>gt-opengis</artifactId>
-				<version>2.7.3</version>
-			</dependency> -->
+			<!-- <dependency> <groupId>geoapi</groupId> <artifactId>geoapi</artifactId> 
+				<version>1.0.0</version> </dependency> <dependency> <groupId>org.geotools</groupId> 
+				<artifactId>gt-opengis</artifactId> <version>2.7.3</version> </dependency> -->
 			<dependency>
 				<groupId>jfree</groupId>
 				<artifactId>jcommon</artifactId>
@@ -276,15 +269,15 @@
 				<version>1.0.0</version>
 			</dependency>
 			<dependency>
-			   <groupId>isorelax</groupId>
-			   <artifactId>isorelax</artifactId>
-			   <version>20020414</version>
+				<groupId>isorelax</groupId>
+				<artifactId>isorelax</artifactId>
+				<version>20020414</version>
 			</dependency>
 			<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
 			<dependency>
-			   <groupId>org.n52.sensorweb.oxf-old</groupId>
-			   <artifactId>istackp</artifactId>
-			   <version>2.0</version>
+				<groupId>org.n52.sensorweb.oxf-old</groupId>
+				<artifactId>istackp</artifactId>
+				<version>2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb.oxf-old</groupId>
@@ -336,9 +329,9 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>2.3.2</version>
 					<configuration>
-						 <compilerVersion>1.6</compilerVersion>
+						<compilerVersion>1.6</compilerVersion>
 					</configuration>
-				  </plugin>
+				</plugin>
 				<plugin>
 					<!-- check for correct source file headers during test phase: http://code.google.com/p/maven-license-plugin/wiki/HowTo -->
 					<!-- run "mvn license:check -Dyear=2011" to check -->
@@ -347,47 +340,29 @@
 					<artifactId>maven-license-plugin</artifactId>
 					<version>1.9.0</version>
 					<configuration>
-						<excludes>
-							<exclude>**/log4j*</exclude>
-							<exclude>**/*.xml</exclude>
-							<exclude>**/*.html</exclude>
-							<exclude>**/webapp/codemirror/**</exclude>
-							<exclude>**/webapp/WEB-INF/web.xml</exclude>
-							<exclude>**/webapp/WEB-INF/wsdl/*.*</exclude>
-							<exclude>**/buildNumber.properties</exclude>
-						</excludes>
+						<failIfMissing>true</failIfMissing>
 						<includes>
 							<include>**/*.java</include>
-							<include>**/*.jsp</include>
-							<include>**/*.js</include>
-							<include>**/*.xsl</include>
-							<include>**/*.sql</include>
 						</includes>
 						<strictCheck>true</strictCheck>
 						<properties>
 							<year>${project.inceptionYear}</year>
 						</properties>
-						<mapping>
-							<sch>XML_STYLE</sch>
-						</mapping>
 					</configuration>
 					<executions>
 						<execution>
-							<phase>test</phase>
-							<!-- test will fail if license headers are not correct, run license:format 
-								to add the headers. -->
+							<id>check-headers</id>
+							<phase>verify</phase>
 							<goals>
-								<!-- <goal>check</goal> -->
-								<goal>format</goal>
+								<goal>check</goal>
 							</goals>
 						</execution>
 					</executions>
 				</plugin>
 			</plugins>
-			
 		</pluginManagement>
 	</build>
-	
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>apache-snapshots</id>
@@ -424,6 +399,32 @@
 			</build>
 		</profile>
 		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
 			<id>release</id>
 			<!-- a profile wich shall be activated if a release is performed -->
 			<build>
@@ -432,8 +433,8 @@
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-release-plugin</artifactId>
 						<configuration>
-							<!-- no build in release:prepare (takes to long time), so in bad 
-								cases release fails on perform -->
+							<!-- no build in release:prepare (takes to long time), so in bad cases 
+								release fails on perform -->
 							<preparationGoals>clean</preparationGoals>
 							<autoVersionSubmodules>true</autoVersionSubmodules>
 							<tagBase>https://svn.52north.org/svn/swe/incubation/ox-framework-2.0/52n-oxf/tags</tagBase>
@@ -442,5 +443,5 @@
 				</plugins>
 			</build>
 		</profile>
-    </profiles>
+	</profiles>
 </project>

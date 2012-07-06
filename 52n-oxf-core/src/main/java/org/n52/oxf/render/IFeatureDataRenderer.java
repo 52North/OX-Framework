@@ -1,29 +1,26 @@
-/**********************************************************************************
- Copyright (C) 2009
- by 52 North Initiative for Geospatial Open Source Software GmbH
-
- Contact: Andreas Wytzisk 
- 52 North Initiative for Geospatial Open Source Software GmbH
- Martin-Luther-King-Weg 24
- 48155 Muenster, Germany
- info@52north.org
-
- This program is free software; you can redistribute and/or modify it under the
- terms of the GNU General Public License version 2 as published by the Free
- Software Foundation.
-
- This program is distributed WITHOUT ANY WARRANTY; even without the implied
- WARRANTY OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- General Public License for more details.
-
- You should have received a copy of the GNU General Public License along with this 
- program (see gnu-gplv2.txt). If not, write to the Free Software Foundation, Inc., 
- 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or visit the Free Software
- Foundation web page, http://www.fsf.org.
- 
- Created on: 21.05.2006
- *********************************************************************************/
-
+/**
+ * ï»¿Copyright (C) 2012
+ * by 52 North Initiative for Geospatial Open Source Software GmbH
+ *
+ * Contact: Andreas Wytzisk
+ * 52 North Initiative for Geospatial Open Source Software GmbH
+ * Martin-Luther-King-Weg 24
+ * 48155 Muenster, Germany
+ * info@52north.org
+ *
+ * This program is free software; you can redistribute and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by the
+ * Free Software Foundation.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied
+ * WARRANTY OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program (see gnu-gpl v2.txt). If not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
+ * visit the Free Software Foundation web page, http://www.fsf.org.
+ */
 package org.n52.oxf.render;
 
 import java.util.*;
@@ -47,11 +44,11 @@ public interface IFeatureDataRenderer extends IRenderer {
      * @param screenWidth
      *        die Breite des "Views"
      * @param screenHeight
-     *        die Höhe des "Views"
+     *        die Hï¿½he des "Views"
      * @param bbox
      *        die geografische Ausdehnung
      * @param selectedFeatures
-     *        diese Menge enthält selektierte Features. Somit können selektierte Features bei der
+     *        diese Menge enthï¿½lt selektierte Features. Somit kï¿½nnen selektierte Features bei der
      *        Visualisierung separat behandelt werden.
      * @return
      */

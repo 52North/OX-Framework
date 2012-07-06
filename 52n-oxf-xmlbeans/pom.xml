@@ -34,13 +34,7 @@
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
 				<configuration>
-					<header>src/main/config/52n_license_header.txt</header>
-					<includes>
-						<include>src/**/*.java</include>
-					</includes>
-					<properties>
-						<year>${project.inceptionYear}</year>
-					</properties>
+					<header>../misc/52n_license_header.txt</header>
 				</configuration>
 			</plugin>
 		</plugins>
