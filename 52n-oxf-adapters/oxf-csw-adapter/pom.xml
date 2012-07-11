@@ -6,7 +6,7 @@
 		<artifactId>52n-oxf-adapters</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>oxf-adapters-api</artifactId>
+	<artifactId>oxf-csw-adapter</artifactId>
 	<name>OxFramework CSW Adapter</name>
 	<description>Provides CSW Adapter implementation.</description>
 	<packaging>jar</packaging>

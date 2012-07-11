@@ -7,8 +7,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>oxf-adapter-api</artifactId>
-	<name>52North OxFramework Adapters</name>
-	<description>Provides service adapters for 52n Sensor Web architecture</description>
+	<name>OxFramework Adapters API</name>
+	<description>API for Common OxF Service Adapters.</description>
 	<packaging>jar</packaging>
 	<dependencies>
 		<!-- ### MODULE DEPENDENCIES ### -->

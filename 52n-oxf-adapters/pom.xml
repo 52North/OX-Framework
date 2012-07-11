@@ -7,126 +7,53 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>52n-oxf-adapters</artifactId>
-	<name>52North OxFramework Adapters</name>
-	<description>Provides service adapters for 52n Sensor Web architecture</description>
-	<packaging>jar</packaging>
-	<dependencies>
-		<!-- ### MODULE DEPENDENCIES ### -->
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-oxf-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-oxf-xmlbeans</artifactId>
-		</dependency>
-		<!-- ### XML BINDING DEPENDENCIES ### -->
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-ows-v100</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-ows-v110</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-csw-v202</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-kml-v220</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-sos-v100</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-sos-v20</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-waterML-v20</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-wcs-v111</artifactId>
-		</dependency>
-		<!-- ### EXTERNAL DEPENDENCIES ### -->
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>jfree</groupId>
-			<artifactId>jcommon</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-		</dependency>
-		<dependency>
-		   <groupId>javax.activation</groupId>
-		   <artifactId>activation</artifactId>
-	   </dependency>
-		<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
-		<dependency>
-		   <groupId>org.n52.sensorweb.oxf-old</groupId>
-		   <artifactId>istackp</artifactId>
-	   </dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb.oxf-old.ses</groupId>
-			<artifactId>beans</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb.oxf-old.ses</groupId>
-			<artifactId>brokered-notification</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb.oxf-old.ses</groupId>
-			<artifactId>soap-envelope-beans</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb.oxf-old</groupId>
-			<artifactId>wms-client-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb.oxf-old</groupId>
-			<artifactId>GrdcSamplingPoint</artifactId>
-		</dependency>
-	</dependencies>
-	<build>
-	</build>
-	
-	
-    <profiles>
-		<profile>
-			<id>release</id>
-			<!-- a profile wich shall be activated if a release is performed -->
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-release-plugin</artifactId>
-						<configuration>
-							<!-- no build in release:prepare (takes to long time), so in bad 
-								cases release fails on perform -->
-							<preparationGoals>clean</preparationGoals>
-							<autoVersionSubmodules>true</autoVersionSubmodules>
-							<tagBase>https://svn.52north.org/svn/swe/incubation/ox-framework-2.0/oxf-adapters/tags</tagBase>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-    </profiles>
+	<name>Aggregating OxF Service Adapters</name>
+	<description>Provides OxF Service Adapter Implementations</description>
+	<packaging>pom</packaging>
+	<modules>
+		<module>oxf-adapter-api</module>
+		<module>oxf-csw-adapter</module>
+		<!-- 
+		<module>oxf-sos-adapter</module>
+		<module>oxf-ses-adapter</module>
+		<module>oxf-wcs-adapter</module>
+		<module>oxf-wms-adapter</module>
+		 -->
+	</modules>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>oxf-adapter-api</artifactId>
+				<version>${project.parent.version}</version>				
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>oxf-csw-adapter</artifactId>
+				<version>${project.parent.version}</version>				
+			</dependency>
+			<!-- 
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>oxf-sos-adapter</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>oxf-ses-adapter</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>oxf-sos-adapter</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>oxf-wcs-adapter</artifactId>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>oxf-wms-adapter</artifactId>
+			</dependency>
+			 -->
+		</dependencies>
+	</dependencyManagement>
 </project>
