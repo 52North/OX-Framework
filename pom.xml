@@ -273,6 +273,12 @@
 				<artifactId>isorelax</artifactId>
 				<version>20020414</version>
 			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.10</version>
+				<scope>testing</scope>
+			</dependency>
 			<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
 			<dependency>
 				<groupId>org.n52.sensorweb.oxf-old</groupId>
@@ -378,19 +384,27 @@
 	</pluginRepositories>
 	<profiles>
 		<profile>
-			<id>env-dev</id>
-			<!-- Developement Environment (activate with -Denv=dev) This is the development 
-				profile, per default it points to a build.properties file in the user home, 
-				but this can be changed localy by specifiying the property local.configfile 
-				with its own string. -->
+			<id>env-example</id>
 			<activation>
-				<property>
-					<name>env</name>
-					<value>dev</value>
-				</property>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<local.configfile>${user.home}/build.properties</local.configfile>
+				<!-- EXAMPLE CONFIG PROPERTIES FOLLOW. TO SEPARATE CONFIGURATION FROM 
+					PROJECT, COPY build-example.properties to ${user.home}/sensorwebclient-build-dev.properties 
+					CUSTOMIZE PROPERTIES AND TRIGGER MAVEN BUILD WITH `mvn install -Penv-dev'. -->
+				<config.log4j.fileappender.filepath>${user.home}/52n-logs/${project.artifactId}-${project.version}</config.log4j.fileappender.filepath>
+				<config.log4j.logger.level>DEBUG</config.log4j.logger.level>
+				<config.log4j.logger.level.oxf>WARN</config.log4j.logger.level.oxf>
+				<config.log4j.consoleappender.level>DEBUG</config.log4j.consoleappender.level>
+				<config.log4j.fileappender.level>WARN</config.log4j.fileappender.level>
+			</properties>
+		</profile>
+		<profile>
+			<id>env-dev</id>
+			<properties>
+				<env>dev</env>
+				<!-- externalize build parameters for productive environment -->
+				<local.configfile>${user.home}/oxf-build-${env}.properties</local.configfile>
 			</properties>
 			<build>
 				<filters>
