@@ -18,7 +18,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-oxf-adapters</artifactId>
+			<artifactId>oxf-adapter-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-csw-adapter</artifactId>
 		</dependency>
 		<!-- ### XML BINDING DEPENDENCIES ### -->
 		<dependency>

@@ -13,47 +13,27 @@
 	<modules>
 		<module>oxf-adapter-api</module>
 		<module>oxf-csw-adapter</module>
-		<!-- 
-		<module>oxf-sos-adapter</module>
-		<module>oxf-ses-adapter</module>
-		<module>oxf-wcs-adapter</module>
-		<module>oxf-wms-adapter</module>
-		 -->
+		<!-- <module>oxf-sos-adapter</module> <module>oxf-ses-adapter</module> 
+			<module>oxf-wcs-adapter</module> <module>oxf-wms-adapter</module> -->
 	</modules>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>oxf-adapter-api</artifactId>
-				<version>${project.parent.version}</version>				
+				<version>${project.parent.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>oxf-csw-adapter</artifactId>
-				<version>${project.parent.version}</version>				
+				<version>${project.parent.version}</version>
 			</dependency>
-			<!-- 
-			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-sos-adapter</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-ses-adapter</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-sos-adapter</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-wcs-adapter</artifactId>
-			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-wms-adapter</artifactId>
-			</dependency>
-			 -->
+			<!-- <dependency> <groupId>org.n52.sensorweb</groupId> <artifactId>oxf-sos-adapter</artifactId> 
+				</dependency> <dependency> <groupId>org.n52.sensorweb</groupId> <artifactId>oxf-ses-adapter</artifactId> 
+				</dependency> <dependency> <groupId>org.n52.sensorweb</groupId> <artifactId>oxf-sos-adapter</artifactId> 
+				</dependency> <dependency> <groupId>org.n52.sensorweb</groupId> <artifactId>oxf-wcs-adapter</artifactId> 
+				</dependency> <dependency> <groupId>org.n52.sensorweb</groupId> <artifactId>oxf-wms-adapter</artifactId> 
+				</dependency> -->
 		</dependencies>
 	</dependencyManagement>
 </project>
