@@ -34,7 +34,7 @@
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
 				<configuration>
-					<header>../misc/52n_license_header.txt</header>
+					<header>../misc/52N_license_header.txt</header>
 				</configuration>
 			</plugin>
 		</plugins>

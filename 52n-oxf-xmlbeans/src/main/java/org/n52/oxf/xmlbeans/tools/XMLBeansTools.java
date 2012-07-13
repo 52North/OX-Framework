@@ -260,6 +260,7 @@ public class XMLBeansTools {
         cursor.setName(newInstance);
         QName qName = new QName("http://www.w3.org/2001/XMLSchema-instance", "type");
         cursor.removeAttribute(qName);
+        cursor.dispose();
     }
 
     /**
