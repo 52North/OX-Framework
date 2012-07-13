@@ -23,6 +23,8 @@
  */
 package org.n52.oxf.serviceAdapters.sos;
 
+import org.n52.oxf.util.SosUtil;
+
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  *
@@ -31,10 +33,10 @@ public class SOSRequestBuilderFactory {
 
     public static ISOSRequestBuilder generateRequestBuilder(String serviceVersion) {
 
-        if (SOSAdapter.isVersion100(serviceVersion)) {
+        if (SosUtil.isVersion100(serviceVersion)) {
             return new SOSRequestBuilder_100();
         }
-        else if (SOSAdapter.isVersion200(serviceVersion)) {
+        else if (SosUtil.isVersion200(serviceVersion)) {
             return new SOSRequestBuilder_200();
         }
         else {

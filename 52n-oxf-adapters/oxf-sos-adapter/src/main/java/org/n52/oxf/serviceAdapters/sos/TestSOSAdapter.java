@@ -40,6 +40,7 @@ import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.sos.caps.ObservationOffering;
 import org.n52.oxf.util.LoggingHandler;
+import org.n52.oxf.util.SosUtil;
 
 /**
  * This class demonstrates how to use the SOSAdapter. You might use it as an example for your own code.
@@ -86,7 +87,7 @@ public class TestSOSAdapter {
 
 		ParameterContainer paramCon = new ParameterContainer();
 		paramCon.addParameterShell(ISOSRequestBuilder.GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, serviceVersion);
-		paramCon.addParameterShell(ISOSRequestBuilder.GET_CAPABILITIES_SERVICE_PARAMETER, SOSAdapter.SERVICE_TYPE);
+		paramCon.addParameterShell(ISOSRequestBuilder.GET_CAPABILITIES_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
 
 		OperationResult opResult = adapter.doOperation(new Operation("GetCapabilities", url + "?", url), paramCon);
 
@@ -180,8 +181,8 @@ public class TestSOSAdapter {
 		String procedure = null;
 		String featureOfInterest = null;
 		
-		paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER, SOSAdapter.SERVICE_TYPE);
-        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_VERSION_PARAMETER, SOSAdapter.SUPPORTED_VERSIONS[1]);
+		paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
+        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_VERSION_PARAMETER, SosUtil.SUPPORTED_VERSIONS[1]);
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER, omFormat);
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER, responseMode);
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER, resultModel);
@@ -218,8 +219,8 @@ public class TestSOSAdapter {
 
 		ParameterContainer paramCon = new ParameterContainer();
 
-		paramCon.addParameterShell(ISOSRequestBuilder.GET_FOI_SERVICE_PARAMETER, SOSAdapter.SERVICE_TYPE);
-		paramCon.addParameterShell(ISOSRequestBuilder.GET_FOI_VERSION_PARAMETER, SOSAdapter.SUPPORTED_VERSIONS[1]);
+		paramCon.addParameterShell(ISOSRequestBuilder.GET_FOI_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
+		paramCon.addParameterShell(ISOSRequestBuilder.GET_FOI_VERSION_PARAMETER, SosUtil.SUPPORTED_VERSIONS[1]);
 		paramCon.addParameterShell(ISOSRequestBuilder.GET_FOI_ID_PARAMETER, new String[] 
         {//"foi_1001",
 		 "foi_sampSur_1001",

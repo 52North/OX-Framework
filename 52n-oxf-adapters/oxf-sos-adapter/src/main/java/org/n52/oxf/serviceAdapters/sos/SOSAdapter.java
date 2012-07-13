@@ -31,7 +31,6 @@ import net.opengis.ows.ExceptionReportDocument;
 import net.opengis.ows.ExceptionType;
 
 import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.log4j.Logger;
@@ -49,6 +48,7 @@ import org.n52.oxf.serviceAdapters.IServiceAdapter;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.util.IOHelper;
+import org.n52.oxf.util.SosUtil;
 
 /**
  * SOS-Adapter for the OX-Framework
@@ -72,17 +72,6 @@ public class SOSAdapter implements IServiceAdapter {
      */
     public static final String DESCRIPTION = "This Class implements the Service Adapter Interface and is"
             + "an SOS Adapter for the OXF Framework";
-
-    /**
-     * The Type of the service which is connectable by this ServiceAdapter
-     */
-    public static final String SERVICE_TYPE = "SOS";
-
-    /**
-     * the Versions of the services which are connectable by this ServiceAdapter.
-     * Array contains: [0.0.0, 1.0.0, 2.0.0]
-     */
-    public static final String[] SUPPORTED_VERSIONS = {"0.0.0", "1.0.0", "2.0.0"};
 
     /**
      * The name of the service operation which returns the data to be added to a map view as a layer.
@@ -151,10 +140,10 @@ public class SOSAdapter implements IServiceAdapter {
     public ServiceDescriptor initService(OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
 
         try {
-            if (SOSAdapter.isVersion100(serviceVersion)) {
+            if (SosUtil.isVersion100(serviceVersion)) {
                 net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
                 return initService(capsDoc);
-            } else if (SOSAdapter.isVersion200(serviceVersion)) {
+            } else if (SosUtil.isVersion200(serviceVersion)) {
                 net.opengis.sos.x20.CapabilitiesDocument capsDoc = net.opengis.sos.x20.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
                 return initService(capsDoc);
             } else {
@@ -354,7 +343,7 @@ public class SOSAdapter implements IServiceAdapter {
         // put all parameters into a ParameterContainer:
         ParameterContainer paramCon = new ParameterContainer();
 
-        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER, SOSAdapter.SERVICE_TYPE);
+        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
 
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_VERSION_PARAMETER, serviceVersion);
 
@@ -468,7 +457,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @return String the type of service
      */
     public String getServiceType() {
-        return SERVICE_TYPE;
+        return SosUtil.SERVICE_TYPE;
     }
 
     /**
@@ -477,7 +466,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @return String[] the supported versions of the service which is connectable by this ServiceAdapter
      */
     public String[] getSupportedVersions() {
-        return SUPPORTED_VERSIONS;
+        return SosUtil.SUPPORTED_VERSIONS;
     }
 
     public ISOSRequestBuilder getRequestBuilder() {
@@ -489,17 +478,5 @@ public class SOSAdapter implements IServiceAdapter {
      */
     public String getServiceVersion() {
         return serviceVersion;
-    }
-    
-    public static boolean isVersion000(String version) {
-        return SUPPORTED_VERSIONS[0].equals(version);
-    }
-    
-    public static boolean isVersion100(String version) {
-        return SUPPORTED_VERSIONS[1].equals(version);
-    }
-    
-    public static boolean isVersion200(String version) {
-        return SUPPORTED_VERSIONS[2].equals(version);
     }
 }

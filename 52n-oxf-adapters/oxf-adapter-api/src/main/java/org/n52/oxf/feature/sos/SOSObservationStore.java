@@ -39,8 +39,8 @@ import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.OXFObservationCollectionType;
 import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.serviceAdapters.sos.SOSAdapter;
 import org.n52.oxf.util.LoggingHandler;
+import org.n52.oxf.util.SosUtil;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 
@@ -59,7 +59,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
     
     public OXFFeatureCollection unmarshalFeatures(OperationResult operationResult) throws OXFException {
         this.version = getVersion(operationResult);
-        if (SOSAdapter.isVersion100(version)) {
+        if (SosUtil.isVersion100(version)) {
             return unmarshalFeatures100(operationResult);
         } else {
             return unmarshalFeatures();
@@ -67,9 +67,9 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
     }
     
     public OXFFeatureCollection unmarshalFeatures() throws OXFException {
-        if (SOSAdapter.isVersion100(version)) {
+        if (SosUtil.isVersion100(version)) {
             return unmarshalFeatures100();
-        } else if (SOSAdapter.isVersion200(version)) {
+        } else if (SosUtil.isVersion200(version)) {
             return unmarshalFeatures200();
         } else {
             LOGGER.error("Cannot unmarshal FeatureCollection.");

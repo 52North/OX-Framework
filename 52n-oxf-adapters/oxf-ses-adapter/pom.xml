@@ -6,9 +6,9 @@
 		<artifactId>52n-oxf-adapters</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>oxf-csw-adapter</artifactId>
-	<name>OxFramework CSW Adapter</name>
-	<description>Provides CSW Adapter implementation.</description>
+	<artifactId>oxf-ses-adapter</artifactId>
+	<name>OxFramework SES Adapter</name>
+	<description>Provides SES Adapter implementation.</description>
 	<packaging>jar</packaging>
 	<dependencies>
 		<!-- ### MODULE DEPENDENCIES ### -->
@@ -20,10 +20,6 @@
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>oxf-adapter-api</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-csw-v202</artifactId>
-		</dependency>
 		<!-- ### EXTERNAL DEPENDENCIES ### -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -33,6 +29,18 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
-		<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
+		<!-- ### EXTERNAL DEPENDENCIES ### -->
+		<dependency>
+			<groupId>org.n52.sensorweb.oxf-old.ses</groupId>
+			<artifactId>beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb.oxf-old.ses</groupId>
+			<artifactId>brokered-notification</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb.oxf-old.ses</groupId>
+			<artifactId>soap-envelope-beans</artifactId>
+		</dependency>
 	</dependencies>
 </project>
