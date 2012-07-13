@@ -11,6 +11,8 @@
 	<description>Provides OxFramework Core Modules</description>
 	<packaging>pom</packaging>
 	<modules>
+		<module>oxf-feature</module>
+		<module>oxf-layer</module>
 		<module>oxf-util</module>
 	</modules>
 </project>

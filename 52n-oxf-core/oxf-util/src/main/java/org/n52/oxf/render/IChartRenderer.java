@@ -40,7 +40,7 @@ public interface IChartRenderer extends IRenderer {
                                       int height);
 
     /*
-     * temporary I will leave this method in the framework. But the dependency on JFreeChart is undesirable.
+     * XXX temporary I will leave this method in the framework. But the dependency on JFreeChart is undesirable.
      */
     public JFreeChart renderChart(OXFFeatureCollection features, ParameterContainer paramCon);
 

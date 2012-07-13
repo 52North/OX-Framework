@@ -6,9 +6,9 @@
 		<artifactId>52n-oxf-core</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>oxf-util</artifactId>
-	<name>52North OxFramework Utilities</name>
-	<description>Provides Utilities for the OxFramework</description>
+	<artifactId>oxf-feature</artifactId>
+	<name>OxF Features</name>
+	<description>Provides Oxf Feature Model</description>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
