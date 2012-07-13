@@ -54,6 +54,7 @@
 		</repository>
 	</repositories>
 	<properties>
+		<n52.xml.commons.version>1.1.0-SNAPSHOT</n52.xml.commons.version>
 		<timestamp>${maven.build.timestamp}</timestamp>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
@@ -116,102 +117,102 @@
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-context-v100</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-csw-v202</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-filter-v100</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-gml-v212</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-gml-v311</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-gml-v321</artifactId>
-				<version>1.0.2</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-kml-v220</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-om-v100</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-ows-v100</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-ows-v110</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-ows-v20</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-sampling-v100</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-sensorML-v100</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-sensorML-v101</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-sos-v100</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-sos-v20</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-sps-v100</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-sweCommon-v100</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-swes-v20</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-sweCommon-v101</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
@@ -220,13 +221,13 @@
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>52n-xml-wcs-v111</artifactId>
-				<version>1.0.0</version>
+				<artifactId>52n-xml-wcs-v11</artifactId>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-xlink-v100</artifactId>
-				<version>1.0.0</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<!-- ### EXTERNAL DEPENDENCIES ### -->
 			<dependency>

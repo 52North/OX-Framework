@@ -33,10 +33,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Unmarshaller;
 
-import net.opengis.ows.x11.ExceptionReportDocument;
-import net.opengis.wcs.x111.CapabilitiesDocument;
-import net.opengis.wcs.x111.CoverageDescriptionType;
-import net.opengis.wcs.x111.CoverageDescriptionsDocument;
+import net.opengis.wcs.x11.CapabilitiesDocument;
+import net.opengis.wcs.x11.CoverageDescriptionType;
+import net.opengis.wcs.x11.CoverageDescriptionsDocument;
 
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;

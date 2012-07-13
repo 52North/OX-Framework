@@ -147,10 +147,10 @@ public class SOSFoiStore extends OperationResultStore implements IFeatureStore {
      * Parses a single feature entity to an OXFFeature object.
      * The method supports the Sampling Specification of version 0.0 and 1.0.
      */
-    public OXFFeature parseFoi(FeaturePropertyType xb_feature) throws OXFException {
+    public OXFFeature parseFoi(FeaturePropertyType xb_featureMember) throws OXFException {
         OXFFeature feature = null;
 
-        XmlCursor c = xb_feature.newCursor();
+        XmlCursor c = xb_featureMember.newCursor();
         
         //
         // parse: Sampling 1.0.0
@@ -200,7 +200,7 @@ public class SOSFoiStore extends OperationResultStore implements IFeatureStore {
         
         // if feature is not known:
         else {
-            String featureID = xb_feature.getHref();
+            String featureID = xb_featureMember.getHref();
 
             // TODO: not nice --> feature has no FeatureType
             feature = new OXFFeature(featureID, null);

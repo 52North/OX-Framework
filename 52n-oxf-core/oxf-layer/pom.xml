@@ -15,20 +15,10 @@
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>oxf-util</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-gml-v321</artifactId>
-		</dependency>
 		<!-- ### XML BINDING DEPENDENCIES ### -->
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-xml-sos-v100</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.n52.sensorweb</groupId>
-					<artifactId>52n-xml-gml-v311</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>

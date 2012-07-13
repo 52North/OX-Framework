@@ -30,6 +30,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import net.opengis.sensorML.x101.AbstractComponentType;
 import net.opengis.sensorML.x101.CapabilitiesDocument.Capabilities;
 import net.opengis.sensorML.x101.HistoryDocument.History;
 import net.opengis.sensorML.x101.IdentificationDocument.Identification;

@@ -24,9 +24,14 @@
 package org.n52.ows.service.binding;
 
 import static org.n52.ows.service.binding.HttpMethod.GET;
+
+import org.w3.x1999.xlink.TypeType.Enum;
+
 import net.opengis.ows.x11.HTTPDocument;
 import net.opengis.ows.x11.HTTPDocument.HTTP;
+import net.opengis.ows.x11.OnlineResourceType;
 import net.opengis.ows.x11.RequestMethodType;
+import net.opengis.ows.x11.impl.RequestMethodTypeImpl;
 
 public class HttpBinding {
     
@@ -104,7 +109,7 @@ public class HttpBinding {
         RequestMethodType method = (httpMethod == GET) ? http.addNewGet() : http.addNewPost();
         String concatenatedUrl = concatenateToDcpUrl(resource);
         method.setHref(concatenatedUrl);
-        method.setType("simple");
+        method.setType(Enum.forString("simple"));
         return httpDocument;
     }
 
@@ -127,7 +132,7 @@ public class HttpBinding {
         HTTPDocument httpDocument = HTTPDocument.Factory.newInstance();
         RequestMethodType method = httpDocument.addNewHTTP().addNewGet();
         method.setHref(externalGetCapabilitiesGETDcpUrl);
-        method.setType("kvp");
+        method.setType(Enum.forString("kvp"));
         return httpDocument;
     }
     

@@ -306,7 +306,7 @@ public class SESCapabilitiesMapper_00 {
         
         OnlineResourceType xb_onlineRes = xb_contactType.getOnlineResource();
         
-        String type = xb_onlineRes!=null?xb_onlineRes.getType():null;
+        String type = xb_onlineRes!=null?xb_onlineRes.getType().toString():null;
         String href = xb_onlineRes!=null?xb_onlineRes.getHref():null;
         String role = xb_onlineRes!=null?xb_onlineRes.getRole():null;
         String arcrole = xb_onlineRes!=null?xb_onlineRes.getArcrole():null;

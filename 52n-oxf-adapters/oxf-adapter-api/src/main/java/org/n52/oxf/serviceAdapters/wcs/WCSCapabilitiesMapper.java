@@ -31,11 +31,11 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
 import net.opengis.ows.x11.BoundingBoxType;
-import net.opengis.wcs.x111.CapabilitiesDocument;
-import net.opengis.wcs.x111.CoverageDescriptionType;
-import net.opengis.wcs.x111.CoverageDescriptionsDocument;
-import net.opengis.wcs.x111.CoverageSummaryType;
-import net.opengis.wcs.x111.GridCrsType;
+import net.opengis.wcs.x11.CapabilitiesDocument;
+import net.opengis.wcs.x11.CoverageDescriptionType;
+import net.opengis.wcs.x11.CoverageDescriptionsDocument;
+import net.opengis.wcs.x11.CoverageSummaryType;
+import net.opengis.wcs.x11.GridCrsType;
 
 import org.apache.xmlbeans.XmlCursor;
 import org.n52.oxf.OXFException;

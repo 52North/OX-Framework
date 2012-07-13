@@ -24,20 +24,20 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import org.jfree.chart.*;
-import org.n52.oxf.*;
-import org.n52.oxf.feature.*;
-import org.n52.oxf.owsCommon.*;
-import org.n52.oxf.owsCommon.capabilities.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.render.sos.*;
-import org.n52.oxf.serviceAdapters.*;
-import org.n52.oxf.valueDomains.time.*;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
+import javax.swing.JDialog;
+
+import org.jfree.chart.JFreeChart;
+import org.n52.oxf.feature.IFeatureStore;
+import org.n52.oxf.feature.OXFFeatureCollection;
+import org.n52.oxf.owsCommon.ServiceDescriptor;
+import org.n52.oxf.render.IChartRenderer;
+import org.n52.oxf.render.StaticVisualization;
+import org.n52.oxf.serviceAdapters.IServiceAdapter;
+import org.n52.oxf.serviceAdapters.ParameterContainer;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
