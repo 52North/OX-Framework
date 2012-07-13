@@ -239,7 +239,10 @@ public class XMLBeansParser {
 		for (XmlError xmlError : errors) {
 			errorBuilder.append(xmlError.getMessage()).append(";");
 		}
-		errorBuilder.deleteCharAt(errorBuilder.length() - 1);
+		
+		if (!errors.isEmpty()) {
+			errorBuilder.deleteCharAt(errorBuilder.length() - 1);
+		}
 		return errorBuilder.toString();
 	}
 
