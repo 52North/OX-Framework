@@ -64,7 +64,12 @@
 			<!-- ### MODULE DEPENDENCIES ### -->
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>52n-oxf-core</artifactId>
+				<artifactId>oxf-util</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>oxf-layer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -75,6 +80,16 @@
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>oxf-csw-adapter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>oxf-ses-adapter</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>oxf-sos-adapter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

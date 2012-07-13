@@ -40,7 +40,7 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
-import org.n52.oxf.OX_Framework;
+import org.n52.oxf.context.ContextHelper;
 import org.n52.oxf.ui.swing.AnimatedMapCanvas;
 import org.n52.oxf.ui.swing.BoundingBoxPanel;
 import org.n52.oxf.ui.swing.LegendDialog;
@@ -67,7 +67,7 @@ public class OXClient extends JFrame {
 
     private static Logger LOGGER = LoggingHandler.getLogger(OXClient.class);
 
-    protected OX_Framework oxf;
+    protected ContextHelper oxf;
 
     protected JSplitPane splitPane;
 
@@ -94,7 +94,7 @@ public class OXClient extends JFrame {
     public OXClient() {
         super("52North");
 
-        oxf = new OX_Framework();
+        oxf = new ContextHelper();
 
         rightPanel = new JPanel();
         map = new AnimatedMapCanvas(oxf.getImageBuilder());

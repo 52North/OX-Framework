@@ -53,6 +53,7 @@ import org.n52.oxf.ui.swing.ShowXMLDocDialog;
 import org.n52.oxf.ui.swing.tree.ContentTree;
 import org.n52.oxf.util.IOHelper;
 import org.n52.oxf.util.LoggingHandler;
+import org.n52.oxf.util.SosUtil;
 import org.n52.oxf.valueDomains.StringValueDomain;
 
 /**
@@ -111,7 +112,7 @@ public class ConnectSOSDialogController {
         JComboBox cb = view.getServiceVersionCB();
         cb.removeAllItems();
 
-        for (String version : SOSAdapter.SUPPORTED_VERSIONS) {
+        for (String version : SosUtil.SUPPORTED_VERSIONS) {
             cb.addItem(version);
             cb.setSelectedItem(version);
         }
@@ -143,7 +144,7 @@ public class ConnectSOSDialogController {
             ParameterContainer paramCon = new ParameterContainer();
             paramCon.addParameterShell(new ParameterShell(new Parameter("version",
                                                                         true,
-                                                                        new StringValueDomain(SOSAdapter.SUPPORTED_VERSIONS),
+                                                                        new StringValueDomain(SosUtil.SUPPORTED_VERSIONS),
                                                                         "version"),
                                                           view.getServiceVersionCB().getSelectedItem().toString()));
             paramCon.addParameterShell(new ParameterShell(new Parameter("service",

@@ -53,6 +53,7 @@ import org.n52.oxf.ui.swing.TimePeriodPanel;
 import org.n52.oxf.ui.swing.TimePositionPanel;
 import org.n52.oxf.ui.swing.tree.ContentTree;
 import org.n52.oxf.util.LoggingHandler;
+import org.n52.oxf.util.SosUtil;
 import org.n52.oxf.valueDomains.filter.ComparisonFilter;
 import org.n52.oxf.valueDomains.filter.FilterValueDomain;
 import org.n52.oxf.valueDomains.filter.IFilter;
@@ -345,7 +346,7 @@ public class GetObs_ConfiguratorController {
         // required parameters:
         //
 
-        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER, SOSAdapter.SERVICE_TYPE);
+        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
 
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_VERSION_PARAMETER, adapter.getServiceVersion());
 

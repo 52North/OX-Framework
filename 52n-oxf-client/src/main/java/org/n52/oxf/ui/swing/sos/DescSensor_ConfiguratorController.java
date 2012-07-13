@@ -46,6 +46,7 @@ import org.n52.oxf.ui.swing.ShowRequestDialog;
 import org.n52.oxf.ui.swing.ShowXMLDocDialog;
 import org.n52.oxf.util.IOHelper;
 import org.n52.oxf.util.LoggingHandler;
+import org.n52.oxf.util.SosUtil;
 import org.n52.oxf.valueDomains.StringValueDomain;
 
 /**
@@ -135,7 +136,7 @@ public class DescSensor_ConfiguratorController {
             ParameterContainer paramCon = new ParameterContainer();
             paramCon.addParameterShell(new ParameterShell(new Parameter(ISOSRequestBuilder.DESCRIBE_SENSOR_VERSION_PARAMETER,
                                                                         true,
-                                                                        new StringValueDomain(SOSAdapter.SUPPORTED_VERSIONS),
+                                                                        new StringValueDomain(SosUtil.SUPPORTED_VERSIONS),
                                                                         ISOSRequestBuilder.DESCRIBE_SENSOR_VERSION_PARAMETER),
                                                           selectedVersion));
             paramCon.addParameterShell(new ParameterShell(new Parameter(ISOSRequestBuilder.DESCRIBE_SENSOR_SERVICE_PARAMETER,

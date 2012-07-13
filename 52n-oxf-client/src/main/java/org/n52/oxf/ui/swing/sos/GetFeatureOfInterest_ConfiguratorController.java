@@ -44,6 +44,7 @@ import org.n52.oxf.serviceAdapters.sos.SOSRequestBuilderFactory;
 import org.n52.oxf.ui.swing.ShowRequestDialog;
 import org.n52.oxf.ui.swing.ShowXMLDocDialog;
 import org.n52.oxf.util.IOHelper;
+import org.n52.oxf.util.SosUtil;
 import org.n52.oxf.valueDomains.StringValueDomain;
 
 public class GetFeatureOfInterest_ConfiguratorController {
@@ -123,7 +124,7 @@ public class GetFeatureOfInterest_ConfiguratorController {
             ParameterContainer paramCon = new ParameterContainer();
             paramCon.addParameterShell(new ParameterShell(new Parameter(ISOSRequestBuilder.GET_FOI_VERSION_PARAMETER,
                                                                         true,
-                                                                        new StringValueDomain(SOSAdapter.SUPPORTED_VERSIONS),
+                                                                        new StringValueDomain(SosUtil.SUPPORTED_VERSIONS),
                                                                         ISOSRequestBuilder.GET_FOI_VERSION_PARAMETER),
                                                           selectedVersion));
             paramCon.addParameterShell(new ParameterShell(new Parameter(ISOSRequestBuilder.GET_FOI_SERVICE_PARAMETER,

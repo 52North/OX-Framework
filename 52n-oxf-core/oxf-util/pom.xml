@@ -28,10 +28,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-context-v100</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-xml-sampling-v100</artifactId>
 		</dependency>
 		<!-- ### EXTERNAL DEPENDENCIES ### -->
