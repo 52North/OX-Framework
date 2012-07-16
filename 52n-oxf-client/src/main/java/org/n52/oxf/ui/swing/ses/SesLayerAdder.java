@@ -42,6 +42,7 @@ import net.opengis.om.x10.ObservationDocument;
 
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.ses.SESAdapter;
 import org.n52.oxf.context.LayerContext;
 import org.n52.oxf.feature.DataType;
 import org.n52.oxf.feature.IFeatureStore;
@@ -54,7 +55,6 @@ import org.n52.oxf.owsCommon.ServiceDescriptor;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IFeaturePicker;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ses.SESAdapter;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.tree.ContentTree;
 import org.n52.oxf.ui.swing.util.LayerAdder;

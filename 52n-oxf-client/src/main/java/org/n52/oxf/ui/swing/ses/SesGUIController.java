@@ -34,6 +34,8 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.ses.ISESRequestBuilder;
+import org.n52.oxf.adapter.ses.SESAdapter;
 import org.n52.oxf.context.LayerContext;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
@@ -42,8 +44,6 @@ import org.n52.oxf.render.sos.FeatureGeometryRenderer;
 import org.n52.oxf.serviceAdapters.IServiceAdapter;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ses.ISESRequestBuilder;
-import org.n52.oxf.serviceAdapters.ses.SESAdapter;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.ShowXMLDocDialog;
 import org.n52.oxf.ui.swing.tree.ContentTree;

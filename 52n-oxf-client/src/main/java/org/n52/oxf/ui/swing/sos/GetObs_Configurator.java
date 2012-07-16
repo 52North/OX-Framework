@@ -26,11 +26,12 @@ package org.n52.oxf.ui.swing.sos;
 
 import java.awt.*;
 import javax.swing.*;
+
+import org.n52.oxf.adapter.sos.*;
 import org.n52.oxf.feature.*;
 import org.n52.oxf.layer.*;
 import org.n52.oxf.owsCommon.*;
 import org.n52.oxf.serviceAdapters.*;
-import org.n52.oxf.serviceAdapters.sos.*;
 import org.n52.oxf.ui.swing.*;
 import org.n52.oxf.ui.swing.tree.*;
 import javax.swing.JPanel;

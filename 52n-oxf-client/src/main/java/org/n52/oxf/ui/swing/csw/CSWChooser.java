@@ -44,11 +44,11 @@ import net.opengis.cat.csw.x202.GetRecordsResponseType;
 import net.opengis.cat.csw.x202.SearchResultsType;
 
 import org.apache.xmlbeans.XmlCursor;
+import org.n52.oxf.adapter.csw.CSWAdapter;
+import org.n52.oxf.adapter.csw.CSWRequestBuilder;
 import org.n52.oxf.owsCommon.capabilities.Operation;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.csw.CSWAdapter;
-import org.n52.oxf.serviceAdapters.csw.CSWRequestBuilder;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.MyGridBagLayout;
 import org.n52.oxf.ui.swing.ShowRequestDialog;

@@ -28,6 +28,8 @@ import java.awt.Component;
 import java.util.Set;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.sos.ISOSRequestBuilder;
+import org.n52.oxf.adapter.sos.SOSAdapter;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
@@ -41,8 +43,6 @@ import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.serviceAdapters.sos.ISOSRequestBuilder;
-import org.n52.oxf.serviceAdapters.sos.SOSAdapter;
 import org.n52.oxf.ui.swing.ChartDialog;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.tree.ContentTree;

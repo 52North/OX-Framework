@@ -31,10 +31,10 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import org.n52.oxf.*;
+import org.n52.oxf.adapter.wms.*;
 import org.n52.oxf.owsCommon.*;
 import org.n52.oxf.owsCommon.capabilities.*;
 import org.n52.oxf.serviceAdapters.*;
-import org.n52.oxf.serviceAdapters.wms.*;
 import org.n52.oxf.ui.swing.*;
 import org.n52.oxf.ui.swing.tree.*;
 import org.n52.oxf.util.*;

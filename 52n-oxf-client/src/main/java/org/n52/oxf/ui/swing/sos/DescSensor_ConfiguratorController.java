@@ -31,6 +31,8 @@ import java.net.URL;
 import javax.swing.JOptionPane;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.sos.ISOSRequestBuilder;
+import org.n52.oxf.adapter.sos.SOSAdapter;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
 import org.n52.oxf.owsCommon.capabilities.Operation;
@@ -38,8 +40,6 @@ import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.serviceAdapters.sos.ISOSRequestBuilder;
-import org.n52.oxf.serviceAdapters.sos.SOSAdapter;
 import org.n52.oxf.ui.swing.ApprovalDialog;
 import org.n52.oxf.ui.swing.ShowRequestDialog;
 import org.n52.oxf.ui.swing.ShowXMLDocDialog;

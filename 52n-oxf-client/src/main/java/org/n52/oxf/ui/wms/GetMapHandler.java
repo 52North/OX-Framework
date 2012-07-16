@@ -38,6 +38,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.sos.ISOSRequestBuilder;
+import org.n52.oxf.adapter.sos.SOSAdapter;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.context.ContextWindow;
 import org.n52.oxf.context.LayerContext;
@@ -55,8 +57,6 @@ import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.render.sos.FeatureGeometryRenderer;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.serviceAdapters.sos.ISOSRequestBuilder;
-import org.n52.oxf.serviceAdapters.sos.SOSAdapter;
 import org.n52.oxf.ui.swing.sos.SOSLayerAdder;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventListener;

@@ -36,6 +36,8 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.sos.SOSAdapter;
+import org.n52.oxf.adapter.sos.SOSRequestBuilderFactory;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.capabilities.Operation;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
@@ -43,8 +45,6 @@ import org.n52.oxf.serviceAdapters.IServiceAdapter;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.serviceAdapters.sos.SOSAdapter;
-import org.n52.oxf.serviceAdapters.sos.SOSRequestBuilderFactory;
 import org.n52.oxf.ui.swing.ApprovalDialog;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.ShowRequestDialog;

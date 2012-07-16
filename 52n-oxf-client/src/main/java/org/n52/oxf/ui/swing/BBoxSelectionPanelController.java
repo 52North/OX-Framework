@@ -25,9 +25,10 @@
 package org.n52.oxf.ui.swing;
 
 import java.awt.event.*;
+
+import org.n52.oxf.adapter.wms.caps.*;
 import org.n52.oxf.context.*;
 import org.n52.oxf.owsCommon.capabilities.*;
-import org.n52.oxf.serviceAdapters.wms.caps.*;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
