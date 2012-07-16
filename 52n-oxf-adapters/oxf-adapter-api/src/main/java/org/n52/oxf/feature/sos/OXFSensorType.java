@@ -30,7 +30,6 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import net.opengis.sensorML.x101.AbstractComponentType;
 import net.opengis.sensorML.x101.CapabilitiesDocument.Capabilities;
 import net.opengis.sensorML.x101.HistoryDocument.History;
 import net.opengis.sensorML.x101.IdentificationDocument.Identification;
@@ -51,16 +50,16 @@ import net.opengis.swe.x101.SimpleDataRecordType;
 import net.opengis.swe.x101.VectorPropertyType;
 import net.opengis.swe.x101.VectorType;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.OXFRuntimeException;
 import org.n52.oxf.feature.DataType;
 import org.n52.oxf.feature.OXFAbstractFeatureType;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureAttributeDescriptor;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.SrsHelper;
 import org.n52.oxf.util.XmlBeansHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -70,8 +69,8 @@ import com.vividsolutions.jts.geom.Point;
  * Wrapper class for the SensorML System type.
  */
 public class OXFSensorType extends OXFAbstractFeatureType {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(OXFSensorType.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(OXFSensorType.class);
 
     public static final String POSITION = "oxfSensorTypePosition";
 

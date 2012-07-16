@@ -35,7 +35,6 @@ import java.util.Properties;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.capabilities.Operation;
@@ -52,17 +51,18 @@ import org.n52.oxf.ui.swing.ShowRequestDialog;
 import org.n52.oxf.ui.swing.ShowXMLDocDialog;
 import org.n52.oxf.ui.swing.tree.ContentTree;
 import org.n52.oxf.util.IOHelper;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.SosUtil;
 import org.n52.oxf.valueDomains.StringValueDomain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
 public class ConnectSOSDialogController {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(ConnectSOSDialogController.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectSOSDialogController.class);
 
     protected ConnectSOSDialog view;
 

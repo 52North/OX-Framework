@@ -24,14 +24,21 @@
 
 package org.n52.oxf.plugin;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import org.apache.log4j.*;
-import org.n52.oxf.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.serviceAdapters.*;
-import org.n52.oxf.util.*;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.render.IRenderer;
+import org.n52.oxf.serviceAdapters.IServiceAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is responsible to dynamically load the available IRenderers
@@ -49,6 +56,8 @@ public class RendererFactory {
         STANDARD_CLASSLOADER;
     }
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(RendererFactory.class);
+    
     /**
      * this flag decides which ClassLoader will be used to load the classes.
      */
@@ -60,8 +69,6 @@ public class RendererFactory {
 	 * value: instance of the ServiceAdapter
 	 */
 	private static Map<String, IRenderer> rendererMap;
-
-    private final static Logger LOGGER = LoggingHandler.getLogger(RendererFactory.class);
 
     
 	/**

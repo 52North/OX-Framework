@@ -28,14 +28,12 @@ import java.util.List;
 
 import net.opengis.gml.MeasureType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.dataTypes.OXFMeasureType;
 import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
 import org.n52.oxf.owsCommon.capabilities.ITime;
-import org.n52.oxf.util.LoggingHandler;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -44,8 +42,6 @@ import com.vividsolutions.jts.geom.Geometry;
  * 
  */
 public class OXFMeasurementType extends OXFAbstractObservationType {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(OXFMeasurementType.class);
 
     public static final String RESULT = "result";
 

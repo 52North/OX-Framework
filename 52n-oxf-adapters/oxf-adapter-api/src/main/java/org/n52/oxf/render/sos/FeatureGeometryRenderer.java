@@ -34,7 +34,6 @@ import java.util.Set;
 
 import javax.media.jai.PlanarImage;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
@@ -43,7 +42,8 @@ import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IFeaturePicker;
 import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
@@ -63,8 +63,8 @@ import com.vividsolutions.jts.geom.Polygon;
  */
 public class FeatureGeometryRenderer implements IFeatureDataRenderer, IFeaturePicker {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(FeatureGeometryRenderer.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(FeatureGeometryRenderer.class);
+    
     protected static final int PICKING_TOLERANCE = 5;
 
     public static final int DOT_SIZE_POINT = 10;

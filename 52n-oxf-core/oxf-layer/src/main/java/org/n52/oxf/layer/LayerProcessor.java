@@ -24,10 +24,11 @@
 
 package org.n52.oxf.layer;
 
-import org.apache.log4j.*;
 import org.n52.oxf.*;
 import org.n52.oxf.owsCommon.*;
 import org.n52.oxf.util.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is a specialized Thread which can be used to execute the "request - and - render -
@@ -38,8 +39,8 @@ import org.n52.oxf.util.*;
  * 
  */
 public abstract class LayerProcessor implements IEventEmitter {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(LayerProcessor.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(LayerProcessor.class);
 
     /** the associated IContextLayer */
     protected IContextLayer layer;

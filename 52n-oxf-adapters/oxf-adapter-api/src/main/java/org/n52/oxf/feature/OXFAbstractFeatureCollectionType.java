@@ -29,22 +29,11 @@ import java.util.List;
 import net.opengis.gml.AbstractFeatureCollectionType;
 import net.opengis.gml.FeaturePropertyType;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.sos.SOSFoiStore;
-import org.n52.oxf.util.LoggingHandler;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
 public class OXFAbstractFeatureCollectionType extends OXFAbstractFeatureType {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(OXFAbstractFeatureCollectionType.class);
-
-    /**
-     * 
-     */
+    
     public OXFAbstractFeatureCollectionType() {
         super();
         
@@ -52,9 +41,6 @@ public class OXFAbstractFeatureCollectionType extends OXFAbstractFeatureType {
         featureAttributeDescriptors = generateAttributeDescriptors();
     }
 
-    /**
-     * 
-     */
     protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
         List<OXFFeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();

@@ -37,7 +37,6 @@ import javax.media.jai.TiledImage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.context.ContextWindow;
@@ -61,12 +60,13 @@ import org.n52.oxf.serviceAdapters.sos.SOSAdapter;
 import org.n52.oxf.ui.swing.sos.SOSLayerAdder;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventListener;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.OXFEvent;
 import org.n52.oxf.util.OXFEventException;
 import org.n52.oxf.valueDomains.spatial.BoundingBox2D;
 import org.n52.oxf.valueDomains.time.TemporalValueDomain;
 import org.n52.oxf.valueDomains.time.TimeFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sun.media.jai.codec.ImageCodec;
 import com.sun.media.jai.codec.ImageEncoder;
@@ -74,7 +74,7 @@ import com.sun.media.jai.codec.PNGEncodeParam;
 
 public class GetMapHandler implements IEventListener {
 
-    private final static Logger LOGGER = LoggingHandler.getLogger(GetMapHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetMapHandler.class);
 
     private WebMapServiceFrontend wms;
 

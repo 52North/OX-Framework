@@ -59,7 +59,6 @@ import net.opengis.waterml.x20.TimeseriesObservationType;
 import net.opengis.waterml.x20.TimeseriesType;
 import net.opengis.waterml.x20.TimeseriesType.Point;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -69,9 +68,10 @@ import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
 import org.n52.oxf.feature.dataTypes.OXFScopedName;
 import org.n52.oxf.feature.sos.SOSFoiStore;
 import org.n52.oxf.owsCommon.capabilities.ITime;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.XmlBeansHelper;
 import org.n52.oxf.valueDomains.time.TimeFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
 /**
@@ -79,8 +79,8 @@ import org.w3c.dom.Node;
  * 
  */
 public class GenericObservationParser {
-
-	private static final Logger LOGGER = LoggingHandler.getLogger(GenericObservationParser.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(GenericObservationParser.class);
 	
     /**
      * supports O&M 1.0

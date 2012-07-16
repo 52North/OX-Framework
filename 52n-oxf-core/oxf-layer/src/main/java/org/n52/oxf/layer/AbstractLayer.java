@@ -24,7 +24,6 @@
 
 package org.n52.oxf.layer;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.context.ContextWindow;
@@ -36,20 +35,21 @@ import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventListener;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.OXFEvent;
 import org.n52.oxf.util.OXFEventException;
 import org.n52.oxf.util.OXFEventSupport;
 import org.n52.oxf.valueDomains.IntegerRangeValueDomain;
 import org.n52.oxf.valueDomains.StringValueDomain;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public abstract class AbstractLayer implements IContextLayer {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(AbstractLayer.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractLayer.class);
 
     /**
      * classes which want to listen to this class must be added to this OXFEventSupport.

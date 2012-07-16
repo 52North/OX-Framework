@@ -28,25 +28,17 @@ import java.util.List;
 
 import net.opengis.swe.x101.ScopedNameType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
 import org.n52.oxf.feature.dataTypes.OXFScopedName;
 import org.n52.oxf.owsCommon.capabilities.ITime;
-import org.n52.oxf.util.LoggingHandler;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
 public class OXFCategoryObservationType extends OXFAbstractObservationType {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(OXFCategoryObservationType.class);
-
+    
     public static final String RESULT = "result";
 
     /**

@@ -30,7 +30,6 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.context.ContextWindow;
 import org.n52.oxf.context.LayerContext;
@@ -39,21 +38,16 @@ import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.ui.swing.tool.MapTool;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventListener;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.OXFEvent;
 import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- */
 public class MapCanvas extends JPanel implements IEventListener {
 
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = 3654563726177316466L;
 
-    private static Logger LOGGER = LoggingHandler.getLogger(MapCanvas.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MapCanvas.class);
 
     private LayerContext layerContext;
 

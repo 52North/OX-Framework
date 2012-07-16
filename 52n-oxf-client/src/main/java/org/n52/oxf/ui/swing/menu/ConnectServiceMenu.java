@@ -29,7 +29,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.csw.CSWChooser;
 import org.n52.oxf.ui.swing.ses.SesGUI;
@@ -37,16 +36,15 @@ import org.n52.oxf.ui.swing.sos.ConnectSOSDialog;
 import org.n52.oxf.ui.swing.tree.ContentTree;
 import org.n52.oxf.ui.swing.wcs.ConnectWCSDialog;
 import org.n52.oxf.ui.swing.wms.ConnectWMSDialog;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.sps.wupper.client.Client;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- *
- */
 public class ConnectServiceMenu extends Menu {
 
-    private static final Logger LOGGER = LoggingHandler.getLogger(ConnectServiceMenu.class);
+    private static final long serialVersionUID = 6447330856734571122L;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectServiceMenu.class);
     
     private JMenuItem connectCSWMenuItem;
     
@@ -62,11 +60,10 @@ public class ConnectServiceMenu extends Menu {
     
     private JMenuItem connectSESMenuItem;
     
-    /**
-     */
     public ConnectServiceMenu(JFrame owner, MapCanvas map, ContentTree tree) {
         super(owner, map, tree, "Connect");
         
+        // TODO make it configurabel (or create menu from reflection)
         connectCSWMenuItem = new JMenuItem("Connect to CSW");
         connectSOSMenuItem = new JMenuItem("Connect to SOS");
         connectSASMenuItem = new JMenuItem("Connect to SAS");

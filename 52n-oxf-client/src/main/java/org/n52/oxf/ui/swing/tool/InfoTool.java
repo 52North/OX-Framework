@@ -34,7 +34,6 @@ import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.context.LayerContext;
 import org.n52.oxf.feature.OXFFeature;
@@ -44,21 +43,14 @@ import org.n52.oxf.layer.IFeatureLayer;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.icons.IconAnchor;
 import org.n52.oxf.ui.swing.ses.SesInfoFrame;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * 
- * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
 public class InfoTool extends MapTool {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(InfoTool.class);
 
-    private static Logger LOGGER = LoggingHandler.getLogger(InfoTool.class);
 
-    /**
-     * 
-     */
     public InfoTool(JFrame owner, MapCanvas map) {
         super(owner, map);
 
@@ -74,10 +66,6 @@ public class InfoTool extends MapTool {
         createInfo(evt);
     }
 
-    /**
-     * 
-     * @param evt
-     */
     private void createInfo(MouseEvent event) {
         LayerContext context = map.getLayerContext();
         try {
@@ -92,7 +80,7 @@ public class InfoTool extends MapTool {
                     + realPoint.getY() + ")");
         }
         catch (NoninvertibleTransformException e) {
-            LOGGER.error(e, e);
+            LOGGER.error("Could not convert bbox from screen to realworld coords.", e);
         }
 
         for (int i = 0; i < context.getLayerCount(); i++) {

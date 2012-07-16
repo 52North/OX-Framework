@@ -24,15 +24,15 @@
 
 package org.n52.oxf.layer;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.OXFRuntimeException;
 import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.render.IVisualization;
 import org.n52.oxf.util.EventName;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:daniel.nuest@uni-muenster.de">Daniel Nüst</a>
@@ -40,8 +40,8 @@ import org.n52.oxf.util.OXFEventException;
  */
 public class FeatureLayerProcessor extends LayerProcessor {
     
-    private static Logger LOGGER = LoggingHandler.getLogger(FeatureLayerProcessor.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(FeatureLayerProcessor.class);
+    
     private FeatureLayerProcess process;
 
     protected FeatureLayerProcessor(FeatureLayer layer) {
@@ -97,13 +97,13 @@ public class FeatureLayerProcessor extends LayerProcessor {
     }
 
     protected class FeatureLayerProcess extends Thread {
-
-        private Logger LOG = LoggingHandler.getLogger(FeatureLayerProcess.class);
+        
+        private final Logger LOGGER = LoggerFactory.getLogger(FeatureLayerProcessor.FeatureLayerProcess.class);
 
         @Override
         public void run() {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("run!");
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("run!");
             }
             try {
                 // --- render data:

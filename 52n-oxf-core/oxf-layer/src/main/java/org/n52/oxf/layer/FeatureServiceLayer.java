@@ -24,10 +24,10 @@
 
 package org.n52.oxf.layer;
 
+
 import java.util.Iterator;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeature;
@@ -42,10 +42,11 @@ import org.n52.oxf.render.IFeaturePicker;
 import org.n52.oxf.serviceAdapters.IServiceAdapter;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.util.EventName;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.OXFEvent;
 import org.n52.oxf.util.OXFEventException;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -56,6 +57,8 @@ import com.vividsolutions.jts.geom.Geometry;
  * 
  */
 public class FeatureServiceLayer extends AbstractServiceLayer implements IFeatureLayer {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(FeatureServiceLayer.class);
 
     /** current state of featureCollection represented by this layer */
     protected OXFFeatureCollection featureCollection;
@@ -68,8 +71,6 @@ public class FeatureServiceLayer extends AbstractServiceLayer implements IFeatur
 
     /** stays eventually null if there is no picking support for this Layer */
     protected IFeaturePicker featurePicker = null;
-
-    private static Logger LOGGER = LoggingHandler.getLogger(FeatureServiceLayer.class);
 
     public FeatureServiceLayer(IServiceAdapter adapter,
                                IFeatureDataRenderer featureRenderer,

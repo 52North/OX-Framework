@@ -24,37 +24,37 @@
 
 package org.n52.oxf.ui.swing.generic;
 
-import java.util.*;
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.owsCommon.*;
-import org.n52.oxf.owsCommon.capabilities.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.serviceAdapters.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.icons.*;
-import org.n52.oxf.ui.swing.tool.*;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.ui.swing.util.*;
-import org.n52.oxf.util.*;
+import java.util.List;
 
-/**
- * 
- * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.layer.RasterServiceLayer;
+import org.n52.oxf.owsCommon.ExceptionReport;
+import org.n52.oxf.owsCommon.ServiceDescriptor;
+import org.n52.oxf.owsCommon.capabilities.Parameter;
+import org.n52.oxf.render.IRasterDataRenderer;
+import org.n52.oxf.render.IRenderer;
+import org.n52.oxf.serviceAdapters.IServiceAdapter;
+import org.n52.oxf.serviceAdapters.ParameterContainer;
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.icons.IconAnchor;
+import org.n52.oxf.ui.swing.tool.MapTool;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+import org.n52.oxf.ui.swing.util.LayerAdder;
+import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GenericLayerAddTool extends MapTool {
+    
+    private static final long serialVersionUID = -3260549803644661099L;
 
-    private static final Logger LOGGER = LoggingHandler.getLogger(GenericLayerAddTool.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GenericLayerAddTool.class);
 
     private ContentTree tree;
 
-    /**
-     * 
-     */
     public GenericLayerAddTool(JFrame owner, MapCanvas map, ContentTree tree) {
         super(owner, map);
 
@@ -71,13 +71,13 @@ public class GenericLayerAddTool extends MapTool {
             addLayer();
         }
         catch (OXFException e) {
-            LOGGER.error(e, e);
+            LOGGER.error("Could not add layer.", e);
         }
         catch (ExceptionReport e) {
-            LOGGER.error(e, e);
+            LOGGER.error("Could not add layer.", e);
         }
         catch (OXFEventException e) {
-            LOGGER.error(e, e);
+            LOGGER.error("Could not add layer.", e);
         }
     }
 

@@ -24,15 +24,16 @@
 
 package org.n52.oxf.ui.swing.sos;
 
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.icons.IconAnchor;
 import org.n52.oxf.ui.swing.tool.MapTool;
 import org.n52.oxf.ui.swing.tree.ContentTree;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -42,18 +43,12 @@ import org.n52.oxf.util.LoggingHandler;
  */
 public class SOSConnectTool extends MapTool {
 
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -4980672874872957063L;
-
-    private static final Logger LOGGER = LoggingHandler.getLogger(SOSConnectTool.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSConnectTool.class);
 
     private ContentTree tree;
 
-    /**
-     * 
-     */
     public SOSConnectTool(JFrame owner, MapCanvas map, ContentTree tree) {
         super(owner, map);
 

@@ -24,25 +24,24 @@
 
 package org.n52.oxf.ui.swing.animation;
 
-import org.apache.log4j.*;
-import org.n52.oxf.util.*;
+import org.n52.oxf.util.EventName;
+import org.n52.oxf.util.IEventListener;
+import org.n52.oxf.util.OXFEvent;
+import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
 public class AnimationPanelController implements IEventListener {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(AnimationPanelController.class);
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnimationPanelController.class);
+
     private AnimationPanel view;
 
-    /**
-     * 
-     */
     public AnimationPanelController(AnimationPanel view) {
-        super();
-
         this.view = view;
     }
 

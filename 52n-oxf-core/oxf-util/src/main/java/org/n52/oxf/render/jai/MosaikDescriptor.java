@@ -35,17 +35,20 @@ import javax.media.jai.OperationDescriptorImpl;
 import javax.media.jai.OperationRegistry;
 import javax.media.jai.registry.RIFRegistry;
 
-import org.apache.log4j.Logger;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * 
  * @author <a href="mailto:jaeger@52north.org">Andreas Jaeger</a>
  */
 public class MosaikDescriptor extends OperationDescriptorImpl implements RenderedImageFactory {
-
-    private final static Logger LOGGER = LoggingHandler.getLogger(MosaikDescriptor.class);
     
+    private static final long serialVersionUID = 1228091893048693261L;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MosaikDescriptor.class);
+
     private final static String PRODUCT = "52north OX-Framework";
 
     private final static String[][] resources = {

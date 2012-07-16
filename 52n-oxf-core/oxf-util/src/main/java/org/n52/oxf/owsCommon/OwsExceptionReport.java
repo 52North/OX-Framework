@@ -32,25 +32,19 @@ import net.opengis.ows.x11.ExceptionReportDocument;
 import net.opengis.ows.x11.ExceptionReportDocument.ExceptionReport;
 import net.opengis.ows.x11.ExceptionType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Implementation of the ows service exception. The exception codes are defined according the ows common spec.
- * version 1.0
- * 
- * @author Alexander C. Walkowski
- * 
- * @version 0.1
- * 
+ * TODO extract/separate xmlbinding ows dependency
  */
 public class OwsExceptionReport extends Exception {
 
     private static final long serialVersionUID = 9069373009339881302L;
 
-    /** logger */
-    private static Logger log = Logger.getLogger(OwsExceptionReport.class.getName());
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(OwsExceptionReport.class);
+    
     /**
      * ExceptionCodes as defined in the OWS Common Implementation Specification 0.3.0
      */
@@ -202,7 +196,7 @@ public class OwsExceptionReport extends Exception {
             }
         }
         else {
-            log.warn("addCodedException: unknown ExceptionLevel " + "(" + excLevel.toString() + ")occurred.");
+            LOGGER.warn("addCodedException: unknown ExceptionLevel ({})occurred.", excLevel.toString());
         }
 
         et.addExceptionText(sb.toString());

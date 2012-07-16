@@ -30,7 +30,6 @@ import java.util.Iterator;
 
 import net.opengis.ows.x11.ExceptionType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
@@ -41,16 +40,19 @@ import org.apache.xmlbeans.XmlValidationError;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.owsCommon.OwsExceptionReport;
 import org.n52.oxf.owsCommon.OwsExceptionReport.ExceptionCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * 
  * (this class is not part of the core because it depends on XMLBeans)
  * 
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class XmlBeansHelper {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(XmlBeansHelper.class);
 
     private static final String XML_OPTIONS_CHARACTER_ENCODING = "UTF-8";
 
@@ -85,8 +87,6 @@ public class XmlBeansHelper {
     public static final String XSI_NAMESPACE_URI = "http://www.w3.org/2001/XMLSchema-instance";
 
     public static final String XSI_NAMESPACE_PREFIX = "xsi";
-
-    private static Logger LOGGER = LoggingHandler.getLogger(XmlBeansHelper.class);
 
     /**
      * help-method that formats a XmlTokenString into a String.

@@ -28,23 +28,19 @@ import java.awt.geom.Point2D;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.feature.OXFAbstractObservationType;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Point;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
 public abstract class AbstractFeaturePicker implements IFeaturePicker {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(AbstractFeaturePicker.class);
+    
+    private static Logger LOGGER = LoggerFactory.getLogger(AbstractFeaturePicker.class);
 
     protected static final int X_SHIFT = -10;
     protected static final int Y_SHIFT = -10;

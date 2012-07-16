@@ -24,14 +24,15 @@
 
 package org.n52.oxf.ui.swing.menu;
 
-import java.awt.event.*;
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.animation.*;
-import org.n52.oxf.ui.swing.sos.*;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.util.*;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+
+import org.n52.oxf.ui.swing.LegendDialog;
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.ProxyPreferencesDialog;
+import org.n52.oxf.ui.swing.tree.ContentTree;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -39,7 +40,7 @@ import org.n52.oxf.util.*;
  */
 public class OptionsMenu extends Menu {
 
-    private static final Logger LOGGER = LoggingHandler.getLogger(OptionsMenu.class);
+    private static final long serialVersionUID = 6506357315264522168L;
 
     private Menu memoryMenu;
 
@@ -49,7 +50,6 @@ public class OptionsMenu extends Menu {
     
     private JMenuItem specifyProxyMI;
     
-    private MessageConsole msgConsole;
     private LegendDialog legendDialog;
 
     /**
@@ -59,11 +59,9 @@ public class OptionsMenu extends Menu {
     public OptionsMenu(JFrame owner,
                        MapCanvas map,
                        ContentTree tree,
-                       MessageConsole msgConsole,
                        LegendDialog legendDialog) {
         super(owner, map, tree, "Options");
 
-        this.msgConsole = msgConsole;
         this.legendDialog = legendDialog;
 
         memoryMenu = new MemoryMenu(owner, map, tree);
@@ -85,10 +83,7 @@ public class OptionsMenu extends Menu {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(showMsgConsoleMI)) {
-            msgConsole.setVisible( !msgConsole.isVisible());
-        }
-        else if (e.getSource().equals(showLegendDialogMI)) {
+        if (e.getSource().equals(showLegendDialogMI)) {
             legendDialog.setVisible( !legendDialog.isVisible());
         }
         else if (e.getSource().equals(specifyProxyMI)) {

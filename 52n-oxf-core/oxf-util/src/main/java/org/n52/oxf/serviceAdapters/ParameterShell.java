@@ -25,10 +25,10 @@ package org.n52.oxf.serviceAdapters;
 
 import java.util.Arrays;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class associates a <a href=Parameter.html>Parameter</a> with one or multiple values dependend on the
@@ -38,8 +38,8 @@ import org.n52.oxf.util.LoggingHandler;
  */
 public class ParameterShell {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(ParameterShell.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParameterShell.class);
+    
     private Parameter parameter;
 
     private Object specifiedValue = null;
@@ -150,13 +150,15 @@ public class ParameterShell {
      */
     public void setSpecifiedValue(Object specifiedValue) throws OXFException {
         if (specifiedValue == null) {
-            // TODO: should we warn here or throw an exception???
-            LOGGER.warn(new OXFException(new IllegalArgumentException("specifiedValue has to be != null")));
+            String exceptionMsg = "specifiedValue must not be null.";
+            LOGGER.warn(exceptionMsg);
+            throw new OXFException(new IllegalArgumentException(exceptionMsg));
         }
         else if (!parameter.getValueDomain().containsValue(specifiedValue)) {
-            LOGGER.warn("The specifiedValue '" + specifiedValue.toString()
-                    + "' is not contained in the valueDomain of the parameter '" + parameter.getServiceSidedName()
-                    + "'");
+            String serviceName = parameter.getServiceSidedName();
+            String exceptionMsg = String.format("specifiedValue '%s' is not contained in the valueDomain of the parameter '%s'", specifiedValue, serviceName);
+            LOGGER.warn(exceptionMsg);
+            throw new OXFException(exceptionMsg);
         }
         this.specifiedValue = specifiedValue;
         this.specifiedValueArray = null;

@@ -53,16 +53,17 @@ import java.net.URL;
 import junit.framework.TestCase;
 
 import org.apache.commons.httpclient.HostConfiguration;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  *
  */
 public class TestIOHelper extends TestCase {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(TestIOHelper.class);
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestIOHelper.class);
+
     /**
      * @throws java.lang.Exception
      */
@@ -106,7 +107,7 @@ public class TestIOHelper extends TestCase {
             
             
         } catch(Exception e) {
-            LOGGER.error(e,e);
+            LOGGER.error("Error when getting host configuration.",e);
             fail();
         }
     }

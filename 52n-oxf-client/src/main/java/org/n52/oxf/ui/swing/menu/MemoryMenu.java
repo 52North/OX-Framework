@@ -24,12 +24,15 @@
 
 package org.n52.oxf.ui.swing.menu;
 
-import java.awt.event.*;
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.util.*;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -39,7 +42,9 @@ import org.n52.oxf.util.*;
  */
 public class MemoryMenu extends Menu {
 
-    private static final Logger LOGGER = LoggingHandler.getLogger(MemoryMenu.class);
+    private static final long serialVersionUID = -3303772644905232473L;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemoryMenu.class);
 
     private JMenuItem logFreeMemoryMI;
 

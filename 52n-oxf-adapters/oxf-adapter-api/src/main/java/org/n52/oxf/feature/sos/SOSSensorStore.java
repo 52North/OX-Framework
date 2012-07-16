@@ -29,16 +29,16 @@ import net.opengis.sensorML.x101.SensorMLDocument;
 import net.opengis.sensorML.x101.SensorMLDocument.SensorML.Member;
 import net.opengis.sensorML.x101.SystemType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Unmarshalls a collection of OXFSensorTypes from an OperationResult, typically a 
@@ -46,7 +46,7 @@ import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
  */
 public class SOSSensorStore extends OperationResultStore implements IFeatureStore {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(SOSSensorStore.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSSensorStore.class);
     
     public static final String SENSOR_ML_FEATURE_ID = "sml_id";
     public static final String SENSOR_ML_FEATURE_COLLECTION_ID = "sml_id";

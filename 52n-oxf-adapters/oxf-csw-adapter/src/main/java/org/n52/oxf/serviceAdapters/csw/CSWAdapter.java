@@ -29,7 +29,6 @@ import java.io.InputStream;
 import net.opengis.ows.x11.ExceptionReportDocument;
 import net.opengis.ows.x11.ExceptionType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.owsCommon.ExceptionReport;
@@ -40,16 +39,15 @@ import org.n52.oxf.serviceAdapters.IServiceAdapter;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.util.IOHelper;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * SOS-Adapter for the OX-Framework
- * 
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class CSWAdapter implements IServiceAdapter {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(CSWAdapter.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSWAdapter.class);
 
     // required operations:
     public static final String GET_CAPABILITIES = "GetCapabilities";

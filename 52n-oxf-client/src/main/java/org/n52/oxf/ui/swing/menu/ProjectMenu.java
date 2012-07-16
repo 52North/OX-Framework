@@ -24,24 +24,27 @@
 
 package org.n52.oxf.ui.swing.menu;
 
-import java.awt.event.*;
-import java.io.*;
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.icons.*;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.util.*;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 
-/**
- * 
- * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.icons.IconAnchor;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+import org.n52.oxf.util.FileFilterImpl;
+import org.n52.oxf.util.IOHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ProjectMenu extends Menu {
 
-    private static final Logger LOGGER = LoggingHandler.getLogger(ProjectMenu.class);
+    private static final long serialVersionUID = 2810931435649839107L;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectMenu.class);
     
     private JMenuItem saveProjectMI;
     private JMenuItem openProjectMI;
@@ -105,7 +108,7 @@ public class ProjectMenu extends Menu {
                     LOGGER.info("Context saved in file: '" + filePath + "'.");
                 }
                 catch (IOException exc) {
-                    LOGGER.error(exc,exc);
+                    LOGGER.error("Could not save file.", exc);
                 }
             }
         }

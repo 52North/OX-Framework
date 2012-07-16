@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.ExceptionTransformer;
@@ -53,13 +52,16 @@ import org.n52.oxf.ui.wms.configSchema.WmsConfigDocument.WmsConfig;
 import org.n52.oxf.ui.wms.configSchema.WmsConfigDocument.WmsConfig.Layer;
 import org.n52.oxf.ui.wms.configSchema.WmsConfigDocument.WmsConfig.Layer.BoundingBox;
 import org.n52.oxf.ui.wms.configSchema.WmsConfigDocument.WmsConfig.Layer.LatLonBoundingBox;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.valueDomains.StringValueDomain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class WebMapServiceFrontend extends HttpServlet {
 
-    private final static Logger LOGGER = LoggingHandler.getLogger(WebMapServiceFrontend.class);
-
+    private static final long serialVersionUID = -3570254002654121917L;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebMapServiceFrontend.class);
+    
     private Map<String, WMSLayer> wmsLayerMap;
 
     @Override
@@ -76,7 +78,7 @@ public class WebMapServiceFrontend extends HttpServlet {
             wmsLayerMap = readOutLayerList(configStream);
         }
         catch (Exception e) {
-            LOGGER.error(e, e);
+            LOGGER.error("Could not read layer list.", e);
         }
         LOGGER.info("init completed");
     }
@@ -223,7 +225,7 @@ public class WebMapServiceFrontend extends HttpServlet {
             }
         }
         catch (Exception e) {
-            LOGGER.error(e, e);
+            LOGGER.error("Could not handle '{}' GET request", requestString, e);
             
             response.setContentType("text/html");
             OutputStream out = response.getOutputStream();
@@ -243,7 +245,7 @@ public class WebMapServiceFrontend extends HttpServlet {
             out.close();
         }
         catch (Exception e) {
-            LOGGER.error(e, e);
+            LOGGER.error("Could not handle POST request.", e);
         }
     }
 

@@ -33,14 +33,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.feature.OXFAbstractObservationType;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.OXFMeasurementType;
 import org.n52.oxf.feature.dataTypes.IObservationResult;
 import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 import org.n52.oxf.valueDomains.time.TimePosition;
 
@@ -50,8 +48,6 @@ import org.n52.oxf.valueDomains.time.TimePosition;
  * 
  */
 public class ObservationSeriesCollection {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(ObservationSeriesCollection.class);
 
     /**
      * associates a feature-id (String) with a Map<ITimePosition, ObservedValueTuple>.

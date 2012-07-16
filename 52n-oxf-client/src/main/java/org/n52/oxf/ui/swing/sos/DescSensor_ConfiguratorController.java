@@ -30,7 +30,6 @@ import java.net.URL;
 
 import javax.swing.JOptionPane;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
@@ -45,17 +44,14 @@ import org.n52.oxf.ui.swing.ApprovalDialog;
 import org.n52.oxf.ui.swing.ShowRequestDialog;
 import org.n52.oxf.ui.swing.ShowXMLDocDialog;
 import org.n52.oxf.util.IOHelper;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.SosUtil;
 import org.n52.oxf.valueDomains.StringValueDomain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
 public class DescSensor_ConfiguratorController {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(DescSensor_ConfiguratorController.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(DescSensor_ConfiguratorController.class);
 
     public static String GET_CAPABILITIES_EVENT_TIME_PARAMETER = "eventTime";
 
@@ -66,9 +62,6 @@ public class DescSensor_ConfiguratorController {
 
     private ServiceDescriptor serviceDesc;
 
-    /**
-     * 
-     */
     public DescSensor_ConfiguratorController(DescSensor_Configurator view, URL serviceURL, SOSAdapter adapter) {
         this.view = view;
         this.serviceURL = serviceURL;

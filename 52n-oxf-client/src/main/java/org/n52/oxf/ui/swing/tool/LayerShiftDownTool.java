@@ -24,17 +24,24 @@
 
 package org.n52.oxf.ui.swing.tool;
 
-import java.util.*;
-import javax.swing.*;
-import javax.swing.tree.*;
-import org.apache.log4j.*;
-import org.n52.oxf.*;
-import org.n52.oxf.context.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.icons.*;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.util.*;
+import java.util.List;
+import java.util.Vector;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.context.LayerContext;
+import org.n52.oxf.layer.IContextLayer;
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.icons.IconAnchor;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+import org.n52.oxf.ui.swing.tree.LayerNode;
+import org.n52.oxf.ui.swing.tree.LayerStorageNode;
+import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -44,8 +51,10 @@ import org.n52.oxf.util.*;
  */
 public class LayerShiftDownTool extends MapTool {
 
-    private static final Logger LOGGER = LoggingHandler.getLogger(LayerShiftDownTool.class);
-
+    private static final long serialVersionUID = 860306209459953381L;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(LayerShiftDownTool.class);
+    
     private ContentTree tree;
 
     /**
@@ -67,10 +76,10 @@ public class LayerShiftDownTool extends MapTool {
             shiftLayerDown();
         }
         catch (OXFException e) {
-            LOGGER.error(e);
+            LOGGER.error("Could not shift layer.", e);
         }
         catch (OXFEventException e) {
-            LOGGER.error(e);
+            LOGGER.error("Could not shift layer.", e);
         }
     }
 

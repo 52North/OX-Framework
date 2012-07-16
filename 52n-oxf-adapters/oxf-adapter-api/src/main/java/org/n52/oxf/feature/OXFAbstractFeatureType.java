@@ -27,13 +27,12 @@ package org.n52.oxf.feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import net.opengis.gml.AbstractFeatureType;
-import net.opengis.gml.AbstractGeometryType;
 import net.opengis.gml.CoordinatesType;
 import net.opengis.gml.PointType;
-
-import org.apache.log4j.Logger;
-import org.n52.oxf.util.LoggingHandler;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -45,8 +44,6 @@ import com.vividsolutions.jts.geom.Point;
  * 
  */
 public class OXFAbstractFeatureType extends org.n52.oxf.feature.OXFFeatureType {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(OXFAbstractFeatureType.class);
 
     public static final String DESCRIPTION = "description";
     public static final String NAME = "name";

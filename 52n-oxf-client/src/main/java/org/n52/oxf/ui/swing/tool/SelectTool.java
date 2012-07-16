@@ -24,19 +24,26 @@
 
 package org.n52.oxf.ui.swing.tool;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.*;
-import org.n52.oxf.feature.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.icons.*;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.util.*;
+import java.util.Set;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.feature.OXFFeature;
+import org.n52.oxf.layer.IContextLayer;
+import org.n52.oxf.layer.IFeatureLayer;
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.icons.IconAnchor;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -46,7 +53,9 @@ import org.n52.oxf.util.*;
  */
 public class SelectTool extends MapTool {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(SelectTool.class);
+    private static final long serialVersionUID = 287693998828816554L;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(SelectTool.class);
 
     private Point startPoint = null;
 
@@ -98,10 +107,10 @@ public class SelectTool extends MapTool {
                 rectReleased(evt);
             }
             catch (OXFEventException e) {
-                LOGGER.error(e);
+                LOGGER.error("Could not release rectangle.", e);
             }
             catch (OXFException e) {
-                LOGGER.error(e);
+                LOGGER.error("Could not release rectangle.", e);
             }
         }
     }

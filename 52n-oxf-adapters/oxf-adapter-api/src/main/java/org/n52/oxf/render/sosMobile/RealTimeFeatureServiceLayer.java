@@ -24,6 +24,7 @@
 
 package org.n52.oxf.render.sosMobile;
 
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ import java.util.concurrent.Executors;
 
 import javax.media.jai.PropertyChangeEmitter;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.layer.FeatureServiceLayer;
 import org.n52.oxf.layer.IContextLayer;
@@ -44,9 +44,10 @@ import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventEmitter;
 import org.n52.oxf.util.IEventListener;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.OXFEventException;
 import org.n52.oxf.util.OXFEventSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -57,8 +58,8 @@ import org.n52.oxf.util.OXFEventSupport;
  * 
  */
 public class RealTimeFeatureServiceLayer extends FeatureServiceLayer {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(RealTimeFeatureServiceLayer.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(RealTimeFeatureServiceLayer.class);
 
     private RealTimeRefresher refresher;
     private ExecutorService executor;
@@ -156,7 +157,7 @@ public class RealTimeFeatureServiceLayer extends FeatureServiceLayer {
         private static final long WHILE_TRUE_THREAD_SLEEP_TIME = 50;
         public static final String PROPERTY_EVENT_NEXT_UPDATE_IN_MILLIS = "penuim";
         private static final long PROPERTY_CHANGE_EVENT_SLEEP_MILLIS = 100;
-        private Logger LOG = LoggingHandler.getLogger(RealTimeRefresher.class);
+        private final Logger LOG = LoggerFactory.getLogger(RealTimeFeatureServiceLayer.RealTimeRefresher.class);
         private boolean refreshing = false;
         private long intervall;
         private IContextLayer layer;

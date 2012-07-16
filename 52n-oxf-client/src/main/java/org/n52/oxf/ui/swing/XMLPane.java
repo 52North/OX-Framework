@@ -39,18 +39,16 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.util.IOHelper;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class XMLPane extends JTextPane {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(XMLPane.class);
-
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -8800027402810462779L;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(XMLPane.class);
+    
     MutableAttributeSet tagAttributes, elementAttributes, characterAttributes, cdataAttributes;
     Pattern partPattern, namePattern, attributePattern;
     Matcher partMatcher, nameMatcher, attributeMatcher;

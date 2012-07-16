@@ -43,16 +43,16 @@ import java.util.Vector;
 import javax.media.jai.ImageLayout;
 import javax.media.jai.OpImage;
 
-import org.apache.log4j.Logger;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
  * @author <a href="mailto:jaeger@52north.org">Andreas Jaeger</a>
  */
 class MosaikOpImage extends OpImage {
-
-    private final static Logger LOGGER = LoggingHandler.getLogger(MosaikOpImage.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(MosaikOpImage.class);
 
     private ArrayList icmColorMappings;
     private int bgRGB;

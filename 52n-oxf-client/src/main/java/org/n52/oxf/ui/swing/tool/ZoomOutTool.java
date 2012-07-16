@@ -24,11 +24,14 @@
 
 package org.n52.oxf.ui.swing.tool;
 
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.icons.*;
-import org.n52.oxf.util.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.icons.IconAnchor;
+import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -38,13 +41,12 @@ import org.n52.oxf.util.*;
  */
 public class ZoomOutTool extends MapTool {
 
-    private static final Logger LOGGER = LoggingHandler.getLogger(ZoomOutTool.class);
+    private static final long serialVersionUID = -3305233056601586133L;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ZoomOutTool.class);
     
     private double zoomFactor = 0.75;
     
-    /**
-     * 
-     */
     public ZoomOutTool(JFrame owner, MapCanvas map) {
         super(owner, map);
         
@@ -59,7 +61,7 @@ public class ZoomOutTool extends MapTool {
             zoomOut();
         }
         catch (OXFEventException e) {
-            LOGGER.error(e);
+            LOGGER.error("Could not zoom out.", e);
         }
     }
 

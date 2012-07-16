@@ -24,7 +24,7 @@
 
 package org.n52.oxf.layer;
 
-import org.apache.log4j.Logger;
+
 import org.n52.oxf.OXFException;
 import org.n52.oxf.OXFRuntimeException;
 import org.n52.oxf.feature.OXFFeatureCollection;
@@ -37,8 +37,9 @@ import org.n52.oxf.render.IVisualization;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.util.EventName;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is a can be used to execute the "download - marshal features - and - render - data"-process.
@@ -49,8 +50,8 @@ import org.n52.oxf.util.OXFEventException;
  * 
  */
 public class FeatureServiceLayerProcessor extends LayerProcessor {
-
-    protected static Logger LOGGER = LoggingHandler.getLogger(FeatureServiceLayerProcessor.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(FeatureServiceLayerProcessor.class);
 
     private FeatureServiceLayerProcess process;
 

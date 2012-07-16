@@ -24,35 +24,38 @@
 
 package org.n52.oxf.ui.swing.menu.sos;
 
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.*;
-import org.n52.oxf.feature.*;
-import org.n52.oxf.feature.sos.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.owsCommon.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.render.sos.*;
-import org.n52.oxf.serviceAdapters.*;
-import org.n52.oxf.serviceAdapters.sos.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.menu.*;
-import org.n52.oxf.ui.swing.sos.*;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.ui.swing.util.*;
-import org.n52.oxf.util.*;
+import java.awt.event.ActionEvent;
+import java.util.List;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+
+import org.n52.oxf.feature.sos.SOSObservationStore;
+import org.n52.oxf.layer.FeatureServiceLayer;
+import org.n52.oxf.layer.IContextLayer;
+import org.n52.oxf.owsCommon.ServiceDescriptor;
+import org.n52.oxf.render.sos.AnimatedMapBarChartRenderer;
+import org.n52.oxf.render.sos.IDWRenderer;
+import org.n52.oxf.render.sos.NNRenderer;
+import org.n52.oxf.render.sos.ProportionalCircleMapRenderer;
+import org.n52.oxf.render.sos.ScatterPlotChartRenderer;
+import org.n52.oxf.render.sos.TimeSeriesChartRenderer;
+import org.n52.oxf.render.sos.TimeSeriesMapChartRenderer;
+import org.n52.oxf.render.sos.WindFieldRenderer;
+import org.n52.oxf.serviceAdapters.IServiceAdapter;
+import org.n52.oxf.serviceAdapters.sos.SOSAdapter;
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.menu.Menu;
+import org.n52.oxf.ui.swing.sos.SOSLayerAdder;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+
 public class SOSSelectionMenu extends Menu {
 
-    static final Logger LOGGER = LoggingHandler.getLogger(SOSSelectionMenu.class);
-
+    private static final long serialVersionUID = -3464175804495608906L;
+    
     private JMenu layerRendererMenu;
+
     private JMenu chartRendererMenu;
 
     private JMenuItem timeCurveMI;

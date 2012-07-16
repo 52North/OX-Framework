@@ -39,12 +39,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingConstants;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.context.ContextHelper;
 import org.n52.oxf.ui.swing.AnimatedMapCanvas;
 import org.n52.oxf.ui.swing.BoundingBoxPanel;
 import org.n52.oxf.ui.swing.LegendDialog;
-import org.n52.oxf.ui.swing.MessageConsole;
 import org.n52.oxf.ui.swing.MyGridBagLayout;
 import org.n52.oxf.ui.swing.animation.AnimationPanel;
 import org.n52.oxf.ui.swing.menu.ConnectServiceMenu;
@@ -56,16 +54,14 @@ import org.n52.oxf.ui.swing.tool.FeatureToolBar;
 import org.n52.oxf.ui.swing.tool.LayerToolBar;
 import org.n52.oxf.ui.swing.tool.ZoomPanToolBar;
 import org.n52.oxf.ui.swing.tree.ContentTree;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OXClient extends JFrame {
 
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -7535286141922675210L;
 
-    private static Logger LOGGER = LoggingHandler.getLogger(OXClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OXClient.class);
 
     protected ContextHelper oxf;
 
@@ -117,13 +113,10 @@ public class OXClient extends JFrame {
         connectMenu = new ConnectServiceMenu(this, map, tree);
         selectionMenu = new SelectionMenu(this, map, tree);
 
-        MessageConsole msgConsole = new MessageConsole(this);
-        msgConsole.setVisible(false);
-
         LegendDialog legendDialog = new LegendDialog(this, tree);
         legendDialog.setVisible(false);
 
-        optionsMenu = new OptionsMenu(this, map, tree, msgConsole, legendDialog);
+        optionsMenu = new OptionsMenu(this, map, tree, legendDialog);
 
         initGUI();
     }

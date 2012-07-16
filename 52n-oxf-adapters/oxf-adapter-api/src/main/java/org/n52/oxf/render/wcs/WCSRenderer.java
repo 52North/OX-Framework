@@ -31,13 +31,13 @@ import java.net.URL;
 import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.render.IRasterDataRenderer;
 import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.ParameterMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sun.media.jai.codec.SeekableStream;
 
@@ -46,8 +46,7 @@ import com.sun.media.jai.codec.SeekableStream;
  */
 public class WCSRenderer implements IRasterDataRenderer {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(WCSRenderer.class);
-    
+    private static final Logger LOGGER = LoggerFactory.getLogger(WCSRenderer.class);
     
     /**
      * this method renders a java.awt.Image which will be used as the graphical representation of a layer. The

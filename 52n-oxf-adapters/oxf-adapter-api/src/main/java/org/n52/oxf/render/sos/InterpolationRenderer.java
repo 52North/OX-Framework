@@ -42,7 +42,6 @@ import java.util.Set;
 
 import javax.swing.JFrame;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.feature.OXFAbstractObservationType;
@@ -58,7 +57,8 @@ import org.n52.oxf.render.coverage.IntCoverage;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
@@ -74,8 +74,8 @@ import com.vividsolutions.jts.geom.Geometry;
  */
 public abstract class InterpolationRenderer implements IFeatureDataRenderer {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(InterpolationRenderer.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(InterpolationRenderer.class);
+    
     private static final int NUMBER_OF_CLASSES = 8;
     private static final String COLOR_PALETTE = CoverageProcessor.WHITE_TO_BLUE;
 

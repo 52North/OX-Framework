@@ -25,12 +25,16 @@
 
 package org.n52.oxf.ui.swing.animation;
 
-import java.awt.*;
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.util.*;
+import javax.swing.JSlider;
+
+import org.n52.oxf.render.AnimatedVisualization;
+import org.n52.oxf.ui.swing.AnimatedMapCanvas;
+import org.n52.oxf.util.EventName;
+import org.n52.oxf.util.IEventListener;
+import org.n52.oxf.util.OXFEvent;
+import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -38,15 +42,12 @@ import org.n52.oxf.util.*;
  */
 public class TimeLineSlider extends JSlider implements IEventListener {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(TimeLineSlider.class);
+    private static final long serialVersionUID = 2715721823808398280L;
 
     private int numberOfFrames = 1;
 
     private int currentFrame = -1;
 
-    /**
-     * 
-     */
     public TimeLineSlider(AnimatedMapCanvas map) {
         super();
         

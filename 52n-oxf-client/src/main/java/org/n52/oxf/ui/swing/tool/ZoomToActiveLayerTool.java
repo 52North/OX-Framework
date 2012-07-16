@@ -24,27 +24,29 @@
 
 package org.n52.oxf.ui.swing.tool;
 
-import java.util.*;
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.context.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.owsCommon.capabilities.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.icons.*;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.util.*;
+import java.util.List;
 
-/**
- * 
- * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import org.n52.oxf.context.ContextBoundingBox;
+import org.n52.oxf.layer.AbstractServiceLayer;
+import org.n52.oxf.layer.IContextLayer;
+import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.icons.IconAnchor;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ZoomToActiveLayerTool extends MapTool {
 
-    private static final Logger LOGGER = LoggingHandler.getLogger(ZoomToActiveLayerTool.class);
-
+    private static final long serialVersionUID = -5340460863424024536L;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ZoomToActiveLayerTool.class);
+    
     private ContentTree tree;
 
     /**
@@ -66,7 +68,7 @@ public class ZoomToActiveLayerTool extends MapTool {
             zoomToActiveLayer(map, tree);
         }
         catch (OXFEventException e) {
-            LOGGER.error(e, e);
+            LOGGER.error("Could not zoom to active layer.", e);
         }
     }
 

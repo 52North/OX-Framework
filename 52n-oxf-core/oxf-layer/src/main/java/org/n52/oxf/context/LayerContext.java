@@ -24,21 +24,30 @@
 
 package org.n52.oxf.context;
 
-import java.awt.geom.*;
-import java.util.*;
-import org.apache.log4j.*;
-import org.n52.oxf.*;
-import org.n52.oxf.feature.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.util.*;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.OXFRuntimeException;
+import org.n52.oxf.feature.OXFFeature;
+import org.n52.oxf.layer.AbstractLayer;
+import org.n52.oxf.layer.IContextLayer;
+import org.n52.oxf.layer.IFeatureLayer;
+import org.n52.oxf.render.OverlayEngine;
+import org.n52.oxf.util.EventName;
+import org.n52.oxf.util.OXFEvent;
+import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class LayerContext extends Context {
-
-    private final static Logger LOGGER = LoggingHandler.getLogger(LayerContext.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(LayerContext.class);
 
     /**
      * contains all IContextLayer objects of this LayerContext.

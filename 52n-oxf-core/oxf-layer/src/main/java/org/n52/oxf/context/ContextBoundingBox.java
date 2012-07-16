@@ -33,14 +33,12 @@ import java.math.BigDecimal;
 
 import net.opengis.context.BoundingBoxType;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
 import org.n52.oxf.serialization.IContextSerializableXML;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventEmitter;
 import org.n52.oxf.util.IEventListener;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.OXFEventException;
 import org.n52.oxf.util.OXFEventSupport;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
@@ -49,8 +47,6 @@ import org.n52.oxf.valueDomains.spatial.BoundingBox;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class ContextBoundingBox implements IEventEmitter, IContextSerializableXML {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(ContextBoundingBox.class);
 
     /**
      * Angefragter Ausschnitt wird an die kleinere Ausdehung angepasst; das f�hrt insbesondere beim initialen

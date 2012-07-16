@@ -30,7 +30,6 @@ import net.opengis.context.LayerType;
 import net.opengis.context.OnlineResourceType;
 import net.opengis.context.ServerType;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
 import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
@@ -38,25 +37,20 @@ import org.n52.oxf.render.IRenderer;
 import org.n52.oxf.serviceAdapters.IServiceAdapter;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.valueDomains.IGenericParameterValue;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public abstract class AbstractServiceLayer extends AbstractLayer {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractServiceLayer.class);
 
-    private final static Logger LOGGER = LoggingHandler.getLogger(AbstractServiceLayer.class);
-
-    /**
-     * 
-     */
     protected IServiceAdapter serviceAdapter;
 
-    /**
-     * 
-     */
     protected ServiceDescriptor serviceDescriptor;
 
     /**

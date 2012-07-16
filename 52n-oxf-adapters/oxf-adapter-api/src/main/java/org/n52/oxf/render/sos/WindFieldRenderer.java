@@ -36,7 +36,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.feature.OXFFeature;
@@ -46,8 +45,9 @@ import org.n52.oxf.render.AnimatedVisualization;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.valueDomains.time.ITimePosition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Point;
 
@@ -56,9 +56,9 @@ import com.vividsolutions.jts.geom.Point;
  * 
  */
 public class WindFieldRenderer implements IFeatureDataRenderer {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(WindFieldRenderer.class);
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(WindFieldRenderer.class);
+
     private ObservationSeriesCollection obsValues4FOI = null;
 
     private Set<OXFFeature> selectedFeaturesCache = null;

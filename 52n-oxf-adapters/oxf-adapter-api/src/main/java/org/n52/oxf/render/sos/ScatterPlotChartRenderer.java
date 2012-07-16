@@ -30,7 +30,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -45,17 +44,16 @@ import org.n52.oxf.render.IVisualization;
 import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.LoggingHandler;
-
-;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
 public class ScatterPlotChartRenderer implements IChartRenderer {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(ScatterPlotChartRenderer.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScatterPlotChartRenderer.class);
 
     private String observedPropertyX;
     private String observedPropertyY;

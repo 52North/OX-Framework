@@ -38,7 +38,6 @@ import net.opengis.kml.x22.PlacemarkType;
 import net.opengis.kml.x22.PointType;
 import net.opengis.kml.x22.StyleType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
 import org.n52.oxf.feature.OXFAbstractFeatureType;
 import org.n52.oxf.feature.OXFFeature;
@@ -49,21 +48,16 @@ import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IVisualization;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.XmlBeansHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-/**
- * 
- */
 public class SimpleOM2KMLRenderer implements IFeatureDataRenderer {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleOM2KMLRenderer.class);
 
-    private static Logger LOGGER = LoggingHandler.getLogger(SimpleOM2KMLRenderer.class);
-
-    /**
-     * 
-     */
     public IVisualization renderLayer(OXFFeatureCollection observationCollection,
                                       ParameterContainer paramCon,
                                       int screenW,

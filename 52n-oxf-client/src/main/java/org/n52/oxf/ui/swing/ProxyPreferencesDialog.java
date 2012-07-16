@@ -42,12 +42,14 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import org.apache.log4j.Logger;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProxyPreferencesDialog extends JDialog {
 
-    private Logger LOGGER = LoggingHandler.getLogger(ProxyPreferencesDialog.class);
+    private static final long serialVersionUID = 3533849593131926364L;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProxyPreferencesDialog.class);
     
     private JPanel proxyPanel;
     private JRadioButton useProxyRadioButton;
@@ -62,10 +64,6 @@ public class ProxyPreferencesDialog extends JDialog {
     private JLabel outputLabel;
     private JLabel portLabel;
 
-    /**
-     * 
-     * @param gui
-     */
     public ProxyPreferencesDialog(Component owner) {
         super();
 
@@ -81,10 +79,6 @@ public class ProxyPreferencesDialog extends JDialog {
         setProxySettings(proxyHost, proxyPort, nonProxyHosts);
     }
 
-    /**
-     * 
-     * 
-     */
     private void initComponents(Component owner) {
         proxyPanel = new JPanel();
         useProxyRadioButton = new JRadioButton("Do you want to use a proxy?");

@@ -32,7 +32,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
@@ -46,20 +45,17 @@ import org.n52.oxf.render.AnimatedVisualization;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.valueDomains.time.ITimePosition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Point;
 
-/**
- * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
+
 public class AnimatedMapChartRenderer4OnePhenomenon implements IFeatureDataRenderer {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(AnimatedMapChartRenderer4OnePhenomenon.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnimatedMapChartRenderer4OnePhenomenon.class);
+    
     protected static final int X_SHIFT = -10;
     protected static final int Y_SHIFT = -10;
 

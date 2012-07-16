@@ -32,22 +32,22 @@ import net.opengis.sos.x20.GetObservationResponseType.ObservationData;
 import net.opengis.waterml.x20.TimeseriesObservationDocument;
 import net.opengis.waterml.x20.TimeseriesObservationType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.OXFObservationCollectionType;
 import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.SosUtil;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SOSObservationStore extends OperationResultStore implements IFeatureStore {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(SOSObservationStore.class);
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSObservationStore.class);
+
     @Deprecated
     public SOSObservationStore() {
         // for backward compatibility .. TODO remove when deprecated contructor is going to be removed

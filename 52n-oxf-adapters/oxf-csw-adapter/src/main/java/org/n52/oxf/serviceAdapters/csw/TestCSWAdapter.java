@@ -24,13 +24,13 @@
 
 package org.n52.oxf.serviceAdapters.csw;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.capabilities.Operation;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class demonstrates how to use the CSWAdapter. You might use it as an example for your own code.
@@ -39,8 +39,8 @@ import org.n52.oxf.util.LoggingHandler;
  * 
  */
 public class TestCSWAdapter {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(TestCSWAdapter.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestCSWAdapter.class);
 
     // private final String url = "http://laits.gmu.edu:8099/csw/CSW_Service";
     //private final String url = "http://uddi.csiss.gmu.edu:1090/GEOSSCSW202/discovery";

@@ -35,35 +35,24 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.layer.IContextLayer;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventListener;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.OXFEvent;
 import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * 
- * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
 public class ContentTree extends JTree implements IEventListener {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(ContentTree.class);
-    
-    /**
-     * 
-     */
     private static final long serialVersionUID = -7139084068103317928L;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContentTree.class);
+    
     protected RootNode root;
     protected DefaultTreeModel treeModel;
 
-    /**
-     * 
-     */
     public ContentTree(MapCanvas map) {
         super();
 

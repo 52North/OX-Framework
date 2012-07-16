@@ -31,7 +31,6 @@ import java.awt.image.BufferedImage;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
@@ -50,7 +49,6 @@ import org.n52.oxf.render.IVisualization;
 import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 
 /**
@@ -59,7 +57,6 @@ import org.n52.oxf.valueDomains.time.ITimePosition;
  */
 public class TimeSeriesChartRenderer implements IChartRenderer {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(TimeSeriesChartRenderer.class);
     private String phenomenon;
 
     /**

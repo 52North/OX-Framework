@@ -30,14 +30,12 @@ import net.opengis.gml.FeaturePropertyType;
 import net.opengis.gml.TimeInstantType;
 import net.opengis.gml.TimePositionType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
 import org.n52.oxf.feature.sos.SOSFoiStore;
 import org.n52.oxf.owsCommon.capabilities.ITime;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.valueDomains.time.TimeFactory;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -47,8 +45,6 @@ import com.vividsolutions.jts.geom.Geometry;
  * 
  */
 public class OXFAbstractObservationType extends OXFAbstractFeatureType {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(OXFAbstractObservationType.class);
 
     public static final String PROCEDURE = "procedure";
     public static final String OBSERVED_PROPERTY = "observedProperty";

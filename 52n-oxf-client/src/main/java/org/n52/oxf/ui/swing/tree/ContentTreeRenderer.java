@@ -24,19 +24,22 @@
 
 package org.n52.oxf.ui.swing.tree;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.tree.*;
-import org.apache.log4j.*;
-import org.n52.oxf.ui.swing.icons.*;
-import org.n52.oxf.util.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- */
+import javax.swing.JCheckBox;
+import javax.swing.JTree;
+import javax.swing.UIManager;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeCellRenderer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ContentTreeRenderer implements TreeCellRenderer {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(ContentTreeRenderer.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContentTreeRenderer.class);
 
     private Color selectionBorderColor = UIManager.getColor("Tree.selectionBorderColor");
     private Color selectionForeground = UIManager.getColor("Tree.selectionForeground");

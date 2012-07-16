@@ -29,7 +29,6 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.sos.OXFSensorType;
@@ -37,7 +36,8 @@ import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
 import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.render.sos.FeatureGeometryRenderer;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
@@ -51,55 +51,30 @@ import com.vividsolutions.jts.geom.Point;
  * 
  */
 public class SensorPositionRenderer extends FeatureGeometryRenderer {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(SensorPositionRenderer.class);
 
     private static final Font STANDART_FONT = new Font("Arial", Font.PLAIN, 12);
 
-    private static Logger LOGGER = LoggingHandler.getLogger(SensorPositionRenderer.class);
-
-    /**
-	 * 
-	 */
     public SensorPositionRenderer() {
         super();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.n52.oxf.render.sos.FeatureGeometryRenderer#getDescription()
-     */
     @Override
     public String getDescription() {
         return "This renderer visualizes the given sensor.";
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.n52.oxf.render.sos.FeatureGeometryRenderer#getServiceType()
-     */
     @Override
     public String getServiceType() {
         return "SOS";
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.n52.oxf.render.sos.FeatureGeometryRenderer#getSupportedVersions()
-     */
     @Override
     public String[] getSupportedVersions() {
         return new String[] {"1.0.0"};
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * org.n52.oxf.render.sos.FeatureGeometryRenderer#drawFeatures(org.n52.oxf.feature.OXFFeatureCollection,
-     * int, int, org.n52.oxf.owsCommon.capabilities.IBoundingBox, java.awt.Graphics, java.awt.Color)
-     */
     @Override
     public void drawFeatures(OXFFeatureCollection featuresOfInterest,
                              int screenW,

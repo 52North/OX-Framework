@@ -43,7 +43,6 @@ import net.opengis.cat.csw.x202.GetRecordsResponseDocument;
 import net.opengis.cat.csw.x202.GetRecordsResponseType;
 import net.opengis.cat.csw.x202.SearchResultsType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
 import org.n52.oxf.owsCommon.capabilities.Operation;
 import org.n52.oxf.serviceAdapters.OperationResult;
@@ -54,11 +53,14 @@ import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.MyGridBagLayout;
 import org.n52.oxf.ui.swing.ShowRequestDialog;
 import org.n52.oxf.ui.swing.tree.ContentTree;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CSWChooser extends JDialog implements ActionListener {
+    
+    private static final long serialVersionUID = -5906010770526713489L;
 
-    private Logger LOGGER = LoggingHandler.getLogger(CSWChooser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSWChooser.class);
 
     private JButton btnChoose;
     private JButton btnCancel;

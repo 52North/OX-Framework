@@ -26,18 +26,14 @@ package org.n52.oxf.feature;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
 import org.n52.oxf.owsCommon.capabilities.ITime;
-import org.n52.oxf.util.LoggingHandler;
 
 import com.vividsolutions.jts.geom.Geometry;
 
 public class OXFTemporalObservationType extends OXFAbstractObservationType {
 
 	
-    private static Logger LOGGER = LoggingHandler.getLogger(OXFTemporalObservationType.class);
-
     public static final String RESULT = "result";
     
     public OXFTemporalObservationType(){

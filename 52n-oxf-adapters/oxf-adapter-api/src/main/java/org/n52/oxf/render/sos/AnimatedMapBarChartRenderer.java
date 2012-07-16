@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.NumberAxis;
@@ -52,20 +51,16 @@ import org.n52.oxf.render.AnimatedVisualization;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.valueDomains.time.ITimePosition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Point;
 
-/**
- * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
 public class AnimatedMapBarChartRenderer implements IFeatureDataRenderer {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(AnimatedMapBarChartRenderer.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnimatedMapBarChartRenderer.class);
+    
     protected static final int X_SHIFT = -10;
     protected static final int Y_SHIFT = -10;
 

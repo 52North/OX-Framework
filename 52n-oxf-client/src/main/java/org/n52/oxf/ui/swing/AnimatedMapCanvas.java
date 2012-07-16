@@ -26,16 +26,16 @@ package org.n52.oxf.ui.swing;
 
 import java.awt.Image;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.render.AnimatedVisualization;
 import org.n52.oxf.render.OverlayEngine;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventEmitter;
 import org.n52.oxf.util.IEventListener;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.OXFEvent;
 import org.n52.oxf.util.OXFEventException;
 import org.n52.oxf.util.OXFEventSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class extends the <code>MapCanvas</code> to be animatable.
@@ -45,12 +45,9 @@ import org.n52.oxf.util.OXFEventSupport;
  */
 public class AnimatedMapCanvas extends MapCanvas implements IEventEmitter, Runnable {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = -6529826577182008488L;
-
-    private static Logger LOGGER = LoggingHandler.getLogger(AnimatedMapCanvas.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnimatedMapCanvas.class);
 
     private AnimatedVisualization animatedVis = null;
     private int currentFrame = 0;

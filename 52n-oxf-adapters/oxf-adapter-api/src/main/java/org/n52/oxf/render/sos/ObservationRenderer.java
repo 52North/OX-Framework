@@ -34,7 +34,6 @@ import java.util.Set;
 
 import javax.media.jai.PlanarImage;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.feature.OXFAbstractObservationType;
 import org.n52.oxf.feature.OXFFeature;
@@ -44,7 +43,8 @@ import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IFeaturePicker;
 import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Point;
 
@@ -53,8 +53,8 @@ import com.vividsolutions.jts.geom.Point;
  * 
  */
 public class ObservationRenderer implements IFeatureDataRenderer, IFeaturePicker {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(ObservationRenderer.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ObservationRenderer.class);
 
     protected static final int X_SHIFT = -10;
     protected static final int Y_SHIFT = -10;

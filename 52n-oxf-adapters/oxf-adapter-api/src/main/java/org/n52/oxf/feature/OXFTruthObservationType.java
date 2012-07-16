@@ -26,10 +26,8 @@ package org.n52.oxf.feature;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
 import org.n52.oxf.owsCommon.capabilities.ITime;
-import org.n52.oxf.util.LoggingHandler;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -38,8 +36,6 @@ import com.vividsolutions.jts.geom.Geometry;
  * 
  */
 public class OXFTruthObservationType extends OXFAbstractObservationType {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(OXFTruthObservationType.class);
 
     public static final String RESULT = "result";
     

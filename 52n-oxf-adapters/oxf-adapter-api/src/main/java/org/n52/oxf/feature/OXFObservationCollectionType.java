@@ -32,12 +32,10 @@ import net.opengis.om.x20.OMObservationType;
 import net.opengis.sos.x20.GetObservationResponseType.ObservationData;
 import net.opengis.waterml.x20.TimeseriesObservationType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
-import org.n52.oxf.util.LoggingHandler;
 import org.w3c.dom.Node;
 
 /**
@@ -45,8 +43,6 @@ import org.w3c.dom.Node;
  * 
  */
 public class OXFObservationCollectionType extends OXFAbstractFeatureType {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(OXFObservationCollectionType.class);
 
     public OXFObservationCollectionType() {
         super();

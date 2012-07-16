@@ -24,27 +24,27 @@
 
 package org.n52.oxf.ui.swing.tool;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.*;
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.*;
-import org.n52.oxf.context.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.icons.*;
-import org.n52.oxf.util.*;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 
-/**
- * 
- * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
+import org.n52.oxf.context.ContextBoundingBox;
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.icons.IconAnchor;
+import org.n52.oxf.util.OXFEventException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PanTool extends MapTool {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(PanTool.class);
-
+    private static final long serialVersionUID = -7199369386822790062L;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(PanTool.class);
+    
     private Point2D.Float startPoint = null;
 
     /**
@@ -73,18 +73,10 @@ public class PanTool extends MapTool {
         panReleased(evt);
     }
 
-    /**
-     * 
-     * @param evt
-     */
     private void panStart(MouseEvent event) {
         startPoint = new Point2D.Float(event.getX(), event.getY());
     }
 
-    /**
-     * 
-     * @param evt
-     */
     private void panDragged(MouseEvent event) {
 
         if (startPoint != null) {
@@ -104,11 +96,6 @@ public class PanTool extends MapTool {
         }
     }
 
-    /**
-     * 
-     * @param evt
-     * @throws OXFException
-     */
     private void panReleased(MouseEvent event) {
 
         if (startPoint != null) {
@@ -144,10 +131,10 @@ public class PanTool extends MapTool {
                                                                         false);
             }
             catch (OXFEventException e) {
-                LOGGER.error(e, e);
+                LOGGER.error("Could not release pan.", e);
             }
             catch (NoninvertibleTransformException e) {
-                LOGGER.error(e, e);
+                LOGGER.error("Could not release pan.", e);
             }
 
             map.setImageOriginX(0);

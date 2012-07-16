@@ -24,20 +24,39 @@
 
 package org.n52.oxf.render;
 
-import com.sun.media.jai.codec.*;
-import java.awt.*;
-import java.awt.image.renderable.*;
-import java.io.*;
-import java.util.*;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.renderable.ParameterBlock;
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
-import javax.media.jai.*;
-import javax.media.jai.widget.*;
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.render.jai.*;
-import org.n52.oxf.util.*;
+import java.util.Vector;
+
+import javax.media.jai.JAI;
+import javax.media.jai.PlanarImage;
+import javax.media.jai.RenderedOp;
+import javax.media.jai.TiledImage;
+import javax.media.jai.widget.ImageCanvas;
+import javax.swing.JFrame;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.layer.IContextLayer;
+import org.n52.oxf.render.jai.MosaikDescriptor;
+import org.n52.oxf.render.jai.TransparencyDescriptor;
+import org.n52.oxf.util.EventName;
+import org.n52.oxf.util.IEventEmitter;
+import org.n52.oxf.util.IEventListener;
+import org.n52.oxf.util.OXFEvent;
+import org.n52.oxf.util.OXFEventException;
+import org.n52.oxf.util.OXFEventSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.sun.media.jai.codec.ImageCodec;
+import com.sun.media.jai.codec.ImageEncoder;
+import com.sun.media.jai.codec.PNGEncodeParam;
 
 /**
  * The OverlayEngine overlays images with the <code>overlayImages(ArrayList<PlanarImage> images)</code>-method.<br>
@@ -48,13 +67,13 @@ import org.n52.oxf.util.*;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class OverlayEngine implements IEventEmitter, IEventListener {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(OverlayEngine.class);
 
     static {
         MosaikDescriptor.register();
         TransparencyDescriptor.register();
     }
-
-    private static Logger LOGGER = LoggingHandler.getLogger(OverlayEngine.class);
 
     /**
      * classes which want to listen to this class must be added to this OXFEventSupport.

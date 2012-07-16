@@ -24,9 +24,9 @@
 
 package org.n52.oxf.layer;
 
+
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.OXFRuntimeException;
 import org.n52.oxf.feature.IFeatureStore;
@@ -40,13 +40,12 @@ import org.n52.oxf.render.IVisualization;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.util.EventName;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.OXFEvent;
 import org.n52.oxf.util.OXFEventException;
 import org.n52.oxf.valueDomains.StringValueDomain;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
@@ -61,8 +60,8 @@ import com.vividsolutions.jts.geom.Geometry;
  * 
  */
 public class FeatureLayer extends AbstractLayer implements IFeatureLayer {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(FeatureLayer.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(FeatureLayer.class);
 
     private Set<OXFFeature> selectedFeatures;
     private IFeatureStore featureStore;
@@ -300,7 +299,7 @@ public class FeatureLayer extends AbstractLayer implements IFeatureLayer {
 
     public void serializeToContext(StringBuffer sb) {
         // TODO implement method serializeToContext
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override

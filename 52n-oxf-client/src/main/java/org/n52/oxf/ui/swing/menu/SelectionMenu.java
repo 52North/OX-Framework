@@ -25,13 +25,13 @@
 
 package org.n52.oxf.ui.swing.menu;
 
-import java.awt.event.*;
-import javax.swing.*;
-import org.apache.log4j.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.menu.sos.*;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.util.*;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JFrame;
+
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.menu.sos.SOSSelectionMenu;
+import org.n52.oxf.ui.swing.tree.ContentTree;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -39,7 +39,7 @@ import org.n52.oxf.util.*;
  */
 public class SelectionMenu extends Menu {
 
-    private static final Logger LOGGER = LoggingHandler.getLogger(SelectionMenu.class);
+    private static final long serialVersionUID = -6758583605834028608L;
     
     private Menu sosMenu;
 

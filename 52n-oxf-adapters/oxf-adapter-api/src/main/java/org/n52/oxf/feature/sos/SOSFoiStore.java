@@ -38,7 +38,6 @@ import net.opengis.sampling.x10.SamplingSurfaceDocument;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
 import net.opengis.samplingSpatial.x20.ShapeType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -54,7 +53,8 @@ import org.n52.oxf.feature.OXFGrdcSamplingPointType;
 import org.n52.oxf.feature.OXFSamplingPointType;
 import org.n52.oxf.feature.OXFSamplingSurfaceType;
 import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.grdc.sampling.x10.GrdcSamplingPointDocument;
 
@@ -63,8 +63,8 @@ import de.grdc.sampling.x10.GrdcSamplingPointDocument;
  */
 public class SOSFoiStore extends OperationResultStore implements IFeatureStore {
     
-    private static Logger LOGGER = LoggingHandler.getLogger(SOSFoiStore.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSFoiStore.class);
+    
     @Deprecated
     public SOSFoiStore() {
         // for backward compatibility .. TODO remove when deprecated contructor is going to be removed
@@ -76,7 +76,7 @@ public class SOSFoiStore extends OperationResultStore implements IFeatureStore {
 
     public OXFFeatureCollection unmarshalFeatures() throws OXFException {
         if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Unmarshalling features from:\n" + xmlObject.xmlText());
+            LOGGER.debug("Unmarshalling features from: {}\n", xmlObject.xmlText());
         }
         
         if (isGmlFeatureCollectionDocument(xmlObject)) {

@@ -26,7 +26,6 @@ package org.n52.oxf.serviceAdapters.sos;
 
 import java.util.Iterator;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeature;
@@ -39,8 +38,9 @@ import org.n52.oxf.owsCommon.capabilities.Operation;
 import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.sos.caps.ObservationOffering;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.SosUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class demonstrates how to use the SOSAdapter. You might use it as an example for your own code.
@@ -49,8 +49,8 @@ import org.n52.oxf.util.SosUtil;
  * 
  */
 public class TestSOSAdapter {
-
-	private static Logger LOGGER = LoggingHandler.getLogger(TestSOSAdapter.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestSOSAdapter.class);
 
 	// private final String url = "http://localhost:8080/52nSOSv2_WeatherSA_artifical/sos";
 
@@ -70,7 +70,6 @@ public class TestSOSAdapter {
 	
 	private final String url = "http://v-swe.uni-muenster.de:8080/WeatherSOS/sos";
 	
-
 	private final String serviceVersion = "1.0.0";
 
 	public static void main(String[] args) throws OXFException, ExceptionReport {

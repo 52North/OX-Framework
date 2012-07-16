@@ -15,10 +15,8 @@
 		<module>oxf-csw-adapter</module>
 		<module>oxf-ses-adapter</module>
 		<module>oxf-sos-adapter</module>
-		<!-- 
 		<module>oxf-wcs-adapter</module>
 		<module>oxf-wms-adapter</module>
-		 -->
 	</modules>
 	<dependencyManagement>
 		<dependencies>
@@ -27,38 +25,6 @@
 				<artifactId>oxf-adapter-api</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-csw-adapter</artifactId>
-				<version>${project.parent.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-ses-adapter</artifactId>
-				<version>${project.parent.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-sos-adapter</artifactId>
-				<version>${project.parent.version}</version>
-			</dependency>
-			<!-- 
-			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-sos-adapter</artifactId>
-				<version>${project.parent.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-wcs-adapter</artifactId>
-				<version>${project.parent.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-wms-adapter</artifactId>
-				<version>${project.parent.version}</version>
-			</dependency>
-			 -->
 		</dependencies>
 	</dependencyManagement>
 </project>

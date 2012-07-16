@@ -34,8 +34,9 @@ import javax.media.jai.OperationDescriptorImpl;
 import javax.media.jai.OperationRegistry;
 import javax.media.jai.registry.RIFRegistry;
 
-import org.apache.log4j.Logger;
-import org.n52.oxf.util.LoggingHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * 
@@ -43,8 +44,10 @@ import org.n52.oxf.util.LoggingHandler;
  */
 public class CMConvertDescriptor extends OperationDescriptorImpl implements RenderedImageFactory {
 
-    private final static Logger LOGGER = LoggingHandler.getLogger(CMConvertDescriptor.class);
+    private static final long serialVersionUID = -7016280521746457398L;
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(CMConvertDescriptor.class);
+
     private final static String PRODUCT = "52north OX-Framework";
 
     private final static String[][] resources = {

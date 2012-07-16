@@ -35,7 +35,6 @@ import net.opengis.context.LayerType;
 import net.opengis.context.StyleType;
 import net.opengis.context.ViewContextType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.context.ContextBoundingBox;
@@ -54,7 +53,6 @@ import org.n52.oxf.render.OverlayEngine;
 import org.n52.oxf.serviceAdapters.IServiceAdapter;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.valueDomains.StringValueDomain;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -65,8 +63,6 @@ import org.w3c.dom.NodeList;
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  */
 public class DeserializationFactory {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(DeserializationFactory.class);
 
     public LayerContext deserializeLayerContext(InputStream is) throws XmlException,
             IOException,

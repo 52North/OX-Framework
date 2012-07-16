@@ -33,7 +33,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
@@ -47,12 +46,9 @@ import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.serviceAdapters.sos.ISOSRequestBuilder;
 import org.n52.oxf.serviceAdapters.sos.SOSAdapter;
 import org.n52.oxf.serviceAdapters.sos.caps.ObservationOffering;
-import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.TimePanel;
 import org.n52.oxf.ui.swing.TimePeriodPanel;
 import org.n52.oxf.ui.swing.TimePositionPanel;
-import org.n52.oxf.ui.swing.tree.ContentTree;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.util.SosUtil;
 import org.n52.oxf.valueDomains.filter.ComparisonFilter;
 import org.n52.oxf.valueDomains.filter.FilterValueDomain;
@@ -60,11 +56,11 @@ import org.n52.oxf.valueDomains.filter.IFilter;
 import org.n52.oxf.valueDomains.time.TemporalValueDomain;
 import org.n52.oxf.valueDomains.time.TimePeriod;
 import org.n52.oxf.valueDomains.time.TimePosition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class GetObs_ConfiguratorController {
-
-    private static Logger LOGGER = LoggingHandler.getLogger(GetObs_ConfiguratorController.class);
 
     private GetObs_Configurator view;
 

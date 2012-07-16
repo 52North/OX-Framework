@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.axis.DateTickMarkPosition;
 import org.jfree.chart.axis.NumberAxis;
@@ -52,8 +51,9 @@ import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.LoggingHandler;
 import org.n52.oxf.valueDomains.time.ITimePosition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Point;
 
@@ -64,7 +64,7 @@ import com.vividsolutions.jts.geom.Point;
  */
 public class TimeSeriesMapChartRenderer implements IFeatureDataRenderer {
 
-    private static Logger LOGGER = LoggingHandler.getLogger(TimeSeriesMapChartRenderer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TimeSeriesMapChartRenderer.class);
 
     protected static final float CHART_WIDTH = 150;
     protected static final float CHART_HEIGHT = 160;
