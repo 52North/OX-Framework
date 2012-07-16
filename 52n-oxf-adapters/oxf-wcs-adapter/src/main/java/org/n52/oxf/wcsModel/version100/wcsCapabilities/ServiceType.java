@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.serviceAdapters.wcs.model.version100.gml.CodeListType;
+import org.n52.oxf.adapter.wcs.model.version100.gml.CodeListType;
 
 
 @XmlAccessorType(value = XmlAccessType.FIELD)
@@ -121,7 +121,7 @@ public class ServiceType
      * 
      * @return
      *     possible object is
-     *     {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.CodeListType}
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeListType}
      */
     public CodeListType getFees() {
         return fees;
@@ -132,7 +132,7 @@ public class ServiceType
      * 
      * @param value
      *     allowed object is
-     *     {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.CodeListType}
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeListType}
      */
     public void setFees(CodeListType value) {
         this.fees = value;
@@ -163,7 +163,7 @@ public class ServiceType
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.CodeListType}
+     * {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeListType}
      * 
      */
     public List<CodeListType> getAccessConstraints() {

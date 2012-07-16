@@ -29,19 +29,42 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.adapter.wcs.model.version100.gml.AbstractGMLType;
-
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "AbstractDescriptionBaseType", namespace = "http://www.opengis.net/wcs")
-public abstract class AbstractDescriptionBaseType
-    extends AbstractGMLType
+@XmlType(name = "PointType", namespace = "http://www.opengis.net/gml")
+public class PointType
+    extends AbstractGeometryType
 {
 
+    @XmlElement(name = "pos", namespace = "http://www.opengis.net/gml", type = DirectPositionType.class)
+    protected DirectPositionType pos;
+
+    /**
+     * Gets the value of the pos property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.DirectPositionType}
+     */
+    public DirectPositionType getPos() {
+        return pos;
+    }
+
+    /**
+     * Sets the value of the pos property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.DirectPositionType}
+     */
+    public void setPos(DirectPositionType value) {
+        this.pos = value;
+    }
 
 }

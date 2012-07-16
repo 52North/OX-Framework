@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-import org.n52.oxf.serviceAdapters.wcs.model.version100.gml.CodeListType;
+import org.n52.oxf.adapter.wcs.model.version100.gml.CodeListType;
 import org.n52.oxf.wcsModel.version100.wcsCapabilities.AxisDescriptionType.Values;
 import org.n52.oxf.wcsModel.version100.wcsCapabilities.DCPTypeType.HTTP;
 import org.n52.oxf.wcsModel.version100.wcsCapabilities.DCPTypeType.HTTP.Get;
@@ -665,7 +665,7 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link javax.xml.bind.JAXBElement<org.n52.oxf.serviceAdapters.wcs.model.version100.gml.CodeListType>}
+     * Create an instance of {@link javax.xml.bind.JAXBElement<org.n52.oxf.adapter.wcs.model.version100.gml.CodeListType>}
      * 
      */
     @XmlElementDecl(name = "formats", namespace = "http://www.opengis.net/wcs")

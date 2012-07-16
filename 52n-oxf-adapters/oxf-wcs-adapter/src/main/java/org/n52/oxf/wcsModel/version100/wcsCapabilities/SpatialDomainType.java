@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.serviceAdapters.wcs.model.version100.gml.PolygonType;
+import org.n52.oxf.adapter.wcs.model.version100.gml.PolygonType;
 
 @XmlAccessorType(value = XmlAccessType.FIELD)
 @XmlType(name = "SpatialDomainType", namespace = "http://www.opengis.net/wcs")
@@ -79,8 +79,8 @@ public class SpatialDomainType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link javax.xml.bind.JAXBElement<org.n52.oxf.serviceAdapters.wcs.model.version100.gml.EnvelopeWithTimePeriodType>}
-     * {@link javax.xml.bind.JAXBElement<org.n52.oxf.serviceAdapters.wcs.model.version100.gml.EnvelopeType>}
+     * {@link javax.xml.bind.JAXBElement<org.n52.oxf.adapter.wcs.model.version100.gml.EnvelopeWithTimePeriodType>}
+     * {@link javax.xml.bind.JAXBElement<org.n52.oxf.adapter.wcs.model.version100.gml.EnvelopeType>}
      * 
      */
     public List<JAXBElement> getEnvelope() {
@@ -112,8 +112,8 @@ public class SpatialDomainType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link javax.xml.bind.JAXBElement<org.n52.oxf.serviceAdapters.wcs.model.version100.gml.GridType>}
-     * {@link javax.xml.bind.JAXBElement<org.n52.oxf.serviceAdapters.wcs.model.version100.gml.RectifiedGridType>}
+     * {@link javax.xml.bind.JAXBElement<org.n52.oxf.adapter.wcs.model.version100.gml.GridType>}
+     * {@link javax.xml.bind.JAXBElement<org.n52.oxf.adapter.wcs.model.version100.gml.RectifiedGridType>}
      * 
      */
     public List<JAXBElement> getGrid() {
@@ -145,7 +145,7 @@ public class SpatialDomainType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.PolygonType}
+     * {@link org.n52.oxf.adapter.wcs.model.version100.gml.PolygonType}
      * 
      */
     public List<PolygonType> getPolygon() {

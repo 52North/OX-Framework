@@ -29,19 +29,43 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.adapter.wcs.model.version100.gml.AbstractGMLType;
-
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "AbstractDescriptionBaseType", namespace = "http://www.opengis.net/wcs")
-public abstract class AbstractDescriptionBaseType
-    extends AbstractGMLType
-{
+@XmlType(name = "BoundingShapeType", namespace = "http://www.opengis.net/gml")
+public class BoundingShapeType {
 
+    @XmlElementRef(name = "Envelope", namespace = "http://www.opengis.net/gml", type = JAXBElement.class)
+    protected JAXBElement envelope;
+
+    /**
+     * Gets the value of the envelope property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link javax.xml.bind.JAXBElement<org.n52.oxf.adapter.wcs.model.version100.gml.EnvelopeWithTimePeriodType>}
+     *     {@link javax.xml.bind.JAXBElement<org.n52.oxf.adapter.wcs.model.version100.gml.EnvelopeType>}
+     */
+    public JAXBElement getEnvelope() {
+        return envelope;
+    }
+
+    /**
+     * Sets the value of the envelope property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link javax.xml.bind.JAXBElement<org.n52.oxf.adapter.wcs.model.version100.gml.EnvelopeWithTimePeriodType>}
+     *     {@link javax.xml.bind.JAXBElement<org.n52.oxf.adapter.wcs.model.version100.gml.EnvelopeType>}
+     */
+    public void setEnvelope(JAXBElement value) {
+        this.envelope = value;
+    }
 
 }

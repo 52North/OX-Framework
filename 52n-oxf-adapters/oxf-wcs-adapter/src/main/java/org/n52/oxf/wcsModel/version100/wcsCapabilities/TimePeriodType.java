@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.serviceAdapters.wcs.model.version100.gml.TimePositionType;
+import org.n52.oxf.adapter.wcs.model.version100.gml.TimePositionType;
 
 @XmlAccessorType(value = XmlAccessType.FIELD)
 @XmlType(name = "TimePeriodType", namespace = "http://www.opengis.net/wcs")
@@ -57,7 +57,7 @@ public class TimePeriodType {
      * 
      * @return
      *     possible object is
-     *     {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.TimePositionType}
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.TimePositionType}
      */
     public TimePositionType getBeginPosition() {
         return beginPosition;
@@ -68,7 +68,7 @@ public class TimePeriodType {
      * 
      * @param value
      *     allowed object is
-     *     {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.TimePositionType}
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.TimePositionType}
      */
     public void setBeginPosition(TimePositionType value) {
         this.beginPosition = value;
@@ -79,7 +79,7 @@ public class TimePeriodType {
      * 
      * @return
      *     possible object is
-     *     {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.TimePositionType}
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.TimePositionType}
      */
     public TimePositionType getEndPosition() {
         return endPosition;
@@ -90,7 +90,7 @@ public class TimePeriodType {
      * 
      * @param value
      *     allowed object is
-     *     {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.TimePositionType}
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.TimePositionType}
      */
     public void setEndPosition(TimePositionType value) {
         this.endPosition = value;

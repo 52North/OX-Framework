@@ -29,7 +29,7 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,76 +37,47 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.adapter.wcs.model.version100.gml.CodeType;
-
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "keyword",
-    "type"
-})
-@XmlRootElement(name = "keywords", namespace = "http://www.opengis.net/wcs")
-public class Keywords {
+@XmlType(name = "LinearRingType", namespace = "http://www.opengis.net/gml")
+public class LinearRingType
+    extends AbstractRingType
+{
 
-    @XmlElement(name = "keyword", namespace = "http://www.opengis.net/wcs", type = String.class)
-    protected List<String> keyword;
-    @XmlElement(name = "type", namespace = "http://www.opengis.net/wcs", type = CodeType.class)
-    protected CodeType type;
+    @XmlElement(name = "pos", namespace = "http://www.opengis.net/gml", type = DirectPositionType.class)
+    protected List<DirectPositionType> pos;
 
-    protected List<String> _getKeyword() {
-        if (keyword == null) {
-            keyword = new ArrayList<String>();
+    protected List<DirectPositionType> _getPos() {
+        if (pos == null) {
+            pos = new ArrayList<DirectPositionType>();
         }
-        return keyword;
+        return pos;
     }
 
     /**
-     * Gets the value of the keyword property.
+     * Gets the value of the pos property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the keyword property.
+     * This is why there is not a <CODE>set</CODE> method for the pos property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getKeyword().add(newItem);
+     *    getPos().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link java.lang.String}
+     * {@link org.n52.oxf.adapter.wcs.model.version100.gml.DirectPositionType}
      * 
      */
-    public List<String> getKeyword() {
-        return this._getKeyword();
-    }
-
-    /**
-     * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
-     */
-    public CodeType getType() {
-        return type;
-    }
-
-    /**
-     * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
-     */
-    public void setType(CodeType value) {
-        this.type = value;
+    public List<DirectPositionType> getPos() {
+        return this._getPos();
     }
 
 }

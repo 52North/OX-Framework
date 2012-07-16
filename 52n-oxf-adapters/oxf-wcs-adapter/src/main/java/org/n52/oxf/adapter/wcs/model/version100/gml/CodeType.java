@@ -29,19 +29,65 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
-
-import org.n52.oxf.adapter.wcs.model.version100.gml.AbstractGMLType;
+import javax.xml.bind.annotation.XmlValue;
 
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "AbstractDescriptionBaseType", namespace = "http://www.opengis.net/wcs")
-public abstract class AbstractDescriptionBaseType
-    extends AbstractGMLType
-{
+@XmlType(name = "CodeType", namespace = "http://www.opengis.net/gml")
+public class CodeType {
 
+    @XmlValue
+    protected String value;
+    @XmlAttribute(name = "codeSpace", namespace = "")
+    protected String codeSpace;
+
+    /**
+     * Gets the value of the value property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link java.lang.String}
+     */
+    public String getValue() {
+        return value;
+    }
+
+    /**
+     * Sets the value of the value property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link java.lang.String}
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    /**
+     * Gets the value of the codeSpace property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link java.lang.String}
+     */
+    public String getCodeSpace() {
+        return codeSpace;
+    }
+
+    /**
+     * Sets the value of the codeSpace property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link java.lang.String}
+     */
+    public void setCodeSpace(String value) {
+        this.codeSpace = value;
+    }
 
 }

@@ -29,84 +29,79 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
-
-import org.n52.oxf.adapter.wcs.model.version100.gml.CodeType;
+import javax.xml.bind.annotation.XmlValue;
 
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "keyword",
-    "type"
-})
-@XmlRootElement(name = "keywords", namespace = "http://www.opengis.net/wcs")
-public class Keywords {
+@XmlType(name = "DirectPositionType", namespace = "http://www.opengis.net/gml")
+public class DirectPositionType {
 
-    @XmlElement(name = "keyword", namespace = "http://www.opengis.net/wcs", type = String.class)
-    protected List<String> keyword;
-    @XmlElement(name = "type", namespace = "http://www.opengis.net/wcs", type = CodeType.class)
-    protected CodeType type;
+    @XmlValue
+    protected List<Double> value;
+    @XmlAttribute(name = "dimension", namespace = "")
+    protected BigInteger dimension;
 
-    protected List<String> _getKeyword() {
-        if (keyword == null) {
-            keyword = new ArrayList<String>();
+    protected List<Double> _getValue() {
+        if (value == null) {
+            value = new ArrayList<Double>();
         }
-        return keyword;
+        return value;
     }
 
     /**
-     * Gets the value of the keyword property.
+     * XML List based on XML Schema double type.  An element of this type contains a space-separated list of double valuesGets the value of the value property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the keyword property.
+     * This is why there is not a <CODE>set</CODE> method for the value property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getKeyword().add(newItem);
+     *    getValue().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link java.lang.String}
+     * {@link java.lang.Double}
      * 
      */
-    public List<String> getKeyword() {
-        return this._getKeyword();
+    public List<Double> getValue() {
+        return this._getValue();
     }
 
     /**
-     * Gets the value of the type property.
+     * Gets the value of the dimension property.
      * 
      * @return
      *     possible object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
+     *     {@link java.math.BigInteger}
      */
-    public CodeType getType() {
-        return type;
+    public BigInteger getDimension() {
+        return dimension;
     }
 
     /**
-     * Sets the value of the type property.
+     * Sets the value of the dimension property.
      * 
      * @param value
      *     allowed object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
+     *     {@link java.math.BigInteger}
      */
-    public void setType(CodeType value) {
-        this.type = value;
+    public void setDimension(BigInteger value) {
+        this.dimension = value;
     }
 
 }

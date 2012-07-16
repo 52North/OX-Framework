@@ -29,58 +29,70 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlType;
-
-import org.n52.oxf.adapter.wcs.model.version100.gml.TimePositionType;
-
+import javax.xml.bind.annotation.XmlValue;
+import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "LonLatEnvelopeType", namespace = "http://www.opengis.net/wcs")
-public class LonLatEnvelopeType
-    extends LonLatEnvelopeBaseType
-{
+@XmlType(name = "AbstractMetaDataType", namespace = "http://www.opengis.net/gml")
+public abstract class AbstractMetaDataType {
 
-    @XmlElement(name = "timePosition", namespace = "http://www.opengis.net/gml", type = TimePositionType.class)
-    protected List<TimePositionType> timePosition;
+    @XmlValue
+    protected String content;
+    @XmlAttribute(name = "id", namespace = "http://www.opengis.net/gml")
+    @XmlJavaTypeAdapter(value = CollapsedStringAdapter.class)
+    @XmlID
+    protected String id;
 
-    protected List<TimePositionType> _getTimePosition() {
-        if (timePosition == null) {
-            timePosition = new ArrayList<TimePositionType>();
-        }
-        return timePosition;
+    /**
+     * An abstract base type for complex metadata types.
+     * 
+     * @return
+     *     possible object is
+     *     {@link java.lang.String}
+     */
+    public String getContent() {
+        return content;
     }
 
     /**
-     * Gets the value of the timePosition property.
+     * An abstract base type for complex metadata types.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the timePosition property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimePosition().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link org.n52.oxf.adapter.wcs.model.version100.gml.TimePositionType}
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link java.lang.String}
      */
-    public List<TimePositionType> getTimePosition() {
-        return this._getTimePosition();
+    public void setContent(String value) {
+        this.content = value;
+    }
+
+    /**
+     * Gets the value of the id property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link java.lang.String}
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Sets the value of the id property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link java.lang.String}
+     */
+    public void setId(String value) {
+        this.id = value;
     }
 
 }

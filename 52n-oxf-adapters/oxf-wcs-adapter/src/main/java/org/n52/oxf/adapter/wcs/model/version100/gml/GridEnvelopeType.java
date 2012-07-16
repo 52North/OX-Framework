@@ -29,84 +29,92 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
+//import com.sun.xml.bind.annotation.*;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.adapter.wcs.model.version100.gml.CodeType;
-
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "keyword",
-    "type"
-})
-@XmlRootElement(name = "keywords", namespace = "http://www.opengis.net/wcs")
-public class Keywords {
+@XmlType(name = "GridEnvelopeType", namespace = "http://www.opengis.net/gml")
+public class GridEnvelopeType {
 
-    @XmlElement(name = "keyword", namespace = "http://www.opengis.net/wcs", type = String.class)
-    protected List<String> keyword;
-    @XmlElement(name = "type", namespace = "http://www.opengis.net/wcs", type = CodeType.class)
-    protected CodeType type;
+    //@XmlList
+    @XmlElement(name = "low", namespace = "http://www.opengis.net/gml", type = BigInteger.class)
+    protected List<BigInteger> low;
+    
+    //@XmlList
+    @XmlElement(name = "high", namespace = "http://www.opengis.net/gml", type = BigInteger.class)
+    protected List<BigInteger> high;
 
-    protected List<String> _getKeyword() {
-        if (keyword == null) {
-            keyword = new ArrayList<String>();
+    protected List<BigInteger> _getLow() {
+        if (low == null) {
+            low = new ArrayList<BigInteger>();
         }
-        return keyword;
+        return low;
     }
 
     /**
-     * Gets the value of the keyword property.
+     * Gets the value of the low property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the keyword property.
+     * This is why there is not a <CODE>set</CODE> method for the low property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getKeyword().add(newItem);
+     *    getLow().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link java.lang.String}
+     * {@link java.math.BigInteger}
      * 
      */
-    public List<String> getKeyword() {
-        return this._getKeyword();
+    public List<BigInteger> getLow() {
+        return this._getLow();
+    }
+
+    protected List<BigInteger> _getHigh() {
+        if (high == null) {
+            high = new ArrayList<BigInteger>();
+        }
+        return high;
     }
 
     /**
-     * Gets the value of the type property.
+     * Gets the value of the high property.
      * 
-     * @return
-     *     possible object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
-     */
-    public CodeType getType() {
-        return type;
-    }
-
-    /**
-     * Sets the value of the type property.
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the high property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getHigh().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link java.math.BigInteger}
+     * 
      */
-    public void setType(CodeType value) {
-        this.type = value;
+    public List<BigInteger> getHigh() {
+        return this._getHigh();
     }
 
 }

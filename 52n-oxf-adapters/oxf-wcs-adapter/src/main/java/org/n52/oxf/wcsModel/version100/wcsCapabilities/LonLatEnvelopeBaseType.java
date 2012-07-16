@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.serviceAdapters.wcs.model.version100.gml.EnvelopeType;
+import org.n52.oxf.adapter.wcs.model.version100.gml.EnvelopeType;
 
 @XmlAccessorType(value = XmlAccessType.FIELD)
 @XmlType(name = "LonLatEnvelopeBaseType", namespace = "http://www.opengis.net/wcs")

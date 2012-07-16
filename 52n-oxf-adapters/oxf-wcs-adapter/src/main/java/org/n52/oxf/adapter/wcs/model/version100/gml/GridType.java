@@ -29,52 +29,73 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.adapter.wcs.model.version100.gml.CodeType;
-
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "keyword",
-    "type"
-})
-@XmlRootElement(name = "keywords", namespace = "http://www.opengis.net/wcs")
-public class Keywords {
+@XmlType(name = "GridType", namespace = "http://www.opengis.net/gml")
+public class GridType
+    extends AbstractGeometryType
+{
 
-    @XmlElement(name = "keyword", namespace = "http://www.opengis.net/wcs", type = String.class)
-    protected List<String> keyword;
-    @XmlElement(name = "type", namespace = "http://www.opengis.net/wcs", type = CodeType.class)
-    protected CodeType type;
+    @XmlElement(name = "limits", namespace = "http://www.opengis.net/gml", type = GridLimitsType.class)
+    protected GridLimitsType limits;
+    @XmlElement(name = "axisName", namespace = "http://www.opengis.net/gml", type = String.class)
+    protected List<String> axisName;
+    @XmlAttribute(name = "dimension", namespace = "", required = true)
+    protected BigInteger dimension;
 
-    protected List<String> _getKeyword() {
-        if (keyword == null) {
-            keyword = new ArrayList<String>();
-        }
-        return keyword;
+    /**
+     * Gets the value of the limits property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.GridLimitsType}
+     */
+    public GridLimitsType getLimits() {
+        return limits;
     }
 
     /**
-     * Gets the value of the keyword property.
+     * Sets the value of the limits property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.GridLimitsType}
+     */
+    public void setLimits(GridLimitsType value) {
+        this.limits = value;
+    }
+
+    protected List<String> _getAxisName() {
+        if (axisName == null) {
+            axisName = new ArrayList<String>();
+        }
+        return axisName;
+    }
+
+    /**
+     * Gets the value of the axisName property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the keyword property.
+     * This is why there is not a <CODE>set</CODE> method for the axisName property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getKeyword().add(newItem);
+     *    getAxisName().add(newItem);
      * </pre>
      * 
      * 
@@ -83,30 +104,30 @@ public class Keywords {
      * {@link java.lang.String}
      * 
      */
-    public List<String> getKeyword() {
-        return this._getKeyword();
+    public List<String> getAxisName() {
+        return this._getAxisName();
     }
 
     /**
-     * Gets the value of the type property.
+     * Gets the value of the dimension property.
      * 
      * @return
      *     possible object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
+     *     {@link java.math.BigInteger}
      */
-    public CodeType getType() {
-        return type;
+    public BigInteger getDimension() {
+        return dimension;
     }
 
     /**
-     * Sets the value of the type property.
+     * Sets the value of the dimension property.
      * 
      * @param value
      *     allowed object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
+     *     {@link java.math.BigInteger}
      */
-    public void setType(CodeType value) {
-        this.type = value;
+    public void setDimension(BigInteger value) {
+        this.dimension = value;
     }
 
 }

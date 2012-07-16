@@ -29,7 +29,7 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,76 +37,71 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.adapter.wcs.model.version100.gml.CodeType;
-
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "keyword",
-    "type"
-})
-@XmlRootElement(name = "keywords", namespace = "http://www.opengis.net/wcs")
-public class Keywords {
+@XmlType(name = "PolygonType", namespace = "http://www.opengis.net/gml")
+public class PolygonType
+    extends AbstractSurfaceType
+{
 
-    @XmlElement(name = "keyword", namespace = "http://www.opengis.net/wcs", type = String.class)
-    protected List<String> keyword;
-    @XmlElement(name = "type", namespace = "http://www.opengis.net/wcs", type = CodeType.class)
-    protected CodeType type;
+    @XmlElement(name = "exterior", namespace = "http://www.opengis.net/gml", type = AbstractRingPropertyType.class)
+    protected AbstractRingPropertyType exterior;
+    @XmlElement(name = "interior", namespace = "http://www.opengis.net/gml", type = AbstractRingPropertyType.class)
+    protected List<AbstractRingPropertyType> interior;
 
-    protected List<String> _getKeyword() {
-        if (keyword == null) {
-            keyword = new ArrayList<String>();
-        }
-        return keyword;
+    /**
+     * Gets the value of the exterior property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.AbstractRingPropertyType}
+     */
+    public AbstractRingPropertyType getExterior() {
+        return exterior;
     }
 
     /**
-     * Gets the value of the keyword property.
+     * Sets the value of the exterior property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.AbstractRingPropertyType}
+     */
+    public void setExterior(AbstractRingPropertyType value) {
+        this.exterior = value;
+    }
+
+    protected List<AbstractRingPropertyType> _getInterior() {
+        if (interior == null) {
+            interior = new ArrayList<AbstractRingPropertyType>();
+        }
+        return interior;
+    }
+
+    /**
+     * Gets the value of the interior property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the keyword property.
+     * This is why there is not a <CODE>set</CODE> method for the interior property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getKeyword().add(newItem);
+     *    getInterior().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link java.lang.String}
+     * {@link org.n52.oxf.adapter.wcs.model.version100.gml.AbstractRingPropertyType}
      * 
      */
-    public List<String> getKeyword() {
-        return this._getKeyword();
-    }
-
-    /**
-     * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
-     */
-    public CodeType getType() {
-        return type;
-    }
-
-    /**
-     * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
-     */
-    public void setType(CodeType value) {
-        this.type = value;
+    public List<AbstractRingPropertyType> getInterior() {
+        return this._getInterior();
     }
 
 }

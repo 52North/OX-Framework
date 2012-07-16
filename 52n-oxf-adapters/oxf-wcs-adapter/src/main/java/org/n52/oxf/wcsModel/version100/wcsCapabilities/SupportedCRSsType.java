@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.serviceAdapters.wcs.model.version100.gml.CodeListType;
+import org.n52.oxf.adapter.wcs.model.version100.gml.CodeListType;
 
 @XmlAccessorType(value = XmlAccessType.FIELD)
 @XmlType(name = "SupportedCRSsType", namespace = "http://www.opengis.net/wcs")
@@ -79,7 +79,7 @@ public class SupportedCRSsType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.CodeListType}
+     * {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeListType}
      * 
      */
     public List<CodeListType> getRequestResponseCRSs() {
@@ -111,7 +111,7 @@ public class SupportedCRSsType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.CodeListType}
+     * {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeListType}
      * 
      */
     public List<CodeListType> getRequestCRSs() {
@@ -143,7 +143,7 @@ public class SupportedCRSsType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.CodeListType}
+     * {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeListType}
      * 
      */
     public List<CodeListType> getResponseCRSs() {
@@ -175,7 +175,7 @@ public class SupportedCRSsType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.CodeListType}
+     * {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeListType}
      * 
      */
     public List<CodeListType> getNativeCRSs() {

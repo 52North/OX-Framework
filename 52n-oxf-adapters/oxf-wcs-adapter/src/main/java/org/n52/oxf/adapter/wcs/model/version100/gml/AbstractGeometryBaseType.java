@@ -29,17 +29,15 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.adapter.wcs.model.version100.gml.AbstractGMLType;
-
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "AbstractDescriptionBaseType", namespace = "http://www.opengis.net/wcs")
-public abstract class AbstractDescriptionBaseType
+@XmlType(name = "AbstractGeometryBaseType", namespace = "http://www.opengis.net/gml")
+public abstract class AbstractGeometryBaseType
     extends AbstractGMLType
 {
 

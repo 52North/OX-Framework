@@ -29,19 +29,42 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.adapter.wcs.model.version100.gml.AbstractGMLType;
-
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "AbstractDescriptionBaseType", namespace = "http://www.opengis.net/wcs")
-public abstract class AbstractDescriptionBaseType
-    extends AbstractGMLType
+@XmlType(name = "AbstractGeometryType", namespace = "http://www.opengis.net/gml")
+public abstract class AbstractGeometryType
+    extends AbstractGeometryBaseType
 {
 
+    @XmlAttribute(name = "srsName", namespace = "")
+    protected String srsName;
+
+    /**
+     * Gets the value of the srsName property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link java.lang.String}
+     */
+    public String getSrsName() {
+        return srsName;
+    }
+
+    /**
+     * Sets the value of the srsName property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link java.lang.String}
+     */
+    public void setSrsName(String value) {
+        this.srsName = value;
+    }
 
 }

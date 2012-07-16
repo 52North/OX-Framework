@@ -29,7 +29,7 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,76 +37,71 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.adapter.wcs.model.version100.gml.CodeType;
-
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "keyword",
-    "type"
-})
-@XmlRootElement(name = "keywords", namespace = "http://www.opengis.net/wcs")
-public class Keywords {
+@XmlType(name = "RectifiedGridType", namespace = "http://www.opengis.net/gml")
+public class RectifiedGridType
+    extends GridType
+{
 
-    @XmlElement(name = "keyword", namespace = "http://www.opengis.net/wcs", type = String.class)
-    protected List<String> keyword;
-    @XmlElement(name = "type", namespace = "http://www.opengis.net/wcs", type = CodeType.class)
-    protected CodeType type;
+    @XmlElement(name = "origin", namespace = "http://www.opengis.net/gml", type = PointType.class)
+    protected PointType origin;
+    @XmlElement(name = "offsetVector", namespace = "http://www.opengis.net/gml", type = VectorType.class)
+    protected List<VectorType> offsetVector;
 
-    protected List<String> _getKeyword() {
-        if (keyword == null) {
-            keyword = new ArrayList<String>();
-        }
-        return keyword;
+    /**
+     * Gets the value of the origin property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.PointType}
+     */
+    public PointType getOrigin() {
+        return origin;
     }
 
     /**
-     * Gets the value of the keyword property.
+     * Sets the value of the origin property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.PointType}
+     */
+    public void setOrigin(PointType value) {
+        this.origin = value;
+    }
+
+    protected List<VectorType> _getOffsetVector() {
+        if (offsetVector == null) {
+            offsetVector = new ArrayList<VectorType>();
+        }
+        return offsetVector;
+    }
+
+    /**
+     * Gets the value of the offsetVector property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the keyword property.
+     * This is why there is not a <CODE>set</CODE> method for the offsetVector property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getKeyword().add(newItem);
+     *    getOffsetVector().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link java.lang.String}
+     * {@link org.n52.oxf.adapter.wcs.model.version100.gml.VectorType}
      * 
      */
-    public List<String> getKeyword() {
-        return this._getKeyword();
-    }
-
-    /**
-     * Gets the value of the type property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
-     */
-    public CodeType getType() {
-        return type;
-    }
-
-    /**
-     * Sets the value of the type property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
-     */
-    public void setType(CodeType value) {
-        this.type = value;
+    public List<VectorType> getOffsetVector() {
+        return this._getOffsetVector();
     }
 
 }

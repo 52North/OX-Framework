@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
-import org.n52.oxf.serviceAdapters.wcs.model.version100.gml.TimePositionType;
+import org.n52.oxf.adapter.wcs.model.version100.gml.TimePositionType;
 
 
 @XmlAccessorType(value = XmlAccessType.FIELD)
@@ -78,7 +78,7 @@ public class TimeSequenceType {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link org.n52.oxf.serviceAdapters.wcs.model.version100.gml.TimePositionType}
+     * {@link org.n52.oxf.adapter.wcs.model.version100.gml.TimePositionType}
      * {@link org.n52.oxf.wcsModel.version100.wcsCapabilities.TimePeriodType}
      * 
      */

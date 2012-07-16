@@ -29,52 +29,46 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
-
-import org.n52.oxf.adapter.wcs.model.version100.gml.CodeType;
+import javax.xml.bind.annotation.XmlValue;
 
 @XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "keyword",
-    "type"
-})
-@XmlRootElement(name = "keywords", namespace = "http://www.opengis.net/wcs")
-public class Keywords {
+@XmlType(name = "CodeListType", namespace = "http://www.opengis.net/gml")
+public class CodeListType {
 
-    @XmlElement(name = "keyword", namespace = "http://www.opengis.net/wcs", type = String.class)
-    protected List<String> keyword;
-    @XmlElement(name = "type", namespace = "http://www.opengis.net/wcs", type = CodeType.class)
-    protected CodeType type;
+    @XmlValue
+    protected List<String> value;
+    @XmlAttribute(name = "codeSpace", namespace = "")
+    protected String codeSpace;
 
-    protected List<String> _getKeyword() {
-        if (keyword == null) {
-            keyword = new ArrayList<String>();
+    protected List<String> _getValue() {
+        if (value == null) {
+            value = new ArrayList<String>();
         }
-        return keyword;
+        return value;
     }
 
     /**
-     * Gets the value of the keyword property.
+     * XML List based on XML Schema Name type.  An element of this type contains a space-separated list of Name valuesGets the value of the value property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the keyword property.
+     * This is why there is not a <CODE>set</CODE> method for the value property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getKeyword().add(newItem);
+     *    getValue().add(newItem);
      * </pre>
      * 
      * 
@@ -83,30 +77,30 @@ public class Keywords {
      * {@link java.lang.String}
      * 
      */
-    public List<String> getKeyword() {
-        return this._getKeyword();
+    public List<String> getValue() {
+        return this._getValue();
     }
 
     /**
-     * Gets the value of the type property.
+     * Gets the value of the codeSpace property.
      * 
      * @return
      *     possible object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
+     *     {@link java.lang.String}
      */
-    public CodeType getType() {
-        return type;
+    public String getCodeSpace() {
+        return codeSpace;
     }
 
     /**
-     * Sets the value of the type property.
+     * Sets the value of the codeSpace property.
      * 
      * @param value
      *     allowed object is
-     *     {@link org.n52.oxf.adapter.wcs.model.version100.gml.CodeType}
+     *     {@link java.lang.String}
      */
-    public void setType(CodeType value) {
-        this.type = value;
+    public void setCodeSpace(String value) {
+        this.codeSpace = value;
     }
 
 }

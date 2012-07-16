@@ -29,19 +29,43 @@
 //
 
 
-package org.n52.oxf.wcsModel.version100.wcsCapabilities;
+package org.n52.oxf.adapter.wcs.model.version100.gml;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlEnum;
+import javax.xml.bind.annotation.XmlEnumValue;
 
-import org.n52.oxf.adapter.wcs.model.version100.gml.AbstractGMLType;
 
-@XmlAccessorType(value = XmlAccessType.FIELD)
-@XmlType(name = "AbstractDescriptionBaseType", namespace = "http://www.opengis.net/wcs")
-public abstract class AbstractDescriptionBaseType
-    extends AbstractGMLType
-{
+/**
+ * Java content class for TimeIndeterminateValueType.
+ *  <p>The following schema fragment specifies the expected content contained within this java content object.
+ * <p>
+ * <pre>
+ * &lt;simpleType name="TimeIndeterminateValueType">
+ *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *     &lt;enumeration value="after"/>
+ *     &lt;enumeration value="before"/>
+ *     &lt;enumeration value="now"/>
+ *     &lt;enumeration value="unknown"/>
+ *   &lt;/restriction>
+ * &lt;/simpleType>
+ * </pre>
+ * 
+ */
+@XmlEnum(value = String.class)
+public enum TimeIndeterminateValueType {
 
+    @XmlEnumValue(value = "unknown")
+    UNKNOWN("unknown"),
+    @XmlEnumValue(value = "before")
+    BEFORE("before"),
+    @XmlEnumValue(value = "now")
+    NOW("now"),
+    @XmlEnumValue(value = "after")
+    AFTER("after");
+    public final String value;
+
+    TimeIndeterminateValueType(String v) {
+        value = v;
+    }
 
 }
