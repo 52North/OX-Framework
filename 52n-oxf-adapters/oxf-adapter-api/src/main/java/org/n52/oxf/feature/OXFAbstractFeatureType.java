@@ -27,9 +27,6 @@ package org.n52.oxf.feature;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import net.opengis.gml.AbstractFeatureType;
 import net.opengis.gml.CoordinatesType;
 import net.opengis.gml.PointType;
@@ -39,29 +36,17 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
-public class OXFAbstractFeatureType extends org.n52.oxf.feature.OXFFeatureType {
+public class OXFAbstractFeatureType extends OXFFeatureType {
 
     public static final String DESCRIPTION = "description";
     public static final String NAME = "name";
     public static final String LOCATION = "location";
 
-    /**
-     * 
-     */
     public OXFAbstractFeatureType() {
         super("OXFAbstractFeatureType", null);
         featureAttributeDescriptors = generateAttributeDescriptors();
     }
 
-    /**
-     * 
-     * @param doc
-     * @return
-     */
     protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
         List<OXFFeatureAttributeDescriptor> attributeDescriptors = new ArrayList<OXFFeatureAttributeDescriptor>();

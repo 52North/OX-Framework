@@ -18,31 +18,9 @@
 		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>oxf-layer</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.n52.sensorweb</groupId>
-					<artifactId>52n-xml-gml-v212</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-oxf-xmlbeans</artifactId>
 		</dependency>
 		<!-- ### XML BINDING DEPENDENCIES ### -->
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-ows-v100</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-ows-v110</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-kml-v220</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-xml-sos-v100</artifactId>
@@ -57,10 +35,6 @@
 		</dependency>
 		<!-- ### EXTERNAL DEPENDENCIES ### -->
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
@@ -68,27 +42,11 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>jfree</groupId>
-			<artifactId>jcommon</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>jfree</groupId>
-			<artifactId>jfreechart</artifactId>
-		</dependency>
-		<dependency>
-		   <groupId>javax.activation</groupId>
-		   <artifactId>activation</artifactId>
-	   </dependency>
 		<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
 		<dependency>
 		   <groupId>org.n52.sensorweb.oxf-old</groupId>
 		   <artifactId>istackp</artifactId>
 	   </dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb.oxf-old</groupId>
-			<artifactId>wms-client-core</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb.oxf-old</groupId>
 			<artifactId>GrdcSamplingPoint</artifactId>

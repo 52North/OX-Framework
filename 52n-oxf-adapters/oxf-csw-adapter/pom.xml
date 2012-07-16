@@ -15,10 +15,34 @@
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>oxf-util</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>jts</artifactId>
+					<groupId>com.vividsolutions</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>oxf-adapter-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>oxf-layer</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>52n-xml-sos-v20</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>52n-xml-sos-v100</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>52n-xml-waterML-v20</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
