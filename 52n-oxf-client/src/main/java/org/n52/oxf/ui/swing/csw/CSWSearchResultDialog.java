@@ -45,13 +45,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 
 import org.n52.oxf.OXFException;
-import org.n52.oxf.adapter.wcs.WCSAdapter;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.sos.ConnectSOSDialog;
 import org.n52.oxf.ui.swing.tree.ContentTree;
 import org.n52.oxf.ui.swing.wcs.WCSParameterConfigurator;
 import org.n52.oxf.ui.swing.wms.ConnectWMSDialog;
+import org.n52.oxf.wcs.adapter.WCSAdapter;
 
 public class CSWSearchResultDialog extends JDialog implements ActionListener {
 

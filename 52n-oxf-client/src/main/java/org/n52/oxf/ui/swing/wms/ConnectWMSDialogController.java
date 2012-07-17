@@ -39,6 +39,7 @@ import org.n52.oxf.ui.swing.*;
 import org.n52.oxf.ui.swing.tree.*;
 import org.n52.oxf.util.*;
 import org.n52.oxf.valueDomains.*;
+import org.n52.oxf.wms.adapter.WMSAdapter;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

@@ -39,6 +39,8 @@ import org.n52.oxf.ui.swing.*;
 import org.n52.oxf.ui.swing.tree.*;
 import org.n52.oxf.ui.swing.util.*;
 import org.n52.oxf.util.*;
+import org.n52.oxf.wcs.adapter.WCSAdapter;
+import org.n52.oxf.wcs.adapter.WCSRequestBuilder;
 
 public class WCSParameterConfiguratorController {
 

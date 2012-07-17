@@ -44,6 +44,10 @@ import org.n52.oxf.ui.swing.tool.ZoomToActiveLayerTool;
 import org.n52.oxf.ui.swing.tree.*;
 import org.n52.oxf.ui.swing.util.*;
 import org.n52.oxf.util.*;
+import org.n52.oxf.wms.adapter.WMSAdapter;
+import org.n52.oxf.wms.adapter.WMSRequestBuilder;
+import org.n52.oxf.wms.capabilities.Style;
+import org.n52.oxf.wms.capabilities.WMSLayer;
 
 public class WMSParameterConfiguratorController implements IEventListener {
 
