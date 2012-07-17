@@ -57,7 +57,7 @@ public class IntegerDiscreteValueDomain implements IDiscreteValueDomain<Integer>
      * @param possibleValues
      *            ArrayList with discrete Integer-Values
      */
-    public IntegerDiscreteValueDomain(ArrayList<Integer> possibleValues) {
+    public IntegerDiscreteValueDomain(List<Integer> possibleValues) {
         this.possibleValues = possibleValues;
     }
     

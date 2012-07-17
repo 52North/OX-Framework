@@ -43,7 +43,7 @@
  program (see gnu-gplv2.txt). If not, write to the Free Software Foundation, Inc., 
  59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or visit the Free Software
  Foundation web page, http://www.fsf.org.
- 
+
  Created on: 15.06.2005
  *********************************************************************************/
 
@@ -63,10 +63,13 @@ import org.n52.oxf.valueDomains.time.TemporalValueDomain;
  */
 public class ParameterContainer {
 
-    List<ParameterShell> parameterShells;
+    List<ParameterShell> parameterShells = new ArrayList<ParameterShell>();
 
-    public ParameterContainer() {
-        parameterShells = new ArrayList<ParameterShell>();
+    /**
+     * @return <code>true</code> if the container contained the specified element.
+     */
+    public boolean removeParameterShell(ParameterShell parameterShell) {
+        return parameterShells.remove(parameterShell);
     }
 
     public void addParameterShell(ParameterShell parameterShell) {
@@ -74,34 +77,40 @@ public class ParameterContainer {
     }
 
     /**
-     * convenience-method. Adds a new ParameterShell with a 'required' Parameter which has the specified
-     * parameterName and a StringValueDomain only containing the specified parameterValue. The ParameterShell
-     * associates the Parameter with the specified parameterValue.<br>
+     * Adds a new ParameterShell with a 'required' {@link Parameter} with name <code>parameterName</code> and
+     * a {@link StringValueDomain}omain containing only the specified <code>parameterValue</code>(s).
      */
     public void addParameterShell(String parameterName, String... parameterValue) throws OXFException {
         Parameter parameter = new Parameter(parameterName, true, new StringValueDomain(parameterValue), parameterName);
         addParameterShell(new ParameterShell(parameter, parameterValue));
     }
 
+    /**
+     * Adds a new ParameterShell with a 'required' {@link Parameter} with name <code>parameterName</code> and
+     * a {@link TemporalValueDomain} containing only the specified <code>parameterValue</code>(s). 
+     */
     public void addParameterShell(String parameterName, ITime... parameterValue) throws OXFException {
         Parameter parameter = new Parameter(parameterName, true, new TemporalValueDomain(parameterValue), parameterName);
         addParameterShell(new ParameterShell(parameter, parameterValue));
     }
 
-    public void addParameterShell(String parameterName, int parameterValue) throws OXFException {
-        Integer value = Integer.valueOf(parameterValue);
-        Parameter parameter = new Parameter(parameterName, true, new IntegerDiscreteValueDomain(value), parameterName);
-        addParameterShell(new ParameterShell(parameter, value));
+    /**
+     * Adds a new ParameterShell with a 'required' {@link Parameter} with name <code>parameterName</code> and
+     * an {@link IntegerDiscreteValueDomain}eValueDomain containing only the specified <code>parameterValue</code>(s).
+     */
+    public void addParameterShell(String parameterName, Integer... parameterValue) throws OXFException {
+        Parameter parameter = new Parameter(parameterName, true, new IntegerDiscreteValueDomain(parameterValue), parameterName);
+        addParameterShell(new ParameterShell(parameter, parameterValue));
     }
 
+    /**
+     * Adds a new ParameterShell with a 'required' {@link Parameter} with name <code>parameterName</code> and
+     * an {@link OpenValueDomain} containing only the specified <code>parameterValue</code>(s).
+     */
     public void addParameterShell(String parameterName, ParameterContainer... parameterValue) throws OXFException {
         Parameter parameter = new Parameter(parameterName, true, new OpenValueDomain(), parameterName);
         addParameterShell(new ParameterShell(parameter, parameterValue));
 
-    }
-
-    public void removeParameterShell(ParameterShell parameterShell) {
-        parameterShells.remove(parameterShell);
     }
 
     /**
@@ -111,8 +120,8 @@ public class ParameterContainer {
      */
     public ParameterShell getParameterShellWithCommonName(String commonName) {
         for (ParameterShell ps : parameterShells) {
-            if (ps.getParameter().getCommonName() != null
-                    && ps.getParameter().getCommonName().equalsIgnoreCase(commonName)) {
+            Parameter parameter = ps.getParameter();
+            if (parameter.getCommonName() != null  && parameter.getCommonName().equalsIgnoreCase(commonName)) {
                 return ps;
             }
         }
