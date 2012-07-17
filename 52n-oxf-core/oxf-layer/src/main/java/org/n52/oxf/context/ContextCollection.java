@@ -37,7 +37,7 @@ import org.n52.oxf.serialization.*;
  * 
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
-public class ContextCollection implements IContextSerializableXML {
+public class ContextCollection implements WritableContext {
 
     /**
      * The published specification version number contains three positive integers, separated by decimal
@@ -49,25 +49,15 @@ public class ContextCollection implements IContextSerializableXML {
     
     protected ArrayList<Context> contexts;
 
-    /**
-     * 
-     * 
-     */
     public ContextCollection() {
         contexts = new ArrayList<Context>();
         version = "1.1.0";
     }
 
-    /**
-     * @param context
-     */
     public void addContext(Context context) {
         contexts.add(context);
     }
 
-    /**
-     * @return
-     */
     public Iterator<Context> getContextIterator() {
         return contexts.iterator();
     }
@@ -99,7 +89,7 @@ public class ContextCollection implements IContextSerializableXML {
         return res;
     }
 
-    public void serializeToContext(StringBuffer sb) {
+    public void writeTo(ContextWriter serializer) {
         // TODO has to be implemented
     }
 }

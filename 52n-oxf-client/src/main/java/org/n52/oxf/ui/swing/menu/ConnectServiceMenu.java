@@ -36,7 +36,6 @@ import org.n52.oxf.ui.swing.sos.ConnectSOSDialog;
 import org.n52.oxf.ui.swing.tree.ContentTree;
 import org.n52.oxf.ui.swing.wcs.ConnectWCSDialog;
 import org.n52.oxf.ui.swing.wms.ConnectWMSDialog;
-import org.n52.sps.wupper.client.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,10 +100,6 @@ public class ConnectServiceMenu extends Menu {
         
         else if (e.getSource().equals(connectWCSMenuItem)) {
             new ConnectWCSDialog(owner, map, tree).setVisible(true);
-        }
-        
-        else if (e.getSource().equals(connectSPSMenuItem)){
-        	Client.startAsPart(new String[0]);
         }
         
         else if (e.getSource().equals(connectCSWMenuItem)) {

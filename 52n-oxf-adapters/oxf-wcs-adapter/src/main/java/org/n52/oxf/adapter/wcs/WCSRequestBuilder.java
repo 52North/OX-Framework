@@ -28,9 +28,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.owsCommon.capabilities.Operation;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

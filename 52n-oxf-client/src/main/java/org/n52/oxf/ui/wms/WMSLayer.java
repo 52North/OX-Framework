@@ -24,9 +24,9 @@
 
 package org.n52.oxf.ui.wms;
 
+import org.n52.oxf.adapter.*;
 import org.n52.oxf.feature.*;
 import org.n52.oxf.render.*;
-import org.n52.oxf.serviceAdapters.*;
 import org.n52.oxf.valueDomains.spatial.*;
 
 public class WMSLayer {

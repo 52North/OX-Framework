@@ -25,8 +25,8 @@
 package org.n52.oxf.render;
 
 import org.jfree.chart.*;
+import org.n52.oxf.adapter.*;
 import org.n52.oxf.feature.*;
-import org.n52.oxf.serviceAdapters.*;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

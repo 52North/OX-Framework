@@ -84,20 +84,20 @@ import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.owsCommon.OwsExceptionReport.ExceptionCode;
 import org.n52.oxf.owsCommon.capabilities.ITime;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.XMLConstants;
-import org.n52.oxf.util.XmlBeansHelper;
 import org.n52.oxf.valueDomains.time.ITimePeriod;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 import org.n52.oxf.valueDomains.time.TimeFactory;
+import org.n52.oxf.xml.XMLConstants;
 import org.n52.oxf.xmlbeans.parser.GMLAbstractFeatureCase;
 import org.n52.oxf.xmlbeans.parser.OfferingInSMLOutputsCase;
 import org.n52.oxf.xmlbeans.parser.SASamplingPointCase;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
+import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
 
 /**
  * Contains attributes and methods to encode SOSOperationRequests as String in xml-format
@@ -106,7 +106,7 @@ import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
  * @author <a href="mailto:ehjuerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  */
 public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
-	
+    
 	/**
      * Builds the GetCapabilities-Request. <br>
      * <br>
@@ -183,7 +183,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
             }
         }
 
-        return XmlBeansHelper.formatStringRequest(getCapDoc);
+        return getCapDoc.xmlText(XMLBeansTools.PRETTYPRINT);
     }
 
     /**
@@ -348,7 +348,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
             xb_getObs.setResponseMode(responseModeEnum);
         }
 
-        return XmlBeansHelper.formatStringRequest(xb_getObsDoc);
+        return xb_getObsDoc.xmlText(XMLBeansTools.PRETTYPRINT);
     }
     
     
@@ -399,7 +399,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     		xb_getObs.setResponseMode(responseModeEnum);
     	}
 //  	TODO ResultModel?
-    	return XmlBeansHelper.formatStringRequest(xb_getObsDoc);
+    	return xb_getObsDoc.xmlText(XMLBeansTools.PRETTYPRINT);
     }
     
 
@@ -445,7 +445,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
             descSensor.setOutputFormat("text/xml;subtype=\"sensorML/1.0.1\"");
         }
 
-        return XmlBeansHelper.formatStringRequest(descSensorDoc);
+        return descSensorDoc.xmlText(XMLBeansTools.PRETTYPRINT);
     }
 
     public String buildGetFeatureOfInterestRequest(ParameterContainer parameters) {
@@ -484,7 +484,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
                     + GET_FOI_EVENT_TIME_PARAMETER + "' is not yet supported.");
         }
 
-        return XmlBeansHelper.formatStringRequest(getFoIDoc);
+        return getFoIDoc.xmlText(XMLBeansTools.PRETTYPRINT);
     }
     
     public String buildInsertObservation(ParameterContainer parameters) throws OXFException {
@@ -497,7 +497,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     	 * Validate before returning -> throw OXFException if validation fails
     	 */
     	doLaxRequestValidation(insObDoc);
-    	return XmlBeansHelper.formatStringRequest(insObDoc);
+    	return insObDoc.xmlText(XMLBeansTools.PRETTYPRINT);
     }
 
 	public String buildRegisterSensor(ParameterContainer parameters) throws OXFException{
@@ -508,7 +508,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 		addSensorDescription(regSensor,parameters);
 		addObservationTemplate(regSensor,parameters);
 		doLaxRequestValidation(regSensorDoc);
-		return XmlBeansHelper.formatStringRequest(regSensorDoc);
+		return regSensorDoc.xmlText(XMLBeansTools.PRETTYPRINT);
 	}
 
 	/**
@@ -837,8 +837,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     			ObservationType obsType = ObservationType.Factory.parse((String)parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVATION_TEMPLATE).getSpecifiedValue());
 				obsTemp.set(obsType);
 			} catch (XmlException e) {
-				// FIXME do sinnvoll handling
-				e.printStackTrace();
+				throw new OXFException("Could not parse observation type from paramter shell.");
 			}
 		/*
 		 *	B: create template depending on parameters 

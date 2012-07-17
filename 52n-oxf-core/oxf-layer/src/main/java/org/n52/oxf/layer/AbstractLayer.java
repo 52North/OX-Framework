@@ -25,14 +25,14 @@
 package org.n52.oxf.layer;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.context.ContextWindow;
 import org.n52.oxf.owsCommon.capabilities.ITime;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.render.IRenderer;
 import org.n52.oxf.render.IVisualization;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventListener;
 import org.n52.oxf.util.OXFEvent;
@@ -44,9 +44,6 @@ import org.n52.oxf.valueDomains.spatial.BoundingBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- */
 public abstract class AbstractLayer implements IContextLayer {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractLayer.class);
@@ -96,9 +93,6 @@ public abstract class AbstractLayer implements IContextLayer {
      */
     protected String title;
 
-    /**
-     * 
-     */
     protected String description;
 
     /**
@@ -228,9 +222,6 @@ public abstract class AbstractLayer implements IContextLayer {
         return refreshed;
     }
 
-    /**
-     * 
-     */
     public boolean isHidden() {
         return hidden;
     }

@@ -35,11 +35,11 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.OperationResult;
+import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.sos.SOSAdapter;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.capabilities.Operation;
-import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.ui.swing.ShowRequestDialog;
 import org.n52.oxf.ui.swing.ShowXMLDocDialog;
 import org.n52.oxf.util.IOHelper;

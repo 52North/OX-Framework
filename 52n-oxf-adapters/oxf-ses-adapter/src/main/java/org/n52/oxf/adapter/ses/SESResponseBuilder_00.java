@@ -28,7 +28,7 @@ import java.util.UUID;
 import javax.xml.namespace.QName;
 
 import org.apache.xmlbeans.XmlCursor;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
+import org.n52.oxf.adapter.ParameterContainer;
 import org.w3.x2003.x05.soapEnvelope.Body;
 import org.w3.x2003.x05.soapEnvelope.Envelope;
 import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;

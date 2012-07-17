@@ -24,7 +24,8 @@
 package org.n52.oxf.valueDomains.filter;
 
 import java.util.*;
-import org.n52.oxf.serviceAdapters.*;
+
+import org.n52.oxf.adapter.*;
 import org.w3c.dom.*;
 
 /**

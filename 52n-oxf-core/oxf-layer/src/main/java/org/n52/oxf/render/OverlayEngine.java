@@ -233,38 +233,4 @@ public class OverlayEngine implements IEventEmitter, IEventListener {
 
     }
 
-    /**
-     * tests the overlayImages() method.
-     */
-    public static void main(String[] args) throws Exception {
-        OverlayEngine imageBuilder = new OverlayEngine();
-        ArrayList<Image> imageList = new ArrayList<Image>();
-
-        String url2 = "c:/temp/nw2.png";
-        String url1 = "c:/temp/geobasis.gif";
-        String outputUrl = "c:/temp/result.png";
-
-        imageList.add(JAI.create("fileload", url1).getAsBufferedImage());
-        imageList.add(JAI.create("fileload", url2).getAsBufferedImage());
-
-        PlanarImage image = imageBuilder.overlayImages(imageList);
-
-        JFrame frame = new JFrame();
-        frame.getContentPane().add(new ImageCanvas(image));
-        frame.getContentPane().setBackground(Color.MAGENTA);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        PNGEncodeParam ep = PNGEncodeParam.getDefaultEncodeParam(image);
-        ep.setInterlacing(false);
-
-        OutputStream out = new BufferedOutputStream(new FileOutputStream(outputUrl));
-        ImageEncoder ie = ImageCodec.createImageEncoder("PNG", out, ep);
-        TiledImage tile = new TiledImage(image, true);
-        ie.encode(tile);
-
-        LOGGER.info("ready");
-    }
 }

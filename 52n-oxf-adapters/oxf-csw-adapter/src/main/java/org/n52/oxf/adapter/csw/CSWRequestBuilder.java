@@ -27,10 +27,9 @@ package org.n52.oxf.adapter.csw;
 import net.opengis.cat.csw.x202.DescribeRecordDocument;
 import net.opengis.cat.csw.x202.DescribeRecordType;
 
-import org.apache.xmlbeans.XmlOptions;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.XmlBeansHelper;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
+import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
 
 /**
  * contains attributes and methods to encode operation requests as Strings in xml-format
@@ -188,11 +187,7 @@ public class CSWRequestBuilder {
         String serviceParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_SERVICE_PARAMETER).getSpecifiedValue();
         describeRecordType.setService(serviceParam);
         
-        XmlOptions options = new XmlOptions();
-        options.setCharacterEncoding(XmlOptions.CHARACTER_ENCODING);
-        describeRecordDocument.xmlText(options);
-        
-        return XmlBeansHelper.formatStringRequest(describeRecordDocument);
+        return describeRecordDocument.xmlText(XMLBeansTools.PRETTYPRINT);
       
         //
         // set required elements:

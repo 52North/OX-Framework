@@ -32,13 +32,13 @@ import java.util.concurrent.Executors;
 import javax.swing.*;
 
 import org.n52.oxf.*;
+import org.n52.oxf.adapter.*;
 import org.n52.oxf.adapter.wms.*;
 import org.n52.oxf.adapter.wms.caps.*;
 import org.n52.oxf.layer.*;
 import org.n52.oxf.owsCommon.*;
 import org.n52.oxf.owsCommon.capabilities.*;
 import org.n52.oxf.render.wms.*;
-import org.n52.oxf.serviceAdapters.*;
 import org.n52.oxf.ui.swing.*;
 import org.n52.oxf.ui.swing.tool.ZoomToActiveLayerTool;
 import org.n52.oxf.ui.swing.tree.*;

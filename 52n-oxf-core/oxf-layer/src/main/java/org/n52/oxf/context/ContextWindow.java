@@ -24,12 +24,7 @@
 
 package org.n52.oxf.context;
 
-import java.math.BigInteger;
-
-import net.opengis.context.WindowType;
-
 import org.n52.oxf.OXFException;
-import org.n52.oxf.serialization.IContextSerializableXML;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventEmitter;
 import org.n52.oxf.util.IEventListener;
@@ -43,7 +38,7 @@ import org.n52.oxf.util.OXFEventSupport;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
-public class ContextWindow implements IEventEmitter, IContextSerializableXML {
+public class ContextWindow implements IEventEmitter {
 
     protected int height;
 
@@ -158,12 +153,4 @@ public class ContextWindow implements IEventEmitter, IContextSerializableXML {
         return "ContextWindow: [" + getWidth() + ", " + getHeight() + "]";
     }
 
-    public void serializeToContext(StringBuffer sb) {
-        
-        WindowType xb_window = WindowType.Factory.newInstance();
-        xb_window.setHeight(new BigInteger(""+getHeight()));
-        xb_window.setWidth(new BigInteger(""+getWidth()));
-        
-        sb.append(xb_window.toString());
-    }
 }

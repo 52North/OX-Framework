@@ -35,8 +35,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.IServiceAdapter;
 import org.n52.oxf.render.IRenderer;
-import org.n52.oxf.serviceAdapters.IServiceAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

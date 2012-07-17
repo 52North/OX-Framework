@@ -27,17 +27,17 @@ package org.n52.oxf.adapter.sos;
 import java.util.Iterator;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.OperationResult;
+import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.sos.caps.ObservationOffering;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
-import org.n52.oxf.feature.sos.SOSFoiStore;
+import org.n52.oxf.feature.sos.FeatureStore;
 import org.n52.oxf.feature.sos.SOSObservationStore;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
 import org.n52.oxf.owsCommon.capabilities.Operation;
-import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.util.SosUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -256,7 +256,7 @@ public class TestSOSAdapter {
         // you receive is an OperationResult.
         // OperationResult opResult = sosAdapter.doOperation(op, paramCon);
 
-		SOSFoiStore featureStore = new SOSFoiStore();
+		FeatureStore featureStore = new FeatureStore();
 		OXFFeatureCollection featureCollection = featureStore.unmarshalFeatures(opResult);
 
 		LOGGER.info("featureCollection.size:" + featureCollection.size());

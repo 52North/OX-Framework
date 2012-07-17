@@ -25,7 +25,7 @@
 package org.n52.oxf.adapter.sos;
 
 import org.n52.oxf.OXFException;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
+import org.n52.oxf.adapter.ParameterContainer;
 
 /**
  * TODO Document fields and methods!

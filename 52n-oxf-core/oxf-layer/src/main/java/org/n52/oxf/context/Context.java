@@ -26,7 +26,7 @@ package org.n52.oxf.context;
 
 import java.util.List;
 
-import org.n52.oxf.serialization.IContextSerializableXML;
+import org.n52.oxf.serialization.WritableContext;
 import org.n52.oxf.util.IEventEmitter;
 import org.n52.oxf.util.IEventListener;
 import org.n52.oxf.util.OXFEventSupport;
@@ -38,7 +38,7 @@ import org.n52.oxf.util.OXFEventSupport;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
-public abstract class Context implements IEventEmitter, IEventListener, IContextSerializableXML {
+public abstract class Context implements IEventEmitter, IEventListener, WritableContext {
 
     /**
      * classes which want to listen to this class must be added to this PropertyChangeSupport.

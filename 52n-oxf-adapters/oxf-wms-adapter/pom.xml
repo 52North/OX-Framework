@@ -32,10 +32,6 @@
 		<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
 		<dependency>
 			<groupId>org.n52.sensorweb.oxf-old</groupId>
-			<artifactId>wms-config</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb.oxf-old</groupId>
 			<artifactId>wms-client-core</artifactId>
 		</dependency>
 	</dependencies>

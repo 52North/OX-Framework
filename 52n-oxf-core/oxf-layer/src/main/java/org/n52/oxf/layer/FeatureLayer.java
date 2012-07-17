@@ -27,8 +27,11 @@ package org.n52.oxf.layer;
 
 import java.util.Set;
 
+import org.apache.commons.lang.NotImplementedException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.OXFRuntimeException;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
@@ -37,8 +40,7 @@ import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IFeaturePicker;
 import org.n52.oxf.render.IVisualization;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
+import org.n52.oxf.serialization.ContextWriter;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.OXFEvent;
 import org.n52.oxf.util.OXFEventException;
@@ -297,9 +299,9 @@ public class FeatureLayer extends AbstractLayer implements IFeatureLayer {
         return this.srs;
     }
 
-    public void serializeToContext(StringBuffer sb) {
+    public void serializeToContext(ContextWriter serializer) {
         // TODO implement method serializeToContext
-        throw new UnsupportedOperationException();
+        throw new NotImplementedException();
     }
 
     @Override

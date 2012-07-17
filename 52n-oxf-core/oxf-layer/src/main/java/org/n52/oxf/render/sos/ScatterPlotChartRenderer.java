@@ -38,12 +38,14 @@ import org.jfree.chart.plot.FastScatterPlot;
 import org.jfree.chart.plot.Plot;
 import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.ui.RectangleEdge;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.feature.OXFFeatureCollection;
+import org.n52.oxf.feature.sos.ObservationSeriesCollection;
+import org.n52.oxf.feature.sos.ObservedValueTuple;
 import org.n52.oxf.render.IChartRenderer;
 import org.n52.oxf.render.IVisualization;
 import org.n52.oxf.render.StaticVisualization;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

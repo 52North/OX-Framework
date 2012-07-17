@@ -39,16 +39,17 @@ import net.opengis.kml.x22.PointType;
 import net.opengis.kml.x22.StyleType;
 
 import org.apache.xmlbeans.XmlCursor;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.feature.OXFAbstractFeatureType;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.OXFSamplingPointType;
+import org.n52.oxf.feature.sos.ObservationSeriesCollection;
 import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IVisualization;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.XmlBeansHelper;
+import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -149,10 +150,7 @@ public class SimpleOM2KMLRenderer implements IFeatureDataRenderer {
             docCursor.setName(new QName("http://earth.google.com/kml/2.1", "Placemark"));
         }
         
-        String rendererdText = XmlBeansHelper.formatStringRequest(xb_kmlDocument);
-        rendererdText = rendererdText.replace("ns:", "");
-        
-        return new TextVisualization(rendererdText);
+        return new TextVisualization(xb_kmlDocument.xmlText(XMLBeansTools.PRETTYPRINT));
     }
 
     public String getDescription() {

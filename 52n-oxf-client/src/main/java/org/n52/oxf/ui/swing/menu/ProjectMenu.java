@@ -25,18 +25,18 @@
 package org.n52.oxf.ui.swing.menu;
 
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 
+import org.n52.oxf.serialization.ContextWriter;
+import org.n52.oxf.serialization.XmlBeansContextWriter;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.icons.IconAnchor;
 import org.n52.oxf.ui.swing.tree.ContentTree;
 import org.n52.oxf.util.FileFilterImpl;
-import org.n52.oxf.util.IOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -99,17 +99,9 @@ public class ProjectMenu extends Menu {
             if(returnVal == JFileChooser.APPROVE_OPTION) {
                 String filePath = chooser.getSelectedFile().getAbsolutePath();
                 
-                StringBuffer sb = new StringBuffer(200);
-                map.getLayerContext().serializeToContext(sb);
+                ContextWriter serializer = new XmlBeansContextWriter(map.getLayerContext());
+                serializer.saveContextFile(filePath);
                 
-                try {
-                    IOHelper.saveFile(filePath, sb.toString(), false);
-                    
-                    LOGGER.info("Context saved in file: '" + filePath + "'.");
-                }
-                catch (IOException exc) {
-                    LOGGER.error("Could not save file.", exc);
-                }
             }
         }
         else if (e.getSource().equals(openContextMI)) {

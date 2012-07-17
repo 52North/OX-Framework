@@ -63,7 +63,6 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.sos.caps.ObservationOffering;
 import org.n52.oxf.adapter.sos.caps.SOSContents;
@@ -84,7 +83,6 @@ import org.n52.oxf.owsCommon.capabilities.RequestMethod;
 import org.n52.oxf.owsCommon.capabilities.ServiceContact;
 import org.n52.oxf.owsCommon.capabilities.ServiceIdentification;
 import org.n52.oxf.owsCommon.capabilities.ServiceProvider;
-import org.n52.oxf.util.XmlBeansHelper;
 import org.n52.oxf.valueDomains.StringValueDomain;
 import org.n52.oxf.valueDomains.filter.ComparisonFilter;
 import org.n52.oxf.valueDomains.filter.FilterValueDomain;
@@ -92,6 +90,9 @@ import org.n52.oxf.valueDomains.filter.IFilter;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
 import org.n52.oxf.valueDomains.time.TemporalValueDomain;
 import org.n52.oxf.valueDomains.time.TimePeriod;
+import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
+import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
+import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
 import org.w3c.dom.Node;
 
 public class SOSCapabilitiesMapper_200 {
@@ -299,11 +300,15 @@ public class SOSCapabilitiesMapper_200 {
         ContentsType contentsType = xb_contents.getContents();
         Offering[] xb_obsOfferings = contentsType.getOfferingArray();
         ArrayList<ObservationOffering> oc_obsOffList = new ArrayList<ObservationOffering>();
-        for (int i = 0; i < xb_obsOfferings.length; i++) { 
-            Offering offering = xb_obsOfferings[i];
-            Node node = offering.getDomNode();
-            XmlObject obsOffObject = XmlBeansHelper.parseXmlObjectFromDomNode(node, "ObservationOffering");
-            ObservationOfferingDocument xb_obsOfferingDoc = (ObservationOfferingDocument) obsOffObject;
+        for (int i = 0; i < xb_obsOfferings.length; i++) {
+            ObservationOfferingDocument xb_obsOfferingDoc = null;
+            try {
+                Node offeringNode = XMLBeansTools.getDomNode(xb_obsOfferings[i]);
+                xb_obsOfferingDoc = (ObservationOfferingDocument) XMLBeansParser.parse(offeringNode);
+            }
+            catch (XMLHandlingException e) {
+                throw new OXFException("Could not parse DOM node.", e);
+            }
             ObservationOfferingType xb_obsOffering = xb_obsOfferingDoc.getObservationOffering();
             
             // identifier
@@ -322,9 +327,18 @@ public class SOSCapabilitiesMapper_200 {
 
             IBoundingBox[] oc_bbox = null;
             String[] oc_availabaleCRSs = null;
-            Node observedAreaNode = xb_obsOffering.getObservedArea().getDomNode();
-            XmlObject oaObject = XmlBeansHelper.parseXmlObjectFromDomNode(observedAreaNode, "Envelope");
-            EnvelopeDocument envelopeDoc = (EnvelopeDocument) oaObject;
+            EnvelopeDocument envelopeDoc = null;
+            try {
+                Node domNode = XMLBeansTools.getDomNode(xb_obsOffering.getObservedArea(), "Envelope");
+                envelopeDoc = (EnvelopeDocument) XMLBeansParser.parse(domNode);
+            } 
+            catch (XmlException e) {
+                throw new OXFException("Could not get DOM node.", e);
+            }
+            catch (XMLHandlingException e) {
+                throw new OXFException("Could not parse DOM node.", e);
+            }
+            
             EnvelopeType envelope = envelopeDoc.getEnvelope();
             if (envelope != null) {
                 // availableCRSs:

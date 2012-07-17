@@ -34,14 +34,16 @@ import java.util.Locale;
 import java.util.Set;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
+import org.n52.oxf.feature.sos.ObservationSeriesCollection;
+import org.n52.oxf.feature.sos.ObservedValueTuple;
 import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
 import org.n52.oxf.render.AnimatedVisualization;
 import org.n52.oxf.render.IFeatureDataRenderer;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 
 import com.vividsolutions.jts.geom.Point;

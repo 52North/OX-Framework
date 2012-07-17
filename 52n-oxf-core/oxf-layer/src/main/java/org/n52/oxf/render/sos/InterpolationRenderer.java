@@ -24,45 +24,29 @@
 
 package org.n52.oxf.render.sos;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import javax.swing.JFrame;
-
-import org.n52.oxf.OXFException;
-import org.n52.oxf.context.ContextBoundingBox;
-import org.n52.oxf.feature.OXFAbstractObservationType;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
-import org.n52.oxf.feature.sos.SOSObservationStore;
 import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.render.coverage.CoverageProcessor;
 import org.n52.oxf.render.coverage.DoubleCoverage;
 import org.n52.oxf.render.coverage.IntCoverage;
-import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Envelope;
-import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Requirements of this renderer:<br> - for a specific FOI should exist only Observations for one
@@ -237,79 +221,5 @@ public abstract class InterpolationRenderer implements IFeatureDataRenderer {
         }
 
         return image;
-    }
-
-    //
-    // -----------------------------------------------------------
-    //
-
-    public static void main(String[] args) throws OXFException, IOException {
-        SOSObservationStore featureStore = new SOSObservationStore();
-
-        InputStream in = new FileInputStream("C:/temp/sos_getObs_response2.xml");
-
-        OXFFeatureCollection featureCollection = featureStore.unmarshalFeatures(new OperationResult(in,
-                                                                                                    null,
-                                                                                                    null));
-
-        int screenW = 400;
-        int screenH = 300;
-
-        // --- compute the whole Envelope of all foi's of the features(/observations):
-        Geometry envelopeGeom = null;
-        for (OXFFeature feature : featureCollection) {
-
-            if (feature.getFeatureType() instanceof OXFAbstractObservationType) {
-
-                OXFFeature foi = (OXFFeature) feature.getAttribute(OXFAbstractObservationType.FEATURE_OF_INTEREST);
-
-                if (foi != null) {
-
-                    if (foi.getBoundingBox() != null) {
-                        if (envelopeGeom != null) {
-                            envelopeGeom = envelopeGeom.union(foi.getBoundingBox());
-                        }
-                        else {
-                            envelopeGeom = foi.getBoundingBox();
-                        }
-                    }
-                }
-            }
-        }
-
-        Envelope envelope = envelopeGeom.getEnvelopeInternal();
-
-        Point2D.Double lowerCorner = new Point2D.Double(envelope.getMinX() - 1500,
-                                                        envelope.getMinY() - 1500);
-        Point2D.Double upperCorner = new Point2D.Double(envelope.getMaxX() + 1500,
-                                                        envelope.getMaxY() + 1500);
-
-        IBoundingBox bbox = new ContextBoundingBox(lowerCorner, upperCorner).asCommonCapabilitiesBoundingBox();
-        // ---
-
-        // NNRenderer renderer = new NNRenderer();
-        IDWRenderer renderer = new IDWRenderer();
-
-        final Image image = renderer.renderLayer(featureCollection,
-                                                 null,
-                                                 screenW,
-                                                 screenH,
-                                                 bbox,
-                                                 null).getRendering();
-
-        JFrame frame = new JFrame();
-        Canvas canvas = new Canvas() {
-            public void paint(Graphics g) {
-                g.drawImage(image, 0, 0, this);
-            }
-        };
-        canvas.setSize(screenW, screenH);
-
-        frame.getContentPane().add(canvas, BorderLayout.CENTER);
-        frame.getContentPane().setBackground(Color.MAGENTA);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

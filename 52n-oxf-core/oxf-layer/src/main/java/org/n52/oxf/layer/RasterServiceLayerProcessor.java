@@ -25,9 +25,9 @@
 package org.n52.oxf.layer;
 
 import org.n52.oxf.*;
+import org.n52.oxf.adapter.*;
 import org.n52.oxf.owsCommon.capabilities.*;
 import org.n52.oxf.render.*;
-import org.n52.oxf.serviceAdapters.*;
 import org.n52.oxf.util.*;
 
 /**

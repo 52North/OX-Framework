@@ -54,24 +54,20 @@ import org.w3c.dom.NodeList;
 public class XMLBeansTools {
 
     public final static XmlOptions OMIT_XML_FRAGMENTS = new XmlOptions();
-    public final static XmlOptions PRETTYPRINT;
-    public final static XmlOptions FAST;
+    public final static XmlOptions FAST = new XmlOptions(OMIT_XML_FRAGMENTS);
+    public final static XmlOptions PRETTYPRINT = new XmlOptions(OMIT_XML_FRAGMENTS);
 
     static {
         OMIT_XML_FRAGMENTS.setSaveOuter();
-
-        PRETTYPRINT = new XmlOptions(OMIT_XML_FRAGMENTS);
-        PRETTYPRINT.setSavePrettyPrint();
         PRETTYPRINT.setUseDefaultNamespace();
-
-        FAST = new XmlOptions(OMIT_XML_FRAGMENTS);
+        PRETTYPRINT.setSavePrettyPrint();
         FAST.setUseDefaultNamespace();
     }
 
     /**
      * Mechanism to find an xml element by its name in a given {@link XmlObject}.
-     * 
-     * XMLBeans has no accessor for type #any, so this method can be used to #any content as {@link Node}.
+     * <br><br>
+     * XMLBeans has no accessor for type #any, that is why this method can be used to get #any content as {@link Node}.
      * 
      * @param xmlobj
      *        the xml object which contains the &lt;name&gt; element.
@@ -109,6 +105,7 @@ public class XMLBeansTools {
     private static String stripPrefix(String name) {
         return name.substring(name.indexOf(":") + 1);
     }
+    
 
     /**
      * Extracts an element from an xml doc. This is only useful for abstract or choice types. It is done via
@@ -133,10 +130,9 @@ public class XMLBeansTools {
             return null;
         }
         catch (Exception e) {
-            throw new XMLHandlingException("cannot extract " + element + " from "
+            throw new XMLHandlingException("cannot extract '" + element + "' from "
                     + doc.schemaType().getName().toString(), e);
         }
-
     }
 
     /**
@@ -223,15 +219,16 @@ public class XMLBeansTools {
     /**
      * Builds an org.w3c.dom.Node from a {@link XmlObject}.
      * 
-     * ATTENTION: This solution looks strange but it is necessary to do it this way. When trying to call
-     * getDomNode() on the incoming XmlObject you will get an Exception (DOM Level 3 not implemented).
-     * 
      * @param input
      *        the event document
      * 
      * @return a org.w3c.dom.Node representation
      */
     public static Node getDomNode(XmlObject input) throws XMLHandlingException {
+        /*
+         * This solution looks strange but it is necessary to do it this way. When trying to call
+         * getDomNode() on the incoming XmlObject you will get an Exception (DOM Level 3 not implemented).
+         */
         try {
             XmlObject rootNode = getRootNode(input);
             return rootNode.getDomNode();

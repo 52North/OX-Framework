@@ -30,12 +30,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.IServiceAdapter;
+import org.n52.oxf.adapter.OperationResult;
+import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
 import org.n52.oxf.owsCommon.capabilities.Operation;
-import org.n52.oxf.serviceAdapters.IServiceAdapter;
-import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.wmsclientcore.WmsException;
 import org.n52.wmsclientcore.capabilities.CapabilitiesFactory;
 import org.n52.wmsclientcore.capabilities.model.WMS_Capabilities;

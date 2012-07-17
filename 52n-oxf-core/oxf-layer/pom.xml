@@ -25,6 +25,15 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<dependency>
+			<!-- TODO clean up dependency -->
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-adapter-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-feature</artifactId>
+		</dependency>
 		<!-- ### XML BINDING DEPENDENCIES ### -->
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
@@ -35,6 +44,10 @@
 			<artifactId>52n-xml-kml-v220</artifactId>
 		</dependency>
 		<!-- ### EXTERNAL DEPENDENCIES ### -->
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>

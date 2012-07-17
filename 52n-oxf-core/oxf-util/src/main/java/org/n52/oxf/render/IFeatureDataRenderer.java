@@ -25,9 +25,9 @@ package org.n52.oxf.render;
 
 import java.util.*;
 import org.n52.oxf.*;
+import org.n52.oxf.adapter.*;
 import org.n52.oxf.feature.*;
 import org.n52.oxf.owsCommon.capabilities.*;
-import org.n52.oxf.serviceAdapters.*;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

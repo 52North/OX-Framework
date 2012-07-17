@@ -37,14 +37,14 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 
 import org.jfree.chart.JFreeChart;
+import org.n52.oxf.adapter.IServiceAdapter;
+import org.n52.oxf.adapter.OperationResult;
+import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.render.IChartRenderer;
-import org.n52.oxf.serviceAdapters.IServiceAdapter;
-import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 import org.n52.oxf.valueDomains.time.TimePeriod;
 import org.n52.oxf.valueDomains.time.TimePosition;

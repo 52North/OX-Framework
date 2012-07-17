@@ -25,23 +25,18 @@
 package org.n52.oxf.layer;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.context.ContextWindow;
 import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
 import org.n52.oxf.owsCommon.capabilities.ITime;
 import org.n52.oxf.render.IRenderer;
 import org.n52.oxf.render.IVisualization;
-import org.n52.oxf.serialization.IContextSerializableXML;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.util.IEventEmitter;
 import org.n52.oxf.util.IEventListener;
 import org.n52.oxf.util.OXFEventException;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
- */
-public interface IContextLayer extends IEventEmitter, IEventListener, IContextSerializableXML {
+public interface IContextLayer extends IEventEmitter, IEventListener {
 
     public ParameterContainer getParameterContainer();
 

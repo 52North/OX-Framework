@@ -25,10 +25,10 @@
 package org.n52.oxf.adapter.csw;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.OperationResult;
+import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.capabilities.Operation;
-import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

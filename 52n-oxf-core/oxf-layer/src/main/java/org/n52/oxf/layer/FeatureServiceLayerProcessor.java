@@ -27,6 +27,8 @@ package org.n52.oxf.layer;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.OXFRuntimeException;
+import org.n52.oxf.adapter.OperationResult;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
@@ -34,8 +36,6 @@ import org.n52.oxf.owsCommon.capabilities.Operation;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IVisualization;
-import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.OXFEventException;
 import org.slf4j.Logger;

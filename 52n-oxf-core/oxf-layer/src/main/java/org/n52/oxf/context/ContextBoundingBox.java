@@ -29,13 +29,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.math.BigDecimal;
-
-import net.opengis.context.BoundingBoxType;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
-import org.n52.oxf.serialization.IContextSerializableXML;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventEmitter;
 import org.n52.oxf.util.IEventListener;
@@ -43,10 +39,7 @@ import org.n52.oxf.util.OXFEventException;
 import org.n52.oxf.util.OXFEventSupport;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
 
-/**
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- */
-public class ContextBoundingBox implements IEventEmitter, IContextSerializableXML {
+public class ContextBoundingBox implements IEventEmitter {
 
     /**
      * Angefragter Ausschnitt wird an die kleinere Ausdehung angepasst; das f�hrt insbesondere beim initialen
@@ -482,17 +475,6 @@ public class ContextBoundingBox implements IEventEmitter, IContextSerializableXM
     public void removeEventListener(IEventListener listener) {
         eventSupport.removeOXFEventListener(listener);
 
-    }
-
-    public void serializeToContext(StringBuffer sb) {
-        BoundingBoxType xb_bbox = BoundingBoxType.Factory.newInstance();
-        xb_bbox.setMaxx(new BigDecimal(actualBBox.getMaxX()));
-        xb_bbox.setMinx(new BigDecimal(actualBBox.getMinX()));
-        xb_bbox.setMaxy(new BigDecimal(actualBBox.getMaxY()));
-        xb_bbox.setMiny(new BigDecimal(actualBBox.getMinY()));
-        xb_bbox.setSRS(srs);
-        
-        sb.append(xb_bbox.toString());
     }
 
 }

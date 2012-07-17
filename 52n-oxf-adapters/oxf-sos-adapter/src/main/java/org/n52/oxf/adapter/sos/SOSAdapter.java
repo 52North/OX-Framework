@@ -27,9 +27,6 @@ package org.n52.oxf.adapter.sos;
 import java.io.IOException;
 import java.io.InputStream;
 
-import net.opengis.ows.ExceptionReportDocument;
-import net.opengis.ows.ExceptionType;
-
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
@@ -37,6 +34,9 @@ import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.IServiceAdapter;
+import org.n52.oxf.adapter.OperationResult;
+import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.sos.SOSObservationStore;
@@ -44,9 +44,6 @@ import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.OWSException;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
 import org.n52.oxf.owsCommon.capabilities.Operation;
-import org.n52.oxf.serviceAdapters.IServiceAdapter;
-import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.util.IOHelper;
 import org.n52.oxf.util.SosUtil;
 
@@ -284,9 +281,7 @@ public class SOSAdapter implements IServiceAdapter {
             result = new OperationResult(is, parameters, request);
             try {
                 XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsStream());
-                if (result_xb instanceof ExceptionReportDocument) {
-                	throw parseExceptionReport_000(result);
-                } else if (result_xb instanceof net.opengis.ows.x11.ExceptionReportDocument) {
+                if (result_xb instanceof net.opengis.ows.x11.ExceptionReportDocument) {
                 	throw parseExceptionReport_100(result);
                 } else {
                 	return result;
@@ -373,40 +368,6 @@ public class SOSAdapter implements IServiceAdapter {
         return featureCollection;
     }
 
-    /**
-     * checks whether the response of the doOperation is an ExceptionReport. If it is, the report with the
-     * contained OWSExceptions are parsed and a new ExceptionReport is created and will be returned.
-     * 
-     * @throws ExceptionReport
-     *         the exception report containing the service exceptions
-     * @throws OXFException
-     *         if an parsing error occurs
-     * @throws XmlException
-     */
-	// TODO could be externalized because the same methods are use in the SESAdapter => identify common ServiceAdapterTasks
-    private ExceptionReport parseExceptionReport_000(OperationResult result) throws XmlException {
-
-        String requestResult = new String(result.getIncomingResult());
-
-        ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(requestResult);
-        ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
-
-        String language = xb_execRepDoc.getExceptionReport().getLanguage();
-        String version = xb_execRepDoc.getExceptionReport().getVersion();
-
-        ExceptionReport oxf_execReport = new ExceptionReport(version, language);
-        for (ExceptionType xb_exec : xb_exceptions) {
-            String execCode = xb_exec.getExceptionCode();
-            String[] execMsgs = xb_exec.getExceptionTextArray();
-            String locator = xb_exec.getLocator();
-
-            OWSException owsExec = new OWSException(execMsgs, execCode, result.getSendedRequest(), locator);
-
-            oxf_execReport.addException(owsExec);
-        }
-
-        return oxf_execReport;
-    }
 
     private ExceptionReport parseExceptionReport_100(OperationResult result) throws XmlException {
 

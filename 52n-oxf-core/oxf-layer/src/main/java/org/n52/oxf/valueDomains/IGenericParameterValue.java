@@ -24,15 +24,15 @@
 
 package org.n52.oxf.valueDomains;
 
+import org.n52.oxf.adapter.*;
 import org.n52.oxf.serialization.*;
-import org.n52.oxf.serviceAdapters.*;
 import org.w3c.dom.*;
 
 /**
  * This Parameter is used to represent Parameters, which are not covered directly by the OXF.
  * 
  * This class should write something like this XML snippet in
- * {@link org.n52.oxf.serialization.IContextSerializableXML#serializeToContext(StringBuffer)}: <p/>
+ * {@link org.n52.oxf.serialization.WritableContext#writeTo(StringBuffer)}: <p/>
  * 
  * <pre>
  *  &lt;GenericParameter name=&quot;className&quot;&gt;
@@ -43,7 +43,7 @@ import org.w3c.dom.*;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
-public interface IGenericParameterValue extends IContextSerializableXML {
+public interface IGenericParameterValue extends WritableContext {
 
     /**
      * informs about the current implementing class...

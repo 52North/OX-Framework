@@ -31,17 +31,17 @@ import java.net.URL;
 import javax.swing.JOptionPane;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.adapter.sos.ISOSRequestBuilder;
 import org.n52.oxf.adapter.sos.SOSAdapter;
 import org.n52.oxf.adapter.sos.caps.ObservationOffering;
-import org.n52.oxf.feature.sos.SOSFoiStore;
+import org.n52.oxf.feature.sos.FeatureStore;
 import org.n52.oxf.layer.FeatureServiceLayer;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.render.sos.FeatureGeometryRenderer;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.tree.ContentTree;
 import org.n52.oxf.ui.swing.util.LayerAdder;
@@ -162,7 +162,7 @@ public class AddFOI_ConfiguratorController {
             FeatureGeometryRenderer renderer = new FeatureGeometryRenderer();
             FeatureServiceLayer layer = new FeatureServiceLayer(adapter,
                                                                 renderer,
-                                                                new SOSFoiStore(),
+                                                                new FeatureStore(),
                                                                 renderer,
                                                                 serviceDesc,
                                                                 paramCon,

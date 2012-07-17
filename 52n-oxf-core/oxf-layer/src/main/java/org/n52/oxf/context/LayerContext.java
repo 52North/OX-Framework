@@ -26,6 +26,7 @@ package org.n52.oxf.context;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -36,6 +37,7 @@ import org.n52.oxf.layer.AbstractLayer;
 import org.n52.oxf.layer.IContextLayer;
 import org.n52.oxf.layer.IFeatureLayer;
 import org.n52.oxf.render.OverlayEngine;
+import org.n52.oxf.serialization.ContextWriter;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.OXFEvent;
 import org.n52.oxf.util.OXFEventException;
@@ -122,6 +124,14 @@ public class LayerContext extends Context {
 
     public ContextBoundingBox getContextBoundingBox() {
         return contextBBox;
+    }
+    
+    public List<IContextLayer> getContextLayers() {
+        if (contextLayerList != null) {
+            return contextLayerList;
+        } else {
+            return new ArrayList<IContextLayer>();
+        }
     }
 
     public IContextLayer get(int i) {
@@ -573,34 +583,8 @@ public class LayerContext extends Context {
         }
     }
 
-    public void serializeToContext(StringBuffer sb) {
-        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        sb.append("<ViewContext version=\"" + CONTEXT_VERSION + "\" id=\"" + id + "\">");
-        sb.append("<General>");
-        if (contextWindow != null) {
-            contextWindow.serializeToContext(sb);
-        }
-        contextBBox.serializeToContext(sb);
-        sb.append("<Title>" + title + "</Title>");
-        if (keywordList != null) {
-            sb.append("<KeywordList>");
-            for (String keyword : keywordList) {
-                sb.append("<Keyword>" + keyword + "</Keyword>");
-            }
-            sb.append("</KeywordList>");
-        }
-        if (abstractDescription != null) {
-            sb.append("<Abstract>" + abstractDescription + "</Abstract>");
-        }
-        sb.append("<LayerList>");
-        if (contextLayerList != null) {
-            for (IContextLayer layer : contextLayerList) {
-                layer.serializeToContext(sb);
-            }
-        }
-        sb.append("</LayerList>");
-        sb.append("</General>");
-        sb.append("</ViewContext>");
+    public void writeTo(ContextWriter serializer) {
+        serializer.write(this);
     }
 
     @Override

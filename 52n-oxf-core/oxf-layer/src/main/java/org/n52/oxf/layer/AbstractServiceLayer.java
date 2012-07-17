@@ -24,20 +24,12 @@
 
 package org.n52.oxf.layer;
 
-import net.opengis.context.FormatListType;
-import net.opengis.context.FormatType;
-import net.opengis.context.LayerType;
-import net.opengis.context.OnlineResourceType;
-import net.opengis.context.ServerType;
-
+import org.n52.oxf.adapter.IServiceAdapter;
+import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
 import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.render.IRenderer;
-import org.n52.oxf.serviceAdapters.IServiceAdapter;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.valueDomains.IGenericParameterValue;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,77 +71,6 @@ public abstract class AbstractServiceLayer extends AbstractLayer {
         this.serviceAdapter = adapter;
         this.serviceDescriptor = descriptor;
         this.resourceOperationName = resourceOperationName;
-    }
-
-    /**
-     * 
-     */
-    public void serializeToContext(StringBuffer sb) {
-        LayerType xb_layer = LayerType.Factory.newInstance();
-        xb_layer.setHidden(hidden);
-        xb_layer.setQueryable(false);
-        xb_layer.setName(this.idName);
-        xb_layer.setTitle(this.title);
-
-        ServerType xb_server = xb_layer.addNewServer();
-        xb_server.setVersion(serviceDescriptor.getServiceIdentification().getServiceTypeVersion()[0]);
-        //xb_server.setService(net.opengis.context.ServiceType.OGC_WMS);
-        xb_server.setService("WMS");
-        OnlineResourceType xb_orServer = xb_server.addNewOnlineResource();
-        xb_orServer.setHref("???"); // TODO use UNKNOWN URN/URI
-
-        // URLType xb_url = xb_layer.addNewDataURL();
-        OnlineResourceType xb_orData = xb_server.addNewOnlineResource();
-        // String opName = serviceAdapter.getResourceOperationName();
-        // DCP opDCP = serviceDescriptor.getOperationsMetadata().getOperationByName(opName).getDcps()[0];
-        // String postHref = opDCP.getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
-        // String getHref = opDCP.getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
-        xb_orData.setHref("");
-
-        if (parameterContainer.containsParameterShellWithCommonName(Parameter.COMMON_NAME_FORMAT)) {
-            FormatListType xb_formatList = xb_layer.addNewFormatList();
-
-            FormatType xb_format = xb_formatList.addNewFormat();
-            xb_format.setCurrent(true);
-            xb_format.setStringValue((String) parameterContainer.getParameterShellWithCommonName(Parameter.COMMON_NAME_FORMAT).getSpecifiedValue());
-        }
-        // if (parameterContainer.containsParameterShellWithCommonName(Parameter.COMMON_NAME_STYLE)) {
-        //            
-        // }
-
-        if (parameterContainer.containsParameterShellWithCommonName(Parameter.COMMON_NAME_TIME)) {
-            sb.append("<DimensionList>");
-            sb.append("<Dimension name=\"time\">");
-            sb.append(parameterContainer.getParameterShellWithCommonName(Parameter.COMMON_NAME_TIME).getSpecifiedValue());
-            sb.append("</Dimension>");
-        }
-
-        // Setting all the generic Parameters into a GenericParameterList
-        boolean firstGenericParam = true;
-        boolean hasGenericParams = false;
-        // There will be only these parameters serialized which are part of COMMON_NAME_*
-        // or instance of IGenericParameterValue
-        for (ParameterShell ps : parameterContainer.getParameterShells()) {
-            if (ps.getParameter().getCommonName() == null) {
-                if (ps.getSpecifiedValue() instanceof IGenericParameterValue) {
-                    if (firstGenericParam) {
-                        sb.append("<GenericParameterList>");
-                        firstGenericParam = false;
-                        hasGenericParams = true;
-                    }
-                    IGenericParameterValue genericParam = (IGenericParameterValue) ps.getSpecifiedValue();
-                    genericParam.serializeToContext(sb);
-                }
-            }
-        }
-        if (hasGenericParams) {
-            sb.append("</GenericParameterList>");
-        }
-        sb.append("</Layer>");
-
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("serialization finished");
-        }
     }
 
     public IServiceAdapter getServiceAdapter() {

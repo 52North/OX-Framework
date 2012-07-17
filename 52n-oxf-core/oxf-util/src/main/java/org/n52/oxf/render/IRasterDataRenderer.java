@@ -24,7 +24,7 @@
 package org.n52.oxf.render;
 
 import org.n52.oxf.*;
-import org.n52.oxf.serviceAdapters.*;
+import org.n52.oxf.adapter.*;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

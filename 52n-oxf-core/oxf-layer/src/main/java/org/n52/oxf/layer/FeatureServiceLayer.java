@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.IServiceAdapter;
+import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
@@ -39,8 +41,6 @@ import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IFeaturePicker;
-import org.n52.oxf.serviceAdapters.IServiceAdapter;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.OXFEvent;
 import org.n52.oxf.util.OXFEventException;

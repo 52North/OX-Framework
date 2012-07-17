@@ -41,12 +41,12 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.ExceptionTransformer;
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.IServiceAdapter;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.render.IRenderer;
-import org.n52.oxf.serviceAdapters.IServiceAdapter;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.ui.wms.configSchema.WmsConfigDocument;
 import org.n52.oxf.ui.wms.configSchema.WmsConfigDocument.WmsConfig;
 import org.n52.oxf.ui.wms.configSchema.WmsConfigDocument.WmsConfig.Layer;
@@ -259,6 +259,8 @@ public class WebMapServiceFrontend extends HttpServlet {
             ClassNotFoundException,
             InstantiationException,
             IllegalAccessException {
+        
+        // TODO put to test tree with wmsConfig test file from resources
         FileInputStream fileStream = new FileInputStream("D:/Eigene Dateien/_Job/OXFramework/oxf-utilities/conf/wmsConfig.xml");
 
         new WebMapServiceFrontend().readOutLayerList(fileStream);

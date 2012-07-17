@@ -28,21 +28,21 @@ import java.awt.Component;
 import java.util.Set;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.OperationResult;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.adapter.sos.ISOSRequestBuilder;
 import org.n52.oxf.adapter.sos.SOSAdapter;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
-import org.n52.oxf.feature.sos.SOSFoiStore;
+import org.n52.oxf.feature.sos.FeatureStore;
 import org.n52.oxf.layer.FeatureServiceLayer;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.render.IChartRenderer;
 import org.n52.oxf.render.IFeatureDataRenderer;
-import org.n52.oxf.serviceAdapters.OperationResult;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.ui.swing.ChartDialog;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.tree.ContentTree;
@@ -143,7 +143,7 @@ public class SOSLayerAdder {
         OperationResult opResult = sosAdapter.doOperation(serviceDesc.getOperationsMetadata().getOperationByName(SOSAdapter.GET_FEATURE_OF_INTEREST),
                                                           paramCon);
 
-        IFeatureStore featureStore = new SOSFoiStore();
+        IFeatureStore featureStore = new FeatureStore();
         OXFFeatureCollection featureCollection = featureStore.unmarshalFeatures(opResult);
 
         return featureCollection.toSet();

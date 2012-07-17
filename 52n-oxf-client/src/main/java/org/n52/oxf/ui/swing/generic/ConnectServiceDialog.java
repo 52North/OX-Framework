@@ -29,10 +29,10 @@ import java.awt.event.*;
 import java.util.List;
 import javax.swing.*;
 import org.n52.oxf.*;
+import org.n52.oxf.adapter.*;
 import org.n52.oxf.context.*;
 import org.n52.oxf.plugin.*;
 import org.n52.oxf.render.*;
-import org.n52.oxf.serviceAdapters.*;
 import org.n52.oxf.ui.swing.*;
 
 /**

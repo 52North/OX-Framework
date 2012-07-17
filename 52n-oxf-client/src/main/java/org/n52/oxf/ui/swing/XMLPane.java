@@ -53,50 +53,6 @@ public class XMLPane extends JTextPane {
     Pattern partPattern, namePattern, attributePattern;
     Matcher partMatcher, nameMatcher, attributeMatcher;
 
-    /**
-     * to test this class.
-     * 
-     * @param args
-     * @throws IOException
-     */
-    public static void main(String[] args) throws IOException {
-        {
-            System.out.println(">>>>>>>>>>>>>>>>> read with <<<<<<<<<<<<<<<<");
-            File file1 = new File("c:/temp/withOpts.xml");
-            String text1 = IOHelper.readText(file1);
-
-            XMLPane pane1 = new XMLPane(text1);
-            JFrame frame1 = new JFrame("with");
-            JScrollPane scrollPane1 = new JScrollPane(pane1);
-            frame1.getContentPane().add(scrollPane1, BorderLayout.CENTER);
-            frame1.setSize(300, 300);
-            frame1.setVisible(true);
-        }
-        {
-            System.out.println(">>>>>>>>>>>>>>>>> read without <<<<<<<<<<<<<<<<");
-            File file2 = new File("c:/temp/withoutOpts.xml");
-            String text2 = IOHelper.readText(file2);
-
-            XMLPane pane2 = new XMLPane(text2);
-            JFrame frame2 = new JFrame("without");
-            JScrollPane scrollPane2 = new JScrollPane(pane2);
-            frame2.getContentPane().add(scrollPane2, BorderLayout.CENTER);
-            frame2.setSize(300, 300);
-            frame2.setVisible(true);
-        }
-        {
-            System.out.println(">>>>>>>>>>>>>>>>> read without_arne <<<<<<<<<<<<<<<<");
-            File file3 = new File("c:/temp/withoutOpts_arne.xml");
-            String text3 = IOHelper.readText(file3);
-
-            XMLPane pane3 = new XMLPane(text3);
-            JFrame frame3 = new JFrame("without_arne");
-            JScrollPane scrollPane3 = new JScrollPane(pane3);
-            frame3.getContentPane().add(scrollPane3, BorderLayout.CENTER);
-            frame3.setSize(300, 300);
-            frame3.setVisible(true);
-        }
-    }
 
     /**
      * 

@@ -43,12 +43,14 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.feature.OXFFeatureCollection;
+import org.n52.oxf.feature.sos.ObservationSeriesCollection;
+import org.n52.oxf.feature.sos.ObservedValueTuple;
 import org.n52.oxf.render.IChartRenderer;
 import org.n52.oxf.render.IVisualization;
 import org.n52.oxf.render.StaticVisualization;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 
 /**

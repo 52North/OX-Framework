@@ -25,7 +25,7 @@
 package org.n52.oxf.feature;
 
 import org.n52.oxf.OXFException;
-import org.n52.oxf.serviceAdapters.OperationResult;
+import org.n52.oxf.adapter.OperationResult;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

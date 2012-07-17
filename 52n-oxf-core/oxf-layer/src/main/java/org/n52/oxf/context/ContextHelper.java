@@ -33,6 +33,7 @@ import java.util.zip.ZipOutputStream;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.render.OverlayEngine;
+import org.n52.oxf.serialization.ContextWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,18 +64,13 @@ public class ContextHelper {
     /**
      * saves all Views in a ContextCollection.
      */
-    public StringBuffer saveContextCollection() {
-        StringBuffer sb = new StringBuffer(200);
-        this.getContextCollection().serializeToContext(sb);
-        return sb;
+    public void saveContextCollection(ContextWriter serializer) {
+        serializer.write(getContextCollection());
     }
     
     /**
      * Saves all Views in a Zip files containing all COntext files and the ContextCollection file.
-     * 
-     * @param outputStream
-     * @return
-     */
+     
     public ZipOutputStream saveAllViews(OutputStream outputStream) throws OXFException {
         
         ZipOutputStream out = new ZipOutputStream(outputStream);
@@ -102,20 +98,8 @@ public class ContextHelper {
             throw new OXFException("Error while writing ZipFile");
         }
         return out;
-    }
+    }*/
     
-    /**
-     * saves the Context (downwardly) compatible to the "Web Map Context Documents" Specification (OGC 05-005)
-     * of the OGC in version 1.1.0 in to a StringBuffer in form of a XML representation.
-     * 
-     * @param context the Context which should be saved.
-     */
-    public StringBuffer saveContext(LayerContext context) {
-        StringBuffer sb = new StringBuffer(200);
-        context.serializeToContext(sb);
-        return sb;
-    }
-
     /**
      * If the ContextCollection has not been loaded a new (fresh) ContextCollection will be returned. Else the
      * loaded ContextCollection will be returned.

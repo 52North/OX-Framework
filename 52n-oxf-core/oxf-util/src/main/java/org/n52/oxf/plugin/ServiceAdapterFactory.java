@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.n52.oxf.OXFException;
-import org.n52.oxf.serviceAdapters.IServiceAdapter;
+import org.n52.oxf.adapter.IServiceAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * This class is responsible to dynamically load the available IServiceAdapters
  * and to ensure that exactly one IServiceAdapter of one type is instantiated.
  * The available IServiceAdapters are listed in an extern propertyFile. The
- * property file is located in org.n52.oxf.serviceAdapters. <br/>
+ * property file is located in org.n52.oxf.adapter. <br/>
  * 
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  */

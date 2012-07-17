@@ -43,14 +43,14 @@ import net.opengis.swes.x20.DescribeSensorType;
 import org.apache.commons.lang.NotImplementedException;
 import org.jfree.util.Log;
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.owsCommon.capabilities.ITime;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
-import org.n52.oxf.serviceAdapters.ParameterShell;
-import org.n52.oxf.util.XmlBeansHelper;
 import org.n52.oxf.valueDomains.time.ITimePeriod;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 import org.n52.oxf.valueDomains.time.TimeFactory;
+import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
 
 /**
  * contains attributes and methods to encode SOSOperationRequests as String in xml-format
@@ -113,7 +113,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
             }
         }
 
-        return XmlBeansHelper.formatStringRequest(getCapDoc);
+        return getCapDoc.xmlText(XMLBeansTools.PRETTYPRINT);
     }
 
     public String buildGetObservationRequest(ParameterContainer parameters) throws OXFException {
@@ -128,7 +128,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         processProcedure(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_PROCEDURE_PARAMETER));
         processFeatureOfInterest(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER));
         processSpatialFilter(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_SPATIAL_FILTER_PARAMETER));
-        return XmlBeansHelper.formatStringRequest(xb_getObsDoc);
+        return xb_getObsDoc.xmlText(XMLBeansTools.PRETTYPRINT);
     }
     
     private ParameterShell getShellForServerParameter(ParameterContainer container, String name) {
@@ -262,7 +262,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         processProcedureDescriptionFormat(descSensor, getShellForServerParameter(parameters, DESCRIBE_SENSOR_PROCEDURE_DESCRIPTION_FORMAT));
         
         
-        return XmlBeansHelper.formatStringRequest(descSensorDoc);
+        return descSensorDoc.xmlText(XMLBeansTools.PRETTYPRINT);
     }
     
     protected void processProcedureDescriptionFormat(DescribeSensorType descSensor, ParameterShell shell) {

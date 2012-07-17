@@ -30,14 +30,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.IServiceAdapter;
+import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.layer.RasterServiceLayer;
 import org.n52.oxf.owsCommon.ExceptionReport;
 import org.n52.oxf.owsCommon.ServiceDescriptor;
 import org.n52.oxf.owsCommon.capabilities.Parameter;
 import org.n52.oxf.render.IRasterDataRenderer;
 import org.n52.oxf.render.IRenderer;
-import org.n52.oxf.serviceAdapters.IServiceAdapter;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.icons.IconAnchor;
 import org.n52.oxf.ui.swing.tool.MapTool;

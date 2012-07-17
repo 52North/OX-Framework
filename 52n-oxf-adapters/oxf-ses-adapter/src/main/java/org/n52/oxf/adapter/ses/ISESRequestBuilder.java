@@ -24,7 +24,7 @@
 package org.n52.oxf.adapter.ses;
 
 import org.n52.oxf.OXFException;
-import org.n52.oxf.serviceAdapters.ParameterContainer;
+import org.n52.oxf.adapter.ParameterContainer;
 
 /**
  * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>

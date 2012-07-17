@@ -32,9 +32,9 @@ import javax.media.jai.JAI;
 import javax.media.jai.PlanarImage;
 
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.render.IRasterDataRenderer;
 import org.n52.oxf.render.StaticVisualization;
-import org.n52.oxf.serviceAdapters.OperationResult;
 import org.n52.oxf.util.ParameterMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
