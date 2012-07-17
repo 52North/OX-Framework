@@ -28,7 +28,7 @@ import java.awt.*;
 import java.net.*;
 import javax.swing.*;
 
-import org.n52.oxf.adapter.sos.SOSAdapter;
+import org.n52.oxf.sos.adapter.SOSAdapter;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

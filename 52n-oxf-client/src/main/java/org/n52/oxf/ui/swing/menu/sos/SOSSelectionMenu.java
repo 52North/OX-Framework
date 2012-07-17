@@ -32,8 +32,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import org.n52.oxf.adapter.IServiceAdapter;
-import org.n52.oxf.adapter.sos.SOSAdapter;
-import org.n52.oxf.feature.sos.SOSObservationStore;
 import org.n52.oxf.layer.FeatureServiceLayer;
 import org.n52.oxf.layer.IContextLayer;
 import org.n52.oxf.ows.ServiceDescriptor;
@@ -45,6 +43,8 @@ import org.n52.oxf.render.sos.ScatterPlotChartRenderer;
 import org.n52.oxf.render.sos.TimeSeriesChartRenderer;
 import org.n52.oxf.render.sos.TimeSeriesMapChartRenderer;
 import org.n52.oxf.render.sos.WindFieldRenderer;
+import org.n52.oxf.sos.adapter.SOSAdapter;
+import org.n52.oxf.sos.feature.SOSObservationStore;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.menu.Menu;
 import org.n52.oxf.ui.swing.sos.SOSLayerAdder;

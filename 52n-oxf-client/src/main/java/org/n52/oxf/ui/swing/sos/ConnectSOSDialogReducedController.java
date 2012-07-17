@@ -32,9 +32,9 @@ import java.net.URL;
 import javax.swing.JOptionPane;
 
 import org.n52.oxf.OXFException;
-import org.n52.oxf.adapter.sos.SOSAdapter;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.sos.adapter.SOSAdapter;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

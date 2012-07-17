@@ -33,15 +33,15 @@ import javax.swing.JOptionPane;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
-import org.n52.oxf.adapter.sos.ISOSRequestBuilder;
-import org.n52.oxf.adapter.sos.SOSAdapter;
-import org.n52.oxf.adapter.sos.caps.ObservationOffering;
 import org.n52.oxf.feature.FeatureStore;
 import org.n52.oxf.layer.FeatureServiceLayer;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Parameter;
 import org.n52.oxf.render.sos.FeatureGeometryRenderer;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
+import org.n52.oxf.sos.adapter.SOSAdapter;
+import org.n52.oxf.sos.capabilities.ObservationOffering;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.tree.ContentTree;
 import org.n52.oxf.ui.swing.util.LayerAdder;
@@ -119,7 +119,7 @@ public class AddFOI_ConfiguratorController {
      * 
      * @param offering
      */
-    public void initOffering(org.n52.oxf.adapter.sos.caps.ObservationOffering offering) {
+    public void initOffering(org.n52.oxf.sos.capabilities.ObservationOffering offering) {
         // clear input elements:
         view.getNameTextField().setText("");
 

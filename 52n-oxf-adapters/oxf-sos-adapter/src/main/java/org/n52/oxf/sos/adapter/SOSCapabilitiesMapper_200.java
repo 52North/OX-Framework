@@ -22,40 +22,50 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.adapter.sos;
+package org.n52.oxf.sos.adapter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
 
-import javax.xml.namespace.QName;
-
-import net.opengis.gml.ReferenceType;
-import net.opengis.gml.TimeInstantType;
-import net.opengis.gml.TimePeriodType;
-import net.opengis.ogc.ComparisonOperatorType;
+import net.opengis.fes.x20.ComparisonOperatorType;
+import net.opengis.fes.x20.ComparisonOperatorsType;
+import net.opengis.fes.x20.FilterCapabilitiesDocument.FilterCapabilities;
+import net.opengis.fes.x20.ScalarCapabilitiesType;
+import net.opengis.fes.x20.SpatialCapabilitiesType;
+import net.opengis.fes.x20.TemporalCapabilitiesType;
+import net.opengis.gml.EnvelopeDocument;
+import net.opengis.gml.EnvelopeType;
+import net.opengis.gml.x32.CodeType;
+import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
+import net.opengis.ows.x11.ContactType;
 import net.opengis.ows.x11.DCPDocument;
 import net.opengis.ows.x11.DomainType;
 import net.opengis.ows.x11.LanguageStringType;
 import net.opengis.ows.x11.OperationDocument;
 import net.opengis.ows.x11.RequestMethodType;
+import net.opengis.ows.x11.ResponsiblePartySubsetType;
 import net.opengis.ows.x11.ValueType;
-import net.opengis.sos.x10.CapabilitiesDocument;
-import net.opengis.sos.x10.ContentsDocument;
-import net.opengis.sos.x10.FilterCapabilitiesDocument.FilterCapabilities;
-import net.opengis.sos.x10.ObservationOfferingType;
-import net.opengis.sos.x10.ResponseModeType;
-import net.opengis.swe.x101.CompositePhenomenonType;
-import net.opengis.swe.x101.PhenomenonPropertyType;
+import net.opengis.sos.x20.CapabilitiesDocument;
+import net.opengis.sos.x20.CapabilitiesType;
+import net.opengis.sos.x20.CapabilitiesType.Contents;
+import net.opengis.sos.x20.ContentsType;
+import net.opengis.sos.x20.ObservationOfferingDocument;
+import net.opengis.sos.x20.ObservationOfferingType;
+import net.opengis.sos.x20.ObservationOfferingType.ResultTime;
+import net.opengis.swes.x20.AbstractContentsType.Offering;
+import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
 
-import org.apache.xmlbeans.SchemaType;
-import org.apache.xmlbeans.XmlObject;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
-import org.n52.oxf.adapter.sos.caps.ObservationOffering;
-import org.n52.oxf.adapter.sos.caps.SOSContents;
 import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ows.capabilities.Contact;
 import org.n52.oxf.ows.capabilities.DCP;
 import org.n52.oxf.ows.capabilities.DatasetParameter;
 import org.n52.oxf.ows.capabilities.GetRequestMethod;
@@ -68,28 +78,35 @@ import org.n52.oxf.ows.capabilities.OperationsMetadata;
 import org.n52.oxf.ows.capabilities.Parameter;
 import org.n52.oxf.ows.capabilities.PostRequestMethod;
 import org.n52.oxf.ows.capabilities.RequestMethod;
+import org.n52.oxf.ows.capabilities.ServiceContact;
 import org.n52.oxf.ows.capabilities.ServiceIdentification;
 import org.n52.oxf.ows.capabilities.ServiceProvider;
+import org.n52.oxf.sos.capabilities.ObservationOffering;
+import org.n52.oxf.sos.capabilities.SOSContents;
 import org.n52.oxf.valueDomains.StringValueDomain;
 import org.n52.oxf.valueDomains.filter.ComparisonFilter;
 import org.n52.oxf.valueDomains.filter.FilterValueDomain;
 import org.n52.oxf.valueDomains.filter.IFilter;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
 import org.n52.oxf.valueDomains.time.TemporalValueDomain;
-import org.n52.oxf.valueDomains.time.TimeFactory;
 import org.n52.oxf.valueDomains.time.TimePeriod;
+import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
+import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
+import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
+import org.w3c.dom.Node;
 
-public class SOSCapabilitiesMapper_100 {
+public class SOSCapabilitiesMapper_200 {
 
     public ServiceDescriptor mapCapabilities(CapabilitiesDocument capabilitiesDoc) throws OXFException {
 
         String version = mapVersion(capabilitiesDoc);
         ServiceIdentification serviceIdentification = mapServiceIdentification(capabilitiesDoc.getCapabilities().getServiceIdentification());
         ServiceProvider serviceProvider = mapServiceProvider(capabilitiesDoc);
-        OperationsMetadata operationsMetadata = mapOperationsMetadata(capabilitiesDoc.getCapabilities().getOperationsMetadata());
+//        OperationsMetadata operationsMetadata = mapOperationsMetadata(capabilitiesDoc.getCapabilities().getOperationsMetadata());
+        OperationsMetadata operationsMetadata = null;
         SOSContents contents = mapContents(capabilitiesDoc);
 
-        addDatasetParameterFromContentsSection(operationsMetadata, contents);
+//        addDatasetParameterFromContentsSection(operationsMetadata, contents);
 
         ServiceDescriptor serviceDesc = new ServiceDescriptor(version,
                                                               serviceIdentification,
@@ -99,14 +116,6 @@ public class SOSCapabilitiesMapper_100 {
         return serviceDesc;
     }
 
-    /**
-     * takes selected informations from the SOSContents (e.g. the contents-section of the capabilities
-     * document) and builds DatasetParameters from it. These DatasetParameters will be added to the
-     * OperationsMetadata object.
-     * 
-     * @param operationsMetadata
-     * @param contents
-     */
     private void addDatasetParameterFromContentsSection(OperationsMetadata operationsMetadata, SOSContents contents) {
         Operation getObservationOp = operationsMetadata.getOperationByName("GetObservation");
 
@@ -163,14 +172,6 @@ public class SOSCapabilitiesMapper_100 {
         }
     }
 
-    /**
-     * this method goes through the supported operations declared in the OperationsMetadata-section of the
-     * SOS-Capabilities and maps the provided informations to the OXF internal capabilities-model (e.g. the
-     * class org.n52.oxf.ows.capabilities.OperationsMetadata)
-     * 
-     * @param xb_opMetadata
-     * @return
-     */
     private OperationsMetadata mapOperationsMetadata(net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata xb_opMetadata) {
 
         //
@@ -268,190 +269,147 @@ public class SOSCapabilitiesMapper_100 {
         return new OperationsMetadata(oc_operations);
     }
 
+    public static void main(String[] args) {
+        HttpClient client = new HttpClient();
+        GetMethod method = new GetMethod("http://sensorweb.demo.52north.org/52nSOSv3_200/sos?REQUEST=GetCapabilities&SERVICE=SOS");
+        try {
+            client.executeMethod(method);
+            new SOSCapabilitiesMapper_200().mapCapabilities(CapabilitiesDocument.Factory.parse(method.getResponseBodyAsStream()));
+        }
+        catch (HttpException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (XmlException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (OXFException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    
     private SOSContents mapContents(CapabilitiesDocument capabilitiesDoc) throws OXFException {
-        ContentsDocument.Contents xb_contents = capabilitiesDoc.getCapabilities().getContents();
-
-        ContentsDocument.Contents.ObservationOfferingList xb_obsOfferingList = xb_contents.getObservationOfferingList();
-
-        ObservationOfferingType[] xb_obsOfferings = xb_obsOfferingList.getObservationOfferingArray();
+        CapabilitiesType capabilities = capabilitiesDoc.getCapabilities();
+        Contents xb_contents = capabilities.getContents();
+        ContentsType contentsType = xb_contents.getContents();
+        Offering[] xb_obsOfferings = contentsType.getOfferingArray();
         ArrayList<ObservationOffering> oc_obsOffList = new ArrayList<ObservationOffering>();
         for (int i = 0; i < xb_obsOfferings.length; i++) {
-            ObservationOfferingType xb_obsOffering = xb_obsOfferings[i];
-
-//            if(xb_obsOffering instanceof net.opengis.gml.AbstractFeatureType);
-//            if(xb_obsOffering instanceof net.opengis.gml.AbstractGMLType);
+            ObservationOfferingDocument xb_obsOfferingDoc = null;
+            try {
+                Node offeringNode = XMLBeansTools.getDomNode(xb_obsOfferings[i]);
+                xb_obsOfferingDoc = (ObservationOfferingDocument) XMLBeansParser.parse(offeringNode);
+            }
+            catch (XMLHandlingException e) {
+                throw new OXFException("Could not parse DOM node.", e);
+            }
+            ObservationOfferingType xb_obsOffering = xb_obsOfferingDoc.getObservationOffering();
             
             // identifier
-            String oc_identifier = xb_obsOffering.getId();
+
+            String oc_identifier = xb_obsOffering.getIdentifier();
 
             // title (take the first name or if name does not exist take the id)
             String oc_title;
-            net.opengis.gml.CodeType[] xb_names = xb_obsOffering.getNameArray();
+            CodeType[] xb_names = xb_obsOffering.getNameArray();
             if (xb_names != null && xb_names.length > 0 && xb_names[0].getStringValue() != null) {
                 oc_title = xb_names[0].getStringValue();
             }
             else {
-                oc_title = xb_obsOffering.getId();
+                oc_title = xb_obsOffering.getIdentifier();
             }
 
-            // availableCRSs:
-            String oc_crs = xb_obsOffering.getBoundedBy().getEnvelope().getSrsName();
-
+            IBoundingBox[] oc_bbox = null;
             String[] oc_availabaleCRSs = null;
-            if (oc_crs != null) {
-                oc_availabaleCRSs = new String[] {oc_crs};
+            EnvelopeDocument envelopeDoc = null;
+            try {
+                Node domNode = XMLBeansTools.getDomNode(xb_obsOffering.getObservedArea(), "Envelope");
+                envelopeDoc = (EnvelopeDocument) XMLBeansParser.parse(domNode);
+            } 
+            catch (XmlException e) {
+                throw new OXFException("Could not get DOM node.", e);
             }
-            else {
-                // TODO Think about throwing an exception because of one missing attribute because this situation can occur often when a new offering is set up and no data is available. Set it null and then it's okay! (ehjuerrens@52north.org)
-                // throw new NullPointerException("SRS not specified in the Capabilities' 'gml:Envelope'-tag.");
+            catch (XMLHandlingException e) {
+                throw new OXFException("Could not parse DOM node.", e);
             }
+            
+            EnvelopeType envelope = envelopeDoc.getEnvelope();
+            if (envelope != null) {
+                // availableCRSs:
+                String oc_crs = envelope.getSrsName();
+                if (oc_crs != null) {
+                    oc_availabaleCRSs = new String[] {oc_crs};
+                }
+                else {
+                    // TODO Think about throwing an exception because of one missing attribute because this situation can occur often when a new offering is set up and no data is available. Set it null and then it's okay! (ehjuerrens@52north.org)
+                    // throw new NullPointerException("SRS not specified in the Capabilities' 'gml:Envelope'-tag.");
+                }
 
-            // BoundingBox:
-            List xb_lowerCornerList = xb_obsOffering.getBoundedBy().getEnvelope().getLowerCorner().getListValue();
-            double[] oc_lowerCornerList = new double[xb_lowerCornerList.size()];
+                // BoundingBox:
+                oc_bbox = new IBoundingBox[1];
+                List xb_lowerCornerList = envelope.getLowerCorner().getListValue();
+                double[] oc_lowerCornerList = new double[xb_lowerCornerList.size()];
 
-            List xb_upperCornerList = xb_obsOffering.getBoundedBy().getEnvelope().getUpperCorner().getListValue();
-            double[] oc_upperCornerList = new double[xb_upperCornerList.size()];
+                List xb_upperCornerList = envelope.getUpperCorner().getListValue();
+                double[] oc_upperCornerList = new double[xb_upperCornerList.size()];
 
-            for (int j = 0; j < xb_lowerCornerList.size(); j++) {
-                oc_lowerCornerList[j] = (Double) xb_lowerCornerList.get(j);
+                for (int j = 0; j < xb_lowerCornerList.size(); j++) {
+                    oc_lowerCornerList[j] = (Double) xb_lowerCornerList.get(j);
+                }
+                for (int j = 0; j < xb_upperCornerList.size(); j++) {
+                    oc_upperCornerList[j] = (Double) xb_upperCornerList.get(j);
+                }
+
+                oc_bbox[0] = new BoundingBox(oc_crs, oc_lowerCornerList, oc_upperCornerList);
             }
-            for (int j = 0; j < xb_upperCornerList.size(); j++) {
-                oc_upperCornerList[j] = (Double) xb_upperCornerList.get(j);
-            }
-
-            IBoundingBox[] oc_bbox = new IBoundingBox[1];
-            oc_bbox[0] = new BoundingBox(oc_crs, oc_lowerCornerList, oc_upperCornerList);
 
             // outputFormats:
             String[] oc_outputFormats = xb_obsOffering.getResponseFormatArray();
 
             // TemporalDomain:
             List<ITime> oc_timeList = new ArrayList<ITime>();
-            if (xb_obsOffering.getTime() != null && xb_obsOffering.getTime().getTimeGeometricPrimitive() != null) {
-              
-                XmlObject xo = xb_obsOffering.getTime().getTimeGeometricPrimitive().newCursor().getObject();
-                SchemaType schemaType = xo.schemaType();
-                if (schemaType.getJavaClass().isAssignableFrom(TimeInstantType.class)) {
-                    TimeInstantType xb_timeInstant = (TimeInstantType) xo;
-                    String xb_timePos = xb_timeInstant.getTimePosition().getStringValue();
-
-                    if ( !xb_timePos.equals("")) {
-                        oc_timeList.add(TimeFactory.createTime(xb_timePos));
-                    }
-                }
-                else if (schemaType.getJavaClass().isAssignableFrom(TimePeriodType.class)) {
-                    TimePeriodType xb_timePeriod = (TimePeriodType) xo;
-
-                    String beginPos = xb_timePeriod.getBeginPosition().getStringValue();
-                    String endPos = xb_timePeriod.getEndPosition().getStringValue();
-
-                    if ( !beginPos.equals("") && !endPos.equals("")) {
-                        TimePeriod oc_timePeriod = new TimePeriod(beginPos, endPos);
-                        oc_timeList.add(oc_timePeriod);
-                    }
+            ResultTime resultTime = xb_obsOffering.getResultTime();
+            if (resultTime != null && resultTime.getTimePeriod() != null) {
+                TimePeriodType xb_timePeriod = resultTime.getTimePeriod();
+                String beginPos = xb_timePeriod.getBeginPosition().getStringValue();
+                String endPos = xb_timePeriod.getEndPosition().getStringValue();
+                if ( !beginPos.equals("") && !endPos.equals("")) {
+                    TimePeriod oc_timePeriod = new TimePeriod(beginPos, endPos);
+                    oc_timeList.add(oc_timePeriod);
                 }
             }
             IDiscreteValueDomain<ITime> oc_temporalDomain = new TemporalValueDomain(oc_timeList);
 
-            // resultModels:
-            List<String> resultModelList = new ArrayList<String>();
-
-            Object[] resultModelArray = xb_obsOffering.getResultModelArray();
-            for (Object resultModelObject : resultModelArray) {
-                QName resultModelQName = (QName) resultModelObject;
-                resultModelList.add(resultModelQName.getLocalPart());
-            }
-            String[] oc_resultModels = new String[resultModelList.size()];
-            resultModelList.toArray(oc_resultModels);
-
             // result:
             FilterValueDomain filterDomain = new FilterValueDomain();
-            FilterCapabilities filterCaps = capabilitiesDoc.getCapabilities().getFilterCapabilities();
-            if (filterCaps != null){
-                if (filterCaps.getScalarCapabilities().getComparisonOperators()!= null){
-                	ComparisonOperatorType.Enum[] xb_compOpsArray = filterCaps.getScalarCapabilities().getComparisonOperators().getComparisonOperatorArray();
-                	for (ComparisonOperatorType.Enum compOp : xb_compOpsArray) {
-                		if (compOp.equals(ComparisonOperatorType.EQUAL_TO)) {
-                			IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_EQUAL_TO);
-                			filterDomain.addPossibleValue(filter);
-                		}
-                		else if (compOp.equals(ComparisonOperatorType.GREATER_THAN)) {
-                			IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_GREATER_THAN);
-                			filterDomain.addPossibleValue(filter);
-                		}
-                		else if (compOp.equals(ComparisonOperatorType.GREATER_THAN_EQUAL_TO)) {
-                			IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_GREATER_THAN_OR_EQUAL_TO);
-                			filterDomain.addPossibleValue(filter);
-                		}
-                		else if (compOp.equals(ComparisonOperatorType.LESS_THAN)) {
-                			IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_LESS_THAN);
-                			filterDomain.addPossibleValue(filter);
-                		}
-                		else if (compOp.equals(ComparisonOperatorType.LESS_THAN_EQUAL_TO)) {
-                			IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_LESS_THAN_OR_EQUAL_TO);
-                			filterDomain.addPossibleValue(filter);
-                		}
-                		else if (compOp.equals(ComparisonOperatorType.LIKE)) {
-                			IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_LIKE);
-                			filterDomain.addPossibleValue(filter);
-                		}
-                		else if (compOp.equals(ComparisonOperatorType.NOT_EQUAL_TO)) {
-                			IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_NOT_EQUAL_TO);
-                			filterDomain.addPossibleValue(filter);
-                		}
-                		else if (compOp.equals(ComparisonOperatorType.NULL_CHECK)) {
-                			IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_NULL);
-                			filterDomain.addPossibleValue(filter);
-                		}
-                	}
+            if (capabilities.getFilterCapabilities() != null) {
+                FilterCapabilities filterCaps = capabilities.getFilterCapabilities().getFilterCapabilities();
+                if (filterCaps != null){
+                    processScalarFilterCapabilities(filterDomain, filterCaps.getScalarCapabilities());
+                    processSpatialFilterCapabilities(filterDomain, filterCaps.getSpatialCapabilities());
+                    processTemporalFilterCapabilities(filterDomain, filterCaps.getTemporalCapabilities());
                 }
             }
 
-            // observedProperty:
-            PhenomenonPropertyType[] xb_observedProperties = xb_obsOffering.getObservedPropertyArray();
-            List<String> obsPropsList = new ArrayList<String>();
-
-            for (int j = 0; j < xb_observedProperties.length; j++) {
-                if (xb_observedProperties[j].getHref() != null) {
-                    obsPropsList.add(xb_observedProperties[j].getHref());
-                }
-                else if (xb_observedProperties[j].getPhenomenon() != null
-                        && xb_observedProperties[j].getPhenomenon() instanceof CompositePhenomenonType) {
-                    CompositePhenomenonType compositePhenomenon = (CompositePhenomenonType) xb_observedProperties[j].getPhenomenon();
-
-                    PhenomenonPropertyType[] phenomenonPropArray = compositePhenomenon.getComponentArray();
-                    for (PhenomenonPropertyType phenomenonProp : phenomenonPropArray) {
-                        obsPropsList.add(phenomenonProp.getHref());
-                    }
-                }
-            }
-            String[] oc_obsProps = new String[obsPropsList.size()];
-            oc_obsProps = obsPropsList.toArray(oc_obsProps);
-
-            // procedures:
-            ReferenceType[] xb_procedures = xb_obsOffering.getProcedureArray();
-            String[] oc_procedures = new String[xb_procedures.length];
-            for (int j = 0; j < xb_procedures.length; j++) {
-                oc_procedures[j] = xb_procedures[j].getHref();
+            String[] oc_respModes = xb_obsOffering.getResponseFormatArray();
+            String[] oc_obsProps = xb_obsOffering.getObservablePropertyArray();
+            String[] oc_procedures = new String[] { xb_obsOffering.getProcedure() };
+            
+            RelatedFeature[] oc_foiIDs = xb_obsOffering.getRelatedFeatureArray();
+            String[] oc_relatedFeatures = new String[oc_foiIDs.length];
+            for (int j = 0; j < oc_foiIDs.length; j++) {
+                // FIXME this is 52n SOS 2.0 specific
+                oc_relatedFeatures[j] = oc_foiIDs[j].getFeatureRelationship().getTarget().getHref();
             }
 
-            // featuresOfInterest:
-            ReferenceType[] xb_foi = xb_obsOffering.getFeatureOfInterestArray();
-            String[] oc_foiIDs = new String[xb_foi.length];
-            for (int j = 0; j < xb_foi.length; j++) {
-                oc_foiIDs[j] = xb_foi[j].getHref();
-            }
-
-            // responseModes:
-            ResponseModeType.Enum[] xb_responseModes = xb_obsOffering.getResponseModeArray();
-            String[] oc_respModes = new String[xb_responseModes.length];
-            for (int j = 0; j < xb_responseModes.length; j++) {
-                oc_respModes[j] = xb_responseModes[j].toString();
-            }
-
+            String oc_fees = capabilities.getServiceIdentification().getFees();
             // TODO: these variables should also be initialized
-            String oc_fees = null;
             String oc_pointOfContact = null;
             Locale[] oc_language = null;
             String[] oc_keywords = null;
@@ -469,9 +427,9 @@ public class SOSCapabilitiesMapper_100 {
                                                                     oc_abstractDescription,
                                                                     oc_keywords,
                                                                     oc_procedures,
-                                                                    oc_foiIDs,
+                                                                    oc_relatedFeatures,
                                                                     oc_obsProps,
-                                                                    oc_resultModels,
+                                                                    null, // not supported in SOS 2.0
                                                                     oc_respModes,
                                                                     filterDomain);
 
@@ -481,11 +439,48 @@ public class SOSCapabilitiesMapper_100 {
         return new SOSContents(oc_obsOffList);
     }
 
-    /**
-     * 
-     * @param capsDoc
-     * @return
-     */
+    private void processScalarFilterCapabilities(FilterValueDomain filterDomain, ScalarCapabilitiesType scalarCapabilities) {
+        if (scalarCapabilities != null) {
+            ComparisonOperatorsType comparisonOperators = scalarCapabilities.getComparisonOperators();
+            if (comparisonOperators!= null){
+                ComparisonOperatorType[] xb_compOpsArray = comparisonOperators.getComparisonOperatorArray();
+                for (ComparisonOperatorType compOp : xb_compOpsArray) {
+                    if (compOp.equals(ComparisonOperatorType.EQUAL)) {
+                        IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_EQUAL_TO);
+                        filterDomain.addPossibleValue(filter);
+                    }
+                    else if (compOp.equals(ComparisonOperatorType.GREATER_THAN)) {
+                        IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_GREATER_THAN);
+                        filterDomain.addPossibleValue(filter);
+                    }
+                    else if (compOp.equals(ComparisonOperatorType.LESS_THAN)) {
+                        IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_LESS_THAN);
+                        filterDomain.addPossibleValue(filter);
+                    }
+                    else if (compOp.equals(ComparisonOperatorType.NOT_EQUAL)) {
+                        IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_NOT_EQUAL_TO);
+                        filterDomain.addPossibleValue(filter);
+                    }
+                }
+            }
+        }
+    }
+    
+    private void processSpatialFilterCapabilities(FilterValueDomain filterDomain, SpatialCapabilitiesType spatialCapabilities) {
+        if (spatialCapabilities != null) {
+            // TODO implement
+            // throw new NotImplementedException();
+        }
+    }
+
+    private void processTemporalFilterCapabilities(FilterValueDomain filterDomain, TemporalCapabilitiesType temporalCapabilities) {
+        if (temporalCapabilities != null) {
+            // TODO implement
+            // throw new NotImplementedException();
+        }
+        
+    }
+
     private ServiceIdentification mapServiceIdentification(net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification xb_serviceId) {
 
         String oc_title = xb_serviceId.getTitleArray(0).getStringValue();
@@ -516,22 +511,22 @@ public class SOSCapabilitiesMapper_100 {
                                          oc_keywords);
     }
 
-    /**
-     * 
-     * @param capsDoc
-     * @return
-     */
     private String mapVersion(CapabilitiesDocument capsDoc) {
         return capsDoc.getCapabilities().getVersion();
     }
 
-    /**
-     * 
-     * @param capsDoc
-     * @return
-     */
     private static ServiceProvider mapServiceProvider(CapabilitiesDocument capsDoc) {
-        // TODO has to be implemented
-        return null;
+        String name = capsDoc.getCapabilities().getServiceProvider().getProviderName();
+        ResponsiblePartySubsetType contact = capsDoc.getCapabilities().getServiceProvider().getServiceContact();
+        
+        String individualName = contact.getIndividualName();
+        String organisationName = null;
+        String positionName = contact.getPositionName();
+        ContactType contactInfo = contact.getContactInfo(); // TODO parse info
+        Contact info = new Contact(null,null,null,null,null,null);
+        ServiceContact serviceContact = new ServiceContact(individualName, organisationName, positionName, info);
+        
+        return new ServiceProvider(name, serviceContact);
     }
+
 }

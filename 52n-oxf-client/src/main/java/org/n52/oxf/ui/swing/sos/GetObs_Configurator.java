@@ -32,6 +32,7 @@ import org.n52.oxf.adapter.sos.*;
 import org.n52.oxf.feature.*;
 import org.n52.oxf.layer.*;
 import org.n52.oxf.ows.*;
+import org.n52.oxf.sos.adapter.SOSAdapter;
 import org.n52.oxf.ui.swing.*;
 import org.n52.oxf.ui.swing.tree.*;
 import javax.swing.JPanel;

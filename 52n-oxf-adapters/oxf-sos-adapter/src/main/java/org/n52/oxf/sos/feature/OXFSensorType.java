@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.feature.sos;
+package org.n52.oxf.sos.feature;
 
 import java.util.ArrayList;
 import java.util.Arrays;

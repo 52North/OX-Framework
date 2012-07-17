@@ -36,9 +36,6 @@ import javax.swing.JOptionPane;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
-import org.n52.oxf.adapter.sos.ISOSRequestBuilder;
-import org.n52.oxf.adapter.sos.SOSAdapter;
-import org.n52.oxf.adapter.sos.caps.ObservationOffering;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.DatasetParameter;
@@ -46,10 +43,13 @@ import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.ows.capabilities.Parameter;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
+import org.n52.oxf.sos.adapter.SOSAdapter;
+import org.n52.oxf.sos.capabilities.ObservationOffering;
+import org.n52.oxf.sos.util.SosUtil;
 import org.n52.oxf.ui.swing.TimePanel;
 import org.n52.oxf.ui.swing.TimePeriodPanel;
 import org.n52.oxf.ui.swing.TimePositionPanel;
-import org.n52.oxf.util.SosUtil;
 import org.n52.oxf.valueDomains.filter.ComparisonFilter;
 import org.n52.oxf.valueDomains.filter.FilterValueDomain;
 import org.n52.oxf.valueDomains.filter.IFilter;
@@ -116,7 +116,7 @@ public class GetObs_ConfiguratorController {
      * 
      * @param offering
      */
-    protected void initOffering(org.n52.oxf.adapter.sos.caps.ObservationOffering offering) {
+    protected void initOffering(org.n52.oxf.sos.capabilities.ObservationOffering offering) {
 
         //
         // clear input elements:

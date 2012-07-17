@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.adapter.sos;
+package org.n52.oxf.sos.adapter;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;

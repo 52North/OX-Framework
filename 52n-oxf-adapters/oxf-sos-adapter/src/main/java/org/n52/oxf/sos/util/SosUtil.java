@@ -1,4 +1,4 @@
-package org.n52.oxf.util;
+package org.n52.oxf.sos.util;
 
 public class SosUtil {
 

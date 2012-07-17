@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.feature.sos;
+package org.n52.oxf.sos.feature;
 
 import net.opengis.sensorML.x101.AbstractProcessType;
 import net.opengis.sensorML.x101.SensorMLDocument;

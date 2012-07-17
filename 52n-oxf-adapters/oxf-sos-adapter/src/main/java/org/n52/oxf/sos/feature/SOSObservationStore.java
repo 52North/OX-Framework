@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.feature.sos;
+package org.n52.oxf.sos.feature;
 
 import net.opengis.om.x10.ObservationCollectionDocument;
 import net.opengis.om.x10.ObservationCollectionType;
@@ -41,7 +41,7 @@ import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.OXFObservationCollectionType;
 import org.n52.oxf.feature.OperationResultStore;
-import org.n52.oxf.util.SosUtil;
+import org.n52.oxf.sos.util.SosUtil;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 import org.slf4j.Logger;

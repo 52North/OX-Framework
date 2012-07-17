@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.adapter.sos;
+package org.n52.oxf.sos.adapter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,13 +39,13 @@ import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
-import org.n52.oxf.feature.sos.SOSObservationStore;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.OWSException;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.sos.feature.SOSObservationStore;
+import org.n52.oxf.sos.util.SosUtil;
 import org.n52.oxf.util.IOHelper;
-import org.n52.oxf.util.SosUtil;
 
 /**
  * SOS-Adapter for the OX-Framework
