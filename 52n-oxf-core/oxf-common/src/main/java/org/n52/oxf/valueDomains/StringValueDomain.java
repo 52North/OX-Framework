@@ -51,7 +51,7 @@ public class StringValueDomain implements IDiscreteValueDomain<String>{
 		possibleValues.add(possibleValue);
 	}
 	
-	public StringValueDomain(List<String> possibleValues){
+	public StringValueDomain(List<String> possibleValues) {
 		this.possibleValues = possibleValues;
 	}
 	

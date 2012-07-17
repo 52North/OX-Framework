@@ -24,13 +24,21 @@
 
 package org.n52.oxf.sos.adapter;
 
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OFFERING_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_VERSION_PARAMETER;
+
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -46,6 +54,8 @@ import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.sos.feature.SOSObservationStore;
 import org.n52.oxf.sos.util.SosUtil;
 import org.n52.oxf.util.IOHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * SOS-Adapter for the OX-Framework
@@ -53,8 +63,8 @@ import org.n52.oxf.util.IOHelper;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class SOSAdapter implements IServiceAdapter {
-
-    private static Logger logger = Logger.getLogger(SOSAdapter.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSAdapter.class);
 
     public static final String GET_CAPABILITIES = "GetCapabilities";
     public static final String GET_OBSERVATION = "GetObservation";
@@ -197,8 +207,8 @@ public class SOSAdapter implements IServiceAdapter {
 	public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
             OXFException {
 
-        if (logger.isDebugEnabled()) {
-            logger.debug(String.format("starting Operation: %s with parameters: %s",
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(String.format("starting Operation: %s with parameters: %s",
             		operation,
             		parameters));
         }
@@ -246,8 +256,8 @@ public class SOSAdapter implements IServiceAdapter {
             throw new OXFException("The operation '" + operation.getName() + "' is not supported.");
         }
         
-        if (logger.isDebugEnabled()) {
-			logger.debug(String.format("Request builder class: %s; Request: \n%s", 
+        if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug(String.format("Request builder class: %s; Request: \n%s", 
 					requestBuilder.getClass().toString(),
 					request));
 		}
@@ -296,8 +306,8 @@ public class SOSAdapter implements IServiceAdapter {
         			e.getMessage());
             throw new OXFException(msg, e);
         } finally {
-        	if (logger.isDebugEnabled()) {
-				logger.debug(String.format("Reached finally clause. Method: %s; isRequestSent? %b; hasBeenUsed: %s; statusCode: %d; statusText: %s",
+        	if (LOGGER.isDebugEnabled()) {
+				LOGGER.debug(String.format("Reached finally clause. Method: %s; isRequestSent? %b; hasBeenUsed: %s; statusCode: %d; statusText: %s",
 						method,
 						method.isRequestSent(),
 						method.hasBeenUsed(),
@@ -306,12 +316,12 @@ public class SOSAdapter implements IServiceAdapter {
 						));
 			}
         	if (method != null) {
-        		if (logger.isDebugEnabled()) {
-					logger.debug("Will call releaseConnection()");
+        		if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("Will call releaseConnection()");
 				}
         		method.releaseConnection();
-        		if (logger.isDebugEnabled()) {
-					logger.debug("releaseConnection() called");
+        		if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("releaseConnection() called");
 				}
         	}
         }
@@ -330,32 +340,22 @@ public class SOSAdapter implements IServiceAdapter {
                                                     String observedProperty,
                                                     String eventTime) throws OXFException, ExceptionReport {
 
-        Operation op = new Operation("GetObservation", "http://GET_URL_not_used", sosURL);
+        Operation operation = new Operation("GetObservation", "http://GET_URL_not_used", sosURL);
 
-        // put all parameters into a ParameterContainer:
-        ParameterContainer paramCon = new ParameterContainer();
+        ParameterContainer container = new ParameterContainer();
+        container.addParameterShell(GET_OBSERVATION_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
+        container.addParameterShell(GET_OBSERVATION_VERSION_PARAMETER, serviceVersion);
+        container.addParameterShell(GET_OBSERVATION_OFFERING_PARAMETER, offering);
+        container.addParameterShell(GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER, "text/xml;subtype=\"om/1.0.0\"");
+        container.addParameterShell(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
+        container.addParameterShell(GET_OBSERVATION_RESULT_MODEL_PARAMETER, "Observation");
+        container.addParameterShell(GET_OBSERVATION_EVENT_TIME_PARAMETER, eventTime);
+        container.addParameterShell(GET_OBSERVATION_RESPONSE_MODE_PARAMETER, "inline");
 
-        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
+        ISOSRequestBuilder requestBuilder = SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
+        LOGGER.info("Send Request: {}", requestBuilder.buildGetObservationRequest(container));
 
-        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_VERSION_PARAMETER, serviceVersion);
-
-        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_OFFERING_PARAMETER, offering);
-
-        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER, "text/xml;subtype=\"om/1.0.0\"");
-
-        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
-
-        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER, "Observation");
-
-        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER, eventTime);
-
-        paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER, "inline");
-
-        logger.info("Sending Request: "
-                + SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildGetObservationRequest(paramCon));
-
-        OperationResult opResult = doOperation(op, paramCon);
-
+        OperationResult opResult = doOperation(operation, container);
 		IFeatureStore featureStore = new SOSObservationStore(opResult);
 
         // The OperationResult can be used as an input for the 'unmarshalFeatures' operation of the

@@ -90,10 +90,10 @@ public interface IServiceAdapter {
     public String[] getSupportedVersions();
 
 	/**
-	 * @return the name of the serice operation which returns the data to be
+	 * @return the name of the service operation which returns the data to be
 	 *         added to a map view as a layer.<br>
-	 *         (e.g.:WCS - GetCoverage; WMS - GetMap).<br>
-	 *         If the the service does not support such an operation this method
+	 *         (e.g.: WCS - GetCoverage; WMS - GetMap).<br>
+	 *         If the service does not support such an operation this method
 	 *         returns <code>null</code>.
 	 */
     public String getResourceOperationName();

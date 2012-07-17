@@ -77,47 +77,26 @@ public class ParameterContainer {
      * convenience-method. Adds a new ParameterShell with a 'required' Parameter which has the specified
      * parameterName and a StringValueDomain only containing the specified parameterValue. The ParameterShell
      * associates the Parameter with the specified parameterValue.<br>
-     * 
-     * @param parameterName
-     * @param parameterValue
-     * @throws OXFException
      */
-    public void addParameterShell(String parameterName, String parameterValue) throws OXFException {
+    public void addParameterShell(String parameterName, String... parameterValue) throws OXFException {
         Parameter parameter = new Parameter(parameterName, true, new StringValueDomain(parameterValue), parameterName);
         addParameterShell(new ParameterShell(parameter, parameterValue));
     }
 
-    public void addParameterShell(String parameterName, ITime parameterValue) throws OXFException {
+    public void addParameterShell(String parameterName, ITime... parameterValue) throws OXFException {
         Parameter parameter = new Parameter(parameterName, true, new TemporalValueDomain(parameterValue), parameterName);
         addParameterShell(new ParameterShell(parameter, parameterValue));
     }
 
-    public void addParameterShell(String parameterName, ITime[] parameterValueArray) throws OXFException {
-        List<ITime> timeList = Arrays.asList(parameterValueArray);
-        addParameterShell(new ParameterShell(new Parameter(parameterName,
-                                                           true,
-                                                           new TemporalValueDomain(timeList),
-                                                           parameterName), parameterValueArray));
-    }
-
-    public void addParameterShell(String parameterName, String[] parameterValueArray) throws OXFException {
-        addParameterShell(new ParameterShell(new Parameter(parameterName,
-                                                           true,
-                                                           new StringValueDomain(parameterValueArray),
-                                                           parameterName), parameterValueArray));
-    }
-
     public void addParameterShell(String parameterName, int parameterValue) throws OXFException {
-        addParameterShell(new ParameterShell(new Parameter(parameterName,
-                                                           true,
-                                                           new IntegerDiscreteValueDomain(Integer.valueOf(parameterValue)),
-                                                           parameterName),
-                                             Integer.valueOf(parameterValue)));
+        Integer value = Integer.valueOf(parameterValue);
+        Parameter parameter = new Parameter(parameterName, true, new IntegerDiscreteValueDomain(value), parameterName);
+        addParameterShell(new ParameterShell(parameter, value));
     }
 
-    public void addParameterShell(String parameterName, ParameterContainer[] parameterValue) throws OXFException {
-        addParameterShell(new ParameterShell(new Parameter(parameterName, true, new OpenValueDomain(), parameterName),
-                                             parameterValue));
+    public void addParameterShell(String parameterName, ParameterContainer... parameterValue) throws OXFException {
+        Parameter parameter = new Parameter(parameterName, true, new OpenValueDomain(), parameterName);
+        addParameterShell(new ParameterShell(parameter, parameterValue));
 
     }
 

@@ -24,9 +24,11 @@
 
 package org.n52.oxf.valueDomains.time;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.n52.oxf.ows.capabilities.*;
+import org.n52.oxf.ows.capabilities.IDiscreteValueDomain;
+import org.n52.oxf.ows.capabilities.ITime;
 
 /**
  * This class is a ValueDomain for ITime objects. These objects could be instances of TimePosition or
@@ -49,6 +51,10 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
     
     public TemporalValueDomain(List<ITime> timeList) {
         this.timeList = timeList;
+    }
+    
+    public TemporalValueDomain(ITime[] possibleValues){
+        this.timeList = new ArrayList<ITime>(java.util.Arrays.asList(possibleValues));
     }
 
     /**
