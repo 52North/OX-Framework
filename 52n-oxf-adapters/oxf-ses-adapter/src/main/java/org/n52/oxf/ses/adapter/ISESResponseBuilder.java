@@ -21,21 +21,32 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.adapter.ses;
+package org.n52.oxf.ses.adapter;
+
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 
 /**
  * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>
  * @version 03.08.2009
  */
-public class SESResponseBuilderFactory {
+public interface ISESResponseBuilder {
+    
+    public static final String NOTIFY_SOAP_ENVELOPE_HEADER_TO = "notifySoapEnvHeaderTo";
+    
+    public static final String NOTIFY_SOAP_ENVELOPE_HEADER_FROM = "notifySoapEnvHeaderFrom";
+    
+    public static final String NOTIFY_SOAP_ENVELOPE_HEADER_RELATES_TO = "notifySoapEnvHeaderRelatesTo";
+    
+    public static final String NOTIFY_SOAP_ENVELOPE_HEADER_MESSAGE_ID = "notifySoapEnvHeaderMsgId";
+    
+    /**
+     * Builds the NotifyResponse<br>
+     * If the {@link ParameterContainer} does not contain a {@link ParameterShell} with the common name of {@link ISESResponseBuilder#NOTIFY_SOAP_ENVELOPE_HEADER_MESSAGE_ID}
+     * a system generated message id will be defined
+     * @param parameter
+     * @return
+     */
+    public String buildNotifyResponseRequest(ParameterContainer parameter);
 
-    public static ISESResponseBuilder generateResponseBuilder(String serviceVersion) {
-
-        if (serviceVersion.equals(SESAdapter.SUPPORTED_VERSIONS[0])) {
-            return new SESResponseBuilder_00();
-        }
-        else {
-            throw new IllegalArgumentException("Service version '" + serviceVersion + "' not supported.");
-        }
-    }
 }

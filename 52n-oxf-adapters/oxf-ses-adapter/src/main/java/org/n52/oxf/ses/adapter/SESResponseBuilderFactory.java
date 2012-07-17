@@ -21,22 +21,21 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.adapter.ses;
+package org.n52.oxf.ses.adapter;
 
 /**
  * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>
- * @version 20.07.2009
+ * @version 03.08.2009
  */
-public class SESRequestBuilderFactory {
-	
-    public static ISESRequestBuilder generateRequestBuilder(String serviceVersion) {
+public class SESResponseBuilderFactory {
+
+    public static ISESResponseBuilder generateResponseBuilder(String serviceVersion) {
 
         if (serviceVersion.equals(SESAdapter.SUPPORTED_VERSIONS[0])) {
-            return new SESRequestBuilder_00();
+            return new SESResponseBuilder_00();
         }
         else {
             throw new IllegalArgumentException("Service version '" + serviceVersion + "' not supported.");
         }
     }
-
 }
