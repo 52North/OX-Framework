@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.adapter.wms;
+package org.n52.oxf.wms.adapter;
 
 import java.io.IOException;
 import java.net.MalformedURLException;

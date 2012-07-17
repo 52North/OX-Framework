@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.adapter.wms.caps;
+package org.n52.oxf.wms.capabilities;
 
 import java.util.Locale;
 

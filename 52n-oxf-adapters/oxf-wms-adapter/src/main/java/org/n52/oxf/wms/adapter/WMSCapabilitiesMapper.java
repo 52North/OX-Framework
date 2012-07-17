@@ -23,7 +23,7 @@
  */
 
 
-package org.n52.oxf.adapter.wms;
+package org.n52.oxf.wms.adapter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,8 +31,6 @@ import java.util.List;
 import java.util.Vector;
 
 import org.n52.oxf.OXFException;
-import org.n52.oxf.adapter.wms.caps.Style;
-import org.n52.oxf.adapter.wms.caps.WMSLayer;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Contact;
@@ -52,6 +50,8 @@ import org.n52.oxf.valueDomains.IntegerRangeValueDomain;
 import org.n52.oxf.valueDomains.StringValueDomain;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
 import org.n52.oxf.valueDomains.spatial.BoundingBox2D;
+import org.n52.oxf.wms.capabilities.Style;
+import org.n52.oxf.wms.capabilities.WMSLayer;
 import org.n52.wmsclientcore.capabilities.model.ContactInformation;
 import org.n52.wmsclientcore.capabilities.model.ContactPersonPrimary;
 import org.n52.wmsclientcore.capabilities.model.HTTPItem;
