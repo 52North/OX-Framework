@@ -24,10 +24,13 @@
 
 package org.n52.oxf.ui.swing.menu;
 
-import java.awt.event.*;
-import javax.swing.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.tree.*;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.tree.ContentTree;
 
 /**
  * 

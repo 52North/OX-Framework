@@ -24,10 +24,15 @@
 
 package org.n52.oxf.ui.swing.animation;
 
-import java.awt.*;
-import javax.swing.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.ui.swing.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
+
+import org.n52.oxf.ui.swing.AnimatedMapCanvas;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

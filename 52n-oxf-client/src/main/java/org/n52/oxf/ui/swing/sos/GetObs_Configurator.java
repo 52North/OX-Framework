@@ -24,23 +24,26 @@
 
 package org.n52.oxf.ui.swing.sos;
 
-import java.awt.*;
-import javax.swing.*;
-
-import org.n52.oxf.adapter.*;
-import org.n52.oxf.adapter.sos.*;
-import org.n52.oxf.feature.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.ows.*;
-import org.n52.oxf.sos.adapter.SOSAdapter;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.tree.*;
-import javax.swing.JPanel;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
-import java.util.*;
+import java.awt.GridBagLayout;
+import java.util.Set;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
+import org.n52.oxf.adapter.OperationResult;
+import org.n52.oxf.feature.OXFFeature;
+import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.sos.adapter.SOSAdapter;
+import org.n52.oxf.ui.swing.ApprovalDialog;
+import org.n52.oxf.ui.swing.TimePanel;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

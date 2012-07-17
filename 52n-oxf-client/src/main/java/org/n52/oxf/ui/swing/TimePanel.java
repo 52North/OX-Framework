@@ -25,9 +25,9 @@
 
 package org.n52.oxf.ui.swing;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
-import org.n52.oxf.ows.capabilities.*;
+import org.n52.oxf.ows.capabilities.ITime;
 
 /**
  * This UI-component allows the user to specify a certain time.

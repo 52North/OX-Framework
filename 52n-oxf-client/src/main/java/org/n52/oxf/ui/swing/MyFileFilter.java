@@ -24,8 +24,9 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.Hashtable;
+
 import javax.swing.filechooser.FileFilter;
 
 /**

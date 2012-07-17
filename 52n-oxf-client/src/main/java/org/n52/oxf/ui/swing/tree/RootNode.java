@@ -50,8 +50,9 @@
 
 package org.n52.oxf.ui.swing.tree;
 
-import javax.swing.*;
-import org.n52.oxf.ui.swing.icons.*;
+import javax.swing.ImageIcon;
+
+import org.n52.oxf.ui.swing.icons.IconAnchor;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

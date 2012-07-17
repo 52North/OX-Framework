@@ -24,18 +24,47 @@
 
 package org.n52.oxf.ui.swing.generic;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import javax.swing.*;
-import javax.swing.border.*;
-import org.n52.oxf.*;
-import org.n52.oxf.adapter.*;
-import org.n52.oxf.ows.capabilities.*;
-import org.n52.oxf.valueDomains.filter.*;
-import org.n52.oxf.valueDomains.spatial.*;
-import org.n52.oxf.valueDomains.time.*;
+import java.util.Map;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
+import org.n52.oxf.ows.capabilities.DatasetParameter;
+import org.n52.oxf.ows.capabilities.IDiscreteValueDomain;
+import org.n52.oxf.ows.capabilities.IRangeValueDomain;
+import org.n52.oxf.ows.capabilities.ITime;
+import org.n52.oxf.ows.capabilities.IValueDomain;
+import org.n52.oxf.ows.capabilities.Parameter;
+import org.n52.oxf.valueDomains.filter.FilterValueDomain;
+import org.n52.oxf.valueDomains.filter.IFilter;
+import org.n52.oxf.valueDomains.spatial.BoundingBox;
+import org.n52.oxf.valueDomains.time.TemporalValueDomain;
 
 /**
  * This class can be used to generically produce a dialog where the user may setup the parameter configuration

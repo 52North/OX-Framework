@@ -24,11 +24,15 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.TimeZone;
 
-import javax.swing.*;
-import org.n52.oxf.valueDomains.time.*;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import org.n52.oxf.valueDomains.time.ITimePosition;
+import org.n52.oxf.valueDomains.time.TimePosition;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

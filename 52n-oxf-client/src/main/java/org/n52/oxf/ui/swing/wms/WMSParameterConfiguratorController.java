@@ -24,26 +24,37 @@
 
 package org.n52.oxf.ui.swing.wms;
 
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
-import org.n52.oxf.*;
-import org.n52.oxf.adapter.*;
-import org.n52.oxf.adapter.wms.*;
-import org.n52.oxf.adapter.wms.caps.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.ows.*;
-import org.n52.oxf.ows.capabilities.*;
-import org.n52.oxf.render.wms.*;
-import org.n52.oxf.ui.swing.*;
+import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.OperationResult;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
+import org.n52.oxf.layer.IContextLayer;
+import org.n52.oxf.layer.LayerProcessor;
+import org.n52.oxf.layer.RasterServiceLayer;
+import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ows.capabilities.Dataset;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.ows.capabilities.Parameter;
+import org.n52.oxf.render.wms.WMSRenderer;
+import org.n52.oxf.ui.swing.BBoxSelectionPanel;
+import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.tool.ZoomToActiveLayerTool;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.ui.swing.util.*;
-import org.n52.oxf.util.*;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+import org.n52.oxf.ui.swing.util.LayerAdder;
+import org.n52.oxf.util.EventName;
+import org.n52.oxf.util.IEventListener;
+import org.n52.oxf.util.OXFEvent;
+import org.n52.oxf.util.OXFEventException;
 import org.n52.oxf.wms.adapter.WMSAdapter;
 import org.n52.oxf.wms.adapter.WMSRequestBuilder;
 import org.n52.oxf.wms.capabilities.Style;

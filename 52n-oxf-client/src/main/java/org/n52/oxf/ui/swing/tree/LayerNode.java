@@ -24,11 +24,12 @@
 
 package org.n52.oxf.ui.swing.tree;
 
-import javax.swing.*;
-import javax.swing.tree.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.ui.swing.icons.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
+import org.n52.oxf.layer.IContextLayer;
+import org.n52.oxf.render.AnimatedVisualization;
+import org.n52.oxf.ui.swing.icons.IconAnchor;
 
 /**
  * 

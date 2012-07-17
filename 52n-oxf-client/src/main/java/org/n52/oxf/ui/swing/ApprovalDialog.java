@@ -24,8 +24,11 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.HeadlessException;
+
+import javax.swing.JDialog;
 
 /**
  * 

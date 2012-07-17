@@ -24,13 +24,14 @@
 
 package org.n52.oxf.ui.swing.sos;
 
-import java.awt.BorderLayout;
-import javax.swing.*;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
+import java.awt.GridBagLayout;
+
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class PluginRendererDialog extends JDialog {
 

@@ -24,11 +24,20 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import org.n52.oxf.context.*;
-import org.n52.oxf.util.*;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+
+import org.n52.oxf.context.ContextBoundingBox;
+import org.n52.oxf.util.EventName;
+import org.n52.oxf.util.IEventListener;
+import org.n52.oxf.util.OXFEvent;
+import org.n52.oxf.util.OXFEventException;
 
 /**
  * 

@@ -24,9 +24,10 @@
 
 package org.n52.oxf.ui.swing.tool;
 
-import javax.swing.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.tree.*;
+import javax.swing.JFrame;
+
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.tree.ContentTree;
 
 /**
  * 

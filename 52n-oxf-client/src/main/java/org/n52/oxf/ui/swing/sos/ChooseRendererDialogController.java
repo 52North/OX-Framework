@@ -24,23 +24,31 @@
 
 package org.n52.oxf.ui.swing.sos;
 
-import java.net.*;
+import java.net.ConnectException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
-import javax.swing.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
-import org.n52.oxf.*;
-import org.n52.oxf.adapter.sos.*;
-import org.n52.oxf.feature.sos.*;
-import org.n52.oxf.ows.*;
-import org.n52.oxf.plugin.*;
-import org.n52.oxf.plugin.RendererFactory.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.render.sos.*;
+import org.n52.oxf.OXFException;
+import org.n52.oxf.ows.ExceptionReport;
+import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.render.IRenderer;
+import org.n52.oxf.render.sos.AnimatedMapBarChartRenderer;
+import org.n52.oxf.render.sos.IDWRenderer;
+import org.n52.oxf.render.sos.NNRenderer;
+import org.n52.oxf.render.sos.ProportionalCircleMapRenderer;
+import org.n52.oxf.render.sos.ScatterPlotChartRenderer;
+import org.n52.oxf.render.sos.TimeSeriesChartRenderer;
+import org.n52.oxf.render.sos.TimeSeriesMapChartRenderer;
+import org.n52.oxf.render.sos.WindFieldRenderer;
 import org.n52.oxf.sos.adapter.SOSAdapter;
 import org.n52.oxf.sos.feature.SOSObservationStore;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.util.*;
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+import org.n52.oxf.util.FileFilterImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

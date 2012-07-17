@@ -24,11 +24,15 @@
 
 package org.n52.oxf.ui.swing.tool;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import org.n52.oxf.ui.swing.*;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.event.MouseInputListener;
+
+import org.n52.oxf.ui.swing.MapCanvas;
 
 /**
  * 

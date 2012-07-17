@@ -24,14 +24,18 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
-import org.n52.oxf.adapter.wms.caps.*;
-import org.n52.oxf.ows.capabilities.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.valueDomains.spatial.*;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.n52.oxf.ows.capabilities.IBoundingBox;
+import org.n52.oxf.valueDomains.spatial.BoundingBox;
 
 /**
  * This UI-component allows the user to specify a certain BBox.

@@ -24,21 +24,31 @@
 
 package org.n52.oxf.ui.swing.wms;
 
-import java.awt.event.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.concurrent.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
-import org.n52.oxf.*;
-import org.n52.oxf.adapter.*;
-import org.n52.oxf.adapter.wms.*;
-import org.n52.oxf.ows.*;
-import org.n52.oxf.ows.capabilities.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.util.*;
-import org.n52.oxf.valueDomains.*;
+import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.IServiceAdapter;
+import org.n52.oxf.adapter.OperationResult;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
+import org.n52.oxf.ows.ExceptionReport;
+import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.ows.capabilities.Parameter;
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.ShowXMLDocDialog;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+import org.n52.oxf.util.IOHelper;
+import org.n52.oxf.valueDomains.StringValueDomain;
 import org.n52.oxf.wms.adapter.WMSAdapter;
 
 /**

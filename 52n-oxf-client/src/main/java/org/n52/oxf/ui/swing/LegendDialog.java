@@ -24,13 +24,26 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.tree.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.ui.swing.tree.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.Scrollable;
+import javax.swing.SwingConstants;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+
+import org.n52.oxf.layer.IContextLayer;
+import org.n52.oxf.render.IVisualization;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+import org.n52.oxf.ui.swing.tree.LayerNode;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

@@ -24,10 +24,12 @@
 
 package org.n52.oxf.ui.swing.tree;
 
-import java.util.*;
-import javax.swing.*;
-import javax.swing.tree.*;
-import org.n52.oxf.ui.swing.icons.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+
+import org.n52.oxf.ui.swing.icons.IconAnchor;
 
 /**
  * This class is a specialized DefaultMutableTreeNode which represents a LayerStorage (such as a WebService or

@@ -24,13 +24,20 @@
 
 package org.n52.oxf.ui.swing.tree;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.tree.*;
-import org.n52.oxf.util.*;
+import java.awt.Component;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.util.EventObject;
+
+import javax.swing.AbstractCellEditor;
+import javax.swing.JCheckBox;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeCellEditor;
+import javax.swing.tree.TreePath;
+
+import org.n52.oxf.util.OXFEventException;
 
 /**
  * This class is needed to realize the "CheckBox"-driven ContentTree.

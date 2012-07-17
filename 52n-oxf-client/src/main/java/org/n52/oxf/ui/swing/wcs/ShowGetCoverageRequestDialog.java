@@ -25,8 +25,9 @@
 
 package org.n52.oxf.ui.swing.wcs;
 
-import javax.swing.*;
-import org.n52.oxf.ui.swing.*;
+import javax.swing.JDialog;
+
+import org.n52.oxf.ui.swing.ShowRequestDialog;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

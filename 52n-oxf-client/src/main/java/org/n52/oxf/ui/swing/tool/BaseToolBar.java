@@ -24,11 +24,15 @@
 
 package org.n52.oxf.ui.swing.tool;
 
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.ui.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JToolBar;
+
+import org.n52.oxf.layer.IContextLayer;
+import org.n52.oxf.ui.swing.MapCanvas;
 
 /**
  * 

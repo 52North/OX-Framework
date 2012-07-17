@@ -24,10 +24,11 @@
 
 package org.n52.oxf.ui.wms;
 
-import org.n52.oxf.adapter.*;
-import org.n52.oxf.feature.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.valueDomains.spatial.*;
+import org.n52.oxf.adapter.IServiceAdapter;
+import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.feature.IFeatureStore;
+import org.n52.oxf.render.IRenderer;
+import org.n52.oxf.valueDomains.spatial.BoundingBox;
 
 public class WMSLayer {
 

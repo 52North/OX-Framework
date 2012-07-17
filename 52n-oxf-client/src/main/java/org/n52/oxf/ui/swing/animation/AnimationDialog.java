@@ -24,11 +24,16 @@
 
 package org.n52.oxf.ui.swing.animation;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.ui.swing.*;
+import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import org.n52.oxf.render.OverlayEngine;
+import org.n52.oxf.ui.swing.AnimatedMapCanvas;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

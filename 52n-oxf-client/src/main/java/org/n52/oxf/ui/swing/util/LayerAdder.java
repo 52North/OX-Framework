@@ -24,16 +24,19 @@
 
 package org.n52.oxf.ui.swing.util;
 
-import javax.swing.*;
-import org.n52.oxf.*;
-import org.n52.oxf.context.*;
-import org.n52.oxf.layer.*;
-import org.n52.oxf.ows.capabilities.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.tool.ZoomToActiveLayerTool;
-import org.n52.oxf.ui.swing.tree.*;
-import org.n52.oxf.util.*;
-import org.n52.oxf.valueDomains.spatial.*;
+import javax.swing.JOptionPane;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.context.ContextBoundingBox;
+import org.n52.oxf.context.LayerContext;
+import org.n52.oxf.layer.IContextLayer;
+import org.n52.oxf.ows.capabilities.Parameter;
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.tree.ContentTree;
+import org.n52.oxf.ui.swing.tree.LayerNode;
+import org.n52.oxf.ui.swing.tree.LayerStorageNode;
+import org.n52.oxf.util.OXFEventException;
+import org.n52.oxf.valueDomains.spatial.BoundingBox;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

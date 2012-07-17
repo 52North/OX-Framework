@@ -25,9 +25,11 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.border.*;
+import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

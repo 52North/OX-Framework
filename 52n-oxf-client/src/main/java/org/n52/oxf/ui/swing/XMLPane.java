@@ -24,22 +24,16 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
-import org.n52.oxf.util.IOHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

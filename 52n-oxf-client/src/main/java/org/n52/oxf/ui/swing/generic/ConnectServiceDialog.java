@@ -24,16 +24,25 @@
 
 package org.n52.oxf.ui.swing.generic;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
-import javax.swing.*;
-import org.n52.oxf.*;
-import org.n52.oxf.adapter.*;
-import org.n52.oxf.context.*;
-import org.n52.oxf.plugin.*;
-import org.n52.oxf.render.*;
-import org.n52.oxf.ui.swing.*;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.IServiceAdapter;
+import org.n52.oxf.plugin.RendererFactory;
+import org.n52.oxf.plugin.ServiceAdapterFactory;
+import org.n52.oxf.render.IRenderer;
+import org.n52.oxf.ui.swing.ApprovalDialog;
+import org.n52.oxf.ui.swing.MyGridBagLayout;
 
 /**
  * Sample code for how to use the ConnectServiceDialog:

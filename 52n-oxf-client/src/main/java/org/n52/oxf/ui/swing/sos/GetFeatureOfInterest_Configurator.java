@@ -24,9 +24,15 @@
 
 package org.n52.oxf.ui.swing.sos;
 
-import java.awt.*;
-import java.net.*;
-import javax.swing.*;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.net.URL;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.n52.oxf.sos.adapter.SOSAdapter;
 

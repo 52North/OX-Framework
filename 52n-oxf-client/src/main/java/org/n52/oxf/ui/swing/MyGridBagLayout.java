@@ -24,7 +24,11 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 /**
  * This class is an easy to use GridBagLayout-Manager for your Container (target). 

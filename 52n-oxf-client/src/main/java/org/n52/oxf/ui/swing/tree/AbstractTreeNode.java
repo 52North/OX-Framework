@@ -24,8 +24,8 @@
 
 package org.n52.oxf.ui.swing.tree;
 
-import javax.swing.*;
-import javax.swing.tree.*;
+import javax.swing.Icon;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

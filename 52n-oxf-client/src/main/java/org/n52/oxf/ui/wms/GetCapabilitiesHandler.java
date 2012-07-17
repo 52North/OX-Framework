@@ -24,13 +24,19 @@
 
 package org.n52.oxf.ui.wms;
 
-import java.io.*;
-import java.util.*;
-import javax.servlet.http.*;
-import org.n52.oxf.*;
-import org.n52.oxf.ows.*;
-import org.n52.oxf.util.*;
-import org.n52.oxf.valueDomains.spatial.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.ows.ExceptionReport;
+import org.n52.oxf.util.IOHelper;
+import org.n52.oxf.util.OXFEventException;
+import org.n52.oxf.valueDomains.spatial.BoundingBox;
 
 public class GetCapabilitiesHandler {
 

@@ -24,8 +24,12 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.BorderLayout;
+
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

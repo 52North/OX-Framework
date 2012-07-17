@@ -27,8 +27,6 @@ package org.n52.oxf.ui.swing;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import javax.swing.JLabel;

@@ -23,30 +23,27 @@
  */
 package org.n52.oxf.ui.swing.ses;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 
-import javax.swing.JButton;
 import javax.swing.BorderFactory;
-import javax.swing.border.TitledBorder;
-import java.awt.Font;
-import java.awt.Color;
-import java.awt.Rectangle;
-import javax.swing.JLabel;
-import javax.swing.JDialog;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JTextField;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.tree.ContentTree;
-import java.awt.Point;
 
 public class SesGUI extends JDialog {
 	

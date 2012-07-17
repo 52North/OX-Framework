@@ -24,11 +24,10 @@
 
 package org.n52.oxf.ui.swing;
 
-import java.awt.event.*;
+import java.awt.event.ItemEvent;
 
-import org.n52.oxf.adapter.wms.caps.*;
-import org.n52.oxf.context.*;
-import org.n52.oxf.ows.capabilities.*;
+import org.n52.oxf.context.ContextBoundingBox;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

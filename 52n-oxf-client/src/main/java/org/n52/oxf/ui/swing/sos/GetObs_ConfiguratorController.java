@@ -56,8 +56,6 @@ import org.n52.oxf.valueDomains.filter.IFilter;
 import org.n52.oxf.valueDomains.time.TemporalValueDomain;
 import org.n52.oxf.valueDomains.time.TimePeriod;
 import org.n52.oxf.valueDomains.time.TimePosition;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class GetObs_ConfiguratorController {

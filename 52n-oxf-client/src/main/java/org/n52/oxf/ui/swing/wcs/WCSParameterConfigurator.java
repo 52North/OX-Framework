@@ -24,12 +24,22 @@
 
 package org.n52.oxf.ui.swing.wcs;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
-import org.n52.oxf.ows.*;
-import org.n52.oxf.ui.swing.*;
-import org.n52.oxf.ui.swing.tree.*;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ui.swing.BBoxSelectionPanel;
+import org.n52.oxf.ui.swing.MapCanvas;
+import org.n52.oxf.ui.swing.tree.ContentTree;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
