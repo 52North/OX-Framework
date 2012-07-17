@@ -33,7 +33,7 @@ public class OpenValueDomain implements IValueDomain {
 	}
 
 	public String getDomainDescription() {
-		return "allowes every object";
+		return "allows any object";
 	}
 
 	public Object produceValue(String... stringArray) {

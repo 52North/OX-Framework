@@ -31,16 +31,16 @@ import org.n52.oxf.ows.capabilities.*;
 
 public class ObjectValueDomain implements IDiscreteValueDomain<Object> {
   
-    private ArrayList<Object> possibleValues;
+    private List<Object> possibleValues;
     
     private final String DOMAIN_DESCRIPTION="Generic ValueDomain for objects of type Object";
     
     
-    public ObjectValueDomain(ArrayList<Object> possibleValues) {
+    public ObjectValueDomain(List<Object> possibleValues) {
         this.possibleValues = possibleValues;
     }
 
-    public List getPossibleValues() {
+    public List<Object> getPossibleValues() {
         return this.possibleValues;
     }
 

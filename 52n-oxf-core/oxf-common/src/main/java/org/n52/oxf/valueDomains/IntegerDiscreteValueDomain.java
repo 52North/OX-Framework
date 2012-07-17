@@ -39,7 +39,7 @@ public class IntegerDiscreteValueDomain implements IDiscreteValueDomain<Integer>
     /**
      * List with possible values (if this value domain has discrete values
      */
-    ArrayList<Integer> possibleValues = null;
+    List<Integer> possibleValues = null;
     
     /**
      * description of the valueDomain
@@ -62,6 +62,14 @@ public class IntegerDiscreteValueDomain implements IDiscreteValueDomain<Integer>
     }
     
     /**
+     * @param possibleValues
+     *            ArrayList with discrete Integer-Values
+     */
+    public IntegerDiscreteValueDomain(Integer[] possibleValues) {
+        this.possibleValues = new ArrayList<Integer>(Arrays.asList(possibleValues));
+    }
+    
+    /**
      * @param i Integer to be added to this IntegerValueDomain.
      */
     public void add(Integer i){
@@ -71,7 +79,7 @@ public class IntegerDiscreteValueDomain implements IDiscreteValueDomain<Integer>
     /**
      * @return ArrayList with possible (discrete) Integer-values
      */
-    public List getPossibleValues() {
+    public List<Integer> getPossibleValues() {
         return possibleValues;
     }
     

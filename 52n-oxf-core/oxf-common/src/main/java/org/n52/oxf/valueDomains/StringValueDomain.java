@@ -29,17 +29,8 @@ import java.util.*;
 import org.n52.oxf.ows.capabilities.*;
 
 
-/**
- * 
- * 
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- *
- */
 public class StringValueDomain implements IDiscreteValueDomain<String>{
 
-	/**
-	 * the possible values of this domain.
-	 */
 	List<String> possibleValues;
 	
     public StringValueDomain(){
@@ -56,7 +47,7 @@ public class StringValueDomain implements IDiscreteValueDomain<String>{
 	}
 	
 	public StringValueDomain(String[] possibleValues){
-		this.possibleValues = new ArrayList<String>(java.util.Arrays.asList(possibleValues));
+		this.possibleValues = new ArrayList<String>(Arrays.asList(possibleValues));
 	}
 	
 	public void addPossibleValue(String possibleValue){

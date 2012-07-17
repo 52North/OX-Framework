@@ -38,7 +38,7 @@ public class DoubleDiscreteValueDomain implements IDiscreteValueDomain<Double> {
     /**
      * List with possible values
      */
-    ArrayList<Double> possibleValues = null;
+    List<Double> possibleValues = null;
 
     /**
      * description of the valueDomain
@@ -51,8 +51,12 @@ public class DoubleDiscreteValueDomain implements IDiscreteValueDomain<Double> {
      * @param possibleValues
      *        ArrayList with discrete Values
      */
-    public DoubleDiscreteValueDomain(ArrayList<Double> possibleValues) {
+    public DoubleDiscreteValueDomain(List<Double> possibleValues) {
         this.possibleValues = possibleValues;
+    }
+    
+    public DoubleDiscreteValueDomain(Double[] possibleValues) {
+        this.possibleValues = new ArrayList<Double>(Arrays.asList(possibleValues));
     }
 
     /**
@@ -60,7 +64,7 @@ public class DoubleDiscreteValueDomain implements IDiscreteValueDomain<Double> {
      * 
      * @return ArrayList with possible (discrete) values
      */
-    public ArrayList getPossibleValues() {
+    public List<Double> getPossibleValues() {
         return possibleValues;
     }
 
