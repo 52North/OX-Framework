@@ -139,7 +139,7 @@ public class WCSAdapter implements IServiceAdapter {
             // VERSION 1.0.0:
             
             try {
-                JAXBContext jc = JAXBContext.newInstance("org.n52.oxf.wcsModel.version100.wcsCapabilities:org.n52.oxf.adapter.wcs.model.version100.gml");
+                JAXBContext jc = JAXBContext.newInstance("org.n52.oxf.wcs.model.version100.wcsCapabilities:org.n52.oxf.adapter.wcs.model.version100.gml");
                 Unmarshaller u = jc.createUnmarshaller();
 
                 WCSCapabilitiesType wc = (WCSCapabilitiesType) ((JAXBElement) u.unmarshal(opResult_GetCapabilities.getIncomingResultAsStream())).getValue();

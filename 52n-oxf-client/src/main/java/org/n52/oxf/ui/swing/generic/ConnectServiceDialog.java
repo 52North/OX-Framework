@@ -39,7 +39,6 @@ import javax.swing.JPanel;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.IServiceAdapter;
 import org.n52.oxf.plugin.RendererFactory;
-import org.n52.oxf.plugin.ServiceAdapterFactory;
 import org.n52.oxf.render.IRenderer;
 import org.n52.oxf.ui.swing.ApprovalDialog;
 import org.n52.oxf.ui.swing.MyGridBagLayout;

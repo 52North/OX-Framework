@@ -21,11 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.plugin;
+package org.n52.oxf.ui.swing.generic;
 
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -54,11 +54,6 @@ public class ServiceAdapterFactory {
     }
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceAdapterFactory.class);
-    
-    /**
-     * this flag decides which ClassLoader will be used to load the classes.
-     */
-    private static ClassLoaderName CLASSLOADER_TO_USE = ClassLoaderName.URL_CLASSLOADER;
     
 	/**
 	 * the Map of available ServiceAdapters.<br>
@@ -125,20 +120,16 @@ public class ServiceAdapterFactory {
 			while (propertyIterator.hasNext()) {
 				Map.Entry entry = (Map.Entry) propertyIterator.next();
 				String className = (String) entry.getKey();
-				String path = (String) entry.getValue();
+				String version = (String) entry.getValue();
                 
-                ClassLoader loader = null;
-                if(CLASSLOADER_TO_USE == ClassLoaderName.URL_CLASSLOADER){
-				    loader = URLClassLoader.newInstance(new URL[] { new URL(path) });
-                }
-                else if(CLASSLOADER_TO_USE == ClassLoaderName.STANDARD_CLASSLOADER){
-                    loader = ServiceAdapterFactory.class.getClassLoader();
-                }
-                
+                ClassLoader loader = ServiceAdapterFactory.class.getClassLoader();;
                 IServiceAdapter adapterInstance = null;
 				try {
 					Class<IServiceAdapter> adapterClass = (Class<IServiceAdapter>) loader.loadClass(className);
-					adapterInstance = adapterClass.newInstance();
+					Constructor<IServiceAdapter> constructor = adapterClass.getConstructor(String.class);
+					adapterInstance = constructor.newInstance(version);
+	                LOGGER.debug(className + " added to " + ServiceAdapterFactory.class.getSimpleName() + ".");
+	                serviceAdapters.put(className + " " + version, adapterInstance);
 				} catch (ClassNotFoundException e) {
 					throw new OXFException(className + " not found", e);
 				} catch (InstantiationException e) {
@@ -146,8 +137,22 @@ public class ServiceAdapterFactory {
 				} catch (IllegalAccessException e) {
 					throw new OXFException(e);
 				}
-				LOGGER.debug(className + " added to " + ServiceAdapterFactory.class.getSimpleName() + ".");
-				serviceAdapters.put(className, adapterInstance);
+                catch (NoSuchMethodException e) {
+                    throw new OXFException(e);
+                }
+                catch (SecurityException e) {
+                    throw new OXFException(e);
+                }
+                catch (IllegalArgumentException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    
+                }
+                catch (InvocationTargetException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    
+                }
 			}
 
 		} catch (IOException e) {
@@ -155,25 +160,18 @@ public class ServiceAdapterFactory {
 		}
 	}
     
-    public static void setClassLoaderToUse(ClassLoaderName clName){
-        CLASSLOADER_TO_USE = clName;
-    }
-
-	/**
-	 * test...
-	 */
 	public static void main(String[] args) {
 		try {
 			Collection<IServiceAdapter> availableServiceAdapter = getAvailableServiceAdapters();
 			
-			IServiceAdapter wcsAdapter = null;
+			IServiceAdapter wmsAdapter = null;
 			for (IServiceAdapter adapter : availableServiceAdapter) {
-				if(adapter.getServiceType().equals("OGC:WCS")){
-					wcsAdapter = adapter;
+				if(adapter.getServiceType().equals("OGC:WMS")){
+					wmsAdapter = adapter;
 				}
 			}
 			
-			LOGGER.info(wcsAdapter.getDescription());
+			LOGGER.info(wmsAdapter.getDescription());
 		} catch (OXFException e) {
 			e.printStackTrace();
 		}

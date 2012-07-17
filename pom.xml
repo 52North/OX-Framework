@@ -99,6 +99,7 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
+				<!-- fix JAX automatic binding -->
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>oxf-wcs-adapter</artifactId>
 				<version>${project.version}</version>

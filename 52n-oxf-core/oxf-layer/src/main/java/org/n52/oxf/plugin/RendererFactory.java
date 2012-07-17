@@ -134,7 +134,7 @@ public class RendererFactory {
                     loader = URLClassLoader.newInstance(new URL[] { new URL(path) });
                 }
                 else if(CLASSLOADER_TO_USE == ClassLoaderName.STANDARD_CLASSLOADER){
-                    loader = ServiceAdapterFactory.class.getClassLoader();
+                    loader = RendererFactory.class.getClassLoader();
                 }
 				
                 IRenderer rendererInstance = null;

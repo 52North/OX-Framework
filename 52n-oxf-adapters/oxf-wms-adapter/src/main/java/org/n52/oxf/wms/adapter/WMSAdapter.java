@@ -69,16 +69,12 @@ public class WMSAdapter implements IServiceAdapter {
     private WMSCapabilitiesMapper capsMapper;
     private WMSRequestBuilder requestBuilder;
 
-    /**
-     * standard constructor
-     */
     public WMSAdapter() {
         capsMapper = new WMSCapabilitiesMapper();
         requestBuilder = new WMSRequestBuilder();
     }
 
     /**
-     * 
      * @param version
      *        the version of the service - use one of the static variables <code>VERSION_100</code>,
      *        <code>VERSION_110</code> or <code>VERSION_111</code>.
