@@ -113,7 +113,7 @@ public class TestIOHelper extends TestCase {
     }
     
     public static void main(String[] args) {
-        String nonProxyHosts = "scheisse|test";
+        String nonProxyHosts = "test|test";
         String[] nonProxyHostsArray = nonProxyHosts.split("\\|"); // u007C = unicode for "|"
         System.out.print(nonProxyHostsArray.length);
     }
