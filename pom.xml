@@ -65,7 +65,7 @@
 			<!-- ### MODULE DEPENDENCIES ### -->
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
-				<artifactId>oxf-util</artifactId>
+				<artifactId>oxf-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

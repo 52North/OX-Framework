@@ -26,8 +26,8 @@ package org.n52.oxf.layer;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.OXFRuntimeException;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
-import org.n52.oxf.owsCommon.capabilities.Parameter;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.Parameter;
 import org.n52.oxf.render.IVisualization;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.OXFEventException;

@@ -46,7 +46,7 @@ import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.OXFSamplingPointType;
 import org.n52.oxf.feature.sos.ObservationSeriesCollection;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IVisualization;
 import org.n52.oxf.xmlbeans.tools.XMLBeansTools;

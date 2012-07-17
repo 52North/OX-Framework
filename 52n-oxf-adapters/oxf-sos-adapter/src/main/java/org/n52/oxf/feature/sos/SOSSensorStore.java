@@ -35,6 +35,7 @@ import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
+import org.n52.oxf.feature.OperationResultStore;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 import org.slf4j.Logger;

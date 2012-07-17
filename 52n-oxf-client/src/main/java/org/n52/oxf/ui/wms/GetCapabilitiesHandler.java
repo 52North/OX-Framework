@@ -28,7 +28,7 @@ import java.io.*;
 import java.util.*;
 import javax.servlet.http.*;
 import org.n52.oxf.*;
-import org.n52.oxf.owsCommon.*;
+import org.n52.oxf.ows.*;
 import org.n52.oxf.util.*;
 import org.n52.oxf.valueDomains.spatial.*;
 

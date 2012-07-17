@@ -67,8 +67,7 @@ import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.dataTypes.OXFMeasureType;
 import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
 import org.n52.oxf.feature.dataTypes.OXFScopedName;
-import org.n52.oxf.feature.sos.FeatureStore;
-import org.n52.oxf.owsCommon.capabilities.ITime;
+import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.valueDomains.time.TimeFactory;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
@@ -120,7 +119,7 @@ public class GenericObservationParser {
                 for (FeaturePropertyType xb_featureMember : xb_featureColl.getFeatureCollection().getFeatureMemberArray()) {
 
                     // the feature to add:
-                    OXFFeature feature = new FeatureStore().parseFoi(xb_featureMember);
+                    OXFFeature feature = OXFFeature.createFrom(xb_featureMember);
                     fois.put(feature.getID(), feature);
                 }
             }
@@ -328,7 +327,7 @@ public class GenericObservationParser {
                 XmlObject featureObject = XMLBeansParser.parse(domNode);
                 SFSpatialSamplingFeatureDocument featureDocument = (SFSpatialSamplingFeatureDocument) featureObject;
                 SFSpatialSamplingFeatureType spatialSamplingFeatureType = featureDocument.getSFSpatialSamplingFeature();
-                OXFFeature feature = new FeatureStore().parseFoi(spatialSamplingFeatureType);
+                OXFFeature feature = OXFFeature.createFrom(spatialSamplingFeatureType);
                 fois.put(feature.getID(), feature);
             }
     

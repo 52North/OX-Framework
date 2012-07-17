@@ -26,10 +26,10 @@ package org.n52.oxf.adapter.wms.caps;
 
 import java.util.Locale;
 
-import org.n52.oxf.owsCommon.capabilities.Dataset;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
-import org.n52.oxf.owsCommon.capabilities.IDiscreteValueDomain;
-import org.n52.oxf.owsCommon.capabilities.ITime;
+import org.n52.oxf.ows.capabilities.Dataset;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.IDiscreteValueDomain;
+import org.n52.oxf.ows.capabilities.ITime;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

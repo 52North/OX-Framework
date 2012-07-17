@@ -52,7 +52,7 @@ import org.n52.oxf.feature.OXFFeatureAttributeDescriptor;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.OXFFeatureType;
 import org.n52.oxf.layer.FeatureServiceLayer;
-import org.n52.oxf.owsCommon.ServiceDescriptor;
+import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IFeaturePicker;
 import org.n52.oxf.ui.swing.MapCanvas;

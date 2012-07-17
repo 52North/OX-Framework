@@ -32,7 +32,7 @@ import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.feature.OXFAbstractObservationType;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

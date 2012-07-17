@@ -35,7 +35,7 @@ import net.opengis.swe.x101.PhenomenonPropertyType;
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.adapter.ParameterContainer;
-import org.n52.oxf.owsCommon.capabilities.ITime;
+import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.valueDomains.time.TimeFactory;
 
 

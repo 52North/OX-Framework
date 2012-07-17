@@ -14,6 +14,14 @@
 		<!-- ### MODULE DEPENDENCIES ### -->
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-feature</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-oxf-xmlbeans</artifactId>
 		</dependency>
 		<!-- ### XML BINDING DEPENDENCIES ### -->

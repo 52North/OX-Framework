@@ -25,7 +25,7 @@
 
 package org.n52.oxf.feature.sos;
 
-import org.n52.oxf.owsCommon.capabilities.ITime;
+import org.n52.oxf.ows.capabilities.ITime;
 
 /**
  * Associates a tuple of observedProperties with a time (-position or -period). 

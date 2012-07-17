@@ -33,8 +33,8 @@ import javax.swing.JOptionPane;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.sos.SOSAdapter;
-import org.n52.oxf.owsCommon.ExceptionReport;
-import org.n52.oxf.owsCommon.ServiceDescriptor;
+import org.n52.oxf.ows.ExceptionReport;
+import org.n52.oxf.ows.ServiceDescriptor;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

@@ -31,7 +31,7 @@ import javax.swing.*;
 import org.n52.oxf.*;
 import org.n52.oxf.adapter.sos.*;
 import org.n52.oxf.feature.sos.*;
-import org.n52.oxf.owsCommon.*;
+import org.n52.oxf.ows.*;
 import org.n52.oxf.plugin.*;
 import org.n52.oxf.plugin.RendererFactory.*;
 import org.n52.oxf.render.*;

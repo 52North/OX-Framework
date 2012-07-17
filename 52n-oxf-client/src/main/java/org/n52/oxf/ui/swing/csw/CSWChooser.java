@@ -48,7 +48,7 @@ import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.csw.CSWAdapter;
 import org.n52.oxf.adapter.csw.CSWRequestBuilder;
-import org.n52.oxf.owsCommon.capabilities.Operation;
+import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.MyGridBagLayout;
 import org.n52.oxf.ui.swing.ShowRequestDialog;

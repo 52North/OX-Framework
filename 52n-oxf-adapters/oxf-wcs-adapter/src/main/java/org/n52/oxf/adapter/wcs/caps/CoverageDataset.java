@@ -27,10 +27,10 @@ package org.n52.oxf.adapter.wcs.caps;
 import java.util.Locale;
 
 import org.n52.oxf.OXFException;
-import org.n52.oxf.owsCommon.capabilities.Dataset;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
-import org.n52.oxf.owsCommon.capabilities.IDiscreteValueDomain;
-import org.n52.oxf.owsCommon.capabilities.ITime;
+import org.n52.oxf.ows.capabilities.Dataset;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.IDiscreteValueDomain;
+import org.n52.oxf.ows.capabilities.ITime;
 
 public class CoverageDataset extends Dataset {
 	

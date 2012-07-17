@@ -35,7 +35,7 @@ import org.n52.oxf.adapter.IServiceAdapter;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
-import org.n52.oxf.owsCommon.ServiceDescriptor;
+import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.render.IChartRenderer;
 import org.n52.oxf.render.StaticVisualization;
 

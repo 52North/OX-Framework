@@ -40,10 +40,10 @@ import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.sos.SOSObservationStore;
-import org.n52.oxf.owsCommon.ExceptionReport;
-import org.n52.oxf.owsCommon.OWSException;
-import org.n52.oxf.owsCommon.ServiceDescriptor;
-import org.n52.oxf.owsCommon.capabilities.Operation;
+import org.n52.oxf.ows.ExceptionReport;
+import org.n52.oxf.ows.OWSException;
+import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.util.IOHelper;
 import org.n52.oxf.util.SosUtil;
 
@@ -89,9 +89,6 @@ public class SOSAdapter implements IServiceAdapter {
     public SOSAdapter(String serviceVersion) {
         this.requestBuilder = SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
         this.serviceVersion = serviceVersion;
-        if (logger.isTraceEnabled()) {
-            logger.trace("Instantiated " + this.getClass().getName());
-        }
     }
     
     /**
@@ -102,7 +99,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @see ISOSRequestBuilder
      */
     public SOSAdapter(String serviceVersion, ISOSRequestBuilder requestBuilder) {
-        this(serviceVersion);
+        this.serviceVersion = serviceVersion;
         this.requestBuilder = requestBuilder; // overwrite default
     }
 

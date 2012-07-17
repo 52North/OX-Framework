@@ -50,7 +50,7 @@ import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.sos.ObservationSeriesCollection;
 import org.n52.oxf.feature.sos.ObservedValueTuple;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.valueDomains.time.ITimePosition;

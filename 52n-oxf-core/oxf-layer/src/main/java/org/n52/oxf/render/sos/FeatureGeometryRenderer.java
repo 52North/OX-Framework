@@ -38,7 +38,7 @@ import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IFeaturePicker;
 import org.n52.oxf.render.StaticVisualization;

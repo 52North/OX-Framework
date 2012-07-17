@@ -45,7 +45,7 @@ import org.n52.oxf.adapter.IServiceAdapter;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.feature.IFeatureStore;
-import org.n52.oxf.owsCommon.capabilities.Parameter;
+import org.n52.oxf.ows.capabilities.Parameter;
 import org.n52.oxf.render.IRenderer;
 import org.n52.oxf.ui.wms.configSchema.WmsConfigDocument;
 import org.n52.oxf.ui.wms.configSchema.WmsConfigDocument.WmsConfig;

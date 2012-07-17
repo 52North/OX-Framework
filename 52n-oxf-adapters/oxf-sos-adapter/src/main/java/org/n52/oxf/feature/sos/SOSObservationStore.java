@@ -40,6 +40,7 @@ import org.n52.oxf.feature.GenericObservationParser;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.OXFObservationCollectionType;
+import org.n52.oxf.feature.OperationResultStore;
 import org.n52.oxf.util.SosUtil;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;

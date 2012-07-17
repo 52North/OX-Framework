@@ -26,8 +26,8 @@ package org.n52.oxf.adapter.wcs;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.wcs.caps.CoverageDataset;
-import org.n52.oxf.owsCommon.ExceptionReport;
-import org.n52.oxf.owsCommon.ServiceDescriptor;
+import org.n52.oxf.ows.ExceptionReport;
+import org.n52.oxf.ows.ServiceDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

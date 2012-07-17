@@ -32,7 +32,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import org.n52.oxf.*;
 import org.n52.oxf.adapter.*;
-import org.n52.oxf.owsCommon.capabilities.*;
+import org.n52.oxf.ows.capabilities.*;
 import org.n52.oxf.valueDomains.filter.*;
 import org.n52.oxf.valueDomains.spatial.*;
 import org.n52.oxf.valueDomains.time.*;

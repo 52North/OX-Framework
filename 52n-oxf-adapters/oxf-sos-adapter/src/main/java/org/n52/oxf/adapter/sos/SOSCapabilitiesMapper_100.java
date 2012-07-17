@@ -55,21 +55,21 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.sos.caps.ObservationOffering;
 import org.n52.oxf.adapter.sos.caps.SOSContents;
-import org.n52.oxf.owsCommon.ServiceDescriptor;
-import org.n52.oxf.owsCommon.capabilities.DCP;
-import org.n52.oxf.owsCommon.capabilities.DatasetParameter;
-import org.n52.oxf.owsCommon.capabilities.GetRequestMethod;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
-import org.n52.oxf.owsCommon.capabilities.IDiscreteValueDomain;
-import org.n52.oxf.owsCommon.capabilities.ITime;
-import org.n52.oxf.owsCommon.capabilities.OnlineResource;
-import org.n52.oxf.owsCommon.capabilities.Operation;
-import org.n52.oxf.owsCommon.capabilities.OperationsMetadata;
-import org.n52.oxf.owsCommon.capabilities.Parameter;
-import org.n52.oxf.owsCommon.capabilities.PostRequestMethod;
-import org.n52.oxf.owsCommon.capabilities.RequestMethod;
-import org.n52.oxf.owsCommon.capabilities.ServiceIdentification;
-import org.n52.oxf.owsCommon.capabilities.ServiceProvider;
+import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ows.capabilities.DCP;
+import org.n52.oxf.ows.capabilities.DatasetParameter;
+import org.n52.oxf.ows.capabilities.GetRequestMethod;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.IDiscreteValueDomain;
+import org.n52.oxf.ows.capabilities.ITime;
+import org.n52.oxf.ows.capabilities.OnlineResource;
+import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.ows.capabilities.OperationsMetadata;
+import org.n52.oxf.ows.capabilities.Parameter;
+import org.n52.oxf.ows.capabilities.PostRequestMethod;
+import org.n52.oxf.ows.capabilities.RequestMethod;
+import org.n52.oxf.ows.capabilities.ServiceIdentification;
+import org.n52.oxf.ows.capabilities.ServiceProvider;
 import org.n52.oxf.valueDomains.StringValueDomain;
 import org.n52.oxf.valueDomains.filter.ComparisonFilter;
 import org.n52.oxf.valueDomains.filter.FilterValueDomain;
@@ -166,7 +166,7 @@ public class SOSCapabilitiesMapper_100 {
     /**
      * this method goes through the supported operations declared in the OperationsMetadata-section of the
      * SOS-Capabilities and maps the provided informations to the OXF internal capabilities-model (e.g. the
-     * class org.n52.oxf.owsCommon.capabilities.OperationsMetadata)
+     * class org.n52.oxf.ows.capabilities.OperationsMetadata)
      * 
      * @param xb_opMetadata
      * @return

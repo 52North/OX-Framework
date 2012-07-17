@@ -31,7 +31,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import org.n52.oxf.OXFException;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.util.EventName;
 import org.n52.oxf.util.IEventEmitter;
 import org.n52.oxf.util.IEventListener;
@@ -100,7 +100,7 @@ public class ContextBoundingBox implements IEventEmitter {
     }
 
     /**
-     * Constructs a new ContextBoundingBox from a given org.n52.oxf.owsCommon.capabilities.BoundingBox.
+     * Constructs a new ContextBoundingBox from a given org.n52.oxf.ows.capabilities.BoundingBox.
      * 
      * @param bBox
      */
@@ -131,7 +131,7 @@ public class ContextBoundingBox implements IEventEmitter {
     }
 
     /**
-     * @return this ContextBoundingBox as a org.n52.oxf.owsCommon.capabilities.BoundingBox.
+     * @return this ContextBoundingBox as a org.n52.oxf.ows.capabilities.BoundingBox.
      * @throws OXFException
      */
     public BoundingBox asCommonCapabilitiesBoundingBox() {

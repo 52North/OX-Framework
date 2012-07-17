@@ -30,7 +30,6 @@ import net.opengis.gml.AbstractFeatureCollectionType;
 import net.opengis.gml.FeaturePropertyType;
 
 import org.n52.oxf.OXFException;
-import org.n52.oxf.feature.sos.FeatureStore;
 
 public class OXFAbstractFeatureCollectionType extends OXFAbstractFeatureType {
     
@@ -66,7 +65,7 @@ public class OXFAbstractFeatureCollectionType extends OXFAbstractFeatureType {
         for (FeaturePropertyType xb_featureMember : xb_featureCollection.getFeatureMemberArray()) {
 
             // the feature to add:
-            OXFFeature feature = new FeatureStore().parseFoi(xb_featureMember);
+            OXFFeature feature = OXFFeature.createFrom(xb_featureMember);
             featureCollection.add(feature);
         }
     }

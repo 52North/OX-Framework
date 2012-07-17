@@ -13,6 +13,6 @@
 	<modules>
 		<module>oxf-feature</module>
 		<module>oxf-layer</module>
-		<module>oxf-util</module>
+		<module>oxf-common</module>
 	</modules>
 </project>

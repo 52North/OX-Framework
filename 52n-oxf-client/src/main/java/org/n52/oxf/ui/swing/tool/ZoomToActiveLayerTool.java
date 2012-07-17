@@ -33,7 +33,7 @@ import javax.swing.JOptionPane;
 import org.n52.oxf.context.ContextBoundingBox;
 import org.n52.oxf.layer.AbstractServiceLayer;
 import org.n52.oxf.layer.IContextLayer;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.ui.swing.MapCanvas;
 import org.n52.oxf.ui.swing.icons.IconAnchor;
 import org.n52.oxf.ui.swing.tree.ContentTree;

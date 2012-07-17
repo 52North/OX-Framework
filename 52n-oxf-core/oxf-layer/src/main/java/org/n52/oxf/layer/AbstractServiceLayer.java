@@ -26,9 +26,9 @@ package org.n52.oxf.layer;
 
 import org.n52.oxf.adapter.IServiceAdapter;
 import org.n52.oxf.adapter.ParameterContainer;
-import org.n52.oxf.owsCommon.ServiceDescriptor;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
-import org.n52.oxf.owsCommon.capabilities.Parameter;
+import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.Parameter;
 import org.n52.oxf.render.IRenderer;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
 import org.slf4j.Logger;

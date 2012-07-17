@@ -28,7 +28,7 @@ import javax.swing.*;
 import org.n52.oxf.*;
 import org.n52.oxf.context.*;
 import org.n52.oxf.layer.*;
-import org.n52.oxf.owsCommon.capabilities.*;
+import org.n52.oxf.ows.capabilities.*;
 import org.n52.oxf.ui.swing.*;
 import org.n52.oxf.ui.swing.tool.ZoomToActiveLayerTool;
 import org.n52.oxf.ui.swing.tree.*;

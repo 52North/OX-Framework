@@ -26,7 +26,8 @@
 package org.n52.oxf.ui.swing;
 
 import javax.swing.*;
-import org.n52.oxf.owsCommon.capabilities.*;
+
+import org.n52.oxf.ows.capabilities.*;
 
 /**
  * This UI-component allows the user to specify a certain time.

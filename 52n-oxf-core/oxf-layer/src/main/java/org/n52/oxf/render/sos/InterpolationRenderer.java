@@ -37,7 +37,7 @@ import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.StaticVisualization;
 import org.n52.oxf.render.coverage.CoverageProcessor;

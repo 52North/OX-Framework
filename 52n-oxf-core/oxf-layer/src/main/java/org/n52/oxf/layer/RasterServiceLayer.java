@@ -25,8 +25,8 @@
 package org.n52.oxf.layer;
 
 import org.n52.oxf.adapter.*;
-import org.n52.oxf.owsCommon.*;
-import org.n52.oxf.owsCommon.capabilities.*;
+import org.n52.oxf.ows.*;
+import org.n52.oxf.ows.capabilities.*;
 import org.n52.oxf.render.*;
 import org.n52.oxf.serialization.ContextWriter;
 

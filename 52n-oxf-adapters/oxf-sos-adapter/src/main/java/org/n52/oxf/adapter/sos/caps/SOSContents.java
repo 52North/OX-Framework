@@ -26,14 +26,14 @@ package org.n52.oxf.adapter.sos.caps;
 
 import java.util.List;
 
-import org.n52.oxf.owsCommon.capabilities.Dataset;
+import org.n52.oxf.ows.capabilities.Dataset;
 
 /**
  * 
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
-public class SOSContents extends org.n52.oxf.owsCommon.capabilities.Contents {
+public class SOSContents extends org.n52.oxf.ows.capabilities.Contents {
 
     public SOSContents() {
         super();

@@ -24,7 +24,7 @@
 
 package org.n52.oxf.render.coverage;
 
-import org.n52.oxf.owsCommon.capabilities.IBoundingBox;
+import org.n52.oxf.ows.capabilities.IBoundingBox;
 
 public class DoubleCoverage extends AbstractCoverage {
 

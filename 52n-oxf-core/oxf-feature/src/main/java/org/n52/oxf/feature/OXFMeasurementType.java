@@ -33,7 +33,7 @@ import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.dataTypes.OXFMeasureType;
 import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
-import org.n52.oxf.owsCommon.capabilities.ITime;
+import org.n52.oxf.ows.capabilities.ITime;
 
 import com.vividsolutions.jts.geom.Geometry;
 

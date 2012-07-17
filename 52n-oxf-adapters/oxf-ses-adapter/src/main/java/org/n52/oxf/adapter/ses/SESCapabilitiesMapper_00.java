@@ -38,20 +38,20 @@ import net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata;
 import net.opengis.ows.x11.ResponsiblePartySubsetType;
 
 import org.n52.oxf.OXFException;
-import org.n52.oxf.owsCommon.ServiceDescriptor;
-import org.n52.oxf.owsCommon.capabilities.Address;
-import org.n52.oxf.owsCommon.capabilities.Contact;
-import org.n52.oxf.owsCommon.capabilities.Contents;
-import org.n52.oxf.owsCommon.capabilities.DCP;
-import org.n52.oxf.owsCommon.capabilities.GetRequestMethod;
-import org.n52.oxf.owsCommon.capabilities.OnlineResource;
-import org.n52.oxf.owsCommon.capabilities.Operation;
-import org.n52.oxf.owsCommon.capabilities.Parameter;
-import org.n52.oxf.owsCommon.capabilities.PostRequestMethod;
-import org.n52.oxf.owsCommon.capabilities.RequestMethod;
-import org.n52.oxf.owsCommon.capabilities.ServiceContact;
-import org.n52.oxf.owsCommon.capabilities.ServiceIdentification;
-import org.n52.oxf.owsCommon.capabilities.ServiceProvider;
+import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ows.capabilities.Address;
+import org.n52.oxf.ows.capabilities.Contact;
+import org.n52.oxf.ows.capabilities.Contents;
+import org.n52.oxf.ows.capabilities.DCP;
+import org.n52.oxf.ows.capabilities.GetRequestMethod;
+import org.n52.oxf.ows.capabilities.OnlineResource;
+import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.ows.capabilities.Parameter;
+import org.n52.oxf.ows.capabilities.PostRequestMethod;
+import org.n52.oxf.ows.capabilities.RequestMethod;
+import org.n52.oxf.ows.capabilities.ServiceContact;
+import org.n52.oxf.ows.capabilities.ServiceIdentification;
+import org.n52.oxf.ows.capabilities.ServiceProvider;
 
 /**
  * maps the Capabilities of the SES into a ServiceDescriptor object.
@@ -72,7 +72,7 @@ public class SESCapabilitiesMapper_00 {
         ServiceIdentification serviceIdentification = mapServiceIdentification(capsDoc.getCapabilities().getServiceIdentification());
         ServiceProvider serviceProvider = mapServiceProvider(capsDoc.getCapabilities().getServiceProvider());
         // FIXME Methods not finished
-        org.n52.oxf.owsCommon.capabilities.OperationsMetadata operationsMetadata = mapOperationsMetadata(capsDoc.getCapabilities().getOperationsMetadata());
+        org.n52.oxf.ows.capabilities.OperationsMetadata operationsMetadata = mapOperationsMetadata(capsDoc.getCapabilities().getOperationsMetadata());
         Contents contents = mapContents(capsDoc.getCapabilities().getContents());
         
         capsDoc.getCapabilities().getFilterCapabilities();
@@ -92,14 +92,14 @@ public class SESCapabilitiesMapper_00 {
     /**
      * this method goes through the supported operations declared in the OperationsMetadata-section of the
      * SAS-Capabilities and maps the provided informations to the OXF internal capabilities-model (e.g. the
-     * class org.n52.oxf.owsCommon.capabilities.OperationsMetadata)
+     * class org.n52.oxf.ows.capabilities.OperationsMetadata)
      * 
      * @param metadata
      * 
      * @param xb_opMetadata
      * @return
      */
-    private static org.n52.oxf.owsCommon.capabilities.OperationsMetadata mapOperationsMetadata(OperationsMetadata xb_opMetadata) {
+    private static org.n52.oxf.ows.capabilities.OperationsMetadata mapOperationsMetadata(OperationsMetadata xb_opMetadata) {
 
         //
         // map the operations:
@@ -201,7 +201,7 @@ public class SESCapabilitiesMapper_00 {
             oc_operations[i] = new Operation(oc_operationName, parametersArray, null, oc_dcps);
         }
 
-        return new org.n52.oxf.owsCommon.capabilities.OperationsMetadata(oc_operations);
+        return new org.n52.oxf.ows.capabilities.OperationsMetadata(oc_operations);
     }
 
     /**

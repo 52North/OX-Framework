@@ -34,8 +34,7 @@ import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
-import org.n52.oxf.feature.sos.FeatureStore;
-import org.n52.oxf.owsCommon.capabilities.ITime;
+import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.valueDomains.time.TimeFactory;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -148,7 +147,7 @@ public class OXFAbstractObservationType extends OXFAbstractFeatureType {
         // create the FEATUREOFINTEREST-attribute:
         FeaturePropertyType xb_featureMember = xb_abstractObservation.getFeatureOfInterest();
 
-        OXFFeature foi = new FeatureStore().parseFoi(xb_featureMember);
+        OXFFeature foi = OXFFeature.createFrom(xb_featureMember);
         
         feature.setAttribute(FEATURE_OF_INTEREST, foi);
     }

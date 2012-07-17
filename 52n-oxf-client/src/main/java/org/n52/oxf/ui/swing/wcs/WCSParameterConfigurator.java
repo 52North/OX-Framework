@@ -27,7 +27,7 @@ package org.n52.oxf.ui.swing.wcs;
 import java.awt.*;
 import javax.swing.*;
 
-import org.n52.oxf.owsCommon.*;
+import org.n52.oxf.ows.*;
 import org.n52.oxf.ui.swing.*;
 import org.n52.oxf.ui.swing.tree.*;
 

@@ -36,7 +36,7 @@ import org.n52.oxf.adapter.sos.SOSAdapter;
 import org.n52.oxf.feature.sos.SOSObservationStore;
 import org.n52.oxf.layer.FeatureServiceLayer;
 import org.n52.oxf.layer.IContextLayer;
-import org.n52.oxf.owsCommon.ServiceDescriptor;
+import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.render.sos.AnimatedMapBarChartRenderer;
 import org.n52.oxf.render.sos.IDWRenderer;
 import org.n52.oxf.render.sos.NNRenderer;
