@@ -100,6 +100,9 @@ public class ObservationSeriesCollection {
                                        String[] observedProperties,
                                        String[] procedureNames,
                                        boolean onlyCompleteTuples) {
+        if (observationCollection == null) {
+            throw new NullPointerException("No observation given.");
+        }
         timeSet = new HashSet<ITimePosition>();
         featureMap = findObservedValueTuples4FOI(observationCollection,
                                                  featureIDArray,
