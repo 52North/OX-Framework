@@ -34,6 +34,12 @@ import java.util.List;
 public class OwsExceptionReport extends Exception {
 
     private static final long serialVersionUID = 8369604913484927730L;
+
+    public enum LevelOfDetail {
+        PLAIN, DETAILED;
+    }
+    
+    private LevelOfDetail levelOfDetail = LevelOfDetail.DETAILED;
     
     private List<OwsException> exceptionList = new ArrayList<OwsException>();
     
@@ -59,6 +65,14 @@ public class OwsExceptionReport extends Exception {
     
     public boolean containsExceptions() {
         return !exceptionList.isEmpty();
+    }
+
+    public LevelOfDetail getLevelOfDetail() {
+        return levelOfDetail;
+    }
+
+    public void setLevelOfDetail(LevelOfDetail levelOfDetail) {
+        this.levelOfDetail = levelOfDetail;
     }
     
 }

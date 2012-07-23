@@ -42,50 +42,29 @@ public class ParameterShell {
     
     private Parameter parameter;
 
-    private Object specifiedValue = null;
-
     private Object[] specifiedValueArray = null;
 
     /**
      * @param parameter
-     * @param specifiedValue
-     *        must be an element of the valueDomain of the parameter. <br>
-     *        Attention: it should be only ONE value of the value domain (e.g.: FORMAT=jpeg). If you want to
-     *        specify multiple values (e.g.: COVERAGE=c1,c2,c3) for the parameter please use the constructor
-     *        <code>ParameterShell(Parameter parameter, Object[] specifiedValueArray)</code> .
-     * @throws OXFException
-     *         if the specifiedValue is not contained in the valueDomain of the parameter.
-     * @throws NullPointerException
-     *         if the specifiedValue is <code>null</code>.
-     */
-    public ParameterShell(Parameter parameter, Object specifiedValue) throws OXFException {
-        if (parameter == null) {
-            throw new IllegalArgumentException("Parameter '" + parameter + "' is null.");
-        }
-        else if (specifiedValue == null) {
-            throw new IllegalArgumentException("The specified value for parameter '" + parameter + "' is null.");
-        }
-        this.parameter = parameter;
-        setSpecifiedValue(specifiedValue);
-    }
-
-    /**
-     * @param parameter
-     * @param specifiedValueArray
+     * @param specifiedValues
      *        multiple values which are all elements of the valueDomain of the parameter. Use this constructor
-     *        if you want to associate the parameter with multiple values (e.g.: COVERAGE=c1,c2,c3).
+     *        if you want to associate a parameter with given values (e.g.: FORMAT=jpeg or COVERAGE=c1,c2,c3).
      * @throws OXFException
-     *         if one value of the specifiedValueArray is not contained in the valueDomain of the parameter.
+     *         if one value of the specifiedValues are not contained in the valueDomain of the parameter.
      */
-    public ParameterShell(Parameter parameter, Object[] specifiedValueArray) throws OXFException {
+    public ParameterShell(Parameter parameter, Object... specifiedValues) throws OXFException {
         if (parameter == null) {
             throw new IllegalArgumentException("Parameter is null.");
         }
-        else if (specifiedValueArray == null) {
-            throw new IllegalArgumentException("The specifiedValueArray for parameter '" + parameter + "' is null.");
+        else if (specifiedValues == null || specifiedValues.length == 0) {
+            throw new IllegalArgumentException("No specifiedValues for parameter '" + parameter + "' were given.");
         }
         this.parameter = parameter;
-        setSpecifiedValueArray(specifiedValueArray);
+        if (specifiedValues.length > 1) {
+            setSpecifiedValueArray(specifiedValues);
+        } else {
+            setSpecifiedValue(specifiedValues[0]);
+        }
     }
 
     public Parameter getParameter() {
@@ -96,55 +75,41 @@ public class ParameterShell {
      * @return true if the parameter is associated with just one specified value.
      */
     public boolean hasSingleSpecifiedValue() {
-        return specifiedValue != null;
+        return !hasMultipleSpecifiedValues();
     }
 
     /**
      * @return true if the parameter is associated with multiple specified values.
      */
     public boolean hasMultipleSpecifiedValues() {
-        return specifiedValueArray != null;
+        return specifiedValueArray.length > 1;
     }
 
     /**
      * @return the specifiedValue
-     * @throws UnsupportedOperationException
-     *         if this ParameterShell <code>hasMultipleSpecifiedValues()</code>.
      */
     public Object getSpecifiedValue() {
-        if (hasMultipleSpecifiedValues()) {
-            throw new UnsupportedOperationException("This ParameterShell instance has got multiple values. The associated Parameter is: "
-                    + parameter.toXML());
-        }
-        return specifiedValue;
+        return specifiedValueArray[0];
     }
 
     /**
      * @return the specifiedValueArray
-     * @throws UnsupportedOperationException
-     *         if this ParameterShell <code>hasSingleSpecifiedValue()</code> .
+     * @deprecated use {@link #getSpecifiedTypedValueArray(Class)} instead
      */
+    @Deprecated
     public Object[] getSpecifiedValueArray() {
-        if (hasSingleSpecifiedValue()) {
-            throw new UnsupportedOperationException("This ParameterShell instance has got a single value. The associated Parameter is: "
-                    + parameter.toXML());
-        }
         return specifiedValueArray;
     }
-
-    // arneb: setSpecifiedValue(s) now without checking whether the value is
-    // contained or not. Instead there
-    // is just a LOGGER.warn statement.
+    
+    public <T> T[] getSpecifiedTypedValueArray(Class<T[]> clazz) {
+        return Arrays.copyOf(specifiedValueArray, specifiedValueArray.length, clazz);
+    }
 
     /**
-     * sets the specifiedValue attribute (single-mode). The specifiedValueArray attribute (multiple-mode) will
-     * be set on <code>null</code>.
+     * sets the specifiedValue attribute (single-mode).
      * 
      * @param specifiedValue
-     *        must be an element of the valueDomain of the parameter. <br>
-     *        Attention: it should be only ONE value of the value domain (e.g.: FORMAT=jpeg). If you want to
-     *        specify multiple values (e.g.: COVERAGE=c1,c2,c3) for the parameter please use the method
-     *        <code>setSpecifiedValues(Object[] specifiedValueArray)</code>.
+     *        must be an element of the valueDomain of the parameter.
      * @throws OXFException
      *         if the specifiedValue is not contained in the valueDomain of the parameter.
      */
@@ -160,8 +125,7 @@ public class ParameterShell {
             LOGGER.warn(exceptionMsg);
             throw new OXFException(exceptionMsg);
         }
-        this.specifiedValue = specifiedValue;
-        this.specifiedValueArray = null;
+        this.specifiedValueArray = new Object[] { specifiedValue };
     }
 
     /**
@@ -169,8 +133,7 @@ public class ParameterShell {
      * be set on <code>null</code>.
      * 
      * @param specifiedValueArray
-     *        multiple values which are all elements of the valueDomain of the parameter. Use this method if
-     *        you want to associate the parameter with multiple values (e.g.: COVERAGE=c1,c2,c3).
+     *        multiple values which are all elements of the valueDomain of the parameter.
      * @throws OXFException
      *         if one value of the specifiedValueArray is not contained in the valueDomain of the parameter.
      */
@@ -185,7 +148,6 @@ public class ParameterShell {
             }
         }
         this.specifiedValueArray = specifiedValueArray;
-        this.specifiedValue = null;
     }
 
     @Override
@@ -193,14 +155,8 @@ public class ParameterShell {
         StringBuilder sb = new StringBuilder();
         sb.append("ParemeterShell [");
         sb.append(this.parameter);
-        if (this.specifiedValue != null) {
-            sb.append(" - specifiedValue = ");
-            sb.append(this.specifiedValue);
-        }
-        if (this.specifiedValueArray != null) {
-            sb.append(" - specifiedValueArray = ");
-            sb.append(Arrays.toString(this.specifiedValueArray));
-        }
+        sb.append(" - specifiedValue(s) = ");
+        sb.append(Arrays.toString(this.specifiedValueArray));
         sb.append("]");
         return sb.toString();
     }

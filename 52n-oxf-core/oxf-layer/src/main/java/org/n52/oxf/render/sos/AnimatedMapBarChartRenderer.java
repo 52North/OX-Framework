@@ -128,7 +128,7 @@ public class AnimatedMapBarChartRenderer implements IFeatureDataRenderer {
         // which observedProperties have been used?:
         ParameterShell observedPropertyPS = paramCon.getParameterShellWithServiceSidedName("observedProperty");
         if (observedPropertyPS.hasMultipleSpecifiedValues()) {
-           observedProperties = (String[]) observedPropertyPS.getSpecifiedValueArray();
+           observedProperties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
             //observedProperties = new String[] {"urn:ogc:def:phenomenon:OGC:1.0.30:dryBulbTemp", "urn:ogc:def:phenomenon:OGC:1.0.30:barometricPressure"]};
         }
         else {

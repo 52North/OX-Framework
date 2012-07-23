@@ -78,7 +78,7 @@ public class WindFieldRenderer implements IFeatureDataRenderer {
         // is winddirection the first property?:
 
         ParameterShell observedPropertyPS = paramCon.getParameterShellWithServiceSidedName("observedProperty");
-        String[] observedProperties = (String[]) observedPropertyPS.getSpecifiedValueArray();
+        String[] observedProperties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
 
         // find tuples:
         if (obsValues4FOI == null) {

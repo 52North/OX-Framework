@@ -93,7 +93,7 @@ public class ScatterPlotChartRenderer implements IChartRenderer {
                                   ParameterContainer paramCon) {
         ParameterShell observedPropertyPS = paramCon.getParameterShellWithServiceSidedName("observedProperty");
         if (observedPropertyPS.hasMultipleSpecifiedValues()) {
-            String[] observedProperties = (String[]) observedPropertyPS.getSpecifiedValueArray();
+            String[] observedProperties =observedPropertyPS.getSpecifiedTypedValueArray(String[].class);;
             observedPropertyX = observedProperties[0];
             observedPropertyY = observedProperties[1];
         }
@@ -101,7 +101,7 @@ public class ScatterPlotChartRenderer implements IChartRenderer {
             throw new IllegalArgumentException("2 observedProperties needed.");
         }
 
-        String[] foiIdArray = (String[]) paramCon.getParameterShellWithServiceSidedName("featureOfInterest").getSpecifiedValueArray();
+        String[] foiIdArray = paramCon.getParameterShellWithServiceSidedName("featureOfInterest").getSpecifiedTypedValueArray(String[].class);
 
         ObservationSeriesCollection tupleFinder = new ObservationSeriesCollection(observationCollection,
                                                                           foiIdArray,

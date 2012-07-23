@@ -116,7 +116,7 @@ public class TimeSeriesMapChartRenderer implements IFeatureDataRenderer {
         // which observedProperty has been used?:
         ParameterShell observedPropertyPS = paramCon.getParameterShellWithServiceSidedName("observedProperty");
         if (observedPropertyPS.hasMultipleSpecifiedValues()) {
-            observedProperties = (String[]) observedPropertyPS.getSpecifiedValueArray();
+            observedProperties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
         }
         else if (observedPropertyPS.hasSingleSpecifiedValue()) {
             observedProperties = new String[] {(String) observedPropertyPS.getSpecifiedValue()};

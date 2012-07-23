@@ -92,7 +92,7 @@ public class TimeSeriesChartRenderer implements IChartRenderer {
         // which observedProperty has been used?:
         ParameterShell observedPropertyPS = paramCon.getParameterShellWithServiceSidedName("observedProperty");
         if (observedPropertyPS.hasMultipleSpecifiedValues()) {
-            observedProperties = (String[]) observedPropertyPS.getSpecifiedValueArray();
+            observedProperties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
         }
         else if (observedPropertyPS.hasSingleSpecifiedValue()) {
             observedProperties = new String[] {(String) observedPropertyPS.getSpecifiedValue()};
@@ -103,7 +103,7 @@ public class TimeSeriesChartRenderer implements IChartRenderer {
 
         phenomenon = observedProperties[0];
 
-        String[] foiIdArray = (String[]) paramCon.getParameterShellWithServiceSidedName("featureOfInterest").getSpecifiedValueArray();
+        String[] foiIdArray = paramCon.getParameterShellWithServiceSidedName("featureOfInterest").getSpecifiedTypedValueArray(String[].class);
 
         TimeSeriesCollection dataset = new TimeSeriesCollection();
 

@@ -104,7 +104,7 @@ public class AnimatedMapChartRenderer4OnePhenomenon implements IFeatureDataRende
         String observedProperty;
         ParameterShell observedPropertyPS = paramCon.getParameterShellWithServiceSidedName("observedProperty");
         if (observedPropertyPS.hasMultipleSpecifiedValues()) {
-            String[] observedProperties = (String[]) observedPropertyPS.getSpecifiedValueArray();
+            String[] observedProperties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
             observedProperty = observedProperties[0];
         }
         else {

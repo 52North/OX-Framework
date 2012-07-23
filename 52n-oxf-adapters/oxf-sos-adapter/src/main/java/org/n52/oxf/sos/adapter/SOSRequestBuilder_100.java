@@ -86,7 +86,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
-import org.n52.oxf.ows.OwsExceptionReport.ExceptionCode;
+import org.n52.oxf.ows.OwsExceptionCode;
 import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.ows.capabilities.Parameter;
 import org.n52.oxf.valueDomains.time.ITimePeriod;
@@ -160,9 +160,9 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
                 acceptedVersions.addVersion((String) versionPS.getSpecifiedValue());
             }
             else {
-                Object[] versionArray = versionPS.getSpecifiedValueArray();
-                for (Object version : versionArray) {
-                    acceptedVersions.addVersion((String) version);
+                String[] versionArray = versionPS.getSpecifiedTypedValueArray(String[].class);
+                for (String version : versionArray) {
+                    acceptedVersions.addVersion(version);
                 }
             }
         }
@@ -173,7 +173,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
             SectionsType sections = getCap.addNewSections();
 
             if (sectionParamShell.hasMultipleSpecifiedValues()) {
-                String[] selectedSections = (String[]) sectionParamShell.getSpecifiedValueArray();
+                String[] selectedSections = sectionParamShell.getSpecifiedTypedValueArray(String[].class);
                 for (int i = 0; i < selectedSections.length; i++) {
                     sections.addSection(selectedSections[i]);
                 }
@@ -233,14 +233,8 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         xb_getObs.setResponseFormat((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER).getSpecifiedValue());
 
         ParameterShell observedPropertyPS = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
-        if (observedPropertyPS.hasMultipleSpecifiedValues()) {
-            Object[] observedProperties = observedPropertyPS.getSpecifiedValueArray();
-            xb_getObs.setObservedPropertyArray((String[]) observedProperties);
-        }
-        else if (observedPropertyPS.hasSingleSpecifiedValue()) {
-            String observedProperty = (String) observedPropertyPS.getSpecifiedValue();
-            xb_getObs.setObservedPropertyArray(new String[] {observedProperty});
-        }
+        String[] observedProperties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
+        xb_getObs.setObservedPropertyArray(observedProperties);
         
         //
         // set optional elements:
@@ -470,7 +464,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
                 getFoI.setFeatureOfInterestIdArray(new String[] {foiIDParamValue});
             }
             else {
-                String[] foiIDParamValue = (String[]) foiIDParamShell.getSpecifiedValueArray();
+                String[] foiIDParamValue = foiIDParamShell.getSpecifiedTypedValueArray(String[].class);
                 getFoI.setFeatureOfInterestIdArray(foiIDParamValue);
             }
         }
@@ -711,7 +705,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 		String parameterName = null;
 		for (XmlError error : exs) {
 			// ExceptionCode for Exception
-			ExceptionCode exCode = null;
+			OwsExceptionCode exCode = null;
 
 			// get name of the missing or invalid parameter
 			message = error.getMessage();
@@ -724,7 +718,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 
 				// invalid parameter value
 				if (message.startsWith("The value")) {
-					exCode = ExceptionCode.InvalidParameterValue;
+					exCode = OwsExceptionCode.InvalidParameterValue;
 
 					// split message string to get attribute name
 					String[] messAndAttribute = message
@@ -737,7 +731,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 
 				// invalid enumeration value --> InvalidParameterValue
 				else if (message.contains("not a valid enumeration value")) {
-					exCode = ExceptionCode.InvalidParameterValue;
+					exCode = OwsExceptionCode.InvalidParameterValue;
 
 					// get attribute name
 					String[] messAndAttribute = message.split(" ");
@@ -747,7 +741,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 				// mandatory attribute is missing -->
 				// missingParameterValue
 				else if (message.startsWith("Expected attribute")) {
-					exCode = ExceptionCode.MissingParameterValue;
+					exCode = OwsExceptionCode.MissingParameterValue;
 
 					// get attribute name
 					String[] messAndAttribute = message
@@ -764,7 +758,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 				// mandatory element is missing -->
 				// missingParameterValue
 				else if (message.startsWith("Expected element")) {
-					exCode = ExceptionCode.MissingParameterValue;
+					exCode = OwsExceptionCode.MissingParameterValue;
 
 					// get element name
 					String[] messAndElements = message.split(" '");
@@ -787,7 +781,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 				}
 				// invalidParameterValue
 				else if (message.startsWith("Element")) {
-					exCode = ExceptionCode.InvalidParameterValue;
+					exCode = OwsExceptionCode.InvalidParameterValue;
 
 					// get element name
 					String[] messAndElements = message.split(" '");

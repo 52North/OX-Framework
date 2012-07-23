@@ -90,9 +90,9 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
                 acceptedVersions.addVersion((String) versionPS.getSpecifiedValue());
             }
             else {
-                Object[] versionArray = versionPS.getSpecifiedValueArray();
-                for (Object version : versionArray) {
-                    acceptedVersions.addVersion((String) version);
+                String[] versionArray = versionPS.getSpecifiedTypedValueArray(String[].class);;
+                for (String version : versionArray) {
+                    acceptedVersions.addVersion(version);
                 }
             }
         }
@@ -103,7 +103,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
             SectionsType sections = getCap.addNewSections();
 
             if (sectionParamShell.hasMultipleSpecifiedValues()) {
-                String[] selectedSections = (String[]) sectionParamShell.getSpecifiedValueArray();
+                String[] selectedSections = sectionParamShell.getSpecifiedTypedValueArray(String[].class);
                 for (int i = 0; i < selectedSections.length; i++) {
                     sections.addSection(selectedSections[i]);
                 }
@@ -149,8 +149,8 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         }
         ParameterShell foiParamShell = shell;
         if (foiParamShell.hasMultipleSpecifiedValues()) {
-            Object[] fois = foiParamShell.getSpecifiedValueArray();
-            xb_getObs.setFeatureOfInterestArray((String[]) fois);
+            String[] fois = foiParamShell.getSpecifiedTypedValueArray(String[].class);
+            xb_getObs.setFeatureOfInterestArray(fois);
         }
         else {
             Object foi = foiParamShell.getSpecifiedValue();
@@ -160,7 +160,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 
     protected void processOffering(GetObservationType xb_getObs, ParameterShell shell) {
         if (shell != null) { // optional parameter
-            xb_getObs.setOfferingArray((String[]) shell.getSpecifiedValueArray());
+            xb_getObs.setOfferingArray(shell.getSpecifiedTypedValueArray(String[].class));
         }
     }
 
@@ -172,7 +172,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 
     protected void processProcedure(GetObservationType xb_getObs, ParameterShell shell) {
         if (shell != null) { // optional parameter
-            xb_getObs.setProcedureArray((String[]) shell.getSpecifiedValueArray());
+            xb_getObs.setProcedureArray(shell.getSpecifiedTypedValueArray(String[].class));
         }
     }
     
@@ -180,14 +180,8 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         if (shell == null) {
             return; // optional parameter
         }
-        if (shell.hasMultipleSpecifiedValues()) {
-            Object[] observedProperties = shell.getSpecifiedValueArray();
-            xb_getObs.setObservedPropertyArray((String[]) observedProperties);
-        }
-        else if (shell.hasSingleSpecifiedValue()) {
-            String observedProperty = (String) shell.getSpecifiedValue();
-            xb_getObs.setObservedPropertyArray(new String[] {observedProperty});
-        }
+        String[] observedProperties = shell.getSpecifiedTypedValueArray(String[].class);
+        xb_getObs.setObservedPropertyArray(observedProperties);
     }
 
     protected void processTemporalFilter(GetObservationType xb_getObs, ParameterShell shell) throws OXFException {

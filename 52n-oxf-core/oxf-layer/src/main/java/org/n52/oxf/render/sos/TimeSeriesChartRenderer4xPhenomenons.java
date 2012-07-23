@@ -96,7 +96,7 @@ public class TimeSeriesChartRenderer4xPhenomenons implements IChartRenderer {
         // which observedProperty has been used?:
         ParameterShell observedPropertyPS = paramCon.getParameterShellWithServiceSidedName("observedProperty");
         if (observedPropertyPS.hasMultipleSpecifiedValues()) {
-            observedProperties = (String[]) observedPropertyPS.getSpecifiedValueArray();
+            observedProperties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
         }
         else if (observedPropertyPS.hasSingleSpecifiedValue()) {
             observedProperties = new String[] {(String) observedPropertyPS.getSpecifiedValue()};
@@ -108,7 +108,7 @@ public class TimeSeriesChartRenderer4xPhenomenons implements IChartRenderer {
         String[] foiIdArray;
         ParameterShell foiParamShell = paramCon.getParameterShellWithServiceSidedName("featureOfInterest");
         if (foiParamShell.hasMultipleSpecifiedValues()) {
-            foiIdArray = (String[]) foiParamShell.getSpecifiedValueArray();
+            foiIdArray = foiParamShell.getSpecifiedTypedValueArray(String[].class);
         }
         else {
             foiIdArray = new String[]{ (String)foiParamShell.getSpecifiedValue()};
