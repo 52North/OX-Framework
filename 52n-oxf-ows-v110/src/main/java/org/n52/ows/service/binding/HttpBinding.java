@@ -24,14 +24,11 @@
 package org.n52.ows.service.binding;
 
 import static org.n52.ows.service.binding.HttpMethod.GET;
-
-import org.w3.x1999.xlink.TypeType.Enum;
-
 import net.opengis.ows.x11.HTTPDocument;
 import net.opengis.ows.x11.HTTPDocument.HTTP;
-import net.opengis.ows.x11.OnlineResourceType;
 import net.opengis.ows.x11.RequestMethodType;
-import net.opengis.ows.x11.impl.RequestMethodTypeImpl;
+
+import org.w3.x1999.xlink.TypeType.Enum;
 
 public class HttpBinding {
     
