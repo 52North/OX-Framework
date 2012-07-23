@@ -24,7 +24,7 @@
 
 package org.n52.oxf.ows.capabilities;
 
-import org.n52.oxf.*;
+import org.n52.oxf.OXFException;
 
 /**
  * This describes the provider of the service. please mind, that the contact
