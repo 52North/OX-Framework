@@ -122,6 +122,9 @@ public class GenericObservationParser {
                     OXFFeature feature = OXFFeature.createFrom(xb_featureMember);
                     fois.put(feature.getID(), feature);
                 }
+            } else {
+                OXFFeature feature = OXFFeature.createFrom(xb_foiProp);
+                fois.put(feature.getID(), feature);
             }
 
             Map<String, String> uoms = new HashMap<String, String>();
