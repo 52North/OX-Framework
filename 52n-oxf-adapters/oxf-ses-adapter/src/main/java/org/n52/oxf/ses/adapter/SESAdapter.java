@@ -39,10 +39,11 @@ import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.OWSException;
+import org.n52.oxf.ows.OwsExceptionCode;
 import org.n52.oxf.ows.ServiceDescriptor;
-import org.n52.oxf.ows.OwsExceptionReport.ExceptionCode;
 import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.util.IOHelper;
+import org.n52.oxf.xmlbeans.parser.sosexample.ExceptionCode;
 import org.w3.x2003.x05.soapEnvelope.Body;
 import org.w3.x2003.x05.soapEnvelope.Envelope;
 import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;
@@ -273,7 +274,7 @@ public class SESAdapter implements IServiceAdapter {
                     if(actions != null && actions.length == 1){
                         action = actions[0].getDomNode().getFirstChild().getNodeValue();
                         if(!action.equals("http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse")){
-                            throw new OXFException(ExceptionCode.OperationNotSupported + ": Not the right response: \"" + action + " \" <-> Expected is: \"http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse\"!");
+                            throw new OXFException(OwsExceptionCode.OperationNotSupported + ": Not the right response: \"" + action + " \" <-> Expected is: \"http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse\"!");
                         }
                     }
 
