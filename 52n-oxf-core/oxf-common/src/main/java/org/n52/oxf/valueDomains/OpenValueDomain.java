@@ -26,7 +26,7 @@ package org.n52.oxf.valueDomains;
 
 import org.n52.oxf.ows.capabilities.IValueDomain;
 
-public class OpenValueDomain implements IValueDomain {
+public class OpenValueDomain implements IValueDomain<Object> {
 
 	public boolean containsValue(Object t) {
 		return true;

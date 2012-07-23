@@ -29,7 +29,7 @@ import java.util.*;
 import org.n52.oxf.ows.capabilities.*;
 
 
-public class StringValueDomain implements IDiscreteValueDomain<String>{
+public class StringValueDomain implements IDiscreteValueDomain<String> {
 
 	List<String> possibleValues;
 	
