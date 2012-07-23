@@ -142,7 +142,6 @@ public class SOSAdapter implements IServiceAdapter {
     }
 
     public ServiceDescriptor initService(OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
-
         try {
             if (SosUtil.isVersion100(serviceVersion)) {
                 net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
