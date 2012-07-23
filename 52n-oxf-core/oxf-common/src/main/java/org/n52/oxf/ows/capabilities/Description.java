@@ -24,7 +24,7 @@
 
 package org.n52.oxf.ows.capabilities;
 
-import org.n52.oxf.*;
+import org.n52.oxf.OXFException;
 
 /**
  * According to the OWS Common this holds some general parameters, which are needed by ServiceIdentification

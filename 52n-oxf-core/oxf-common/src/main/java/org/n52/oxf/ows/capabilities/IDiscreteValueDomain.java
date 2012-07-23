@@ -24,7 +24,7 @@
 
 package org.n52.oxf.ows.capabilities;
 
-import java.util.*;
+import java.util.List;
 
 
 /**

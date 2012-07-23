@@ -24,7 +24,8 @@
 
 package org.n52.oxf.ows.capabilities;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Could also be implemented by using Generics. This class is a container for the dataIdentificationList

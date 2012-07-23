@@ -24,7 +24,7 @@
 
 package org.n52.oxf.ows.capabilities;
 
-import org.n52.oxf.*;
+import org.n52.oxf.OXFException;
 
 /**
  * You can use this class "DatasetParameter" to associate a Parameter with a

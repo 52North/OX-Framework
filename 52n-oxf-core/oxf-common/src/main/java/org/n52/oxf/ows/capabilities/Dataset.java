@@ -23,8 +23,9 @@
  */
 package org.n52.oxf.ows.capabilities;
 
-import java.util.*;
-import org.n52.oxf.*;
+import java.util.Locale;
+
+import org.n52.oxf.OXFException;
 
 /**
  * This holds metadata about data provided by the service.
