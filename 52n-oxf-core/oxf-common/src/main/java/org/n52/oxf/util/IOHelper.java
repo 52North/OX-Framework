@@ -52,7 +52,8 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Some little helper methods for IO-handling.
@@ -63,8 +64,8 @@ import org.apache.log4j.Logger;
  */
 public class IOHelper {
 
-    private static final Logger logger = Logger.getLogger(IOHelper.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(IOHelper.class);
+    
     /**
      * @deprecated Use {@link IOHelper#execute(HttpMethod)}. Before, create a new GetMethod object using:<br />
 	 * 		<code>GetMethod method = new GetMethod(serviceURL);</code><br />
@@ -85,8 +86,8 @@ public class IOHelper {
 
         httpClient.executeMethod(method);
 
-        if (logger.isDebugEnabled()) {
-        	logger.debug("GET-method sent to: " + method.getURI());
+        if (LOGGER.isDebugEnabled()) {
+        	LOGGER.debug("GET-method sent to: " + method.getURI());
         }
 
         return method.getResponseBodyAsStream();
@@ -105,8 +106,8 @@ public class IOHelper {
 	    GetMethod method = new GetMethod(serviceURL);
 	    method.setQueryString(queryString);
 	    httpClient.executeMethod(method);
-	    if (logger.isDebugEnabled()) {
-	    	logger.debug("GET-method sent to: " + method.getURI());
+	    if (LOGGER.isDebugEnabled()) {
+	    	LOGGER.debug("GET-method sent to: " + method.getURI());
 	    }
 	    return method.getResponseBodyAsStream();
 	}
@@ -126,8 +127,8 @@ public class IOHelper {
     public static HttpMethod execute(HttpMethod method) throws IOException {
         HttpClient httpClient = getDefaultHttpClient(method.getURI().toString());
         int status = httpClient.executeMethod(method);
-        if (logger.isDebugEnabled()) {
-        	logger.debug(String.format("httpmethod \"%s\" has been sent (with status %s): %s", 
+        if (LOGGER.isDebugEnabled()) {
+        	LOGGER.debug(String.format("httpmethod \"%s\" has been sent (with status %s): %s", 
         			method.getClass().getSimpleName(),
         			status,
         			method.getURI()));
@@ -149,9 +150,9 @@ public class IOHelper {
         PostMethod method = new PostMethod(serviceURL.trim());
         method.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));
 
-        if (logger.isTraceEnabled()) {
-        	logger.trace("Service Endpoint: " + method.getURI());
-        	logger.trace("Request to send: " + request);
+        if (LOGGER.isTraceEnabled()) {
+        	LOGGER.trace("Service Endpoint: " + method.getURI());
+        	LOGGER.trace("Request to send: " + request);
         }
 
         httpClient.executeMethod(method);
@@ -192,8 +193,8 @@ public class IOHelper {
         if (serviceIsNonProxyHost == false && host != null && host.length() > 0 && port != null && port.length() > 0) {
             int portNumber = Integer.parseInt(port);
             hostConfig.setProxy(host, portNumber);
-            if (logger.isInfoEnabled()) {
-            	logger.info("Using proxy: " + host + " on port: " + portNumber);
+            if (LOGGER.isInfoEnabled()) {
+            	LOGGER.info("Using proxy: " + host + " on port: " + portNumber);
             }
         }
 

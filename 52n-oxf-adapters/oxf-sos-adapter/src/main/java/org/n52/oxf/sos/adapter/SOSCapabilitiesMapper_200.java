@@ -36,9 +36,9 @@ import net.opengis.fes.x20.FilterCapabilitiesDocument.FilterCapabilities;
 import net.opengis.fes.x20.ScalarCapabilitiesType;
 import net.opengis.fes.x20.SpatialCapabilitiesType;
 import net.opengis.fes.x20.TemporalCapabilitiesType;
-import net.opengis.gml.EnvelopeDocument;
-import net.opengis.gml.EnvelopeType;
 import net.opengis.gml.x32.CodeType;
+import net.opengis.gml.x32.EnvelopeDocument;
+import net.opengis.gml.x32.EnvelopeType;
 import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
 import net.opengis.ows.x11.ContactType;
@@ -303,10 +303,12 @@ public class SOSCapabilitiesMapper_200 {
         for (int i = 0; i < xb_obsOfferings.length; i++) {
             ObservationOfferingDocument xb_obsOfferingDoc = null;
             try {
-                Node offeringNode = XMLBeansTools.getDomNode(xb_obsOfferings[i]);
-                xb_obsOfferingDoc = (ObservationOfferingDocument) XMLBeansParser.parse(offeringNode);
+                xb_obsOfferingDoc = ObservationOfferingDocument.Factory.parse(xb_obsOfferings[i].newInputStream());
             }
-            catch (XMLHandlingException e) {
+            catch (XmlException e) {
+                throw new OXFException("Could not parse DOM node.", e);
+            }
+            catch (IOException e) {
                 throw new OXFException("Could not parse DOM node.", e);
             }
             ObservationOfferingType xb_obsOffering = xb_obsOfferingDoc.getObservationOffering();
@@ -329,14 +331,12 @@ public class SOSCapabilitiesMapper_200 {
             String[] oc_availabaleCRSs = null;
             EnvelopeDocument envelopeDoc = null;
             try {
-                Node domNode = XMLBeansTools.getDomNode(xb_obsOffering.getObservedArea(), "Envelope");
-                envelopeDoc = (EnvelopeDocument) XMLBeansParser.parse(domNode);
-            } 
-            catch (XmlException e) {
+                envelopeDoc = EnvelopeDocument.Factory.parse(xb_obsOffering.getObservedArea().newInputStream());
+            } catch (IOException e) {
                 throw new OXFException("Could not get DOM node.", e);
             }
-            catch (XMLHandlingException e) {
-                throw new OXFException("Could not parse DOM node.", e);
+            catch (XmlException e) {
+                throw new OXFException("Could not get DOM node.", e);
             }
             
             EnvelopeType envelope = envelopeDoc.getEnvelope();

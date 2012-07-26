@@ -30,7 +30,6 @@ import java.io.InputStream;
 import net.opengis.ows.x11.ExceptionReportDocument;
 import net.opengis.ows.x11.ExceptionType;
 
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -43,7 +42,8 @@ import org.n52.oxf.ows.OwsExceptionCode;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.util.IOHelper;
-import org.n52.oxf.xmlbeans.parser.sosexample.ExceptionCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3.x2003.x05.soapEnvelope.Body;
 import org.w3.x2003.x05.soapEnvelope.Envelope;
 import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;
@@ -66,8 +66,8 @@ import org.w3.x2003.x05.soapEnvelope.Header;
  * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>
  */
 public class SESAdapter implements IServiceAdapter {
-
-    private static final Logger LOGGER = Logger.getLogger(SESAdapter.class);
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(SESAdapter.class);
 
     public static final String SUBSCRIBE = "Subscribe";
     public static final String UNSUBSCRIBE = "UnSubscribe";

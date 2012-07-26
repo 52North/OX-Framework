@@ -25,13 +25,14 @@ package org.n52.oxf.ses.adapter;
 
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>
@@ -39,7 +40,7 @@ import org.n52.oxf.ows.capabilities.Operation;
  */
 public class TestSESAdapter {
 
-    private static final Logger LOGGER = Logger.getLogger(TestSESAdapter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestSESAdapter.class);
 
     private final String serviceVersion = "0.0.0";
 

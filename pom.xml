@@ -233,7 +233,7 @@
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-waterML-v20</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
@@ -258,9 +258,16 @@
 				<version>1.6.4</version>
 			</dependency>
 			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-log4j12</artifactId>
-				<version>1.6.4</version>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>1.0.0</version>
+				<scope>testing</scope>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.0.0</version>
+				<scope>testing</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.media</groupId>
@@ -423,11 +430,10 @@
 				<!-- EXAMPLE CONFIG PROPERTIES FOLLOW. TO SEPARATE CONFIGURATION FROM 
 					PROJECT, COPY build-example.properties to ${user.home}/sensorwebclient-build-dev.properties 
 					CUSTOMIZE PROPERTIES AND TRIGGER MAVEN BUILD WITH `mvn install -Penv-dev'. -->
-				<config.log4j.fileappender.filepath>${user.home}/52n-logs/${project.artifactId}-${project.version}</config.log4j.fileappender.filepath>
-				<config.log4j.logger.level>DEBUG</config.log4j.logger.level>
-				<config.log4j.logger.level.oxf>WARN</config.log4j.logger.level.oxf>
-				<config.log4j.consoleappender.level>DEBUG</config.log4j.consoleappender.level>
-				<config.log4j.fileappender.level>WARN</config.log4j.fileappender.level>
+				<config.logger.fileappender.filepath>${user.home}/52n-logs/${project.artifactId}-${project.version}</config.logger.fileappender.filepath>
+				<config.logger.level>DEBUG</config.logger.level>
+				<config.logger.consoleappender.level>WARN</config.logger.consoleappender.level>
+				<config.logger.fileappender.level>DEBUG</config.logger.fileappender.level>
 			</properties>
 		</profile>
 		<profile>
