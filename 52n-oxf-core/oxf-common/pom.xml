@@ -31,8 +31,20 @@
 			<artifactId>logback-classic</artifactId>
 		</dependency>
 		<dependency>
-		   <groupId>commons-httpclient</groupId>
-		   <artifactId>commons-httpclient</artifactId>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<exclusions>
+				<exclusion>
+					<!-- jcl-over-slf4j is used instead -->
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<!-- drop-in replacement for JCL version 1.1.1 -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.vividsolutions</groupId>
@@ -51,9 +63,9 @@
 			<artifactId>jfreechart</artifactId>
 		</dependency>
 		<dependency>
-		   <groupId>isorelax</groupId>
-		   <artifactId>isorelax</artifactId>
-	   </dependency>
+			<groupId>isorelax</groupId>
+			<artifactId>isorelax</artifactId>
+		</dependency>
 	</dependencies>
 	<build>
 	</build>
