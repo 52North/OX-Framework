@@ -45,7 +45,7 @@ import org.n52.oxf.OXFException;
 
 import com.vividsolutions.jts.geom.Geometry;
 
-import de.grdc.sampling.x10.GrdcSamplingPointDocument;
+import de.bafg.grdc.sampling.x10.GrdcSamplingPointDocument;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -331,7 +331,7 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
         }
         
         // if feature is a GrdcSamplingPoint:
-        else if (c.toChild(new QName("http://www.grdc.de/sampling/1.0","GrdcSamplingPoint"))) {
+        else if (c.toChild(new QName("http://www.grdc.de/sampling/1.0", "GrdcSamplingPoint"))) {
             try {
                 GrdcSamplingPointDocument xb_grdcSaPoDoc = GrdcSamplingPointDocument.Factory.parse(c.getDomNode());
                 

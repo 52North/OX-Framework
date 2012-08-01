@@ -25,37 +25,16 @@
 package org.n52.oxf.feature;
 
 import java.io.IOException;
-import java.util.List;
-
-import javax.xml.namespace.QName;
 
 import net.opengis.gml.AbstractFeatureCollectionType;
 import net.opengis.gml.FeatureCollectionDocument2;
-import net.opengis.gml.FeaturePropertyType;
-import net.opengis.gml.x32.PointType;
 import net.opengis.sampling.x10.SamplingPointDocument;
-import net.opengis.sampling.x10.SamplingSurfaceDocument;
-import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
-import net.opengis.samplingSpatial.x20.ShapeType;
 
-import org.apache.xmlbeans.XmlCursor;
-import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
-import org.n52.oxf.feature.OXFAbstractFeatureCollectionType;
-import org.n52.oxf.feature.OXFFeature;
-import org.n52.oxf.feature.OXFFeatureAttributeDescriptor;
-import org.n52.oxf.feature.OXFFeatureCollection;
-import org.n52.oxf.feature.OXFFeatureType;
-import org.n52.oxf.feature.OXFGmlPointType;
-import org.n52.oxf.feature.OXFGrdcSamplingPointType;
-import org.n52.oxf.feature.OXFSamplingPointType;
-import org.n52.oxf.feature.OXFSamplingSurfaceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.grdc.sampling.x10.GrdcSamplingPointDocument;
 
 /**
  * Unmarshals features of interest received by SOS GetFeatureOfInterest operation.

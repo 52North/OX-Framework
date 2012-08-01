@@ -56,13 +56,13 @@
 			<artifactId>jts</artifactId>
 		</dependency>
 		<dependency>
-		   <groupId>isorelax</groupId>
-		   <artifactId>isorelax</artifactId>
-	   </dependency>
+			<groupId>isorelax</groupId>
+			<artifactId>isorelax</artifactId>
+		</dependency>
 		<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
 		<dependency>
-			<groupId>org.n52.sensorweb.oxf-old</groupId>
-			<artifactId>GrdcSamplingPoint</artifactId>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-feature-grdc</artifactId>
 		</dependency>
 	</dependencies>
 	<build>

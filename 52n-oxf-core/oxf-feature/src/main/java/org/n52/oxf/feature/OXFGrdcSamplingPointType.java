@@ -23,8 +23,8 @@
  */
 package org.n52.oxf.feature;
 
-import de.grdc.sampling.x10.GrdcSamplingPointDocument;
-import de.grdc.sampling.x10.GrdcSamplingPointType;
+import de.bafg.grdc.sampling.x10.GrdcSamplingPointDocument;
+import de.bafg.grdc.sampling.x10.GrdcSamplingPointType;
 
 public class OXFGrdcSamplingPointType extends OXFAbstractFeatureType {
 
