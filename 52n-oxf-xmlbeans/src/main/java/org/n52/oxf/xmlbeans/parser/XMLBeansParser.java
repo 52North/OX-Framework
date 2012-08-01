@@ -38,7 +38,6 @@ import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.apache.xmlbeans.XmlValidationError;
 import org.n52.oxf.xmlbeans.parser.sosexample.ExceptionCode;
 import org.n52.oxf.xmlbeans.parser.sosexample.OwsExceptionReport;
 import org.w3c.dom.Node;
@@ -309,7 +308,7 @@ public class XMLBeansParser {
 	    for (XmlError validationError : allValidationErrors) {
 	    	boolean shouldPass = false;
 			for (LaxValidationCase lvc : laxValidationCases) {
-				if (lvc.shouldPass((XmlValidationError) validationError)) {
+				if (lvc.shouldPass(validationError)) {
 					shouldPass = true;
 					break;
 				}

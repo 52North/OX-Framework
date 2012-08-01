@@ -27,6 +27,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlValidationError;
 
 /**
@@ -69,6 +70,13 @@ public class OfferingInSMLOutputsCase implements LaxValidationCase {
 	}
 	
 	public boolean shouldPass(XmlValidationError xve) {
+		return false;
+	}
+
+	public boolean shouldPass(XmlError validationError) {
+		if (!(validationError instanceof XmlValidationError)) return false;
+		
+		XmlValidationError xve = (XmlValidationError) validationError;
 		QName offending = xve.getOffendingQName();
 		List expected = xve.getExpectedQNames();
 		QName field = xve.getFieldQName();

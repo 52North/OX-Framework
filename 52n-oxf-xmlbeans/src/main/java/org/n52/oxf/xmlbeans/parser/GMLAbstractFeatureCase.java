@@ -25,6 +25,7 @@ package org.n52.oxf.xmlbeans.parser;
 
 import javax.xml.namespace.QName;
 
+import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlValidationError;
 
 /**
@@ -51,6 +52,13 @@ public class GMLAbstractFeatureCase implements LaxValidationCase {
 
 	public boolean shouldPass(XmlValidationError xve) {
 		return xve.getExpectedQNames() != null && xve.getExpectedQNames().contains(FEATURE_QN);
+	}
+
+	public boolean shouldPass(XmlError validationError) {
+		if (!(validationError instanceof XmlValidationError)) return false;
+		
+		XmlValidationError xve = (XmlValidationError) validationError;
+		return shouldPass(xve);
 	}
 
 }

@@ -27,6 +27,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlValidationError;
 
 /**
@@ -58,6 +59,13 @@ public class SASamplingPointCase implements LaxValidationCase {
 	}
 	
 	public boolean shouldPass(XmlValidationError xve) {
+		return false;
+	}
+
+	public boolean shouldPass(XmlError validationError) {
+		if (!(validationError instanceof XmlValidationError)) return false;
+		
+		XmlValidationError xve = (XmlValidationError) validationError;
 		QName offending = xve.getOffendingQName();
 		List expected = xve.getExpectedQNames();
 		return offending != null && offending.equals(QN_SA_1_0_SAMPLING_POINT) && // correct substitution

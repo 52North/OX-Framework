@@ -23,6 +23,7 @@
  */
 package org.n52.oxf.xmlbeans.parser;
 
+import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlValidationError;
 
 /**
@@ -35,10 +36,18 @@ import org.apache.xmlbeans.XmlValidationError;
 public interface LaxValidationCase {
 	
 	/**
-	 * @param xve the validation error
+	 * @param validationError the validation error
 	 * @return true, if this lax case embodies an exceptional
 	 * validation case on the given error
 	 */
-	public boolean shouldPass(XmlValidationError xve);
+	public boolean shouldPass(XmlError validationError);
+	
+	/**
+	 * @deprecated no longer called, due to the fact that errors can also be XmlError (the supertype).
+	 * 	Use {@link #shouldPass(XmlError)} instead and cast if needed.
+	 * @param validationError the validation error
+	 * @return true, if this lax case embodies an exceptional validation case on the given error
+	 */
+	public boolean shouldPass(XmlValidationError validationError);
 	
 }
