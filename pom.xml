@@ -80,6 +80,11 @@
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>oxf-feature-grdc</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>oxf-adapter-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -128,6 +133,12 @@
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-oxf-xmlbeans</artifactId>
 				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>52n-ogc-schema</artifactId>
+				<version>${n52.xml.commons.version}</version>
+				<scope>provided</scope>
 			</dependency>
 			<!-- ### XML BINDING DEPENDENCIES ### -->
 			<dependency>
@@ -340,11 +351,6 @@
 				<groupId>org.n52.sensorweb.oxf-old.ses</groupId>
 				<artifactId>soap-envelope-beans</artifactId>
 				<version>0.0.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb.oxf-old</groupId>
-				<artifactId>GrdcSamplingPoint</artifactId>
-				<version>1.0.0</version>
 			</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb.oxf-old</groupId>
