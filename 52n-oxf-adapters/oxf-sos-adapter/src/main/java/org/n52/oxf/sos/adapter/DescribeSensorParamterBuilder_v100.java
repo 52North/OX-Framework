@@ -24,8 +24,7 @@ public class DescribeSensorParamterBuilder_v100 {
 	public DescribeSensorParamterBuilder_v100(String sensorId, String outputFormat) throws IllegalArgumentException {
 		if (sensorId == null || outputFormat == null)
 			throw new IllegalArgumentException("The parameters \"sensorId\" and \"outputFormat\" are mandatory. They cannot be left empty!");
-		// TODO create constant in ISOSRequestBuilder?
-		parameters.put("sensorId", sensorId);
+		parameters.put(SOSWrapper.DESCRIBE_SENSOR_SENSOR_ID_PARAMETER, sensorId);
 		parameters.put(ISOSRequestBuilder.DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
 	}
 

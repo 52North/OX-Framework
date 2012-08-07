@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Vector;
 
 /**
- * This class describes a set of mandatory parameters, which is necessary to call doGetObservation([...]) from SOSWrapper.
+ * This class describes a set of mandatory and optional parameters, which is necessary to call doGetObservation([...]) from SOSWrapper.
  * 
  * @author Eric
  */
@@ -47,8 +47,7 @@ public class GetObservationParamterBuilder_v100 {
 	 * @return parameter builder
 	 */
 	public GetObservationParamterBuilder_v100 addSrsName(String srsName) {
-		// TODO create constant in ISOSRequestBuilder?
-		parameters.put("srsName", srsName);
+		parameters.put(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER, srsName);
 		return this;
 	}
 	
