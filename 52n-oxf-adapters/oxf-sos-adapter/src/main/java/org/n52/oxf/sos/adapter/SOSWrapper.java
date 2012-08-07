@@ -109,7 +109,7 @@ public class SOSWrapper {
 	 * @throws OXFException
 	 * @throws ExceptionReport
 	 */
-	public OperationResult doGetObservation(GetObservationParamterBuilder_v100 builder) throws OXFException, ExceptionReport {
+	public OperationResult doGetObservation(GetObservationParameterBuilder_v100 builder) throws OXFException, ExceptionReport {
 		// wrapped SOSAdapter instance
 		SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
 		OperationsMetadata operationsMetadata = serviceDescriptor.getOperationsMetadata();
