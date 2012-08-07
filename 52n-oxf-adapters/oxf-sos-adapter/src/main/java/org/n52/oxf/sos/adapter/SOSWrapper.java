@@ -27,6 +27,7 @@ public class SOSWrapper {
 	public static final String GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER = "srsName";
 	public static final String REGISTER_SENSOR_SENSOR_DESCRIPTION_PARAMETER = "sensorDescription";
 	public static final String INSERT_OBSERVATION_OBSERVATION_PARAMETER = "observation";
+	public static final String GET_FOI_IDENTIFICATION_PARAMETER = "identification";
 	
 	private static final String SERVICE_TYPE = "SOS"; // name of the service
 	private String serviceBaseUrl; // base url of the service

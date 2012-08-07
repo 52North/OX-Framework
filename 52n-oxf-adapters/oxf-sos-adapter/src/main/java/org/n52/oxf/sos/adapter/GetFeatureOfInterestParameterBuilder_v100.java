@@ -26,10 +26,8 @@ public class GetFeatureOfInterestParameterBuilder_v100 {
 			throw new IllegalArgumentException("The parameters \"identification\" and \"identificationType\" are mandatory. " +
 					"They cannot be left empty! Take care of the available identification types! (" +
 					ISOSRequestBuilder.GET_FOI_ID_PARAMETER + ", " + ISOSRequestBuilder.GET_FOI_LOCATION_PARAMETER + ")");
-		if (identification.equals(ISOSRequestBuilder.GET_FOI_ID_PARAMETER))
-			parameters.put(ISOSRequestBuilder.GET_FOI_ID_PARAMETER, identification);
-		else
-			parameters.put(ISOSRequestBuilder.GET_FOI_LOCATION_PARAMETER, identification);
+		parameters.put(SOSWrapper.GET_FOI_IDENTIFICATION_PARAMETER, identification);
+		parameters.put(identificationType, identificationType);
 	}
 	
 	/**
