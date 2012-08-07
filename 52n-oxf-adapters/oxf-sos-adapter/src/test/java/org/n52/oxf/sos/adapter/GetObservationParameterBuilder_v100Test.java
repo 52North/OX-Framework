@@ -48,7 +48,6 @@ public class GetObservationParameterBuilder_v100Test {
 		new GetObservationParameterBuilder_v100("", "", null);
 		new GetObservationParameterBuilder_v100("", null, "");
 		new GetObservationParameterBuilder_v100(null, "", "");
-		
 	}
 	
 	/**
@@ -74,10 +73,10 @@ public class GetObservationParameterBuilder_v100Test {
 	 */
 	@Test
 	public void testApplyingAndGettingOptionalParameters() {
-		GetObservationParameterBuilder_v100 dspb = new GetObservationParameterBuilder_v100
+		GetObservationParameterBuilder_v100 gopb = new GetObservationParameterBuilder_v100
 				("offering", "observedProperty1", "responseFormat");
 		
-		HashMap<String, Object> hm = (HashMap<String, Object>) dspb.getParameters();
+		HashMap<String, Object> hm = (HashMap<String, Object>) gopb.getParameters();
 		
 		assertNull(hm.get(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER));
 		assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER));
@@ -87,16 +86,16 @@ public class GetObservationParameterBuilder_v100Test {
 		assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER));
 		assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER));
 		
-		dspb.addSrsName("srsName");
-		dspb.addEventTime("eventTime1");
-		dspb.addEventTime("eventTime2");
-		dspb.addProcedure("procedure1");
-		dspb.addProcedure("procedure2");
-		dspb.addObservedProperty("observedProperty2");
-		dspb.addFeatureOfInterest("featureOfInterest");
-		dspb.addResult("result");
-		dspb.addResultModel("resultModel");
-		dspb.addResponseMode("responseMode");
+		gopb.addSrsName("srsName");
+		gopb.addEventTime("eventTime1");
+		gopb.addEventTime("eventTime2");
+		gopb.addProcedure("procedure1");
+		gopb.addProcedure("procedure2");
+		gopb.addObservedProperty("observedProperty2");
+		gopb.addFeatureOfInterest("featureOfInterest");
+		gopb.addResult("result");
+		gopb.addResultModel("resultModel");
+		gopb.addResponseMode("responseMode");
 		
 		String parOpt_01 = (String) hm.get(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER);
 		String parOpt_02_1 = ((Vector<String>) hm.get(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER)).elementAt(0);
