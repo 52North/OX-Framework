@@ -19,7 +19,7 @@ public class RegisterSensorParameterBuilder_v100Test {
 	 * Checks the behaviour on valid constructor parameters.
 	 */
 	@Test
-	public void testInvalidConstructorParameters() {
+	public void testValidConstructorParameters() {
 		new RegisterSensorParameterBuilder_v100("", "");
 		new RegisterSensorParameterBuilder_v100("sensorDescription", "observationTemplate");
 		new RegisterSensorParameterBuilder_v100("sensorDescription", "");
@@ -30,7 +30,7 @@ public class RegisterSensorParameterBuilder_v100Test {
 	 * Checks the behaviour on invalid constructor parameters.
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testValidConstructorParameters() {
+	public void testInvalidConstructorParameters() {
 		new RegisterSensorParameterBuilder_v100(null, null);
 		new RegisterSensorParameterBuilder_v100("", null);
 		new RegisterSensorParameterBuilder_v100(null, "");

@@ -21,7 +21,7 @@ public class GetObservationByIdParameterBuilder_v100Test {
 	 * Checks the behaviour on valid constructor parameters.
 	 */
 	@Test
-	public void testInvalidConstructorParameters() {
+	public void testValidConstructorParameters() {
 		new GetObservationByIdParameterBuilder_v100("", "");
 		new GetObservationByIdParameterBuilder_v100("observationId", "responseFormat");
 		new GetObservationByIdParameterBuilder_v100("observationId", "");
@@ -32,7 +32,7 @@ public class GetObservationByIdParameterBuilder_v100Test {
 	 * Checks the behaviour on invalid constructor parameters.
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testValidConstructorParameters() {
+	public void testInvalidConstructorParameters() {
 		new GetObservationByIdParameterBuilder_v100(null, null);
 		new GetObservationByIdParameterBuilder_v100("", null);
 		new GetObservationByIdParameterBuilder_v100(null, "");

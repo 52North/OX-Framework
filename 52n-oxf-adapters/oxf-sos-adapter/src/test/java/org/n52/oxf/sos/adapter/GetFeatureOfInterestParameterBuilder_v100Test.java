@@ -20,7 +20,7 @@ public class GetFeatureOfInterestParameterBuilder_v100Test {
 	 * Checks the behaviour on valid constructor parameters.
 	 */
 	@Test
-	public void testInvalidConstructorParameters() {
+	public void testValidConstructorParameters() {
 		new GetFeatureOfInterestParameterBuilder_v100("", ISOSRequestBuilder.GET_FOI_ID_PARAMETER);
 		new GetFeatureOfInterestParameterBuilder_v100("identification", ISOSRequestBuilder.GET_FOI_ID_PARAMETER);
 		new GetFeatureOfInterestParameterBuilder_v100("", ISOSRequestBuilder.GET_FOI_LOCATION_PARAMETER);
@@ -31,7 +31,7 @@ public class GetFeatureOfInterestParameterBuilder_v100Test {
 	 * Checks the behaviour on invalid constructor parameters.
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testValidConstructorParameters() {
+	public void testInvalidConstructorParameters() {
 		new GetFeatureOfInterestParameterBuilder_v100(null, null);
 		new GetFeatureOfInterestParameterBuilder_v100("", null);
 		new GetFeatureOfInterestParameterBuilder_v100(null, "");

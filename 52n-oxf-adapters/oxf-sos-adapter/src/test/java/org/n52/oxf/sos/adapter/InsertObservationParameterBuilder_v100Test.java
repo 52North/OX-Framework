@@ -19,7 +19,7 @@ public class InsertObservationParameterBuilder_v100Test {
 	 * Checks the behaviour on valid constructor parameters.
 	 */
 	@Test
-	public void testInvalidConstructorParameters() {
+	public void testValidConstructorParameters() {
 		new InsertObservationParameterBuilder_v100("", "");
 		new InsertObservationParameterBuilder_v100("assignedSensorId", "observation");
 		new InsertObservationParameterBuilder_v100("assignedSensorId", "");
@@ -30,7 +30,7 @@ public class InsertObservationParameterBuilder_v100Test {
 	 * Checks the behaviour on invalid constructor parameters.
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testValidConstructorParameters() {
+	public void testInvalidConstructorParameters() {
 		new InsertObservationParameterBuilder_v100(null, null);
 		new InsertObservationParameterBuilder_v100("", null);
 		new InsertObservationParameterBuilder_v100(null, "");

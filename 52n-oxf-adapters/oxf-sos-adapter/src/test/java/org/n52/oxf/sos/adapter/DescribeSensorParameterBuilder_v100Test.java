@@ -19,7 +19,7 @@ public class DescribeSensorParameterBuilder_v100Test {
 	 * Checks the behaviour on valid constructor parameters.
 	 */
 	@Test
-	public void testInvalidConstructorParameters() {
+	public void testValidConstructorParameters() {
 		new DescribeSensorParamterBuilder_v100("", "");
 		new DescribeSensorParamterBuilder_v100("sensorId", "outputFormat");
 		new DescribeSensorParamterBuilder_v100("sensorId", "");
@@ -30,7 +30,7 @@ public class DescribeSensorParameterBuilder_v100Test {
 	 * Checks the behaviour on invalid constructor parameters.
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void testValidConstructorParameters() {
+	public void testInvalidConstructorParameters() {
 		new DescribeSensorParamterBuilder_v100(null, null);
 		new DescribeSensorParamterBuilder_v100("", null);
 		new DescribeSensorParamterBuilder_v100(null, "");

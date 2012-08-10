@@ -8,6 +8,7 @@ import java.util.Vector;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
@@ -125,22 +126,19 @@ public class SOSWrapper {
 			parameterContainer.addParameterShell(GET_OBSERVATION_VERSION_PARAMETER, serviceDescriptor.getVersion());
 			// mandatory parameters from builder
 			parameterContainer.addParameterShell(GET_OBSERVATION_OFFERING_PARAMETER, (String) parameters.get(GET_OBSERVATION_OFFERING_PARAMETER));
-			Vector<String> parameterList = (Vector<String>) parameters.get(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
-			for (int i = 0; i < parameterList.size(); i++)
-				parameterContainer.addParameterShell(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, parameterList.get(i));
+			ParameterShell observedPropertyParameterList = (ParameterShell) parameters.get(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
+			parameterContainer.addParameterShell(observedPropertyParameterList);
 			parameterContainer.addParameterShell(GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER, (String) parameters.get(GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER));
 			// optional parameters from builder
 			if (parameters.get(GET_OBSERVATION_SRS_NAME_PARAMETER) != null)
 				parameterContainer.addParameterShell(GET_OBSERVATION_SRS_NAME_PARAMETER, (String) parameters.get(GET_OBSERVATION_SRS_NAME_PARAMETER));
 			if (parameters.get(GET_OBSERVATION_EVENT_TIME_PARAMETER) != null) {
-				parameterList = (Vector<String>) parameters.get(GET_OBSERVATION_EVENT_TIME_PARAMETER);
-				for (int i = 0; i < parameterList.size(); i++)
-					parameterContainer.addParameterShell(GET_OBSERVATION_EVENT_TIME_PARAMETER, parameterList.get(i));
+				ParameterShell eventTimeParameterList = (ParameterShell) parameters.get(GET_OBSERVATION_EVENT_TIME_PARAMETER);
+				parameterContainer.addParameterShell(eventTimeParameterList);
 			}
 			if (parameters.get(GET_OBSERVATION_PROCEDURE_PARAMETER) != null) {
-				parameterList = (Vector<String>) parameters.get(GET_OBSERVATION_PROCEDURE_PARAMETER);
-				for (int i = 0; i < parameterList.size(); i++)
-					parameterContainer.addParameterShell(GET_OBSERVATION_PROCEDURE_PARAMETER, parameterList.get(i));
+				ParameterShell procedureParameterList = (ParameterShell) parameters.get(GET_OBSERVATION_PROCEDURE_PARAMETER);
+				parameterContainer.addParameterShell(procedureParameterList);
 			}
 			if (parameters.get(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER) != null)
 				parameterContainer.addParameterShell(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER, (String) parameters.get(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER));

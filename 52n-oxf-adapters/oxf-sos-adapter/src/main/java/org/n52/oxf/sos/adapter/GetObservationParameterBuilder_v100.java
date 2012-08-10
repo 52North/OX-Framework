@@ -1,9 +1,15 @@
 package org.n52.oxf.sos.adapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.ParameterShell;
+import org.n52.oxf.ows.capabilities.Parameter;
+import org.n52.oxf.valueDomains.StringValueDomain;
 
 /**
  * This class describes a set of mandatory and optional parameters, which is necessary to call doGetObservation([...]) from SOSWrapper.
@@ -13,9 +19,9 @@ import java.util.Vector;
 public class GetObservationParameterBuilder_v100 {
 	
 	private Map<String, Object> parameters = new HashMap<String, Object>(); // set of mandatory and optional parameters
-	private List<String> eventTimeList = new Vector<String>(); // list of event time parameters
-	private List<String> procedureList = new Vector<String>(); // list of procedure parameters
-	private List<String> observedPropertyList = new Vector<String>(); // list of observed property paramerters
+	private ArrayList<String> eventTimeList = new ArrayList<String>(); // list of event time parameters
+	private ArrayList<String> procedureList = new ArrayList<String>(); // list of procedure parameters
+	private ArrayList<String> observedPropertyList = new ArrayList<String>(); // list of observed property paramerters
 	
 	/**
 	 * Assembles mandatory parameters from method parameter list.
@@ -29,14 +35,33 @@ public class GetObservationParameterBuilder_v100 {
 			throw new IllegalArgumentException("The parameters \"offering\", \"observedProperty\" and \"responseFormat\" are mandatory. They cannot be left empty!");
 		parameters.put(ISOSRequestBuilder.GET_OBSERVATION_OFFERING_PARAMETER, offering);
 		observedPropertyList.add(observedProperty);
-		parameters.put(ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedPropertyList);
 		parameters.put(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER, responseFormat);
 	}
 
 	/**
 	 * @return set of parameters
+	 * @throws OXFException 
 	 */
-	public Map<String, Object> getParameters() {
+	public Map<String, Object> getParameters() throws OXFException {
+		// preparing multiple occurance of observed property parameter for SOSWrapper
+		String[] observedProperties = observedPropertyList.toArray(new String[observedPropertyList.size()]);
+		Parameter observedPropertyParameter = new Parameter(ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, true, new StringValueDomain(observedProperties), ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
+		ParameterShell observedPropertiesPs = new ParameterShell(observedPropertyParameter, observedProperties);
+		parameters.put(ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedPropertiesPs);
+		// preparing multiple occurance of event time parameter for SOSWrapper
+		if (!eventTimeList.isEmpty()) {
+			String[] eventTimes = eventTimeList.toArray(new String[eventTimeList.size()]);
+			Parameter eventTimeParameter = new Parameter(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER, true, new StringValueDomain(eventTimes), ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER);
+			ParameterShell eventTimesPs = new ParameterShell(eventTimeParameter, eventTimes);
+			parameters.put(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER, eventTimesPs);
+		}
+		// preparing multiple occurance of procedure parameter for SOSWrapper
+		if (!procedureList.isEmpty()) {
+			String[] procedures = procedureList.toArray(new String[procedureList.size()]);
+			Parameter procedureParameter = new Parameter(ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER, true, new StringValueDomain(procedures), ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER);
+			ParameterShell proceduresPs = new ParameterShell(procedureParameter, procedures);
+			parameters.put(ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER, proceduresPs);	
+		}
 		return parameters;
 	}
 
@@ -59,8 +84,6 @@ public class GetObservationParameterBuilder_v100 {
 	 */
 	public GetObservationParameterBuilder_v100 addEventTime(String eventTime) {
 		eventTimeList.add(eventTime);
-		if (parameters.get(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER) == null)
-			parameters.put(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER, eventTimeList);
 		return this;
 	}
 	
@@ -72,8 +95,6 @@ public class GetObservationParameterBuilder_v100 {
 	 */
 	public GetObservationParameterBuilder_v100 addProcedure(String procedure) {
 		procedureList.add(procedure);
-		if (parameters.get(ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER) == null)
-			parameters.put(ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER, procedureList);
 		return this;
 	}
 	
