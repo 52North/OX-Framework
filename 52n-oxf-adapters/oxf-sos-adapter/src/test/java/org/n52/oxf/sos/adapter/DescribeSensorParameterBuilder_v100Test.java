@@ -45,7 +45,7 @@ public class DescribeSensorParameterBuilder_v100Test {
 				("sensorId", DescribeSensorParamterBuilder_v100.OUTPUT_FORMAT_SENSORML);
 		
 		HashMap<String, String> hm = (HashMap<String, String>) dspb.getParameters();
-		String parMan_01 = hm.get(SOSWrapper.DESCRIBE_SENSOR_SENSOR_ID_PARAMETER);
+		String parMan_01 = hm.get(ISOSRequestBuilder.DESCRIBE_SENSOR_PROCEDURE_PARAMETER);
 		String parMan_02 = hm.get(ISOSRequestBuilder.DESCRIBE_SENSOR_OUTPUT_FORMAT);
 		
 		assertEquals("sensorId", parMan_01);

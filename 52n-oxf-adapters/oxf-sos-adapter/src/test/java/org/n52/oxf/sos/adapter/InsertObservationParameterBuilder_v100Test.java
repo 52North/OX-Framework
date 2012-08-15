@@ -45,7 +45,7 @@ public class InsertObservationParameterBuilder_v100Test {
 				("assignedSensorId", "observation");
 		
 		HashMap<String, String> hm = (HashMap<String, String>) iospb.getParameters();
-		String parMan_01 = hm.get(ISOSRequestBuilder.INSERT_OBSERVATION_SENSOR_ID_PARAMETER);
+		String parMan_01 = hm.get(ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER);
 		String parMan_02 = hm.get(SOSWrapper.INSERT_OBSERVATION_OBSERVATION_PARAMETER);
 		
 		assertEquals("assignedSensorId", parMan_01);

@@ -47,11 +47,9 @@ public class GetFeatureOfInterestParameterBuilder_v100Test {
 				("identification", ISOSRequestBuilder.GET_FOI_ID_PARAMETER);
 		
 		HashMap<String, String> hm = (HashMap<String, String>) gfpb.getParameters();
-		String parMan_01 = hm.get(SOSWrapper.GET_FOI_IDENTIFICATION_PARAMETER);
-		String parMan_02 = hm.get(ISOSRequestBuilder.GET_FOI_ID_PARAMETER);
+		String parMan_01 = hm.get(ISOSRequestBuilder.GET_FOI_ID_PARAMETER);
 		
 		assertEquals("identification", parMan_01);
-		assertEquals(ISOSRequestBuilder.GET_FOI_ID_PARAMETER, parMan_02);
 	}
 	
 	/**
