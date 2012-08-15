@@ -21,7 +21,7 @@ public class InsertObservationParameterBuilder_v100 {
 	public InsertObservationParameterBuilder_v100(String assignedSensorId, String observation) throws IllegalArgumentException {
 		if (assignedSensorId == null || observation == null)
 			throw new IllegalArgumentException("The parameters \"assignedSensorId\" and \"observation\" are mandatory. They cannot be left empty!");
-		parameters.put(ISOSRequestBuilder.INSERT_OBSERVATION_SENSOR_ID_PARAMETER, assignedSensorId);
+		parameters.put(ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER, assignedSensorId);
 		parameters.put(SOSWrapper.INSERT_OBSERVATION_OBSERVATION_PARAMETER, observation);
 	}
 
