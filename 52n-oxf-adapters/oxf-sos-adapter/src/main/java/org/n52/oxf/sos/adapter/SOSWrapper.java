@@ -28,11 +28,10 @@ public class SOSWrapper {
 	public static final String GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER = "srsName";
 	public static final String REGISTER_SENSOR_SENSOR_DESCRIPTION_PARAMETER = "sensorDescription";
 	public static final String INSERT_OBSERVATION_OBSERVATION_PARAMETER = "observation";
-	public static final String GET_FOI_IDENTIFICATION_PARAMETER = "identification";
 	
 	private static final String SERVICE_TYPE = "SOS"; // name of the service
 	private String serviceBaseUrl; // base url of the service
-	private ServiceDescriptor serviceDescriptor; // GetCapabilities specific description of the service
+	private ServiceDescriptor serviceDescriptor; // GetCapabilities specific description of the service	
 	
 	/**
 	 * Constructs a wrapper for a certain SOS and defines GetCapabilities specific metadata of the service.
@@ -96,7 +95,9 @@ public class SOSWrapper {
 			parameterContainer.addParameterShell(DESCRIBE_SENSOR_VERSION_PARAMETER, serviceDescriptor.getVersion());
 			// mandatory parameters from builder
 			parameterContainer.addParameterShell(DESCRIBE_SENSOR_OUTPUT_FORMAT, parameters.get(DESCRIBE_SENSOR_OUTPUT_FORMAT));
-			parameterContainer.addParameterShell(DESCRIBE_SENSOR_SENSOR_ID_PARAMETER, parameters.get(DESCRIBE_SENSOR_SENSOR_ID_PARAMETER));
+			// TODO SENSOR_ID or PROCEDURE 
+			// parameterContainer.addParameterShell(DESCRIBE_SENSOR_SENSOR_ID_PARAMETER, parameters.get(DESCRIBE_SENSOR_SENSOR_ID_PARAMETER));
+			parameterContainer.addParameterShell(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, parameters.get(DESCRIBE_SENSOR_PROCEDURE_PARAMETER));
 			
 			return adapter.doOperation(operation, parameterContainer);
 		} else
@@ -207,7 +208,7 @@ public class SOSWrapper {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_SERVICE_PARAMETER, SERVICE_TYPE);
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_VERSION_PARAMETER, serviceDescriptor.getVersion());
 			// mandatory parameters from builder
-			parameterContainer.addParameterShell(INSERT_OBSERVATION_SENSOR_ID_PARAMETER, parameters.get(INSERT_OBSERVATION_SENSOR_ID_PARAMETER));
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, parameters.get(INSERT_OBSERVATION_PROCEDURE_PARAMETER));
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_OBSERVATION_PARAMETER, parameters.get(INSERT_OBSERVATION_OBSERVATION_PARAMETER));
 			
 			return adapter.doOperation(operation, parameterContainer);
@@ -272,7 +273,7 @@ public class SOSWrapper {
 			// transfer parameters into ParameterContainer
 			ParameterContainer parameterContainer = new ParameterContainer();
 			parameterContainer.addParameterShell(GET_FOI_SERVICE_PARAMETER, SERVICE_TYPE);
-			parameterContainer.addParameterShell(GET_FOI_SERVICE_PARAMETER, serviceDescriptor.getVersion());
+			parameterContainer.addParameterShell(GET_FOI_VERSION_PARAMETER, serviceDescriptor.getVersion());
 			// mandatory parameters from builder
 			if (parameters.get(GET_FOI_ID_PARAMETER) != null)
 				parameterContainer.addParameterShell(GET_FOI_ID_PARAMETER, parameters.get(GET_FOI_ID_PARAMETER));
