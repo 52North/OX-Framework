@@ -494,7 +494,7 @@ public class SOSCapabilitiesMapper_100 {
 
         String oc_fees = xb_serviceId.getFees();
         String[] oc_accessConstraints = xb_serviceId.getAccessConstraintsArray();
-        String oc_abstract = xb_serviceId.getAbstractArray(0).getStringValue();
+        String oc_abstract = getFirstServiceIdentificationAbstract(xb_serviceId.getAbstractArray());
         String[] oc_keywords = null;
 
         Vector<String> oc_keywordsVec = new Vector<String>();
@@ -514,6 +514,13 @@ public class SOSCapabilitiesMapper_100 {
                                          oc_accessConstraints,
                                          oc_abstract,
                                          oc_keywords);
+    }
+
+    private String getFirstServiceIdentificationAbstract(LanguageStringType[] abstractArray) {
+        if (abstractArray.length > 0) {
+            return abstractArray[0].getStringValue();
+        }
+        return null;
     }
 
     /**
