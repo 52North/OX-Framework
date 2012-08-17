@@ -265,7 +265,14 @@ public class SOSAdapter implements IServiceAdapter {
         HttpMethod method = null;
         try {
         	InputStream is;
-            String uri = operation.getDcps()[0].getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
+        	
+        	// TODO will lead into an error if neither get nor post uri is given
+        	String uri = null;
+        	if (operation.getDcps()[0].getHTTPGetRequestMethods().size() > 0)
+        		uri = operation.getDcps()[0].getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
+        	else if (operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0)
+        		uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
+        		
 
             /* XXX What sense does it make to always perform a GET request for GetCapabilities?
              * when the user is putting more information (like serviceVersion as CSV) into 

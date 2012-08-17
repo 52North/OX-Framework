@@ -4,12 +4,14 @@
 	<parent>
 		<groupId>org.n52.sensorweb</groupId>
 		<artifactId>52n-oxf</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<artifactId>52n-oxf-xmlbeans</artifactId>
 	<name>52North OxFramework Xmlbeans Handling</name>
 	<description>Provides xmlbeans handling functionality. Usage is not limited to the OxFramework</description>
 	<packaging>jar</packaging>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.xmlbeans</groupId>
@@ -26,6 +28,30 @@
 			<groupId>xerces</groupId>
 			<artifactId>xercesImpl</artifactId>
 			<version>2.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<!-- Junit Test dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-gml-v311</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-sampling-v100</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>

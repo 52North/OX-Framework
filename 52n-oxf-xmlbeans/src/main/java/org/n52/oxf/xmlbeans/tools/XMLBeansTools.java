@@ -32,6 +32,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
+import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -241,23 +242,54 @@ public class XMLBeansTools {
     private static XmlObject getRootNode(XmlObject input) {
         return input.selectPath("/*")[0];
     }
+    
+	/**
+	 * @see #qualifySubstitutionGroup(XmlObject, QName, SchemaType) with SchemaType=null.
+	 */
+	public static XmlObject qualifySubstitutionGroup(XmlObject xobj, QName newInstance) {
+		return qualifySubstitutionGroup(xobj, newInstance, null);
+	}
 
     /**
-     * Use this method if you have an instance of an abstract xml element (substitution groups, etc..) with an
-     * xsi:type attribute defining the instance of the abstract element. It replaces the abstract element with
-     * the instance element.
+     * Qualifies a valid member of a substitution group. This method tries to use the
+     * built-in {@link XmlObject#substitute(QName, SchemaType)} and if succesful returns
+     * a valid substitution which is usable (not disconnected). If it fails, it uses
+     * low-level {@link XmlCursor} manipulation to qualify the substitution group. Note
+     * that if the latter is the case the resulting document is disconnected and should
+     * no longer be manipulated. Thus, use it as a final step after all markup is included.
+     * 
+     * If newType is null, this method will skip {@link XmlObject#substitute(QName, SchemaType)}
+     * and directly use {@link XmlCursor}. This can be used, if you are sure that the substitute
+     * is not in the list of (pre-compiled) valid substitutions (this is the case if a schema
+     * uses another schema's type as a base for elements. E.g. om:Observation uses gml:_Feature
+     * as the base type).
      * 
      * @param xobj
-     *        the abstract element
+     * 		the abstract element
      * @param newInstance
-     *        the new {@link QName} of the instance
+     * 		the new {@link QName} of the instance
+     * @param newType the new schemaType. if null, cursors will be used and the resulting object
+     * 		will be disconnected.
+     * @return if successful applied {@link XmlObject#substitute(QName, SchemaType)} a living object with a
+     * 		type == newType is returned. Otherwise null is returned as you can no longer manipulate the object.
      */
-    public static void qualifySubstitutionGroup(XmlObject xobj, QName newInstance) {
+    public static XmlObject qualifySubstitutionGroup(XmlObject xobj, QName newInstance, SchemaType newType) {
+    	XmlObject substitute = null;
+    	if (newType != null) {
+    		substitute = xobj.substitute(newInstance, newType);
+        	if (substitute != null && substitute.schemaType() == newType &&
+        			substitute.getDomNode().getLocalName().equals(newInstance.getLocalPart())) {
+        		return substitute;
+        	}
+    	}
+    	
         XmlCursor cursor = xobj.newCursor();
         cursor.setName(newInstance);
         QName qName = new QName("http://www.w3.org/2001/XMLSchema-instance", "type");
         cursor.removeAttribute(qName);
         cursor.dispose();
+        
+        return null;
     }
 
     /**
@@ -388,5 +420,7 @@ public class XMLBeansTools {
         // return writer.getBuffer().toString();
 
     }
+
+
 
 }

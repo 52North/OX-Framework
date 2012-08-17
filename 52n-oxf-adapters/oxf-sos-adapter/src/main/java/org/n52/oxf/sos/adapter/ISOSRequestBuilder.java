@@ -103,6 +103,10 @@ public interface ISOSRequestBuilder {
     public static String REGISTER_SENSOR_POSITION_FIXED_PARAMETER = "fixed";
     public static String REGISTER_SENSOR_UOM_PARAMETER = "uom";
     /**
+     * Optional: Must be used in case of category observation type
+     */
+    public static String REGISTER_SENSOR_CODESPACE_PARAMETER = "codeSpace";
+    /**
      * Mandatory: Used in the observation template
      */
     public static String REGISTER_SENSOR_DEFAULT_RESULT_VALUE = "defaultResultValue";
@@ -113,7 +117,7 @@ public interface ISOSRequestBuilder {
     public static String GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER = "responseFormat";
     public static String GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER = "responseMode";
     public static String GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER = "resultModel";
-	
+
     public String buildGetCapabilitiesRequest(ParameterContainer parameters) throws OXFException;
 
     public String buildGetObservationRequest(ParameterContainer parameters) throws OXFException;
