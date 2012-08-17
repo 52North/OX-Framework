@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.n52.sensorweb</groupId>
 		<artifactId>52n-oxf</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>52n-oxf-client</artifactId>
 	<name>52North OxFramework Client</name>
