@@ -3,7 +3,10 @@ package org.n52.oxf.sos.adapter;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 import java.util.Map;
-import java.util.Vector;
+
+import javax.print.attribute.standard.MediaSize.ISO;
+
+import net.opengis.sensorML.x101.SystemDocument;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
@@ -15,6 +18,8 @@ import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.ows.capabilities.OperationsMetadata;
 
 /**
+ * TODO NEEDS TESTING!!!
+ * 
  * SOSWrapper wraps all SOS operations implemented in SOSAdapter class.
  * 
  * @author Eric
@@ -23,15 +28,97 @@ import org.n52.oxf.ows.capabilities.OperationsMetadata;
 public class SOSWrapper {
 
 	// TODO MOVE CONSTANTS TO ISOSRequestBuilder
-	public static final String DESCRIBE_SENSOR_SENSOR_ID_PARAMETER = "sensorId";
 	public static final String GET_OBSERVATION_SRS_NAME_PARAMETER = "srsName";
 	public static final String GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER = "srsName";
-	public static final String REGISTER_SENSOR_SENSOR_DESCRIPTION_PARAMETER = "sensorDescription";
-	public static final String INSERT_OBSERVATION_OBSERVATION_PARAMETER = "observation";
 	
 	private static final String SERVICE_TYPE = "SOS"; // name of the service
 	private String serviceBaseUrl; // base url of the service
 	private ServiceDescriptor serviceDescriptor; // GetCapabilities specific description of the service	
+
+//	// TEMPORARY TEST !!! SHALL BE MOVED TO UNIT TEST !!!
+//	public static void main(String[] args) {
+//		try {
+//			System.out.print("Test GetCapabilities... ");
+//			SOSWrapper sw = SOSWrapper.createFromCapabilities("http://v-swe.uni-muenster.de:8080/WeatherSOS/sos", "1.0.0");
+//			// System.out.println(sw.serviceDescriptor.toString());
+//			System.out.println("Test GetCapabilities done!\n");
+//			
+//			/*System.out.print("Test DescribeSensor... ");
+//			OperationResult or = sw.doDescribeSensor(new DescribeSensorParamterBuilder_v100("urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-1", DescribeSensorParamterBuilder_v100.OUTPUT_FORMAT_SENSORML));
+//			System.out.println(or.toString());
+//			System.out.print("Test DescribeSensor done!\n");
+//			
+//			System.out.print("Test GetObservation...");
+//			OperationResult or = sw.doGetObservation(new GetObservationParameterBuilder_v100("TEMPERATURE", "urn:ogc:def:phenomenon:OGC:1.0.30:temperature", "text/xml;subtype=\"om/1.0.0\"").addObservedProperty("urn:ogc:def:phenomenon:OGC:1.0.30:waterlevel1"));
+//			System.out.println(or.toString());
+//			System.out.println("Test GetObservation done!");
+//			
+//			TODO ? System.out.print("Test GetObservationById...");
+//			OperationResult or = sw.doGetObservationById(new GetObservationByIdParameterBuilder_v100("1012", "text/xml;subtype=\"om/1.0.0\""));
+//			System.out.println(or.toString());
+//			System.out.println("Test GetObservationById done!");
+//			
+//			System.out.print("Test GetFeatureOfInterest... ");
+//			OperationResult or = sw.doGetFeatureOfInterest(new GetFeatureOfInterestParameterBuilder_v100("foi_1001", GET_FOI_ID_PARAMETER));
+//			System.out.println(or.toString());
+//			System.out.print("Test GetFeatureOfInterest  done!");
+//			
+//			System.out.print("Test GetFeatureOfInterest... ");
+//			OperationResult or = sw.doGetFeatureOfInterest(new GetFeatureOfInterestParameterBuilder_v100("foi_1001", GET_FOI_ID_PARAMETER).addEventTime(""));
+//			System.out.println(or.toString());
+//			System.out.print("Test GetFeatureOfInterest  done!");*/
+//
+//			// System.out.print("Test InsertObservation... ");
+//			
+//	    	// insert.setAssignedSensorId(sensorId);
+//	    	//insert.setObservation(observationType); // see sosrequestbuilder
+//	    	// add sampling time INSERT_OBSERVATION_SAMPLING_TIME see sosrequestbuilder
+//	    	// procedure
+//	    	// observed property
+//	    	// INSERT_OBSERVATION_FOI_ID_PARAMETER
+//	    	// INSERT_OBSERVATION_NEW_FOI_NAME | INSERT_OBSERVATION_NEW_FOI_DESC | INSERT_OBSERVATION_NEW_FOI_POSITION
+//	    	// INSERT_OBSERVATION_POSITION_SRS
+//	    	
+//	    	// CATEGORY: INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, INSERT_OBSERVATION_VALUE_PARAMETER
+//	    	// MEASUREMENT: INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, INSERT_OBSERVATION_VALUE_PARAMETER
+//	    	
+//			/*ObservationBuilder obsBuilder = new ObservationBuilder(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION);
+//			obsBuilder.addParameter(ISOSRequestBuilder.INSERT_OBSERVATION_SAMPLING_TIME, "2009-02-26T23:44:15+00:00");
+//			obsBuilder.addParameter(ISOSRequestBuilder.INSERT_OBSERVATION_FOI_ID_PARAMETER, "STATIONID");
+//			obsBuilder.addParameter(ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_NAME, "STATIONID");
+//			obsBuilder.addParameter(ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_DESC, "waterpoint for humans (@ID@)".replaceAll("@ID@", "STATIONID"));
+//			obsBuilder.addParameter(ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_POSITION, 7.0d + " " + 52.0d);
+//			obsBuilder.addParameter(ISOSRequestBuilder.INSERT_OBSERVATION_POSITION_SRS, "4326");
+//			obsBuilder.addParameter(ISOSRequestBuilder.INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, "urn:ogc:def:phenomenon:OGC:0.1:WaterPointState");
+//			obsBuilder.addParameter(ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER, "urn:ogc:object:feature:Sensor:human-sensor-web:reporter:0815_23-42_005_invaliddata");
+//			obsBuilder.addParameter(ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER, "ALL_OKAY");
+//			obsBuilder.addParameter(ISOSRequestBuilder.INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, "http://example.com/myCodespace");
+//	    	InsertObservationParameterBuilder_v100 insertObsBuilder = new InsertObservationParameterBuilder_v100("urn:ogc:object:feature:Sensor:human-sensor-web:reporter:0815_23-42_005_invaliddata", obsBuilder);
+//			OperationResult or = sw.doInsertObservation(insertObsBuilder);
+//			System.out.println(or.toString());
+//			System.out.print("Test InsertObservation  done!");*/
+//			
+//			// REGISTER_SENSOR_ML_DOC_PARAMETER, REGISTER_SENSOR_OBSERVATION_TEMPLATE, REGISTER_SENSOR_OBSERVATION_TYPE
+//			
+//			System.out.print("Test RegisterSensor... ");
+//			
+//			SensorDescriptionBuilder sdb = new SensorDescriptionBuilder();
+//			sdb.setSensorId("ifgi-sensor-5");
+//			sdb.setPosition("TestArea_5200_0797", true, 52.0, 7.97);
+//			sdb.setObservedProperty("urn:ogc:def:phenomenon:OGC:1.0.30:waterlevel");
+//			sdb.setSensorObservationType(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT);
+//			sdb.setUnitOfMeasurement("mm");
+//			
+//			SystemDocument sysDoc = sdb.createRegisterSensorDocument();
+//
+//			RegisterSensorParameterBuilder_v100 builder = RegisterSensorParameterBuilder_v100.createBuilderWithType(sysDoc, ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT, "mm");
+//			OperationResult or = sw.doRegisterSensor(builder);
+//			System.out.println(or.toString());
+//			System.out.print("Test RegisterSensor  done!");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	/**
 	 * Constructs a wrapper for a certain SOS and defines GetCapabilities specific metadata of the service.
@@ -177,8 +264,17 @@ public class SOSWrapper {
 			parameterContainer.addParameterShell(REGISTER_SENSOR_SERVICE_PARAMETER, SERVICE_TYPE);
 			parameterContainer.addParameterShell(REGISTER_SENSOR_VERSION_PARAMETER, serviceDescriptor.getVersion());
 			// mandatory parameters from builder
-			parameterContainer.addParameterShell(REGISTER_SENSOR_SENSOR_DESCRIPTION_PARAMETER, parameters.get(REGISTER_SENSOR_SENSOR_DESCRIPTION_PARAMETER));
-			parameterContainer.addParameterShell(REGISTER_SENSOR_OBSERVATION_TEMPLATE, parameters.get(REGISTER_SENSOR_OBSERVATION_TEMPLATE));
+			parameterContainer.addParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER, parameters.get(REGISTER_SENSOR_ML_DOC_PARAMETER));
+			if (parameters.get(REGISTER_SENSOR_OBSERVATION_TEMPLATE) != null) {
+				parameterContainer.addParameterShell(REGISTER_SENSOR_OBSERVATION_TEMPLATE, parameters.get(REGISTER_SENSOR_OBSERVATION_TEMPLATE));
+			} else {
+				parameterContainer.addParameterShell(REGISTER_SENSOR_OBSERVATION_TYPE, parameters.get(REGISTER_SENSOR_OBSERVATION_TYPE));
+			}
+			// check the necesserity of the following one
+			if (parameters.get(ISOSRequestBuilder.REGISTER_SENSOR_UOM_PARAMETER) != null) {
+				parameterContainer.addParameterShell(REGISTER_SENSOR_UOM_PARAMETER, parameters.get(REGISTER_SENSOR_UOM_PARAMETER));
+			}
+				
 			
 			return adapter.doOperation(operation, parameterContainer);
 		} else
@@ -202,14 +298,34 @@ public class SOSWrapper {
 		// if there are operations defined
 		if ((operation = operationsMetadata.getOperationByName(SOSAdapter.INSERT_OBSERVATION)) != null) {
 			// retrieve parameter list of mandatory parameters
+			
 			Map<String, String> parameters = builder.getParameters();
+			
 			// transfer parameters into ParameterContainer
 			ParameterContainer parameterContainer = new ParameterContainer();
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_SERVICE_PARAMETER, SERVICE_TYPE);
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_VERSION_PARAMETER, serviceDescriptor.getVersion());
 			// mandatory parameters from builder
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, parameters.get(INSERT_OBSERVATION_PROCEDURE_PARAMETER));
-			parameterContainer.addParameterShell(INSERT_OBSERVATION_OBSERVATION_PARAMETER, parameters.get(INSERT_OBSERVATION_OBSERVATION_PARAMETER));
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_TYPE, parameters.get(INSERT_OBSERVATION_TYPE));
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_SAMPLING_TIME, parameters.get(INSERT_OBSERVATION_SAMPLING_TIME));
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, parameters.get(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER));
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, parameters.get(INSERT_OBSERVATION_FOI_ID_PARAMETER));
+			// optional parameters from builder
+			if (parameters.get(INSERT_OBSERVATION_NEW_FOI_NAME) != null)
+				parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_NAME, parameters.get(INSERT_OBSERVATION_NEW_FOI_NAME));
+			if (parameters.get(INSERT_OBSERVATION_NEW_FOI_DESC) != null)
+				parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_DESC, parameters.get(INSERT_OBSERVATION_NEW_FOI_DESC));
+			if (parameters.get(INSERT_OBSERVATION_NEW_FOI_POSITION) != null)
+				parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION, parameters.get(INSERT_OBSERVATION_NEW_FOI_POSITION));
+			if (parameters.get(INSERT_OBSERVATION_POSITION_SRS) != null)
+				parameterContainer.addParameterShell(INSERT_OBSERVATION_POSITION_SRS, parameters.get(INSERT_OBSERVATION_POSITION_SRS));
+			if (parameters.get(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE) != null)
+				parameterContainer.addParameterShell(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, parameters.get(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE));
+			if (parameters.get(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE) != null)
+				parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, parameters.get(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE));
+			if (parameters.get(INSERT_OBSERVATION_VALUE_PARAMETER) != null)
+				parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER, parameters.get(INSERT_OBSERVATION_VALUE_PARAMETER));
 			
 			return adapter.doOperation(operation, parameterContainer);
 		} else

@@ -42,7 +42,7 @@ public class GetObservationParameterBuilder_v100 {
 	 * @return set of parameters
 	 * @throws OXFException 
 	 */
-	public Map<String, Object> getParameters() throws OXFException {
+	Map<String, Object> getParameters() throws OXFException {
 		// preparing multiple occurance of observed property parameter for SOSWrapper
 		String[] observedProperties = observedPropertyList.toArray(new String[observedPropertyList.size()]);
 		Parameter observedPropertyParameter = new Parameter(ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, true, new StringValueDomain(observedProperties), ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);

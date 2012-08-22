@@ -1,5 +1,8 @@
 package org.n52.oxf.sos.adapter;
 
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_DESC;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_POSITION;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +13,7 @@ import java.util.Map;
  */
 public class InsertObservationParameterBuilder_v100 {
 	
-	private Map<String, String> parameters = new HashMap<String, String>(); // set of mandatory parameters
+	private Map<String, String> parameters; // set of mandatory parameters
 	
 	/**
 	 * Assembles mandatory parameters from method parameter list.
@@ -18,11 +21,12 @@ public class InsertObservationParameterBuilder_v100 {
 	 * @param assignedSensorId
 	 * @param observation
 	 */
-	public InsertObservationParameterBuilder_v100(String assignedSensorId, String observation) throws IllegalArgumentException {
-		if (assignedSensorId == null || observation == null)
+	public InsertObservationParameterBuilder_v100(String assignedSensorId, ObservationBuilder observationBuilder) throws IllegalArgumentException {
+		if (assignedSensorId == null || observationBuilder == null) {
 			throw new IllegalArgumentException("The parameters \"assignedSensorId\" and \"observation\" are mandatory. They cannot be left empty!");
+		}
+		parameters = observationBuilder.getParameters();
 		parameters.put(ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER, assignedSensorId);
-		parameters.put(SOSWrapper.INSERT_OBSERVATION_OBSERVATION_PARAMETER, observation);
 	}
 
 	/**
@@ -31,5 +35,5 @@ public class InsertObservationParameterBuilder_v100 {
 	public Map<String, String> getParameters() {
 		return parameters;
 	}
-
+	
 }
