@@ -3,6 +3,8 @@ package org.n52.oxf.sos.adapter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 import net.opengis.sensorML.x101.IoComponentPropertyType;
 import net.opengis.sensorML.x101.OutputsDocument.Outputs;
 import net.opengis.sensorML.x101.OutputsDocument.Outputs.OutputList;
@@ -23,7 +25,7 @@ public class SensorDescriptionBuilder {
 	
 	private Map<String, String> parameters = new HashMap<String, String>();
 	
-	public SystemDocument createRegisterSensorDocument() {
+	public SystemDocument generateRegisterSensorDocument() {
     	system.setOutputs(createOutputsFromParameters());
     	systemDocument.addNewSystem().set(system);
 		return systemDocument;
@@ -50,8 +52,8 @@ public class SensorDescriptionBuilder {
     	system.setPosition(pos);
 	}
 	
-	public void setSensorObservationType(String sensorObservationType) {
-		parameters.put(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE, sensorObservationType);
+	public void setSensorObservationType(QName sensorObservationType) {
+		parameters.put(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE, sensorObservationType.toString());
 	}
 	
 	public void setObservedProperty(String observedProperty) {
@@ -60,10 +62,6 @@ public class SensorDescriptionBuilder {
 	
 	public void setUnitOfMeasurement(String uom) {
 		parameters.put(ISOSRequestBuilder.REGISTER_SENSOR_UOM_PARAMETER, uom);
-	}
-	
-	public String getUnitOfMeasurement(String uom) {
-		return parameters.get(ISOSRequestBuilder.REGISTER_SENSOR_UOM_PARAMETER);
 	}
 	
 	private Outputs createOutputsFromParameters() {
@@ -84,5 +82,4 @@ public class SensorDescriptionBuilder {
     	}
     	return outputs;
 	}
-
 }

@@ -7,46 +7,65 @@ import javax.xml.namespace.QName;
 
 import org.n52.oxf.xml.XMLConstants;
 
-import static org.n52.oxf.xml.XMLConstants.*;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
+/**
+ * This class is used to collect parameter information about Observations.
+ * 
+ * @author Eric
+ * 
+ * TODO RESTRUCTURING OF THE AVAILABLE PARAMETERS!
+ */
 public class ObservationBuilder {
 	
-	private String[] categoryObservationParameter = {
-			ISOSRequestBuilder.INSERT_OBSERVATION_SAMPLING_TIME,
-			ISOSRequestBuilder.INSERT_OBSERVATION_FOI_ID_PARAMETER,
-			ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_NAME,
-			ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_DESC,
-			ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_POSITION,
-			ISOSRequestBuilder.INSERT_OBSERVATION_POSITION_SRS,
-			ISOSRequestBuilder.INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER,
-			ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER,
-			ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER,
-			
-			ISOSRequestBuilder.INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE
-	};
-	
+	// valid/available parameters for measurements
 	private String[] measurementObservationParameter = {
-			ISOSRequestBuilder.INSERT_OBSERVATION_SAMPLING_TIME,
-			ISOSRequestBuilder.INSERT_OBSERVATION_FOI_ID_PARAMETER,
-			ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_NAME,
-			ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_DESC,
-			ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_POSITION,
-			ISOSRequestBuilder.INSERT_OBSERVATION_POSITION_SRS,
-			ISOSRequestBuilder.INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER,
-			ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER,
-			ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER,
+			INSERT_OBSERVATION_SAMPLING_TIME,
+			INSERT_OBSERVATION_FOI_ID_PARAMETER,
+			INSERT_OBSERVATION_NEW_FOI_NAME,
+			INSERT_OBSERVATION_NEW_FOI_DESC,
+			INSERT_OBSERVATION_NEW_FOI_POSITION,
+			INSERT_OBSERVATION_POSITION_SRS,
+			INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER,
+			INSERT_OBSERVATION_VALUE_PARAMETER,
 			
-			ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE
+			INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE
+	};
+
+	// valid/available parameters for category observations
+	private String[] categoryObservationParameter = {
+			INSERT_OBSERVATION_SAMPLING_TIME,
+			INSERT_OBSERVATION_FOI_ID_PARAMETER,
+			INSERT_OBSERVATION_NEW_FOI_NAME,
+			INSERT_OBSERVATION_NEW_FOI_DESC,
+			INSERT_OBSERVATION_NEW_FOI_POSITION,
+			INSERT_OBSERVATION_POSITION_SRS,
+			INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER,
+			INSERT_OBSERVATION_VALUE_PARAMETER,
+			
+			INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE
 	};
 	
 	private QName type;
 	private Map<String, String> parameters = new HashMap<String, String>();
 
+	/**
+	 * Creating an observation description by defining the type of this observaiton.
+	 * 
+	 * @param type observation type
+	 */
 	public ObservationBuilder(QName type) {
 		this.type = type;
-		parameters.put(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE, type.toString());
+		parameters.put(INSERT_OBSERVATION_TYPE, type.toString());
 	}
 	
+	/**
+	 * Generic method to add valid/available parameters of the corresponding observation type.
+	 * 
+	 * @param parameter
+	 * @param value
+	 * @throws IllegalArgumentException
+	 */
 	public void addParameter(String parameter, String value) throws IllegalArgumentException {
 		if (isValidForType(parameter)) {
 			parameters.put(parameter, value);
@@ -56,18 +75,39 @@ public class ObservationBuilder {
 		}
 	}
 	
+	/**
+	 * Removes a certain parameter from the list.
+	 * 
+	 * @param parameter
+	 */
 	public void removeParameter(String parameter) {
 		parameters.remove(parameter);
 	}
 	
-	Map<String, String> getParameters() {
+	/**
+	 * Return all parameters of this observation description.
+	 * 
+	 * @return parameter list
+	 */
+	public Map<String, String> getParameters() {
 		return parameters;
 	}
 	
+	/**
+	 * Return the type of Observation.
+	 * 
+	 * @return observation type
+	 */
 	public QName getType() {
 		return type;
 	}
 	
+	/**
+	 * Checks whether the parameter requested for adding is valid for this observation type.
+	 * 
+	 * @param typeParameter
+	 * @return truth
+	 */
 	private boolean isValidForType(String typeParameter) {
 		String[] validParameters;
 		if (type.equals(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION)) {
