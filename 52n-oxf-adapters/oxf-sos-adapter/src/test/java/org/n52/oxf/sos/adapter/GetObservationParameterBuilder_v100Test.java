@@ -25,15 +25,6 @@ public class GetObservationParameterBuilder_v100Test {
 	@Test
 	public void testValidConstructorParameters() {
 		new GetObservationParameterBuilder_v100("", "", "");
-		new GetObservationParameterBuilder_v100("offering", "observedProperty", "responseFormat");
-		
-		new GetObservationParameterBuilder_v100("offering", "", "");
-		new GetObservationParameterBuilder_v100("", "observedProperty", "");
-		new GetObservationParameterBuilder_v100("", "", "responseFormat");
-		
-		new GetObservationParameterBuilder_v100("offering", "observedProperty", "");
-		new GetObservationParameterBuilder_v100("offering", "", "responseFormat");
-		new GetObservationParameterBuilder_v100("", "observedProperty", "responseFormat");
 	}
 	
 	/**
@@ -42,11 +33,9 @@ public class GetObservationParameterBuilder_v100Test {
 	@Test(expected = IllegalArgumentException.class)
 	public void testInvalidConstructorParameters() {
 		new GetObservationParameterBuilder_v100(null, null, null);
-		
 		new GetObservationParameterBuilder_v100("", null, null);
 		new GetObservationParameterBuilder_v100(null, "", null);
-		new GetObservationParameterBuilder_v100(null, null, "");
-		
+		new GetObservationParameterBuilder_v100(null, null, "");	
 		new GetObservationParameterBuilder_v100("", "", null);
 		new GetObservationParameterBuilder_v100("", null, "");
 		new GetObservationParameterBuilder_v100(null, "", "");
@@ -96,15 +85,20 @@ public class GetObservationParameterBuilder_v100Test {
 			assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER));
 			assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER));
 			
+			gopb.addSrsName("srsNameOld");
 			gopb.addSrsName("srsName");
 			gopb.addEventTime("eventTime1");
 			gopb.addEventTime("eventTime2");
 			gopb.addProcedure("procedure1");
 			gopb.addProcedure("procedure2");
 			gopb.addObservedProperty("observedProperty2");
+			gopb.addFeatureOfInterest("featureOfInterestOld");
 			gopb.addFeatureOfInterest("featureOfInterest");
+			gopb.addResult("resultOld");
 			gopb.addResult("result");
+			gopb.addResultModel("resultModelOld");
 			gopb.addResultModel("resultModel");
+			gopb.addResponseMode("responseModeOld");
 			gopb.addResponseMode("responseMode");
 			
 			hm = (HashMap<String, Object>) gopb.getParameters();

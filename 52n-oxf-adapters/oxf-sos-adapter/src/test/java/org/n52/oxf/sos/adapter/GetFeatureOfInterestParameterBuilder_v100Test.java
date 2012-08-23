@@ -22,9 +22,7 @@ public class GetFeatureOfInterestParameterBuilder_v100Test {
 	@Test
 	public void testValidConstructorParameters() {
 		new GetFeatureOfInterestParameterBuilder_v100("", ISOSRequestBuilder.GET_FOI_ID_PARAMETER);
-		new GetFeatureOfInterestParameterBuilder_v100("identification", ISOSRequestBuilder.GET_FOI_ID_PARAMETER);
 		new GetFeatureOfInterestParameterBuilder_v100("", ISOSRequestBuilder.GET_FOI_LOCATION_PARAMETER);
-		new GetFeatureOfInterestParameterBuilder_v100("identification", ISOSRequestBuilder.GET_FOI_LOCATION_PARAMETER);
 	}
 	
 	/**
@@ -64,6 +62,7 @@ public class GetFeatureOfInterestParameterBuilder_v100Test {
 		
 		assertNull(hm.get(ISOSRequestBuilder.GET_FOI_EVENT_TIME_PARAMETER));
 		
+		gfpb.addEventTime("eventTimeOld");
 		gfpb.addEventTime("eventTime");
 		
 		String parOpt_01 = hm.get(ISOSRequestBuilder.GET_FOI_EVENT_TIME_PARAMETER);

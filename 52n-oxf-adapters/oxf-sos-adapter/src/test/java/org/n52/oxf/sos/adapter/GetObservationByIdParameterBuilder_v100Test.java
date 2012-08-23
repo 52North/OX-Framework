@@ -23,9 +23,6 @@ public class GetObservationByIdParameterBuilder_v100Test {
 	@Test
 	public void testValidConstructorParameters() {
 		new GetObservationByIdParameterBuilder_v100("", "");
-		new GetObservationByIdParameterBuilder_v100("observationId", "responseFormat");
-		new GetObservationByIdParameterBuilder_v100("observationId", "");
-		new GetObservationByIdParameterBuilder_v100("", "responseFormat");
 	}
 	
 	/**
@@ -68,8 +65,11 @@ public class GetObservationByIdParameterBuilder_v100Test {
 		assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER));
 		assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER));
 		
+		gobipb.addSrsName("srsNameOld");
 		gobipb.addSrsName("srsName");
+		gobipb.addResultModel("resultModelOld");
 		gobipb.addResultModel("resultModel");
+		gobipb.addResponseMode("responseModeOld");
 		gobipb.addResponseMode("responseMode");
 		
 		String parOpt_01 = hm.get(SOSWrapper.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER);

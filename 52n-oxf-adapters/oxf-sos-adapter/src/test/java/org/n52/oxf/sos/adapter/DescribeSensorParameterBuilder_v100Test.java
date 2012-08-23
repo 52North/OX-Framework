@@ -9,7 +9,7 @@ import org.junit.Test;
 /**
  * Test of correctness for:
  * 		- legal and illegal constructor parameters
- * 		- applying and getting mandatory parameters
+ * 		- applying and getting parameters
  * 
  * @author Eric
  */
@@ -21,9 +21,6 @@ public class DescribeSensorParameterBuilder_v100Test {
 	@Test
 	public void testValidConstructorParameters() {
 		new DescribeSensorParamterBuilder_v100("", "");
-		new DescribeSensorParamterBuilder_v100("sensorId", "outputFormat");
-		new DescribeSensorParamterBuilder_v100("sensorId", "");
-		new DescribeSensorParamterBuilder_v100("", "outputFormat");
 	}
 	
 	/**
