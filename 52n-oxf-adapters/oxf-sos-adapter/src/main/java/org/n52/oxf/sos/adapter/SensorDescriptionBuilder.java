@@ -5,10 +5,14 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlObject;
+
 import net.opengis.sensorML.x101.IoComponentPropertyType;
 import net.opengis.sensorML.x101.OutputsDocument.Outputs;
 import net.opengis.sensorML.x101.OutputsDocument.Outputs.OutputList;
 import net.opengis.sensorML.x101.PositionDocument.Position;
+import net.opengis.sensorML.x101.SensorMLDocument;
 import net.opengis.sensorML.x101.SystemDocument;
 import net.opengis.sensorML.x101.SystemType;
 import net.opengis.swe.x101.CategoryDocument.Category;
@@ -25,14 +29,26 @@ public class SensorDescriptionBuilder {
 	
 	private Map<String, String> parameters = new HashMap<String, String>();
 	
-	public SystemDocument generateRegisterSensorDocument() {
-    	system.setOutputs(createOutputsFromParameters());
-    	systemDocument.addNewSystem().set(system);
-		return systemDocument;
+	public SensorDescriptionBuilder(String sensorId, QName sensorObservationType) {
+		system.setId(sensorId);
+		parameters.put(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE, sensorObservationType.toString());
 	}
 	
-	public void setSensorId(String sensorId) {
-		system.setId(sensorId);
+	public String generateSensorDescription() {
+    	system.setOutputs(createOutputsFromParameters());
+    	systemDocument.addNewSystem().set(system);    	
+    	SensorMLDocument sensorMLDocument = SensorMLDocument.Factory.newInstance();
+    	sensorMLDocument.addNewSensorML().addNewMember().set(systemDocument);
+    	
+    	// Get SensorML version by checking the class of SystemDocument - FROM OLD VERSION!!!
+    	if (systemDocument instanceof net.opengis.sensorML.x101.SystemDocument) {
+    		XmlCursor c = sensorMLDocument.getSensorML().newCursor();
+    		c.toNextToken();
+    		c.insertAttributeWithValue("version","1.0.1");
+    		c.dispose();
+    	}
+    	
+		return sensorMLDocument.toString();
 	}
 	
 	public void setPosition(String name, boolean positionFixed, double latitude, double longitude) {
@@ -50,10 +66,6 @@ public class SensorDescriptionBuilder {
     	cordLongitude.setName("longitude");
     	cordLongitude.addNewQuantity().setValue(new Double (longitude));
     	system.setPosition(pos);
-	}
-	
-	public void setSensorObservationType(QName sensorObservationType) {
-		parameters.put(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE, sensorObservationType.toString());
 	}
 	
 	public void setObservedProperty(String observedProperty) {

@@ -4,8 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER;
 
 import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.xmlbeans.XmlObject;
 import org.junit.Test;
+import org.n52.oxf.OXFException;
 import org.n52.oxf.xml.XMLConstants;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
@@ -25,14 +28,22 @@ public class RegisterSensorParameterBuilder_v100Test {
 	 */
 	@Test
 	public void testValidConstructorParameters() {
-		SensorDescriptionBuilder sdb = new SensorDescriptionBuilder();
-		sdb.setSensorId("sensorId");
-		sdb.setPosition("name", true, 0.0, 1.1);
-		sdb.setSensorObservationType(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION);
-		sdb.setObservedProperty("observedProperty");
-		sdb.setUnitOfMeasurement("uom");
+		SensorDescriptionBuilder sensorDescription = new SensorDescriptionBuilder("sensorId", XMLConstants.QNAME_OM_1_0_MEASUREMENT);
+		sensorDescription.setPosition("name", true, 0.1, 2.3);
+		sensorDescription.setObservedProperty("observedProperty");
+		sensorDescription.setUnitOfMeasurement("uom");
+		String sensorML = sensorDescription.generateSensorDescription();
 		
-		new RegisterSensorParameterBuilder_v100(sdb.generateRegisterSensorDocument(), "template");
+		ObservationTemplateBuilder templateBuilder = new ObservationTemplateBuilder(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION);
+		templateBuilder.addCategoryObservationCodeSpace("codeSpace");
+		String obsTemp = null;
+		try {
+			obsTemp = templateBuilder.generateObservationTemplate();
+		} catch (OXFException e) {
+			e.printStackTrace();
+		}
+		
+		new RegisterSensorParameterBuilder_v100(sensorML, obsTemp);
 	}
 	
 	/**
@@ -40,9 +51,24 @@ public class RegisterSensorParameterBuilder_v100Test {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testInvalidConstructorParameters() {
+		SensorDescriptionBuilder sensorDescription = new SensorDescriptionBuilder("sensorId", XMLConstants.QNAME_OM_1_0_MEASUREMENT);
+		sensorDescription.setPosition("name", true, 0.1, 2.3);
+		sensorDescription.setObservedProperty("observedProperty");
+		sensorDescription.setUnitOfMeasurement("uom");
+		String sensorML = sensorDescription.generateSensorDescription();
+		
+		ObservationTemplateBuilder templateBuilder = new ObservationTemplateBuilder(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION);
+		templateBuilder.addCategoryObservationCodeSpace("codeSpace");
+		String obsTemp = null;
+		try {
+			obsTemp = templateBuilder.generateObservationTemplate();
+		} catch (OXFException e) {
+			e.printStackTrace();
+		}
+		
 		new RegisterSensorParameterBuilder_v100(null, null);
-		new RegisterSensorParameterBuilder_v100(new SensorDescriptionBuilder().generateRegisterSensorDocument(), null);
-		new RegisterSensorParameterBuilder_v100(null, "");
+		new RegisterSensorParameterBuilder_v100(sensorML, null);
+		new RegisterSensorParameterBuilder_v100(null, obsTemp);
 	}
 	
 	/**
@@ -50,24 +76,33 @@ public class RegisterSensorParameterBuilder_v100Test {
 	 */
 	@Test
 	public void testApplyingAndGettingMandatoryParameters() {
-		SensorDescriptionBuilder sdb = new SensorDescriptionBuilder();
-		sdb.setSensorId("sensorId");
-		sdb.setPosition("name", true, 0.0, 1.1);
-		sdb.setSensorObservationType(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION);
-		sdb.setObservedProperty("observedProperty");
-		sdb.setUnitOfMeasurement("uom");
+		SensorDescriptionBuilder sensorDescription = new SensorDescriptionBuilder("sensorId", XMLConstants.QNAME_OM_1_0_MEASUREMENT);
+		sensorDescription.setPosition("name", true, 0.1, 2.3);
+		sensorDescription.setObservedProperty("observedProperty");
+		sensorDescription.setUnitOfMeasurement("uom");
+		String sensorML = sensorDescription.generateSensorDescription();
 		
-		RegisterSensorParameterBuilder_v100 rspb = new RegisterSensorParameterBuilder_v100
-				(sdb.generateRegisterSensorDocument(), "template");
+		ObservationTemplateBuilder templateBuilder = new ObservationTemplateBuilder(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION);
+		templateBuilder.addCategoryObservationCodeSpace("codeSpace");
+		String obsTemp = null;
+		try {
+			obsTemp = templateBuilder.generateObservationTemplate();
+		} catch (OXFException e) {
+			e.printStackTrace();
+		}
 		
-		HashMap<String, String> hm = (HashMap<String, String>) rspb.getParameters();
+		RegisterSensorParameterBuilder_v100 rspb = new RegisterSensorParameterBuilder_v100(sensorML, obsTemp);
+		
+		Map<String, String> hm = (HashMap<String, String>) rspb.getParameters();
 		String parMan_01 = hm.get(REGISTER_SENSOR_ML_DOC_PARAMETER);
 		String parMan_02 = hm.get(REGISTER_SENSOR_OBSERVATION_TEMPLATE);
 		
-		// String result = "";
+		// TODO insert comparable data
+		// assertEquals(, parMan_01);
+		// assertEquals(, parMan_02);
 		
-		// assertEquals(result, parMan_01);
-		assertEquals("template", parMan_02);
+		System.out.println(parMan_01);
+		System.out.println(parMan_02);
 	}
 
 }

@@ -10,7 +10,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import net.opengis.sos.x10.ObservationTemplateDocument.ObservationTemplate;
+
 import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
@@ -34,7 +37,6 @@ public class SOSWrapper {
 	public static final String GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER = "srsName";
 	
 	private static final String SERVICE_TYPE = "SOS"; // name of the service
-	private String serviceBaseUrl; // base url of the service
 	private ServiceDescriptor serviceDescriptor; // GetCapabilities specific description of the service
 	
 	/**
@@ -52,52 +54,9 @@ public class SOSWrapper {
 	 * @param capabilities Specific description of the service.
 	 * @param serviceBaseUrl Base url of the service.
 	 */
-	private SOSWrapper(String serviceBaseUrl, ServiceDescriptor capabilities) {
-		this.serviceBaseUrl = serviceBaseUrl;
+	protected SOSWrapper(ServiceDescriptor capabilities) {
 		this.serviceDescriptor = capabilities;
 	}
-	
-	/********************************************************************************************************************************************************************
-	 * ONLY FOR TESTING PURPOSES!!!
-	 */
-	static SOSWrapper createFromCapabilitiesFile(File capsFile, String acceptVersion) throws ExceptionReport, OXFException, FileNotFoundException, IOException {
-		SOSAdapter adapter = new SOSAdapter(acceptVersion);
-		
-		InputStream is = new FileInputStream(capsFile);
-		long length = capsFile.length();
-		if (length > Integer.MAX_VALUE) {
-			is.close();
-	        throw new OXFException("Test failure caused by a too large SOSCapabilities file!");
-	    }
-		byte[] incomingResult = new byte[(int)length];
-		int offset = 0;
-	    int read = 0;
-	    while (offset < incomingResult.length && (read = is.read(incomingResult, offset, incomingResult.length - offset)) >= 0) {
-	        offset += read;
-	    }
-	    is.close();
-		
-		ServiceDescriptor capabilities;
-		try {
-            if (SosUtil.isVersion100(acceptVersion)) {
-                net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(new ByteArrayInputStream(incomingResult));
-                capabilities = adapter.initService(capsDoc);
-            } else {
-            	throw new OXFException("Version not yet supported!");
-            }
-
-        }
-        catch (XmlException e) {
-            throw new OXFException(e);
-        }
-        catch (IOException e) {
-            throw new OXFException(e);
-        }
-
-		return new SOSWrapper("path", capabilities);
-	}
-	/********************************************************************************************************************************************************************
-
 	
 	/**
 	 * Calls the service's capability description request resulting in returning a SOSWrapper containing the capability description.
@@ -110,7 +69,7 @@ public class SOSWrapper {
 	 */
 	public static SOSWrapper createFromCapabilities(String url, String acceptVersion) throws ExceptionReport, OXFException {
 		ServiceDescriptor capabilities = doGetCapabilities(url, acceptVersion);
-		return new SOSWrapper(url, capabilities);
+		return new SOSWrapper(capabilities);
 	}
 	
 	/**
