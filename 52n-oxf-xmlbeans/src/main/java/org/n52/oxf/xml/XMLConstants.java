@@ -42,6 +42,18 @@ public class XMLConstants {
 	private static final String OM_1_0_NS_URI = "http://www.opengis.net/om/1.0";
 	public static final QName QNAME_OM_1_0_MEASUREMENT = new QName(OM_1_0_NS_URI, "Measurement");
 	public static final QName QNAME_OM_1_0_CATEGORY_OBSERVATION = new QName(OM_1_0_NS_URI, "CategoryObservation");
+	public static final QName QNAME_OM_1_0_COUNT_OBSERVATION = new QName(OM_1_0_NS_URI, "CountObservation");
+	public static final QName QNAME_OM_1_0_TRUTH_OBSERVATION = new QName(OM_1_0_NS_URI, "TruthObservation");
+	public static final QName QNAME_OM_1_0_TEMPORAL_OBSERVATION = new QName(OM_1_0_NS_URI, "TemporalObservation");
+	public static final QName QNAME_OM_1_0_GEOMETRY_OBSERVATION = new QName(OM_1_0_NS_URI, "GeometryObservation");
+	public static final QName QNAME_OM_1_0_COMPLEX_OBSERVATION = new QName(OM_1_0_NS_URI, "ComplexObservation");
+	
+	// for observations with varying properties
+	// public static final QName QNAME_OM_1_0_DISCRETE_COVERAGE_OBSERVATION = new QName(OM_1_0_NS_URI, "DiscreteCoverageObservation");
+	// public static final QName QNAME_OM_1_0_POINT_COVERAGE_OBSERVATION = new QName(OM_1_0_NS_URI, "PointCoverageObservation");
+	// public static final QName QNAME_OM_1_0_TIME_SERIES_OBSERVATION = new QName(OM_1_0_NS_URI, "TimeSeriesObservation");
+	// public static final QName QNAME_OM_1_0_ELEMENT_COVERAGE_OBSERVATION = new QName(OM_1_0_NS_URI, "ElementCoverageObservation");
+	
 	public static final QName QNAME_OM_1_0_CODE_SPACE = new QName(OM_1_0_NS_URI, "codeSpace");
 	public static final QName QNAME_OM_1_0_SAMPLING_TIME = new QName(OM_1_0_NS_URI, "samplingTime");
 	public static final QName QNAME_OM_1_0_PROCEDURE = new QName(OM_1_0_NS_URI, "procedure");
