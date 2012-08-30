@@ -94,6 +94,11 @@ public interface ISOSRequestBuilder {
     public static String REGISTER_SENSOR_OBSERVATION_TEMPLATE = "observationTemplate";
     public static String REGISTER_SENSOR_OBSERVATION_TYPE = "type";
 	public static String REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY = "category";
+	public static String INSERT_OBSERVATION_TYPE_COUNT = "count";
+	public static String INSERT_OBSERVATION_TYPE_TRUTH = "truth";
+	public static String INSERT_OBSERVATION_TYPE_TEMPORAL = "temporal";
+	public static String INSERT_OBSERVATION_TYPE_GEOMETRY = "geometry";
+	public static String INSERT_OBSERVATION_TYPE_COMPLEX = "complex";
 	public static String REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT = "measurement";
     public static String REGISTER_SENSOR_ID_PARAMETER = "id";
     public static String REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER = "observedProperty";
