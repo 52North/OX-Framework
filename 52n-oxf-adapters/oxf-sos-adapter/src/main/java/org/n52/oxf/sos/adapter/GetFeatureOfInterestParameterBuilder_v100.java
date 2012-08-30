@@ -6,7 +6,8 @@ import java.util.Map;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
- * This class describes a set of mandatory and optional parameters, which is necessary to call doGetObservation([...]) from SOSWrapper.
+ * This class describes a set of parameters, which is necessary to call
+ * doGetFeatureOfInterst([...]) from SOSWrapper.
  * 
  * @author Eric
  */
@@ -41,7 +42,7 @@ public class GetFeatureOfInterestParameterBuilder_v100 {
 	}
 	
 	/**
-	 * Adds the optional parameter "eventTime".
+	 * Adds or replaces the optional parameter "eventTime".
 	 * 
 	 * @param eventTime
 	 * @return parameter builder

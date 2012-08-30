@@ -5,7 +5,8 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import java.util.Map;
 
 /**
- * This class describes a set of mandatory parameters, which is necessary to call doInsertObservation([...]) from SOSWrapper.
+ * This class describes a set of parameters, which is necessary to call
+ * doInsertObservation([...]) from SOSWrapper.
  * 
  * @author Eric
  */

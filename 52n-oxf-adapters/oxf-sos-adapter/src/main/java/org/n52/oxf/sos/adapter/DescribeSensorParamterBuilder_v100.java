@@ -6,7 +6,8 @@ import java.util.Map;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
- * This class describes a set of parameters, which is necessary to call doDescribeSensor([...]) from SOSWrapper.
+ * This class describes a set of parameters, which is necessary to call
+ * doDescribeSensor([...]) from SOSWrapper.
  * 
  * @author Eric
  */

@@ -1,15 +1,12 @@
 package org.n52.oxf.sos.adapter;
 
-import static org.junit.Assert.assertEquals;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.xmlbeans.XmlObject;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
-import org.n52.oxf.xml.XMLConstants;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
@@ -28,14 +25,13 @@ public class RegisterSensorParameterBuilder_v100Test {
 	 */
 	@Test
 	public void testValidConstructorParameters() {
-		SensorDescriptionBuilder sensorDescription = new SensorDescriptionBuilder("sensorId", XMLConstants.QNAME_OM_1_0_MEASUREMENT);
+		SensorDescriptionBuilder sensorDescription = new SensorDescriptionBuilder("sensorId", REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT);
 		sensorDescription.setPosition("name", true, 0.1, 2.3);
 		sensorDescription.setObservedProperty("observedProperty");
 		sensorDescription.setUnitOfMeasurement("uom");
 		String sensorML = sensorDescription.generateSensorDescription();
 		
-		ObservationTemplateBuilder templateBuilder = new ObservationTemplateBuilder(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION);
-		templateBuilder.addCategoryObservationCodeSpace("codeSpace");
+		ObservationTemplateBuilder templateBuilder = ObservationTemplateBuilder.createObservationTemplateBuilderForTypeCategory("codeSpace");
 		String obsTemp = null;
 		try {
 			obsTemp = templateBuilder.generateObservationTemplate();
@@ -51,14 +47,13 @@ public class RegisterSensorParameterBuilder_v100Test {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testInvalidConstructorParameters() {
-		SensorDescriptionBuilder sensorDescription = new SensorDescriptionBuilder("sensorId", XMLConstants.QNAME_OM_1_0_MEASUREMENT);
+		SensorDescriptionBuilder sensorDescription = new SensorDescriptionBuilder("sensorId", REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT);
 		sensorDescription.setPosition("name", true, 0.1, 2.3);
 		sensorDescription.setObservedProperty("observedProperty");
 		sensorDescription.setUnitOfMeasurement("uom");
 		String sensorML = sensorDescription.generateSensorDescription();
 		
-		ObservationTemplateBuilder templateBuilder = new ObservationTemplateBuilder(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION);
-		templateBuilder.addCategoryObservationCodeSpace("codeSpace");
+		ObservationTemplateBuilder templateBuilder = ObservationTemplateBuilder.createObservationTemplateBuilderForTypeCategory("codeSpace");
 		String obsTemp = null;
 		try {
 			obsTemp = templateBuilder.generateObservationTemplate();
@@ -76,14 +71,13 @@ public class RegisterSensorParameterBuilder_v100Test {
 	 */
 	@Test
 	public void testApplyingAndGettingMandatoryParameters() {
-		SensorDescriptionBuilder sensorDescription = new SensorDescriptionBuilder("sensorId", XMLConstants.QNAME_OM_1_0_MEASUREMENT);
+		SensorDescriptionBuilder sensorDescription = new SensorDescriptionBuilder("sensorId", REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT);
 		sensorDescription.setPosition("name", true, 0.1, 2.3);
 		sensorDescription.setObservedProperty("observedProperty");
 		sensorDescription.setUnitOfMeasurement("uom");
 		String sensorML = sensorDescription.generateSensorDescription();
 		
-		ObservationTemplateBuilder templateBuilder = new ObservationTemplateBuilder(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION);
-		templateBuilder.addCategoryObservationCodeSpace("codeSpace");
+		ObservationTemplateBuilder templateBuilder = ObservationTemplateBuilder.createObservationTemplateBuilderForTypeCategory("codeSpace");
 		String obsTemp = null;
 		try {
 			obsTemp = templateBuilder.generateObservationTemplate();

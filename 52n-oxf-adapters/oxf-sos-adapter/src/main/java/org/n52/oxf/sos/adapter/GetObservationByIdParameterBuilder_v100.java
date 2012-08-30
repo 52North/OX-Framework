@@ -6,7 +6,8 @@ import java.util.Map;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
- * This class describes a set of mandatory and optional parameters, which is necessary to call doGetObservationById([...]) from SOSWrapper.
+ * This class describes a set ofparameters, which is necessary to call
+ * doGetObservationById([...]) from SOSWrapper.
  * 
  * @author Eric
  */
@@ -35,7 +36,7 @@ public class GetObservationByIdParameterBuilder_v100 {
 	}
 	
 	/**
-	 * Adds the optional parameter "srsName".
+	 * Adds or replaces the optional parameter "srsName".
 	 * 
 	 * @param srsName
 	 * @return parameter builder
@@ -49,7 +50,7 @@ public class GetObservationByIdParameterBuilder_v100 {
 	}
 	
 	/**
-	 * Adds the optional parameter "resultModel".
+	 * Adds or replaces the optional parameter "resultModel".
 	 * 
 	 * @param resultModel
 	 * @return parameter builder
@@ -63,7 +64,7 @@ public class GetObservationByIdParameterBuilder_v100 {
 	}
 	
 	/**
-	 * Adds the optional parameter "responseMode".
+	 * Adds or replaces the optional parameter "responseMode".
 	 * 
 	 * @param responseMode
 	 * @return parameter builder

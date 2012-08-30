@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.xml.XMLConstants;
 
@@ -18,16 +17,56 @@ import net.opengis.swe.x10.ScopedNameType;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
+/**
+ * Template generating class. Everything needed for generating the template is
+ * the type and additional type specific parameters
+ * 
+ * @author Eric
+ */
 public class ObservationTemplateBuilder {
 
 	private Map<String, String> parameters = new HashMap<String, String>();
 	
 	private QName observationType;
 	
-	public ObservationTemplateBuilder(QName observationType) {
-		this.observationType = observationType;
+	/**
+	 * Hidden public constructor.
+	 */
+	private ObservationTemplateBuilder() {
 	}
 	
+	/**
+	 * Type specific template builder generator for measurements.
+	 * 
+	 * @param uom unit of measurement
+	 * @return instance of measurement template builder 
+	 */
+	public static ObservationTemplateBuilder createObservationTemplateBuilderForTypeMeasurement(String uom) {
+		ObservationTemplateBuilder builder = new ObservationTemplateBuilder();
+		builder.observationType = XMLConstants.QNAME_OM_1_0_MEASUREMENT;
+		builder.parameters.put(REGISTER_SENSOR_CODESPACE_PARAMETER, uom);
+		return builder;
+	}
+	
+	/**
+	 * Type specific template builder generator for category observations.
+	 * 
+	 * @param codeSpace
+	 * @return instance of category observation template builder
+	 */
+	public static ObservationTemplateBuilder createObservationTemplateBuilderForTypeCategory(String codeSpace) {
+		ObservationTemplateBuilder builder = new ObservationTemplateBuilder();
+		builder.observationType = XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION;
+		builder.parameters.put(REGISTER_SENSOR_UOM_PARAMETER, codeSpace);
+		return builder;
+	}
+	
+	/**
+	 * Generator core of the template.
+	 * 
+	 * @return type specific observation template
+	 * @throws OXFException
+	 */
 	public String generateObservationTemplate() throws OXFException {
 		ObservationTemplate obsTemp = ObservationTemplate.Factory.newInstance();
 		ObservationType ot = obsTemp.addNewObservation();
@@ -52,20 +91,6 @@ public class ObservationTemplateBuilder {
 		}
 		
 		return obsTemp.toString();
-	}
-	
-	public void addCategoryObservationCodeSpace(String codespace) {
-		if (parameters.get(REGISTER_SENSOR_CODESPACE_PARAMETER) != null) {
-			parameters.remove(REGISTER_SENSOR_CODESPACE_PARAMETER);
-		}
-		parameters.put(REGISTER_SENSOR_CODESPACE_PARAMETER, codespace);
-	}
-	
-	public void addMeasurementUom(String uom) {
-		if (parameters.get(REGISTER_SENSOR_UOM_PARAMETER) != null) {
-			parameters.remove(REGISTER_SENSOR_UOM_PARAMETER);
-		}
-		parameters.put(REGISTER_SENSOR_UOM_PARAMETER, uom);
 	}
 	
 }

@@ -13,75 +13,34 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
  * This class is used to collect parameter information about Observations.
  * 
  * @author Eric
- * 
- * TODO RESTRUCTURING OF THE AVAILABLE PARAMETERS!
  */
-public class ObservationBuilder {
+public abstract class ObservationBuilder {
 	
-	// valid/available parameters for measurements
-	private String[] measurementObservationParameter = {
-			INSERT_OBSERVATION_SAMPLING_TIME,
-			INSERT_OBSERVATION_FOI_ID_PARAMETER,
-			INSERT_OBSERVATION_NEW_FOI_NAME,
-			INSERT_OBSERVATION_NEW_FOI_DESC,
-			INSERT_OBSERVATION_NEW_FOI_POSITION,
-			INSERT_OBSERVATION_POSITION_SRS,
-			INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER,
-			INSERT_OBSERVATION_VALUE_PARAMETER,
-			
-			INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE
-	};
-
-	// valid/available parameters for category observations
-	private String[] categoryObservationParameter = {
-			INSERT_OBSERVATION_SAMPLING_TIME,
-			INSERT_OBSERVATION_FOI_ID_PARAMETER,
-			INSERT_OBSERVATION_NEW_FOI_NAME,
-			INSERT_OBSERVATION_NEW_FOI_DESC,
-			INSERT_OBSERVATION_NEW_FOI_POSITION,
-			INSERT_OBSERVATION_POSITION_SRS,
-			INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER,
-			INSERT_OBSERVATION_VALUE_PARAMETER,
-			
-			INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE
-	};
-	
-	private QName type;
-	private Map<String, String> parameters = new HashMap<String, String>();
+	protected QName type;
+	protected Map<String, String> parameters = new HashMap<String, String>();
 
 	/**
-	 * Creating an observation description by defining the type of this observaiton.
+	 * Creates an observation builder with type specific parameter setters for measurements.
 	 * 
-	 * @param type observation type
+	 * @return type specific observation builder
 	 */
-	public ObservationBuilder(QName type) {
-		this.type = type;
-		parameters.put(INSERT_OBSERVATION_TYPE, type.toString());
+	public static MeasurementBuilder createObservationForTypeMeasurement() {
+		return new MeasurementBuilder();
 	}
 	
 	/**
-	 * Generic method to add valid/available parameters of the corresponding observation type.
+	 * Creates an observation builder with type specific parameter setters for category observations.
 	 * 
-	 * @param parameter
-	 * @param value
-	 * @throws IllegalArgumentException
+	 * @return type specific observation builder
 	 */
-	public void addParameter(String parameter, String value) throws IllegalArgumentException {
-		if (isValidForType(parameter)) {
-			parameters.put(parameter, value);
-		} else {
-			throw new IllegalArgumentException("The parameter \"" + parameter +
-					"\" does not fit to the observation type \"" + type + "\"!");
-		}
+	public static CategoryObservationBuilder createObservationForTypeCategory() {
+		return new CategoryObservationBuilder();
 	}
-	
+
 	/**
-	 * Removes a certain parameter from the list.
-	 * 
-	 * @param parameter
+	 * Empty constructor, which is only used to hide direct instantiation.
 	 */
-	public void removeParameter(String parameter) {
-		parameters.remove(parameter);
+	protected ObservationBuilder() {
 	}
 	
 	/**
@@ -103,27 +62,73 @@ public class ObservationBuilder {
 	}
 	
 	/**
-	 * Checks whether the parameter requested for adding is valid for this observation type.
+	 * Removes a certain parameter from the list.
 	 * 
-	 * @param typeParameter
-	 * @return truth
+	 * @param parameter
 	 */
-	private boolean isValidForType(String typeParameter) {
-		String[] validParameters;
-		if (type.equals(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION)) {
-			validParameters = categoryObservationParameter;
-		} else if (type.equals(XMLConstants.QNAME_OM_1_0_MEASUREMENT)) {
-			validParameters = measurementObservationParameter;
-		} else
-			return false;
-
-		boolean validity = false;
-		for (int i = 0; i < validParameters.length; i++) {
-			if (typeParameter.equals(validParameters[i])) {
-				validity = true;
-			}
-		}
-		return validity;
+	public void removeParameter(String parameter) {
+		parameters.remove(parameter);
 	}
-		
+	
+	// be careful when changing following methods
+	// begin -> parameter methods necessary for: MeasurementBuilder and CategoryObservationBuilder
+	
+	public void addSamplingTime(String samplingTime) {
+		if (parameters.get(INSERT_OBSERVATION_SAMPLING_TIME) != null) {
+			parameters.remove(INSERT_OBSERVATION_SAMPLING_TIME);
+		}
+		parameters.put(INSERT_OBSERVATION_SAMPLING_TIME, samplingTime);
+	}
+	
+	public void addFoiId(String foiId) {
+		if (parameters.get(INSERT_OBSERVATION_FOI_ID_PARAMETER) != null) {
+			parameters.remove(INSERT_OBSERVATION_FOI_ID_PARAMETER);
+		}
+		parameters.put(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);
+	}
+	
+	public void addNewFoiName(String foiName) {
+		if (parameters.get(INSERT_OBSERVATION_NEW_FOI_NAME) != null) {
+			parameters.remove(INSERT_OBSERVATION_NEW_FOI_NAME);
+		}
+		parameters.put(INSERT_OBSERVATION_NEW_FOI_NAME, foiName);
+	}
+	
+	public void addFoiDescription(String foiDescription) {
+		if (parameters.get(INSERT_OBSERVATION_NEW_FOI_DESC) != null) {
+			parameters.remove(INSERT_OBSERVATION_NEW_FOI_DESC);
+		}
+		parameters.put(INSERT_OBSERVATION_NEW_FOI_DESC, foiDescription);
+	}
+	
+	public void addFoiPosition(String foiPosition) {
+		if (parameters.get(INSERT_OBSERVATION_NEW_FOI_POSITION) != null) {
+			parameters.remove(INSERT_OBSERVATION_NEW_FOI_POSITION);
+		}
+		parameters.put(INSERT_OBSERVATION_NEW_FOI_POSITION, foiPosition);
+	}
+
+	public void addSrsPosition(String srsPosition) {
+		if (parameters.get(INSERT_OBSERVATION_POSITION_SRS) != null) {
+			parameters.remove(INSERT_OBSERVATION_POSITION_SRS);
+		}
+		parameters.put(INSERT_OBSERVATION_POSITION_SRS, srsPosition);
+	}
+	
+	public void addOservedProperty(String observedProperty) {
+		if (parameters.get(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER) != null) {
+			parameters.remove(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
+		}
+		parameters.put(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
+	}
+	
+	public void addObservationValue(String observationValue) {
+		if (parameters.get(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
+			parameters.remove(INSERT_OBSERVATION_VALUE_PARAMETER);
+		}
+		parameters.put(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
+	}
+	
+	// end -> parameter methods shared by: MeasurementBuilder and CategoryObservationBuilder
+
 }

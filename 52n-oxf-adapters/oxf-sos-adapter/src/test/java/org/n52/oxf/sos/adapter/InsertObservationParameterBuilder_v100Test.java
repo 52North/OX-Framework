@@ -24,7 +24,7 @@ public class InsertObservationParameterBuilder_v100Test {
 	 */
 	@Test
 	public void testValidConstructorParameters() {
-		new InsertObservationParameterBuilder_v100("", new ObservationBuilder(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION));
+		new InsertObservationParameterBuilder_v100("", ObservationBuilder.createObservationForTypeCategory());
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class InsertObservationParameterBuilder_v100Test {
 	public void testInvalidConstructorParameters() {
 		new InsertObservationParameterBuilder_v100(null, null);
 		new InsertObservationParameterBuilder_v100("", null);
-		new InsertObservationParameterBuilder_v100(null, new ObservationBuilder(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION));
+		new InsertObservationParameterBuilder_v100(null, ObservationBuilder.createObservationForTypeCategory());
 	}
 	
 	/**
@@ -42,7 +42,7 @@ public class InsertObservationParameterBuilder_v100Test {
 	 */
 	@Test
 	public void testApplyingAndGettingMandatoryParameters() {
-		ObservationBuilder observationBuilder = new ObservationBuilder(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION);
+		ObservationBuilder observationBuilder = ObservationBuilder.createObservationForTypeCategory();
 		InsertObservationParameterBuilder_v100 iospb = new InsertObservationParameterBuilder_v100("assignedSensorId", observationBuilder);
 		
 		HashMap<String, String> hm = (HashMap<String, String>) iospb.getParameters();
@@ -50,7 +50,7 @@ public class InsertObservationParameterBuilder_v100Test {
 		String parMan_02 = hm.get(INSERT_OBSERVATION_TYPE);
 		
 		assertEquals("assignedSensorId", parMan_01);
-		assertEquals(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION.toString(), parMan_02);
+		assertEquals(INSERT_OBSERVATION_TYPE_CATEGORY, parMan_02);
 	}
 	
 	/**
@@ -58,16 +58,16 @@ public class InsertObservationParameterBuilder_v100Test {
 	 */
 	@Test
 	public void testApplyingAndGettingOptionalParameters() {
-		ObservationBuilder observationBuilder = new ObservationBuilder(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION);
-		observationBuilder.addParameter(INSERT_OBSERVATION_FOI_ID_PARAMETER, INSERT_OBSERVATION_FOI_ID_PARAMETER);
-		observationBuilder.addParameter(INSERT_OBSERVATION_SAMPLING_TIME, INSERT_OBSERVATION_SAMPLING_TIME);
-		observationBuilder.addParameter(INSERT_OBSERVATION_NEW_FOI_NAME, INSERT_OBSERVATION_NEW_FOI_NAME);
-		observationBuilder.addParameter(INSERT_OBSERVATION_NEW_FOI_DESC, INSERT_OBSERVATION_NEW_FOI_DESC);
-		observationBuilder.addParameter(INSERT_OBSERVATION_NEW_FOI_POSITION, INSERT_OBSERVATION_NEW_FOI_POSITION);
-		observationBuilder.addParameter(INSERT_OBSERVATION_POSITION_SRS, INSERT_OBSERVATION_POSITION_SRS);
-		observationBuilder.addParameter(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
-		observationBuilder.addParameter(INSERT_OBSERVATION_VALUE_PARAMETER, INSERT_OBSERVATION_VALUE_PARAMETER);
-		observationBuilder.addParameter(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE);		
+		CategoryObservationBuilder observationBuilder = ObservationBuilder.createObservationForTypeCategory();
+		observationBuilder.addFoiId(INSERT_OBSERVATION_FOI_ID_PARAMETER);
+		observationBuilder.addSamplingTime(INSERT_OBSERVATION_SAMPLING_TIME);
+		observationBuilder.addNewFoiName(INSERT_OBSERVATION_NEW_FOI_NAME);
+		observationBuilder.addFoiDescription(INSERT_OBSERVATION_NEW_FOI_DESC);
+		observationBuilder.addFoiPosition(INSERT_OBSERVATION_NEW_FOI_POSITION);
+		observationBuilder.addSrsPosition(INSERT_OBSERVATION_POSITION_SRS);
+		observationBuilder.addOservedProperty(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
+		observationBuilder.addObservationValue(INSERT_OBSERVATION_VALUE_PARAMETER);
+		observationBuilder.addResultCodespace(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE);
 		
 		InsertObservationParameterBuilder_v100 iospb = new InsertObservationParameterBuilder_v100("assignedSensorId", observationBuilder);
 		
@@ -85,7 +85,7 @@ public class InsertObservationParameterBuilder_v100Test {
 		String parOpt_09 = hm.get(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE);
 		
 		assertEquals("assignedSensorId", parMan_01);
-		assertEquals(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION.toString(), parMan_02);
+		assertEquals(INSERT_OBSERVATION_TYPE_CATEGORY, parMan_02);
 		assertEquals(INSERT_OBSERVATION_FOI_ID_PARAMETER, parOpt_01);
 		assertEquals(INSERT_OBSERVATION_SAMPLING_TIME, parOpt_02);
 		assertEquals(INSERT_OBSERVATION_NEW_FOI_NAME, parOpt_03);

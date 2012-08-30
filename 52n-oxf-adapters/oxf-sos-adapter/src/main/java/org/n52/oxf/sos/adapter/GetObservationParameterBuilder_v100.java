@@ -12,7 +12,8 @@ import org.n52.oxf.valueDomains.StringValueDomain;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
- * This class describes a set of parameters, which is necessary to call doGetObservation([...]) from SOSWrapper.
+ * This class describes a set of parameters, which is necessary to call
+ * doGetObservation([...]) from SOSWrapper.
  * 
  * @author Eric
  */
@@ -43,7 +44,7 @@ public class GetObservationParameterBuilder_v100 {
 	 * @return set of parameters
 	 * @throws OXFException 
 	 */
-	Map<String, Object> getParameters() throws OXFException {
+	public Map<String, Object> getParameters() throws OXFException {
 		// preparing multiple occurance of observed property parameter for SOSWrapper
 		String[] observedProperties = observedPropertyList.toArray(new String[observedPropertyList.size()]);
 		Parameter observedPropertyParameter = new Parameter(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, true, new StringValueDomain(observedProperties), GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
@@ -67,7 +68,7 @@ public class GetObservationParameterBuilder_v100 {
 	}
 
 	/**
-	 * Adds the optional parameter "srsName".
+	 * Adds or replaces the optional parameter "srsName".
 	 * 
 	 * @param srsName
 	 * @return parameter builder
@@ -114,7 +115,7 @@ public class GetObservationParameterBuilder_v100 {
 	}
 	
 	/**
-	 * Adds the optional parameter "featureOfInterest".
+	 * Adds or replaces the optional parameter "featureOfInterest".
 	 * 
 	 * @param featureOfInterest
 	 * @return parameter builder
@@ -128,7 +129,7 @@ public class GetObservationParameterBuilder_v100 {
 	}
 	
 	/**
-	 * Adds the optional parameter "result".
+	 * Adds or replaces the optional parameter "result".
 	 * 
 	 * @param result
 	 * @return parameter builder
@@ -142,7 +143,7 @@ public class GetObservationParameterBuilder_v100 {
 	}
 	
 	/**
-	 * Adds the optional parameter "resultModel".
+	 * Adds the or replaces optional parameter "resultModel".
 	 * 
 	 * @param resultModel
 	 * @return parameter builder
@@ -156,7 +157,7 @@ public class GetObservationParameterBuilder_v100 {
 	}
 	
 	/**
-	 * Adds the optional parameter "responseMode".
+	 * Adds or replaces the optional parameter "responseMode".
 	 * 
 	 * @param responseMode
 	 * @return parameter builder

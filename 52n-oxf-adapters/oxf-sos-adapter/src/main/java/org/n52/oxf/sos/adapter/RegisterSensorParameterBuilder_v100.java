@@ -3,14 +3,11 @@ package org.n52.oxf.sos.adapter;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.xmlbeans.XmlObject;
-
-import net.opengis.sos.x10.ObservationTemplateDocument.ObservationTemplate;
-
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
- * This class describes a set of mandatory parameters, which is necessary to call doRegisterSensor([...]) from SOSWrapper.
+ * This class describes a set of parameters, which is necessary to call
+ * doRegisterSensor([...]) from SOSWrapper.
  * 
  * @author Eric
  */

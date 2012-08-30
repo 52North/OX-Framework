@@ -3,10 +3,7 @@ package org.n52.oxf.sos.adapter;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
 import org.apache.xmlbeans.XmlCursor;
-import org.apache.xmlbeans.XmlObject;
 
 import net.opengis.sensorML.x101.IoComponentPropertyType;
 import net.opengis.sensorML.x101.OutputsDocument.Outputs;
@@ -22,6 +19,16 @@ import net.opengis.swe.x101.VectorPropertyType;
 import net.opengis.swe.x101.VectorType;
 import net.opengis.swe.x101.VectorType.Coordinate;
 
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+
+/**
+ * Sensor description generating class. All data that describes the sensor is
+ * assembled in this class. The output is a ready to use SensorML document,
+ * which will be directly passed to the request. To add further sensor
+ * describing information just add certain methods in this class.
+ * 
+ * @author Eric
+ */
 public class SensorDescriptionBuilder {
 	
 	private SystemDocument systemDocument = SystemDocument.Factory.newInstance();
@@ -29,11 +36,22 @@ public class SensorDescriptionBuilder {
 	
 	private Map<String, String> parameters = new HashMap<String, String>();
 	
-	public SensorDescriptionBuilder(String sensorId, QName sensorObservationType) {
+	/**
+	 * Creates an sensor describing document builder.
+	 * 
+	 * @param sensorId
+	 * @param sensorObservationType
+	 */
+	public SensorDescriptionBuilder(String sensorId, String sensorObservationType) {
 		system.setId(sensorId);
-		parameters.put(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE, sensorObservationType.toString());
+		parameters.put(REGISTER_SENSOR_OBSERVATION_TYPE, sensorObservationType);
 	}
 	
+	/**
+	 * Return, if all necessary parameters are set, a ready to use SensorML document.
+	 * 
+	 * @return ready to use SensorML document
+	 */
 	public String generateSensorDescription() {
     	system.setOutputs(createOutputsFromParameters());
     	systemDocument.addNewSystem().set(system);    	
@@ -51,6 +69,14 @@ public class SensorDescriptionBuilder {
 		return sensorMLDocument.toString();
 	}
 	
+	/**
+	 * Sets the position describing parameters.
+	 * 
+	 * @param name
+	 * @param positionFixed
+	 * @param latitude
+	 * @param longitude
+	 */
 	public void setPosition(String name, boolean positionFixed, double latitude, double longitude) {
 		Position pos = Position.Factory.newInstance();
     	pos.setName(name);
@@ -68,30 +94,51 @@ public class SensorDescriptionBuilder {
     	system.setPosition(pos);
 	}
 	
+	/**
+	 * sets the observed property parameter.
+	 * 
+	 * @param observedProperty
+	 */
 	public void setObservedProperty(String observedProperty) {
-		parameters.put(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER, observedProperty);
+		parameters.put(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER, observedProperty);
 	}
 	
+	/**
+	 * Sets the unit of measurement paramter.
+	 * 
+	 * @param uom
+	 */
 	public void setUnitOfMeasurement(String uom) {
-		parameters.put(ISOSRequestBuilder.REGISTER_SENSOR_UOM_PARAMETER, uom);
+		parameters.put(REGISTER_SENSOR_UOM_PARAMETER, uom);
 	}
 	
+	/**
+	 * Internal method for generating outputs.
+	 * 
+	 * @return outputs
+	 */
 	private Outputs createOutputsFromParameters() {
 		Outputs outputs = Outputs.Factory.newInstance();
     	OutputList outputList = outputs.addNewOutputList();
     	IoComponentPropertyType IoCompProp = outputList.addNewOutput();
     	
-    	String obsType = ((String) parameters.get(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE));
+    	String obsType = ((String) parameters.get(REGISTER_SENSOR_OBSERVATION_TYPE));
     	
-    	if (obsType.equals(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT)){
+    	if (obsType.equals(REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT)){
     		Quantity quantity = IoCompProp.addNewQuantity();
-    		quantity.setDefinition((String) parameters.get(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER));
-    		quantity.addNewUom().setCode((String) parameters.get(ISOSRequestBuilder.REGISTER_SENSOR_UOM_PARAMETER));
-    	} else if (obsType.equals(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY)) {
+    		quantity.setDefinition((String) parameters.get(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER));
+    		quantity.addNewUom().setCode((String) parameters.get(REGISTER_SENSOR_UOM_PARAMETER));
+    	} else if (obsType.equals(REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY)) {
     		Category category = IoCompProp.addNewCategory();
-    		category.setDefinition((String) parameters.get(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER));
+    		category.setDefinition((String) parameters.get(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER));
     		category.addNewCodeSpace();
     	}
+    	
+    	// mandatory for validation
+    	String name = parameters.get(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER);
+    	String[] nameSplit = name.split(":");
+    	IoCompProp.setName(nameSplit[nameSplit.length-1]);
+
     	return outputs;
 	}
 }

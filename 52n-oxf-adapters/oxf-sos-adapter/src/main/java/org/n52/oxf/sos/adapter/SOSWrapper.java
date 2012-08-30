@@ -2,18 +2,8 @@ package org.n52.oxf.sos.adapter;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
-import net.opengis.sos.x10.ObservationTemplateDocument.ObservationTemplate;
-
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
@@ -22,7 +12,6 @@ import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.ows.capabilities.OperationsMetadata;
-import org.n52.oxf.sos.util.SosUtil;
 
 /**
  * SOSWrapper wraps all SOS operations implemented in SOSAdapter class.
@@ -303,9 +292,6 @@ public class SOSWrapper {
 	 * @return reassembled set of parameters needed to call the opertion in the SOSAdapter
 	 * @throws OXFException
 	 * @throws ExceptionReport
-	 * 
-	 * TODO ALL PARAMETERS USED TO DESCRIBE THE OBSERVATION ARE TAKEN FROM SOSADAPTER RESPECTIVELY
-	 * SOSREQUESTBUILDER. THERE SHOULD BE A DEFINITION WHAT PARAMETERS ARE SUPPORTED AND WHICH ARE NOT!
 	 */
 	ParameterContainer createParameterContainerForInsertObservation(Map<String, String> parameters) throws OXFException, ExceptionReport {
 		// transfer parameters into ParameterContainer
@@ -417,7 +403,7 @@ public class SOSWrapper {
 		SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
 		OperationsMetadata operationsMetadata = serviceDescriptor.getOperationsMetadata();
 		// if there are operations defined
-		if (isGetFeatureOfInterstDefined(operationsMetadata)) {
+		if (isGetFeatureOfInterestDefined(operationsMetadata)) {
 			Operation operation = operationsMetadata.getOperationByName(SOSAdapter.GET_FEATURE_OF_INTEREST);
 			ParameterContainer parameterContainer = createParameterContainerForGetFeatureOfInterest(builder.getParameters());
 			return adapter.doOperation(operation, parameterContainer);
@@ -431,7 +417,7 @@ public class SOSWrapper {
 	 * @param operationsMetadata
 	 * @return truth
 	 */
-	boolean isGetFeatureOfInterstDefined(OperationsMetadata operationsMetadata) {
+	boolean isGetFeatureOfInterestDefined(OperationsMetadata operationsMetadata) {
 		return operationsMetadata.getOperationByName(SOSAdapter.GET_FEATURE_OF_INTEREST) != null;
 	}
 	
