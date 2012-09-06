@@ -4,10 +4,10 @@
 	<parent>
 		<groupId>org.n52.sensorweb</groupId>
 		<artifactId>52n-oxf-adapters</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.12</version>
 	</parent>
 	<artifactId>oxf-wcs-adapter</artifactId>
-	<name>OxFramework WCS Adapter</name>
+	<name>WCS Adapter</name>
 	<description>Provides WCS Adapter implementation.</description>
 	<packaging>jar</packaging>
 	<dependencies>
