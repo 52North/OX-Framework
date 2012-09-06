@@ -8,8 +8,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.n52.sensorweb</groupId>
 	<artifactId>52n-oxf</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
-	<name>52North OxFramework</name>
+	<version>1.12</version>
+	<name>52North OX-Framework</name>
 	<description>Provides middleware components for 52n Sensor Web architecture</description>
 	<inceptionYear>2012</inceptionYear>
 	<packaging>pom</packaging>

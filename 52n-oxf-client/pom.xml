@@ -4,11 +4,11 @@
 	<parent>
 		<groupId>org.n52.sensorweb</groupId>
 		<artifactId>52n-oxf</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.12</version>
 	</parent>
 	<artifactId>52n-oxf-client</artifactId>
-	<name>52North OxFramework Client</name>
-	<description>Provides a sample OxFramework Client</description>
+	<name>52North OX-Framework Client</name>
+	<description>Provides a sample Client</description>
 	<packaging>jar</packaging>
 	<dependencies>
 		<!-- ### MODULE DEPENDENCIES ### -->

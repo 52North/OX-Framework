@@ -4,12 +4,11 @@
 	<parent>
 		<groupId>org.n52.sensorweb</groupId>
 		<artifactId>52n-oxf</artifactId>
-		<version>1.0.0</version>
+		<version>1.12</version>
 	</parent>
 	<artifactId>52n-oxf-utilities</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<name>52North OxFramework Utilities</name>
-	<description>Provides Utilities for the OxFramework</description>
+	<name>OX-Framework Utilities</name>
+	<description>Provides Utilities</description>
 	<packaging>jar</packaging>
 	<dependencies>
 		<!-- ### MODULE DEPENDENCIES ### -->
