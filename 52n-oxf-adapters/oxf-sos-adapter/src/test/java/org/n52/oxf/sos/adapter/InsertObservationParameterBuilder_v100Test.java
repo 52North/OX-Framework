@@ -7,6 +7,9 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import java.util.HashMap;
 
 import org.junit.Test;
+import org.n52.oxf.sos.adapter.wrapper.builder.CategoryObservationBuilder;
+import org.n52.oxf.sos.adapter.wrapper.builder.InsertObservationParameterBuilder_v100;
+import org.n52.oxf.sos.adapter.wrapper.builder.ObservationBuilder;
 import org.n52.oxf.xml.XMLConstants;
 
 

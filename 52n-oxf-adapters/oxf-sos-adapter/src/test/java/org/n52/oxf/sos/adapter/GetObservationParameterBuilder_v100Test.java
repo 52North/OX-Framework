@@ -8,6 +8,8 @@ import java.util.Vector;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterShell;
+import org.n52.oxf.sos.adapter.wrapper.SOSWrapper;
+import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationParameterBuilder_v100;
 
 /**
  * Test of correctness for:

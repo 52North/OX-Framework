@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import org.junit.Test;
+import org.n52.oxf.sos.adapter.wrapper.SOSWrapper;
+import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationByIdParameterBuilder_v100;
 
 /**
  * Test of correctness for:

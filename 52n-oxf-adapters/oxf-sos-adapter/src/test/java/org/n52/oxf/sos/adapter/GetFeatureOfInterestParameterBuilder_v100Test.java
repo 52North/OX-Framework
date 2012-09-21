@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 
 import org.junit.Test;
+import org.n52.oxf.sos.adapter.wrapper.builder.GetFeatureOfInterestParameterBuilder_v100;
 
 /**
  * Test of correctness for:
