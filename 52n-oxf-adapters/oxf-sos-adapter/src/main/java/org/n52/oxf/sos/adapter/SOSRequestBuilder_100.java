@@ -105,6 +105,8 @@ import org.n52.oxf.xmlbeans.parser.OfferingInSMLOutputsCase;
 import org.n52.oxf.xmlbeans.parser.SASamplingPointCase;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Contains attributes and methods to encode SOSOperationRequests as String in xml-format
@@ -114,6 +116,8 @@ import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
  */
 public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     
+	private static final Logger LOGGER = LoggerFactory.getLogger(SOSRequestBuilder_100.class);
+	
 	/**
      * Builds the GetCapabilities-Request. <br>
      * <br>
@@ -501,6 +505,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     	 * Validate before returning -> throw OXFException if validation fails
     	 */
     	doLaxRequestValidation(insObDoc);
+    	
     	return insObDoc.xmlText(XMLBeansTools.PRETTYPRINT);
     }
 
@@ -913,28 +918,6 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 		}
 		
 		regSensor.setObservationTemplate(obsTemp);
-		
-//    	// TODO insert other observation templates, current state: CategoryObservation, Measurement
-//    	ObservationTemplate obsTemp;
-//    	/*
-//    	 *	A: parse given XML-String
-//    	 */
-//    	if(parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVATION_TEMPLATE) != null){
-//    		try {
-//				obsTemp = regSensor.addNewObservationTemplate();
-//    			ObservationType obsType = ObservationType.Factory.parse((String)parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVATION_TEMPLATE).getSpecifiedValue());
-//				obsTemp.set(obsType);
-//			} catch (XmlException e) {
-//				throw new OXFException("Could not parse observation type from paramter shell.");
-//			}
-//		/*
-//		 *	B: create template depending on parameters 
-//		 */
-//    	} else if (parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVATION_TYPE) != null){
-//    		String observationType = (String)parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVATION_TYPE).getSpecifiedValue();
-//    		obsTemp = createObservationTemplate(observationType,parameters);
-//    		regSensor.setObservationTemplate(obsTemp);
-//    	}
 	}
 
 	private void addSensorDescription(RegisterSensor regSensor,
@@ -946,35 +929,8 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 		try {
 			sensorDescripiton = SensorMLDocument.Factory.parse((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_ML_DOC_PARAMETER).getSpecifiedValue());
 		} catch (XmlException e) {
-			e.printStackTrace();
+			LOGGER.error(String.format("Exception thrown: %s", e.getMessage()), e);
 		}
-
-//    	// SYSTEMDOCUMENT - OLD VERSION
-//    	SystemDocument systemDocument = null;
-//    	// Is a SensorML file passed along?
-//    	if(parameters.getParameterShellWithCommonName(REGISTER_SENSOR_ML_DOC_PARAMETER)!= null){
-//    		try {
-//				systemDocument = SystemDocument.Factory.parse((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_ML_DOC_PARAMETER).getSpecifiedValue());
-//			} catch (XmlException e) {
-//				throw new OXFException(
-//						String.format(
-//								"Given SensorML document from paramter ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER could not be parsed. Error: %s",
-//								e.getMessage()),
-//						e);
-//			}
-//    	}
-//    	else {
-//    		systemDocument = createSystemDocumentFromParameters(parameters);
-//    	}
-//    	SensorMLDocument sensorMLDocument = SensorMLDocument.Factory.newInstance();
-//    	sensorMLDocument.addNewSensorML().addNewMember().set(systemDocument);  	
-//    	// Get SensorML version by checking the class of SystemDocument
-//    	if (systemDocument instanceof net.opengis.sensorML.x101.SystemDocument) {
-//    		XmlCursor c = sensorMLDocument.getSensorML().newCursor();
-//    		c.toNextToken();
-//    		c.insertAttributeWithValue("version","1.0.1");
-//    		c.dispose();
-//    	}
  
     	sensorDesc.set(sensorDescripiton);
 	}
@@ -983,107 +939,6 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 			ParameterContainer parameters) {
 		regSensor.setVersion((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
     	regSensor.setService((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
-	}
-
-	private SystemDocument createSystemDocumentFromParameters(
-			ParameterContainer parameters) {
-		SystemDocument systemDocument = SystemDocument.Factory.newInstance();
-		SystemType system = null;
-    	system = SystemType.Factory.newInstance();
-    	
-    	system.setId((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_ID_PARAMETER).getSpecifiedValue());
-    	
-    	Position pos = Position.Factory.newInstance();
-    	pos.setName((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_POSITION_NAME_PARAMETER).getSpecifiedValue());
-    	PositionType posType = pos.addNewPosition();
-    	posType.setFixed(new Boolean((String)parameters.getParameterShellWithCommonName(REGISTER_SENSOR_POSITION_FIXED_PARAMETER).getSpecifiedValue()));
-    	posType.setReferenceFrame("urn:ogc:crs:epsg:4326");
-    	VectorPropertyType vecPropType =  posType.addNewLocation();
-    	VectorType vecType = vecPropType.addNewVector();
-    	Coordinate cordLatitude = vecType.addNewCoordinate();
-    	cordLatitude.setName("latitude");
-    	cordLatitude.addNewQuantity().setValue(new Double ((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_LATITUDE_POSITION_PARAMETER).getSpecifiedValue()));
-    	Coordinate cordLongitude = vecType.addNewCoordinate();
-    	cordLongitude.setName("longitude");
-    	cordLongitude.addNewQuantity().setValue(new Double ((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_LONGITUDE_POSITION_PARAMETER).getSpecifiedValue()));
-    	system.setPosition(pos);
-    	
-    	//TODO support Input List here
-    	Inputs inputs = system.addNewInputs();
-    	inputs.addNewInputList();
-    	
-    	system.setOutputs(createOutputsFromParameters(parameters));
-    	
-    	systemDocument.addNewSystem().set(system);
-    	
-    	return systemDocument;
-	}
-	/*
-	 *  FIXME add meta data element like this:
-	 *  MetaDataPropertyType offering = quantity.addNewMetaDataProperty();
-		XmlCursor c = offering.newCursor();
-		c.toNextToken();
-		c.beginElement(Configuration.QN_SOS_1_0_OFFERING);
-		c.insertElementWithText(Configuration.QN_SOS_1_0_ID,OFFERING_URI);
-		c.insertElementWithText(Configuration.QN_SOS_1_0_NAME,OFFERING_NAME);
-		c.dispose();
-	 */
-	private Outputs createOutputsFromParameters(ParameterContainer parameters) {
-		Outputs outputs = Outputs.Factory.newInstance();
-    	OutputList outputList = outputs.addNewOutputList();
-    	IoComponentPropertyType IoCompProp = outputList.addNewOutput();
-    	
-    	String obsType = ((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVATION_TYPE).getSpecifiedValue());
-    	
-    	if (obsType.equals(REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT)){
-    		Quantity quantity = IoCompProp.addNewQuantity();
-    		quantity.setDefinition((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue());
-    		quantity.addNewUom().setCode((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_UOM_PARAMETER).getSpecifiedValue());
-    	} else if (obsType.equals(REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY)) {
-    		Category category = IoCompProp.addNewCategory();
-    		category.setDefinition((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue());
-    		category.addNewCodeSpace();
-    	}
-    	return outputs;
-	}
-
-	private ObservationTemplate createObservationTemplate(
-			String observationType, ParameterContainer parameters) throws OXFException {
-		ObservationTemplate obsTemp = ObservationTemplate.Factory.newInstance();
-		
-		ObservationType ot = obsTemp.addNewObservation();
-		ot.addNewSamplingTime();
-		ot.addNewProcedure();
-		ot.addNewObservedProperty();
-		ot.addNewFeatureOfInterest();
-		
-		if (observationType.equals(REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY) ){
-
-			ScopedNameType snt = ScopedNameType.Factory.newInstance();
-			snt.setCodeSpace((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_CODESPACE_PARAMETER).getSpecifiedValue());
-			
-			ot = (ObservationType) ot.
-    				substitute(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION,
-    						CategoryObservationType.type);
-			ot.addNewResult().set(snt);
-			
-
-		} else if (observationType.equals(REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT) ){
-			
-			MeasureType mt2 = MeasureType.Factory.newInstance();
-			mt2.setDoubleValue(0.0); // default value required by our SOS
-			mt2.setUom(parameters.getParameterShellWithCommonName(
-              			REGISTER_SENSOR_UOM_PARAMETER).getSpecifiedValue().toString());
-			
-			ot = (ObservationType) ot.
-    				substitute(XMLConstants.QNAME_OM_1_0_MEASUREMENT,
-    						MeasurementType.type);
-			ot.addNewResult().set(mt2);
-			
-		} else{
-			throw new OXFException("Observation type '" + observationType + "' not supported.");
-		}
-		return obsTemp;
 	}	
     
 }
