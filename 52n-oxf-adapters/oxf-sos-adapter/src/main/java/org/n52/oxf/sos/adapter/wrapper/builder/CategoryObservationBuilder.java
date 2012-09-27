@@ -30,4 +30,11 @@ public class CategoryObservationBuilder extends ObservationBuilder {
 			}
 			parameters.put(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, resultCodespace);
 		}
+		
+		public void addObservationValue(String observationValue) {
+			if (parameters.get(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
+				parameters.remove(INSERT_OBSERVATION_VALUE_PARAMETER);
+			}
+			parameters.put(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
+		}
 }

@@ -24,6 +24,7 @@
 
 package org.n52.oxf.sos.adapter;
 
+import java.math.BigInteger;
 import java.util.Collection;
 
 import javax.xml.namespace.QName;
@@ -76,11 +77,21 @@ import net.opengis.sos.x10.RegisterSensorDocument;
 import net.opengis.sos.x10.RegisterSensorDocument.RegisterSensor;
 import net.opengis.sos.x10.RegisterSensorDocument.RegisterSensor.SensorDescription;
 import net.opengis.sos.x10.ResponseModeType;
+import net.opengis.swe.x101.DataValuePropertyType;
 import net.opengis.swe.x10.ScopedNameType;
+import net.opengis.swe.x101.AbstractDataArrayType.ElementCount;
+import net.opengis.swe.x101.AbstractDataRecordDocument;
+import net.opengis.swe.x101.AbstractDataRecordType;
+import net.opengis.swe.x101.BlockEncodingPropertyType;
 import net.opengis.swe.x101.CategoryDocument.Category;
+import net.opengis.swe.x101.DataArrayDocument;
+import net.opengis.swe.x101.DataArrayType;
+import net.opengis.swe.x101.DataComponentPropertyType;
+import net.opengis.swe.x101.DataRecordType;
 import net.opengis.swe.x101.PhenomenonPropertyType;
 import net.opengis.swe.x101.PositionType;
 import net.opengis.swe.x101.QuantityDocument.Quantity;
+import net.opengis.swe.x101.TextBlockDocument.TextBlock;
 import net.opengis.swe.x101.TimeObjectPropertyType;
 import net.opengis.swe.x101.VectorPropertyType;
 import net.opengis.swe.x101.VectorType;
@@ -500,7 +511,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     	InsertObservation insert = insObDoc.addNewInsertObservation();
     	addOperationMetadata(insert,parameters);
     	addAssignedSensorId(insert,parameters);
-    	addObservation(insert,parameters);
+    	addObservation(insert,parameters);    	
     	/*
     	 * Validate before returning -> throw OXFException if validation fails
     	 */
@@ -549,12 +560,12 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     				substitute(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION, 
     						CategoryObservationType.type);
     	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
-    		// fill in count
-    		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_COUNT_OBSERVATION, 
-    						CountObservationType.type);
+			// fill in count TODO change to "observation"
+			obsType = (ObservationType) obsType.substitute(
+					XMLConstants.QNAME_OM_1_0_COUNT_OBSERVATION,
+							CountObservationType.type);
     	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_TRUTH)) {
-    		// fill in truth
+    		// fill in truth TODO change to "observation"
     		obsType = (ObservationType) obsType.
     				substitute(XMLConstants.QNAME_OM_1_0_TRUTH_OBSERVATION, 
     						TruthObservationType.type);
@@ -637,7 +648,6 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         					getSpecifiedValue());
     			
     			result.set(snt);
-    			
     		}
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)) {
     		MeasureType mt = MeasureType.Factory.newInstance();
@@ -652,13 +662,77 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         			parameters.getParameterShellWithCommonName(
         					INSERT_OBSERVATION_VALUE_PARAMETER).
         					getSpecifiedValue());
-        	result.set(mt);
+        	result.set(mt);        	
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
-    		CountObservationType cot = CountObservationType.Factory.newInstance();
-    		System.out.println("NOT YET IMPLEMENTED!");
+    		int value = (int) Double.parseDouble(((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue()));
+    		String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
+    		String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
+         	String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
+    		
+        	DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
+        	DataArrayType arrayType = doc.addNewDataArray1();
+        	ElementCount ec = arrayType.addNewElementCount();
+        	ec.addNewCount().setValue(new BigInteger("1"));
+        	DataComponentPropertyType et = arrayType.addNewElementType();
+        	et.setName("Components");
+        	AbstractDataRecordType adr = et.addNewAbstractDataRecord();
+        	DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
+        	DataComponentPropertyType countField1 = drt.addNewField();
+        	countField1.setName("Time");
+        	countField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
+        	DataComponentPropertyType countField2 = drt.addNewField();
+        	countField2.setName("feature");
+        	countField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
+        	DataComponentPropertyType countField3 = drt.addNewField();
+        	countField3.setName("resultValue");
+        	countField3.addNewCount().setDefinition(obsPropId);
+        	TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
+        	block.setDecimalSeparator(".");
+        	block.setTokenSeparator(",");
+        	block.setBlockSeparator(";");
+        	
+        	XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
+        	dataArrayCursor.toChild("values");
+        	dataArrayCursor.toNextToken();
+        	dataArrayCursor.insertChars(time + "," + foi + "," + value);
+        	dataArrayCursor.dispose();
+        	
+        	result.set(doc);
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TRUTH)) {
-    		TruthObservationType tt = TruthObservationType.Factory.newInstance();
-    		System.out.println("NOT YET IMPLEMENTED!");
+    		String value = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
+    		String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
+    		String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
+         	String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
+    		
+        	DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
+        	DataArrayType arrayType = doc.addNewDataArray1();
+        	ElementCount ec = arrayType.addNewElementCount();
+        	ec.addNewCount().setValue(new BigInteger("1"));
+        	DataComponentPropertyType et = arrayType.addNewElementType();
+        	et.setName("Components");
+        	AbstractDataRecordType adr = et.addNewAbstractDataRecord();
+        	DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
+        	DataComponentPropertyType booleanField1 = drt.addNewField();
+        	booleanField1.setName("Time");
+        	booleanField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
+        	DataComponentPropertyType booleanField2 = drt.addNewField();
+        	booleanField2.setName("feature");
+        	booleanField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
+        	DataComponentPropertyType booleanField3 = drt.addNewField();
+        	booleanField3.setName("resultValue");
+        	booleanField3.addNewBoolean().setDefinition(obsPropId);
+        	TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
+        	block.setDecimalSeparator(".");
+        	block.setTokenSeparator(",");
+        	block.setBlockSeparator(";");
+        	
+        	XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
+        	dataArrayCursor.toChild("values");
+        	dataArrayCursor.toNextToken();
+        	dataArrayCursor.insertChars(time + "," + foi + "," + value);
+        	dataArrayCursor.dispose();
+        	
+        	result.set(doc);
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TEMPORAL)) {
     		TemporalObservationType tt = TemporalObservationType.Factory.newInstance();
     		System.out.println("NOT YET IMPLEMENTED!");

@@ -5,8 +5,6 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.n52.oxf.xml.XMLConstants;
-
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
@@ -22,7 +20,7 @@ public abstract class ObservationBuilder {
 	/**
 	 * Creates an observation builder with type specific parameter setters for measurements.
 	 * 
-	 * @return type specific observation builder
+	 * @return measurement builder
 	 */
 	public static MeasurementBuilder createObservationForTypeMeasurement() {
 		return new MeasurementBuilder();
@@ -31,10 +29,28 @@ public abstract class ObservationBuilder {
 	/**
 	 * Creates an observation builder with type specific parameter setters for category observations.
 	 * 
-	 * @return type specific observation builder
+	 * @return category observation builder
 	 */
 	public static CategoryObservationBuilder createObservationForTypeCategory() {
 		return new CategoryObservationBuilder();
+	}
+	
+	/**
+	 * Creates an observation builder with type specific parameter setters for truth observations.
+	 * 
+	 * @return boolean obervation builder
+	 */
+	public static BooleanObservationBuilder createObservationForTypeBoolean() {
+		return new BooleanObservationBuilder();
+	}
+	
+	/**
+	 * Creates an observation builder with type specific parameter setters for count observations.
+	 * 
+	 * @return count observation builder
+	 */
+	public static CountObservationBuilder createObservationForTypeCount() {
+		return new CountObservationBuilder();
 	}
 
 	/**
@@ -120,13 +136,6 @@ public abstract class ObservationBuilder {
 			parameters.remove(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
 		}
 		parameters.put(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
-	}
-	
-	public void addObservationValue(String observationValue) {
-		if (parameters.get(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
-			parameters.remove(INSERT_OBSERVATION_VALUE_PARAMETER);
-		}
-		parameters.put(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
 	}
 	
 	// end -> parameter methods shared by: MeasurementBuilder and CategoryObservationBuilder

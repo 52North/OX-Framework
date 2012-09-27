@@ -30,5 +30,12 @@ public class MeasurementBuilder extends ObservationBuilder {
 			}
 			parameters.put(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, uom);
 		}
+		
+		public void addObservationValue(String observationValue) {
+			if (parameters.get(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
+				parameters.remove(INSERT_OBSERVATION_VALUE_PARAMETER);
+			}
+			parameters.put(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
+		}
 
 }

@@ -60,5 +60,8 @@ public class XMLConstants {
 	public static final QName QNAME_OM_1_0_OBSERVED_PROPERTY = new QName(OM_1_0_NS_URI, "observedProperty");
 	public static final QName QNAME_OM_1_0_FEATURE_OF_INTEREST = new QName(OM_1_0_NS_URI, "featureOfInterest");
 	public static final QName QNAME_OM_1_0_RESULT = new QName(OM_1_0_NS_URI, "result");
-
+	
+	public static final String SWE_1_0_1_NS_URI = "http://www.opengis.net/swe/1.0.1";
+	
+	public static final QName QNAME_SWE_1_0_1_DATA_RECORD = new QName(SWE_1_0_1_NS_URI, "DataRecord");
 }

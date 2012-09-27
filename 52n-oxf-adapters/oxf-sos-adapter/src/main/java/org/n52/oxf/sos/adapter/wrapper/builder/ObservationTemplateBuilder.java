@@ -61,6 +61,28 @@ public class ObservationTemplateBuilder {
 		return builder;
 	}
 	
+	/**
+	 * Type specific template builder generator for count observations.
+	 * 
+	 * @return instance of count observation template builder
+	 */
+	public static ObservationTemplateBuilder createObservationTemplateBuilderForTypeCount() {
+		ObservationTemplateBuilder builder = new ObservationTemplateBuilder();
+		builder.observationType = XMLConstants.QNAME_OM_1_0_COUNT_OBSERVATION;
+		return builder;
+	}
+
+	/**
+	 * Type specific template builder generator for truth observations.
+	 * 
+	 * @return instance of truth observation template builder
+	 */
+	public static ObservationTemplateBuilder createObservationTemplateBuilderForTypeTruth() {
+		ObservationTemplateBuilder builder = new ObservationTemplateBuilder();
+		builder.observationType = XMLConstants.QNAME_OM_1_0_TRUTH_OBSERVATION;
+		return builder;
+	}
+
 	public void setDefaultValue(String defaultValue) {
 		parameters.put(REGISTER_SENSOR_DEFAULT_RESULT_VALUE, defaultValue);
 	}
@@ -91,6 +113,10 @@ public class ObservationTemplateBuilder {
 			mt2.setUom(parameters.get(REGISTER_SENSOR_UOM_PARAMETER));
 			ot = (ObservationType) ot.substitute(XMLConstants.QNAME_OM_1_0_MEASUREMENT, MeasurementType.type);
 			ot.addNewResult().set(mt2);
+		} else if (observationType.equals(XMLConstants.QNAME_OM_1_0_COUNT_OBSERVATION)){
+			// TODO
+		} else if (observationType.equals(XMLConstants.QNAME_OM_1_0_TRUTH_OBSERVATION)){
+			// TODO
 		} else{
 			throw new OXFException("Observation type '" + observationType + "' not supported.");
 		}
