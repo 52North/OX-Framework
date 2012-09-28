@@ -10,8 +10,10 @@ import org.n52.oxf.xml.XMLConstants;
 
 import net.opengis.gml.MeasureType;
 import net.opengis.om.x10.CategoryObservationType;
+import net.opengis.om.x10.CountObservationType;
 import net.opengis.om.x10.MeasurementType;
 import net.opengis.om.x10.ObservationType;
+import net.opengis.om.x10.TruthObservationType;
 import net.opengis.sos.x10.ObservationTemplateDocument.ObservationTemplate;
 import net.opengis.swe.x10.ScopedNameType;
 
@@ -113,14 +115,15 @@ public class ObservationTemplateBuilder {
 			mt2.setUom(parameters.get(REGISTER_SENSOR_UOM_PARAMETER));
 			ot = (ObservationType) ot.substitute(XMLConstants.QNAME_OM_1_0_MEASUREMENT, MeasurementType.type);
 			ot.addNewResult().set(mt2);
-		} else if (observationType.equals(XMLConstants.QNAME_OM_1_0_COUNT_OBSERVATION)){
-			// TODO
-		} else if (observationType.equals(XMLConstants.QNAME_OM_1_0_TRUTH_OBSERVATION)){
-			// TODO
-		} else{
+		} else if (observationType.equals(XMLConstants.QNAME_OM_1_0_COUNT_OBSERVATION)) {
+			ot.substitute(XMLConstants.QNAME_OM_1_0_OBSERVATION, ObservationType.type);
+			ot.addNewResult();
+		} else if (observationType.equals(XMLConstants.QNAME_OM_1_0_TRUTH_OBSERVATION)) {
+			ot.substitute(XMLConstants.QNAME_OM_1_0_OBSERVATION, ObservationType.type);
+			ot.addNewResult();
+		} else {
 			throw new OXFException("Observation type '" + observationType + "' not supported.");
 		}
-		
 		
 		return obsTemp.toString();
 	}
