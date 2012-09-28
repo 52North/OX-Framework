@@ -40,6 +40,7 @@ public class XMLConstants {
 	public static final QName QNAME_SA_1_0_SAMPLING_POINT = new QName(SA_NS_URI, "SamplingPoint");
 
 	private static final String OM_1_0_NS_URI = "http://www.opengis.net/om/1.0";
+	public static final QName QNAME_OM_1_0_OBSERVATION = new QName(OM_1_0_NS_URI, "Observation");
 	public static final QName QNAME_OM_1_0_MEASUREMENT = new QName(OM_1_0_NS_URI, "Measurement");
 	public static final QName QNAME_OM_1_0_CATEGORY_OBSERVATION = new QName(OM_1_0_NS_URI, "CategoryObservation");
 	public static final QName QNAME_OM_1_0_COUNT_OBSERVATION = new QName(OM_1_0_NS_URI, "CountObservation");

@@ -560,15 +560,15 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     				substitute(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION, 
     						CategoryObservationType.type);
     	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
-			// fill in count TODO change to "observation"
+			// fill in count
 			obsType = (ObservationType) obsType.substitute(
-					XMLConstants.QNAME_OM_1_0_COUNT_OBSERVATION,
-							CountObservationType.type);
+					XMLConstants.QNAME_OM_1_0_OBSERVATION,
+							ObservationType.type);
     	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_TRUTH)) {
-    		// fill in truth TODO change to "observation"
+    		// fill in truth
     		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_TRUTH_OBSERVATION, 
-    						TruthObservationType.type);
+    				substitute(XMLConstants.QNAME_OM_1_0_OBSERVATION, 
+    						ObservationType.type);
     	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_TEMPORAL)) {
     		// fill in temporal
     		obsType = (ObservationType) obsType.
