@@ -326,18 +326,18 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 
         if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_PROCEDURE_PARAMETER) != null) {
             Object[] procedures = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_PROCEDURE_PARAMETER).getSpecifiedValueArray();
-            xb_getObs.setProcedureArray((String[]) procedures);
+            xb_getObs.setProcedureArray(objectArrayToStringArray(procedures));
         }
 
         if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER) != null) {
             ParameterShell foiParamShell = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER);
             if (foiParamShell.hasMultipleSpecifiedValues()) {
                 Object[] fois = foiParamShell.getSpecifiedValueArray();
-                xb_getObs.addNewFeatureOfInterest().setObjectIDArray((String[]) fois);
+                xb_getObs.addNewFeatureOfInterest().setObjectIDArray(objectArrayToStringArray(fois));
             }
             else {
                 Object foi = foiParamShell.getSpecifiedValue();
-                xb_getObs.addNewFeatureOfInterest().setObjectIDArray(new String[] { (String)foi});
+                xb_getObs.addNewFeatureOfInterest().setObjectIDArray(new String[] { (String) foi });
             }
             // TODO Spec-Too-Flexible-Problem: it is also possible that the FeatureOfInterest is specified as
             // a "spatialOps"
@@ -368,8 +368,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         }
 
         return xb_getObsDoc.xmlText(XMLBeansTools.PRETTYPRINT);
-    }
-    
+    }    
     
     /**
      * builds the GetObservationByID-Request. <br>
@@ -1013,6 +1012,14 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 			ParameterContainer parameters) {
 		regSensor.setVersion((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
     	regSensor.setService((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
-	}	
+	}
+	
+	private String[] objectArrayToStringArray(Object[] objectArray) {
+		String[] stringArray = new String[objectArray.length];
+		for (int i = 0; i < objectArray.length; i++) {
+			stringArray[i] = (String) objectArray[i];
+		}
+		return stringArray;
+	}
     
 }
