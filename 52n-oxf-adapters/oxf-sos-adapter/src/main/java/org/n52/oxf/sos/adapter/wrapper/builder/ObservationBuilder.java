@@ -31,8 +31,8 @@ public abstract class ObservationBuilder {
 	 * 
 	 * @return category observation builder
 	 */
-	public static CategoryObservationBuilder createObservationForTypeCategory() {
-		return new CategoryObservationBuilder();
+	public static TextObservationBuilder createObservationForTypeText() {
+		return new TextObservationBuilder();
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public abstract class ObservationBuilder {
 		parameters.put(INSERT_OBSERVATION_POSITION_SRS, srsPosition);
 	}
 	
-	public void addOservedProperty(String observedProperty) {
+	public void addObservedProperty(String observedProperty) {
 		if (parameters.get(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER) != null) {
 			parameters.remove(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
 		}

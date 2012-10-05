@@ -56,10 +56,9 @@ public class ObservationTemplateBuilder {
 	 * @param codeSpace
 	 * @return instance of category observation template builder
 	 */
-	public static ObservationTemplateBuilder createObservationTemplateBuilderForTypeCategory(String codeSpace) {
+	public static ObservationTemplateBuilder createObservationTemplateBuilderForTypeText() {
 		ObservationTemplateBuilder builder = new ObservationTemplateBuilder();
-		builder.observationType = XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION;
-		builder.parameters.put(REGISTER_SENSOR_UOM_PARAMETER, codeSpace);
+		builder.observationType = XMLConstants.QNAME_OM_1_0_TEXT_OBSERVATION;
 		return builder;
 	}
 	
@@ -103,11 +102,9 @@ public class ObservationTemplateBuilder {
 		ot.addNewObservedProperty();
 		ot.addNewFeatureOfInterest();
 		
-		if (observationType.equals(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION)){
-			ScopedNameType snt = ScopedNameType.Factory.newInstance();
-			snt.setCodeSpace(parameters.get(REGISTER_SENSOR_CODESPACE_PARAMETER));
-			ot = (ObservationType) ot.substitute(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION, CategoryObservationType.type);
-			ot.addNewResult().set(snt);
+		if (observationType.equals(XMLConstants.QNAME_OM_1_0_TEXT_OBSERVATION)){
+			ot.substitute(XMLConstants.QNAME_OM_1_0_OBSERVATION, ObservationType.type);
+			ot.addNewResult();
 		} else if (observationType.equals(XMLConstants.QNAME_OM_1_0_MEASUREMENT)){
 			MeasureType mt2 = MeasureType.Factory.newInstance();
 			double defaultValue = Double.valueOf(parameters.get(REGISTER_SENSOR_DEFAULT_RESULT_VALUE));

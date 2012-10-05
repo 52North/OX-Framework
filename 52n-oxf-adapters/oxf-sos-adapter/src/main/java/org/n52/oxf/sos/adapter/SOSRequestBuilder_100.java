@@ -37,27 +37,17 @@ import net.opengis.gml.TimeInstantType;
 import net.opengis.gml.TimePeriodType;
 import net.opengis.gml.TimePositionType;
 import net.opengis.ogc.BinaryTemporalOpType;
-import net.opengis.om.x10.CategoryObservationType;
 import net.opengis.om.x10.ComplexObservationType;
-import net.opengis.om.x10.CountObservationType;
 import net.opengis.om.x10.GeometryObservationType;
 import net.opengis.om.x10.MeasurementType;
 import net.opengis.om.x10.ObservationType;
 import net.opengis.om.x10.ProcessPropertyType;
 import net.opengis.om.x10.TemporalObservationType;
-import net.opengis.om.x10.TruthObservationType;
 import net.opengis.ows.x11.AcceptVersionsType;
 import net.opengis.ows.x11.SectionsType;
 import net.opengis.sampling.x10.SamplingPointDocument;
 import net.opengis.sampling.x10.SamplingPointType;
-import net.opengis.sensorML.x101.InputsDocument.Inputs;
-import net.opengis.sensorML.x101.IoComponentPropertyType;
-import net.opengis.sensorML.x101.OutputsDocument.Outputs;
-import net.opengis.sensorML.x101.OutputsDocument.Outputs.OutputList;
-import net.opengis.sensorML.x101.PositionDocument.Position;
 import net.opengis.sensorML.x101.SensorMLDocument;
-import net.opengis.sensorML.x101.SystemDocument;
-import net.opengis.sensorML.x101.SystemType;
 import net.opengis.sos.x10.DescribeSensorDocument;
 import net.opengis.sos.x10.DescribeSensorDocument.DescribeSensor;
 import net.opengis.sos.x10.GetCapabilitiesDocument;
@@ -77,25 +67,15 @@ import net.opengis.sos.x10.RegisterSensorDocument;
 import net.opengis.sos.x10.RegisterSensorDocument.RegisterSensor;
 import net.opengis.sos.x10.RegisterSensorDocument.RegisterSensor.SensorDescription;
 import net.opengis.sos.x10.ResponseModeType;
-import net.opengis.swe.x101.DataValuePropertyType;
-import net.opengis.swe.x10.ScopedNameType;
 import net.opengis.swe.x101.AbstractDataArrayType.ElementCount;
-import net.opengis.swe.x101.AbstractDataRecordDocument;
 import net.opengis.swe.x101.AbstractDataRecordType;
-import net.opengis.swe.x101.BlockEncodingPropertyType;
-import net.opengis.swe.x101.CategoryDocument.Category;
 import net.opengis.swe.x101.DataArrayDocument;
 import net.opengis.swe.x101.DataArrayType;
 import net.opengis.swe.x101.DataComponentPropertyType;
 import net.opengis.swe.x101.DataRecordType;
 import net.opengis.swe.x101.PhenomenonPropertyType;
-import net.opengis.swe.x101.PositionType;
-import net.opengis.swe.x101.QuantityDocument.Quantity;
 import net.opengis.swe.x101.TextBlockDocument.TextBlock;
 import net.opengis.swe.x101.TimeObjectPropertyType;
-import net.opengis.swe.x101.VectorPropertyType;
-import net.opengis.swe.x101.VectorType;
-import net.opengis.swe.x101.VectorType.Coordinate;
 
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlError;
@@ -553,11 +533,11 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     		obsType = (ObservationType) obsType.
     				substitute(XMLConstants.QNAME_OM_1_0_MEASUREMENT,
     						MeasurementType.type);
-    	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_CATEGORY)){
-    		//fill in category
-    		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_CATEGORY_OBSERVATION, 
-    						CategoryObservationType.type);
+    	} else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_TEXT)){
+    		//fill in text
+    		obsType = (ObservationType) obsType.substitute(
+    				XMLConstants.QNAME_OM_1_0_OBSERVATION, 
+    						ObservationType.type);
     	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
 			// fill in count
 			obsType = (ObservationType) obsType.substitute(
@@ -630,24 +610,8 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     	 * and the CodeSpace for the result value is set, add it
     	 */
     	// TODO Check if this is working with validating SOS?
-    	if(observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_CATEGORY)){
-    		
-    		ParameterShell pS = parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE);
-    		if (pS != null){
-
-    			String codeSpace = (String) pS.getSpecifiedValue();
-
-    			ScopedNameType snt = ScopedNameType.Factory.newInstance();
-    			
-    			snt.setCodeSpace(codeSpace);
-    			
-    			snt.setStringValue((String) 
-        			parameters.getParameterShellWithCommonName(
-        					INSERT_OBSERVATION_VALUE_PARAMETER).
-        					getSpecifiedValue());
-    			
-    			result.set(snt);
-    		}
+    	if(observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TEXT)){
+    		// TODO
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)) {
     		MeasureType mt = MeasureType.Factory.newInstance();
         	

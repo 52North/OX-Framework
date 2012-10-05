@@ -80,7 +80,7 @@ public interface ISOSRequestBuilder {
     public static String INSERT_OBSERVATION_VALUE_PARAMETER = "value";
 	public static String INSERT_OBSERVATION_POSITION_SRS = "srsPosition";
 	public static String INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE = "catObsCodespace";
-	public static String INSERT_OBSERVATION_TYPE_CATEGORY = "category";
+	public static String INSERT_OBSERVATION_TYPE_TEXT = "text";
 	public static String INSERT_OBSERVATION_TYPE_MEASUREMENT = "measurement";
 	public static String INSERT_OBSERVATION_TYPE = "type";
     public static String INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE = "resultUom";

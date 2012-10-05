@@ -1,3 +1,110 @@
+package org.n52.oxf.sos.adapter;
+
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.DESCRIBE_SENSOR_SERVICE_PARAMETER;
+
+import net.sf.saxon.om.Navigator.PrecedingEnumeration;
+//
+//import org.n52.oxf.OXFException;
+//import org.n52.oxf.adapter.ParameterContainer;
+//
+//public class SOSWrapperTest {
+//	
+//	public static void main(String[] args) {
+//		
+//		ParameterContainer paramCon = new ParameterContainer();
+//        try {
+//			paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER, "procedure_1");
+//			paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER, "procedure_2");
+//			Object[] procedures = paramCon.getParameterShellWithServiceSidedName(ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER).getSpecifiedValueArray();
+//
+//			System.out.println(procedures[0].getClass());
+//			
+//			String[] procs = new String[procedures.length];
+//			for (int i = 0; i < procedures.length; i++) {
+//				procs[i] = (String) procedures[i];
+//				System.out.println(i + ":" + procs[i]);
+//			}
+//			
+//		} catch (OXFException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //package org.n52.oxf.sos.adapter;
 //
 //import static org.junit.Assert.*;

@@ -33,7 +33,6 @@ import net.opengis.swe.x101.PositionType;
 import net.opengis.swe.x101.UomPropertyType;
 import net.opengis.swe.x101.VectorType;
 import net.opengis.swe.x101.BooleanDocument.Boolean;
-import net.opengis.swe.x101.CategoryDocument.Category;
 import net.opengis.swe.x101.QuantityDocument.Quantity;
 import net.opengis.swe.x101.TextDocument.Text;
 import net.opengis.swe.x101.VectorType.Coordinate;
@@ -88,7 +87,7 @@ public class SensorDescriptionBuilder {
 	private ArrayList<String[]> identifier, classifier; // {name, definition, value}
 	private ArrayList<String[]> inputs; // {name, definition}
 	private ArrayList<String[]> outputsMeasurement; // {name, definition, offeringUri, offeringName, uom }
-	private ArrayList<String[]> outputsCategory; // {name, definition, offeringUri, offeringName, codespace }
+	private ArrayList<String[]> outputsText; // {name, definition, offeringUri, offeringName }
 	private ArrayList<String[]> outputsBoolean; // {name, definition, offeringUri, offeringName }
 	private ArrayList<String[]> outputsCount; // {name, definition, offeringUri, offeringName }
 	private ArrayList<String[]> componentXlink; // {name, xlink}
@@ -117,7 +116,7 @@ public class SensorDescriptionBuilder {
 		classifier = new ArrayList<String[]>();
 		inputs = new ArrayList<String[]>();
 		outputsMeasurement = new ArrayList<String[]>();
-		outputsCategory = new ArrayList<String[]>();
+		outputsText = new ArrayList<String[]>();
 		outputsBoolean = new ArrayList<String[]>();
 		outputsCount = new ArrayList<String[]>();
 		componentXlink = new ArrayList<String[]>();
@@ -256,8 +255,8 @@ public class SensorDescriptionBuilder {
 		outputsMeasurement.add(new String[] { name, definition, offeringUri, offeringName, uom});
 	}
 	
-	public void addOutputCategory(String name, String definition, String offeringUri, String offeringName, String codespace) {
-		outputsCategory.add(new String[] { name, definition, offeringUri, offeringName, codespace});
+	public void addOutputText(String name, String definition, String offeringUri, String offeringName) {
+		outputsText.add(new String[] { name, definition, offeringUri, offeringName});
 	}
 	
 	public void addOutputBoolean(String name, String definition, String offeringUri, String offeringName) {
@@ -332,7 +331,7 @@ public class SensorDescriptionBuilder {
 		if (!inputs.isEmpty()) {
 			addInputs();
 		}
-		if (!outputsMeasurement.isEmpty() || !outputsCategory.isEmpty() ||
+		if (!outputsMeasurement.isEmpty() || !outputsText.isEmpty() ||
 				!outputsBoolean.isEmpty() || !outputsCount.isEmpty()) {
 			addOutputs();
 		}
@@ -548,13 +547,12 @@ public class SensorDescriptionBuilder {
 			quantity.addNewUom().setCode(outputValues[4]);
 		}
 		
-		for (String[] outputValues : outputsCategory) { // sos 1.0 52n implementation
+		for (String[] outputValues : outputsText) { // sos 1.0 52n implementation
 			output = outputList.addNewOutput();
 			output.setName(outputValues[0]);
-			Category category = output.addNewCategory();
-			category.setDefinition(outputValues[1]);
-			addOfferingMetadata(category.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
-			category.addNewCodeSpace();
+			Text text = output.addNewText();
+			text.setDefinition(outputValues[1]);
+			addOfferingMetadata(text.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
 		}
 		
 		for (String[] outputValues : outputsBoolean) { // sos 1.0 52n implementation
