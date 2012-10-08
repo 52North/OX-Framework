@@ -611,7 +611,40 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     	 */
     	// TODO Check if this is working with validating SOS?
     	if(observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TEXT)){
-    		// TODO
+    		String value = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
+    		String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
+    		String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
+         	String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
+    		
+        	DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
+        	DataArrayType arrayType = doc.addNewDataArray1();
+        	ElementCount ec = arrayType.addNewElementCount();
+        	ec.addNewCount().setValue(new BigInteger("1"));
+        	DataComponentPropertyType et = arrayType.addNewElementType();
+        	et.setName("Components");
+        	AbstractDataRecordType adr = et.addNewAbstractDataRecord();
+        	DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
+        	DataComponentPropertyType textField1 = drt.addNewField();
+        	textField1.setName("Time");
+        	textField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
+        	DataComponentPropertyType textField2 = drt.addNewField();
+        	textField2.setName("feature");
+        	textField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
+        	DataComponentPropertyType textField3 = drt.addNewField();
+        	textField3.setName("resultValue");
+        	textField3.addNewText().setDefinition(obsPropId);
+        	TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
+        	block.setDecimalSeparator(".");
+        	block.setTokenSeparator(",");
+        	block.setBlockSeparator(";");
+        	
+        	XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
+        	dataArrayCursor.toChild("values");
+        	dataArrayCursor.toNextToken();
+        	dataArrayCursor.insertChars(time + "," + foi + "," + value);
+        	dataArrayCursor.dispose();
+        	
+        	result.set(doc);
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)) {
     		MeasureType mt = MeasureType.Factory.newInstance();
         	
@@ -627,7 +660,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         					getSpecifiedValue());
         	result.set(mt);        	
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
-    		int value = (int) Double.parseDouble(((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue()));
+    		int value = (int) Double.parseDouble((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue());
     		String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
     		String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
          	String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
