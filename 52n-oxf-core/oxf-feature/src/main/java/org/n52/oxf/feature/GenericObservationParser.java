@@ -332,7 +332,9 @@ public class GenericObservationParser {
                 SFSpatialSamplingFeatureType spatialSamplingFeatureType = featureDocument.getSFSpatialSamplingFeature();
                 OXFFeature feature = OXFFeature.createFrom(spatialSamplingFeatureType);
                 fois.put(feature.getID(), feature);
-            }
+            } else if (hasFOI(omObservation)) {
+				fois.put(omObservation.getFeatureOfInterest().getHref(), new OXFFeature(omObservation.getFeatureOfInterest().getHref(), null));
+			}
     
             XmlObject result = omObservation.getResult();
             if (result instanceof MeasureTypeImpl) {
@@ -342,12 +344,12 @@ public class GenericObservationParser {
 	            List<String> definitions = new ArrayList<String>();
 	            List<String> types = new ArrayList<String>();
 	            List<String> names = new ArrayList<String>();
-	            net.opengis.swe.x20.DataArrayType dataArray = parseFieldsForSWECommon200(uoms, definitions, types, names, result.newCursor());
+	            net.opengis.swe.x20.DataArrayType dataArray = parseFieldsForSWECommon200(uoms, definitions, types, names, result);
 	            TextEncodingType xb_textBlock = (TextEncodingType) dataArray.getEncoding().getAbstractEncoding();
 	            String decimalSeparator = xb_textBlock.getDecimalSeparator();
 	            String token = xb_textBlock.getTokenSeparator();
 	            String block = xb_textBlock.getBlockSeparator();
-	            String resultText = dataArray.getValues().getDomNode().getFirstChild().getNodeValue();
+	            String resultText = dataArray.getValues().getDomNode().getFirstChild().getNodeValue().trim();
 	            parseTextBlock(features, resultText, decimalSeparator, token, block, definitions, types, names, fois, uoms, procedure);
 			}
         }
@@ -387,59 +389,62 @@ public class GenericObservationParser {
                                                                 List<String> definitions,
                                                                 List<String> types,
                                                                 List<String> names,
-                                                                XmlCursor cResult) throws Exception {
-        boolean hasDataArray = cResult.toChild(new QName("http://www.opengis.net/swe/2.0", "DataArray"));
-        if (!hasDataArray) {
-            throw new OXFException("No DataArray@http://www.opengis.net/swe/2.0 representing data structure.");
-        }
-        
-        net.opengis.swe.x20.DataArrayType dataArrayType = (net.opengis.swe.x20.DataArrayType) cResult.getObject();
-        AbstractDataComponentType dataComponent = dataArrayType.getElementType().getAbstractDataComponent();
+                                                                XmlObject result) throws Exception {
+		if (result instanceof DataArrayType) {
+			DataArrayType dataArrayType = (DataArrayType) result;
+	        AbstractDataComponentType dataComponent = dataArrayType.getElementType().getAbstractDataComponent();
 
-        // 1. in case of 'DataRecord':
-        if (dataComponent instanceof net.opengis.swe.x20.DataRecordType) {
-            net.opengis.swe.x20.DataRecordType dataRecord = (net.opengis.swe.x20.DataRecordType) dataComponent;
-           
-            Field[] fields = dataRecord.getFieldArray();
-                
-            for (Field field : fields) {
-                if (field.getName() != null){
-                    names.add(field.getName());
-                } else {
-                    names.add("");
-                }
-                AbstractDataComponentType dataComponentType = field.getAbstractDataComponent();
-                if (dataComponentType instanceof TimeType) {
-                    TimeType time = (TimeType) dataComponentType;
-                    //time.getUom().getHref();
-                    definitions.add(time.getDefinition());
-                    types.add("time");
-                } else if (dataComponentType instanceof TextType) {
-                    TextType text = (TextType) dataComponentType;
-                    definitions.add(text.getDefinition());
-                    types.add("text");
-                } else if (dataComponentType instanceof QuantityType) {
-                    QuantityType quantity = (QuantityType) dataComponentType;
-                    String definition = quantity.getDefinition();
-                    definitions.add(definition);
-                    types.add("quantity");
-                    
-                    String uomURN = quantity.getUom().getCode();
-                    uoms.put(definition, uomURN);
-                }
-                
-                // ... TODO there are more possibilities...
-            }
-        }
-        return dataArrayType;
+	        // 1. in case of 'DataRecord':
+	        if (dataComponent instanceof net.opengis.swe.x20.DataRecordType) {
+	            net.opengis.swe.x20.DataRecordType dataRecord = (net.opengis.swe.x20.DataRecordType) dataComponent;
+	           
+	            Field[] fields = dataRecord.getFieldArray();
+	                
+	            for (Field field : fields) {
+	                if (field.getName() != null){
+	                    names.add(field.getName());
+	                } else {
+	                    names.add("");
+	                }
+	                AbstractDataComponentType dataComponentType = field.getAbstractDataComponent();
+	                if (dataComponentType instanceof TimeType) {
+	                    TimeType time = (TimeType) dataComponentType;
+	                    //time.getUom().getHref();
+	                    definitions.add(time.getDefinition());
+	                    types.add("time");
+	                } else if (dataComponentType instanceof TextType) {
+	                    TextType text = (TextType) dataComponentType;
+	                    definitions.add(text.getDefinition());
+	                    types.add("text");
+	                } else if (dataComponentType instanceof QuantityType) {
+	                    QuantityType quantity = (QuantityType) dataComponentType;
+	                    String definition = quantity.getDefinition();
+	                    definitions.add(definition);
+	                    types.add("quantity");
+	                    
+	                    String uomURN = quantity.getUom().getCode();
+	                    uoms.put(definition, uomURN);
+	                }
+	                
+	                // ... TODO there are more possibilities...
+	            }
+	        }
+	        return dataArrayType;
+		} else {
+			throw new OXFException("No DataArray@http://www.opengis.net/swe/2.0 representing data structure.");
+		}
     }
 
     private static boolean isSFSpatialSamplingFeature(OMObservationType omObservation) {
         XmlCursor c = omObservation.getFeatureOfInterest().newCursor();
         return c.toChild(new QName("http://www.opengis.net/samplingSpatial/2.0", "SF_SpatialSamplingFeature"));
     }
+    
+    private static boolean hasFOI(OMObservationType omObservation) {
+		return omObservation.getFeatureOfInterest() != null;
+	}
 
-    /**
+	/**
      * 
      * @param featureCollection
      *        the collection where the single observed values shall be added to.
@@ -474,6 +479,7 @@ public class GenericObservationParser {
                 for (int i = 0; i < definitions.size(); i++) {
 
                     if (definitions.get(i).equals("urn:ogc:data:time:iso8601") 
+                    		|| definitions.get(i).equals("urn:ogc:property:time:iso8601")
                             || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/SamplingTime") 
                             || definitions.get(i).equals("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian")) {
                         // do nothing
