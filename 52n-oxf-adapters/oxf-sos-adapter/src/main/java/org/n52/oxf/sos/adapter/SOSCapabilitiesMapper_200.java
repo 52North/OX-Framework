@@ -62,6 +62,7 @@ import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.ows.ServiceDescriptor;
@@ -298,6 +299,8 @@ public class SOSCapabilitiesMapper_200 {
         CapabilitiesType capabilities = capabilitiesDoc.getCapabilities();
         Contents xb_contents = capabilities.getContents();
         ContentsType contentsType = xb_contents.getContents();
+        String[] observablePropertys = contentsType.getObservablePropertyArray();
+        String[] responseFormats = contentsType.getResponseFormatArray();
         Offering[] xb_obsOfferings = contentsType.getOfferingArray();
         ArrayList<ObservationOffering> oc_obsOffList = new ArrayList<ObservationOffering>();
         for (int i = 0; i < xb_obsOfferings.length; i++) {
@@ -370,7 +373,7 @@ public class SOSCapabilitiesMapper_200 {
             }
 
             // outputFormats:
-            String[] oc_outputFormats = xb_obsOffering.getResponseFormatArray();
+            String[] oc_outputFormats = (String[]) ArrayUtils.addAll(responseFormats, xb_obsOffering.getResponseFormatArray());
 
             // TemporalDomain:
             List<ITime> oc_timeList = new ArrayList<ITime>();
@@ -398,7 +401,7 @@ public class SOSCapabilitiesMapper_200 {
             }
 
             String[] oc_respModes = xb_obsOffering.getResponseFormatArray();
-            String[] oc_obsProps = xb_obsOffering.getObservablePropertyArray();
+            String[] oc_obsProps = (String[]) ArrayUtils.addAll(xb_obsOffering.getObservablePropertyArray(), observablePropertys);
             String[] oc_procedures = new String[] { xb_obsOffering.getProcedure() };
             
             RelatedFeature[] oc_foiIDs = xb_obsOffering.getRelatedFeatureArray();
@@ -489,7 +492,10 @@ public class SOSCapabilitiesMapper_200 {
 
         String oc_fees = xb_serviceId.getFees();
         String[] oc_accessConstraints = xb_serviceId.getAccessConstraintsArray();
-        String oc_abstract = xb_serviceId.getAbstractArray(0).getStringValue();
+        String oc_abstract = null;
+        if (oc_accessConstraints.length != 0) {
+        	oc_abstract = xb_serviceId.getAbstractArray(0).getStringValue();	
+		}
         String[] oc_keywords = null;
 
         Vector<String> oc_keywordsVec = new Vector<String>();
