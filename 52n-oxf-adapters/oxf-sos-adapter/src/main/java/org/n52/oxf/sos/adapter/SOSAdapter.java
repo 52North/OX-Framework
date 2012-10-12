@@ -268,9 +268,12 @@ public class SOSAdapter implements IServiceAdapter {
         	
         	// TODO will lead into an error if neither get nor post uri is given
         	String uri = null;
-        	if (operation.getDcps()[0].getHTTPGetRequestMethods().size() > 0)
-        		uri = operation.getDcps()[0].getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
-        	else if (operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0)
+        	
+        	// just use post uri, when request sended only by post
+//        	if (operation.getDcps()[0].getHTTPGetRequestMethods().size() > 0)
+//        		uri = operation.getDcps()[0].getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
+//        	else 
+        		if (operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0)
         		uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
         		
 
