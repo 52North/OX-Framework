@@ -34,6 +34,8 @@ import net.opengis.ows.x11.AcceptVersionsType;
 import net.opengis.ows.x11.SectionsType;
 import net.opengis.sos.x20.GetCapabilitiesDocument;
 import net.opengis.sos.x20.GetCapabilitiesType;
+import net.opengis.sos.x20.GetFeatureOfInterestDocument;
+import net.opengis.sos.x20.GetFeatureOfInterestType;
 import net.opengis.sos.x20.GetObservationDocument;
 import net.opengis.sos.x20.GetObservationType;
 import net.opengis.sos.x20.GetObservationType.TemporalFilter;
@@ -202,7 +204,6 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
                     + ") of the value of the parameter 'eventTime' is not supported.");
         }
 
-//        String timeType = null;
         BinaryTemporalOpType xb_binTempOp = null;
         if (specifiedTime instanceof ITimePeriod) {
             ITimePeriod oc_timePeriod = (ITimePeriod) specifiedTime;
@@ -217,7 +218,6 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
             
             xb_binTempOp.setValueReference("phenomenonTime"); // TODO always true?
             xb_binTempOp.set(xb_timePeriod);
-//            timeType = "TimePeriod";
         }
         else if (specifiedTime instanceof ITimePosition) {
             ITimePosition oc_timePosition = (ITimePosition) specifiedTime;
@@ -231,7 +231,6 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 
             xb_binTempOp.setValueReference("phenomenonTime"); // TODO always true?
             xb_binTempOp.set(xb_timeInstant);
-//            timeType = "TimePosition";
         }
 
         TemporalFilter spatialFilter = xb_getObs.addNewTemporalFilter();
@@ -276,8 +275,12 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     }
 
     public String buildGetFeatureOfInterestRequest(ParameterContainer parameters) {
-        // TODO implement
-        throw new NotImplementedException();
+    	GetFeatureOfInterestDocument xb_getFOIDoc = GetFeatureOfInterestDocument.Factory.newInstance();
+    	GetFeatureOfInterestType xb_getFOI = xb_getFOIDoc.addNewGetFeatureOfInterest();
+
+    	xb_getFOI.addProcedure((String) parameters.getParameterShellWithServiceSidedName("procedure").getSpecifiedValue());
+        
+        return xb_getFOIDoc.xmlText(XMLBeansTools.PRETTYPRINT);
     }
 
     public String buildInsertObservation(ParameterContainer parameters) {
