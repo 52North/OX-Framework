@@ -27,6 +27,8 @@ import org.n52.oxf.sos.adapter.wrapper.builder.RegisterSensorParameterBuilder_v1
  * @see SOSAdapter
  */
 public class SOSWrapper {
+    
+    // XXX SOSWrapper is not capable of intercepting custom IRequestBuilder implementations yet!
 
 	// TODO MOVE CONSTANTS TO ISOSRequestBuilder
 	public static final String GET_OBSERVATION_SRS_NAME_PARAMETER = "srsName";
