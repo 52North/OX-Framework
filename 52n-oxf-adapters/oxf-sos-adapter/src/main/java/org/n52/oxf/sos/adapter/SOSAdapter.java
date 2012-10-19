@@ -105,12 +105,12 @@ public class SOSAdapter implements IServiceAdapter {
      * Allows to create an SOSAdapter with custom (non-default) instance of {@link ISOSRequestBuilder}.
      * 
      * @param serviceVersion the schema version for which this adapter instance shall be initialized.
-     * @param requestBuilder a custom request builder
+     * @param requestBuilder a custom request builder implementation, if <code>null</code> default will be used.
      * @see ISOSRequestBuilder
      */
     public SOSAdapter(String serviceVersion, ISOSRequestBuilder requestBuilder) {
+        this.requestBuilder = requestBuilder != null ? requestBuilder : this.requestBuilder;
         this.serviceVersion = serviceVersion;
-        this.requestBuilder = requestBuilder; // overwrite default
     }
 
     /**
@@ -132,7 +132,7 @@ public class SOSAdapter implements IServiceAdapter {
     public ServiceDescriptor initService(String url) throws ExceptionReport, OXFException {
 
         ParameterContainer paramCon = new ParameterContainer();
-        paramCon.addParameterShell("version", serviceVersion);
+        paramCon.addParameterShell("acceptVersion", serviceVersion);
         paramCon.addParameterShell("service", "SOS");
 
         OperationResult opResult = doOperation(new Operation("GetCapabilities", url.toString() + "?", url.toString()),
