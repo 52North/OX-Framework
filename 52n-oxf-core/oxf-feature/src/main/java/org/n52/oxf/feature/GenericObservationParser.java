@@ -51,14 +51,14 @@ import net.opengis.swe.x20.QuantityType;
 import net.opengis.swe.x20.TextEncodingType;
 import net.opengis.swe.x20.TextType;
 import net.opengis.swe.x20.TimeType;
+import net.opengis.waterml.x20.MeasurementTimeseriesType;
+import net.opengis.waterml.x20.MeasurementTimeseriesType.Point;
+import net.opengis.waterml.x20.MeasurementTimeseriesDocument;
 import net.opengis.waterml.x20.MonitoringPointDocument;
 import net.opengis.waterml.x20.MonitoringPointType;
-import net.opengis.waterml.x20.TimeValuePairPropertyType;
 import net.opengis.waterml.x20.TimeValuePairType;
 import net.opengis.waterml.x20.TimeseriesDocument;
-import net.opengis.waterml.x20.TimeseriesObservationType;
 import net.opengis.waterml.x20.TimeseriesType;
-import net.opengis.waterml.x20.TimeseriesType.Point;
 
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
@@ -248,9 +248,12 @@ public class GenericObservationParser {
         return dataArray;
     }
     
+    /*
     public static void addElementsFromTimeSeries(
 			OXFFeatureCollection featureCollection,
-			TimeseriesObservationType xb_timeseriesObsType) throws OXFException {
+			MeasurementTimeseriesType xb_timeseriesObsType) throws OXFException {
+        
+        featureCollection.
     	
         if (xb_timeseriesObsType.getProcedure() == null) {
             LOGGER.debug("No timeseries to parse.");
@@ -320,11 +323,19 @@ public class GenericObservationParser {
 			throw new OXFException(e);
 		}
 	}
+     */
 
     public static void addElementsFromGenericObservation(OXFFeatureCollection features, OMObservationType omObservation) throws OXFException {
         try {
             Map<String, OXFFeature> fois = new HashMap<String, OXFFeature>();
-            String procedure = omObservation.getProcedure().getHref();
+            
+            // TODO check common attributes
+            
+            // TODO check if feature is embedded
+            
+            // TODO check which type
+            
+            
             if (isSFSpatialSamplingFeature(omObservation)) {
                 Node domNode = XMLBeansTools.getDomNode(omObservation.getFeatureOfInterest(), "SF_SpatialSamplingFeature");
                 XmlObject featureObject = XMLBeansParser.parse(domNode);
@@ -333,12 +344,24 @@ public class GenericObservationParser {
                 OXFFeature feature = OXFFeature.createFrom(spatialSamplingFeatureType);
                 fois.put(feature.getID(), feature);
             } else if (hasFOI(omObservation)) {
-				fois.put(omObservation.getFeatureOfInterest().getHref(), new OXFFeature(omObservation.getFeatureOfInterest().getHref(), null));
+				String featureOfInterest = omObservation.getFeatureOfInterest().getHref();
+                fois.put(featureOfInterest, new OXFFeature(featureOfInterest, null));
 			}
-    
+
+            String procedure = omObservation.getProcedure().getHref();
             XmlObject result = omObservation.getResult();
             if (result instanceof MeasureTypeImpl) {
-				features.add(createFeature(omObservation, procedure));
+                features.add(createFeature(omObservation, procedure));
+			} else if (isWaterML200TimeSeriesObservationDocument(result)) {
+			    MeasurementTimeseriesDocument measurementDocument = (MeasurementTimeseriesDocument) result;
+		        MeasurementTimeseriesType timeseries = measurementDocument.getMeasurementTimeseries();
+		        
+//			    if (isWaterML200TimeSeriesObservationDocument(xmlObject)) {
+//		            OXFObservationCollectionType obsCollectionType = new OXFObservationCollectionType();
+//		            String noneSenseId = String.valueOf(System.currentTimeMillis()); // XXX no collection id available
+//		            OXFFeatureCollection featureCollection = new OXFFeatureCollection(noneSenseId, obsCollectionType);
+//		            return unmarshalTvpMeasurementObservations(featureCollection);
+		        
 			} else {
 				Map<String, String> uoms = new HashMap<String, String>();
 	            List<String> definitions = new ArrayList<String>();
@@ -358,6 +381,10 @@ public class GenericObservationParser {
         }
     }
 
+    private static boolean isWaterML200TimeSeriesObservationDocument(XmlObject xmlObject) {
+        return xmlObject.schemaType() == MeasurementTimeseriesDocument.type;
+    }
+    
     private static OXFFeature createFeature(OMObservationType omObservation, String procedure) {
     	MeasureTypeImpl result = (MeasureTypeImpl) omObservation.getResult();
     	OXFMeasurementType oxf_measurementType = new OXFMeasurementType();

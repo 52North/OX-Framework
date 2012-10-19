@@ -30,8 +30,10 @@ import net.opengis.om.x20.OMObservationType;
 import net.opengis.sos.x20.GetObservationResponseDocument;
 import net.opengis.sos.x20.GetObservationResponseType;
 import net.opengis.sos.x20.GetObservationResponseType.ObservationData;
-import net.opengis.waterml.x20.TimeseriesObservationDocument;
-import net.opengis.waterml.x20.TimeseriesObservationType;
+import net.opengis.waterml.x20.DefaultTVPMeasurementMetadataDocument;
+import net.opengis.waterml.x20.MeasurementTimeseriesDocument;
+import net.opengis.waterml.x20.MeasurementTimeseriesType;
+import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -103,10 +105,11 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
                 net.opengis.om.x10.ObservationCollectionDocument obsCollectionDoc = (ObservationCollectionDocument) xmlObject;
                 ObservationCollectionType observation = obsCollectionDoc.getObservationCollection();
                 return OXFObservationCollectionType.createFeatureCollection(observation.getId(), observation);
-            } else if (isWaterML200TimeSeriesObservationDocument(xmlObject)) {
-                net.opengis.waterml.x20.TimeseriesObservationDocument timeseriesObservationDoc = (TimeseriesObservationDocument) xmlObject;
-                TimeseriesObservationType observation = timeseriesObservationDoc.getTimeseriesObservation();
-                return OXFObservationCollectionType.createFeatureCollection(observation.getId(), observation);
+//            } else if (isWaterML200TimeSeriesObservationDocument(xmlObject)) {
+//                OXFObservationCollectionType obsCollectionType = new OXFObservationCollectionType();
+//                String noneSenseId = String.valueOf(System.currentTimeMillis()); // XXX no collection id available
+//                OXFFeatureCollection featureCollection = new OXFFeatureCollection(noneSenseId, obsCollectionType);
+//                return unmarshalTvpMeasurementObservations(featureCollection);
             } else {
                 throw new OXFException("Unknown result type.");
             }
@@ -118,33 +121,68 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
     private boolean isOM100ObservationCollectionDocument(XmlObject xmlObject) {
         return xmlObject instanceof net.opengis.om.x10.ObservationCollectionDocument;
     }
-
-    private boolean isWaterML200TimeSeriesObservationDocument(XmlObject xmlObject) {
-        return xmlObject instanceof net.opengis.waterml.x20.TimeseriesObservationDocument;
-    }
     
+//    private OXFFeatureCollection unmarshalTvpMeasurementObservations(OXFFeatureCollection featureCollection) throws OXFException {
+//        if (xmlObject == null) {
+//            // TODO remove when removing deprecated #unmarshalFeatures100()
+//            throw new IllegalStateException("Store was not initialized with an operationResult!");
+//        }
+//        if (!isWaterML200TimeSeriesObservationDocument(xmlObject)) {
+//            throw new OXFException("Unknown result type.");
+//        }
+//        
+//
+//        MeasurementTimeseriesDocument measurementDocument = (MeasurementTimeseriesDocument) xmlObject;
+//        MeasurementTimeseriesType timeseries = measurementDocument.getMeasurementTimeseries();
+//        
+//        // TODO init common metadata to collection
+//        
+//        // TODO initialize particular measurements
+//        
+//        /*
+//         * private OXFFeatureCollection initializeFeature(OXFFeatureCollection featureCollection, ObservationData[] observationData) throws OXFException {
+//        for (ObservationData observation : observationData) {
+//            OMObservationType omObservation = observation.getOMObservation();
+//            GenericObservationParser.addElementsFromGenericObservation(featureCollection, omObservation);
+//        }
+//        return featureCollection;
+//    }
+//         */
+//        
+//        try {
+//            return OXFObservationCollectionType.createFeatureCollection(timeseries.getId(), timeseries);
+//        } catch (OXFException e) {
+//            LOGGER.warn("Could not initialize features. Returning an empty collection!");
+//            return featureCollection;
+//        }
+//    }
+
     private OXFFeatureCollection unmarshalFeatures200() throws OXFException {
         if (xmlObject == null) {
             // TODO remove when removing deprecated #unmarshalFeatures100()
             throw new IllegalStateException("Store was not initialized with an operationResult!");
         }
-        try {
+        if (!isSOS200GetObservationResponseDocument(xmlObject)) {
             OXFObservationCollectionType obsCollectionType = new OXFObservationCollectionType();
-            if (isSOS200GetObservationResponseDocument(xmlObject)) {
-                GetObservationResponseDocument observationResponseDocument = (GetObservationResponseDocument) xmlObject;
-                GetObservationResponseType observationResponseType = observationResponseDocument.getGetObservationResponse();
-                String noneSenseId = String.valueOf(System.currentTimeMillis()); // XXX no collection id available
-                OXFFeatureCollection featureCollection = new OXFFeatureCollection(noneSenseId, obsCollectionType);
+            GetObservationResponseDocument observationResponseDocument = (GetObservationResponseDocument) xmlObject;
+            GetObservationResponseType observationResponseType = observationResponseDocument.getGetObservationResponse();
+            String noneSenseId = String.valueOf(System.currentTimeMillis()); // XXX no collection id available
+            OXFFeatureCollection featureCollection = new OXFFeatureCollection(noneSenseId, obsCollectionType);
+            try {
                 ObservationData[] observationData = observationResponseType.getObservationDataArray();
                 return initializeFeature(featureCollection, observationData);
-            } else {
-                throw new OXFException("Unknown result type.");
+            } catch (OXFException e) {
+                LOGGER.warn("Could not initialize features. Returning an empty collection!");
+                return featureCollection;
             }
-        } catch (Exception e) {
-            throw new OXFException(e);
+        } else {
+            throw new OXFException("Unknown result type.");
         }
     }
-    
+
+    private boolean isSOS200GetObservationResponseDocument(XmlObject xmlObject) {
+        return xmlObject instanceof GetObservationResponseDocument;
+    }
 
     private OXFFeatureCollection initializeFeature(OXFFeatureCollection featureCollection, ObservationData[] observationData) throws OXFException {
         for (ObservationData observation : observationData) {
@@ -153,11 +191,5 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
         }
         return featureCollection;
     }
-   
 
-    private boolean isSOS200GetObservationResponseDocument(XmlObject xmlObject) {
-        return xmlObject instanceof GetObservationResponseDocument;
-    }
-    
-    
 }

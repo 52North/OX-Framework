@@ -28,7 +28,7 @@ import java.util.List;
 
 import net.opengis.om.x10.ObservationCollectionType;
 import net.opengis.om.x10.ObservationPropertyType;
-import net.opengis.waterml.x20.TimeseriesObservationType;
+import net.opengis.waterml.x20.MeasurementTimeseriesType;
 
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
@@ -98,23 +98,20 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
      * supports WaterML 2.0.0
      * @throws OXFException 
      */
-    public static OXFFeatureCollection createFeatureCollection(String id,
-		TimeseriesObservationType timeseriesObservation) throws OXFException {
+    private static OXFFeatureCollection createFeatureCollection(String id, MeasurementTimeseriesType timeseriesObservation) throws OXFException {
     	OXFObservationCollectionType type = new OXFObservationCollectionType();
     	OXFFeatureCollection featureCollection = new OXFFeatureCollection(id, type);
 		type.addMember(featureCollection, timeseriesObservation);
 		return featureCollection;
 	}
 
-	/**
-     * supports 1.0
-     */
     private void addMember(OXFFeatureCollection featureCollection, XmlObject xb_memberDocument) throws OXFException {
         
         // this feature shall be initialized and added to collection:
         OXFFeature feature = null;
         
-     // TODO Spec-Too-Flexible-Problem --> various Observation-Types are possible:
+        // TODO Spec-Too-Flexible-Problem --> various Observation-Types are possible:
+        // TODO create factory method to get FeatureInitializer via XmlObject.schemaType()
 
         //
         // parse O&M 1.0.0:
@@ -149,20 +146,9 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
 
         else if (xb_memberDocument instanceof net.opengis.om.x10.ObservationDocument) {
             net.opengis.om.x10.ObservationDocument xb_observationDoc = (net.opengis.om.x10.ObservationDocument) xb_memberDocument;
-
             net.opengis.om.x10.ObservationType xb_genericObs = xb_observationDoc.getObservation();
-
             GenericObservationParser.addElementsFromGenericObservation(featureCollection, xb_genericObs);
         }
-        
-        //
-        // parse WaterML
-        //
-        else if (xb_memberDocument instanceof TimeseriesObservationType) {
-        	TimeseriesObservationType xb_timeseriesObsType = (TimeseriesObservationType) xb_memberDocument;
-        	
-        	GenericObservationParser.addElementsFromTimeSeries(featureCollection, xb_timeseriesObsType);
-		}
         
         else {
             throw new IllegalArgumentException("The FeatureType '" + xb_memberDocument.schemaType()

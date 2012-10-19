@@ -54,7 +54,7 @@
 		</repository>
 	</repositories>
 	<properties>
-		<n52.xml.commons.version>1.1.1</n52.xml.commons.version>
+		<n52.xml.commons.version>1.1.2</n52.xml.commons.version>
 		<timestamp>${maven.build.timestamp}</timestamp>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
@@ -244,7 +244,7 @@
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-waterML-v20</artifactId>
-				<version>0.0.5</version>
+				<version>${n52.xml.commons.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
@@ -346,11 +346,11 @@
 				<artifactId>soap-envelope-beans</artifactId>
 				<version>0.0.0</version>
 			</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb.oxf-old</groupId>
-			<artifactId>wms-client-core</artifactId>
-			<version>0.0.0</version>
-		</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb.oxf-old</groupId>
+				<artifactId>wms-client-core</artifactId>
+				<version>0.0.0</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -409,6 +409,24 @@
 						<memoryMaximumSize>256</memoryMaximumSize>
 						<download>false</download>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.4</version>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>test-jar</goal>
+							</goals>
+							<configuration>
+								<excludes>
+									<excludes>logback-test.xml</excludes>
+								</excludes>
+							</configuration>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
