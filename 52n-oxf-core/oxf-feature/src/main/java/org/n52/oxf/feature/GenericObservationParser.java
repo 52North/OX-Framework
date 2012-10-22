@@ -24,6 +24,7 @@
 
 package org.n52.oxf.feature;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -39,6 +40,7 @@ import net.opengis.gml.x32.CodeWithAuthorityType;
 import net.opengis.gml.x32.TimePositionType;
 import net.opengis.gml.x32.impl.MeasureTypeImpl;
 import net.opengis.gml.x32.impl.TimeInstantTypeImpl;
+import net.opengis.om.x10.MeasurementType;
 import net.opengis.om.x10.ObservationType;
 import net.opengis.om.x20.OMObservationType;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
@@ -51,11 +53,18 @@ import net.opengis.swe.x20.QuantityType;
 import net.opengis.swe.x20.TextEncodingType;
 import net.opengis.swe.x20.TextType;
 import net.opengis.swe.x20.TimeType;
+import net.opengis.waterml.x20.DefaultTVPMeasurementMetadataDocument;
+import net.opengis.waterml.x20.MeasureTVPType;
+import net.opengis.waterml.x20.MeasureType;
 import net.opengis.waterml.x20.MeasurementTimeseriesType;
 import net.opengis.waterml.x20.MeasurementTimeseriesType.Point;
 import net.opengis.waterml.x20.MeasurementTimeseriesDocument;
 import net.opengis.waterml.x20.MonitoringPointDocument;
 import net.opengis.waterml.x20.MonitoringPointType;
+import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
+import net.opengis.waterml.x20.TVPMeasurementMetadataDocument;
+import net.opengis.waterml.x20.TVPMeasurementMetadataType;
+import net.opengis.waterml.x20.TVPMetadataType;
 import net.opengis.waterml.x20.TimeValuePairType;
 import net.opengis.waterml.x20.TimeseriesDocument;
 import net.opengis.waterml.x20.TimeseriesType;
@@ -335,32 +344,64 @@ public class GenericObservationParser {
             
             // TODO check which type
             
+            String featureOfInterest = null;
+            String procedure = omObservation.getProcedure().getHref();
+            XmlObject result = omObservation.getResult();
             
-            if (isSFSpatialSamplingFeature(omObservation)) {
-                Node domNode = XMLBeansTools.getDomNode(omObservation.getFeatureOfInterest(), "SF_SpatialSamplingFeature");
-                XmlObject featureObject = XMLBeansParser.parse(domNode);
-                SFSpatialSamplingFeatureDocument featureDocument = (SFSpatialSamplingFeatureDocument) featureObject;
+            if (isEmbeddedSFSpatialSamplingFeature(omObservation)) {
+//                Node domNode = XMLBeansTools.getDomNode(omObservation.getFeatureOfInterest(), "SF_SpatialSamplingFeature");
+//                XmlObject featureObject = XMLBeansParser.parse(domNode);
+//                SFSpatialSamplingFeatureDocument featureDocument = (SFSpatialSamplingFeatureDocument) featureObject;
+                InputStream is = omObservation.getFeatureOfInterest().newInputStream();
+                SFSpatialSamplingFeatureDocument featureDocument = SFSpatialSamplingFeatureDocument.Factory.parse(is);
                 SFSpatialSamplingFeatureType spatialSamplingFeatureType = featureDocument.getSFSpatialSamplingFeature();
                 OXFFeature feature = OXFFeature.createFrom(spatialSamplingFeatureType);
+                featureOfInterest = feature.getID();
                 fois.put(feature.getID(), feature);
-            } else if (hasFOI(omObservation)) {
-				String featureOfInterest = omObservation.getFeatureOfInterest().getHref();
+            } else /*if (hasFOI(omObservation))*/ {
+				featureOfInterest = omObservation.getFeatureOfInterest().getHref();
                 fois.put(featureOfInterest, new OXFFeature(featureOfInterest, null));
 			}
 
-            String procedure = omObservation.getProcedure().getHref();
-            XmlObject result = omObservation.getResult();
             if (result instanceof MeasureTypeImpl) {
-                features.add(createFeature(omObservation, procedure));
+                features.add(createMeasureTypeFeature(omObservation, procedure));
 			} else if (isWaterML200TimeSeriesObservationDocument(result)) {
-			    MeasurementTimeseriesDocument measurementDocument = (MeasurementTimeseriesDocument) result;
+			    
+		        XmlObject xml = XMLBeansTools.getXmlFromDomNode(result, "MeasurementTimeseries");
+			    MeasurementTimeseriesDocument measurementDocument = (MeasurementTimeseriesDocument) xml;
 		        MeasurementTimeseriesType timeseries = measurementDocument.getMeasurementTimeseries();
 		        
-//			    if (isWaterML200TimeSeriesObservationDocument(xmlObject)) {
-//		            OXFObservationCollectionType obsCollectionType = new OXFObservationCollectionType();
-//		            String noneSenseId = String.valueOf(System.currentTimeMillis()); // XXX no collection id available
-//		            OXFFeatureCollection featureCollection = new OXFFeatureCollection(noneSenseId, obsCollectionType);
-//		            return unmarshalTvpMeasurementObservations(featureCollection);
+
+	            String observedPropertyId = omObservation.getObservedProperty().getHref();
+	            String observedPropertyLabel = omObservation.getObservedProperty().getTitle();
+		        
+		        for (TVPDefaultMetadataPropertyType pointMetadata : timeseries.getDefaultPointMetadataArray()) {
+		            TVPMetadataType tvpMetadata = pointMetadata.getDefaultTVPMetadata();
+                    if (!isTVPMeasurementMetadata(tvpMetadata)) {
+                        String format = "Type is not supported for parsing: %s";
+                        throw new OXFException(String.format(format, pointMetadata.schemaType()));
+                    }
+                    
+                    TVPMeasurementMetadataType metadata = TVPMeasurementMetadataType.class.cast(tvpMetadata);
+                    String defaultUom = metadata.getUom().getCode();
+	                for (Point measurement : timeseries.getPointArray()) {
+
+	                    MeasureTVPType tvp = measurement.getMeasurementTVP();
+	                    MeasureType value = tvp.getValue();
+                        String uom = value.getUom() != null ? value.getUom() : defaultUom;
+                        ITime samplingTime = getSamplingTime(tvp);
+                        
+                        OXFMeasureType resultValue = new OXFMeasureType(uom, value.getDoubleValue());
+                        OXFPhenomenonPropertyType phenPropType = new OXFPhenomenonPropertyType(observedPropertyId, observedPropertyLabel);
+                        OXFMeasurementType measurementType = new OXFMeasurementType();
+	                    OXFFeature tvpFeature = new OXFFeature(featureOfInterest, measurementType);
+	                    
+	                    measurementType.initializeFeature(tvpFeature, null, "any_description", null, samplingTime, procedure, phenPropType, tvpFeature, resultValue);
+                        features.add(tvpFeature);
+                    }
+		        }
+		        
+		        
 		        
 			} else {
 				Map<String, String> uoms = new HashMap<String, String>();
@@ -381,11 +422,26 @@ public class GenericObservationParser {
         }
     }
 
-    private static boolean isWaterML200TimeSeriesObservationDocument(XmlObject xmlObject) {
-        return xmlObject.schemaType() == MeasurementTimeseriesDocument.type;
+    private static ITime getSamplingTime(MeasureTVPType tvp) {
+        TimePositionType time = tvp.getTime();
+        return TimeFactory.createTime(time.getStringValue());
+    }
+
+    private static boolean isTVPMeasurementMetadata(TVPMetadataType tvpMetadataType) {
+        return tvpMetadataType.schemaType() == TVPMeasurementMetadataType.type;
+    }
+
+    private static boolean isEmbeddedSFSpatialSamplingFeature(OMObservationType omObservation) {
+        XmlCursor c = omObservation.getFeatureOfInterest().newCursor();
+        return c.toChild(new QName("http://www.opengis.net/samplingSpatial/2.0", "SF_SpatialSamplingFeature"));
+    }
+
+    private static boolean isWaterML200TimeSeriesObservationDocument(XmlObject xmlObject) throws XmlException {
+        XmlObject xml = XMLBeansTools.getXmlFromDomNode(xmlObject, "MeasurementTimeseries");
+        return xml != null && xml.schemaType() == MeasurementTimeseriesDocument.type;
     }
     
-    private static OXFFeature createFeature(OMObservationType omObservation, String procedure) {
+    private static OXFFeature createMeasureTypeFeature(OMObservationType omObservation, String procedure) {
     	MeasureTypeImpl result = (MeasureTypeImpl) omObservation.getResult();
     	OXFMeasurementType oxf_measurementType = new OXFMeasurementType();
         OXFFeature feature = new OXFFeature(omObservation.getFeatureOfInterest().getHref(), oxf_measurementType);
@@ -462,11 +518,6 @@ public class GenericObservationParser {
 		}
     }
 
-    private static boolean isSFSpatialSamplingFeature(OMObservationType omObservation) {
-        XmlCursor c = omObservation.getFeatureOfInterest().newCursor();
-        return c.toChild(new QName("http://www.opengis.net/samplingSpatial/2.0", "SF_SpatialSamplingFeature"));
-    }
-    
     private static boolean hasFOI(OMObservationType omObservation) {
 		return omObservation.getFeatureOfInterest() != null;
 	}
