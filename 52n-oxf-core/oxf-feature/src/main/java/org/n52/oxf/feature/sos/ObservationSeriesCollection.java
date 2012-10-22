@@ -24,6 +24,11 @@
 
 package org.n52.oxf.feature.sos;
 
+import static org.n52.oxf.feature.OXFAbstractObservationType.FEATURE_OF_INTEREST;
+import static org.n52.oxf.feature.OXFAbstractObservationType.OBSERVED_PROPERTY;
+import static org.n52.oxf.feature.OXFAbstractObservationType.PROCEDURE;
+import static org.n52.oxf.feature.OXFAbstractObservationType.SAMPLING_TIME;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -256,14 +261,14 @@ public class ObservationSeriesCollection {
 
             for (OXFFeature observation : observationCollection) {
 
-                Object foiAttribute = observation.getAttribute(OXFAbstractObservationType.FEATURE_OF_INTEREST);
+                Object foiAttribute = observation.getAttribute(FEATURE_OF_INTEREST);
                 if (foiAttribute != null) {
                     OXFFeature featureOfInterest = (OXFFeature) foiAttribute;
 
                     // System.out.println("\"" + featureOfInterest.getID() + "\",");
                     if (featureOfInterest.getID().equals(featureID)) {
 
-                        ITimePosition time = (ITimePosition) observation.getAttribute(OXFAbstractObservationType.SAMPLING_TIME);
+                        ITimePosition time = (ITimePosition) observation.getAttribute(SAMPLING_TIME);
                         String timeString = time.toISO8601Format();
 
                         ObservedValueTuple tuple = new ObservedValueTuple(observedPropertyNames.length,
@@ -276,9 +281,9 @@ public class ObservationSeriesCollection {
                         IObservationResult measureResult = (IObservationResult) observation.getAttribute(OXFMeasurementType.RESULT);
                         Object result = measureResult.getValue();
 
-                        OXFPhenomenonPropertyType observedProperty = (OXFPhenomenonPropertyType) observation.getAttribute(OXFAbstractObservationType.OBSERVED_PROPERTY);
+                        OXFPhenomenonPropertyType observedProperty = (OXFPhenomenonPropertyType) observation.getAttribute(OBSERVED_PROPERTY);
 
-                        String procedure = (String)observation.getAttribute(OXFAbstractObservationType.PROCEDURE);
+                        String procedure = (String)observation.getAttribute(PROCEDURE);
                         
                         //
                         // setze den Wert an der richtigen Tupel-Position:
