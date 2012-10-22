@@ -64,7 +64,21 @@ public class XMLBeansTools {
         PRETTYPRINT.setSavePrettyPrint();
         FAST.setUseDefaultNamespace();
     }
-
+    
+    /**
+     * @param xml
+     *        the node containing xml
+     * @param nodeName
+     *        the node's name of the DOM node
+     * @return an XmlBeans {@link XmlObject} representation of the body, or <code>null</code> if node could
+     *         not be found.
+     * @throws XmlException
+     *         if parsing to XML fails
+     */
+    public static XmlObject getXmlFromDomNode(XmlObject xml, String nodeName) throws XmlException {
+        Node bodyNode = XMLBeansTools.getDomNode(xml, nodeName);
+        return bodyNode == null ? null : XmlObject.Factory.parse(bodyNode);
+    }
     /**
      * Mechanism to find an xml element by its name in a given {@link XmlObject}.
      * <br><br>
