@@ -102,7 +102,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
         }
         try {
             if (isOM100ObservationCollectionDocument(xmlObject)) {
-                net.opengis.om.x10.ObservationCollectionDocument obsCollectionDoc = (ObservationCollectionDocument) xmlObject;
+                ObservationCollectionDocument obsCollectionDoc = (ObservationCollectionDocument) xmlObject;
                 ObservationCollectionType observation = obsCollectionDoc.getObservationCollection();
                 return OXFObservationCollectionType.createFeatureCollection(observation.getId(), observation);
 //            } else if (isWaterML200TimeSeriesObservationDocument(xmlObject)) {
@@ -119,7 +119,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
     }
 
     private boolean isOM100ObservationCollectionDocument(XmlObject xmlObject) {
-        return xmlObject instanceof net.opengis.om.x10.ObservationCollectionDocument;
+        return xmlObject.schemaType() == ObservationCollectionDocument.type;
     }
     
 //    private OXFFeatureCollection unmarshalTvpMeasurementObservations(OXFFeatureCollection featureCollection) throws OXFException {
@@ -162,7 +162,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
             // TODO remove when removing deprecated #unmarshalFeatures100()
             throw new IllegalStateException("Store was not initialized with an operationResult!");
         }
-        if (!isSOS200GetObservationResponseDocument(xmlObject)) {
+        if (isSOS200GetObservationResponseDocument(xmlObject)) {
             OXFObservationCollectionType obsCollectionType = new OXFObservationCollectionType();
             GetObservationResponseDocument observationResponseDocument = (GetObservationResponseDocument) xmlObject;
             GetObservationResponseType observationResponseType = observationResponseDocument.getGetObservationResponse();
@@ -181,7 +181,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
     }
 
     private boolean isSOS200GetObservationResponseDocument(XmlObject xmlObject) {
-        return xmlObject instanceof GetObservationResponseDocument;
+        return xmlObject.schemaType() == GetObservationResponseDocument.type;
     }
 
     private OXFFeatureCollection initializeFeature(OXFFeatureCollection featureCollection, ObservationData[] observationData) throws OXFException {
