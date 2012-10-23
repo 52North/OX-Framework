@@ -26,7 +26,6 @@ package org.n52.oxf.valueDomains.spatial;
 
 import java.util.Arrays;
 
-import org.apache.commons.logging.Log;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.ows.capabilities.IRangeValueDomain;
