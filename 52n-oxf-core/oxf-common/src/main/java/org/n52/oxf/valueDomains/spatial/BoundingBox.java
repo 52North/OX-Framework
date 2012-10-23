@@ -115,7 +115,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
             sb.append("Boundingbox must be at least one-dimensional: ");
             sb.append("lowerLeft: ").append(Arrays.toString(lowerLeft));
             sb.append("upperRight: ").append(Arrays.toString(upperRight));
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(sb.toString());
         }
         
         if (lowerLeft.length != upperRight.length) {
