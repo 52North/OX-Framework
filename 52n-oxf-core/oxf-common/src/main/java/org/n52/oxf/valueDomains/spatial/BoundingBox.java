@@ -116,14 +116,16 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         
         if (lowerLeft.length == 0 || upperRight.length == 0) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Boundingbox must be at least one-dimensional: ");
-            sb.append("lowerLeft: ").append(Arrays.toString(lowerLeft));
-            sb.append("upperRight: ").append(Arrays.toString(upperRight));
+            sb.append("Boundingbox must be at least one-dimensional:");
+            sb.append(" lowerLeft: ").append(Arrays.toString(lowerLeft));
+            sb.append(" upperRight: ").append(Arrays.toString(upperRight));
 //            throw new IllegalArgumentException(sb.toString());
             LOGGER.warn("Unparsable BoundingBox: {}", sb.toString());
-            setLowerCorner(new double[] { 0.0d, 0.0d });
-            setUpperCorner(new double[] { 0.0d, 0.0d });
             LOGGER.warn("Reset BoundingBox using [ll: 0.0,0.0; ur: 0.0, 0.0]");
+            double[] resettedCorner = new double[] { 0.0d, 0.0d };
+            setDimensions(resettedCorner.length);
+            setLowerCorner(resettedCorner);
+            setUpperCorner(resettedCorner);
         }
         
         if (lowerLeft.length != upperRight.length) {
