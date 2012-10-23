@@ -24,6 +24,8 @@
 
 package org.n52.oxf.valueDomains.spatial;
 
+import java.util.Arrays;
+
 import org.n52.oxf.OXFException;
 import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.ows.capabilities.IRangeValueDomain;
@@ -55,6 +57,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     protected double[] upperCorner;
 
     protected String crs;
+    
     protected int dimensions;
 
     /**
@@ -64,21 +67,14 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
      *        the lowerCorner
      * @param upperRight
      *        the upperCorner
-     * @throws IllegalArgumentException
-     *         if the dimensions of lowerLeft and upperRight are not the same.
+     * @throws NullPointerException if one of the arguments are <code>null</code>
+     * @throws IllegalArgumentException if one of the argument arrays has length <code>0</code>.
+     * @throws IllegalStateException if passed argument arrays have different length/dimension.
      */
     public BoundingBox(double[] lowerLeft, double[] upperRight) {
-        if (lowerLeft.length != upperRight.length) {
-            throw new IllegalArgumentException(ERROR_NUM_OF_COORINDATE_DIFFER + 
-                    ": uR: " + (upperRight!=null?upperRight.length:"NULL") +
-                    "; lL: " + (lowerLeft!=null?lowerLeft.length:"NULL"));
-        }
-        setDimensions(upperRight.length);
-
-        setLowerCorner(lowerLeft);
-        setUpperCorner(upperRight);
+        this(null, lowerLeft, upperRight);
     }
-
+    
     /**
      * this constructor has all attributes as its parameters.
      * 
@@ -88,21 +84,45 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
      *        the lowerCorner
      * @param upperRight
      *        the upperCorner
-     * @throws IllegalArgumentException
-     *         if the dimensions of lowerLeft and upperRight are not the same.
+     * @throws NullPointerException if one of the arguments are <code>null</code>
+     * @throws IllegalArgumentException if one of the argument arrays has length <code>0</code>.
+     * @throws IllegalStateException if passed argument arrays have different length/dimension.
      */
     public BoundingBox(String crs, double[] lowerLeft, double[] upperRight) {
-        if (lowerLeft.length != upperRight.length) {
-            throw new IllegalArgumentException(ERROR_NUM_OF_COORINDATE_DIFFER + 
-                    ": uR: " + (upperRight!=null?upperRight.length:"NULL") +
-                    "; lL: " + (lowerLeft!=null?lowerLeft.length:"NULL"));
-        }
+        checkBounds(lowerLeft, upperRight);
         setDimensions(upperRight.length);
 
         setLowerCorner(lowerLeft);
         setUpperCorner(upperRight);
 
         setCRS(crs);
+    }
+
+    /**
+     * @param lowerLeft the lower left coordinate
+     * @param upperRight the upper right
+     * @throws NullPointerException if one of the arguments are <code>null</code>
+     * @throws IllegalArgumentException if one of the argument arrays has length <code>0</code>.
+     * @throws IllegalStateException if passed argument arrays have different length/dimension.
+     */
+    private void checkBounds(double[] lowerLeft, double[] upperRight) {
+        if (lowerLeft == null ||  upperRight == null) {
+            throw new NullPointerException("Bounds must not be null!");
+        }
+        
+        if (lowerLeft.length == 0 || upperRight.length == 0) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Boundingbox must be at least one-dimensional: ");
+            sb.append("lowerLeft: ").append(Arrays.toString(lowerLeft));
+            sb.append("upperRight: ").append(Arrays.toString(upperRight));
+            throw new IllegalArgumentException();
+        }
+        
+        if (lowerLeft.length != upperRight.length) {
+            throw new IllegalStateException(ERROR_NUM_OF_COORINDATE_DIFFER + 
+                    ": uR: " + (upperRight!=null?upperRight.length:"NULL") +
+                    "; lL: " + (lowerLeft!=null?lowerLeft.length:"NULL"));
+        }
     }
 
     /**
