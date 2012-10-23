@@ -26,9 +26,12 @@ package org.n52.oxf.valueDomains.spatial;
 
 import java.util.Arrays;
 
+import org.apache.commons.logging.Log;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.ows.capabilities.IRangeValueDomain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This represents a standard BoundingBox. Does not any operations like zoom etc..
@@ -40,6 +43,8 @@ import org.n52.oxf.ows.capabilities.IRangeValueDomain;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox> {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(BoundingBox.class);
 
     public static final String ERROR_INPUT_COORDINATES = "input coordinates have a different dimension";
     public static final String ERROR_NUM_OF_COORINDATE_DIFFER = "The dimension is not homogenous in upperRight and lowerLeft";
@@ -115,7 +120,11 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
             sb.append("Boundingbox must be at least one-dimensional: ");
             sb.append("lowerLeft: ").append(Arrays.toString(lowerLeft));
             sb.append("upperRight: ").append(Arrays.toString(upperRight));
-            throw new IllegalArgumentException(sb.toString());
+//            throw new IllegalArgumentException(sb.toString());
+            LOGGER.warn("Unparsable BoundingBox: {}", sb.toString());
+            setLowerCorner(new double[] { 0.0d, 0.0d });
+            setUpperCorner(new double[] { 0.0d, 0.0d });
+            LOGGER.warn("Reset BoundingBox using [ll: 0.0,0.0; ur: 0.0, 0.0]");
         }
         
         if (lowerLeft.length != upperRight.length) {
