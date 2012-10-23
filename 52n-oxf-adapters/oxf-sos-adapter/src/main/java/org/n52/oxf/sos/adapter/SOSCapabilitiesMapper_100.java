@@ -31,6 +31,8 @@ import java.util.Vector;
 
 import javax.xml.namespace.QName;
 
+import net.opengis.gml.DirectPositionType;
+import net.opengis.gml.EnvelopeType;
 import net.opengis.gml.ReferenceType;
 import net.opengis.gml.TimeInstantType;
 import net.opengis.gml.TimePeriodType;
@@ -78,8 +80,12 @@ import org.n52.oxf.valueDomains.spatial.BoundingBox;
 import org.n52.oxf.valueDomains.time.TemporalValueDomain;
 import org.n52.oxf.valueDomains.time.TimeFactory;
 import org.n52.oxf.valueDomains.time.TimePeriod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SOSCapabilitiesMapper_100 {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSCapabilitiesMapper_100.class);
 
     public ServiceDescriptor mapCapabilities(CapabilitiesDocument capabilitiesDoc) throws OXFException {
 
@@ -295,7 +301,8 @@ public class SOSCapabilitiesMapper_100 {
             }
 
             // availableCRSs:
-            String oc_crs = xb_obsOffering.getBoundedBy().getEnvelope().getSrsName();
+            EnvelopeType envelope = xb_obsOffering.getBoundedBy().getEnvelope();
+            String oc_crs = envelope.getSrsName();
 
             String[] oc_availabaleCRSs = null;
             if (oc_crs != null) {
@@ -307,18 +314,32 @@ public class SOSCapabilitiesMapper_100 {
             }
 
             // BoundingBox:
-            List xb_lowerCornerList = xb_obsOffering.getBoundedBy().getEnvelope().getLowerCorner().getListValue();
+            DirectPositionType lowerCorner = envelope.getLowerCorner();
+            List xb_lowerCornerList = lowerCorner.getListValue();
             double[] oc_lowerCornerList = new double[xb_lowerCornerList.size()];
 
-            List xb_upperCornerList = xb_obsOffering.getBoundedBy().getEnvelope().getUpperCorner().getListValue();
+            DirectPositionType upperCorner = envelope.getUpperCorner();
+            List xb_upperCornerList = upperCorner.getListValue();
             double[] oc_upperCornerList = new double[xb_upperCornerList.size()];
 
-            for (int j = 0; j < xb_lowerCornerList.size(); j++) {
-                oc_lowerCornerList[j] = (Double) xb_lowerCornerList.get(j);
+            if (oc_lowerCornerList.length == 0) {
+                LOGGER.warn("Evelope contains invalid lower corner: {}.", envelope.xmlText());
+                oc_lowerCornerList = new double[] {0.0, 0.0};
+            } else {
+                for (int j = 0; j < xb_lowerCornerList.size(); j++) {
+                    oc_lowerCornerList[j] = (Double) xb_lowerCornerList.get(j);
+                }
             }
-            for (int j = 0; j < xb_upperCornerList.size(); j++) {
-                oc_upperCornerList[j] = (Double) xb_upperCornerList.get(j);
+            
+            if (oc_upperCornerList.length == 0) {
+                LOGGER.warn("Evelope contains invalid upper corner: {}.", envelope.xmlText());
+                oc_upperCornerList = new double[] {0.0, 0.0};
+            } else {
+                for (int j = 0; j < xb_upperCornerList.size(); j++) {
+                    oc_upperCornerList[j] = (Double) xb_upperCornerList.get(j);
+                }
             }
+            
 
             IBoundingBox[] oc_bbox = new IBoundingBox[1];
             oc_bbox[0] = new BoundingBox(oc_crs, oc_lowerCornerList, oc_upperCornerList);
