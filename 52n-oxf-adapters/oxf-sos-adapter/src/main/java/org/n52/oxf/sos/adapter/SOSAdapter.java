@@ -132,7 +132,7 @@ public class SOSAdapter implements IServiceAdapter {
     public ServiceDescriptor initService(String url) throws ExceptionReport, OXFException {
 
         ParameterContainer paramCon = new ParameterContainer();
-        paramCon.addParameterShell("acceptVersion", serviceVersion);
+        paramCon.addParameterShell("acceptVersions", serviceVersion);
         paramCon.addParameterShell("service", "SOS");
 
         OperationResult opResult = doOperation(new Operation("GetCapabilities", url.toString() + "?", url.toString()),
