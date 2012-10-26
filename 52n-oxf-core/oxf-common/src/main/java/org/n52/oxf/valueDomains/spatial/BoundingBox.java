@@ -72,7 +72,6 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
      * @param upperRight
      *        the upperCorner
      * @throws NullPointerException if one of the arguments are <code>null</code>
-     * @throws IllegalArgumentException if one of the argument arrays has length <code>0</code>.
      * @throws IllegalStateException if passed argument arrays have different length/dimension.
      */
     public BoundingBox(double[] lowerLeft, double[] upperRight) {
@@ -89,7 +88,6 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
      * @param upperRight
      *        the upperCorner
      * @throws NullPointerException if one of the arguments are <code>null</code>
-     * @throws IllegalArgumentException if one of the argument arrays has length <code>0</code>.
      * @throws IllegalStateException if passed argument arrays have different length/dimension.
      */
     public BoundingBox(String crs, double[] lowerLeft, double[] upperRight) {
@@ -106,7 +104,6 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
      * @param lowerLeft the lower left coordinate
      * @param upperRight the upper right
      * @throws NullPointerException if one of the arguments are <code>null</code>
-     * @throws IllegalArgumentException if one of the argument arrays has length <code>0</code>.
      * @throws IllegalStateException if passed argument arrays have different length/dimension.
      */
     private void checkBounds(double[] lowerLeft, double[] upperRight) {
