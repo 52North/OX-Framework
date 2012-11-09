@@ -50,6 +50,14 @@
 		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-soap-v12</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-swes-v20</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-xml-sampling-v100</artifactId>
 			<scope>test</scope>
 		</dependency>

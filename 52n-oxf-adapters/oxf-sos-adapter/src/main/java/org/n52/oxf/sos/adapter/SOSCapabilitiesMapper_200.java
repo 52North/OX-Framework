@@ -103,8 +103,8 @@ public class SOSCapabilitiesMapper_200 {
         String version = mapVersion(capabilitiesDoc);
         ServiceIdentification serviceIdentification = mapServiceIdentification(capabilitiesDoc.getCapabilities().getServiceIdentification());
         ServiceProvider serviceProvider = mapServiceProvider(capabilitiesDoc);
-//        OperationsMetadata operationsMetadata = mapOperationsMetadata(capabilitiesDoc.getCapabilities().getOperationsMetadata());
-        OperationsMetadata operationsMetadata = null;
+        OperationsMetadata operationsMetadata = mapOperationsMetadata(capabilitiesDoc.getCapabilities().getOperationsMetadata());
+//        OperationsMetadata operationsMetadata = null;
         SOSContents contents = mapContents(capabilitiesDoc);
 
 //        addDatasetParameterFromContentsSection(operationsMetadata, contents);
@@ -316,8 +316,11 @@ public class SOSCapabilitiesMapper_200 {
             }
             ObservationOfferingType xb_obsOffering = xb_obsOfferingDoc.getObservationOffering();
             
+            if (!xb_obsOffering.isSetObservedArea()) {
+                continue; // does not contain any observations/features
+            }
+            
             // identifier
-
             String oc_identifier = xb_obsOffering.getIdentifier();
 
             // title (take the first name or if name does not exist take the id)

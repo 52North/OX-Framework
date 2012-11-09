@@ -27,7 +27,9 @@ package org.n52.oxf.sos.adapter;
 import net.opengis.fes.x20.BinaryTemporalOpType;
 import net.opengis.fes.x20.DuringDocument;
 import net.opengis.fes.x20.TEqualsDocument;
+import net.opengis.gml.x32.TimeInstantDocument;
 import net.opengis.gml.x32.TimeInstantType;
+import net.opengis.gml.x32.TimePeriodDocument;
 import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.gml.x32.TimePositionType;
 import net.opengis.ows.x11.AcceptVersionsType;
@@ -204,38 +206,44 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
                     + ") of the value of the parameter 'eventTime' is not supported.");
         }
 
-        BinaryTemporalOpType xb_binTempOp = null;
         if (specifiedTime instanceof ITimePeriod) {
+            
             ITimePeriod oc_timePeriod = (ITimePeriod) specifiedTime;
-            TimePeriodType xb_timePeriod = TimePeriodType.Factory.newInstance();
+            TimePeriodDocument timePeriodDoc = TimePeriodDocument.Factory.newInstance();
+            TimePeriodType xb_timePeriod = timePeriodDoc.addNewTimePeriod();
             DuringDocument duringDoc = DuringDocument.Factory.newInstance();
-            xb_binTempOp = duringDoc.addNewDuring();
+            BinaryTemporalOpType during = duringDoc.addNewDuring();
             
             TimePositionType xb_beginPosition = xb_timePeriod.addNewBeginPosition();
             TimePositionType xb_endPosition = xb_timePeriod.addNewEndPosition();
             xb_beginPosition.setStringValue(oc_timePeriod.getStart().toISO8601Format());
             xb_endPosition.setStringValue(oc_timePeriod.getEnd().toISO8601Format());
-            
-            xb_binTempOp.setValueReference("phenomenonTime"); // TODO always true?
-            xb_binTempOp.set(xb_timePeriod);
+
+            xb_timePeriod.setId("_1");
+            during.set(timePeriodDoc);
+            during.setValueReference("phenomenonTime");
+
+            TemporalFilter spatialFilter = xb_getObs.addNewTemporalFilter();
+            spatialFilter.set(duringDoc);
         }
         else if (specifiedTime instanceof ITimePosition) {
             ITimePosition oc_timePosition = (ITimePosition) specifiedTime;
-            TimeInstantType xb_timeInstant = TimeInstantType.Factory.newInstance();
+            TimeInstantDocument timeInstanceDoc = TimeInstantDocument.Factory.newInstance();
+            TimeInstantType xb_timeInstant = timeInstanceDoc.addNewTimeInstant();
             TEqualsDocument equalsDoc = TEqualsDocument.Factory.newInstance();
-            xb_binTempOp = equalsDoc.addNewTEquals();
+            BinaryTemporalOpType equals = equalsDoc.addNewTEquals();
             
             TimePositionType xb_timePosition = TimePositionType.Factory.newInstance();
             xb_timePosition.setStringValue(oc_timePosition.toISO8601Format());
             xb_timeInstant.setTimePosition(xb_timePosition);
 
-            xb_binTempOp.setValueReference("phenomenonTime"); // TODO always true?
-            xb_binTempOp.set(xb_timeInstant);
+            xb_timeInstant.setId("_1");
+            equals.set(timeInstanceDoc);
+            equals.setValueReference("phenomenonTime");
+            
+            TemporalFilter spatialFilter = xb_getObs.addNewTemporalFilter();
+            spatialFilter.set(equalsDoc);
         }
-
-        TemporalFilter spatialFilter = xb_getObs.addNewTemporalFilter();
-        spatialFilter.setTemporalOps(xb_binTempOp);
-        
     }
     
     

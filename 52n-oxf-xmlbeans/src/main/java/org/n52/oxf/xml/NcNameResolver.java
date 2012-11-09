@@ -32,7 +32,7 @@ package org.n52.oxf.xml;
  * 
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  */
-public class XMLTools {
+public class NcNameResolver {
 
 	/**
 	 * Checks whether the supplied String is an NCName (Namespace Classified

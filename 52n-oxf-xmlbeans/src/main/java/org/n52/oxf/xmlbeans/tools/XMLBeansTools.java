@@ -75,10 +75,11 @@ public class XMLBeansTools {
      * @throws XmlException
      *         if parsing to XML fails
      */
-    public static XmlObject getXmlFromDomNode(XmlObject xml, String nodeName) throws XmlException {
+    public static XmlObject getXmlAnyNodeFrom(XmlObject xml, String nodeName) throws XmlException {
         Node bodyNode = XMLBeansTools.getDomNode(xml, nodeName);
         return bodyNode == null ? null : XmlObject.Factory.parse(bodyNode);
     }
+    
     /**
      * Mechanism to find an xml element by its name in a given {@link XmlObject}.
      * <br><br>
