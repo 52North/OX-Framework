@@ -101,13 +101,14 @@ public class SOSCapabilitiesMapper_200 {
     public ServiceDescriptor mapCapabilities(CapabilitiesDocument capabilitiesDoc) throws OXFException {
 
         String version = mapVersion(capabilitiesDoc);
-        ServiceIdentification serviceIdentification = mapServiceIdentification(capabilitiesDoc.getCapabilities().getServiceIdentification());
-        ServiceProvider serviceProvider = mapServiceProvider(capabilitiesDoc);
-        OperationsMetadata operationsMetadata = mapOperationsMetadata(capabilitiesDoc.getCapabilities().getOperationsMetadata());
-//        OperationsMetadata operationsMetadata = null;
+        CapabilitiesType capabilities = capabilitiesDoc.getCapabilities();
+        ServiceProvider serviceProvider = mapServiceProvider(capabilities);
+        OperationsMetadata operationsMetadata = mapOperationsMetadata(capabilities);
+        ServiceIdentification serviceIdentification = mapServiceIdentification(capabilities);
+        // OperationsMetadata operationsMetadata = null;
         SOSContents contents = mapContents(capabilitiesDoc);
 
-//        addDatasetParameterFromContentsSection(operationsMetadata, contents);
+        // addDatasetParameterFromContentsSection(operationsMetadata, contents);
 
         ServiceDescriptor serviceDesc = new ServiceDescriptor(version,
                                                               serviceIdentification,
@@ -173,13 +174,19 @@ public class SOSCapabilitiesMapper_200 {
         }
     }
 
-    private OperationsMetadata mapOperationsMetadata(net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata xb_opMetadata) {
+    private OperationsMetadata mapOperationsMetadata(CapabilitiesType capabilities) {
+
+        if ( !capabilities.isSetOperationsMetadata()) {
+            return null;
+        }
+
+        net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata operationsMetadata = capabilities.getOperationsMetadata();
 
         //
         // map the operations:
         //
 
-        OperationDocument.Operation[] xb_operations = xb_opMetadata.getOperationArray();
+        OperationDocument.Operation[] xb_operations = operationsMetadata.getOperationArray();
         Operation[] oc_operations = new Operation[xb_operations.length];
         for (int i = 0; i < xb_operations.length; i++) {
             OperationDocument.Operation xb_operation = xb_operations[i];
@@ -244,17 +251,17 @@ public class SOSCapabilitiesMapper_200 {
                     //
 
                     AllowedValues xb_allowedValues = xb_parameter.getAllowedValues();
-                    
+
                     if (xb_allowedValues != null) {
                         ValueType[] xb_values = xb_allowedValues.getValueArray();
-    
+
                         StringValueDomain oc_values = new StringValueDomain();
                         for (int k = 0; k < xb_values.length; k++) {
                             ValueType xb_value = xb_values[k];
-    
+
                             oc_values.addPossibleValue(xb_value.getStringValue());
                         }
-    
+
                         Parameter oc_parameter = new Parameter(parameterName, true, oc_values, null);
                         oc_parameters.add(oc_parameter);
                     }
@@ -294,7 +301,7 @@ public class SOSCapabilitiesMapper_200 {
             e.printStackTrace();
         }
     }
-    
+
     private SOSContents mapContents(CapabilitiesDocument capabilitiesDoc) throws OXFException {
         CapabilitiesType capabilities = capabilitiesDoc.getCapabilities();
         Contents xb_contents = capabilities.getContents();
@@ -315,11 +322,11 @@ public class SOSCapabilitiesMapper_200 {
                 throw new OXFException("Could not parse DOM node.", e);
             }
             ObservationOfferingType xb_obsOffering = xb_obsOfferingDoc.getObservationOffering();
-            
-            if (!xb_obsOffering.isSetObservedArea()) {
+
+            if ( !xb_obsOffering.isSetObservedArea()) {
                 continue; // does not contain any observations/features
             }
-            
+
             // identifier
             String oc_identifier = xb_obsOffering.getIdentifier();
 
@@ -338,13 +345,14 @@ public class SOSCapabilitiesMapper_200 {
             EnvelopeDocument envelopeDoc = null;
             try {
                 envelopeDoc = EnvelopeDocument.Factory.parse(xb_obsOffering.getObservedArea().newInputStream());
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 throw new OXFException("Could not get DOM node.", e);
             }
             catch (XmlException e) {
                 throw new OXFException("Could not get DOM node.", e);
             }
-            
+
             EnvelopeType envelope = envelopeDoc.getEnvelope();
             if (envelope != null) {
                 // availableCRSs:
@@ -353,8 +361,11 @@ public class SOSCapabilitiesMapper_200 {
                     oc_availabaleCRSs = new String[] {oc_crs};
                 }
                 else {
-                    // TODO Think about throwing an exception because of one missing attribute because this situation can occur often when a new offering is set up and no data is available. Set it null and then it's okay! (ehjuerrens@52north.org)
-                    // throw new NullPointerException("SRS not specified in the Capabilities' 'gml:Envelope'-tag.");
+                    // TODO Think about throwing an exception because of one missing attribute because this
+                    // situation can occur often when a new offering is set up and no data is available. Set
+                    // it null and then it's okay! (ehjuerrens@52north.org)
+                    // throw new
+                    // NullPointerException("SRS not specified in the Capabilities' 'gml:Envelope'-tag.");
                 }
 
                 // BoundingBox:
@@ -376,7 +387,8 @@ public class SOSCapabilitiesMapper_200 {
             }
 
             // outputFormats:
-            String[] oc_outputFormats = (String[]) ArrayUtils.addAll(responseFormats, xb_obsOffering.getResponseFormatArray());
+            String[] oc_outputFormats = (String[]) ArrayUtils.addAll(responseFormats,
+                                                                     xb_obsOffering.getResponseFormatArray());
 
             // TemporalDomain:
             List<ITime> oc_timeList = new ArrayList<ITime>();
@@ -396,7 +408,7 @@ public class SOSCapabilitiesMapper_200 {
             FilterValueDomain filterDomain = new FilterValueDomain();
             if (capabilities.getFilterCapabilities() != null) {
                 FilterCapabilities filterCaps = capabilities.getFilterCapabilities().getFilterCapabilities();
-                if (filterCaps != null){
+                if (filterCaps != null) {
                     processScalarFilterCapabilities(filterDomain, filterCaps.getScalarCapabilities());
                     processSpatialFilterCapabilities(filterDomain, filterCaps.getSpatialCapabilities());
                     processTemporalFilterCapabilities(filterDomain, filterCaps.getTemporalCapabilities());
@@ -404,9 +416,10 @@ public class SOSCapabilitiesMapper_200 {
             }
 
             String[] oc_respModes = xb_obsOffering.getResponseFormatArray();
-            String[] oc_obsProps = (String[]) ArrayUtils.addAll(xb_obsOffering.getObservablePropertyArray(), observablePropertys);
-            String[] oc_procedures = new String[] { xb_obsOffering.getProcedure() };
-            
+            String[] oc_obsProps = (String[]) ArrayUtils.addAll(xb_obsOffering.getObservablePropertyArray(),
+                                                                observablePropertys);
+            String[] oc_procedures = new String[] {xb_obsOffering.getProcedure()};
+
             RelatedFeature[] oc_foiIDs = xb_obsOffering.getRelatedFeatureArray();
             String[] oc_relatedFeatures = new String[oc_foiIDs.length];
             for (int j = 0; j < oc_foiIDs.length; j++) {
@@ -445,10 +458,11 @@ public class SOSCapabilitiesMapper_200 {
         return new SOSContents(oc_obsOffList);
     }
 
-    private void processScalarFilterCapabilities(FilterValueDomain filterDomain, ScalarCapabilitiesType scalarCapabilities) {
+    private void processScalarFilterCapabilities(FilterValueDomain filterDomain,
+                                                 ScalarCapabilitiesType scalarCapabilities) {
         if (scalarCapabilities != null) {
             ComparisonOperatorsType comparisonOperators = scalarCapabilities.getComparisonOperators();
-            if (comparisonOperators!= null){
+            if (comparisonOperators != null) {
                 ComparisonOperatorType[] xb_compOpsArray = comparisonOperators.getComparisonOperatorArray();
                 for (ComparisonOperatorType compOp : xb_compOpsArray) {
                     if (compOp.equals(ComparisonOperatorType.EQUAL)) {
@@ -471,39 +485,47 @@ public class SOSCapabilitiesMapper_200 {
             }
         }
     }
-    
-    private void processSpatialFilterCapabilities(FilterValueDomain filterDomain, SpatialCapabilitiesType spatialCapabilities) {
+
+    private void processSpatialFilterCapabilities(FilterValueDomain filterDomain,
+                                                  SpatialCapabilitiesType spatialCapabilities) {
         if (spatialCapabilities != null) {
             // TODO implement
             // throw new NotImplementedException();
         }
     }
 
-    private void processTemporalFilterCapabilities(FilterValueDomain filterDomain, TemporalCapabilitiesType temporalCapabilities) {
+    private void processTemporalFilterCapabilities(FilterValueDomain filterDomain,
+                                                   TemporalCapabilitiesType temporalCapabilities) {
         if (temporalCapabilities != null) {
             // TODO implement
             // throw new NotImplementedException();
         }
-        
+
     }
 
-    private ServiceIdentification mapServiceIdentification(net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification xb_serviceId) {
+    private ServiceIdentification mapServiceIdentification(CapabilitiesType capabilities) {
 
-        String oc_title = xb_serviceId.getTitleArray(0).getStringValue();
-        String oc_serviceType = xb_serviceId.getServiceType().getStringValue();
-        String[] oc_serviceTypeVersions = xb_serviceId.getServiceTypeVersionArray();
+        if ( !capabilities.isSetServiceIdentification()) {
+            return null;
+        }
 
-        String oc_fees = xb_serviceId.getFees();
-        String[] oc_accessConstraints = xb_serviceId.getAccessConstraintsArray();
+        net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification serviceIdentification = capabilities.getServiceIdentification();
+
+        String oc_title = serviceIdentification.getTitleArray(0).getStringValue();
+        String oc_serviceType = serviceIdentification.getServiceType().getStringValue();
+        String[] oc_serviceTypeVersions = serviceIdentification.getServiceTypeVersionArray();
+
+        String oc_fees = serviceIdentification.getFees();
+        String[] oc_accessConstraints = serviceIdentification.getAccessConstraintsArray();
         String oc_abstract = null;
         if (oc_accessConstraints.length != 0) {
-        	oc_abstract = xb_serviceId.getAbstractArray(0).getStringValue();	
-		}
+            oc_abstract = serviceIdentification.getAbstractArray(0).getStringValue();
+        }
         String[] oc_keywords = null;
 
         Vector<String> oc_keywordsVec = new Vector<String>();
-        for (int i = 0; i < xb_serviceId.getKeywordsArray().length; i++) {
-            LanguageStringType[] xb_keywords = xb_serviceId.getKeywordsArray(i).getKeywordArray();
+        for (int i = 0; i < serviceIdentification.getKeywordsArray().length; i++) {
+            LanguageStringType[] xb_keywords = serviceIdentification.getKeywordsArray(i).getKeywordArray();
             for (LanguageStringType xb_keyword : xb_keywords) {
                 oc_keywordsVec.add(xb_keyword.getStringValue());
             }
@@ -524,17 +546,21 @@ public class SOSCapabilitiesMapper_200 {
         return capsDoc.getCapabilities().getVersion();
     }
 
-    private static ServiceProvider mapServiceProvider(CapabilitiesDocument capsDoc) {
-        String name = capsDoc.getCapabilities().getServiceProvider().getProviderName();
-        ResponsiblePartySubsetType contact = capsDoc.getCapabilities().getServiceProvider().getServiceContact();
-        
+    private static ServiceProvider mapServiceProvider(CapabilitiesType capabilities) {
+        if ( !capabilities.isSetServiceProvider()) {
+            return null;
+        }
+        net.opengis.ows.x11.ServiceProviderDocument.ServiceProvider serviceProvider = capabilities.getServiceProvider();
+        String name = serviceProvider.getProviderName();
+        ResponsiblePartySubsetType contact = serviceProvider.getServiceContact();
+
         String individualName = contact.getIndividualName();
         String organisationName = null;
         String positionName = contact.getPositionName();
         ContactType contactInfo = contact.getContactInfo(); // TODO parse info
-        Contact info = new Contact(null,null,null,null,null,null);
+        Contact info = new Contact(null, null, null, null, null, null);
         ServiceContact serviceContact = new ServiceContact(individualName, organisationName, positionName, info);
-        
+
         return new ServiceProvider(name, serviceContact);
     }
 
