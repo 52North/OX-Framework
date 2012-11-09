@@ -112,6 +112,12 @@ public class SOSAdapter implements IServiceAdapter {
         this.requestBuilder = requestBuilder != null ? requestBuilder : this.requestBuilder;
         this.serviceVersion = serviceVersion;
     }
+    
+    public void setRequestBuilder(ISOSRequestBuilder requestBuilder) {
+        if (requestBuilder != null) {
+            this.requestBuilder = requestBuilder;
+        }
+    }
 
     /**
      * initializes the ServiceDescriptor by requesting the capabilities document of the SOS.
