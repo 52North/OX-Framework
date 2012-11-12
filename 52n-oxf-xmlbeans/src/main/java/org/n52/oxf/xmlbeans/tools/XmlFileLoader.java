@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012
+ * ﻿Copyright (C) 2012
  * by 52 North Initiative for Geospatial Open Source Software GmbH
  *
  * Contact: Andreas Wytzisk
@@ -21,7 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-
 package org.n52.oxf.xmlbeans.tools;
 
 import java.io.FileNotFoundException;
@@ -50,7 +49,7 @@ public class XmlFileLoader {
     public static XmlObject loadSoapBodyFromXmlFileViaClassloader(String filePath, String nodeName, Class< ? > clazz) throws XmlException, IOException {
         // TODO get rid of Soap XML Binding => use java API and XML Tools
         EnvelopeDocument envelope = (EnvelopeDocument) loadXmlFileViaClassloader(filePath, clazz);
-        return XmlUtil.readBodyNodeFrom(envelope, nodeName);
+        return SoapUtil.readBodyNodeFrom(envelope, nodeName);
     }
 
     /**

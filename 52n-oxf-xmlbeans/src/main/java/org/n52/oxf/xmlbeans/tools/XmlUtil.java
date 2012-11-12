@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2012
+ * ﻿Copyright (C) 2012
  * by 52 North Initiative for Geospatial Open Source Software GmbH
  *
  * Contact: Andreas Wytzisk
@@ -21,215 +21,321 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-
 package org.n52.oxf.xmlbeans.tools;
 
-import java.util.HashMap;
-import java.util.UUID;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.reflect.Method;
 
 import javax.xml.namespace.QName;
 
+import org.apache.xml.serialize.OutputFormat;
+import org.apache.xml.serialize.XMLSerializer;
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.w3.x2003.x05.soapEnvelope.Body;
-import org.w3.x2003.x05.soapEnvelope.Envelope;
-import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;
-import org.w3.x2003.x05.soapEnvelope.Header;
-import org.w3.x2005.x08.addressing.ActionDocument;
-import org.w3.x2005.x08.addressing.MessageIDDocument;
-import org.w3.x2005.x08.addressing.RelatesToDocument;
-import org.w3.x2005.x08.addressing.ReplyToDocument;
-import org.w3.x2005.x08.addressing.ToDocument;
+import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
+import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+/**
+ * This class provides helper methods and best practices for regularly occurring issues with XMLBeans
+ * handling.
+ * 
+ * @author matthes rieke <m.rieke@52north.org>
+ * @author Jan Torben Heuer <jan.heuer@uni-muenster.de>
+ * 
+ */
 public class XmlUtil {
 
-    public static XmlOptions xmlFormat = XmlSetup.doXmlSetup();
+    public final static XmlOptions NO_XML_FRAGMENTS = new XmlOptions().setSaveOuter();
+    public final static XmlOptions PRETTYPRINT = new XmlOptions(NO_XML_FRAGMENTS);
+    public final static XmlOptions FAST = new XmlOptions(NO_XML_FRAGMENTS);
 
-    private static final class XmlSetup {
-        static XmlOptions doXmlSetup() {
-            // XMLBeansParser.registerLaxValidationCase(new SpsOfferingLaxValidationCase());
-            // XMLBeansParser.registerLaxValidationCase(new SosOfferingLaxValidationCase());
-
-            HashMap<String, String> namespaces = new HashMap<String, String>();
-            namespaces.put("http://www.opengis.net/sos/2.0", "sos");
-            namespaces.put("http://www.opengis.net/sps/2.0", "sps");
-            namespaces.put("http://www.opengis.net/swes/2.0", "swes");
-            namespaces.put("http://www.opengis.net/swe/2.0", "swe20");
-            namespaces.put("http://www.opengis.net/swe/1.0.1", "swe101");
-            namespaces.put("http://www.opengis.net/sensorML/1.0.1", "sml");
-            namespaces.put("http://www.opengis.net/gml/3.2", "gml32");
-            namespaces.put("http://www.opengis.net/gml", "gml311");
-            namespaces.put("http://www.opengis.net/om/2.0", "om");
-            
-            namespaces.put("http://www.w3.org/1999/xlink", "xlink");
-            namespaces.put("http://www.w3.org/2005/08/addressing", "wsa");
-            namespaces.put("http://www.w3.org/2003/05/soap-envelope", "soap12");
-
-            XmlOptions options = new XmlOptions();
-            options.setSavePrettyPrint();
-            options.setSavePrettyPrintIndent(2);
-            options.setSaveAggressiveNamespaces();
-            options.setSaveSuggestedPrefixes(namespaces);
-            return options;
-        }
+    static {
+        PRETTYPRINT.setSavePrettyPrint();
+        PRETTYPRINT.setSavePrettyPrintIndent(2);
+        PRETTYPRINT.setUseDefaultNamespace();
+        FAST.setUseDefaultNamespace();
     }
-
-    // /**
-    // * Creates an exception report from the {@link Throwable}'s stacktrace.<br>
-    // * <br/>
-    // * An example looks like the following.
-    // *
-    // * <pre>
-    // * {@code
-    // * <Exception>
-    // * <message>exMessage</message>
-    // * <stackTrace>
-    // * [EXC] "Stacktrace element 1"
-    // * [EXC] "Stacktrace element 2"
-    // * [EXC] "Stacktrace element 3"
-    // * <!-- ... -->
-    // * </stackTrace>
-    // * </Exception>
-    // * }
-    // * </pre>
-    // *
-    // *
-    // * @param t
-    // * the {@link Throwable} occured
-    // * @return and OWS 1.1 ExceptionReport containing the {@link Throwable}'s stacktrace information
-    // * @throws XmlException
-    // * if parsing to {@link XmlObject} is unsuccessful
-    // */
-    // public static XmlObject createXmlExceptionResponse(Throwable t) throws XmlException {
-    //
-    // // TODO wrap exception report with appropriate SOAP header?!
-    //
-    // ExceptionReportDocument exceptionReportDoc = ExceptionReportDocument.Factory.newInstance();
-    // ExceptionReport exceptionReport = exceptionReportDoc.addNewExceptionReport();
-    // ExceptionType exception = exceptionReport.addNewException();
-    // exception.setLocator("NoApplicableCode");
-    // exception.addExceptionText(t.getMessage());
-    // // if (t.getStackTrace().length > 0) {
-    // // for (StackTraceElement e : t.getStackTrace()) {
-    // // exception.addExceptionText(e.toString());
-    // // }
-    // // }
-    // return exceptionReportDoc;
-    //
-    // /*
-    // StringBuilder sb = new StringBuilder();
-    // sb.append("<Exception>");
-    // sb.append("<message>").append(t.getMessage()).append("</message>");
-    // if (t.getStackTrace().length > 0) {
-    // sb.append("<stackTrace>");
-    // String format = "\n\t[EXC] %s";
-    // for (StackTraceElement e : t.getStackTrace()) {
-    // sb.append(String.format(format, e.toString()));
-    // }
-    // sb.append("</stackTrace>");
-    // }
-    // sb.append("</Exception>");
-    // return XmlObject.Factory.parse(sb.toString());
-    // */
-    // }
-
-    /**
-     * Gets the actual schema type of the given XML, even if wrapped in a SOAP envelope.
-     * 
-     * @param xml
-     *        XML where to extract the schema type from.
-     * @return the XML schema type. If a SOAP envelope is passed in, the schema type of SOAP body's content is
-     *         returned rather than returning SOAP Envelope schema type.
-     */
-    public static SchemaType getSchemaTypeOfXmlPayload(XmlObject xml) {
-        if (isSoapEnvelope(xml)) {
-            return stripSoapEnvelope((EnvelopeDocument) xml, null).schemaType();
-        }
-        return xml.schemaType();
-    }
-
-    /**
-     * Strips SOAP envelope from passed XML and returns SOAP body's XML payload. If passed XML is not a SOAP
-     * envelope the argument is returned without any processing.<br>
-     * <br>
-     * The method is exactly the same as calling
-     * 
-     * <pre>
-     * {@code stripSoapEnvelope(xmlToStrip, null);}
-     * 
-     * <pre>
-     * 
-     * @param xmlToStrip
-     *        the XML to strip SOAP envelope from.
-     * @return the SOAP body's XML payload, or the XML itself if it is not a SOAP envelope.
-     */
-    public static XmlObject stripSoapEnvelope(XmlObject xmlToStrip) {
-        return stripSoapEnvelope(xmlToStrip, null);
-    }
-
-    /**
-     * Strips SOAP envelope from passed argument and returns SOAP body's XML payload, if <code>nodeName</code>
-     * matches the content. If passed XML is not a SOAP envelope the argument is returned without any
-     * processing.<br>
-     * <br>
-     * If <code>null</code> is passed as <code>nodeName</code>, the method behaves like
-     * {@link #stripSoapEnvelope(XmlObject)}.
-     * 
-     * @param xmlToStrip
-     *        the XML to strip SOAP envelope from.
-     * @param nodeName
-     *        the body payload's node name.
-     * @return the SOAP body's XML payload, or the XML itself if it is not a SOAP envelope.
-     */
-    public static XmlObject stripSoapEnvelope(XmlObject xmlToStrip, String nodeName) {
-        if (isSoapEnvelope(xmlToStrip)) {
-            EnvelopeDocument envelope = (EnvelopeDocument) xmlToStrip;
-            return readBodyNodeFrom(envelope, nodeName);
-        }
-        return xmlToStrip;
-    }
-
+    
     /**
      * @param xml
-     *        the XML to check.
-     * @return <code>true</code> if the passed XML is of type {@link EnvelopeDocument#type},
-     *         <code>false</code> if <code>null</code> or of any other type.
-     */
-    public static boolean isSoapEnvelope(XmlObject xml) {
-        return xml != null && xml.schemaType() == EnvelopeDocument.type;
-    }
-
-    /**
-     * Extracts the body content mathing the <code>nodeName</code>, of the passed SOAP envelope.
-     * 
-     * @param envelope
-     *        the SOAP envelope to read body from
+     *        the node containing xml
      * @param nodeName
-     *        the node's name of the expected body payload
+     *        the node's name of the DOM node
      * @return an XmlBeans {@link XmlObject} representation of the body, or <code>null</code> if node could
      *         not be found.
-     * @throws IllegalArgumentException
-     *         if SOAP body contains content which cannot be parsed to any XML.
+     * @throws XmlException
+     *         if parsing to XML fails
      */
-    public static XmlObject readBodyNodeFrom(EnvelopeDocument envelope, String nodeName) {
-        Body soapBody = envelope.getEnvelope().getBody();
-        if (nodeName == null) {
-            XmlCursor bodyCursor = soapBody.newCursor();
-            return bodyCursor.toFirstChild() ? bodyCursor.getObject() : null;
+    public static XmlObject getXmlAnyNodeFrom(XmlObject xml, String nodeName) throws XmlException {
+        Node bodyNode = XmlUtil.getDomNode(xml, nodeName);
+        return bodyNode == null ? null : XmlObject.Factory.parse(bodyNode);
+    }
+    
+    /**
+     * Mechanism to find an xml element by its name in a given {@link XmlObject}.
+     * <br><br>
+     * XMLBeans has no accessor for type #any, that is why this method can be used to get #any content as {@link Node}.
+     * 
+     * @param xmlobj
+     *        the xml object which contains the &lt;name&gt; element.
+     * @param name
+     *        the xml element which shall be found.
+     * @return a DOM {@link Node} which can further be parsed .
+     * @throws Exception
+     *         if DOM node of <code>xmlobj</code> is <code>null</code>.
+     */
+    public static Node getDomNode(XmlObject xmlobj, String name) throws XmlException {
+        Node domNode = xmlobj.getDomNode();
+        if (domNode == null)
+            throw new XmlException("No DOM node found where to extract" + name + " element.");
+
+        name = stripPrefix(name);
+
+        // You don't have a get accessor for the <any>
+        // element's children, so use DOM to identify the correct element while
+        // looping through the <any> element's child list.
+        NodeList childList = domNode.getChildNodes();
+
+        // Find the element of name: <name>.
+        for (int i = 0; i < childList.getLength(); i++) {
+            Node node = childList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                if (node.getLocalName().equals(name)) {
+                    return node;
+                }
+            }
         }
+
+        return null; // not found
+    }
+
+    private static String stripPrefix(String name) {
+        return name.substring(name.indexOf(":") + 1);
+    }
+    
+
+    /**
+     * Extracts an element from an xml doc. This is only useful for abstract or choice types. It is done via
+     * reflection
+     * 
+     * @param doc
+     *        The xml element
+     * @param element
+     *        the name of the Method, for example <code>getUom</code>
+     * @return the return value of the Method or null if the Method does not exist.
+     * @throws XMLHandlingException
+     *         thrown if the XML is incorrect
+     */
+    public static String getElement(XmlObject doc, String element) throws XMLHandlingException {
         try {
-            return XMLBeansTools.getXmlAnyNodeFrom(soapBody, nodeName);
+            for (Method method : doc.getClass().getMethods()) {
+                if (method.getName().equals(element)) {
+                    return method.invoke(doc, (Object[]) null).toString();
+                }
+            }
+
+            return null;
         }
-        catch (XmlException e) {
-            throw new IllegalArgumentException("Cannot parse from envelope");
+        catch (Exception e) {
+            throw new XMLHandlingException("cannot extract '" + element + "' from "
+                    + doc.schemaType().getName().toString(), e);
         }
     }
 
+    /**
+     * @param doc
+     *        XmlBeans object
+     * @return the XmlObject as a String
+     * @throws XMLHandlingException
+     *         thrown if the XML is incorrect
+     */
+    public static String objectToString(XmlObject doc) throws XMLHandlingException {
+        return objectToString(doc, true);
+    }
+
+    /**
+     * @param doc
+     *        XmlBeans object
+     * @param validate
+     *        validate the document?
+     * @return the XmlObject as a String
+     * @throws XMLHandlingException
+     *         thrown if the XML is incorrect
+     */
+    public static String objectToString(XmlObject doc, boolean validate) throws XMLHandlingException {
+        return objectToString(doc, validate, false);
+    }
+
+    /**
+     * @param doc
+     *        XmlBeans object
+     * @param validate
+     *        validate the object?
+     * @param prettyprint
+     *        Output in pretty print mode?
+     * @return the XmlObject as a String
+     * @throws XMLHandlingException
+     *         thrown if the XML is incorrect
+     */
+    public static String objectToString(XmlObject doc, boolean validate, boolean prettyprint) throws XMLHandlingException {
+        if (validate) {
+            XMLBeansParser.strictValidate(doc);
+        }
+        if (prettyprint) {
+            return doc.xmlText(PRETTYPRINT);
+        }
+        return doc.xmlText(FAST);
+    }
+
+    /**
+     * Writes a document with the given {@link PrintWriter}
+     * 
+     * @param doc
+     *        the document to write
+     * @param out
+     *        the print writer
+     * @throws IOException
+     *         thrown if an IO error occurred
+     */
+    public static void writeObject(XmlObject doc, PrintWriter out) throws IOException {
+        doc.save(out, PRETTYPRINT);
+    }
+
+    /**
+     * Writes a document with the given {@link PrintWriter}
+     * 
+     * @param doc
+     *        the document to write
+     * @param out
+     *        the print writer
+     * @param validate
+     *        validate the document?
+     * @throws IOException
+     *         thrown if an IO error occurred
+     * @throws XMLHandlingException
+     *         thrown if the XML is incorrect
+     */
+    public static void writeObject(XmlObject doc, PrintWriter out, boolean validate) throws IOException,
+            XMLHandlingException {
+        if (validate) {
+            XMLBeansParser.strictValidate(doc);
+        }
+        writeObject(doc, out);
+    }
+
+    /**
+     * Builds an org.w3c.dom.Node from a {@link XmlObject}.
+     * 
+     * @param input
+     *        the event document
+     * 
+     * @return a org.w3c.dom.Node representation
+     */
+    public static Node getDomNode(XmlObject input) throws XMLHandlingException {
+        /*
+         * This solution looks strange but it is necessary to do it this way. When trying to call
+         * getDomNode() on the incoming XmlObject you will get an Exception (DOM Level 3 not implemented).
+         */
+        try {
+            XmlObject rootNode = getRootNode(input);
+            return rootNode.getDomNode();
+        }
+        catch (Throwable t) {
+            throw new XMLHandlingException(t.getMessage(), t);
+        }
+    }
+
+    private static XmlObject getRootNode(XmlObject input) {
+        return input.selectPath("/*")[0];
+    }
+    
+	/**
+	 * @see #qualifySubstitutionGroup(XmlObject, QName, SchemaType) with SchemaType=null.
+	 */
+	public static XmlObject qualifySubstitutionGroup(XmlObject xobj, QName newInstance) {
+		return qualifySubstitutionGroup(xobj, newInstance, null);
+	}
+
+    /**
+     * Qualifies a valid member of a substitution group. This method tries to use the
+     * built-in {@link XmlObject#substitute(QName, SchemaType)} and if succesful returns
+     * a valid substitution which is usable (not disconnected). If it fails, it uses
+     * low-level {@link XmlCursor} manipulation to qualify the substitution group. Note
+     * that if the latter is the case the resulting document is disconnected and should
+     * no longer be manipulated. Thus, use it as a final step after all markup is included.
+     * 
+     * If newType is null, this method will skip {@link XmlObject#substitute(QName, SchemaType)}
+     * and directly use {@link XmlCursor}. This can be used, if you are sure that the substitute
+     * is not in the list of (pre-compiled) valid substitutions (this is the case if a schema
+     * uses another schema's type as a base for elements. E.g. om:Observation uses gml:_Feature
+     * as the base type).
+     * 
+     * @param xobj
+     * 		the abstract element
+     * @param newInstance
+     * 		the new {@link QName} of the instance
+     * @param newType the new schemaType. if null, cursors will be used and the resulting object
+     * 		will be disconnected.
+     * @return if successful applied {@link XmlObject#substitute(QName, SchemaType)} a living object with a
+     * 		type == newType is returned. Otherwise null is returned as you can no longer manipulate the object.
+     */
+    public static XmlObject qualifySubstitutionGroup(XmlObject xobj, QName newInstance, SchemaType newType) {
+    	XmlObject substitute = null;
+    	if (newType != null) {
+    		substitute = xobj.substitute(newInstance, newType);
+        	if (substitute != null && substitute.schemaType() == newType &&
+        			substitute.getDomNode().getLocalName().equals(newInstance.getLocalPart())) {
+        		return substitute;
+        	}
+    	}
+    	
+        XmlCursor cursor = xobj.newCursor();
+        cursor.setName(newInstance);
+        QName qName = new QName("http://www.w3.org/2001/XMLSchema-instance", "type");
+        cursor.removeAttribute(qName);
+        cursor.dispose();
+        
+        return null;
+    }
+
+    /**
+     * Strips out the text of an xml-element and returns as a String.
+     * 
+     * @param elems
+     *        array of elements
+     * @return the string value of the first element
+     */
+    public static String stripText(XmlObject[] elems) {
+        if (elems != null && elems.length > 0) {
+            return stripText(elems[0]);
+        }
+        return null;
+    }
+
+    /**
+     * @param elem
+     *        the text-containing element
+     * @return the text value
+     */
+    public static String stripText(XmlObject elem) {
+        if (elem != null) {
+            Node child = elem.getDomNode().getFirstChild();
+            if (child != null) {
+                return toString(child).trim();
+            }
+        }
+        return null;
+    }
+    
     public static QName getElementType(XmlObject xml) {
         return xml == null ? null : xml.schemaType().getDocumentElementName();
     }
@@ -252,166 +358,106 @@ public class XmlUtil {
         return xmlObject;
     }
 
-    public static EnvelopeDocument wrapToSoapEnvelope(XmlObject bodyContent) {
-        EnvelopeDocument envelopeDoc = EnvelopeDocument.Factory.newInstance();
-        Envelope envelope = envelopeDoc.addNewEnvelope();
-        Body body = envelope.addNewBody();
-        body.set(bodyContent);
-        return envelopeDoc;
-    }
+    /**
+     * Transform this {@link Node} into a {@link String} representation.
+     * 
+     * NOTE: This methods makes use of a deprecated serializer API (xerces). However, some components rely on
+     * this serialization (e.g. SES). Please do not change until further notice.
+     * 
+     * @param xml
+     *        the xml Node
+     * @return a String representation of the given xml Node
+     */
+    private static String toString(Node xml) {
+        short type = xml.getNodeType();
 
-    public static void addWsaRecipientTo(EnvelopeDocument envelopeDoc, String recipient) {
-        Envelope envelope = envelopeDoc.getEnvelope();
-        if ( !envelope.isSetHeader()) {
-            envelope.addNewHeader();
+        if (type == Node.TEXT_NODE)
+            return xml.getNodeValue();
+
+        //
+        // NOTE: This serialization code is not part of JAXP/DOM - it is
+        // specific to Xerces and creates a Xerces dependency for
+        // this class.
+        //
+        XMLSerializer serializer = new XMLSerializer();
+        serializer.setNamespaces(true);
+
+        OutputFormat formatter = new OutputFormat();
+        formatter.setOmitXMLDeclaration(false);
+        formatter.setIndenting(true);
+        serializer.setOutputFormat(formatter);
+
+        StringWriter writer = new StringWriter();
+        serializer.setOutputCharStream(writer);
+
+        try {
+            if (type == Node.DOCUMENT_NODE)
+                serializer.serialize((Document) xml);
+
+            else
+                serializer.serialize((Element) xml);
         }
-        Header header = envelope.getHeader();
-        ToDocument toDoc = ToDocument.Factory.newInstance();
-        toDoc.addNewTo().setStringValue(recipient);
-        addToHeader(header, toDoc.getTo().getDomNode());
-    }
 
-    public static void addWsaReplyTo(EnvelopeDocument envelopeDoc, String replyTo) {
-        Envelope envelope = envelopeDoc.getEnvelope();
-        if ( !envelope.isSetHeader()) {
-            envelope.addNewHeader();
+        //
+        // we are using a StringWriter, so this "should never happen". the
+        // StringWriter implementation writes to a StringBuffer, so there's
+        // no file I/O that could fail.
+        //
+        // if it DOES fail, we re-throw with a more serious error, because
+        // this a very common operation.
+        //
+        catch (IOException error) {
+            throw new RuntimeException(error.getMessage(), error);
         }
-        Header header = envelope.getHeader();
-        ReplyToDocument replyToDoc = ReplyToDocument.Factory.newInstance();
-        replyToDoc.addNewReplyTo().addNewAddress().setStringValue(replyTo);
-        addToHeader(header, replyToDoc.getReplyTo().getDomNode());
+
+        return writer.toString();
+
+        // if (domImpl == null) throw new RuntimeException("Could not access XML LS Serializer");
+        // LSSerializer serializer = domImpl.createLSSerializer();
+        // DOMConfiguration cfg = serializer.getDomConfig();
+        //
+        // if (cfg.canSetParameter("format-pretty-print", Boolean.TRUE)) {
+        // cfg.setParameter("format-pretty-print", Boolean.TRUE);
+        // }
+        //
+        // LSOutput lso = domImpl.createLSOutput();
+        // lso.setEncoding("UTF-8");
+        // StringWriter sw = new StringWriter();
+        // lso.setCharacterStream(sw);
+        // serializer.write(xml, lso);
+        //
+        // return sw.toString();
+
+        // DOMSource ds = new DOMSource(xml);
+        //
+        // StringWriter writer = new StringWriter();
+        // StreamResult result = new StreamResult(writer);
+        //
+        // TransformerFactory tf = TransformerFactory.newInstance();
+        //
+        // /*
+        // * a mighty Transformer!
+        // */
+        // Transformer transformer;
+        // try {
+        // transformer = tf.newTransformer();
+        // } catch (TransformerConfigurationException e) {
+        // throw new RuntimeException(e);
+        // }
+        //
+        // transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+        // transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        // transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+        //
+        // try {
+        // transformer.transform(ds, result);
+        // } catch (TransformerException e) {
+        // throw new RuntimeException(e);
+        // }
+        // return writer.getBuffer().toString();
+
     }
 
-    public static void addWsaAction(EnvelopeDocument envelopeDoc, String action) {
-        Envelope envelope = envelopeDoc.getEnvelope();
-        if ( !envelope.isSetHeader()) {
-            envelope.addNewHeader();
-        }
-        Header header = envelope.getHeader();
-        ActionDocument actionDoc = ActionDocument.Factory.newInstance();
-        actionDoc.addNewAction().setStringValue(action);
-        addToHeader(header, actionDoc.getAction().getDomNode());
-    }
 
-    public static void addRelatedWsaMessageId(EnvelopeDocument envelopeDoc, String relatedMessageId) {
-        Envelope envelope = envelopeDoc.getEnvelope();
-        if ( !envelope.isSetHeader()) {
-            envelope.addNewHeader();
-        }
-        Header header = envelope.getHeader();
-        RelatesToDocument relatesToDoc = RelatesToDocument.Factory.newInstance();
-        relatesToDoc.addNewRelatesTo().setStringValue(relatedMessageId);
-        addToHeader(header, relatesToDoc.getRelatesTo().getDomNode());
-    }
-
-    public static void addNewWsaMessageId(EnvelopeDocument envelopeDoc) {
-        addWsaMessageId(envelopeDoc, null);
-    }
-    
-    public static void addNewWsaMessageIdWithPrefix(EnvelopeDocument envelopeDoc, String prefix) {
-        addWsaMessageId(envelopeDoc, generateSoapMessageId(prefix));
-    }
-
-    public static void addWsaMessageId(EnvelopeDocument envelopeDoc, String messageId) {
-        Envelope envelope = envelopeDoc.getEnvelope();
-        if ( !envelope.isSetHeader()) {
-            envelope.addNewHeader();
-        }
-        Header header = envelope.getHeader();
-        MessageIDDocument messageIdDoc = MessageIDDocument.Factory.newInstance();
-        String msgId = messageId == null ? generateSoapMessageId(null) : messageId;
-        messageIdDoc.addNewMessageID().setStringValue(msgId);
-        addToHeader(header, messageIdDoc.getMessageID().getDomNode());
-    }
-
-    private static String generateSoapMessageId(String prefix) {
-        prefix = prefix == null ? "" : prefix;
-        return String.format("%s%s", prefix, UUID.randomUUID());
-    }
-
-    private static void addToHeader(Header header, Node nodeToAdd) {
-        Document ownerDocument = header.getDomNode().getOwnerDocument();
-        Node importedNode = ownerDocument.importNode(nodeToAdd, true);
-        header.getDomNode().appendChild(importedNode);
-    }
-
-//    public static void addWssAuthentication(EnvelopeDocument envelopeDocument, String username, String password) throws WSSecurityException {
-//        Envelope envelope = envelopeDocument.getEnvelope();
-//        WSSecHeader secHeader = new WSSecHeader();
-//        secHeader.insertSecurityHeader(envelope.getDomNode().getOwnerDocument());
-//
-//        // create the user information
-//        WSSecUsernameToken utBuilder = new WSSecUsernameToken();
-//        utBuilder.setSecretKeyLength(40);
-//        utBuilder.setUserInfo(username, password);
-//
-//        // add the user information to the Security header of the SOAP message
-//        utBuilder.build(envelope.getDomNode().getOwnerDocument(), secHeader);
-//    }
-
-//    public static boolean validateSosCapabilities(net.opengis.sos.x20.CapabilitiesDocument xml) throws InvalidXmlException {
-//       /*
-//        * Requires a LaxValidationCase!!
-//        */
-//        try {
-//            if (xml.getCapabilities().isSetContents()) {
-//                Offering[] offeringArray = xml.getCapabilities().getContents().getContents().getOfferingArray();
-//                for (Offering offering : offeringArray) {
-//                    InputStream is = offering.newInputStream();
-//                    ObservationOfferingDocument observationOfferingDoc = ObservationOfferingDocument.Factory.parse(is);
-//                    return validateXml(observationOfferingDoc) && validateXml(xml);
-//                }
-//            }
-//            return false;
-//        }
-//        catch (XmlException e) {
-//            throw new InvalidXmlException("Could not parse ObservationOffering.", e);
-//        }
-//        catch (IOException e) {
-//            throw new InvalidXmlException("Could not read ObservationOffering.", e);
-//        }
-//    }
-
-//    public static boolean validateSpsCapabilities(net.opengis.sps.x20.CapabilitiesDocument xml) throws InvalidXmlException {
-//        /*
-//         * Requires a LaxValidationCase!!
-//         */
-//        try {
-//            if (xml.getCapabilities().isSetContents()) {
-//                Offering[] offeringArray = xml.getCapabilities().getContents().getSPSContents().getOfferingArray();
-//                for (Offering offering : offeringArray) {
-//                    InputStream is = offering.newInputStream();
-//                    SensorOfferingDocument sensorOfferingDoc = SensorOfferingDocument.Factory.parse(is);
-//                    return validateXml(sensorOfferingDoc) && validateXml(xml);
-//                }
-//            }
-//            return false;
-//        }
-//        catch (XmlException e) {
-//            throw new InvalidXmlException("Could not parse SensorOffering.", e);
-//        }
-//        catch (IOException e) {
-//            throw new InvalidXmlException("Could not read SensorOffering.", e);
-//        }
-//    }
-
-//    /**
-//     * Validates the given XML and throws an exception if validation fails. 
-//     * 
-//     * @param xml
-//     * @return
-//     * @throws InvalidXmlException
-//     */
-//    public static boolean validateXml(XmlObject xml) throws InvalidXmlException {
-//        Collection<XmlError> errors = XMLBeansParser.validate(xml);
-//        if ( !errors.isEmpty()) {
-//            StringBuilder sb = new StringBuilder("Invalid XML instance:");
-//            for (XmlError xmlError : errors) {
-//                sb.append("\n[xmlError] ").append(xmlError.toString());
-//            }
-//            throw new InvalidXmlException(sb.toString());
-//        }
-//        return true;
-//    }
 
 }

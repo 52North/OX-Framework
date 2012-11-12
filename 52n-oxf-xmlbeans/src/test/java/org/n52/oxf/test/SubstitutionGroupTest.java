@@ -41,13 +41,13 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.junit.Before;
 import org.junit.Test;
-import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Test case for substitution group and the qualification of those using
- * {@link XMLBeansTools#qualifySubstitutionGroup(org.apache.xmlbeans.XmlObject, javax.xml.namespace.QName, org.apache.xmlbeans.SchemaType)}
+ * {@link XmlUtil#qualifySubstitutionGroup(org.apache.xmlbeans.XmlObject, javax.xml.namespace.QName, org.apache.xmlbeans.SchemaType)}
  * .
  * 
  * @author matthes rieke
@@ -118,7 +118,7 @@ public class SubstitutionGroupTest {
     
     @Test
     public void testAddingExtensionMemberWithQualifyingFromXmlBeansTools() {
-        logger.info("SUBSTITUTION VIA XMLBeansTools");
+        logger.info("SUBSTITUTION VIA XmlUtil");
         SamplingFeatureType sampling = SamplingFeatureType.Factory.newInstance();
         sampling.addNewDescription().setStringValue("testDescription");
 
@@ -129,7 +129,7 @@ public class SubstitutionGroupTest {
         // result is the same - member.getFeature() returns null
         // member.setFeature(sampling);
 
-        XMLBeansTools.qualifySubstitutionGroup(member.getFeature(),
+        XmlUtil.qualifySubstitutionGroup(member.getFeature(),
                                                SamplingFeatureDocument.type.getDocumentElementName(),
                                                SamplingFeatureType.type);
 
@@ -156,7 +156,7 @@ public class SubstitutionGroupTest {
         FeaturePropertyType member = collection.addNewFeatureMember();
         member.setFeature(gridCoverage);
 
-        XMLBeansTools.qualifySubstitutionGroup(member.getFeature(),
+        XmlUtil.qualifySubstitutionGroup(member.getFeature(),
                                                GridCoverageDocument.type.getDocumentElementName(),
                                                GridCoverageType.type);
 
