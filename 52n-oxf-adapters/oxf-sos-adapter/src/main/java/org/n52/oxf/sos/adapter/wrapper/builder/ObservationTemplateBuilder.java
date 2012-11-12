@@ -45,7 +45,7 @@ public class ObservationTemplateBuilder {
 	 */
 	public static ObservationTemplateBuilder createObservationTemplateBuilderForTypeMeasurement(String uom) {
 		ObservationTemplateBuilder builder = new ObservationTemplateBuilder();
-		builder.observationType = XMLConstants.QNAME_OM_1_0_MEASUREMENT;
+		builder.observationType = XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION;
 		builder.parameters.put(REGISTER_SENSOR_CODESPACE_PARAMETER, uom);
 		return builder;
 	}
@@ -105,12 +105,12 @@ public class ObservationTemplateBuilder {
 		if (observationType.equals(XMLConstants.QNAME_OM_1_0_TEXT_OBSERVATION)){
 			ot.substitute(XMLConstants.QNAME_OM_1_0_OBSERVATION, ObservationType.type);
 			ot.addNewResult();
-		} else if (observationType.equals(XMLConstants.QNAME_OM_1_0_MEASUREMENT)){
+		} else if (observationType.equals(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION)){
 			MeasureType mt2 = MeasureType.Factory.newInstance();
 			double defaultValue = Double.valueOf(parameters.get(REGISTER_SENSOR_DEFAULT_RESULT_VALUE));
 			mt2.setDoubleValue(defaultValue); // default value required by our SOS
 			mt2.setUom(parameters.get(REGISTER_SENSOR_UOM_PARAMETER));
-			ot = (ObservationType) ot.substitute(XMLConstants.QNAME_OM_1_0_MEASUREMENT, MeasurementType.type);
+			ot = (ObservationType) ot.substitute(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION, MeasurementType.type);
 			ot.addNewResult().set(mt2);
 		} else if (observationType.equals(XMLConstants.QNAME_OM_1_0_COUNT_OBSERVATION)) {
 			ot.substitute(XMLConstants.QNAME_OM_1_0_OBSERVATION, ObservationType.type);

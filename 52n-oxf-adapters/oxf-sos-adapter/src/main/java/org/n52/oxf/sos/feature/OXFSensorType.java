@@ -255,7 +255,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
         // TimePosition xb_timepos = xb_sensor.getTimePosition();
         // StringOrRefType xb_description = xb_sensor.getDescription();
         // SpatialReferenceFrame xb_srs = xb_sensor.getSpatialReferenceFrame();
-        // Parameters xb_parameters = xb_sensor.getParameters();
+        // RequestParameters xb_parameters = xb_sensor.getParameters();
 
         /** history **/
         History[] xb_history = xb_sensor.getHistoryArray();

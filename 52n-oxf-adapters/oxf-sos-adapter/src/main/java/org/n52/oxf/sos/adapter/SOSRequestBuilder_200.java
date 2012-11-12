@@ -54,7 +54,7 @@ import org.n52.oxf.ows.capabilities.Parameter;
 import org.n52.oxf.valueDomains.time.ITimePeriod;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 import org.n52.oxf.valueDomains.time.TimeFactory;
-import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 
 /**
  * contains attributes and methods to encode SOSOperationRequests as String in xml-format
@@ -117,7 +117,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
             }
         }
 
-        return getCapDoc.xmlText(XMLBeansTools.PRETTYPRINT);
+        return getCapDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
     public String buildGetObservationRequest(ParameterContainer parameters) throws OXFException {
@@ -132,7 +132,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         processProcedure(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_PROCEDURE_PARAMETER));
         processFeatureOfInterest(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER));
         processSpatialFilter(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_SPATIAL_FILTER_PARAMETER));
-        return xb_getObsDoc.xmlText(XMLBeansTools.PRETTYPRINT);
+        return xb_getObsDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
     
     private ParameterShell getShellForServerParameter(ParameterContainer container, String name) {
@@ -263,7 +263,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         processProcedureDescriptionFormat(descSensor, getShellForServerParameter(parameters, DESCRIBE_SENSOR_PROCEDURE_DESCRIPTION_FORMAT));
         
         
-        return descSensorDoc.xmlText(XMLBeansTools.PRETTYPRINT);
+        return descSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
     
     protected void processProcedureDescriptionFormat(DescribeSensorType descSensor, ParameterShell shell) {
@@ -288,7 +288,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 
     	xb_getFOI.addProcedure((String) parameters.getParameterShellWithServiceSidedName("procedure").getSpecifiedValue());
         
-        return xb_getFOIDoc.xmlText(XMLBeansTools.PRETTYPRINT);
+        return xb_getFOIDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
     public String buildInsertObservation(ParameterContainer parameters) {

@@ -49,7 +49,7 @@ import org.n52.oxf.feature.sos.ObservationSeriesCollection;
 import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.render.IFeatureDataRenderer;
 import org.n52.oxf.render.IVisualization;
-import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -150,7 +150,7 @@ public class SimpleOM2KMLRenderer implements IFeatureDataRenderer {
             docCursor.setName(new QName("http://earth.google.com/kml/2.1", "Placemark"));
         }
         
-        return new TextVisualization(xb_kmlDocument.xmlText(XMLBeansTools.PRETTYPRINT));
+        return new TextVisualization(xb_kmlDocument.xmlText(XmlUtil.PRETTYPRINT));
     }
 
     public String getDescription() {

@@ -3,6 +3,8 @@ package org.n52.oxf.sos.adapter.wrapper.builder;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.n52.oxf.sos.request.v100.RegisterSensorParameters;
+
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
@@ -10,7 +12,9 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
  * doRegisterSensor([...]) from SOSWrapper.
  * 
  * @author Eric
+ * @deprecated use {@link InsertSensorParameters}
  */
+@Deprecated
 public class RegisterSensorParameterBuilder_v100 {
 	
 	private Map<String, String> parameters = new HashMap<String, String>();

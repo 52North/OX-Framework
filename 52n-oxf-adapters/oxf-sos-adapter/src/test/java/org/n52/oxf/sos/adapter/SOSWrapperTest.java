@@ -302,7 +302,7 @@ import net.sf.saxon.om.Navigator.PrecedingEnumeration;
 //	public void testDoInsertObservation() {
 //
 //		try {			
-//			CategoryObservationBuilder categoryObservation = ObservationBuilder.createObservationForTypeCategory();
+//			CategoryObservationBuilder categoryObservation = ObservationParameters.createObservationForTypeCategory();
 //			categoryObservation.addFoiDescription("foiDescription");
 //			categoryObservation.addFoiId("foiId");
 //			categoryObservation.addNewFoiName("foiName");
@@ -313,7 +313,7 @@ import net.sf.saxon.om.Navigator.PrecedingEnumeration;
 //			categoryObservation.addSrsPosition("srsPosition");
 //			categoryObservation.addResultCodespace("resultCodespace");
 //			
-//			InsertObservationParameterBuilder_v100 iopb = new InsertObservationParameterBuilder_v100("sensorId", categoryObservation);
+//			InsertObservationParameters iopb = new InsertObservationParameters("sensorId", categoryObservation);
 //			
 //			OperationsMetadata om = sw.getServiceDescriptor().getOperationsMetadata();
 //			Map<String, String> parameters = iopb.getParameters();

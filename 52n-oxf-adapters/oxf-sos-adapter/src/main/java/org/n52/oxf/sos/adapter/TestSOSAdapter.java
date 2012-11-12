@@ -118,7 +118,7 @@ public class TestSOSAdapter {
 	 *                            &quot;text/xml;subtype=\&quot;om/0.0.0\&quot;&quot;);
 	 * paramCon.addParameterShell(SOSRequestBuilder_000.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER,
 	 *                            &quot;urn:ogc:def:phenomenon:OGC:1.0.30:dryBulbTemp&quot;);
-	 * paramCon.addParameterShell(SOSRequestBuilder_000.GET_OBSERVATION_RESULT_MODEL_PARAMETER, &quot;Observation&quot;); // &quot;Measurement&quot;);
+	 * paramCon.addParameterShell(SOSRequestBuilder_000.GET_OBSERVATION_RESULT_MODEL_PARAMETER, &quot;Observation&quot;); // &quot;MeasurementObservationParameters&quot;);
 	 * 
 	 * ITime eventTime = TimeFactory.createTime(&quot;2007-04-10T01:45:00+02/2007-05-10T17:45:00+02&quot;);
 	 * paramCon.addParameterShell(new ParameterShell(new Parameter(SOSRequestBuilder_000.GET_OBSERVATION_EVENT_TIME_PARAMETER,
@@ -162,7 +162,7 @@ public class TestSOSAdapter {
 		//////// definition of request parameters:
 		String omFormat = "text/xml;subtype=\"om/1.0.0\"";
 		String responseMode = "inline";
-		String resultModel = "Measurement";
+		String resultModel = "MeasurementObservationParameters";
 		
 		/*
 		// example parameters for 'http://fluggs.wupperverband.de/sos/sos'

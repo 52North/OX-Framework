@@ -3,6 +3,8 @@ package org.n52.oxf.sos.adapter.wrapper.builder;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.n52.oxf.swes.request.DescribeSensorParameters;
+
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
@@ -10,7 +12,9 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
  * doDescribeSensor([...]) from SOSWrapper.
  * 
  * @author Eric
+ * @deprecated use {@link DescribeSensorParameters}
  */
+@Deprecated
 public class DescribeSensorParamterBuilder_v100 {
 
 	// only SensorML is supported at the moment

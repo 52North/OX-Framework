@@ -5,13 +5,19 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.n52.oxf.sos.request.observation.ObservationParameters;
+import org.n52.oxf.sos.request.observation.ObservationParametersFactory;
+import org.n52.oxf.sos.request.observation.TextObservationParameters;
+
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
  * This class is used to collect parameter information about Observations.
  * 
  * @author Eric
+ * @deprecated use {@link ObservationParametersFactory} or {@link ObservationParameters}
  */
+@Deprecated
 public abstract class ObservationBuilder {
 	
 	protected QName type;
@@ -87,7 +93,7 @@ public abstract class ObservationBuilder {
 	}
 	
 	// be careful when changing following methods
-	// begin -> parameter methods necessary for: MeasurementBuilder and CategoryObservationBuilder
+	// begin -> parameter methods necessary for: MeasurementObservationParameters and CategoryObservationBuilder
 	
 	public void addSamplingTime(String samplingTime) {
 		if (parameters.get(INSERT_OBSERVATION_SAMPLING_TIME) != null) {
@@ -138,6 +144,6 @@ public abstract class ObservationBuilder {
 		parameters.put(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
 	}
 	
-	// end -> parameter methods shared by: MeasurementBuilder and CategoryObservationBuilder
+	// end -> parameter methods shared by: MeasurementObservationParameters and CategoryObservationBuilder
 
 }

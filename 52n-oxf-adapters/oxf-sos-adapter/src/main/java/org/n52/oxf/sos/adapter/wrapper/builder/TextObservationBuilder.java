@@ -2,13 +2,17 @@ package org.n52.oxf.sos.adapter.wrapper.builder;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
+import org.n52.oxf.sos.request.observation.ObservationParametersFactory;
+import org.n52.oxf.sos.request.observation.TextObservationParameters;
 import org.n52.oxf.xml.XMLConstants;
 
 /**
- * Text ObservationBuilder assembles parameters, which are necessary to describe a text observation.
+ * Text ObservationParameters assembles parameters, which are necessary to describe a text observation.
  * 
  * @author Eric
+ * @deprecated use {@link ObservationParametersFactory} or {@link TextObservationParameters}
  */
+@Deprecated
 public class TextObservationBuilder extends ObservationBuilder {
 
 		/**

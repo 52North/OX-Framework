@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.xmlbeans;
+package org.n52.oxf.util;
 
 import java.util.Collection;
 
@@ -30,7 +30,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.swes.exception.InvalidRequestException;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 
-public class SwesXmlUtil {
+public class SwesXmlHelper {
 
     /**
      * @param request the request to validate

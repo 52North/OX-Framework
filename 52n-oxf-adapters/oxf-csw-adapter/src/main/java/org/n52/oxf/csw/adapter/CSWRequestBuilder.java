@@ -29,7 +29,7 @@ import net.opengis.cat.csw.x202.DescribeRecordType;
 
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
-import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 
 /**
  * contains attributes and methods to encode operation requests as Strings in xml-format
@@ -187,7 +187,7 @@ public class CSWRequestBuilder {
         String serviceParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_SERVICE_PARAMETER).getSpecifiedValue();
         describeRecordType.setService(serviceParam);
         
-        return describeRecordDocument.xmlText(XMLBeansTools.PRETTYPRINT);
+        return describeRecordDocument.xmlText(XmlUtil.PRETTYPRINT);
       
         //
         // set required elements:

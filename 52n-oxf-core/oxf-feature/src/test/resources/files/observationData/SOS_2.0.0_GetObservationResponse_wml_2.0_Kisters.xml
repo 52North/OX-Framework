@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<sos:GetObservationResponse xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"
+	xmlns:wml2="http://www.opengis.net/waterml/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:om="http://www.opengis.net/om/2.0"
+	xmlns:sos="http://www.opengis.net/sos/2.0" xmlns:sa="http://www.opengis.net/sampling/2.0"
+	xmlns:sams="http://www.opengis.net/samplingSpatial/2.0" xmlns:wsa="http://www.w3.org/2005/08/addressing"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	xsi:schemaLocation="http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sos.xsd 
+	http://www.opengis.net/waterml/2.0 http://schemas.opengis.net/waterml/2.0/waterml2.xsd">
+	<sos:observationData>
+		<om:OM_Observation gml:id="Ki.OM_Obs.1">
+			<om:phenomenonTime>
+				<gml:TimePeriod gml:id="Ki.ObsTime.1">
+					<gml:beginPosition>2000-12-31T22:00:00.000+01:00
+					</gml:beginPosition>
+					<gml:endPosition>2005-12-31T22:00:00.000+01:00</gml:endPosition>
+				</gml:TimePeriod>
+			</om:phenomenonTime>
+			<om:resultTime>
+				<gml:TimeInstant gml:id="Ki.resTime.1">
+					<gml:timePosition>2005-12-31T22:00:00.000+01:00</gml:timePosition>
+				</gml:TimeInstant>
+			</om:resultTime>
+			<om:procedure xlink:href="http://kiwis.kisters.de/tstypes/Year.Cmd.HQ"
+				xlink:title="93 - HQ" />
+			<om:observedProperty xlink:href="http://kiwis.kisters.de/parameters/Q"
+				xlink:title="Q" />
+			<om:featureOfInterest xlink:href="http://kiwis.kisters.de/stations/4214551"
+				xlink:title="ABOVE MOOSE RIVER" />
+			<om:result>
+				<wml2:MeasurementTimeseries gml:id="Ki.Ts.1876042">
+					<wml2:defaultPointMetadata>
+						<wml2:DefaultTVPMeasurementMetadata>
+							<wml2:qualifier xlink:href="http://kiwis.kisters.de/qualifiers/1064"
+								xlink:title="1064" />
+							<wml2:uom code="cumec" />
+							<wml2:interpolationType
+								xlink:href="http://www.opengis.net/def/waterml/2.0/interpolationType/ConstPrec"
+								xlink:title="Constant in preceding interval" />
+						</wml2:DefaultTVPMeasurementMetadata>
+					</wml2:defaultPointMetadata>
+					<wml2:point>
+						<wml2:MeasurementTVP>
+							<wml2:time>2000-12-31T22:00:00.000+01:00</wml2:time>
+							<wml2:value>10100.0</wml2:value>
+						</wml2:MeasurementTVP>
+					</wml2:point>
+					<wml2:point>
+						<wml2:MeasurementTVP>
+							<wml2:time>2001-12-31T22:00:00.000+01:00</wml2:time>
+							<wml2:value>10100.0</wml2:value>
+						</wml2:MeasurementTVP>
+					</wml2:point>
+					<wml2:point>
+						<wml2:MeasurementTVP>
+							<wml2:time>2002-12-31T22:00:00.000+01:00</wml2:time>
+							<wml2:value>10100.0</wml2:value>
+						</wml2:MeasurementTVP>
+					</wml2:point>
+					<wml2:point>
+						<wml2:MeasurementTVP>
+							<wml2:time>2003-12-31T22:00:00.000+01:00</wml2:time>
+							<wml2:value>10100.0</wml2:value>
+						</wml2:MeasurementTVP>
+					</wml2:point>
+					<wml2:point>
+						<wml2:MeasurementTVP>
+							<wml2:time>2004-12-31T22:00:00.000+01:00</wml2:time>
+							<wml2:value>10100.0</wml2:value>
+						</wml2:MeasurementTVP>
+					</wml2:point>
+					<wml2:point>
+						<wml2:MeasurementTVP>
+							<wml2:time>2005-12-31T22:00:00.000+01:00</wml2:time>
+							<wml2:value>10100.0</wml2:value>
+						</wml2:MeasurementTVP>
+					</wml2:point>
+				</wml2:MeasurementTimeseries>
+			</om:result>
+		</om:OM_Observation>
+	</sos:observationData>
+</sos:GetObservationResponse>

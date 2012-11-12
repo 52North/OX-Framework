@@ -1,9 +1,18 @@
 package org.n52.oxf.sos.adapter.wrapper.builder;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_COUNT;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER;
 
+import org.n52.oxf.sos.request.observation.CountObservationParameters;
+import org.n52.oxf.sos.request.observation.ObservationParametersFactory;
 import org.n52.oxf.xml.XMLConstants;
 
+/**
+ * 
+ * @deprecated use {@link ObservationParametersFactory} or {@link CountObservationParameters}
+ */
+@Deprecated
 public class CountObservationBuilder extends ObservationBuilder {
 
 	/**

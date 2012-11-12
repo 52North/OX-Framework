@@ -21,15 +21,18 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
+
 package org.n52.oxf.ses.adapter;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import net.opengis.ows.x11.ExceptionReportDocument;
 import net.opengis.ows.x11.ExceptionType;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -40,8 +43,10 @@ import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.OWSException;
 import org.n52.oxf.ows.OwsExceptionCode;
 import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ows.capabilities.DCP;
 import org.n52.oxf.ows.capabilities.Operation;
-import org.n52.oxf.util.IOHelper;
+import org.n52.oxf.util.web.HttpClientException;
+import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3.x2003.x05.soapEnvelope.Body;
@@ -56,17 +61,17 @@ import org.w3.x2003.x05.soapEnvelope.Header;
  * 
  * Current state (could not be tested because of missing dp compliant instance):
  * <ul>
- *      <li>GetCapabilities implemented</li>
- *      <li>Subscribe</li>
- *      <li>Notify</li>
- *      <li>RegisterPublisher</li>
+ * <li>GetCapabilities implemented</li>
+ * <li>Subscribe</li>
+ * <li>Notify</li>
+ * <li>RegisterPublisher</li>
  * </ul>
  * 
  * @author <a href="mailto:artur.osmanov@uni-muenster.de">Artur Osmanov</a>
  * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>
  */
 public class SESAdapter implements IServiceAdapter {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SESAdapter.class);
 
     public static final String SUBSCRIBE = "Subscribe";
@@ -81,7 +86,7 @@ public class SESAdapter implements IServiceAdapter {
      * Description of the SESAdapter
      */
     public static final String DESCRIPTION = "This Class implements the Service Adapter Interface and is"
-        + "an SES Adapter for the OXF Framework";
+            + "an SES Adapter for the OXF Framework";
 
     /**
      * The name of the service operation which returns the data to be added to a map view as a layer.
@@ -123,18 +128,17 @@ public class SESAdapter implements IServiceAdapter {
         this.paramCont = paramCont;
     }
 
-    /* 
+    /*
      * what needs to be done to init the SESAdapter => GetCapabilities?
      */
     public ServiceDescriptor initService(String serviceURL) throws ExceptionReport, OXFException {
 
-
         ParameterContainer parameters = new ParameterContainer();
         parameters.addParameterShell(ISESRequestBuilder.GET_CAPABILITIES_SES_URL, serviceURL);
 
-        OperationResult opResult = doOperation(new Operation(SESAdapter.GET_CAPABILITIES, 
-                serviceURL, serviceURL), parameters);
-        
+        OperationResult opResult = doOperation(new Operation(SESAdapter.GET_CAPABILITIES, serviceURL, serviceURL),
+                                               parameters);
+
         try {
             // free OWS Response from SOAP-Envelope
 
@@ -144,16 +148,15 @@ public class SESAdapter implements IServiceAdapter {
 
             net.opengis.ses.x00.CapabilitiesDocument capsDoc = net.opengis.ses.x00.CapabilitiesDocument.Factory.parse(owsResponse);
 
-           return handleCapabilities(capsDoc);
+            return handleCapabilities(capsDoc);
 
-        } catch (XmlException e) {
+        }
+        catch (XmlException e) {
             throw new OXFException(e);
         }
         catch (IOException e) {
             throw new OXFException(e);
         }
-
-
 
     }
 
@@ -165,102 +168,107 @@ public class SESAdapter implements IServiceAdapter {
         return result;
     }
 
-    public OperationResult doOperation(Operation operation,
-            ParameterContainer parameterContainer) throws ExceptionReport,
+    public OperationResult doOperation(Operation operation, ParameterContainer parameterContainer) throws ExceptionReport,
             OXFException {
 
         String request = null;
         ISESRequestBuilder requestBuilder = SESRequestBuilderFactory.generateRequestBuilder(this.serviceVersion);
         OperationResult result = null;
 
-        if(operation!=null){
-        	
-        // SUBSCRIBE
-        if (operation.getName().equals(SESAdapter.SUBSCRIBE)) {
-            request = requestBuilder.buildSubscribeRequest(parameterContainer);
-            
-            // UNSUBSCRIBE
-        } else if(operation.getName().equals(SESAdapter.UNSUBSCRIBE)){
-            request = requestBuilder.buildUnsubscribeRequest(parameterContainer);
+        if (operation != null) {
 
-            // GET_CAPABILITIES
-        } else if(operation.getName().equals(SESAdapter.GET_CAPABILITIES)){
-            request = requestBuilder.buildGetCapabilitiesRequest(parameterContainer);
+            // SUBSCRIBE
+            if (operation.getName().equals(SESAdapter.SUBSCRIBE)) {
+                request = requestBuilder.buildSubscribeRequest(parameterContainer);
 
-            // NOTIFY
-        } else if(operation.getName().equals(SESAdapter.NOTIFY)){
-            request = requestBuilder.buildNotifyRequest(parameterContainer);
+                // UNSUBSCRIBE
+            }
+            else if (operation.getName().equals(SESAdapter.UNSUBSCRIBE)) {
+                request = requestBuilder.buildUnsubscribeRequest(parameterContainer);
 
-            // REIGSER_PUBLISHER
-        } else if(operation.getName().equals(SESAdapter.REGISTER_PUBLISHER)){
-            request = requestBuilder.buildRegisterPublisherRequest(parameterContainer);
+                // GET_CAPABILITIES
+            }
+            else if (operation.getName().equals(SESAdapter.GET_CAPABILITIES)) {
+                request = requestBuilder.buildGetCapabilitiesRequest(parameterContainer);
 
-            // DESCRIBE_SENSOR
-        } else if(operation.getName().equals(SESAdapter.DESCRIBE_SENSOR)){
-            request = requestBuilder.buildDescribeSensorRequest(parameterContainer);
+                // NOTIFY
+            }
+            else if (operation.getName().equals(SESAdapter.NOTIFY)) {
+                request = requestBuilder.buildNotifyRequest(parameterContainer);
 
-            // NOTIFY_RESPONSE
-        } else if(operation.getName().equals(SESAdapter.NOTIFY_RESPONSE)){
-            request = SESResponseBuilderFactory.generateResponseBuilder(this.serviceVersion).buildNotifyResponseRequest(parameterContainer);
+                // REIGSER_PUBLISHER
+            }
+            else if (operation.getName().equals(SESAdapter.REGISTER_PUBLISHER)) {
+                request = requestBuilder.buildRegisterPublisherRequest(parameterContainer);
 
-            // Operation not supported
-        } else {
-            throw new OXFException("The operation '" + operation.getName()
-                    + "' is not supported.");
-        }
-        try {
-            InputStream is = IOHelper.sendPostMessage(operation.getDcps()[0]
-                                                                          .getHTTPPostRequestMethods().get(0).getOnlineResource()
-                                                                          .getHref(), request);
+                // DESCRIBE_SENSOR
+            }
+            else if (operation.getName().equals(SESAdapter.DESCRIBE_SENSOR)) {
+                request = requestBuilder.buildDescribeSensorRequest(parameterContainer);
 
-            /*
-			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+                // NOTIFY_RESPONSE
+            }
+            else if (operation.getName().equals(SESAdapter.NOTIFY_RESPONSE)) {
+                request = SESResponseBuilderFactory.generateResponseBuilder(this.serviceVersion).buildNotifyResponseRequest(parameterContainer);
 
-			String line;
-	        System.out.println("Request vom SES: ");
-	        while ((line = rd.readLine()) != null) {
-	        	System.out.println(line);
-	        }
-             */
-            result = new OperationResult(is, parameterContainer, request);
-
+                // Operation not supported
+            }
+            else {
+                throw new OXFException("The operation '" + operation.getName() + "' is not supported.");
+            }
             try {
-                ExceptionReport execRep = parseExceptionReport_000(result);
+                if (operation.getDcps().length == 0) {
+                    throw new IllegalStateException("No DCP links available to send request to.");
+                }
+                DCP dcp = operation.getDcps()[0];
+                String uri = dcp.getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
 
-                throw execRep;
-            }
-            catch (XmlException e) {
-                // parseError --> no ExceptionReport was returned.
-                LOGGER.info("Service reported no 0.0.0 exceptions.");
-            }
+                SimpleHttpClient httpClient = new SimpleHttpClient();
+                StringEntity payload = new StringEntity(request, ContentType.TEXT_XML);
+                HttpEntity responseEntity = httpClient.executePost(uri, payload);
+                result = new OperationResult(responseEntity.getContent(), parameterContainer, request);
 
-            try {
-                ExceptionReport execRep = parseExceptionReport_100(result);
+                try {
+                    ExceptionReport execRep = parseExceptionReport_000(result);
 
-                throw execRep;
-            }
-            catch (XmlException e) {
-                // parseError --> no ExceptionReport was returned.
-                LOGGER.info("Service reported no 1.0.0 exceptions.");
-            }
+                    throw execRep;
+                }
+                catch (XmlException e) {
+                    // parseError --> no ExceptionReport was returned.
+                    LOGGER.info("Service reported no 0.0.0 exceptions.");
+                }
 
-        } catch (IOException e) {
-            throw new OXFException(e);
-        }
+                try {
+                    ExceptionReport execRep = parseExceptionReport_100(result);
+
+                    throw execRep;
+                }
+                catch (XmlException e) {
+                    // parseError --> no ExceptionReport was returned.
+                    LOGGER.info("Service reported no 1.0.0 exceptions.");
+                }
+
+            }
+            catch (IOException e) {
+                throw new OXFException(e);
+            }
+            catch (HttpClientException e) {
+                throw new OXFException("Could not send request.", e);
+            }
         }
 
         return result;
     }
 
-    public XmlObject handle(String operationName, ByteArrayInputStream input) throws OXFException{
+    public XmlObject handle(String operationName, ByteArrayInputStream input) throws OXFException {
         XmlObject result = null;
         Envelope env;
         Header header;
         Body body;
 
-        if(operationName != null && input != null){
-            try{
-                if(operationName.equals(SESAdapter.REGISTER_PUBLISHER)){
+        if (operationName != null && input != null) {
+            try {
+                if (operationName.equals(SESAdapter.REGISTER_PUBLISHER)) {
                     env = EnvelopeDocument.Factory.parse(input).getEnvelope();
                     header = env.getHeader();
                     body = env.getBody();
@@ -271,25 +279,33 @@ public class SESAdapter implements IServiceAdapter {
                     String action = null;
 
                     // is this the right request? If NOT throw Exception
-                    if(actions != null && actions.length == 1){
+                    if (actions != null && actions.length == 1) {
                         action = actions[0].getDomNode().getFirstChild().getNodeValue();
-                        if(!action.equals("http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse")){
-                            throw new OXFException(OwsExceptionCode.OperationNotSupported + ": Not the right response: \"" + action + " \" <-> Expected is: \"http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse\"!");
+                        if ( !action.equals("http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse")) {
+                            throw new OXFException(OwsExceptionCode.OperationNotSupported
+                                    + ": Not the right response: \""
+                                    + action
+                                    + " \" <-> Expected is: \"http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse\"!");
                         }
                     }
 
-                    // TODO Problem with Namespace and XMLBeans: The document is not a RegisterPublisherResponse@http://docs.oasis-open.org/wsn/br-2: document element namespace mismatch expected "http://docs.oasis-open.org/wsn/br-2" got "http://docs.oasis-open.org/wsn/brw-2"
+                    // TODO Problem with Namespace and XMLBeans: The document is not a
+                    // RegisterPublisherResponse@http://docs.oasis-open.org/wsn/br-2: document element
+                    // namespace mismatch expected "http://docs.oasis-open.org/wsn/br-2" got
+                    // "http://docs.oasis-open.org/wsn/brw-2"
                     result = XmlObject.Factory.parse(body.toString());
-                    if(result instanceof org.oasisOpen.docs.wsn.br2.impl.RegisterPublisherResponseDocumentImpl){
+                    if (result instanceof org.oasisOpen.docs.wsn.br2.impl.RegisterPublisherResponseDocumentImpl) {
                         // soap envelope => body => registerpublisher
-                        result = ((org.oasisOpen.docs.wsn.br2.impl.RegisterPublisherResponseDocumentImpl)result).getRegisterPublisherResponse();
+                        result = ((org.oasisOpen.docs.wsn.br2.impl.RegisterPublisherResponseDocumentImpl) result).getRegisterPublisherResponse();
                     }
                 }
-            } catch (IOException e){
+            }
+            catch (IOException e) {
                 throw new OXFException(e);
-            } catch (XmlException e) {
+            }
+            catch (XmlException e) {
                 // TODO what about SOAP-Exceptions?
-                throw new OXFException("RegisterPublisherResponse not wellformed XML",e);
+                throw new OXFException("RegisterPublisherResponse not wellformed XML", e);
             }
         }
         return result;
@@ -321,7 +337,8 @@ public class SESAdapter implements IServiceAdapter {
      *         if an parsing error occurs
      * @throws XmlException
      */
-    // TODO could be externalized because the same methods are use in the SOSAdapter => identify common ServiceAdapterTasks
+    // TODO could be externalized because the same methods are use in the SOSAdapter => identify common
+    // ServiceAdapterTasks
     private ExceptionReport parseExceptionReport_000(OperationResult result) throws XmlException {
 
         String requestResult = new String(result.getIncomingResult());

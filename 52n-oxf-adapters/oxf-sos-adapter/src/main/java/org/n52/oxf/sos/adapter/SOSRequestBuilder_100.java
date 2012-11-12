@@ -95,7 +95,7 @@ import org.n52.oxf.xmlbeans.parser.GMLAbstractFeatureCase;
 import org.n52.oxf.xmlbeans.parser.OfferingInSMLOutputsCase;
 import org.n52.oxf.xmlbeans.parser.SASamplingPointCase;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
-import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -185,7 +185,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
             }
         }
 
-        return getCapDoc.xmlText(XMLBeansTools.PRETTYPRINT);
+        return getCapDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
     /**
@@ -347,7 +347,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
             xb_getObs.setResponseMode(responseModeEnum);
         }
 
-        return xb_getObsDoc.xmlText(XMLBeansTools.PRETTYPRINT);
+        return xb_getObsDoc.xmlText(XmlUtil.PRETTYPRINT);
     }    
     
     /**
@@ -397,7 +397,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     		xb_getObs.setResponseMode(responseModeEnum);
     	}
 //  	TODO ResultModel?
-    	return xb_getObsDoc.xmlText(XMLBeansTools.PRETTYPRINT);
+    	return xb_getObsDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
     
 
@@ -443,7 +443,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
             descSensor.setOutputFormat("text/xml;subtype=\"sensorML/1.0.1\"");
         }
 
-        return descSensorDoc.xmlText(XMLBeansTools.PRETTYPRINT);
+        return descSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
     public String buildGetFeatureOfInterestRequest(ParameterContainer parameters) {
@@ -482,7 +482,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
                     + GET_FOI_EVENT_TIME_PARAMETER + "' is not yet supported.");
         }
 
-        return getFoIDoc.xmlText(XMLBeansTools.PRETTYPRINT);
+        return getFoIDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
     
     public String buildInsertObservation(ParameterContainer parameters) throws OXFException {
@@ -496,7 +496,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     	 */
     	doLaxRequestValidation(insObDoc);
     	
-    	return insObDoc.xmlText(XMLBeansTools.PRETTYPRINT);
+    	return insObDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
 	public String buildRegisterSensor(ParameterContainer parameters) throws OXFException{
@@ -507,11 +507,11 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 		addSensorDescription(regSensor,parameters);
 		addObservationTemplate(regSensor,parameters);
 		doLaxRequestValidation(regSensorDoc);
-		return regSensorDoc.xmlText(XMLBeansTools.PRETTYPRINT);
+		return regSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
 	}
 
 	/**
-	 * Observation Type, e.g. om:Measurement<br />
+	 * Observation Type, e.g. om:MeasurementObservationParameters<br />
 	 *  om:samplingTime<br />
      * 	om:procedure<br />
      * 	om:observedProperty<br />
@@ -531,7 +531,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     	if (observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)){
     		// fill in measurement
     		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_MEASUREMENT,
+    				substitute(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION,
     						MeasurementType.type);
     	} else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_TEXT)){
     		//fill in text

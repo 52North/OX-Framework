@@ -1,21 +1,28 @@
 package org.n52.oxf.sos.adapter.wrapper.builder;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_MEASUREMENT;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE;
 
+import org.n52.oxf.sos.request.observation.MeasurementObservationParameters;
+import org.n52.oxf.sos.request.observation.ObservationParametersFactory;
 import org.n52.oxf.xml.XMLConstants;
 
 /**
- * MeasurementBuilder assembles parameters, which are necessary to describe a measurement.
+ * MeasurementObservationParameters assembles parameters, which are necessary to describe a measurement.
  * 
  * @author Eric
+ * @deprecated use {@link ObservationParametersFactory} or {@link MeasurementObservationParameters}
  */
+@Deprecated
 public class MeasurementBuilder extends ObservationBuilder {
 			
 		/**
 		 * Type specific constructor for measurements. It adds the type as parameter to the list.
 		 */
 		public MeasurementBuilder() {
-			type = XMLConstants.QNAME_OM_1_0_MEASUREMENT;
+			type = XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION;
 			parameters.put(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_MEASUREMENT);
 		}
 		

@@ -36,9 +36,15 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_VERSION
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import net.opengis.ows.x11.ExceptionReportDocument;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -53,9 +59,13 @@ import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.sos.feature.SOSObservationStore;
 import org.n52.oxf.sos.util.SosUtil;
-import org.n52.oxf.util.IOHelper;
+import org.n52.oxf.util.web.HttpClientException;
+import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 /**
  * SOS-Adapter for the OX-Framework
@@ -92,13 +102,14 @@ public class SOSAdapter implements IServiceAdapter {
 
     private ISOSRequestBuilder requestBuilder;
 
+    private SimpleHttpClient httpClient;
+
     /**
      * @param serviceVersion
      *        the schema version for which this adapter instance shall be initialized.
      */
     public SOSAdapter(String serviceVersion) {
-        this.requestBuilder = SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
-        this.serviceVersion = serviceVersion;
+        this(serviceVersion, null);
     }
     
     /**
@@ -109,16 +120,31 @@ public class SOSAdapter implements IServiceAdapter {
      * @see ISOSRequestBuilder
      */
     public SOSAdapter(String serviceVersion, ISOSRequestBuilder requestBuilder) {
-        this.requestBuilder = requestBuilder != null ? requestBuilder : this.requestBuilder;
+        this.httpClient = new SimpleHttpClient();
         this.serviceVersion = serviceVersion;
+        if (requestBuilder == null) {
+            this.requestBuilder = SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
+        } else {
+            this.requestBuilder = requestBuilder;
+        }
     }
     
+    /**
+     * @param requestBuilder a custom {@link ISOSRequestBuilder} implementation the {@link SOSAdapter} shall use.
+     */
     public void setRequestBuilder(ISOSRequestBuilder requestBuilder) {
         if (requestBuilder != null) {
             this.requestBuilder = requestBuilder;
         }
     }
 
+    /**
+     * @param httpClient a customly configured {@link SimpleHttpClient} the {@link SOSAdapter} shall use.
+     */
+    public void setHttpClient(SimpleHttpClient httpClient) {
+        this.httpClient = httpClient;
+    }
+    
     /**
      * initializes the ServiceDescriptor by requesting the capabilities document of the SOS.
      * 
@@ -136,15 +162,14 @@ public class SOSAdapter implements IServiceAdapter {
      * 
      */
     public ServiceDescriptor initService(String url) throws ExceptionReport, OXFException {
+        ParameterContainer paramContainer = new ParameterContainer();
+        paramContainer.addParameterShell("acceptVersions", serviceVersion);
+        paramContainer.addParameterShell("service", "SOS");
 
-        ParameterContainer paramCon = new ParameterContainer();
-        paramCon.addParameterShell("acceptVersions", serviceVersion);
-        paramCon.addParameterShell("service", "SOS");
-
-        OperationResult opResult = doOperation(new Operation("GetCapabilities", url.toString() + "?", url.toString()),
-                                               paramCon);
-
-        return initService(opResult);
+        String baseUrlPost = url.toString();
+        String baseUrlGet = baseUrlPost + "?";
+        Operation operation = new Operation("GetCapabilities", baseUrlGet, baseUrlPost);
+        return initService(doOperation(operation, paramContainer));
     }
 
     public ServiceDescriptor initService(OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
@@ -196,10 +221,7 @@ public class SOSAdapter implements IServiceAdapter {
      * 
      * @param parameters
      *        Map which contains the parameters of the operation and the corresponding parameter values
-     * 
-     * @param serviceVersion
-     *        the schema version to which the operation execution shall be conform.
-     * 
+
      * @throws ExceptionReport
      *         Report which contains the service sided exceptions
      * 
@@ -212,136 +234,84 @@ public class SOSAdapter implements IServiceAdapter {
 	public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
             OXFException {
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug(String.format("starting Operation: %s with parameters: %s",
-            		operation,
-            		parameters));
-        }
-
-        OperationResult result = null;
         String request = null;
+        OperationResult result = null;
 
-        // GetCapabilities Operation
         if (operation.getName().equals(GET_CAPABILITIES)) {
             request = requestBuilder.buildGetCapabilitiesRequest(parameters);
         }
-
-        // GetObservation Operation
         else if (operation.getName().equals(GET_OBSERVATION)) {
             request = requestBuilder.buildGetObservationRequest(parameters);
         }
-
-        // DescribeSensor Operation
         else if (operation.getName().equals(DESCRIBE_SENSOR)) {
             request = requestBuilder.buildDescribeSensorRequest(parameters);
         }
-
-        // GetFeatureOfInterest Operation
         else if (operation.getName().equals(GET_FEATURE_OF_INTEREST)) {
             request = requestBuilder.buildGetFeatureOfInterestRequest(parameters);
         }
-
-        // InsertObservation Operation
         else if (operation.getName().equals(INSERT_OBSERVATION)) {
             request = requestBuilder.buildInsertObservation(parameters);
         }
-
-        // RegisterSensor Operation
         else if (operation.getName().equals(REGISTER_SENSOR)) {
             request = requestBuilder.buildRegisterSensor(parameters);
         }
-
-        // GetObservationByID Operation
         else if (operation.getName().equals(GET_OBSERVATION_BY_ID)) {
             request = requestBuilder.buildGetObservationByIDRequest(parameters);
         }
 
-        // Operation not supported
         else {
-            throw new OXFException("The operation '" + operation.getName() + "' is not supported.");
+            // Operation not supported
+            throw new OXFException(String.format("Operation not supported: %s", operation.getName()));
         }
         
-        if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug(String.format("Request builder class: %s; Request: \n%s", 
-					requestBuilder.getClass().toString(),
-					request));
-		}
-
-        // request = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"+request;
-        HttpMethod method = null;
         try {
-        	InputStream is;
-        	
-        	// TODO will lead into an error if neither get nor post uri is given
-        	String uri = null;
-        	
-        	// just use post uri, when request sended only by post
-//        	if (operation.getDcps()[0].getHTTPGetRequestMethods().size() > 0)
-//        		uri = operation.getDcps()[0].getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
-//        	else 
-        		if (operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0)
-        		uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
-        		
+        	if (operation.getDcps().length == 0) {
+                throw new IllegalStateException("No DCP links available to send request to.");
+            }
 
-            /* XXX What sense does it make to always perform a GET request for GetCapabilities?
-             * when the user is putting more information (like serviceVersion as CSV) into 
-             * the param container, they would not be sent to the service
-             */
-//            if (operation.getName().equals(GET_CAPABILITIES)) {
-//            	String queryString = "REQUEST=GetCapabilities&SERVICE=SOS&acceptversions="+serviceVersion;
-//            	method = new GetMethod(uri);
-//            	method.setQueryString(queryString);
-//            }
-//            else {
+        	String uri = null;
+        	if (operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0) {
+        		uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
+        	}
+
+            LOGGER.debug("POST payload to send: \n{}", request);
+            StringEntity payload = new StringEntity(request, ContentType.TEXT_XML);
+            HttpEntity responseEntity = httpClient.executePost(uri.trim(), payload);
+            result = new OperationResult(responseEntity.getContent(), parameters, request);
             
-                PostMethod post = new PostMethod(uri.trim());
-                post.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));
-                method = post;
+            // TODO make us independent from XmlObject
+//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder builder = factory.newDocumentBuilder();
+//            Document document = builder.parse(result.getIncomingResultAsStream());
+//            Element root = document.getDocumentElement();
+//            if (root.getNodeName().equals("ExceptionReport")) {
+//                Element exceptionReport = root;
+//                throw createExceptionReportException(exceptionReport, result);
 //            }
-            method = IOHelper.execute(method);
-            is = method.getResponseBodyAsStream();
-            result = new OperationResult(is, parameters, request);
             try {
                 XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsStream());
-                if (result_xb instanceof net.opengis.ows.x11.ExceptionReportDocument) {
-                	throw parseExceptionReport_100(result);
-                } else {
-                	return result;
+                if (result_xb.schemaType() ==  ExceptionReportDocument.type) {
+                    throw parseExceptionReport_100(result);
                 }
             }
             catch (XmlException e) {
-            	String msg = String.format("Received XML response could not be parsed to generic class \"%s\". Exception thrown: %s. Message: %s",
-            			XmlObject.class.getClass().getName(),
-            			e.getClass().getName(),
-            			e.getMessage());
-            	throw new OXFException(msg,e);
+                throw new OXFException("Could not parse response to XML.", e);
             }
-        } catch (IOException e) {
-        	String msg = String.format("Sending request to SOS instance caused this IOException: %s",
-        			e.getMessage());
-            throw new OXFException(msg, e);
-        } finally {
-        	if (LOGGER.isDebugEnabled()) {
-				LOGGER.debug(String.format("Reached finally clause. Method: %s; isRequestSent? %b; hasBeenUsed: %s; statusCode: %d; statusText: %s",
-						method,
-						method.isRequestSent(),
-						method.hasBeenUsed(),
-						method.getStatusCode(),
-						method.getStatusText()
-						));
-			}
-        	if (method != null) {
-        		if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("Will call releaseConnection()");
-				}
-        		method.releaseConnection();
-        		if (LOGGER.isDebugEnabled()) {
-					LOGGER.debug("releaseConnection() called");
-				}
-        	}
+            return result;
+        } catch (HttpClientException e) {
+            throw new OXFException("Sending request failed.", e);
         }
+        catch (IOException e) {
+            throw new OXFException("Could not create OperationResult.", e);
+        }
+//        catch (ParserConfigurationException e) {
+//            throw new IllegalStateException("Could not create XML parser.", e);
+//        }
+//        catch (SAXException e) {
+//            throw new OXFException("XML not parsable.", e);
+//        }
     }
-
+	
     /**
      * Convenient method to request Observations from an SOS. <br>
      * The method creates a GetObservation request and sends it to the SOS. <br>
@@ -380,12 +350,14 @@ public class SOSAdapter implements IServiceAdapter {
         return featureCollection;
     }
 
+    private ExceptionReport createExceptionReportException(Element exceptionReport, OperationResult result) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-    private ExceptionReport parseExceptionReport_100(OperationResult result) throws XmlException {
+    private ExceptionReport parseExceptionReport_100(OperationResult result) throws XmlException, IOException {
 
-        String requestResult = new String(result.getIncomingResult());
-
-        net.opengis.ows.x11.ExceptionReportDocument xb_execRepDoc = net.opengis.ows.x11.ExceptionReportDocument.Factory.parse(requestResult);
+        ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsStream());
         net.opengis.ows.x11.ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
 
         String language = xb_execRepDoc.getExceptionReport().getLang();

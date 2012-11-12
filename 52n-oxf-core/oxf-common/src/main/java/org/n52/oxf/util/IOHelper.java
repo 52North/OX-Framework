@@ -35,25 +35,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
-
-import org.apache.commons.httpclient.HostConfiguration;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Some little helper methods for IO-handling.
@@ -63,143 +51,6 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:h.bredel@52north.org">Henning Bredel</a>
  */
 public class IOHelper {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(IOHelper.class);
-    
-    /**
-     * @deprecated Use {@link IOHelper#execute(HttpMethod)}. Before, create a new GetMethod object using:<br />
-	 * 		<code>GetMethod method = new GetMethod(serviceURL);</code><br />
-	 * 		<code>method.setQueryString(paramArray);</code><br />
-	 *      <code>[...]</code><br />
-	 *      <code>method.getResponseBodyAsStream();</code><br />
-	 * 		where <code>paramArray</code> is a {@link org.apache.commons.httpclient.NameValuePair NameValuePair}[] created from <code>parameters</code>.
-     */
-    public static InputStream sendGetMessage(String serviceURL, List<NameValuePair> parameters) throws IOException {
-        HttpClient httpClient = getDefaultHttpClient(serviceURL);
-
-        GetMethod method = new GetMethod(serviceURL);
-        NameValuePair[] paramArray = new NameValuePair[parameters.size()];
-        for (int i = 0; i < parameters.size(); i++) {
-            paramArray[i] = parameters.get(i);
-        }
-        method.setQueryString(paramArray);
-
-        httpClient.executeMethod(method);
-
-        if (LOGGER.isDebugEnabled()) {
-        	LOGGER.debug("GET-method sent to: " + method.getURI());
-        }
-
-        return method.getResponseBodyAsStream();
-    }
-    
-	/**
-	 * @deprecated Use {@link IOHelper#execute(HttpMethod)}. Before, create a new GetMethod object using:<br />
-	 * 		<code>GetMethod method = new GetMethod(serviceURL);</code><br />
-	 * 		<code>method.setQueryString(queryString);</code><br />
-	 *      <code>[...]</code><br />
-	 *      <code>method.getResponseBodyAsStream();</code><br />
-	 * 		to get the same functionality this method offered.
-	 */
-	public static InputStream sendGetMessage(String serviceURL, String queryString) throws IOException {
-	    HttpClient httpClient = getDefaultHttpClient(serviceURL);
-	    GetMethod method = new GetMethod(serviceURL);
-	    method.setQueryString(queryString);
-	    httpClient.executeMethod(method);
-	    if (LOGGER.isDebugEnabled()) {
-	    	LOGGER.debug("GET-method sent to: " + method.getURI());
-	    }
-	    return method.getResponseBodyAsStream();
-	}
-
-	/**
-	 * Executing an HttpMethod using a proxy aware http client.<br />
-     * <b>Note</b>: Call {@link HttpMethod#releaseConnection()} if response has been processed to close connection.
-     * Without doing this HttpClient will wait <b>indefinitely</b> for a connection to free up so that it can be reused.
-     * 
-     * @param method
-     *        the HTTP method to send
-     * @return the method's response
-     * @throws IOException
-     * @see {@link IOHelper#getDefaultHttpClient(String)}
-     * @see {@link IOHelper#getHostConfiguration(URL)}
-     */
-    public static HttpMethod execute(HttpMethod method) throws IOException {
-        HttpClient httpClient = getDefaultHttpClient(method.getURI().toString());
-        int status = httpClient.executeMethod(method);
-        if (LOGGER.isDebugEnabled()) {
-        	LOGGER.debug(String.format("httpmethod \"%s\" has been sent (with status %s): %s", 
-        			method.getClass().getSimpleName(),
-        			status,
-        			method.getURI()));
-        }
-        return method;
-    }
-
-    /**
-     * @deprecated Use {@link IOHelper#execute(HttpMethod)}. Before, create a new PostMethod object using:<br />
-	 * 		<code>PostMethod method = new PostMethod(serviceURL.trim());</code><br />
-	 *      <code>method.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));</code><br />
-	 *      <code>[...]</code><br />
-	 *      <code>method.getResponseBodyAsStream();</code><br />
-	 * 		to get the same functionality this method offered.
-     */
-    public static InputStream sendPostMessage(String serviceURL, String request) throws IOException {
-        HttpClient httpClient = getDefaultHttpClient(serviceURL);
-
-        PostMethod method = new PostMethod(serviceURL.trim());
-        method.setRequestEntity(new StringRequestEntity(request, "text/xml", "UTF-8"));
-
-        if (LOGGER.isTraceEnabled()) {
-        	LOGGER.trace("Service Endpoint: " + method.getURI());
-        	LOGGER.trace("Request to send: " + request);
-        }
-
-        httpClient.executeMethod(method);
-        return method.getResponseBodyAsStream();
-    }
-
-    private static HttpClient getDefaultHttpClient(String serviceURL) throws MalformedURLException {
-		HttpClient httpClient = new HttpClient();
-	    httpClient.setHostConfiguration(getHostConfiguration(new URL(serviceURL)));
-	    return httpClient;
-	}
-
-	protected static HostConfiguration getHostConfiguration(URL serviceURL) {
-        HostConfiguration hostConfig = new HostConfiguration();
-
-        // apply proxy settings:
-        String host = System.getProperty("http.proxyHost");
-        if (host != null && host.isEmpty()) {
-            return hostConfig;
-        }
-        String port = System.getProperty("http.proxyPort");
-        String nonProxyHosts = System.getProperty("http.nonProxyHosts");
-
-        // check if service url is among the non-proxy-hosts:
-        boolean serviceIsNonProxyHost = false;
-        if (nonProxyHosts != null && nonProxyHosts.length() > 0) {
-            String[] nonProxyHostsArray = nonProxyHosts.split("\\|");
-            String serviceHost = serviceURL.getHost();
-
-            for (String nonProxyHost : nonProxyHostsArray) {
-                if (nonProxyHost.equals(serviceHost)) {
-                    serviceIsNonProxyHost = true;
-                    break;
-                }
-            }
-        }
-        // set proxy:
-        if (serviceIsNonProxyHost == false && host != null && host.length() > 0 && port != null && port.length() > 0) {
-            int portNumber = Integer.parseInt(port);
-            hostConfig.setProxy(host, portNumber);
-            if (LOGGER.isInfoEnabled()) {
-            	LOGGER.info("Using proxy: " + host + " on port: " + portNumber);
-            }
-        }
-
-        return hostConfig;
-    }
 
     public static String readText(InputStream in) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(in));

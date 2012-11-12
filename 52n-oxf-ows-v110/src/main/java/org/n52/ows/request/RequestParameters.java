@@ -21,6 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
+
 package org.n52.ows.request;
 
 import java.util.Collection;
@@ -28,18 +29,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class ParameterMap implements Map<String, String> {
+public abstract class RequestParameters implements Map<String, String> {
 
-    protected Map<String, String> parameters;
-    
-    protected ParameterMap() {
+    private Map<String, String> parameters;
+
+    protected RequestParameters() {
         this(new HashMap<String, String>());
     }
-    
-    protected ParameterMap(Map<String, String> parameters) {
+
+    protected RequestParameters(Map<String, String> parameters) {
         this.parameters = parameters;
     }
-    
+
     public abstract boolean isValid();
 
     public int size() {
@@ -62,6 +63,30 @@ public abstract class ParameterMap implements Map<String, String> {
         return parameters.get(key);
     }
 
+    /**
+     * Puts a required parameter to the map doing a non-null check beforehand.
+     * 
+     * @param key
+     *        the parameter's name.
+     * @param value
+     *        the non-null value.
+     * @return the previous value associated with key, or <code>null</code> if there was no mapping for key.
+     * @throws IllegalArgumentException
+     *         if the <code>key</code>'s associated <code>value</code> is <code>null</code> or empty.
+     */
+    public String putNonEmpty(String key, String value) {
+        if (isEmptyString(value)) {
+            String format = "Parameter '%s' is required and may not be null or empty!";
+            throw new IllegalArgumentException(String.format(format, key));
+        }
+        return put(key, value);
+    }
+
+    /**
+     * Simple delegate to {@link Map#put(Object, Object)}.
+     * 
+     * @see java.util.Map#put(java.lang.Object, java.lang.Object)
+     */
     public String put(String key, String value) {
         return parameters.put(key, value);
     }
@@ -98,11 +123,21 @@ public abstract class ParameterMap implements Map<String, String> {
         return parameters.hashCode();
     }
 
-    protected boolean checkRequiredParameter(String parameterName) {
+    /**
+     * Checks if value of the named parameter is empty.
+     * 
+     * @param parameterName
+     *        the parameter name.
+     * @return <code>true</code> if parameter value is <code>null</code> or empty, <code>false</code>
+     *         otherwise.
+     */
+    protected boolean isEmptyValue(String parameterName) {
         String value = parameters.get(parameterName);
+        return isEmptyString(value);
+    }
+
+    protected boolean isEmptyString(String value) {
         return value == null || value.isEmpty();
     }
-    
-    
-    
+
 }

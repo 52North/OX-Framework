@@ -24,11 +24,13 @@
 package org.n52.oxf.csw.adapter;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import net.opengis.ows.x11.ExceptionReportDocument;
 import net.opengis.ows.x11.ExceptionType;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.IServiceAdapter;
@@ -37,8 +39,10 @@ import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.OWSException;
 import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ows.capabilities.DCP;
 import org.n52.oxf.ows.capabilities.Operation;
-import org.n52.oxf.util.IOHelper;
+import org.n52.oxf.util.web.HttpClientException;
+import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -162,16 +166,27 @@ public class CSWAdapter implements IServiceAdapter {
         }
 
         try {
-            InputStream is;
+            
+
+            if (operation.getDcps().length == 0) {
+                throw new IllegalStateException("No DCP links available to send request to.");
+            }
+
+            // TODO pull httpClient to super class (make interface abstract)
+            SimpleHttpClient httpClient = new SimpleHttpClient();
+            DCP dcp = operation.getDcps()[0];
+            
             if (httpMethod.equals("POST")) {
-                is = IOHelper.sendPostMessage(operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref(),
-                                              request);
+                StringEntity payload = new StringEntity(request, ContentType.TEXT_XML);
+                String uri = dcp.getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
+                HttpEntity responseEntity = httpClient.executePost(uri, payload);
+                result = new OperationResult(responseEntity.getContent(), parameters, request);
             }
             else {
-                is = IOHelper.sendGetMessage(operation.getDcps()[0].getHTTPGetRequestMethods().get(0).getOnlineResource().getHref(),
-                                             request);
+                String uri = dcp.getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
+                HttpEntity responseEntity = httpClient.executeGet(uri);
+                result = new OperationResult(responseEntity.getContent(), parameters, request);
             }
-            result = new OperationResult(is, parameters, request);
             
             try {
                 ExceptionReport execRep = parseExceptionReport(result);
@@ -184,7 +199,11 @@ public class CSWAdapter implements IServiceAdapter {
             }
         }
         catch (IOException e) {
-            throw new OXFException(e);
+            throw new OXFException("Could not create OperationResult.", e);
+        }
+        catch (HttpClientException e) {
+            throw new OXFException("Could not send request.", e);
+            
         }
 
         return result;

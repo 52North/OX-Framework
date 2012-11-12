@@ -15,6 +15,7 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>52n-oxf-ows-v110</module>
+		<module>52n-oxf-sml-v110</module>
 		<module>52n-oxf-swes-v20</module>
 		<module>52n-oxf-core</module>
 		<module>52n-oxf-adapters</module>
@@ -122,6 +123,11 @@
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-oxf-ows-v110</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>52n-oxf-sml-v110</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -307,9 +313,15 @@
 				<version>1.11</version>
 			</dependency>
 			<dependency>
-				<groupId>commons-httpclient</groupId>
-				<artifactId>commons-httpclient</artifactId>
-				<version>3.1</version>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>4.2.1</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>commons-logging</artifactId>
+						<groupId>commons-logging</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<!-- <dependency> <groupId>geoapi</groupId> <artifactId>geoapi</artifactId> 
 				<version>1.0.0</version> </dependency> <dependency> <groupId>org.geotools</groupId> 

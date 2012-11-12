@@ -107,7 +107,7 @@ public class WCSParameterConfigurator extends JDialog {
             requiredParametersPanel = new JPanel();
             requiredParametersPanel.setLayout(new GridBagLayout());
             requiredParametersPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
-                                                                                           "Required Parameters",
+                                                                                           "Required RequestParameters",
                                                                                            javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                                                                                            javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                                                                            null,
@@ -201,7 +201,7 @@ public class WCSParameterConfigurator extends JDialog {
             optionalParametersPanel = new JPanel();
             optionalParametersPanel.setLayout(new GridBagLayout());
             optionalParametersPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
-                                                                                           "Optional Parameters",
+                                                                                           "Optional RequestParameters",
                                                                                            javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                                                                                            javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                                                                            null,

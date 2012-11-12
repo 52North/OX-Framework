@@ -25,6 +25,7 @@
 package org.n52.oxf.sos.adapter;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -59,10 +60,8 @@ import net.opengis.sos.x20.ObservationOfferingType.ResultTime;
 import net.opengis.swes.x20.AbstractContentsType.Offering;
 import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.http.HttpEntity;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.ows.ServiceDescriptor;
@@ -84,6 +83,8 @@ import org.n52.oxf.ows.capabilities.ServiceIdentification;
 import org.n52.oxf.ows.capabilities.ServiceProvider;
 import org.n52.oxf.sos.capabilities.ObservationOffering;
 import org.n52.oxf.sos.capabilities.SOSContents;
+import org.n52.oxf.util.web.HttpClientException;
+import org.n52.oxf.util.web.SimpleHttpClient;
 import org.n52.oxf.valueDomains.StringValueDomain;
 import org.n52.oxf.valueDomains.filter.ComparisonFilter;
 import org.n52.oxf.valueDomains.filter.FilterValueDomain;
@@ -91,10 +92,6 @@ import org.n52.oxf.valueDomains.filter.IFilter;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
 import org.n52.oxf.valueDomains.time.TemporalValueDomain;
 import org.n52.oxf.valueDomains.time.TimePeriod;
-import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
-import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
-import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
-import org.w3c.dom.Node;
 
 public class SOSCapabilitiesMapper_200 {
 
@@ -278,13 +275,14 @@ public class SOSCapabilitiesMapper_200 {
     }
 
     public static void main(String[] args) {
-        HttpClient client = new HttpClient();
-        GetMethod method = new GetMethod("http://sensorweb.demo.52north.org/52nSOSv3_200/sos?REQUEST=GetCapabilities&SERVICE=SOS");
         try {
-            client.executeMethod(method);
-            new SOSCapabilitiesMapper_200().mapCapabilities(CapabilitiesDocument.Factory.parse(method.getResponseBodyAsStream()));
+            SimpleHttpClient client = new SimpleHttpClient();
+            String request = "http://sensorweb.demo.52north.org/52nSOSv3_200/sos?REQUEST=GetCapabilities&SERVICE=SOS";
+            HttpEntity executeGet = client.executeGet(request);
+            InputStream responseStream = executeGet.getContent();
+            new SOSCapabilitiesMapper_200().mapCapabilities(CapabilitiesDocument.Factory.parse(responseStream));
         }
-        catch (HttpException e) {
+        catch (HttpClientException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

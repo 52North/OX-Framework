@@ -91,7 +91,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
             this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsStream());
             return unmarshalFeatures(operationResult);
         } catch (XMLHandlingException e) {
-            throw new OXFException("Could not parse OperationResult.");
+            throw new OXFException("Could not parse OperationResult.", e);
         }
     }
     
@@ -172,7 +172,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
                 ObservationData[] observationData = observationResponseType.getObservationDataArray();
                 return initializeFeature(featureCollection, observationData);
             } catch (OXFException e) {
-                LOGGER.warn("Could not initialize features. Returning an empty collection!");
+                LOGGER.warn("Could not initialize features. Returning an empty collection!", e);
                 return featureCollection;
             }
         } else {

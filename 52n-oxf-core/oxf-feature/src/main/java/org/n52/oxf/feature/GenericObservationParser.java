@@ -47,6 +47,7 @@ import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
 import net.opengis.swe.x101.DataArrayDocument;
 import net.opengis.swe.x20.AbstractDataComponentType;
+import net.opengis.swe.x20.DataArrayPropertyType;
 import net.opengis.swe.x20.DataArrayType;
 import net.opengis.swe.x20.DataRecordType.Field;
 import net.opengis.swe.x20.QuantityType;
@@ -69,6 +70,7 @@ import net.opengis.waterml.x20.TimeValuePairType;
 import net.opengis.waterml.x20.TimeseriesDocument;
 import net.opengis.waterml.x20.TimeseriesType;
 
+import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -79,7 +81,7 @@ import org.n52.oxf.feature.dataTypes.OXFScopedName;
 import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.valueDomains.time.TimeFactory;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
-import org.n52.oxf.xmlbeans.tools.XMLBeansTools;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
@@ -349,7 +351,7 @@ public class GenericObservationParser {
             XmlObject result = omObservation.getResult();
             
             if (isEmbeddedSFSpatialSamplingFeature(omObservation)) {
-//                Node domNode = XMLBeansTools.getDomNode(omObservation.getFeatureOfInterest(), "SF_SpatialSamplingFeature");
+//                Node domNode = XmlUtil.getDomNode(omObservation.getFeatureOfInterest(), "SF_SpatialSamplingFeature");
 //                XmlObject featureObject = XMLBeansParser.parse(domNode);
 //                SFSpatialSamplingFeatureDocument featureDocument = (SFSpatialSamplingFeatureDocument) featureObject;
                 InputStream is = omObservation.getFeatureOfInterest().newInputStream();
@@ -367,7 +369,7 @@ public class GenericObservationParser {
                 features.add(createMeasureTypeFeature(omObservation, procedure));
 			} else if (isWaterML200TimeSeriesObservationDocument(result)) {
 			    
-		        XmlObject xml = XMLBeansTools.getXmlFromDomNode(result, "MeasurementTimeseries");
+		        XmlObject xml = XmlUtil.getXmlAnyNodeFrom(result, "MeasurementTimeseries");
 			    MeasurementTimeseriesDocument measurementDocument = (MeasurementTimeseriesDocument) xml;
 		        MeasurementTimeseriesType timeseries = measurementDocument.getMeasurementTimeseries();
 		        
@@ -437,7 +439,7 @@ public class GenericObservationParser {
     }
 
     private static boolean isWaterML200TimeSeriesObservationDocument(XmlObject xmlObject) throws XmlException {
-        XmlObject xml = XMLBeansTools.getXmlFromDomNode(xmlObject, "MeasurementTimeseries");
+        XmlObject xml = XmlUtil.getXmlAnyNodeFrom(xmlObject, "MeasurementTimeseries");
         return xml != null && xml.schemaType() == MeasurementTimeseriesDocument.type;
     }
     
@@ -473,7 +475,8 @@ public class GenericObservationParser {
                                                                 List<String> types,
                                                                 List<String> names,
                                                                 XmlObject result) throws Exception {
-		if (result instanceof DataArrayType) {
+		SchemaType resultType = result.schemaType();
+        if (resultType == DataArrayType.type || resultType == DataArrayPropertyType.type) {
 			DataArrayType dataArrayType = (DataArrayType) result;
 	        AbstractDataComponentType dataComponent = dataArrayType.getElementType().getAbstractDataComponent();
 
