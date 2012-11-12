@@ -452,4 +452,38 @@ public class NcNameResolver {
 		return c >= start && c <= end;
 	}
 
+
+    /**
+     * Replaces all invalid characters with an '_' to make it a valid NCName.
+     * 
+     * @param nonNcName an invalid ncName.
+     * @return a valid ncName
+     * @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/datatypes.html#NCName
+     * @see http://www.w3.org/TR/1999/REC-xml-names-19990114/#NT-NCName
+     */
+    public static String fixNcName(String nonNcName) {
+        if (NcNameResolver.isNCName(nonNcName)) {
+            return nonNcName;
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        // Check first character
+        char c = nonNcName.charAt(0);
+        if ( ! (c == '_' && NcNameResolver.isLetter(c))) {
+            sb.append('_');
+        }
+        // Check the rest of the characters
+        for (int i = 1; i < nonNcName.length(); i++) {
+            char currentChar = nonNcName.charAt(i);
+            if (NcNameResolver.isNCNameChar(currentChar)) {
+                sb.append(currentChar);
+            }
+            else {
+                sb.append('_');
+            }
+        }
+        return sb.toString();
+    }
+
 }
