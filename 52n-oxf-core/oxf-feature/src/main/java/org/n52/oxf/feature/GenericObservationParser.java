@@ -476,9 +476,11 @@ public class GenericObservationParser {
                                                                 List<String> names,
                                                                 XmlObject result) throws Exception {
 		SchemaType resultType = result.schemaType();
-        if (resultType == DataArrayType.type || resultType == DataArrayPropertyType.type) {
-			DataArrayType dataArrayType = (DataArrayType) result;
-	        AbstractDataComponentType dataComponent = dataArrayType.getElementType().getAbstractDataComponent();
+        if (resultType == DataArrayType.type) {
+			InputStream stream = result.newInputStream();
+            net.opengis.swe.x20.DataArrayDocument dataArrayDoc = net.opengis.swe.x20.DataArrayDocument.Factory.parse(stream);
+            DataArrayType dataArray = dataArrayDoc.getDataArray1();
+	        AbstractDataComponentType dataComponent = dataArray.getElementType().getAbstractDataComponent();
 
 	        // 1. in case of 'DataRecord':
 	        if (dataComponent instanceof net.opengis.swe.x20.DataRecordType) {
@@ -515,7 +517,7 @@ public class GenericObservationParser {
 	                // ... TODO there are more possibilities...
 	            }
 	        }
-	        return dataArrayType;
+	        return dataArray;
 		} else {
 			throw new OXFException("No DataArray@http://www.opengis.net/swe/2.0 representing data structure.");
 		}
@@ -562,7 +564,8 @@ public class GenericObservationParser {
                     if (definitions.get(i).equals("urn:ogc:data:time:iso8601") 
                     		|| definitions.get(i).equals("urn:ogc:property:time:iso8601")
                             || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/SamplingTime") 
-                            || definitions.get(i).equals("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian")) {
+                            || definitions.get(i).equals("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian")
+                            || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/PhenomenonTime")) {
                         // do nothing
                     }
                     

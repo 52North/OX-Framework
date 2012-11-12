@@ -224,8 +224,7 @@ public class SESAdapter implements IServiceAdapter {
                 String uri = dcp.getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
 
                 SimpleHttpClient httpClient = new SimpleHttpClient();
-                StringEntity payload = new StringEntity(request, ContentType.TEXT_XML);
-                HttpEntity responseEntity = httpClient.executePost(uri, payload);
+                HttpEntity responseEntity = httpClient.executePost(uri, request, ContentType.TEXT_XML);
                 result = new OperationResult(responseEntity.getContent(), parameterContainer, request);
 
                 try {

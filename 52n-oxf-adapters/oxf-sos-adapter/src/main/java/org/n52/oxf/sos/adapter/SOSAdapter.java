@@ -274,9 +274,7 @@ public class SOSAdapter implements IServiceAdapter {
         		uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
         	}
 
-            LOGGER.debug("POST payload to send: \n{}", request);
-            StringEntity payload = new StringEntity(request, ContentType.TEXT_XML);
-            HttpEntity responseEntity = httpClient.executePost(uri.trim(), payload);
+            HttpEntity responseEntity = httpClient.executePost(uri.trim(), request, ContentType.TEXT_XML);
             result = new OperationResult(responseEntity.getContent(), parameters, request);
             
             // TODO make us independent from XmlObject

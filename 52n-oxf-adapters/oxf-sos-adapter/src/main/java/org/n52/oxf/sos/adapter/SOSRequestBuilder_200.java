@@ -233,9 +233,8 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
             TEqualsDocument equalsDoc = TEqualsDocument.Factory.newInstance();
             BinaryTemporalOpType equals = equalsDoc.addNewTEquals();
             
-            TimePositionType xb_timePosition = TimePositionType.Factory.newInstance();
+            TimePositionType xb_timePosition = xb_timeInstant.addNewTimePosition();
             xb_timePosition.setStringValue(oc_timePosition.toISO8601Format());
-            xb_timeInstant.setTimePosition(xb_timePosition);
 
             xb_timeInstant.setId("_1");
             equals.set(timeInstanceDoc);

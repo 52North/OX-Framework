@@ -30,7 +30,6 @@ import net.opengis.ows.x11.ExceptionType;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.IServiceAdapter;
@@ -177,9 +176,8 @@ public class CSWAdapter implements IServiceAdapter {
             DCP dcp = operation.getDcps()[0];
             
             if (httpMethod.equals("POST")) {
-                StringEntity payload = new StringEntity(request, ContentType.TEXT_XML);
                 String uri = dcp.getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
-                HttpEntity responseEntity = httpClient.executePost(uri, payload);
+                HttpEntity responseEntity = httpClient.executePost(uri, request, ContentType.TEXT_XML);
                 result = new OperationResult(responseEntity.getContent(), parameters, request);
             }
             else {

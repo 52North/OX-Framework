@@ -13,9 +13,12 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.ProxySelectorRoutePlanner;
 import org.apache.http.params.CoreConnectionPNames;
+import org.apache.xmlbeans.XmlObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,9 +69,21 @@ public class SimpleHttpClient {
             throw new HttpClientException("Invalid base URI: " + baseUri, e);
         }
     }
-
+    
+    public HttpEntity executePost(String uri, XmlObject payloadToSend) throws HttpClientException {
+        return executePost(uri, payloadToSend.xmlText(), ContentType.TEXT_XML);
+    }
+    
+    public HttpEntity executePost(String uri, String payloadToSend, ContentType contentType) throws HttpClientException {
+        StringEntity requestEntity = new StringEntity(payloadToSend, contentType);
+        LOGGER.debug("executing POST method to '{}':\n{}", uri, payloadToSend);
+        HttpPost post = new HttpPost(uri);
+        post.setEntity(requestEntity);
+        return executeMethod(post);
+    }
+    
     public HttpEntity executePost(String uri, HttpEntity payloadToSend) throws HttpClientException {
-        LOGGER.debug("executing POST method '{}' \n", uri);
+        LOGGER.debug("executing POST method to '{}'.", uri);
         HttpPost post = new HttpPost(uri);
         post.setEntity(payloadToSend);
         return executeMethod(post);
