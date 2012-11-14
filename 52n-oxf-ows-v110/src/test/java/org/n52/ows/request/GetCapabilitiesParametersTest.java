@@ -23,12 +23,14 @@
  */
 package org.n52.ows.request;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.n52.ows.request.GetCapabilitiesParameters.ACCEPT_FORMATS_PARAMETER;
 import static org.n52.ows.request.GetCapabilitiesParameters.ACCEPT_VERSIONS_PARAMETER;
 import static org.n52.ows.request.GetCapabilitiesParameters.SECTION_PARAMETER;
 import static org.n52.ows.request.GetCapabilitiesParameters.SERVICE_PARAMETER;
+import static org.n52.ows.request.GetCapabilitiesParameters.UPDATE_SEQUENCE;
 
 import org.junit.Test;
 
@@ -78,6 +80,17 @@ public class GetCapabilitiesParametersTest {
         assertFalse(parameters.contains(ACCEPT_VERSIONS_PARAMETER));
         assertTrue(parameters.contains(ACCEPT_FORMATS_PARAMETER));
         assertTrue(parameters.hasMultipleValues(ACCEPT_FORMATS_PARAMETER));
+    }
+    
+    @Test
+    public void testOverridingParameterValue() {
+        GetCapabilitiesParameters parameters = new GetCapabilitiesParameters("SOS");
+        assertFalse(parameters.overrideSingleValue(SERVICE_PARAMETER, "SPS"));
+        assertEquals("SPS", parameters.getSingleValue(SERVICE_PARAMETER));
+
+        // check size change when parameter was not added before
+        assertTrue(parameters.overrideSingleValue(UPDATE_SEQUENCE, "300"));
+        assertEquals("300", parameters.getSingleValue(UPDATE_SEQUENCE));
     }
     
 }

@@ -30,11 +30,13 @@ package org.n52.ows.request;
 public class GetCapabilitiesParameters extends MultimapRequestParameters {
 
     static final String SERVICE_PARAMETER = "service";
-    
+
     static final String SECTION_PARAMETER = "sections";
 
+    static final String UPDATE_SEQUENCE = "updateSequence";
+
     static final String ACCEPT_FORMATS_PARAMETER = "acceptFormats";
-    
+
     static final String ACCEPT_VERSIONS_PARAMETER = "acceptVersions";
 
     public GetCapabilitiesParameters(String service, String acceptVersion) {
@@ -49,6 +51,19 @@ public class GetCapabilitiesParameters extends MultimapRequestParameters {
                 addAcceptedVersion(acceptVersion);
             }
         }
+    }
+
+    /**
+     * Adds an update sequence. If omitted or not supported by the server, the server will return the latest
+     * complete service metadata document.<br>
+     * <br>
+     * There is at maximum one value possible. If an update sequence was set before, it will be overridden.
+     * 
+     * @param updateSequence
+     *        a content section the capabilities shall contain.
+     */
+    public void addUpdateSequence(String updateSequence) {
+        addParameterValue(UPDATE_SEQUENCE, updateSequence);
     }
 
     /**

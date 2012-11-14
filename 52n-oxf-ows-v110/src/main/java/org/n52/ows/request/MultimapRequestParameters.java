@@ -57,6 +57,12 @@ public abstract class MultimapRequestParameters implements RequestParameters {
     public boolean hasMultipleValues(String parameter) {
         return parameters.get(parameter).size() > 1;
     }
+    
+    public boolean overrideSingleValue(String parameter, String value) {
+        int oldSize = parameters.removeAll(parameter).size();
+        boolean changed = addParameterValue(parameter, value);
+        return changed && parameters.size() != oldSize;
+    }
 
     public String getSingleValue(String parameter) {
         if (parameters.containsKey(parameter)) {

@@ -93,6 +93,21 @@ public interface RequestParameters {
     public boolean hasMultipleValues(String parameter);
 
     /**
+     * Overrides a a value already associated with the given parameter. Associated value(s) are removed
+     * first.If no value was associated with the parameter is will be just added to the assembly. In this case
+     * it will have the same effect as when calling {@link #addParameterValue(String, String)}.<br>
+     * <br>
+     * <b>Note:</b> If the given parameter is associated with multiple values, all values are removed.
+     * 
+     * @param parameter
+     *        the parameter which value shall be overridden.
+     * @param value
+     *        the new value.
+     * @return <code>true</code> if the size of the assembly has changed.
+     */
+    public boolean overrideSingleValue(String parameter, String value);
+
+    /**
      * Gets the first parameter value for the given parameter. It is not guaranteed that, if multiple
      * parameters are associated with the given parameter, always the same value is returned. It is meant as
      * convenient method for parameters which have a cardinality of one, or it is clear that only one
