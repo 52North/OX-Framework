@@ -30,6 +30,8 @@ import org.n52.oxf.util.web.MultimapRequestParameters;
  * Assembles all parameters needed for a GetCapabilities request.
  */
 public class GetCapabilitiesParameters extends MultimapRequestParameters {
+    
+    private final String REQUEST_PARAMETER = "request";
 
     static final String SERVICE_PARAMETER = "service";
 
@@ -37,11 +39,12 @@ public class GetCapabilitiesParameters extends MultimapRequestParameters {
 
     static final String UPDATE_SEQUENCE = "updateSequence";
 
-    static final String ACCEPT_FORMATS_PARAMETER = "acceptFormats";
+    static final String ACCEPT_FORMATS_PARAMETER = "acceptFormat";
 
-    static final String ACCEPT_VERSIONS_PARAMETER = "acceptVersions";
+    static final String ACCEPT_VERSIONS_PARAMETER = "acceptVersion";
 
     public GetCapabilitiesParameters(String service, String acceptVersion) {
+        addNonEmpty(REQUEST_PARAMETER, "GetCapabilities");
         addNonEmpty(SERVICE_PARAMETER, service);
         addParameterValue(ACCEPT_VERSIONS_PARAMETER, acceptVersion);
     }

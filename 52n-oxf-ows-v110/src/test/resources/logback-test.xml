@@ -10,7 +10,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.n52" level="INFO" />
+	<logger name="org.n52" level="DEBUG" />
 
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />

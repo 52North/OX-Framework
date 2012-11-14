@@ -8,8 +8,12 @@ import org.n52.oxf.util.web.MultimapRequestParameters;
  */
 public class DescribeSensorParameters extends MultimapRequestParameters {
 
-    static String PROCEDURE_PARAMETER = "procedure";
-    static String OUTPUT_FORMAT_PARAMETER = "outputFormat";
+    private final String REQUEST_PARAMETER = "request";
+    
+    static final String PROCEDURE_PARAMETER = "procedure";
+    
+    static final String OUTPUT_FORMAT_PARAMETER = "outputFormat";
+    
     static final String OUTPUT_FORMAT_SENSORML = "text/xml;subtype=\"sensorML/1.0.1\"";
 
     /**
@@ -32,6 +36,7 @@ public class DescribeSensorParameters extends MultimapRequestParameters {
      *        the output format of the sensor description.
      */
     public DescribeSensorParameters(String procedure, String outputFormat) {
+        addNonEmpty(REQUEST_PARAMETER, "DescribeSensor");
         addNonEmpty(PROCEDURE_PARAMETER, procedure);
         addNonEmpty(OUTPUT_FORMAT_PARAMETER, outputFormat);
     }

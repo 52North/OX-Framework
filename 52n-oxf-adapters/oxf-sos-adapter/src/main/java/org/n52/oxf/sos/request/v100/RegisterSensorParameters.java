@@ -7,11 +7,16 @@ import org.n52.oxf.util.web.MultimapRequestParameters;
  * Assembles all parameters needed for a RegisterSensor request. This request is SOS 1.0.0 specific. 
  */
 public class RegisterSensorParameters extends MultimapRequestParameters {
+    
+    private static final String REQUEST_PARAMETER = "request";
 
-    public static String REGISTER_SENSOR_ML_DOC_PARAMETER = "sensorMLDoc";
-    public static String REGISTER_SENSOR_OBSERVATION_TEMPLATE = "observationTemplate";
-    public static String REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY = "category";
-    public static String REGISTER_SENSOR_OBSERVATION_TYPE = "type";
+    static final String REGISTER_SENSOR_ML_DOC_PARAMETER = "sensorMLDoc";
+    
+    static final String REGISTER_SENSOR_OBSERVATION_TEMPLATE = "observationTemplate";
+    
+    static final String REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY = "category";
+    
+    static final String REGISTER_SENSOR_OBSERVATION_TYPE = "type";
 
     /**
      * Creates RegisterSensor parameters.
@@ -24,6 +29,7 @@ public class RegisterSensorParameters extends MultimapRequestParameters {
      *         if passed arguments are <code>null</code> or empty.
      */
     public RegisterSensorParameters(String sensorDescription, String observationTemplate) {
+        addNonEmpty(REQUEST_PARAMETER, "RegisterSensor");
         addNonEmpty(REGISTER_SENSOR_ML_DOC_PARAMETER, sensorDescription);
         addNonEmpty(REGISTER_SENSOR_OBSERVATION_TEMPLATE, observationTemplate);
     }

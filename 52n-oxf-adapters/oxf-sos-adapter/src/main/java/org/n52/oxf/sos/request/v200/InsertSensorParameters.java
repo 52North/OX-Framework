@@ -7,11 +7,16 @@ import org.n52.oxf.util.web.MultimapRequestParameters;
  * Assembles all parameters needed for a RegisterSensor request. This request is SOS 2.0.0 specific. 
  */
 public class InsertSensorParameters extends MultimapRequestParameters {
+    
+    private static final String REQUEST_PARAMETER = "request";
 
-    public static final String PROCEDURE_DESCRIPTION = "procedureDescription";
-    public static final String PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat";
-    public static final String OBSERVABLE_PROPERTY = "observableProperty";
-    public static final String DEFAULT_DESCRIPTION_FORMAT = "text/xml;subtype=\"sensorML/1.0.1\"";
+    static final String PROCEDURE_DESCRIPTION = "procedureDescription";
+    
+    static final String PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat";
+    
+    static final String OBSERVABLE_PROPERTY = "observableProperty";
+    
+    static final String DEFAULT_DESCRIPTION_FORMAT = "text/xml;subtype=\"sensorML/1.0.1\"";
 
     /**
      * Creates InsertSensor parameters.
@@ -40,6 +45,7 @@ public class InsertSensorParameters extends MultimapRequestParameters {
      *         if passed arguments are <code>null</code> or empty.
      */
     public InsertSensorParameters(String sensorDescription, String procedureDescriptionFormat, String observableProperty) {
+        addNonEmpty(REQUEST_PARAMETER, "InsertSensor");
         addNonEmpty(PROCEDURE_DESCRIPTION, sensorDescription);
         addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
         addNonEmpty(OBSERVABLE_PROPERTY, observableProperty);
