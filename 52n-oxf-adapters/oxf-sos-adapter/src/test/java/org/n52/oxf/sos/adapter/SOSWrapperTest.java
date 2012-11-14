@@ -73,8 +73,8 @@ package org.n52.oxf.sos.adapter;
 //			ParameterContainer pc = sw.createParameterContainerForDoDescribeSensor(parameters);
 //			String service = (String) pc.getParameterShellWithServiceSidedName(DESCRIBE_SENSOR_SERVICE_PARAMETER).getSpecifiedValue();
 //			String version = (String) pc.getParameterShellWithServiceSidedName(DESCRIBE_SENSOR_VERSION_PARAMETER).getSpecifiedValue();
-//			String procedure = (String) pc.getParameterShellWithServiceSidedName(DESCRIBE_SENSOR_PROCEDURE_PARAMETER).getSpecifiedValue();
-//			String output = (String) pc.getParameterShellWithServiceSidedName(DESCRIBE_SENSOR_OUTPUT_FORMAT).getSpecifiedValue();
+//			String procedure = (String) pc.getParameterShellWithServiceSidedName(PROCEDURE_PARAMETER).getSpecifiedValue();
+//			String output = (String) pc.getParameterShellWithServiceSidedName(OUTPUT_FORMAT_PARAMETER).getSpecifiedValue();
 //			
 //			assertEquals("SOS", service);
 //			assertEquals("1.0.0", version);

@@ -1,8 +1,8 @@
 package org.n52.oxf.swes.request;
 
 import static org.junit.Assert.assertEquals;
-import static org.n52.oxf.swes.request.DescribeSensorParameters.DESCRIBE_SENSOR_OUTPUT_FORMAT;
-import static org.n52.oxf.swes.request.DescribeSensorParameters.DESCRIBE_SENSOR_PROCEDURE_PARAMETER;
+import static org.n52.oxf.swes.request.DescribeSensorParameters.OUTPUT_FORMAT_PARAMETER;
+import static org.n52.oxf.swes.request.DescribeSensorParameters.PROCEDURE_PARAMETER;
 import static org.n52.oxf.swes.request.DescribeSensorParameters.OUTPUT_FORMAT_SENSORML;
 
 import org.junit.Before;
@@ -35,8 +35,8 @@ public class DescribeSensorParametersTest {
 	
 	@Test
 	public void testApplyingAndGettingMandatoryParameters() {
-		String parMan_01 = parameterAssembly.getSingleValue(DESCRIBE_SENSOR_PROCEDURE_PARAMETER);
-		String parMan_02 = parameterAssembly.getSingleValue(DESCRIBE_SENSOR_OUTPUT_FORMAT);
+		String parMan_01 = parameterAssembly.getSingleValue(PROCEDURE_PARAMETER);
+		String parMan_02 = parameterAssembly.getSingleValue(OUTPUT_FORMAT_PARAMETER);
 		
 		assertEquals("sensorId", parMan_01);
 		assertEquals(OUTPUT_FORMAT_SENSORML, parMan_02);

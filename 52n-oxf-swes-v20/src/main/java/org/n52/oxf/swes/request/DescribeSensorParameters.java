@@ -8,9 +8,9 @@ import org.n52.ows.request.MultimapRequestParameters;
  */
 public class DescribeSensorParameters extends MultimapRequestParameters {
 
-    public static String DESCRIBE_SENSOR_PROCEDURE_PARAMETER = "procedure";
-    public static String DESCRIBE_SENSOR_OUTPUT_FORMAT = "outputFormat";
-    public static final String OUTPUT_FORMAT_SENSORML = "text/xml;subtype=\"sensorML/1.0.1\"";
+    static String PROCEDURE_PARAMETER = "procedure";
+    static String OUTPUT_FORMAT_PARAMETER = "outputFormat";
+    static final String OUTPUT_FORMAT_SENSORML = "text/xml;subtype=\"sensorML/1.0.1\"";
 
     /**
      * Creates DescribeSensor request parameters. It uses {@link #OUTPUT_FORMAT_SENSORML} for
@@ -32,8 +32,8 @@ public class DescribeSensorParameters extends MultimapRequestParameters {
      *        the output format of the sensor description.
      */
     public DescribeSensorParameters(String procedure, String outputFormat) {
-        addNonEmpty(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, procedure);
-        addNonEmpty(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
+        addNonEmpty(PROCEDURE_PARAMETER, procedure);
+        addNonEmpty(OUTPUT_FORMAT_PARAMETER, outputFormat);
     }
 
     /**
@@ -43,7 +43,7 @@ public class DescribeSensorParameters extends MultimapRequestParameters {
      *        the procedure which sensor description shall requested.
      */
     public void setProcedureId(String procedureId) {
-        addNonEmpty(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, procedureId);
+        addNonEmpty(PROCEDURE_PARAMETER, procedureId);
     }
 
     /**
@@ -53,12 +53,12 @@ public class DescribeSensorParameters extends MultimapRequestParameters {
      *        the output format of the sensor description.
      */
     public void setOutputFormat(String outputFormat) {
-        addNonEmpty(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
+        addNonEmpty(OUTPUT_FORMAT_PARAMETER, outputFormat);
     }
 
     public boolean isValid() {
-        boolean invalidProcedureValue = isEmptyValue(DESCRIBE_SENSOR_PROCEDURE_PARAMETER);
-        boolean invalidOutputFormatValue = isEmptyValue(DESCRIBE_SENSOR_OUTPUT_FORMAT);
+        boolean invalidProcedureValue = isEmptyValue(PROCEDURE_PARAMETER);
+        boolean invalidOutputFormatValue = isEmptyValue(OUTPUT_FORMAT_PARAMETER);
         return ! (invalidProcedureValue || invalidOutputFormatValue);
     }
 
