@@ -2,7 +2,7 @@ package org.n52.oxf.sos.request.observation;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER;
 
-import org.n52.ows.request.MultimapRequestParameters;
+import org.n52.oxf.util.web.MultimapRequestParameters;
 
 /**
  * Assembles all parameters needed for an InsertObservation request.

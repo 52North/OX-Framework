@@ -40,7 +40,9 @@ import org.n52.oxf.ows.OWSException;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.DCP;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.util.web.HttpClient;
 import org.n52.oxf.util.web.HttpClientException;
+import org.n52.oxf.util.web.ProxyAwareHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -172,7 +174,7 @@ public class CSWAdapter implements IServiceAdapter {
             }
 
             // TODO pull httpClient to super class (make interface abstract)
-            SimpleHttpClient httpClient = new SimpleHttpClient();
+            HttpClient httpClient = new ProxyAwareHttpClient(new SimpleHttpClient());
             DCP dcp = operation.getDcps()[0];
             
             if (httpMethod.equals("POST")) {

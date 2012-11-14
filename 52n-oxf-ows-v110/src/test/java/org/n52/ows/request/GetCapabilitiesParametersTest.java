@@ -33,6 +33,8 @@ import static org.n52.ows.request.GetCapabilitiesParameters.SERVICE_PARAMETER;
 import static org.n52.ows.request.GetCapabilitiesParameters.UPDATE_SEQUENCE;
 
 import org.junit.Test;
+import org.n52.ows.request.GetCapabilitiesParameters;
+import org.n52.oxf.util.web.RequestParameters;
 
 public class GetCapabilitiesParametersTest {
 

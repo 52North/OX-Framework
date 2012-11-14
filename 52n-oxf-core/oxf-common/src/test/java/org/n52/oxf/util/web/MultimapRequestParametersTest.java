@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.ows.request;
+package org.n52.oxf.util.web;
 
 
 import static org.junit.Assert.assertEquals;
@@ -35,8 +35,7 @@ import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.n52.ows.request.MultimapRequestParameters;
-import org.n52.ows.request.RequestParameters;
+import org.n52.oxf.util.web.MultimapRequestParameters;
 
 public class MultimapRequestParametersTest {
     

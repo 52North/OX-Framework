@@ -24,6 +24,8 @@
 
 package org.n52.ows.request;
 
+import org.n52.oxf.util.web.MultimapRequestParameters;
+
 /**
  * Assembles all parameters needed for a GetCapabilities request.
  */

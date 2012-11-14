@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.ows.request;
+package org.n52.oxf.util.web;
 
 import java.util.Collection;
 import java.util.Collections;

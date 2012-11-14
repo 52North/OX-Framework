@@ -1,7 +1,7 @@
 
 package org.n52.oxf.sos.request.v200;
 
-import org.n52.ows.request.MultimapRequestParameters;
+import org.n52.oxf.util.web.MultimapRequestParameters;
 
 /**
  * Assembles all parameters needed for a RegisterSensor request. This request is SOS 2.0.0 specific. 

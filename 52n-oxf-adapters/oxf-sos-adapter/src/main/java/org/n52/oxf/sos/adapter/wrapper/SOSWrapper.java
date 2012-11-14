@@ -38,7 +38,6 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.REGISTER_SENSOR_OBSERVA
 
 import java.util.Map;
 
-import org.n52.ows.request.MultimapRequestParameters;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
@@ -54,6 +53,7 @@ import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationParameterBuilder_v1
 import org.n52.oxf.sos.adapter.wrapper.builder.InsertObservationParameterBuilder_v100;
 import org.n52.oxf.sos.request.v100.RegisterSensorParameters;
 import org.n52.oxf.swes.request.DescribeSensorParameters;
+import org.n52.oxf.util.web.MultimapRequestParameters;
 
 /**
  * SOSWrapper wraps all SOS operations implemented in SOSAdapter class.

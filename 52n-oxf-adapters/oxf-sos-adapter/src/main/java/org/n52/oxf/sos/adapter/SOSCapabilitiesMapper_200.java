@@ -83,6 +83,7 @@ import org.n52.oxf.ows.capabilities.ServiceIdentification;
 import org.n52.oxf.ows.capabilities.ServiceProvider;
 import org.n52.oxf.sos.capabilities.ObservationOffering;
 import org.n52.oxf.sos.capabilities.SOSContents;
+import org.n52.oxf.util.web.HttpClient;
 import org.n52.oxf.util.web.HttpClientException;
 import org.n52.oxf.util.web.SimpleHttpClient;
 import org.n52.oxf.valueDomains.StringValueDomain;
@@ -276,7 +277,7 @@ public class SOSCapabilitiesMapper_200 {
 
     public static void main(String[] args) {
         try {
-            SimpleHttpClient client = new SimpleHttpClient();
+            HttpClient client = new SimpleHttpClient();
             String request = "http://sensorweb.demo.52north.org/52nSOSv3_200/sos?REQUEST=GetCapabilities&SERVICE=SOS";
             HttpEntity executeGet = client.executeGet(request);
             InputStream responseStream = executeGet.getContent();

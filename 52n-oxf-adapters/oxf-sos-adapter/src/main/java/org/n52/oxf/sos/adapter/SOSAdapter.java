@@ -34,17 +34,11 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_SERVICE
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_VERSION_PARAMETER;
 
 import java.io.IOException;
-import java.io.InputStream;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import net.opengis.ows.x11.ExceptionReportDocument;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -59,13 +53,14 @@ import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.sos.feature.SOSObservationStore;
 import org.n52.oxf.sos.util.SosUtil;
+import org.n52.oxf.util.web.GzipEnabledHttpClient;
+import org.n52.oxf.util.web.HttpClient;
 import org.n52.oxf.util.web.HttpClientException;
+import org.n52.oxf.util.web.ProxyAwareHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 /**
  * SOS-Adapter for the OX-Framework
@@ -73,7 +68,7 @@ import org.xml.sax.SAXException;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class SOSAdapter implements IServiceAdapter {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSAdapter.class);
 
     public static final String GET_CAPABILITIES = "GetCapabilities";
@@ -102,21 +97,39 @@ public class SOSAdapter implements IServiceAdapter {
 
     private ISOSRequestBuilder requestBuilder;
 
-    private SimpleHttpClient httpClient;
+    private HttpClient httpClient;
 
     /**
      * @param serviceVersion
      *        the schema version for which this adapter instance shall be initialized.
      */
     public SOSAdapter(String serviceVersion) {
-        this(serviceVersion, null);
+        this(serviceVersion, (ISOSRequestBuilder) null);
     }
-    
+
     /**
-     * Allows to create an SOSAdapter with custom (non-default) instance of {@link ISOSRequestBuilder}.
+     * @param serviceVersion
+     *        the schema version for which this adapter instance shall be initialized.
+     * @param httpclient
+     *        the (decorated) {@link HttpClient} to use for service connections.
+     */
+    public SOSAdapter(String serviceVersion, HttpClient httpclient) {
+        this(serviceVersion, (ISOSRequestBuilder) null);
+        setHttpClient(httpclient); // override simple client
+    }
+
+    /**
+     * Allows to create an SOSAdapter with custom (non-default) instance of {@link ISOSRequestBuilder}.<br>
+     * <br>
+     * By default the created instance will use a {@link SimpleHttpClient} for service communication. If
+     * further features are needed the {@link SimpleHttpClient} can be decorated with further configuration
+     * setups like a {@link GzipEnabledHttpClient} or a {@link ProxyAwareHttpClient}.
      * 
-     * @param serviceVersion the schema version for which this adapter instance shall be initialized.
-     * @param requestBuilder a custom request builder implementation, if <code>null</code> default will be used.
+     * @param serviceVersion
+     *        the schema version for which this adapter instance shall be initialized.
+     * @param requestBuilder
+     *        a custom request builder implementation, if <code>null</code> a default builder will be used
+     *        (according to the given version).
      * @see ISOSRequestBuilder
      */
     public SOSAdapter(String serviceVersion, ISOSRequestBuilder requestBuilder) {
@@ -124,13 +137,15 @@ public class SOSAdapter implements IServiceAdapter {
         this.serviceVersion = serviceVersion;
         if (requestBuilder == null) {
             this.requestBuilder = SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
-        } else {
+        }
+        else {
             this.requestBuilder = requestBuilder;
         }
     }
-    
+
     /**
-     * @param requestBuilder a custom {@link ISOSRequestBuilder} implementation the {@link SOSAdapter} shall use.
+     * @param requestBuilder
+     *        a custom {@link ISOSRequestBuilder} implementation the {@link SOSAdapter} shall use.
      */
     public void setRequestBuilder(ISOSRequestBuilder requestBuilder) {
         if (requestBuilder != null) {
@@ -139,12 +154,19 @@ public class SOSAdapter implements IServiceAdapter {
     }
 
     /**
-     * @param httpClient a customly configured {@link SimpleHttpClient} the {@link SOSAdapter} shall use.
+     * Sets a custom {@link HttpClient} for service communication. A {@link SimpleHttpClient} can be decorated
+     * to enable for example GZIP encoding (setting Accept-Encoding plus GZIP decompressing) or being aware of
+     * proxies.
+     * 
+     * @param httpClient
+     *        a customly configured {@link HttpClient} the {@link SOSAdapter} shall use.
+     * @see ProxyAwareHttpClient
+     * @see GzipEnabledHttpClient
      */
-    public void setHttpClient(SimpleHttpClient httpClient) {
+    public void setHttpClient(HttpClient httpClient) {
         this.httpClient = httpClient;
     }
-    
+
     /**
      * initializes the ServiceDescriptor by requesting the capabilities document of the SOS.
      * 
@@ -177,10 +199,12 @@ public class SOSAdapter implements IServiceAdapter {
             if (SosUtil.isVersion100(serviceVersion)) {
                 net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
                 return initService(capsDoc);
-            } else if (SosUtil.isVersion200(serviceVersion)) {
+            }
+            else if (SosUtil.isVersion200(serviceVersion)) {
                 net.opengis.sos.x20.CapabilitiesDocument capsDoc = net.opengis.sos.x20.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
                 return initService(capsDoc);
-            } else {
+            }
+            else {
                 throw new OXFException("Version is not supported: " + serviceVersion);
             }
         }
@@ -198,7 +222,7 @@ public class SOSAdapter implements IServiceAdapter {
 
         return result;
     }
-    
+
     /**
      * 
      * @param capsDoc
@@ -221,7 +245,7 @@ public class SOSAdapter implements IServiceAdapter {
      * 
      * @param parameters
      *        Map which contains the parameters of the operation and the corresponding parameter values
-
+     * 
      * @throws ExceptionReport
      *         Report which contains the service sided exceptions
      * 
@@ -231,7 +255,7 @@ public class SOSAdapter implements IServiceAdapter {
      * 
      * @return the result of the executed operation
      */
-	public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
+    public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
             OXFException {
 
         String request = null;
@@ -263,32 +287,32 @@ public class SOSAdapter implements IServiceAdapter {
             // Operation not supported
             throw new OXFException(String.format("Operation not supported: %s", operation.getName()));
         }
-        
+
         try {
-        	if (operation.getDcps().length == 0) {
+            if (operation.getDcps().length == 0) {
                 throw new IllegalStateException("No DCP links available to send request to.");
             }
 
-        	String uri = null;
-        	if (operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0) {
-        		uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
-        	}
+            String uri = null;
+            if (operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0) {
+                uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
+            }
 
             HttpEntity responseEntity = httpClient.executePost(uri.trim(), request, ContentType.TEXT_XML);
             result = new OperationResult(responseEntity.getContent(), parameters, request);
-            
+
             // TODO make us independent from XmlObject
-//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//            DocumentBuilder builder = factory.newDocumentBuilder();
-//            Document document = builder.parse(result.getIncomingResultAsStream());
-//            Element root = document.getDocumentElement();
-//            if (root.getNodeName().equals("ExceptionReport")) {
-//                Element exceptionReport = root;
-//                throw createExceptionReportException(exceptionReport, result);
-//            }
+            // DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            // DocumentBuilder builder = factory.newDocumentBuilder();
+            // Document document = builder.parse(result.getIncomingResultAsStream());
+            // Element root = document.getDocumentElement();
+            // if (root.getNodeName().equals("ExceptionReport")) {
+            // Element exceptionReport = root;
+            // throw createExceptionReportException(exceptionReport, result);
+            // }
             try {
                 XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsStream());
-                if (result_xb.schemaType() ==  ExceptionReportDocument.type) {
+                if (result_xb.schemaType() == ExceptionReportDocument.type) {
                     throw parseExceptionReport_100(result);
                 }
             }
@@ -296,20 +320,21 @@ public class SOSAdapter implements IServiceAdapter {
                 throw new OXFException("Could not parse response to XML.", e);
             }
             return result;
-        } catch (HttpClientException e) {
+        }
+        catch (HttpClientException e) {
             throw new OXFException("Sending request failed.", e);
         }
         catch (IOException e) {
             throw new OXFException("Could not create OperationResult.", e);
         }
-//        catch (ParserConfigurationException e) {
-//            throw new IllegalStateException("Could not create XML parser.", e);
-//        }
-//        catch (SAXException e) {
-//            throw new OXFException("XML not parsable.", e);
-//        }
+        // catch (ParserConfigurationException e) {
+        // throw new IllegalStateException("Could not create XML parser.", e);
+        // }
+        // catch (SAXException e) {
+        // throw new OXFException("XML not parsable.", e);
+        // }
     }
-	
+
     /**
      * Convenient method to request Observations from an SOS. <br>
      * The method creates a GetObservation request and sends it to the SOS. <br>
@@ -339,7 +364,7 @@ public class SOSAdapter implements IServiceAdapter {
         LOGGER.info("Send Request: {}", requestBuilder.buildGetObservationRequest(container));
 
         OperationResult opResult = doOperation(operation, container);
-		IFeatureStore featureStore = new SOSObservationStore(opResult);
+        IFeatureStore featureStore = new SOSObservationStore(opResult);
 
         // The OperationResult can be used as an input for the 'unmarshalFeatures' operation of the
         // SOSObservationStore to parse the returned O&M document and to build up OXFFeature objects.

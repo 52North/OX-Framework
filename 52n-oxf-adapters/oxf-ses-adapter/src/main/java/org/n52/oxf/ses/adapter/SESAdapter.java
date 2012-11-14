@@ -45,7 +45,9 @@ import org.n52.oxf.ows.OwsExceptionCode;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.DCP;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.util.web.HttpClient;
 import org.n52.oxf.util.web.HttpClientException;
+import org.n52.oxf.util.web.ProxyAwareHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -223,7 +225,8 @@ public class SESAdapter implements IServiceAdapter {
                 DCP dcp = operation.getDcps()[0];
                 String uri = dcp.getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
 
-                SimpleHttpClient httpClient = new SimpleHttpClient();
+                // TODO extract to adapter interface
+                HttpClient httpClient = new ProxyAwareHttpClient(new SimpleHttpClient());
                 HttpEntity responseEntity = httpClient.executePost(uri, request, ContentType.TEXT_XML);
                 result = new OperationResult(responseEntity.getContent(), parameterContainer, request);
 

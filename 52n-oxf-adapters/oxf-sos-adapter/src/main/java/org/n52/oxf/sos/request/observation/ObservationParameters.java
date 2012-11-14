@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.n52.ows.request.MultimapRequestParameters;
+import org.n52.oxf.util.web.MultimapRequestParameters;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
