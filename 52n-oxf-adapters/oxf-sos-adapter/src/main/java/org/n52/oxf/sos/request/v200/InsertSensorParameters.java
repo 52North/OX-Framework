@@ -1,12 +1,12 @@
 
 package org.n52.oxf.sos.request.v200;
 
-import org.n52.ows.request.RequestParameters;
+import org.n52.ows.request.MultimapRequestParameters;
 
 /**
  * Assembles all parameters needed for a RegisterSensor request. This request is SOS 2.0.0 specific. 
  */
-public class InsertSensorParameters extends RequestParameters {
+public class InsertSensorParameters extends MultimapRequestParameters {
 
     public static final String PROCEDURE_DESCRIPTION = "procedureDescription";
     public static final String PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat";
@@ -34,14 +34,34 @@ public class InsertSensorParameters extends RequestParameters {
      *        the sensor's description document.
      * @param procedureDescriptionFormat
      *        the procedureDescription's format.
+     * @param observableProperty
+     *        the sensor's observable property.
+     * @throws IllegalArgumentException
+     *         if passed arguments are <code>null</code> or empty.
+     */
+    public InsertSensorParameters(String sensorDescription, String procedureDescriptionFormat, String observableProperty) {
+        addNonEmpty(PROCEDURE_DESCRIPTION, sensorDescription);
+        addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
+        addNonEmpty(OBSERVABLE_PROPERTY, observableProperty);
+    }
+       
+    
+    /**
+     * Creates InsertSensor parameters.
+     * 
+     * @param sensorDescription
+     *        the sensor's description document.
+     * @param procedureDescriptionFormat
+     *        the procedureDescription's format.
      * @param observableProperties
-     *        the sensor's observation template.
+     *        the sensor's observable properties.
      * @throws IllegalArgumentException
      *         if passed arguments are <code>null</code> or empty.
      */
     public InsertSensorParameters(String sensorDescription, String procedureDescriptionFormat, String... observableProperties) {
-        putNonEmpty(PROCEDURE_DESCRIPTION, sensorDescription);
-        putNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
+        addNonEmpty(PROCEDURE_DESCRIPTION, sensorDescription);
+        addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
+        addBulkParameterValues(OBSERVABLE_PROPERTY, observableProperties);
         // XXX add multiple parameter support!
 //        putNonEmpty(OBSERVABLE_PROPERTY, observableProperties);
     }
@@ -55,7 +75,7 @@ public class InsertSensorParameters extends RequestParameters {
      *         if passed argument is <code>null</code> or empty.
      */
     public InsertSensorParameters addProcedureDescription(String procedureDescription) {
-        putNonEmpty(PROCEDURE_DESCRIPTION, procedureDescription);
+        addNonEmpty(PROCEDURE_DESCRIPTION, procedureDescription);
         return this;
     }
 
@@ -69,11 +89,10 @@ public class InsertSensorParameters extends RequestParameters {
      *         if passed argument is <code>null</code> or empty.
      */
     public InsertSensorParameters setObservationTemplate(String procedureDescriptionFormat) {
-        putNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
+        addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
         return this;
     }
 
-    @Override
     public boolean isValid() {
         boolean invalidProcedureDescription = isEmptyValue(PROCEDURE_DESCRIPTION);
         boolean invalidProcedureDescriptionFormat = isEmptyValue(PROCEDURE_DESCRIPTION_FORMAT);

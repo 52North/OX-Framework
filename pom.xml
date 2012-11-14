@@ -28,32 +28,6 @@
 		<url>https://svn.52north.org/cgi-bin/viewvc.cgi/incubation/ox-framework-2.0/52n-oxf/trunk/?root=sensorweb</url>
 	</scm>
 
-	<repositories>
-		<repository>
-			<!-- temporary local repo for libs not migrated to maven dependency mechanism -->
-			<id>52n-local-lib</id>
-			<name>localLibsRepo</name>
-			<url>file:///${basedir}/../../lib-repository/</url>
-		</repository>
-		<repository>
-			<id>geotools-old</id>
-			<url>http://download.osgeo.org/webdav/geotools</url>
-		</repository>
-		<repository>
-			<id>n52-releases</id>
-			<name>52n Releases</name>
-			<url>http://52north.org/maven/repo/releases/</url>
-		</repository>
-		<repository>
-			<id>n52-snapshots</id>
-			<name>52n Snapshots</name>
-			<url>http://52north.org/maven/repo/snapshots/</url>
-		</repository>
-		<repository>
-			<id>geotools-new</id>
-			<url>http://repo.opengeo.org/</url>
-		</repository>
-	</repositories>
 	<properties>
 		<n52.xml.commons.version>1.1.2</n52.xml.commons.version>
 		<timestamp>${maven.build.timestamp}</timestamp>
@@ -61,6 +35,7 @@
 		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
 	<dependencyManagement>
 		<dependencies>
 			<!-- ### MODULE DEPENDENCIES ### -->
@@ -264,6 +239,11 @@
 			</dependency>
 			<!-- ### EXTERNAL DEPENDENCIES ### -->
 			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>12.0</version>
+			</dependency>
+			<dependency>
 				<groupId>commons-lang</groupId>
 				<artifactId>commons-lang</artifactId>
 				<version>2.6</version>
@@ -449,6 +429,33 @@
 		</pluginManagement>
 	</build>
 
+    <repositories>
+        <repository>
+            <!-- temporary local repo for libs not migrated to maven dependency mechanism -->
+            <id>52n-local-lib</id>
+            <name>localLibsRepo</name>
+            <url>file:///${basedir}/../../lib-repository/</url>
+        </repository>
+        <repository>
+            <id>geotools-old</id>
+            <url>http://download.osgeo.org/webdav/geotools</url>
+        </repository>
+        <repository>
+            <id>n52-releases</id>
+            <name>52n Releases</name>
+            <url>http://52north.org/maven/repo/releases/</url>
+        </repository>
+        <repository>
+            <id>n52-snapshots</id>
+            <name>52n Snapshots</name>
+            <url>http://52north.org/maven/repo/snapshots/</url>
+        </repository>
+        <repository>
+            <id>geotools-new</id>
+            <url>http://repo.opengeo.org/</url>
+        </repository>
+    </repositories>
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>apache-snapshots</id>
@@ -462,6 +469,7 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+	
 	<profiles>
 		<profile>
 			<id>env-example</id>

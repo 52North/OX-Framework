@@ -20,7 +20,7 @@ public class BooleanObservationParameters extends ObservationParameters {
      */
     public BooleanObservationParameters() {
         super(QNAME_OM_1_0_TRUTH_OBSERVATION);
-        put(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_TRUTH);
+        addParameterValue(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_TRUTH);
     }
 
     /**
@@ -30,10 +30,9 @@ public class BooleanObservationParameters extends ObservationParameters {
      *        the observation value to add.
      */
     public void addObservationValue(boolean observationValue) {
-        put(INSERT_OBSERVATION_VALUE_PARAMETER, Boolean.toString(observationValue));
+        addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, Boolean.toString(observationValue));
     }
 
-    @Override
     public boolean isValid() {
         return true;
     }

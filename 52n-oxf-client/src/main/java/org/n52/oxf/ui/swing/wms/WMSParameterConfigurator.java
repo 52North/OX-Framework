@@ -141,7 +141,7 @@ public class WMSParameterConfigurator extends JDialog {
             requiredParametersPanel = new JPanel();
             requiredParametersPanel.setLayout(new GridBagLayout());
             requiredParametersPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
-                                                                                           "Required RequestParameters",
+                                                                                           "Required MultimapRequestParameters",
                                                                                            javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                                                                                            javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                                                                            null,
@@ -268,7 +268,7 @@ public class WMSParameterConfigurator extends JDialog {
             optionalParametersPanel = new JPanel();
             optionalParametersPanel.setLayout(new GridBagLayout());
             optionalParametersPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null,
-                                                                                           "Optional RequestParameters",
+                                                                                           "Optional MultimapRequestParameters",
                                                                                            javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                                                                                            javax.swing.border.TitledBorder.DEFAULT_POSITION,
                                                                                            null,

@@ -1,26 +1,21 @@
 package org.n52.oxf.sos.request.observation;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER;
 
-import java.util.Map;
-
-import org.n52.ows.request.RequestParameters;
+import org.n52.ows.request.MultimapRequestParameters;
 
 /**
  * Assembles all parameters needed for an InsertObservation request.
  */
-public class InsertObservationParameters extends RequestParameters {
+public class InsertObservationParameters extends MultimapRequestParameters {
 	
 	public InsertObservationParameters(String assignedSensorId, ObservationParameters observationBuilder) throws IllegalArgumentException {
-        putNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, assignedSensorId);
-		putAll(observationBuilder);
+        addNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, assignedSensorId);
+		mergeWith(observationBuilder);
 	}
 
-    @Override
     public boolean isValid() {
-        // TODO Auto-generated method stub
-        return false;
-        
+        return true;
     }
 	
 }

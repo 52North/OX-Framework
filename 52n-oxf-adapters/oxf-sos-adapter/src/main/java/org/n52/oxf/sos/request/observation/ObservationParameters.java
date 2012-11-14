@@ -6,14 +6,14 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.n52.ows.request.RequestParameters;
+import org.n52.ows.request.MultimapRequestParameters;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
  * Assembles all Observation parameters needed for an InsertObservation request.
  */
-public abstract class ObservationParameters extends RequestParameters {
+public abstract class ObservationParameters extends MultimapRequestParameters {
 
     private QName type;
 
@@ -34,31 +34,31 @@ public abstract class ObservationParameters extends RequestParameters {
     // begin -> parameter methods necessary for: MeasurementObservationParameters and CategoryObservationBuilder
 
     public void addSamplingTime(String samplingTime) {
-        put(INSERT_OBSERVATION_SAMPLING_TIME, samplingTime);
+        addParameterValue(INSERT_OBSERVATION_SAMPLING_TIME, samplingTime);
     }
 
     public void addFoiId(String foiId) {
-        put(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);
+        addParameterValue(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);
     }
 
     public void addNewFoiName(String foiName) {
-        put(INSERT_OBSERVATION_NEW_FOI_NAME, foiName);
+        addParameterValue(INSERT_OBSERVATION_NEW_FOI_NAME, foiName);
     }
 
     public void addFoiDescription(String foiDescription) {
-        put(INSERT_OBSERVATION_NEW_FOI_DESC, foiDescription);
+        addParameterValue(INSERT_OBSERVATION_NEW_FOI_DESC, foiDescription);
     }
 
     public void addFoiPosition(String foiPosition) {
-        put(INSERT_OBSERVATION_NEW_FOI_POSITION, foiPosition);
+        addParameterValue(INSERT_OBSERVATION_NEW_FOI_POSITION, foiPosition);
     }
 
     public void addSrsPosition(String srsPosition) {
-        put(INSERT_OBSERVATION_POSITION_SRS, srsPosition);
+        addParameterValue(INSERT_OBSERVATION_POSITION_SRS, srsPosition);
     }
 
     public void addObservedProperty(String observedProperty) {
-        put(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
+        addParameterValue(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
     }
 
     // end -> parameter methods shared by: MeasurementObservationParameters and CategoryObservationBuilder

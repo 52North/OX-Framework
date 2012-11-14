@@ -19,7 +19,7 @@ public class MeasurementObservationParameters extends ObservationParameters {
      */
     public MeasurementObservationParameters() {
         super(QNAME_OM_1_0_MEASUREMENT_OBSERVATION);
-        putNonEmpty(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_MEASUREMENT);
+        addNonEmpty(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_MEASUREMENT);
     }
 
     /**
@@ -29,7 +29,7 @@ public class MeasurementObservationParameters extends ObservationParameters {
      *        the observation value to add
      */
     public void addObservationValue(String observationValue) {
-        put(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
+        addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
     }
 
     /**
@@ -39,10 +39,9 @@ public class MeasurementObservationParameters extends ObservationParameters {
      *        the unit of measure to add.
      */
     public void addUom(String uom) {
-        put(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, uom);
+        addParameterValue(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, uom);
     }
 
-    @Override
     public boolean isValid() {
         return true;
     }

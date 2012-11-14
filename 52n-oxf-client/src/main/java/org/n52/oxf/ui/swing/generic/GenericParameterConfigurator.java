@@ -214,7 +214,7 @@ public class GenericParameterConfigurator {
         /**
          * 
          * @param params
-         *        the RequestParameters used to construct the ParameterPanels.
+         *        the MultimapRequestParameters used to construct the ParameterPanels.
          * @param parent
          */
         public GenericParameterConfigDialog(Parameter[] params) {

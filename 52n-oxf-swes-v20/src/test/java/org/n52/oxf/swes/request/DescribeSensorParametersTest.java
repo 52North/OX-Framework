@@ -7,21 +7,15 @@ import static org.n52.oxf.swes.request.DescribeSensorParameters.OUTPUT_FORMAT_SE
 
 import org.junit.Before;
 import org.junit.Test;
+import org.n52.ows.request.RequestParameters;
 
-/**
- * Test of correctness for:
- * 		- legal and illegal constructor parameters
- * 		- applying and getting parameters
- * 
- * @author Eric
- */
 public class DescribeSensorParametersTest {
     
-    private DescribeSensorParameters builder;
+    private RequestParameters parameterAssembly;
 
     @Before
     public void setUp() {
-        builder = new DescribeSensorParameters("sensorId", OUTPUT_FORMAT_SENSORML);
+        parameterAssembly = new DescribeSensorParameters("sensorId", OUTPUT_FORMAT_SENSORML);
     }
 
 	@Test
@@ -41,9 +35,8 @@ public class DescribeSensorParametersTest {
 	
 	@Test
 	public void testApplyingAndGettingMandatoryParameters() {
-		
-		String parMan_01 = builder.get(DESCRIBE_SENSOR_PROCEDURE_PARAMETER);
-		String parMan_02 = builder.get(DESCRIBE_SENSOR_OUTPUT_FORMAT);
+		String parMan_01 = parameterAssembly.getSingleValue(DESCRIBE_SENSOR_PROCEDURE_PARAMETER);
+		String parMan_02 = parameterAssembly.getSingleValue(DESCRIBE_SENSOR_OUTPUT_FORMAT);
 		
 		assertEquals("sensorId", parMan_01);
 		assertEquals(OUTPUT_FORMAT_SENSORML, parMan_02);

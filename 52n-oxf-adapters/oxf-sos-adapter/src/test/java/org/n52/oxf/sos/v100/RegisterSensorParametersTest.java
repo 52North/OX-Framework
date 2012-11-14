@@ -34,8 +34,8 @@ public class RegisterSensorParametersTest {
 	
 	@Test
 	public void testApplyingAndGettingMandatoryParameters() {
-		String parMan_01 = parameters.get(REGISTER_SENSOR_ML_DOC_PARAMETER);
-		String parMan_02 = parameters.get(REGISTER_SENSOR_OBSERVATION_TEMPLATE);
+		String parMan_01 = parameters.getSingleValue(REGISTER_SENSOR_ML_DOC_PARAMETER);
+		String parMan_02 = parameters.getSingleValue(REGISTER_SENSOR_OBSERVATION_TEMPLATE);
 		
 		assertEquals("sensorDescription", parMan_01);
 		assertEquals("observationTemplate", parMan_02);

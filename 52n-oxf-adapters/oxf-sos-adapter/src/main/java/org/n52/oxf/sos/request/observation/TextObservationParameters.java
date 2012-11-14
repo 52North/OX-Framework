@@ -18,7 +18,7 @@ public class TextObservationParameters extends ObservationParameters {
      */
     public TextObservationParameters() {
         super(QNAME_OM_1_0_TEXT_OBSERVATION);
-        putNonEmpty(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_TEXT);
+        addNonEmpty(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_TEXT);
     }
 
     /**
@@ -28,10 +28,9 @@ public class TextObservationParameters extends ObservationParameters {
      *        the observation value to add.
      */
     public void addObservationValue(String observationValue) {
-        put(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
+        addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
     }
 
-    @Override
     public boolean isValid() {
         return true;
     }

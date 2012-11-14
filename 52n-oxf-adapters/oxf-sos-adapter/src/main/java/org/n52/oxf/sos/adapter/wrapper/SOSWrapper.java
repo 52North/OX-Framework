@@ -1,9 +1,44 @@
 package org.n52.oxf.sos.adapter.wrapper;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.DESCRIBE_SENSOR_OUTPUT_FORMAT;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.DESCRIBE_SENSOR_PROCEDURE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.DESCRIBE_SENSOR_SERVICE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.DESCRIBE_SENSOR_VERSION_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_FOI_EVENT_TIME_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_FOI_ID_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_FOI_LOCATION_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OFFERING_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESULT_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_FOI_ID_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_DESC;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_NAME;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_POSITION;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_POSITION_SRS;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_SAMPLING_TIME;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.REGISTER_SENSOR_DEFAULT_RESULT_VALUE;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TEMPLATE;
 
 import java.util.Map;
 
+import org.n52.ows.request.MultimapRequestParameters;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
@@ -13,12 +48,10 @@ import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.ows.capabilities.OperationsMetadata;
 import org.n52.oxf.sos.adapter.SOSAdapter;
-import org.n52.oxf.sos.adapter.wrapper.builder.DescribeSensorParamterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetFeatureOfInterestParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationByIdParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.InsertObservationParameterBuilder_v100;
-import org.n52.oxf.sos.adapter.wrapper.builder.RegisterSensorParameterBuilder_v100;
 import org.n52.oxf.sos.request.v100.RegisterSensorParameters;
 import org.n52.oxf.swes.request.DescribeSensorParameters;
 
@@ -78,29 +111,6 @@ public class SOSWrapper {
 	}
 	
 	/**
-	 * Performs a DescribeSensor request.
-	 * 
-	 * @param builder parameter assembler
-	 * @return Request result
-	 * @throws OXFException
-	 * @throws ExceptionReport
-	 */
-	@Deprecated
-	public OperationResult doDescribeSensor(DescribeSensorParamterBuilder_v100 builder) throws OXFException, ExceptionReport {
-		// wrapped SOSAdapter instance
-		SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
-		OperationsMetadata operationsMetadata = serviceDescriptor.getOperationsMetadata();
-		// if describe sensor operation is defined
-		if (isDescribeSensorDefined(operationsMetadata)) {
-			Operation operation = operationsMetadata.getOperationByName(SOSAdapter.DESCRIBE_SENSOR);	
-			ParameterContainer parameterContainer = createParameterContainerForDoDescribeSensor(builder.getParameters());
-			return adapter.doOperation(operation, parameterContainer);
-		} else {
-			throw new OXFException("Operation: \"" + SOSAdapter.DESCRIBE_SENSOR + "\" not supported by the SOS!");
-		}
-	}
-	
-	/**
      * Performs a DescribeSensor request.
      * 
      * @param parameters parameter assembler
@@ -140,10 +150,12 @@ public class SOSWrapper {
 	 * @throws OXFException
 	 * @throws ExceptionReport
 	 */
-	ParameterContainer createParameterContainerForDoDescribeSensor(Map<String, String> parameters) throws OXFException, ExceptionReport {
+	ParameterContainer createParameterContainerForDoDescribeSensor(MultimapRequestParameters parameters) throws OXFException, ExceptionReport {
 		ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
-		parameterContainer.addParameterShell(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, parameters.get(DESCRIBE_SENSOR_PROCEDURE_PARAMETER)); // sensor id
-		parameterContainer.addParameterShell(DESCRIBE_SENSOR_OUTPUT_FORMAT, parameters.get(DESCRIBE_SENSOR_OUTPUT_FORMAT));
+		String procedure = parameters.getSingleValue(DESCRIBE_SENSOR_PROCEDURE_PARAMETER);
+        parameterContainer.addParameterShell(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, procedure);
+		String outputFormat = parameters.getSingleValue(DESCRIBE_SENSOR_OUTPUT_FORMAT);
+        parameterContainer.addParameterShell(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
 		return parameterContainer;
 	}
 
@@ -227,28 +239,6 @@ public class SOSWrapper {
 	}
 	
 	/**
-	 * Requests the registration of a sensor.
-	 * 
-	 * @param builder parameter assembler
-	 * @return Request result
-	 * @throws OXFException
-	 * @throws ExceptionReport
-	 */
-	@Deprecated
-	public OperationResult doRegisterSensor(RegisterSensorParameterBuilder_v100 builder) throws OXFException, ExceptionReport {
-		// wrapped SOSAdapter instance
-		SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
-		OperationsMetadata operationsMetadata = serviceDescriptor.getOperationsMetadata();
-		if (isRegisterSensorDefined(operationsMetadata)) {
-			Operation operation = operationsMetadata.getOperationByName(SOSAdapter.REGISTER_SENSOR);
-			ParameterContainer parameterContainer = createParameterContainerForRegisterSensor(builder.getParameters());
-			return adapter.doOperation(operation, parameterContainer);
-		} else {
-			throw new OXFException("Operation: \"" + SOSAdapter.REGISTER_SENSOR + "\" not supported by the SOS!");
-		}
-	}
-	
-	/**
      * Requests the registration of a sensor.
      * 
      * @param parameters parameter assembler
@@ -288,15 +278,18 @@ public class SOSWrapper {
 	 * @throws OXFException
 	 * @throws ExceptionReport
 	 */
-	ParameterContainer createParameterContainerForRegisterSensor(Map<String, String> parameters) throws OXFException, ExceptionReport {
+	ParameterContainer createParameterContainerForRegisterSensor(MultimapRequestParameters parameters) throws OXFException, ExceptionReport {
 	    ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		// mandatory parameters from builder
-		parameterContainer.addParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER, parameters.get(REGISTER_SENSOR_ML_DOC_PARAMETER));
-		parameterContainer.addParameterShell(REGISTER_SENSOR_OBSERVATION_TEMPLATE, parameters.get(REGISTER_SENSOR_OBSERVATION_TEMPLATE));
+		String smlDoc = parameters.getSingleValue(REGISTER_SENSOR_ML_DOC_PARAMETER);
+        parameterContainer.addParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER, smlDoc);
+		String template = parameters.getSingleValue(REGISTER_SENSOR_OBSERVATION_TEMPLATE);
+        parameterContainer.addParameterShell(REGISTER_SENSOR_OBSERVATION_TEMPLATE, template);
 		
 		// parameters not from builder but importer TODO CHECK
-		if (parameters.get(REGISTER_SENSOR_DEFAULT_RESULT_VALUE) != null) {
-			parameterContainer.addParameterShell(REGISTER_SENSOR_DEFAULT_RESULT_VALUE, parameters.get(REGISTER_SENSOR_DEFAULT_RESULT_VALUE));
+        if (parameters.contains(REGISTER_SENSOR_DEFAULT_RESULT_VALUE)) {
+            String defaultResult = parameters.getSingleValue(REGISTER_SENSOR_DEFAULT_RESULT_VALUE);
+			parameterContainer.addParameterShell(REGISTER_SENSOR_DEFAULT_RESULT_VALUE, defaultResult);
 		}
 		
 		return parameterContainer;

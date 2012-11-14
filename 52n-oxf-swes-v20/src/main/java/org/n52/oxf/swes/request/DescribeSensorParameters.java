@@ -1,12 +1,12 @@
 
 package org.n52.oxf.swes.request;
 
-import org.n52.ows.request.RequestParameters;
+import org.n52.ows.request.MultimapRequestParameters;
 
 /**
  * Assembles all parameters needed for a DescribeSensor request. 
  */
-public class DescribeSensorParameters extends RequestParameters {
+public class DescribeSensorParameters extends MultimapRequestParameters {
 
     public static String DESCRIBE_SENSOR_PROCEDURE_PARAMETER = "procedure";
     public static String DESCRIBE_SENSOR_OUTPUT_FORMAT = "outputFormat";
@@ -32,8 +32,8 @@ public class DescribeSensorParameters extends RequestParameters {
      *        the output format of the sensor description.
      */
     public DescribeSensorParameters(String procedure, String outputFormat) {
-        putNonEmpty(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, procedure);
-        putNonEmpty(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
+        addNonEmpty(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, procedure);
+        addNonEmpty(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
     }
 
     /**
@@ -43,7 +43,7 @@ public class DescribeSensorParameters extends RequestParameters {
      *        the procedure which sensor description shall requested.
      */
     public void setProcedureId(String procedureId) {
-        putNonEmpty(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, procedureId);
+        addNonEmpty(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, procedureId);
     }
 
     /**
@@ -53,10 +53,9 @@ public class DescribeSensorParameters extends RequestParameters {
      *        the output format of the sensor description.
      */
     public void setOutputFormat(String outputFormat) {
-        putNonEmpty(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
+        addNonEmpty(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
     }
 
-    @Override
     public boolean isValid() {
         boolean invalidProcedureValue = isEmptyValue(DESCRIBE_SENSOR_PROCEDURE_PARAMETER);
         boolean invalidOutputFormatValue = isEmptyValue(DESCRIBE_SENSOR_OUTPUT_FORMAT);

@@ -17,7 +17,7 @@ public class CountObservationParameters extends ObservationParameters {
      */
     public CountObservationParameters() {
         super(XMLConstants.QNAME_OM_1_0_COUNT_OBSERVATION);
-        put(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_COUNT);
+        addParameterValue(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_COUNT);
     }
 
     /**
@@ -27,10 +27,9 @@ public class CountObservationParameters extends ObservationParameters {
      *        the observation value to add.
      */
     public void addObservationValue(int observationValue) {
-        put(INSERT_OBSERVATION_VALUE_PARAMETER, Integer.toString(observationValue));
+        addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, Integer.toString(observationValue));
     }
 
-    @Override
     public boolean isValid() {
         return true;
     }
