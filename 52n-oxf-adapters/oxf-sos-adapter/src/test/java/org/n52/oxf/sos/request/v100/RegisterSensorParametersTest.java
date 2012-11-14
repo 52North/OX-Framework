@@ -1,4 +1,4 @@
-package org.n52.oxf.sos.v100;
+package org.n52.oxf.sos.request.v100;
 
 import static org.junit.Assert.assertEquals;
 import static org.n52.oxf.sos.request.v100.RegisterSensorParameters.REGISTER_SENSOR_ML_DOC_PARAMETER;
