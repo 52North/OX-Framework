@@ -24,8 +24,8 @@ public abstract class HttpClientDecorator implements HttpClient {
         return httpclient.executeGet(uri);
     }
 
-    public HttpEntity executeGet(String baseUri, Map<String, String> queryParameters) throws HttpClientException {
-        return httpclient.executeGet(baseUri, queryParameters);
+    public HttpEntity executeGet(String baseUri, RequestParameters parameters) throws HttpClientException {
+        return httpclient.executeGet(baseUri, parameters);
     }
 
     public HttpEntity executePost(String uri, XmlObject payloadToSend) throws HttpClientException {

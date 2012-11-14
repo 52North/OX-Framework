@@ -7,7 +7,6 @@ import static org.apache.http.params.CoreConnectionPNames.SO_TIMEOUT;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpGet;
@@ -58,11 +57,16 @@ public class SimpleHttpClient implements HttpClient {
         return executeMethod(new HttpGet(uri));
     }
 
-    public HttpEntity executeGet(String baseUri, Map<String, String> queryParameters) throws HttpClientException {
+    public HttpEntity executeGet(String baseUri, RequestParameters parameters) throws HttpClientException {
         try {
             URIBuilder uriBuilder = new URIBuilder(baseUri);
-            for (String key : queryParameters.keySet()) {
-                uriBuilder.addParameter(key, queryParameters.get(key));
+            for (String key : parameters.getAvailableKeys()) {
+                if (parameters.isSingleValue(key)) {
+                    uriBuilder.addParameter(key, parameters.getSingleValue(key));
+                } else {
+                    Iterable<String> multipleValues = parameters.getAllValues(key);
+                    uriBuilder.addParameter(key, createCsvValue(multipleValues));
+                }
             }
             URI uri = uriBuilder.build();
             LOGGER.debug("executing GET method '{}'", uri);
@@ -71,6 +75,15 @@ public class SimpleHttpClient implements HttpClient {
         catch (URISyntaxException e) {
             throw new HttpClientException("Invalid base URI: " + baseUri, e);
         }
+    }
+
+    private String createCsvValue(Iterable<String> multipleValues) {
+        StringBuilder csv = new StringBuilder();
+        for (String value : multipleValues) {
+            csv.append(value).append(",");
+        }
+        StringBuilder csvWitoutTrailingComma = csv.deleteCharAt(csv.length() - 1);
+        return csv.length() > 0 ? csvWitoutTrailingComma.toString() : csv.toString();
     }
 
     public HttpEntity executePost(String uri, XmlObject payloadToSend) throws HttpClientException {
