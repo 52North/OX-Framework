@@ -1,4 +1,26 @@
-
+/**
+ * ﻿Copyright (C) 2012
+ * by 52 North Initiative for Geospatial Open Source Software GmbH
+ *
+ * Contact: Andreas Wytzisk
+ * 52 North Initiative for Geospatial Open Source Software GmbH
+ * Martin-Luther-King-Weg 24
+ * 48155 Muenster, Germany
+ * info@52north.org
+ *
+ * This program is free software; you can redistribute and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by the
+ * Free Software Foundation.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied
+ * WARRANTY OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program (see gnu-gpl v2.txt). If not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
+ * visit the Free Software Foundation web page, http://www.fsf.org.
+ */
 package org.n52.oxf.util.web;
 
 import static org.apache.http.params.CoreConnectionPNames.CONNECTION_TIMEOUT;
@@ -14,6 +36,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -29,7 +52,7 @@ public class SimpleHttpClient implements HttpClient {
 
     private static final int DEFAULT_SOCKET_TIMEOUT = 5000; // 5s
 
-    private DefaultHttpClient httpclient = new DefaultHttpClient();
+    private DefaultHttpClient httpclient;
 
     /**
      * Creates an instance with <code>timeout = {@value #DEFAULT_CONNECTION_TIMEOUT}</code> ms.
@@ -45,11 +68,20 @@ public class SimpleHttpClient implements HttpClient {
      *        the connection timeout.
      */
     public SimpleHttpClient(int connectionTimeout) {
-        httpclient.getParams().setParameter(CONNECTION_TIMEOUT, connectionTimeout);
-        httpclient.getParams().setParameter(SO_TIMEOUT, DEFAULT_SOCKET_TIMEOUT);
+    	ClientConnectionManager cm = getConnectionManager();
+    	this.httpclient = (cm == null) ? new DefaultHttpClient() : new DefaultHttpClient(cm);
+    	this.httpclient.getParams().setParameter(CONNECTION_TIMEOUT, connectionTimeout);
+    	this.httpclient.getParams().setParameter(SO_TIMEOUT, DEFAULT_SOCKET_TIMEOUT);
     }
     
-    public DefaultHttpClient getHttpClientToDecorate() {
+    /**
+     * @return null by default
+     */
+    public ClientConnectionManager getConnectionManager() {
+		return null;
+	}
+
+	public DefaultHttpClient getHttpClientToDecorate() {
         return httpclient;
     }
 
