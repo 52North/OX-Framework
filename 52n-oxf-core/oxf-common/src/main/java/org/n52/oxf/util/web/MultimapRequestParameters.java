@@ -109,20 +109,24 @@ public abstract class MultimapRequestParameters implements RequestParameters {
     }
     
     public boolean addParameterValue(String parameter, String value) {
-        return parameters.put(parameter, value);
+        String nonNull = value == null ? "" : value;
+        return parameters.put(parameter, nonNull);
     }
     
     public boolean addBulkParameterValues(String parameter, String... values) {
-        boolean hasChanged = false;
-        for (String value : values) {
-            boolean changed = addParameterValue(parameter, value);
-            hasChanged = changed ? changed : hasChanged;
+        if (values != null) {
+            return addParameterValue(parameter, null);
         }
-        return hasChanged;
+        return addBulkParameterValues(parameter, values);
     }
 
     public boolean addBulkParameterValues(String parameter, Iterable<String> values) {
-        return parameters.putAll(parameter, values);
+        boolean changed = false;
+        for (String value : values) {
+            String nonNull = value == null ? "" : value;
+            changed = addParameterValue(parameter, nonNull) || changed;
+        }
+        return changed;
     }
 
     public boolean remove(String parameter, String value) {

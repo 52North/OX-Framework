@@ -1,6 +1,7 @@
 package org.n52.ows.request;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.junit.Test;
@@ -23,7 +24,8 @@ public class HttpClientDecoratorTest {
         String baseUri = "http://sensorweb.demo.52north.org/PegelOnlineSOSv2.1/sos";
         GetCapabilitiesParameters parameters = new GetCapabilitiesParameters("SOS", "1.0.0");
         parameters.addAcceptedVersion("2.0.0");
-        HttpEntity responseEntity = httpclient.executeGet(baseUri, parameters);
+        HttpResponse httpResponse = httpclient.executeGet(baseUri, parameters);
+        HttpEntity responseEntity = httpResponse.getEntity();
         XmlObject capabilities = XmlObject.Factory.parse(responseEntity.getContent());
         
         LOGGER.debug(capabilities.xmlText(new XmlOptions().setSavePrettyPrint()));

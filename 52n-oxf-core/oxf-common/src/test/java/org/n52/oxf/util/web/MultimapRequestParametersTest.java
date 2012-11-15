@@ -59,6 +59,14 @@ public class MultimapRequestParametersTest {
     }
     
     @Test
+    public void testAddNullValues() {
+        assertTrue(parameters.addParameterValue("service", null));
+        assertFalse(parameters.addParameterValue("service", ""));
+        assertTrue(parameters.addParameterValue("service", "SOS"));
+        assertTrue(parameters.contains("service"));
+    }
+    
+    @Test
     public void testAddMultipleValues() {
         for (String acceptedVersion : acceptedVersions) {
             parameters.addParameterValue("acceptVersion", acceptedVersion);
@@ -127,6 +135,12 @@ public class MultimapRequestParametersTest {
     public void testGetSingleValue() {
         parameters.addParameterValue("service", "SOS");
         assertEquals("SOS", parameters.getSingleValue("service"));
+    }
+    
+    @Test
+    public void testGetInsertedNullValue() {
+        parameters.addParameterValue("service", null);
+        assertTrue(parameters.getSingleValue("service").isEmpty());
     }
 
     @Test

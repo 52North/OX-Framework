@@ -62,6 +62,7 @@ import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.ows.ServiceDescriptor;
@@ -279,8 +280,10 @@ public class SOSCapabilitiesMapper_200 {
         try {
             HttpClient client = new SimpleHttpClient();
             String request = "http://sensorweb.demo.52north.org/52nSOSv3_200/sos?REQUEST=GetCapabilities&SERVICE=SOS";
-            HttpEntity executeGet = client.executeGet(request);
-            InputStream responseStream = executeGet.getContent();
+            
+            HttpResponse response = client.executeGet(request);
+            HttpEntity responseEntity = response.getEntity();
+            InputStream responseStream = responseEntity.getContent();
             new SOSCapabilitiesMapper_200().mapCapabilities(CapabilitiesDocument.Factory.parse(responseStream));
         }
         catch (HttpClientException e) {

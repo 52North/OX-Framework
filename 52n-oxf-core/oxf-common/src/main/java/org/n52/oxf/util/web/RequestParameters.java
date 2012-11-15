@@ -29,8 +29,8 @@ import java.util.Collections;
 
 /**
  * Represents an assembly of request parameters (key-value pairs). Multiple parameter values are allowed, i.e.
- * one key can be associated to one or more parameter values. <code>null</code> is an allowed value but
- * discouraged to use as the semantics of a null reference are unclear!
+ * one key can be associated to one or more parameter values. <code>null</code> values are hold as empty
+ * strings.
  */
 public interface RequestParameters {
 
@@ -114,19 +114,7 @@ public interface RequestParameters {
      * parameter value is associated with the parameter.<br>
      * <br>
      * <b>Note:</b> If the given parameter is not contained by the assembly <code>null</code> will be
-     * returned! This would have the same semantics as when a parameter key exists but a <code>null</code>
-     * value is associated with it. Ensure if the parameter exists beforehand to be clear about the meaning of
-     * <code>null</code>:
-     * 
-     * <pre>
-     * {@code 
-     *      if (parameters.contains("key")) {
-     *          String nullableParameterValue = parameters.getSingleValue("key");
-     *      } else {
-     *          // parameter not contained by the assembly
-     *      }
-     * }
-     * </pre>
+     * returned! Any <code>null</code> value associated to a parameter will be hold as en empty string:
      * 
      * @param parameter
      *        the parameter name to check.
@@ -165,7 +153,9 @@ public interface RequestParameters {
     /**
      * Adds a new parameter value to the given parameter. A parameter can have multiple parameter values
      * associated with it. No replacement takes place when adding different values to exactly the same
-     * parameter key. If you want to remove a particular parameter value use {@link #remove(String, String)}.
+     * parameter key. If you want to remove a particular parameter value use {@link #remove(String, String)}.<br>
+     * <br>
+     * <b>Note:</b> <code>null</code> values are stored as  empty Strings.
      * 
      * @param parameter
      *        the parameter key.
@@ -177,7 +167,9 @@ public interface RequestParameters {
 
     /**
      * Adds a bulk of parameter values to the given parameter. No replacements take place. If you want to
-     * remove a particular parameter value use {@link #remove(String, String)}.
+     * remove a particular parameter value use {@link #remove(String, String)}.<br>
+     * <br>
+     * <b>Note:</b> <code>null</code> values are stored as  empty Strings.
      * 
      * @param parameter
      *        the parameter key.
@@ -189,7 +181,9 @@ public interface RequestParameters {
 
     /**
      * Adds a bulk of parameter values to the given parameter. No replacements take place. If you want to
-     * remove a particular parameter value use {@link #remove(String, String)}.
+     * remove a particular parameter value use {@link #remove(String, String)}.<br>
+     * <br>
+     * <b>Note:</b> <code>null</code> values are stored as  empty Strings.
      * 
      * @param parameter
      *        the parameter key.

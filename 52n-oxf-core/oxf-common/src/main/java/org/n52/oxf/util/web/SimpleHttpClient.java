@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -52,12 +53,12 @@ public class SimpleHttpClient implements HttpClient {
         return httpclient;
     }
 
-    public HttpEntity executeGet(String uri) throws HttpClientException {
+    public HttpResponse executeGet(String uri) throws HttpClientException {
         LOGGER.debug("executing GET method '{}'", uri);
         return executeMethod(new HttpGet(uri));
     }
 
-    public HttpEntity executeGet(String baseUri, RequestParameters parameters) throws HttpClientException {
+    public HttpResponse executeGet(String baseUri, RequestParameters parameters) throws HttpClientException {
         try {
             URIBuilder uriBuilder = new URIBuilder(baseUri);
             for (String key : parameters.getAvailableKeys()) {
@@ -80,17 +81,19 @@ public class SimpleHttpClient implements HttpClient {
     private String createCsvValue(Iterable<String> multipleValues) {
         StringBuilder csv = new StringBuilder();
         for (String value : multipleValues) {
-            csv.append(value).append(",");
+            if (!value.isEmpty()) {
+                csv.append(value).append(",");
+            }
         }
         StringBuilder csvWitoutTrailingComma = csv.deleteCharAt(csv.length() - 1);
         return csv.length() > 0 ? csvWitoutTrailingComma.toString() : csv.toString();
     }
 
-    public HttpEntity executePost(String uri, XmlObject payloadToSend) throws HttpClientException {
+    public HttpResponse executePost(String uri, XmlObject payloadToSend) throws HttpClientException {
         return executePost(uri, payloadToSend.xmlText(), ContentType.TEXT_XML);
     }
 
-    public HttpEntity executePost(String uri, String payloadToSend, ContentType contentType) throws HttpClientException {
+    public HttpResponse executePost(String uri, String payloadToSend, ContentType contentType) throws HttpClientException {
         StringEntity requestEntity = new StringEntity(payloadToSend, contentType);
         LOGGER.debug("executing POST method to '{}':\n{}", uri, payloadToSend);
         HttpPost post = new HttpPost(uri);
@@ -98,16 +101,16 @@ public class SimpleHttpClient implements HttpClient {
         return executeMethod(post);
     }
 
-    public HttpEntity executePost(String uri, HttpEntity payloadToSend) throws HttpClientException {
+    public HttpResponse executePost(String uri, HttpEntity payloadToSend) throws HttpClientException {
         LOGGER.debug("executing POST method to '{}'.", uri);
         HttpPost post = new HttpPost(uri);
         post.setEntity(payloadToSend);
         return executeMethod(post);
     }
 
-    public HttpEntity executeMethod(HttpRequestBase method) throws HttpClientException {
+    public HttpResponse executeMethod(HttpRequestBase method) throws HttpClientException {
         try {
-            return httpclient.execute(method).getEntity();
+            return httpclient.execute(method);
         }
         catch (IOException e) {
             throw new HttpClientException("Could not execute GET method.", e);

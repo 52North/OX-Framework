@@ -38,6 +38,7 @@ import java.io.IOException;
 import net.opengis.ows.x11.ExceptionReportDocument;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.entity.ContentType;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -298,7 +299,8 @@ public class SOSAdapter implements IServiceAdapter {
                 uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
             }
 
-            HttpEntity responseEntity = httpClient.executePost(uri.trim(), request, ContentType.TEXT_XML);
+            HttpResponse httpResponse = httpClient.executePost(uri.trim(), request, ContentType.TEXT_XML);
+            HttpEntity responseEntity = httpResponse.getEntity();
             result = new OperationResult(responseEntity.getContent(), parameters, request);
 
             // TODO make us independent from XmlObject

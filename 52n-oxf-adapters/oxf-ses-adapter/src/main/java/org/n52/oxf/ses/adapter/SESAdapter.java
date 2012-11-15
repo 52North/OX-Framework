@@ -31,6 +31,7 @@ import net.opengis.ows.x11.ExceptionReportDocument;
 import net.opengis.ows.x11.ExceptionType;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.xmlbeans.XmlException;
@@ -227,7 +228,8 @@ public class SESAdapter implements IServiceAdapter {
 
                 // TODO extract to adapter interface
                 HttpClient httpClient = new ProxyAwareHttpClient(new SimpleHttpClient());
-                HttpEntity responseEntity = httpClient.executePost(uri, request, ContentType.TEXT_XML);
+                HttpResponse httpResponse = httpClient.executePost(uri, request, ContentType.TEXT_XML);
+                HttpEntity responseEntity = httpResponse.getEntity();
                 result = new OperationResult(responseEntity.getContent(), parameterContainer, request);
 
                 try {
