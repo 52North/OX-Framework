@@ -57,7 +57,7 @@ import com.vividsolutions.jts.geom.Polygon;
  * and GML geometry abstractions.
  *
  */
-public class AIXMGeometryFactory {
+public class GMLGeometryFactory {
 
 	private static final double interpolatedSegmentLength = 1.0;
 
@@ -78,7 +78,7 @@ public class AIXMGeometryFactory {
 	}
 
 	/**
-	 * @see AIXMGeometryFactory#checkAndApplyInterpolation(Collection)
+	 * @see GMLGeometryFactory#checkAndApplyInterpolation(Collection)
 	 */
 	public static void checkAndApplyInterpolation(GeometryWithInterpolation geometry) {
 		if (GeometryFactoryConfiguration.isUserInternalInterpolation()) {
@@ -91,12 +91,12 @@ public class AIXMGeometryFactory {
 	 * @return a geometry representing abstract curve segment
 	 * as LineString with an interpolation method defined.
 	 */
-	public static GeometryWithInterpolation createCurve(AbstractCurveSegmentType curve) {
+	public static GeometryWithInterpolation createCurve(AbstractCurveSegmentType curve, String srs) {
 		if (curve instanceof LineStringSegmentType) {
-			return createLineString((LineStringSegmentType) curve, null);
+			return createLineString((LineStringSegmentType) curve, srs);
 		}
 		else if (curve instanceof GeodesicStringType) {
-			return createGreatCirlce((GeodesicStringType) curve, null);
+			return createGreatCirlce((GeodesicStringType) curve, srs);
 		}
 		else {
 			throw new UnsupportedOperationException("Currently, only LineStringSegment and GeodesicString are supported.");
