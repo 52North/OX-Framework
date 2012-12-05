@@ -21,11 +21,12 @@
 		<module>52n-oxf-adapters</module>
 		<module>52n-oxf-client</module>
 		<module>52n-oxf-xmlbeans</module>
+		<module>52n-oxf-conversion</module>
 	</modules>
 	<scm>
-		<connection>scm:svn:https://svn.52north.org/svn/swe/incubation/ox-framework-2.0/52n-oxf/trunk/</connection>
-		<developerConnection>scm:svn:https://svn.52north.org/svn/swe/incubation/ox-framework-2.0/52n-oxf/trunk/</developerConnection>
-		<url>https://svn.52north.org/cgi-bin/viewvc.cgi/incubation/ox-framework-2.0/52n-oxf/trunk/?root=sensorweb</url>
+		<connection>scm:svn:https://svn.52north.org/svn/swe/main/OX-Framework/52n-oxf/trunk/</connection>
+		<developerConnection>scm:svn:https://svn.52north.org/svn/swe/main/OX-Framework/52n-oxf/trunk/</developerConnection>
+		<url>https://svn.52north.org/cgi-bin/viewvc.cgi/main/OX-Framework/52n-oxf/trunk/?root=sensorweb</url>
 	</scm>
 
 	<properties>
@@ -113,6 +114,11 @@
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-oxf-xmlbeans</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>52n-oxf-conversion</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
