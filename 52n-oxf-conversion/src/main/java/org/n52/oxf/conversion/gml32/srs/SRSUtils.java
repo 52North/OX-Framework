@@ -49,7 +49,7 @@ public class SRSUtils {
 	}
 	
 	public static AxisOrder resolveAxisOrder(String srsName) {
-		return mapping.get(srsName);
+		return srsName != null ? mapping.get(srsName) : mapping.get(DEFAULT_SRS);
 	}
 
 	private static void loadMappings() throws IOException {

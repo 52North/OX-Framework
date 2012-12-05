@@ -32,6 +32,7 @@ import net.opengis.gml.x32.AbstractRingPropertyType;
 import net.opengis.gml.x32.AbstractRingType;
 import net.opengis.gml.x32.CoordinatesType;
 import net.opengis.gml.x32.CurveInterpolationType;
+import net.opengis.gml.x32.DirectPositionType;
 import net.opengis.gml.x32.LinearRingType;
 import net.opengis.gml.x32.CurveInterpolationType.Enum;
 import net.opengis.gml.x32.DirectPositionListType;
@@ -50,6 +51,7 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
+import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
 /**
@@ -351,6 +353,43 @@ public class GMLGeometryFactory {
 		} else {
 			return concatenateLineStrings(resultList);
 		}
+	}
+
+	public static Point createPoint(DirectPositionType pos, String srs) {
+		List<?> list = pos.getListValue();
+		int dim;
+		if (pos.isSetSrsDimension()) {
+			dim = pos.getSrsDimension().intValue();
+		} else {
+			dim = list.size();
+		}
+		
+		if (dim == 2) {
+			return new GeometryFactory().createPoint(createCoordinate(Double.parseDouble(list.get(0).toString()),
+					Double.parseDouble(list.get(1).toString()),
+					SRSUtils.resolveAxisOrder(srs != null ? srs : pos.getSrsName())));
+		}
+		else if (dim == 3) {
+			return new GeometryFactory().createPoint(createCoordinate(Double.parseDouble(list.get(0).toString()),
+					Double.parseDouble(list.get(1).toString()),
+					Double.parseDouble(list.get(2).toString()),
+					SRSUtils.resolveAxisOrder(srs != null ? srs : pos.getSrsName())));
+		}
+		
+		throw new IllegalStateException("Point must have dimension 2 or 3.");
+	}
+
+	public static Geometry createAggregatedGeometry(
+			List<GeometryWithInterpolation> geometryList) {
+		for (GeometryWithInterpolation geom : geometryList) {
+			return geom.getGeometry();
+		}
+		
+		/*
+		 * TODO implement actual aggregation
+		 */
+		
+		return null;
 	}
 
 
