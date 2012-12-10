@@ -29,9 +29,12 @@ import java.io.StringWriter;
 import java.lang.reflect.Method;
 
 import javax.xml.namespace.QName;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
-import org.apache.xml.serialize.OutputFormat;
-import org.apache.xml.serialize.XMLSerializer;
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
@@ -39,8 +42,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -328,10 +329,15 @@ public class XmlUtil {
      */
     public static String stripText(XmlObject elem) {
         if (elem != null) {
-            Node child = elem.getDomNode().getFirstChild();
-            if (child != null) {
-                return toString(child).trim();
-            }
+        	NodeList children = elem.getDomNode().getChildNodes();
+        	Node child;
+        	for (int i = 0; i < children.getLength(); i++) {
+                child = children.item(i);
+                if (child.getNodeType() == Node.TEXT_NODE) {
+                    return toString(child).trim();
+                }			
+			}
+
         }
         return null;
     }
@@ -361,9 +367,6 @@ public class XmlUtil {
     /**
      * Transform this {@link Node} into a {@link String} representation.
      * 
-     * NOTE: This methods makes use of a deprecated serializer API (xerces). However, some components rely on
-     * this serialization (e.g. SES). Please do not change until further notice.
-     * 
      * @param xml
      *        the xml Node
      * @return a String representation of the given xml Node
@@ -374,87 +377,17 @@ public class XmlUtil {
         if (type == Node.TEXT_NODE)
             return xml.getNodeValue();
 
-        //
-        // NOTE: This serialization code is not part of JAXP/DOM - it is
-        // specific to Xerces and creates a Xerces dependency for
-        // this class.
-        //
-        XMLSerializer serializer = new XMLSerializer();
-        serializer.setNamespaces(true);
-
-        OutputFormat formatter = new OutputFormat();
-        formatter.setOmitXMLDeclaration(false);
-        formatter.setIndenting(true);
-        serializer.setOutputFormat(formatter);
-
-        StringWriter writer = new StringWriter();
-        serializer.setOutputCharStream(writer);
-
-        try {
-            if (type == Node.DOCUMENT_NODE)
-                serializer.serialize((Document) xml);
-
-            else
-                serializer.serialize((Element) xml);
-        }
-
-        //
-        // we are using a StringWriter, so this "should never happen". the
-        // StringWriter implementation writes to a StringBuffer, so there's
-        // no file I/O that could fail.
-        //
-        // if it DOES fail, we re-throw with a more serious error, because
-        // this a very common operation.
-        //
-        catch (IOException error) {
-            throw new RuntimeException(error.getMessage(), error);
-        }
-
-        return writer.toString();
-
-        // if (domImpl == null) throw new RuntimeException("Could not access XML LS Serializer");
-        // LSSerializer serializer = domImpl.createLSSerializer();
-        // DOMConfiguration cfg = serializer.getDomConfig();
-        //
-        // if (cfg.canSetParameter("format-pretty-print", Boolean.TRUE)) {
-        // cfg.setParameter("format-pretty-print", Boolean.TRUE);
-        // }
-        //
-        // LSOutput lso = domImpl.createLSOutput();
-        // lso.setEncoding("UTF-8");
-        // StringWriter sw = new StringWriter();
-        // lso.setCharacterStream(sw);
-        // serializer.write(xml, lso);
-        //
-        // return sw.toString();
-
-        // DOMSource ds = new DOMSource(xml);
-        //
-        // StringWriter writer = new StringWriter();
-        // StreamResult result = new StreamResult(writer);
-        //
-        // TransformerFactory tf = TransformerFactory.newInstance();
-        //
-        // /*
-        // * a mighty Transformer!
-        // */
-        // Transformer transformer;
-        // try {
-        // transformer = tf.newTransformer();
-        // } catch (TransformerConfigurationException e) {
-        // throw new RuntimeException(e);
-        // }
-        //
-        // transformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
-        // transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        // transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-        //
-        // try {
-        // transformer.transform(ds, result);
-        // } catch (TransformerException e) {
-        // throw new RuntimeException(e);
-        // }
-        // return writer.getBuffer().toString();
+		StringWriter buffer = new StringWriter();
+		try {
+			TransformerFactory transFactory = TransformerFactory.newInstance();
+			Transformer transformer = transFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+			transformer.transform(new DOMSource(xml),
+			      new StreamResult(buffer));
+		} catch (Exception e) {
+		}
+		
+		return buffer.toString();
 
     }
 
