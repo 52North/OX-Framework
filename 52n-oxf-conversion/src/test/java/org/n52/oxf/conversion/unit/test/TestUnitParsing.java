@@ -21,22 +21,30 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.conversion.gml32.util.aixm;
+package org.n52.oxf.conversion.unit.test;
 
-import org.n52.oxf.conversion.gml32.uom.NumberWithUOM;
-import org.n52.oxf.conversion.gml32.util.CustomUnitConverter;
+import org.junit.Assert;
+import org.junit.Test;
+import org.n52.oxf.conversion.unit.NumberWithUOM;
+import org.n52.oxf.conversion.unit.ucum.UCUMTools;
+import org.n52.oxf.conversion.unit.ucum.UCUMTools.UnitConversionFailedException;
+import org.vast.unit.Unit;
+import org.vast.unit.UnitParserUCUM;
 
+public class TestUnitParsing {
 
-public class FlightLevelUnitConverter implements CustomUnitConverter {
-
-	private static final String RESULT_UOM = "[ft_i]";
-	
-	@Override
-	public NumberWithUOM convert(double doubleValue) {
-		/*
-		 * simple FL -> feet conversion, taking no atmospheric pressure into account
-		 */
-		return new NumberWithUOM(doubleValue * 100, RESULT_UOM);
+	@Test
+	public void testParsing() {
+		UnitParserUCUM ucom = new UnitParserUCUM();
+		Unit unit = ucom.getUnit("m");
+		Assert.assertTrue("Could not get unit", unit != null);
 	}
-
+	
+	@Test
+	public void testConversion() throws UnitConversionFailedException {
+		double value = 10000d;
+		NumberWithUOM result = UCUMTools.convert("mm", "m", value);
+		Assert.assertTrue("Unexpected conversion result.", result.getValue() == 10);
+	}
+	
 }

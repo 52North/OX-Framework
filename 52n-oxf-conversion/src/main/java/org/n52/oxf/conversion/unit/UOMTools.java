@@ -21,14 +21,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.conversion.gml32.util;
+package org.n52.oxf.conversion.unit;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.n52.oxf.conversion.gml32.uom.NumberWithUOM;
-import org.n52.oxf.conversion.gml32.util.UnitConversionUtils.UnitConversionFailedException;
-import org.n52.oxf.conversion.gml32.util.aixm.FlightLevelUnitConverter;
+import org.n52.oxf.conversion.unit.aixm.FlightLevelUnitConverter;
+import org.n52.oxf.conversion.unit.ucum.UCUMTools;
+import org.n52.oxf.conversion.unit.ucum.UCUMTools.UnitConversionFailedException;
 
 
 /**
@@ -50,14 +50,14 @@ public class UOMTools {
 		if (customUnitConverters.containsKey(sourceUom)) {
 			NumberWithUOM preProcessed = customUnitConverters.get(sourceUom).convert(doubleValue);
 			try {
-				return UnitConversionUtils.convert(preProcessed.getUom(), targetUom, preProcessed.getValue()).getValue();
+				return UCUMTools.convert(preProcessed.getUom(), targetUom, preProcessed.getValue()).getValue();
 			} catch (UnitConversionFailedException e) {
 				return preProcessed.getValue();
 			}
 		}
 		
 		try {
-			return UnitConversionUtils.convert(sourceUom, targetUom, doubleValue).getValue();
+			return UCUMTools.convert(sourceUom, targetUom, doubleValue).getValue();
 		} catch (UnitConversionFailedException e) {
 			return doubleValue;
 		}

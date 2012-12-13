@@ -21,16 +21,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.conversion.gml32.util;
+package org.n52.oxf.conversion.unit.ucum;
 
-import org.n52.oxf.conversion.gml32.uom.NumberWithUOM;
+import org.n52.oxf.conversion.unit.NumberWithUOM;
 import org.vast.unit.*;
 
 /**
  * Unit conversion utils based on the Unified Code for
  * Units of Measure: http://unitsofmeasure.org
  */
-public class UnitConversionUtils {
+public class UCUMTools {
 	
 
 	private static UnitParser parser;

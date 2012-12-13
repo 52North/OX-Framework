@@ -21,18 +21,22 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.conversion.gml32.util.test;
+package org.n52.oxf.conversion.unit.aixm;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.n52.oxf.conversion.unit.UOMTools;
+import org.n52.oxf.conversion.unit.CustomUnitConverter;
+import org.n52.oxf.conversion.unit.NumberWithUOM;
 
-public class UOMTest {
+
+public class FlightLevelUnitConverter implements CustomUnitConverter {
+
+	private static final String RESULT_UOM = "[ft_i]";
 	
-	@Test
-	public void testConversion() {
-		double result = UOMTools.convertToTargetUnit(100, "FL", "m");
-		Assert.assertTrue("Conversion result is not correct.", result == 3048);
+	@Override
+	public NumberWithUOM convert(double doubleValue) {
+		/*
+		 * simple FL -> feet conversion, taking no atmospheric pressure into account
+		 */
+		return new NumberWithUOM(doubleValue * 100, RESULT_UOM);
 	}
 
 }

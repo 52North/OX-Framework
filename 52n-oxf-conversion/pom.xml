@@ -66,13 +66,6 @@
 			<snapshots>
 			</snapshots>
 		</repository>
-		<repository>
-			<!-- Tentative local repo for libs that are not migrated to Maven dependency 
-				mechanism and available in online repositories. -->
-			<id>lib-repository</id>
-			<name>Local Repository</name>
-			<url>file:///${basedir}/lib-repository/</url>
-		</repository>
 	</repositories>
 
 	<pluginRepositories>
@@ -107,6 +100,12 @@
 		<dependency>
 			<groupId>com.vividsolutions</groupId>
 			<artifactId>jts</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>xercesImpl</artifactId>
+					<groupId>xerces</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
@@ -118,9 +117,9 @@
 			<version>2.1</version>
 		</dependency>
 		<dependency>
-			<groupId>vast</groupId>
-			<artifactId>unitConversion</artifactId>
-			<version>1.0</version>
+			<groupId>org.vast</groupId>
+			<artifactId>swe-common-data-framework</artifactId>
+			<version>0.8.2</version>
 		</dependency>
 	</dependencies>
 

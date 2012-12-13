@@ -47,7 +47,7 @@ public class GeodesicApproximationTools {
 	 * @return a JTS LineString
 	 */
 	public static LineString approximateGreatCircle(Coordinate start, Coordinate end, double segmentLength) {
-		return approximateGreatCircle((int) (start.distance(end) / (segmentLength*2)), start, end);
+		return approximateGreatCircle((int) Math.ceil((start.distance(end) / (segmentLength*2))), start, end);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class GeodesicApproximationTools {
 	 * @return a JTS LineString
 	 */
 	public static LineString approximateRhumbline(Coordinate start, Coordinate end, double segmentLength) {
-		return approximateRhumbline((int) (start.distance(end) / (segmentLength*2)), start, end);
+		return approximateRhumbline((int) Math.ceil((start.distance(end) / (segmentLength*2))), start, end);
 	}
 	
 	/**
