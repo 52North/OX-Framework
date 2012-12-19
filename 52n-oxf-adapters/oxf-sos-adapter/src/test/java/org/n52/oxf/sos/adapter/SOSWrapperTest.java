@@ -44,6 +44,7 @@ package org.n52.oxf.sos.adapter;
 //    public static void oneTimeSetUp() {
 //		File f;
 //		try {
+// 			// FIXME Next line is not platform independent and loading the file like this should be changed 
 //			f = new File(new File(".").getCanonicalPath() + "\\src\\test\\resources\\sos1_capabilities_sample.xml");
 //			sw = MySosWrapperSeam.createFromCapabilitiesFile(f, "1.0.0");
 //		} catch (IOException e) {
