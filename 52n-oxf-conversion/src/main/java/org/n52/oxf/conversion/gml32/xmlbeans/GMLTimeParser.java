@@ -71,7 +71,7 @@ public class GMLTimeParser {
 	private static DateTime parseTimePosition(TimePositionType position) {
 		DateTime begin;
 		if (position.isSetIndeterminatePosition()) {
-			begin = new DateTime(0l);
+			begin = new DateTime("9999-12-31");
 		} else {
 			String val = position.getStringValue().trim();
 			begin = new DateTime(val.isEmpty() ? "9999-12-31" : val);
