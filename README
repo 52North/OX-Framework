@@ -4,7 +4,7 @@ The OX-Framework (abbr. for OWS Access Framework) is a generic software framewor
 the needs of application developers who want to access OGC Web Services, and in particular Sensor 
 Web services.
 
-he OX-Framework can be used as a basis for different application types: this can be thin, thick, 
+The OX-Framework can be used as a basis for different application types: this can be thin, thick, 
 or mobile client applications, as well as server applications that need to access OGC Web Services.
 
 http://52north.org/sensorweb
