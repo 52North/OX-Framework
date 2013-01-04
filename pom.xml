@@ -331,7 +331,7 @@
 				<groupId>junit</groupId>
 				<artifactId>junit</artifactId>
 				<version>4.10</version>
-				<scope>testing</scope>
+				<scope>test</scope>
 			</dependency>
 			<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
 			<dependency>
