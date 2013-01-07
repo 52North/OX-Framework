@@ -6,35 +6,35 @@ import javax.xml.namespace.QName;
 
 import net.opengis.gml.MetaDataPropertyType;
 import net.opengis.gml.TimePeriodType;
+import net.opengis.sensorML.x101.CapabilitiesDocument.Capabilities;
+import net.opengis.sensorML.x101.ClassificationDocument.Classification.ClassifierList;
+import net.opengis.sensorML.x101.ClassificationDocument.Classification.ClassifierList.Classifier;
 import net.opengis.sensorML.x101.ComponentsDocument.Components.ComponentList;
 import net.opengis.sensorML.x101.ComponentsDocument.Components.ComponentList.Component;
+import net.opengis.sensorML.x101.ContactInfoDocument.ContactInfo.Address;
+import net.opengis.sensorML.x101.IdentificationDocument.Identification.IdentifierList;
+import net.opengis.sensorML.x101.IdentificationDocument.Identification.IdentifierList.Identifier;
 import net.opengis.sensorML.x101.InputsDocument.Inputs.InputList;
 import net.opengis.sensorML.x101.InterfaceDocument.Interface;
-import net.opengis.sensorML.x101.OutputsDocument.Outputs.OutputList;
-import net.opengis.sensorML.x101.ResponsiblePartyDocument.ResponsibleParty;
-import net.opengis.sensorML.x101.ClassificationDocument.Classification.ClassifierList;
-import net.opengis.sensorML.x101.ContactInfoDocument.ContactInfo.Address;
-import net.opengis.sensorML.x101.IdentificationDocument.Identification.IdentifierList.Identifier;
 import net.opengis.sensorML.x101.IoComponentPropertyType;
+import net.opengis.sensorML.x101.KeywordsDocument.Keywords.KeywordList;
+import net.opengis.sensorML.x101.OutputsDocument.Outputs.OutputList;
+import net.opengis.sensorML.x101.PositionDocument.Position;
+import net.opengis.sensorML.x101.ResponsiblePartyDocument.ResponsibleParty;
 import net.opengis.sensorML.x101.SystemDocument;
 import net.opengis.sensorML.x101.SystemType;
-import net.opengis.sensorML.x101.CapabilitiesDocument.Capabilities;
-import net.opengis.sensorML.x101.ClassificationDocument.Classification.ClassifierList.Classifier;
-import net.opengis.sensorML.x101.IdentificationDocument.Identification.IdentifierList;
-import net.opengis.sensorML.x101.KeywordsDocument.Keywords.KeywordList;
-import net.opengis.sensorML.x101.PositionDocument.Position;
 import net.opengis.sensorML.x101.TermDocument.Term;
 import net.opengis.swe.x101.AbstractDataRecordType;
+import net.opengis.swe.x101.BooleanDocument.Boolean;
 import net.opengis.swe.x101.CountDocument.Count;
 import net.opengis.swe.x101.DataComponentPropertyType;
 import net.opengis.swe.x101.DataRecordType;
 import net.opengis.swe.x101.EnvelopeType;
 import net.opengis.swe.x101.PositionType;
-import net.opengis.swe.x101.UomPropertyType;
-import net.opengis.swe.x101.VectorType;
-import net.opengis.swe.x101.BooleanDocument.Boolean;
 import net.opengis.swe.x101.QuantityDocument.Quantity;
 import net.opengis.swe.x101.TextDocument.Text;
+import net.opengis.swe.x101.UomPropertyType;
+import net.opengis.swe.x101.VectorType;
 import net.opengis.swe.x101.VectorType.Coordinate;
 
 import org.apache.xmlbeans.XmlCursor;
@@ -235,6 +235,7 @@ public class SensorDescriptionBuilder {
 		this.eastingValue = eastingValue;
 		this.northingUom = northingUom;
 		this.northingValue = northingValue;
+		// optional values
 		this.altitudeUom = altitudeUom;
 		this.altitudeValue = altiValue;
 	}
@@ -320,8 +321,7 @@ public class SensorDescriptionBuilder {
 			addContact();
 		}
 		if (positionName != null && referenceFrame != null && vectorId != null
-				&& eastingUom != null && northingUom != null
-				&& altitudeUom != null) {
+				&& eastingUom != null && northingUom != null) {
 			addPosition();
 		}
 		if (iName != null && serviceUrl != null && serviceType != null
@@ -490,14 +490,17 @@ public class SensorDescriptionBuilder {
 	    northUom.setCode(northingUom);
 	    northQuantity.setValue(northingValue);
 
-	    // Altitude
-	    Coordinate altitude = vT.addNewCoordinate();
-	    altitude.setName("altitude");
-	    Quantity altiQuantity = altitude.addNewQuantity();
-	    altiQuantity.setAxisID("z");
-	    UomPropertyType altiUom = altiQuantity.addNewUom();
-	    altiUom.setCode(altitudeUom);
-	    altiQuantity.setValue(altitudeValue);
+	    // OPTIONAL: Altitude (depends on CRS)
+	    if (altitudeUom != null) 
+	    {
+	    	Coordinate altitude = vT.addNewCoordinate();
+	    	altitude.setName("altitude");
+	    	Quantity altiQuantity = altitude.addNewQuantity();
+	    	altiQuantity.setAxisID("z");
+	    	UomPropertyType altiUom = altiQuantity.addNewUom();
+	    	altiUom.setCode(altitudeUom);
+	    	altiQuantity.setValue(altitudeValue);
+	    }
 	}
 	
 	private void addInterface() {

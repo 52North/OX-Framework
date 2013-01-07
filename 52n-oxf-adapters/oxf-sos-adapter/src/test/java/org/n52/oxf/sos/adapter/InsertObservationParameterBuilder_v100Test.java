@@ -1,17 +1,7 @@
 package org.n52.oxf.sos.adapter;
 
 import static org.junit.Assert.assertEquals;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_FOI_ID_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_DESC;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_NAME;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_POSITION;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_POSITION_SRS;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_SAMPLING_TIME;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_TEXT;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 import java.util.HashMap;
 
@@ -19,6 +9,7 @@ import org.junit.Test;
 import org.n52.oxf.sos.adapter.wrapper.builder.InsertObservationParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.ObservationBuilder;
 import org.n52.oxf.sos.adapter.wrapper.builder.TextObservationBuilder;
+import org.n52.oxf.sos.request.observation.TextObservationParameters;
 
 
 /**
@@ -43,8 +34,7 @@ public class InsertObservationParameterBuilder_v100Test {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testInvalidConstructorParameters() {
-		new InsertObservationParameterBuilder_v100(null, null);
-		new InsertObservationParameterBuilder_v100("", null);
+		new InsertObservationParameterBuilder_v100(null, new TextObservationParameters());
 		new InsertObservationParameterBuilder_v100(null, ObservationBuilder.createObservationForTypeText());
 	}
 	
