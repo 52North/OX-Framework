@@ -16,7 +16,7 @@ public class HttpClientDecoratorTest {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpClientDecoratorTest.class);
     
-    @Test
+//    @Test // sending requests is non JUnit testing
     public void testGetCapabilities() throws Exception {
         HttpClient proxyAwareClient = new ProxyAwareHttpClient(new SimpleHttpClient());
         HttpClient httpclient = new GzipEnabledHttpClient(proxyAwareClient);
