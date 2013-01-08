@@ -21,6 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
+
 package org.n52.oxf.util.web;
 
 import static org.apache.http.params.CoreConnectionPNames.CONNECTION_TIMEOUT;
@@ -65,23 +66,35 @@ public class SimpleHttpClient implements HttpClient {
      * Creates an instance with a given connection timeout.
      * 
      * @param connectionTimeout
-     *        the connection timeout.
+     *        the connection timeout in milliseconds.
      */
     public SimpleHttpClient(int connectionTimeout) {
-    	ClientConnectionManager cm = getConnectionManager();
-    	this.httpclient = (cm == null) ? new DefaultHttpClient() : new DefaultHttpClient(cm);
-    	this.httpclient.getParams().setParameter(CONNECTION_TIMEOUT, connectionTimeout);
-    	this.httpclient.getParams().setParameter(SO_TIMEOUT, DEFAULT_SOCKET_TIMEOUT);
+        this(connectionTimeout, DEFAULT_SOCKET_TIMEOUT);
     }
-    
+
+    /**
+     * Creates an instance with the given timeouts.
+     * 
+     * @param connectionTimeout
+     *        the connection timeout in milliseconds.
+     * @param socketTimeout
+     *        the socket timout in milliseconds.
+     */
+    public SimpleHttpClient(int connectionTimeout, int socketTimeout) {
+        ClientConnectionManager cm = getConnectionManager();
+        this.httpclient = (cm == null) ? new DefaultHttpClient() : new DefaultHttpClient(cm);
+        this.httpclient.getParams().setParameter(CONNECTION_TIMEOUT, connectionTimeout);
+        this.httpclient.getParams().setParameter(SO_TIMEOUT, socketTimeout);
+    }
+
     /**
      * @return null by default
      */
     public ClientConnectionManager getConnectionManager() {
-		return null;
-	}
+        return null;
+    }
 
-	public DefaultHttpClient getHttpClientToDecorate() {
+    public DefaultHttpClient getHttpClientToDecorate() {
         return httpclient;
     }
 
@@ -96,7 +109,8 @@ public class SimpleHttpClient implements HttpClient {
             for (String key : parameters.getAvailableKeys()) {
                 if (parameters.isSingleValue(key)) {
                     uriBuilder.addParameter(key, parameters.getSingleValue(key));
-                } else {
+                }
+                else {
                     Iterable<String> multipleValues = parameters.getAllValues(key);
                     uriBuilder.addParameter(key, createCsvValue(multipleValues));
                 }
@@ -113,7 +127,7 @@ public class SimpleHttpClient implements HttpClient {
     private String createCsvValue(Iterable<String> multipleValues) {
         StringBuilder csv = new StringBuilder();
         for (String value : multipleValues) {
-            if (!value.isEmpty()) {
+            if ( !value.isEmpty()) {
                 csv.append(value).append(",");
             }
         }
@@ -145,14 +159,14 @@ public class SimpleHttpClient implements HttpClient {
             return httpclient.execute(method);
         }
         catch (IOException e) {
-            throw new HttpClientException("Could not execute GET method.", e);
+            throw new HttpClientException("Could not execute request.", e);
         }
     }
 
     public void setConnectionTimout(int timeout) {
         httpclient.getParams().setParameter(CONNECTION_TIMEOUT, timeout);
     }
-    
+
     public void setSocketTimout(int timeout) {
         httpclient.getParams().setParameter(SO_TIMEOUT, timeout);
     }
