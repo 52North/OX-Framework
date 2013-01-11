@@ -29,6 +29,7 @@ import java.io.IOException;
 
 import net.opengis.ows.x11.ExceptionReportDocument;
 import net.opengis.ows.x11.ExceptionType;
+import net.opengis.ses.x00.CapabilitiesDocument;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -149,7 +150,7 @@ public class SESAdapter implements IServiceAdapter {
 
             String owsResponse = envDoc.getEnvelope().getBody().xmlText();
 
-            net.opengis.ses.x00.CapabilitiesDocument capsDoc = net.opengis.ses.x00.CapabilitiesDocument.Factory.parse(owsResponse);
+            CapabilitiesDocument capsDoc = CapabilitiesDocument.Factory.parse(owsResponse);
 
             return handleCapabilities(capsDoc);
 
@@ -163,7 +164,7 @@ public class SESAdapter implements IServiceAdapter {
 
     }
 
-    private ServiceDescriptor handleCapabilities(net.opengis.ses.x00.CapabilitiesDocument capsDoc) throws OXFException {
+    private ServiceDescriptor handleCapabilities(CapabilitiesDocument capsDoc) throws OXFException {
         SESCapabilitiesMapper_00 mapper = new SESCapabilitiesMapper_00();
 
         ServiceDescriptor result = mapper.mapCapabilities(capsDoc);
@@ -293,15 +294,16 @@ public class SESAdapter implements IServiceAdapter {
                         }
                     }
 
-                    // TODO Problem with Namespace and XMLBeans: The document is not a
+                    // TODO check if following problem still exist
+                    // XXX Problem with Namespace and XMLBeans: The document is not a
                     // RegisterPublisherResponse@http://docs.oasis-open.org/wsn/br-2: document element
                     // namespace mismatch expected "http://docs.oasis-open.org/wsn/br-2" got
                     // "http://docs.oasis-open.org/wsn/brw-2"
-                    result = XmlObject.Factory.parse(body.toString());
-                    if (result instanceof org.oasisOpen.docs.wsn.br2.impl.RegisterPublisherResponseDocumentImpl) {
-                        // soap envelope => body => registerpublisher
-                        result = ((org.oasisOpen.docs.wsn.br2.impl.RegisterPublisherResponseDocumentImpl) result).getRegisterPublisherResponse();
-                    }
+//                    result = XmlObject.Factory.parse(body.toString());
+//                    if (result instanceof /*org.oasisOpen.docs.wsn.br2.impl.*/RegisterPublisherResponseDocumentImpl) {
+//                        // soap envelope => body => registerpublisher
+//                        result = ((/*org.oasisOpen.docs.wsn.br2.impl.*/RegisterPublisherResponseDocumentImpl) result).getRegisterPublisherResponse();
+//                    }
                 }
             }
             catch (IOException e) {

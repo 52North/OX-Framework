@@ -75,8 +75,6 @@ public class SESCapabilitiesMapper_00 {
         org.n52.oxf.ows.capabilities.OperationsMetadata operationsMetadata = mapOperationsMetadata(capsDoc.getCapabilities().getOperationsMetadata());
         Contents contents = mapContents(capsDoc.getCapabilities().getContents());
         
-        capsDoc.getCapabilities().getFilterCapabilities();
-
         ServiceDescriptor serviceDesc = new ServiceDescriptor(version,
                 serviceIdentification,
                 serviceProvider,
