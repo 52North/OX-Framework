@@ -340,21 +340,6 @@
 			</dependency>
 			<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
 			<dependency>
-				<groupId>org.n52.sensorweb.oxf-old.ses</groupId>
-				<artifactId>beans</artifactId>
-				<version>0.0.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb.oxf-old.ses</groupId>
-				<artifactId>brokered-notification</artifactId>
-				<version>0.0.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.n52.sensorweb.oxf-old.ses</groupId>
-				<artifactId>soap-envelope-beans</artifactId>
-				<version>0.0.0</version>
-			</dependency>
-			<dependency>
 				<groupId>org.n52.sensorweb.oxf-old</groupId>
 				<artifactId>wms-client-core</artifactId>
 				<version>0.0.0</version>
