@@ -518,7 +518,14 @@
 		</profile>
 		<profile>
 			<id>release</id>
-			<!-- a profile wich shall be activated if a release is performed -->
+            <!-- a profile which shall be activated if a release is performed, it 
+                is also automatic activated in the ci environment. -->
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>ci</value>
+                </property>
+            </activation>
 			<build>
 				<plugins>
 					<plugin>
@@ -534,6 +541,7 @@
 							<connectionUrl>
 								scm:svn:https://svn.52north.org/svn/swe/main/OX-Framework/52n-oxf/trunk/
 							</connectionUrl>
+                            <goals>deploy, assembly:single</goals>
 						</configuration>
 					</plugin>
 				</plugins>
