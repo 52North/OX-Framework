@@ -25,7 +25,7 @@
 	<scm>
 		<connection>scm:svn:https://svn.52north.org/svn/swe/main/OX-Framework/52n-oxf/tags/52n-oxf-2.0.0-alpha.1</connection>
 		<developerConnection>scm:svn:https://svn.52north.org/svn/swe/main/OX-Framework/52n-oxf/tags/52n-oxf-2.0.0-alpha.1</developerConnection>
-		<url>https://svn.52north.org/cgi-bin/viewvc.cgi/main/OX-Framework/52n-oxf/tags/52n-oxf-2.0.0-alpha.1?root=sensorweb</url>
+		<url>https://svn.52north.org/cgi-bin/viewvc.cgi/main/OX-Framework/52n-oxf/tags/?root=sensorweb/52n-oxf-2.0.0-alpha.1</url>
 	</scm>
 
 	<properties>
@@ -517,34 +517,15 @@
 			</build>
 		</profile>
 		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
 			<id>release</id>
-			<!-- a profile wich shall be activated if a release is performed -->
+            <!-- a profile which shall be activated if a release is performed, it 
+                is also automatic activated in the ci environment. -->
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>ci</value>
+                </property>
+            </activation>
 			<build>
 				<plugins>
 					<plugin>
@@ -560,6 +541,7 @@
 							<connectionUrl>
 								scm:svn:https://svn.52north.org/svn/swe/main/OX-Framework/52n-oxf/trunk/
 							</connectionUrl>
+                            <goals>deploy, assembly:single</goals>
 						</configuration>
 					</plugin>
 				</plugins>
