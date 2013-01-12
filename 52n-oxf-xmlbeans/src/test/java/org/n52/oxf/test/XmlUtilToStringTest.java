@@ -24,7 +24,7 @@
 
 package org.n52.oxf.test;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertTrue;
 import net.opengis.gml.x32.DirectPositionListType;
 import net.opengis.gml.x32.LineStringDocument;
 import net.opengis.gml.x32.LineStringType;
@@ -43,7 +43,7 @@ public class XmlUtilToStringTest {
 		pl.setStringValue("52 7 53 8");
 		pl.setSrsName("urn:ogc:def:crs:EPSG::4326");
 		String xml = XmlUtil.toString(ls.getDomNode());
-		Assert.assertTrue("Unexpected xml string.",
+		assertTrue("Unexpected xml string.",
 				xml.contains("srsName=\"urn:ogc:def:crs:EPSG::4326\""));
 	}
 	
