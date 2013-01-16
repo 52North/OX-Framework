@@ -284,9 +284,9 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     public String buildGetFeatureOfInterestRequest(ParameterContainer parameters) {
     	GetFeatureOfInterestDocument xb_getFOIDoc = GetFeatureOfInterestDocument.Factory.newInstance();
     	GetFeatureOfInterestType xb_getFOI = xb_getFOIDoc.addNewGetFeatureOfInterest();
-
+    	xb_getFOI.setService((String) parameters.getParameterShellWithServiceSidedName(GET_FOI_SERVICE_PARAMETER).getSpecifiedValue());
+    	xb_getFOI.setVersion((String) parameters.getParameterShellWithServiceSidedName(GET_FOI_VERSION_PARAMETER).getSpecifiedValue());
     	xb_getFOI.addProcedure((String) parameters.getParameterShellWithServiceSidedName("procedure").getSpecifiedValue());
-        
         return xb_getFOIDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
