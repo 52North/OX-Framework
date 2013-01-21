@@ -282,7 +282,12 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
             return OXFGmlPointType.create(gmlPoint);
         } else {
             String featureId = samplingFeatureType.getIdentifier().getStringValue();
-            String featureType = samplingFeatureType.getType().getHref();
+            String featureType = "";
+            if (samplingFeatureType.getType() != null && samplingFeatureType.getType().getHref() != null) {
+            	featureType = samplingFeatureType.getType().getHref();
+            } else if (samplingFeatureType.getSampledFeature() != null && samplingFeatureType.getSampledFeature().getHref() != null) {
+            	featureType = samplingFeatureType.getSampledFeature().getHref();
+            }
             // XXX check if setting featureAttributeDescriptors is appropriate
             List<OXFFeatureAttributeDescriptor> featureAttributeDescriptors = new OXFSamplingPointType().getAttributeDescriptors();
             return new OXFFeature(featureId, new OXFFeatureType(featureType, featureAttributeDescriptors));
