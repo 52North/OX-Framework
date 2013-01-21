@@ -47,6 +47,7 @@ import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
 import net.opengis.swe.x101.DataArrayDocument;
 import net.opengis.swe.x20.AbstractDataComponentType;
+import net.opengis.swe.x20.CountType;
 import net.opengis.swe.x20.DataArrayPropertyType;
 import net.opengis.swe.x20.DataArrayType;
 import net.opengis.swe.x20.DataRecordType.Field;
@@ -477,9 +478,7 @@ public class GenericObservationParser {
                                                                 XmlObject result) throws Exception {
 		SchemaType resultType = result.schemaType();
         if (resultType == DataArrayType.type) {
-			InputStream stream = result.newInputStream();
-            net.opengis.swe.x20.DataArrayDocument dataArrayDoc = net.opengis.swe.x20.DataArrayDocument.Factory.parse(stream);
-            DataArrayType dataArray = dataArrayDoc.getDataArray1();
+			DataArrayType dataArray = (DataArrayType) result;
 	        AbstractDataComponentType dataComponent = dataArray.getElementType().getAbstractDataComponent();
 
 	        // 1. in case of 'DataRecord':
@@ -495,23 +494,23 @@ public class GenericObservationParser {
 	                    names.add("");
 	                }
 	                AbstractDataComponentType dataComponentType = field.getAbstractDataComponent();
+	                String definition = getDefinition(field.getName(), dataComponentType);
+	                definitions.add(definition);
 	                if (dataComponentType instanceof TimeType) {
 	                    TimeType time = (TimeType) dataComponentType;
 	                    //time.getUom().getHref();
-	                    definitions.add(time.getDefinition());
 	                    types.add("time");
 	                } else if (dataComponentType instanceof TextType) {
 	                    TextType text = (TextType) dataComponentType;
-	                    definitions.add(text.getDefinition());
 	                    types.add("text");
 	                } else if (dataComponentType instanceof QuantityType) {
 	                    QuantityType quantity = (QuantityType) dataComponentType;
-	                    String definition = quantity.getDefinition();
-	                    definitions.add(definition);
 	                    types.add("quantity");
-	                    
 	                    String uomURN = quantity.getUom().getCode();
 	                    uoms.put(definition, uomURN);
+	                } else if (dataComponentType instanceof CountType) {
+	                	CountType count = (CountType) dataComponentType;
+	                	types.add("count");
 	                }
 	                
 	                // ... TODO there are more possibilities...
@@ -523,7 +522,17 @@ public class GenericObservationParser {
 		}
     }
 
-    private static boolean hasFOI(OMObservationType omObservation) {
+    private static String getDefinition(String name,
+			AbstractDataComponentType dataComponentType) {
+    	if (dataComponentType.getDefinition() != null) {
+        	return dataComponentType.getDefinition();
+        } else {
+        	LOGGER.warn("Definition for AbstractComponentType " + name + " is required!");
+        }
+		return name;
+	}
+
+	private static boolean hasFOI(OMObservationType omObservation) {
 		return omObservation.getFeatureOfInterest() != null;
 	}
 
@@ -565,7 +574,8 @@ public class GenericObservationParser {
                     		|| definitions.get(i).equals("urn:ogc:property:time:iso8601")
                             || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/SamplingTime") 
                             || definitions.get(i).equals("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian")
-                            || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/PhenomenonTime")) {
+                            || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/PhenomenonTime")
+                            || definitions.get(i).equals("phenomenonTime")) {
                         // do nothing
                     }
                     
