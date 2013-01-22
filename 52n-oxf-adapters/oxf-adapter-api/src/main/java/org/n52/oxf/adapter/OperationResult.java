@@ -49,6 +49,7 @@
 package org.n52.oxf.adapter;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -93,31 +94,17 @@ public class OperationResult {
      */
     protected void setIncomingResult(InputStream incomingStream, int bufferSize) throws IOException {
         // DataInputStream in = new DataInputStream(incomingStream);
+		ByteArrayOutputStream bufferOutputStream = new ByteArrayOutputStream();
+		int read;
+		byte[] data = new byte[16384];
 
-        byte[] buffer = new byte[bufferSize];
+		while ((read = incomingStream.read(data, 0, data.length)) != -1) {
+			bufferOutputStream.write(data, 0, read);
+		}
 
-        int byteRead;
-        int numOfBytesRead = 0;
-
-        while ( (byteRead = incomingStream.read()) != -1) {
-
-            if (numOfBytesRead >= buffer.length) {
-
-                byte[] newBuffer = new byte[buffer.length + bufferSize];
-
-                // copy elements from the old "buffer" to the new "newBuffer"
-                System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
-
-                buffer = newBuffer;
-            }
-
-            buffer[numOfBytesRead] = (byte) byteRead;
-
-            numOfBytesRead++;
-        }
-
-        incomingResult = new byte[numOfBytesRead];
-        System.arraycopy(buffer, 0, incomingResult, 0, numOfBytesRead);
+		bufferOutputStream.flush();
+		bufferOutputStream.close();
+		incomingResult = bufferOutputStream.toByteArray();
     }
 
     public byte[] getIncomingResult() {
