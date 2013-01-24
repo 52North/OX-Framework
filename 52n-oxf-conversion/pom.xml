@@ -13,60 +13,16 @@
 	<description>52°North OXF Conversion module</description>
 	<inceptionYear>2012</inceptionYear>
 
-	<properties>
-		<license.header.file>${basedir}/src/main/config/52n_license_header.txt</license.header.file>
-	</properties>
-
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-				<configuration>
-					<header>${license.header.file}</header>
-					<includes>
-						<include>src/**/*.java</include>
-					</includes>
-					<properties>
-						<year>${project.inceptionYear}</year>
-					</properties>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
-	<repositories>
-		<repository>
-			<id>n52-releases</id>
-			<name>52n Releases</name>
-			<url>http://52north.org/maven/repo/releases/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>n52-snapshots</id>
-			<name>52n Snapshots</name>
-			<url>http://52north.org/maven/repo/snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-			</snapshots>
-		</repository>
-	</repositories>
-
+<!-- 
 	<pluginRepositories>
 		<pluginRepository>
 			<id>mc-release</id>
@@ -85,6 +41,7 @@
 			<url>http://52north.org/maven/repo/releases/</url>
 		</pluginRepository>
 	</pluginRepositories>
+ -->
 
 	<dependencies>
 		<dependency>

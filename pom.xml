@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<groupId>org.n52</groupId>
 		<artifactId>52-North</artifactId>
@@ -197,11 +198,11 @@
 				<artifactId>52n-xml-sensorML-v101</artifactId>
 				<version>${n52.xml.commons.version}</version>
 			</dependency>
-	        <dependency>
-	            <groupId>org.n52.sensorweb</groupId>
-	            <artifactId>52n-xml-ses-v00</artifactId>
-	            <version>${n52.xml.commons.version}</version>
-	        </dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>52n-xml-ses-v00</artifactId>
+				<version>${n52.xml.commons.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-xml-sos-v100</artifactId>
@@ -346,16 +347,16 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
-	   <resources>
-            <resource>
-                <directory>/</directory>
-                <includes>
-                    <include>README*</include>
-                    <include>RELEASE_NOTES*</include>
-                </includes>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
+		<resources>
+			<resource>
+				<directory>/</directory>
+				<includes>
+					<include>README*</include>
+					<include>RELEASE_NOTES*</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<pluginManagement>
 			<plugins>
 				<plugin>
@@ -363,7 +364,8 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>2.3.2</version>
 					<configuration>
-						<compilerVersion>1.6</compilerVersion>
+						<source>1.6</source>
+						<target>1.6</target>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -518,14 +520,14 @@
 		</profile>
 		<profile>
 			<id>release</id>
-            <!-- a profile which shall be activated if a release is performed, it 
-                is also automatic activated in the ci environment. -->
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>ci</value>
-                </property>
-            </activation>
+			<!-- a profile which shall be activated if a release is performed, it 
+				is also automatic activated in the ci environment. -->
+			<activation>
+				<property>
+					<name>env</name>
+					<value>ci</value>
+				</property>
+			</activation>
 			<build>
 				<plugins>
 					<plugin>
@@ -541,7 +543,7 @@
 							<connectionUrl>
 								scm:svn:https://svn.52north.org/svn/swe/main/OX-Framework/52n-oxf/trunk/
 							</connectionUrl>
-                            <goals>deploy, assembly:single</goals>
+							<goals>deploy, assembly:single</goals>
 						</configuration>
 					</plugin>
 				</plugins>
