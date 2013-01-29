@@ -34,7 +34,6 @@ import net.opengis.ses.x00.CapabilitiesDocument;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -265,7 +264,7 @@ public class SESAdapter implements IServiceAdapter {
         return result;
     }
 
-    public XmlObject handle(String operationName, ByteArrayInputStream input) throws OXFException {
+    public XmlObject handleResponse(String operationName, ByteArrayInputStream input) throws OXFException {
         XmlObject result = null;
         Envelope env;
         Header header;
