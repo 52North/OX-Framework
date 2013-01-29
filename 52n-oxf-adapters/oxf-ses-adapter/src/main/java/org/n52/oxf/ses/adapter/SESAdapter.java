@@ -291,6 +291,9 @@ public class SESAdapter implements IServiceAdapter {
                                     + action
                                     + " \" <-> Expected is: \"http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse\"!");
                         }
+                        else {
+                            result = XmlObject.Factory.parse(env.newInputStream());
+                        }
                     }
 
                     // TODO check if following problem still exist
