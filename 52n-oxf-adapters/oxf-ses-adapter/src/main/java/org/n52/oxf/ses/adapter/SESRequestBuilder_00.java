@@ -23,6 +23,11 @@
  */
 package org.n52.oxf.ses.adapter;
 
+import static org.n52.oxf.ses.adapter.ISESRequestBuilder.REGISTER_PUBLISHER_LIFETIME_DURATION;
+import static org.n52.oxf.ses.adapter.ISESRequestBuilder.REGISTER_PUBLISHER_SENSORML;
+import static org.n52.oxf.ses.adapter.ISESRequestBuilder.REGISTER_PUBLISHER_TOPIC;
+import static org.n52.oxf.ses.adapter.ISESRequestBuilder.REGISTER_PUBLISHER_TOPIC_DIALECT;
+
 import java.util.UUID;
 
 import javax.xml.namespace.QName;
@@ -154,8 +159,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
         cur.insertElementWithText(new QName(ns_addressing,"To","wsa"),sesURL);
         cur.insertElementWithText(new QName(ns_addressing,"Action","wsa"),
         "http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherRequest");
-        cur.insertElementWithText(new QName(ns_addressing,"MessageID","wsa"),
-                UUID.randomUUID().toString());
+        cur.insertElementWithText(new QName(ns_addressing,"MessageID","wsa"), UUID.randomUUID().toString());
         cur.beginElement(new QName(ns_addressing,"From","wsa"));
         cur.insertElementWithText(new QName(ns_addressing,"Address","wsa"),from);
         cur.dispose();
@@ -165,25 +169,27 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
         cur.toFirstContentToken();
         cur.beginElement(new QName(ns_wsBrokeredNotification,"RegisterPublisher","wsbn"));
         cur.insertElementWithText(new QName("http://docs.oasis-open.org/wsrf/rl-2","RequestedLifetimeDuration","wsrf"),
-                (String)parameter.getParameterShellWithCommonName(ISESRequestBuilder.REGISTER_PUBLISHER_LIFETIME_DURATION).getSpecifiedValue());
+                (String)parameter.getParameterShellWithCommonName(REGISTER_PUBLISHER_LIFETIME_DURATION).getSpecifiedValue());
 
         cur.beginElement(new QName(ns_wsBrokeredNotification,"Topic","wsbn"));
         cur.insertAttributeWithValue(/*new QName(ns_wsBrokeredNotification,"Dialect","wsrf")*/"dialect", 
-                (String)parameter.getParameterShellWithCommonName(ISESRequestBuilder.REGISTER_PUBLISHER_TOPIC_DIALECT).getSpecifiedValue());
-        cur.insertChars((String)parameter.getParameterShellWithCommonName(ISESRequestBuilder.REGISTER_PUBLISHER_TOPIC).getSpecifiedValue());
+                (String)parameter.getParameterShellWithCommonName(REGISTER_PUBLISHER_TOPIC_DIALECT).getSpecifiedValue());
+        cur.insertChars((String)parameter.getParameterShellWithCommonName(REGISTER_PUBLISHER_TOPIC).getSpecifiedValue());
         cur.toNextToken();
 
-        cur.beginElement(new QName("http://www.opengis.net/sensorML/1.0.1","SensorML","sml"));
-        cur.insertAttributeWithValue(new QName("http://www.opengis.net/sensorML/1.0.1","version","sml"), "1.0.1");
+//        cur.beginElement(new QName("http://www.opengis.net/sensorML/1.0.1", "SensorML", "sml"));
+//        cur.insertAttributeWithValue(new QName("http://www.opengis.net/sensorML/1.0.1","version","sml"), "1.0.1");
         cur.insertChars("@SML_REPLACER@");
         cur.toNextToken();
 
-        cur.insertElementWithText(new QName(ns_wsBrokeredNotification,"Demand","wsbn"),"no"); // FIXME is this a default value?
-        cur.insertElementWithText(new QName(ns_addressing,"EndpointReferenceType","wsa"),"ignore"); // FIXME is this a default value?
+        cur.insertElementWithText(new QName(ns_wsBrokeredNotification,"Demand","wsbn"), "no"); // FIXME is this a default value?
+        cur.insertElementWithText(new QName(ns_addressing,"EndpointReferenceType","wsa"), "ignore"); // FIXME is this a default value?
         cur.dispose();
 
         request = envDoc.xmlText();
-        request = request.replaceAll("@SML_REPLACER@", (String)parameter.getParameterShellWithCommonName(ISESRequestBuilder.REGISTER_PUBLISHER_SENSORML).getSpecifiedValue());
+        
+        String smlText = (String) parameter.getParameterShellWithCommonName(REGISTER_PUBLISHER_SENSORML).getSpecifiedValue();
+        request = request.replaceAll("@SML_REPLACER@", smlText);
 
         return request;
     }
