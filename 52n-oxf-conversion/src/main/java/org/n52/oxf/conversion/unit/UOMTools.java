@@ -42,6 +42,7 @@ public class UOMTools {
 	static {
 		customUnitConverters = new HashMap<String, CustomUnitConverter>();
 		customUnitConverters.put("FL", new FlightLevelUnitConverter());
+		customUnitConverters.put("FT", new ProprietaryAIXMFeetUnitConverter());
 	}
 
 	
