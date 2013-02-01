@@ -24,13 +24,18 @@
 
 package org.n52.oxf.ses.adapter;
 
+import static org.n52.oxf.ows.OwsExceptionCode.OperationNotSupported;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import net.opengis.ows.x11.ExceptionReportDocument;
 import net.opengis.ows.x11.ExceptionType;
 import net.opengis.ses.x00.CapabilitiesDocument;
 
+import org.apache.commons.lang.text.StrBuilder;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ContentType;
@@ -230,28 +235,28 @@ public class SESAdapter implements IServiceAdapter {
                 HttpClient httpClient = new ProxyAwareHttpClient(new SimpleHttpClient());
                 HttpResponse httpResponse = httpClient.executePost(uri, request, ContentType.TEXT_XML);
                 HttpEntity responseEntity = httpResponse.getEntity();
-                result = new OperationResult(responseEntity.getContent(), parameterContainer, request);
+                if (httpResponse.getStatusLine().getStatusCode() != 204) {
+                    result = new OperationResult(responseEntity.getContent(), parameterContainer, request);
+                    try {
+                        ExceptionReport execRep = parseExceptionReport_000(result);
 
-                try {
-                    ExceptionReport execRep = parseExceptionReport_000(result);
+                        throw execRep;
+                    }
+                    catch (XmlException e) {
+                        // parseError --> no ExceptionReport was returned.
+                        LOGGER.info("Service reported no 0.0.0 exceptions.");
+                    }
 
-                    throw execRep;
-                }
-                catch (XmlException e) {
-                    // parseError --> no ExceptionReport was returned.
-                    LOGGER.info("Service reported no 0.0.0 exceptions.");
-                }
-
-                try {
-                    ExceptionReport execRep = parseExceptionReport_100(result);
-
-                    throw execRep;
-                }
-                catch (XmlException e) {
-                    // parseError --> no ExceptionReport was returned.
-                    LOGGER.info("Service reported no 1.0.0 exceptions.");
-                }
-
+                    try {
+                        throw parseExceptionReport_100(result);
+                    }
+                    catch (XmlException e) {
+                        // parseError --> no ExceptionReport was returned.
+                        LOGGER.info("Service reported no 1.0.0 exceptions.");
+                    }
+                } 
+                
+                
             }
             catch (IOException e) {
                 throw new OXFException(e);
@@ -286,7 +291,14 @@ public class SESAdapter implements IServiceAdapter {
                     if (actions != null && actions.length == 1) {
                         action = actions[0].getDomNode().getFirstChild().getNodeValue();
                         if ( !action.equals("http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse")) {
-                            throw new OXFException(OwsExceptionCode.OperationNotSupported
+                            
+                            StringBuilder sb = new StringBuilder();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                            while (reader.ready()) {
+                                sb.append(reader.readLine());
+                            }
+                            LOGGER.error("Unexpected Reponse: {}", sb.toString());
+                            throw new OXFException(OperationNotSupported
                                     + ": Not the right response: \""
                                     + action
                                     + " \" <-> Expected is: \"http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse\"!");
