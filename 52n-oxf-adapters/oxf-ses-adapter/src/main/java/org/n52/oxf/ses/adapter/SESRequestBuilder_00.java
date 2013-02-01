@@ -63,10 +63,14 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 
     private static final String SOAP_ACTION_DESCRIBE_SENSOR_REQUEST = "http://www.opengis.net/ses/DescribeSensorRequest";
     private static final String SOAP_ACTION_GET_CAPABILITIES_REQUEST = "http://www.opengis.net/ses/GetCapabilitiesRequest";
+    
+    // TODO still being used?
     private static final String SOAP_ACTION_DESTROY_REQUEST = "http://docs.oasis-open.org/wsrf/rlw-2/ImmediateResourceTermination/DestroyRequest";
+    
     private static final String SOAP_ACTION_SUBSCRIBE_REQUEST = "http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest";
-    private static final String SOAP_ACTION_NOTIFY_REQUEST = "http://docs.oasis-open.org/wsn/b-2/NotificationConsumer/NotifyRequest";
-    private static final String SOAP_ACTION_REGISTER_PUBLISHER_REQUEST = "http://docs.oasis-open.org/wsn/br-2/RegisterPublisher/RegisterPublisherRequest";
+    
+    private static final String SOAP_ACTION_NOTIFY_REQUEST = "http://docs.oasis-open.org/wsn/bw-2/NotificationConsumer/Notify";
+    private static final String SOAP_ACTION_REGISTER_PUBLISHER_REQUEST = "http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherRequest";
     private static final String W3C_ADDRESSING_ROLE_ANONYMOUS = "http://www.w3.org/2005/08/addressing/role/anonymous";
 
     private final String ns_resourceId = "http://ws.apache.org/muse/addressing";
