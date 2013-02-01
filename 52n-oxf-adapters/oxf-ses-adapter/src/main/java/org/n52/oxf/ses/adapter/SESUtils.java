@@ -92,7 +92,7 @@ public class SESUtils {
          * <b>prefix:</b> <code>wsrf-rp</code><br>
          * <b>namespace:</b> <code>http://docs.oasis-open.org/wsrf/rp-2</code>
          */
-        WSRF_rp("wsrf-rp", "http://docs.oasis-open.org/wsrf/rp-2"),
+        WSRF_RP("wsrf-rp", "http://docs.oasis-open.org/wsrf/rp-2"),
         /**
          * <b>prefix:</b> <code>wsrmd</code><br>
          * <b>namespace:</b> <code>http://docs.oasis-open.org/wsrf/rmd-1</code>
