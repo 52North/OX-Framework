@@ -30,4 +30,9 @@ public class HttpClientDecoratorTest {
         
         LOGGER.debug(capabilities.xmlText(new XmlOptions().setSavePrettyPrint()));
     }
+    
+    @Test
+    public void testNothing() {
+    	//do nothing to not break the build.
+    }
 }
