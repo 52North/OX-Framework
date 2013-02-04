@@ -42,7 +42,7 @@ import org.apache.xmlbeans.XmlValidationError;
 public class SASamplingPointCase implements LaxValidationCase {
 
 	private static final Object QN_GML_ABSTRACT_FEATURE = 
-			new QName("http://www.opengis.net/gml", "AbstractFeature");
+			new QName("http://www.opengis.net/gml", "_Feature");
 	
 	private static final QName QN_SA_1_0_SAMPLING_POINT = 
 			new QName("http://www.opengis.net/sampling/1.0", "SamplingPoint");
@@ -67,7 +67,7 @@ public class SASamplingPointCase implements LaxValidationCase {
 		
 		XmlValidationError xve = (XmlValidationError) validationError;
 		QName offending = xve.getOffendingQName();
-		List expected = xve.getExpectedQNames();
+		List<?> expected = xve.getExpectedQNames();
 		return offending != null && offending.equals(QN_SA_1_0_SAMPLING_POINT) && // correct substitution
 				expected != null && expected.contains(QN_GML_ABSTRACT_FEATURE); // correct super class
 	}
