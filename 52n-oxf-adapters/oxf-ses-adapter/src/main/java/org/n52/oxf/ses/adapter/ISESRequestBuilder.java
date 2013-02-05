@@ -60,6 +60,7 @@ public interface ISESRequestBuilder {
     
     public static final String UNSUBSCRIBE_SES_URL = "unsubscribeSesUrl";
     public static final String UNSUBSCRIBE_REFERENCE = "unsubscribeReference";
+    public static final String UNSUBSCRIBE_REFERENCE_XML = "unsubscribeReferenceXmlMarkup";
 
     /**
      * Builds the GetCapabilities SOAP SES Request

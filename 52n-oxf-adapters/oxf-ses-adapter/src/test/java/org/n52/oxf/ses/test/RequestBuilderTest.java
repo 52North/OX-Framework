@@ -141,11 +141,15 @@ public class RequestBuilderTest {
 		parameters.addParameterShell(SESRequestBuilder_00.SUBSCRIBE_SES_URL, sesUrl);
 		parameters.addParameterShell(SESRequestBuilder_00.SUBSCRIBE_CONSUMER_REFERENCE_ADDRESS, "http://consum.er");
 		parameters.addParameterShell(SESRequestBuilder_00.SUBSCRIBE_INITIAL_TERMINATION_TIME, "2099-12-12");
-		parameters.addParameterShell(SESRequestBuilder_00.SUBSCRIBE_FILTER_MESSAGE_CONTENT, readFilter());
+		parameters.addParameterShell(SESRequestBuilder_00.SUBSCRIBE_FILTER_MESSAGE_CONTENT,
+				readFilter(),
+				readFilter());
+		parameters.addParameterShell(SESRequestBuilder_00.SUBSCRIBE_FILTER_MESSAGE_CONTENT_DIALECT,
+				"http://www.opengis.net/ses/filter/level3",
+				"http://www.opengis.net/ses/filter/level3");
 		
 		parameters.addParameterShell(SESRequestBuilder_00.SUBSCRIBE_FILTER_TOPIC, "<start>topic</start>");
 		parameters.addParameterShell(SESRequestBuilder_00.SUBSCRIBE_FILTER_TOPIC_DIALECT, "http://my-funny/dialect");
-		parameters.addParameterShell(SESRequestBuilder_00.SUBSCRIBE_FILTER_MESSAGE_CONTENT_DIALECT, "http://www.opengis.net/ses/filter/level3");
 
 		SESRequestBuilder_00 request = new SESRequestBuilder_00();
 		String asText = request.buildSubscribeRequest(parameters);
@@ -153,6 +157,47 @@ public class RequestBuilderTest {
 
 		Collection<XmlError> errors = XMLBeansParser.validate(envelope);
 		Assert.assertTrue("SubscribeRequest is not valid: "+ errors, errors.isEmpty());
+	}
+	
+	@Test
+	public void shouldCreateValidDescribeSensorRequest() throws OXFException, XmlException {
+		ParameterContainer parameters = new ParameterContainer();
+		parameters.addParameterShell(SESRequestBuilder_00.DESCRIBE_SENSOR_SES_URL, "http://ses.host");
+		parameters.addParameterShell(SESRequestBuilder_00.DESCRIBE_SENSOR_SENSOR_ID, "urn:n52:dummy");
+		
+		SESRequestBuilder_00 request = new SESRequestBuilder_00();
+		String asText = request.buildDescribeSensorRequest(parameters);
+		EnvelopeDocument envelope = EnvelopeDocument.Factory.parse(asText);
+
+		Collection<XmlError> errors = XMLBeansParser.validate(envelope);
+		Assert.assertTrue("DescribeSensor request is not valid: "+ errors, errors.isEmpty());
+	}
+	
+	@Test
+	public void shouldCreateValidUnsubscribeRequest() throws OXFException, XmlException {
+		ParameterContainer parameters = new ParameterContainer();
+		parameters.addParameterShell(SESRequestBuilder_00.UNSUBSCRIBE_SES_URL, "http://ses.host");
+		parameters.addParameterShell(SESRequestBuilder_00.UNSUBSCRIBE_REFERENCE, "urn:n52:dummy");
+		
+		SESRequestBuilder_00 request = new SESRequestBuilder_00();
+		String asText = request.buildUnsubscribeRequest(parameters);
+		EnvelopeDocument envelope = EnvelopeDocument.Factory.parse(asText);
+
+		Collection<XmlError> errors = XMLBeansParser.validate(envelope);
+		Assert.assertTrue("Unsubscribe request is not valid: "+ errors, errors.isEmpty());
+		
+		parameters = new ParameterContainer();
+		parameters.addParameterShell(SESRequestBuilder_00.UNSUBSCRIBE_SES_URL, "http://ses.host");
+		parameters.addParameterShell(SESRequestBuilder_00.UNSUBSCRIBE_REFERENCE_XML, "<muse-wsa:ResourceId " +
+				"xmlns:muse-wsa=\"http://ws.apache.org/muse/addressing\" wsa:IsReferenceParameter=\"true\" " +
+				" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">" +
+				"Subscription-2</muse-wsa:ResourceId>");
+		
+		asText = request.buildUnsubscribeRequest(parameters);
+		envelope = EnvelopeDocument.Factory.parse(asText);
+
+		errors = XMLBeansParser.validate(envelope);
+		Assert.assertTrue("Unsubscribe request is not valid: "+ errors, errors.isEmpty());
 	}
 
 	private String readFilter() throws XmlException, IOException {
