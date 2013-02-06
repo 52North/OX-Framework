@@ -156,9 +156,13 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		NotifyDocument notifyDoc = NotifyDocument.Factory.newInstance();
 		Notify notify = notifyDoc.addNewNotify();
 		NotificationMessageHolderType notificationMessage = notify.addNewNotificationMessage();
-		TopicExpressionType topic = notificationMessage.addNewTopic();
+		
+		String topicString = getStringValueFor(NOTIFY_TOPIC, parameters);
+		if (topicString != null) {
+			TopicExpressionType topic = notificationMessage.addNewTopic();
 
-		fillTopic(topic, getStringValueFor(NOTIFY_TOPIC, parameters), getStringValueFor(NOTIFY_TOPIC_DIALECT, parameters));
+			fillTopic(topic, topicString, getStringValueFor(NOTIFY_TOPIC_DIALECT, parameters));
+		}
 
 		Message message = notificationMessage.addNewMessage();
 
@@ -168,7 +172,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 			logger.warn("Could not set <wsnt:Message> contents!", e);
 		}
 
-		body.set(notify);
+		body.set(notifyDoc);
 
 		return request.xmlText(new XmlOptions().setSavePrettyPrint());
 	}
@@ -589,7 +593,9 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 
 		XmlObject body = request.getEnvelope().getBody();
 
-		body.set(UnsubscribeDocument.Factory.newInstance());
+		UnsubscribeDocument unsubscribeDoc = UnsubscribeDocument.Factory.newInstance();
+		unsubscribeDoc.addNewUnsubscribe();
+		body.set(unsubscribeDoc);
 
 		return request.xmlText(new XmlOptions().setSavePrettyPrint());
 	}
