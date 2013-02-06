@@ -33,4 +33,8 @@ public interface CustomUnitConverter {
 
 	NumberWithUOM convert(double doubleValue);
 
+	String getBaseUnit();
+
+	String getUnitString();
+
 }

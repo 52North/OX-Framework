@@ -83,6 +83,15 @@ public class UCUMTools {
 		
 		return u1.isCompatible(u2);
 	}
+	
+
+	/**
+	 * Returns the compatible SI unit.
+	 */
+	public static Unit getBaseUnit(String unitString) {
+		return parser.getUnit(unitString).getCompatibleSIUnit();
+	}
+	
 
 	public static class UnitConversionFailedException extends Exception {
 
@@ -96,6 +105,7 @@ public class UCUMTools {
 		}
 		
 	}
+
 
 
 }

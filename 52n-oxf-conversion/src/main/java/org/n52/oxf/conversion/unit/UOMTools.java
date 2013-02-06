@@ -63,5 +63,20 @@ public class UOMTools {
 			return doubleValue;
 		}
 	}
+	
+	public static double convertToBaseUnit(double doubleValue, String sourceUom) {
+		String target;
+		if (customUnitConverters.containsKey(sourceUom)) {
+			target = customUnitConverters.get(sourceUom).getBaseUnit();
+		}
+		else {
+			target = UCUMTools.getBaseUnit(sourceUom).getUCUMExpression();
+		}
+		return convertToTargetUnit(doubleValue, sourceUom, target);
+	}
+	
+	public static void addCustomUnitConverter(CustomUnitConverter c) {
+		customUnitConverters.put(c.getUnitString(), c);
+	}
 
 }

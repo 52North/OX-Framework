@@ -39,4 +39,14 @@ public class FlightLevelUnitConverter implements CustomUnitConverter {
 		return new NumberWithUOM(doubleValue * 100, RESULT_UOM);
 	}
 
+	@Override
+	public String getBaseUnit() {
+		return RESULT_UOM;
+	}
+
+	@Override
+	public String getUnitString() {
+		return "FL";
+	}
+
 }

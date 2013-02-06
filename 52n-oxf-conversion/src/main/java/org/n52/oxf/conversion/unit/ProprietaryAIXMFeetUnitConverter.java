@@ -31,4 +31,14 @@ public class ProprietaryAIXMFeetUnitConverter implements CustomUnitConverter {
 		return new NumberWithUOM(doubleValue, "[ft_i]");
 	}
 
+	@Override
+	public String getBaseUnit() {
+		return "[ft_i]";
+	}
+
+	@Override
+	public String getUnitString() {
+		return "FT";
+	}
+
 }
