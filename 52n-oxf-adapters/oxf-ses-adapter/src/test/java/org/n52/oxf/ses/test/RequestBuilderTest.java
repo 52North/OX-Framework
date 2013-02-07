@@ -35,6 +35,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.ses.adapter.ISESRequestBuilder;
 import org.n52.oxf.ses.adapter.SESRequestBuilder_00;
 import org.n52.oxf.xmlbeans.parser.SASamplingPointCase;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
@@ -153,6 +154,23 @@ public class RequestBuilderTest {
 
 		SESRequestBuilder_00 request = new SESRequestBuilder_00();
 		String asText = request.buildSubscribeRequest(parameters);
+		EnvelopeDocument envelope = EnvelopeDocument.Factory.parse(asText);
+
+		Collection<XmlError> errors = XMLBeansParser.validate(envelope);
+		Assert.assertTrue("SubscribeRequest is not valid: "+ errors, errors.isEmpty());
+	}
+	
+	@Test
+	public void shouldCreateValidLevel1SubscribeRequest() throws OXFException, XmlException {
+        ParameterContainer parameter = new ParameterContainer();
+        parameter.addParameterShell(ISESRequestBuilder.SUBSCRIBE_SES_URL, "http://ses.host");
+        parameter.addParameterShell(ISESRequestBuilder.SUBSCRIBE_CONSUMER_REFERENCE_ADDRESS,"http://localhost:9090/GSM2SWE/sesl");
+        parameter.addParameterShell(ISESRequestBuilder.SUBSCRIBE_FILTER_TOPIC,"ses:Measurements");
+        parameter.addParameterShell(ISESRequestBuilder.SUBSCRIBE_FILTER_MESSAGE_CONTENT_DIALECT, "http://www.w3.org/TR/1999/REC-xpath-19991116");
+        parameter.addParameterShell(ISESRequestBuilder.SUBSCRIBE_FILTER_MESSAGE_CONTENT, "//@xlink:href='urn:ogc:object:procedure:CITE:WeatherService:LGA'");
+        
+		SESRequestBuilder_00 request = new SESRequestBuilder_00();
+		String asText = request.buildSubscribeRequest(parameter);
 		EnvelopeDocument envelope = EnvelopeDocument.Factory.parse(asText);
 
 		Collection<XmlError> errors = XMLBeansParser.validate(envelope);

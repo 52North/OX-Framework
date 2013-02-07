@@ -186,7 +186,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 			logger.warn("{} not an XML topic expression. Trying plain text.", topicMarkup);
 			XmlUtil.setTextContent(topic, topicMarkup);
 		}
-		topic.setDialect(topicDialect);
+		topic.setDialect(topicDialect != null ? topicDialect : "http://docs.oasis-open.org/wsn/t-1/TopicExpression/Simple");
 	}
 
 	@Deprecated
@@ -411,13 +411,24 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		XmlCursor cur = messageContentObject.newCursor();
 		cur.toFirstContentToken();
 		
-		XmlObject filterObject = XmlObject.Factory.parse(singleContentFilter);
-		XmlCursor filterCur = filterObject.newCursor();
-		filterCur.toFirstContentToken();
+		boolean success = false;
+		try {
+			XmlObject filterObject = XmlObject.Factory.parse(singleContentFilter);
+			XmlCursor filterCur = filterObject.newCursor();
+			filterCur.toFirstContentToken();
 
-		filterCur.copyXml(cur);
-		filterCur.dispose();
-		cur.dispose();
+			filterCur.copyXml(cur);
+			filterCur.dispose();
+			success = true;
+		} catch (XmlException e) {
+			
+		}
+		
+		if (!success) {
+			cur.insertChars(singleContentFilter);
+		}
+		
+		cur.dispose();	
 		
 		return mcd;
 	}
