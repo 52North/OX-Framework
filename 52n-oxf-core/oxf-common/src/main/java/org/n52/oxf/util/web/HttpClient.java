@@ -29,6 +29,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.xmlbeans.XmlObject;
+import org.n52.oxf.request.RequestParameters;
 
 public interface HttpClient {
 

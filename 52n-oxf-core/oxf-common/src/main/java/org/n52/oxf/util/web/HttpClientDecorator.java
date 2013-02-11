@@ -30,6 +30,7 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.xmlbeans.XmlObject;
+import org.n52.oxf.request.RequestParameters;
 
 public abstract class HttpClientDecorator implements HttpClient {
     

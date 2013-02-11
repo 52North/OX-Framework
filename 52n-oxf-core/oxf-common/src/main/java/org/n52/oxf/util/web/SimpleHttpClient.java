@@ -42,6 +42,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.xmlbeans.XmlObject;
+import org.n52.oxf.request.RequestParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,7 +107,7 @@ public class SimpleHttpClient implements HttpClient {
     public HttpResponse executeGet(String baseUri, RequestParameters parameters) throws HttpClientException {
         try {
             URIBuilder uriBuilder = new URIBuilder(baseUri);
-            for (String key : parameters.getAvailableKeys()) {
+            for (String key : parameters.getParameterNames()) {
                 if (parameters.isSingleValue(key)) {
                     uriBuilder.addParameter(key, parameters.getSingleValue(key));
                 }
