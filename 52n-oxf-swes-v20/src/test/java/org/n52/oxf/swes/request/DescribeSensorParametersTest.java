@@ -7,7 +7,7 @@ import static org.n52.oxf.swes.request.DescribeSensorParameters.OUTPUT_FORMAT_SE
 
 import org.junit.Before;
 import org.junit.Test;
-import org.n52.oxf.util.web.RequestParameters;
+import org.n52.oxf.request.RequestParameters;
 
 public class DescribeSensorParametersTest {
     

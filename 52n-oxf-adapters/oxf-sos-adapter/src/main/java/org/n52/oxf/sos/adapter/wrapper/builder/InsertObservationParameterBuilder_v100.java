@@ -49,10 +49,10 @@ public class InsertObservationParameterBuilder_v100 {
 
 	private Map<String, String> getParameterMapFrom(ObservationParameters obsParameter)
 	{
-		if (!obsParameter.getAvailableKeys().isEmpty())
+		if (!obsParameter.getParameterNames().isEmpty())
 		{
-			HashMap<String,String> parameterMap = new HashMap<String, String>(obsParameter.getAvailableKeys().size());
-			for (String key : obsParameter.getAvailableKeys())
+			HashMap<String,String> parameterMap = new HashMap<String, String>(obsParameter.getParameterNames().size());
+			for (String key : obsParameter.getParameterNames())
 			{
 				if (!key.isEmpty())
 				{

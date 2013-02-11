@@ -46,6 +46,7 @@ import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.ows.capabilities.OperationsMetadata;
+import org.n52.oxf.request.MultimapRequestParameters;
 import org.n52.oxf.sos.adapter.SOSAdapter;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetFeatureOfInterestParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationByIdParameterBuilder_v100;
@@ -53,7 +54,6 @@ import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationParameterBuilder_v1
 import org.n52.oxf.sos.adapter.wrapper.builder.InsertObservationParameterBuilder_v100;
 import org.n52.oxf.sos.request.v100.RegisterSensorParameters;
 import org.n52.oxf.swes.request.DescribeSensorParameters;
-import org.n52.oxf.util.web.MultimapRequestParameters;
 
 /**
  * SOSWrapper wraps all SOS operations implemented in SOSAdapter class.

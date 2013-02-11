@@ -32,6 +32,7 @@ import java.util.*;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
+@Deprecated
 public class ParameterMap {
     
     Map<String, String> paramMap;

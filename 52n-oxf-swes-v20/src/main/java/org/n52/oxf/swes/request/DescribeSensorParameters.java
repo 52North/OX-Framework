@@ -1,7 +1,7 @@
 
 package org.n52.oxf.swes.request;
 
-import org.n52.oxf.util.web.MultimapRequestParameters;
+import org.n52.oxf.request.MultimapRequestParameters;
 
 /**
  * Assembles all parameters needed for a DescribeSensor request. 

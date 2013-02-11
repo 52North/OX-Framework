@@ -1,7 +1,7 @@
 
 package org.n52.oxf.sos.request.v200;
 
-import org.n52.oxf.util.web.MultimapRequestParameters;
+import org.n52.oxf.request.MultimapRequestParameters;
 
 /**
  * Assembles all parameters needed for a RegisterSensor request. This request is SOS 2.0.0 specific. 
@@ -67,7 +67,7 @@ public class InsertSensorParameters extends MultimapRequestParameters {
     public InsertSensorParameters(String sensorDescription, String procedureDescriptionFormat, String... observableProperties) {
         addNonEmpty(PROCEDURE_DESCRIPTION, sensorDescription);
         addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
-        addBulkParameterValues(OBSERVABLE_PROPERTY, observableProperties);
+        addParameterStringValues(OBSERVABLE_PROPERTY, observableProperties);
         // XXX add multiple parameter support!
 //        putNonEmpty(OBSERVABLE_PROPERTY, observableProperties);
     }
