@@ -106,6 +106,10 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 
 	private static final String N52_SES_RESOURCE_ID_NAMESPACE = "http://ws.apache.org/muse/addressing";
 
+	public static final String DEFAULT_FILTER_XPATH_DIALECT = "http://www.w3.org/TR/1999/REC-xpath-19991116";
+
+	public static final String DEFAULT_TOPIC_DIALECT = "http://docs.oasis-open.org/wsn/t-1/TopicExpression/Simple";
+
 
 	public String buildGetCapabilitiesRequest(ParameterContainer parameters) throws OXFException{
 
@@ -186,7 +190,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 			logger.warn("{} not an XML topic expression. Trying plain text.", topicMarkup);
 			XmlUtil.setTextContent(topic, topicMarkup);
 		}
-		topic.setDialect(topicDialect != null ? topicDialect : "http://docs.oasis-open.org/wsn/t-1/TopicExpression/Simple");
+		topic.setDialect(topicDialect != null ? topicDialect : DEFAULT_TOPIC_DIALECT);
 	}
 
 	@Deprecated
@@ -248,8 +252,9 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		
 		registerPublisher.setDemand(false);
 		
-		registerPublisher.setInitialTerminationTime(
-				createTerminationTime(getStringValueFor(REGISTER_PUBLISHER_LIFETIME_DURATION, parameters)));
+		String itTime = getStringValueFor(REGISTER_PUBLISHER_LIFETIME_DURATION, parameters);
+		if (itTime != null)
+			registerPublisher.setInitialTerminationTime(createTerminationTime(itTime));
 
 		body.set(registerPublisherDoc);
 
@@ -323,10 +328,13 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 	}
 
 	public String buildSubscribeRequest(ParameterContainer parameters) {
-
+		String consumer = getStringValueFor(SUBSCRIBE_CONSUMER_REFERENCE_ADDRESS, parameters);
+		if (consumer == null) throw new IllegalArgumentException("No consumer endpoint provided.");
+		
+		String recipient = getStringValueFor(SUBSCRIBE_SES_URL, parameters);
 		EnvelopeDocument request = aSesRequest()
 				.addSoapAction(SOAP_ACTION_SUBSCRIBE_REQUEST)
-				.addRecipient(getStringValueFor(SUBSCRIBE_SES_URL, parameters))
+				.addRecipient(recipient)
 				.addFrom(getFromAddress(SUBSCRIBE_FROM, parameters))
 				.addMessageId()
 				.build();
@@ -336,7 +344,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		SubscribeDocument subscribeDoc = SubscribeDocument.Factory.newInstance();
 		Subscribe subscribe = subscribeDoc.addNewSubscribe();
 		EndpointReferenceType consumerReference = subscribe.addNewConsumerReference();
-		consumerReference.addNewAddress().setStringValue(getStringValueFor(SUBSCRIBE_CONSUMER_REFERENCE_ADDRESS, parameters));
+		consumerReference.addNewAddress().setStringValue(consumer);
 		
 		FilterType filter = subscribe.addNewFilter();
 		try {
@@ -345,8 +353,9 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 			logger.warn("Could not create Filter element!", e);
 		}
 		
-		subscribe.setInitialTerminationTime(createTerminationTime(
-				getStringValueFor(SUBSCRIBE_INITIAL_TERMINATION_TIME, parameters)));
+		String itTime = getStringValueFor(SUBSCRIBE_INITIAL_TERMINATION_TIME, parameters);
+		if (itTime != null)
+			subscribe.setInitialTerminationTime(createTerminationTime(itTime));
 		
 		body.set(subscribeDoc);
 		
@@ -396,6 +405,9 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		else if (singleContentFilter != null) {
 			result.add(createContentFilter(getStringValueFor(SUBSCRIBE_FILTER_MESSAGE_CONTENT_DIALECT, parameters),
 					singleContentFilter));
+		}
+		else {
+			result.add(createContentFilter(DEFAULT_FILTER_XPATH_DIALECT, "*"));
 		}
 		
 		return result;
@@ -643,6 +655,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		}
 
 		SoapEnvelopeBuilder addRecipient(String recepient) {
+			if (recepient == null) throw new IllegalArgumentException("Recepient is null");
 			addWsaRecipientTo(envelope, recepient);
 			return this;
 		}
