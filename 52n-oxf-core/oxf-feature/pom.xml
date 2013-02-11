@@ -58,6 +58,10 @@
 			<groupId>isorelax</groupId>
 			<artifactId>isorelax</artifactId>
 		</dependency>
+		<dependency>
+		  <groupId>junit</groupId>
+		  <artifactId>junit-dep</artifactId>
+		</dependency>
 		<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
