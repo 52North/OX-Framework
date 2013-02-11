@@ -24,6 +24,8 @@
 
 package org.n52.oxf.sos.adapter;
 
+import static java.lang.String.format;
+import static org.apache.http.entity.ContentType.TEXT_XML;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OFFERING_PARAMETER;
@@ -259,35 +261,9 @@ public class SOSAdapter implements IServiceAdapter {
     public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
             OXFException {
 
-        String request = null;
         OperationResult result = null;
 
-        if (operation.getName().equals(GET_CAPABILITIES)) {
-            request = requestBuilder.buildGetCapabilitiesRequest(parameters);
-        }
-        else if (operation.getName().equals(GET_OBSERVATION)) {
-            request = requestBuilder.buildGetObservationRequest(parameters);
-        }
-        else if (operation.getName().equals(DESCRIBE_SENSOR)) {
-            request = requestBuilder.buildDescribeSensorRequest(parameters);
-        }
-        else if (operation.getName().equals(GET_FEATURE_OF_INTEREST)) {
-            request = requestBuilder.buildGetFeatureOfInterestRequest(parameters);
-        }
-        else if (operation.getName().equals(INSERT_OBSERVATION)) {
-            request = requestBuilder.buildInsertObservation(parameters);
-        }
-        else if (operation.getName().equals(REGISTER_SENSOR)) {
-            request = requestBuilder.buildRegisterSensor(parameters);
-        }
-        else if (operation.getName().equals(GET_OBSERVATION_BY_ID)) {
-            request = requestBuilder.buildGetObservationByIDRequest(parameters);
-        }
-
-        else {
-            // Operation not supported
-            throw new OXFException(String.format("Operation not supported: %s", operation.getName()));
-        }
+        String request = buildRequest(operation, parameters);
 
         try {
             if (operation.getDcps().length == 0) {
@@ -299,7 +275,7 @@ public class SOSAdapter implements IServiceAdapter {
                 uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
             }
 
-            HttpResponse httpResponse = httpClient.executePost(uri.trim(), request, ContentType.TEXT_XML);
+            HttpResponse httpResponse = httpClient.executePost(uri.trim(), request, TEXT_XML);
             HttpEntity responseEntity = httpResponse.getEntity();
             result = new OperationResult(responseEntity.getContent(), parameters, request);
 
@@ -329,12 +305,33 @@ public class SOSAdapter implements IServiceAdapter {
         catch (IOException e) {
             throw new OXFException("Could not create OperationResult.", e);
         }
-        // catch (ParserConfigurationException e) {
-        // throw new IllegalStateException("Could not create XML parser.", e);
-        // }
-        // catch (SAXException e) {
-        // throw new OXFException("XML not parsable.", e);
-        // }
+    }
+
+    private String buildRequest(Operation operation, ParameterContainer parameters) throws OXFException {
+        if (operation.getName().equals(GET_CAPABILITIES)) {
+            return requestBuilder.buildGetCapabilitiesRequest(parameters);
+        }
+        else if (operation.getName().equals(GET_OBSERVATION)) {
+            return requestBuilder.buildGetObservationRequest(parameters);
+        }
+        else if (operation.getName().equals(DESCRIBE_SENSOR)) {
+            return requestBuilder.buildDescribeSensorRequest(parameters);
+        }
+        else if (operation.getName().equals(GET_FEATURE_OF_INTEREST)) {
+            return requestBuilder.buildGetFeatureOfInterestRequest(parameters);
+        }
+        else if (operation.getName().equals(INSERT_OBSERVATION)) {
+            return requestBuilder.buildInsertObservation(parameters);
+        }
+        else if (operation.getName().equals(REGISTER_SENSOR)) {
+            return requestBuilder.buildRegisterSensor(parameters);
+        }
+        else if (operation.getName().equals(GET_OBSERVATION_BY_ID)) {
+            return requestBuilder.buildGetObservationByIDRequest(parameters);
+        }
+        else {
+            throw new OXFException(format("Operation '%s' not supported.", operation.getName()));
+        }
     }
 
     /**
