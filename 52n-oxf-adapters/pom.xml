@@ -14,6 +14,7 @@
 		<module>oxf-csw-adapter</module>
 		<module>oxf-ses-adapter</module>
 		<module>oxf-sos-adapter</module>
+		<module>oxf-sps-adapter</module>
 		<module>oxf-wcs-adapter</module>
 		<module>oxf-wms-adapter</module>
 	</modules>

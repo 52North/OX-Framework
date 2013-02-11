@@ -29,7 +29,11 @@
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+			<artifactId>junit-dep</artifactId>
+		</dependency>
+		<dependency>
+		  <groupId>org.hamcrest</groupId>
+		  <artifactId>hamcrest-all</artifactId>
 		</dependency>
 	</dependencies>
 	<build>

@@ -24,7 +24,7 @@
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>
-					<include>*/**/*</include>
+					<include>${basedir}/*/**/*</include>
 				</includes>
 			</resource>
 		</resources>
@@ -58,9 +58,12 @@
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
+			<artifactId>junit-dep</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>com.vividsolutions</groupId>
 			<artifactId>jts</artifactId>
@@ -78,7 +81,6 @@
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-			<version>2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.vast</groupId>
