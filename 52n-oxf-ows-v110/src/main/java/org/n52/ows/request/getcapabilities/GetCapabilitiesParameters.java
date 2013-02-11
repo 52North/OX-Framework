@@ -11,6 +11,8 @@ import org.n52.oxf.request.MultiValueRequestParameters;
 import org.n52.oxf.request.RequestParameters;
 
 /**
+ * <b>This class is test only yet!</b><br>
+ * <br>
  * Parameter set needed to create a GetCapabilities request, normally used to discover an OWS service's
  * capabilities and its metadata. Along the common request parameters extension parameters can be added (if
  * understood by the service) via {@link #addNonStandardParameter(String, String)}.<br>

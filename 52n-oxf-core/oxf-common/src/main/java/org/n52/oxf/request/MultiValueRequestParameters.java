@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <b>This class is test only yet!</b>
+ */
 public class MultiValueRequestParameters implements RequestParameters {
 
     private Map<String, MultiValue> parameters;

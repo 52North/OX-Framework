@@ -2,6 +2,8 @@
 package org.n52.ows.request.getcapabilities;
 
 /**
+ * <b>This class is test only yet!</b>
+ * <br><br>
  * The sections names as specified by the SPS 1.0.0 implementation specification (OGC 07-014r3).<br>
  * <br>
  * Call {@link #toString()} method to retrieve the section names as defined in the spec.

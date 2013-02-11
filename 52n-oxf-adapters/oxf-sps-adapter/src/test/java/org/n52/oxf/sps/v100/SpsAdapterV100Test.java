@@ -16,6 +16,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.n52.ows.request.getcapabilities.GetCapabilitiesParameters;
 import org.n52.ows.request.getcapabilities.GetCapabilitiesRequest;
+import org.n52.ows.request.getcapabilities.GetCapabilitiesXmlBeansBuilder;
+import org.n52.oxf.request.Request;
 import org.n52.oxf.request.ResponseHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +39,12 @@ public class SpsAdapterV100Test {
     public void 
     shouldReturnGetCapabilitiesRequestParametersBuilder()
     {
-//        GetCapabilitiesParameters parameters = createParameters();
+//        GetCapabilitiesParameters parameters = createCustomizedGetCapabilitiesParameters();
         GetCapabilitiesParameters parameters = new GetCapabilitiesParameters("SPS");
-        adapter.send(createRequest(parameters));
+        adapter.send(createRequestWith(parameters));
     }
 
-    private GetCapabilitiesParameters createParameters() {
+    private GetCapabilitiesParameters createCustomizedGetCapabilitiesParameters() {
         return new GetCapabilitiesParameters("SPS")
                     .setUpdateSequence("0.1.8")
                     .addAcceptVersions("1.0.0")
@@ -52,15 +54,17 @@ public class SpsAdapterV100Test {
                     .addNonStandardParameter("extension", "foobar");
     }
 
-    private GetCapabilitiesRequest createRequest(GetCapabilitiesParameters parameters) {
-        return adapter.createGetCapabilitiesRequest(parameters)
-                    .setResponseHandler(getCustomResponseHandler());
+    private GetCapabilitiesRequest createRequestWith(GetCapabilitiesParameters parameters) {
+        GetCapabilitiesRequest request = adapter.createGetCapabilitiesRequest(parameters);
+        request.setRequestBuilder(new GetCapabilitiesXmlBeansBuilder());
+        request.setResponseHandler(getCustomResponseHandler());
+        return request;
     }
 
     private ResponseHandler getCustomResponseHandler() {
         return new ResponseHandler() {
             @Override
-            public void onSuccess(InputStream inputStream) {
+            public void onSuccess(InputStream inputStream, int httpStatusCode) {
                 try {
                     XmlObject response = XmlObject.Factory.parse(inputStream);
                     assertThat(response.schemaType(), is(CapabilitiesDocument.type));
@@ -74,8 +78,8 @@ public class SpsAdapterV100Test {
             }
             
             @Override
-            public void onFailure() {
-                fail("Sending test request failed for some reason.");
+            public void onFailure(String reason) {
+                fail("Sending test request failed: " + reason);
             }
         };
     }
@@ -87,11 +91,11 @@ public class SpsAdapterV100Test {
         }
 
         @Override
-        public void send(GetCapabilitiesRequest request) {
+        public void send(Request request) {
             ResponseHandler handler = request.getResponseHandler();
             CapabilitiesDocument capabilitiesDoc = CapabilitiesDocument.Factory.newInstance();
             capabilitiesDoc.addNewCapabilities();
-            handler.onSuccess(capabilitiesDoc.newInputStream());
+            handler.onSuccess(capabilitiesDoc.newInputStream(), 200);
         }
         
     }

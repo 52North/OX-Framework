@@ -6,6 +6,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * <b>This class is test only yet!</b>
+ */
 public class MultiValue {
 
     private List<String> values = new ArrayList<String>();

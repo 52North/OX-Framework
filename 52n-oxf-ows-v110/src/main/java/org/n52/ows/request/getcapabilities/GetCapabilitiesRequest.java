@@ -1,28 +1,56 @@
 
 package org.n52.ows.request.getcapabilities;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.http.HttpResponse;
+import org.n52.oxf.request.Request;
 import org.n52.oxf.request.RequestParameters;
-import org.n52.oxf.request.ResponseHandler;
 import org.n52.oxf.request.XmlObjectResponseHandler;
+import org.n52.oxf.util.web.HttpClient;
+import org.n52.oxf.util.web.HttpClientException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class GetCapabilitiesRequest {
-
-    // TODO default vs. inject
-    private ResponseHandler responseHandler = new XmlObjectResponseHandler();
+/**
+ * <b>This class is test only yet!</b>
+ */
+public class GetCapabilitiesRequest extends Request {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetCapabilitiesRequest.class);
 
     private RequestParameters parameters;
 
     public GetCapabilitiesRequest(GetCapabilitiesParameters parameters) {
+        super(new GetCapabilitiesXmlBeansBuilder(), new XmlObjectResponseHandler());
         this.parameters = parameters.getStandardParameters();
     }
     
-    public GetCapabilitiesRequest setResponseHandler(ResponseHandler responseHandler) {
-        this.responseHandler = responseHandler;
-        return this;
+    @Override
+    public void sendViaGet(String serviceUrl, HttpClient httpClient) {
+        try {
+            HttpResponse response = httpClient.executeGet(serviceUrl, parameters);
+            int statusCode = response.getStatusLine().getStatusCode();
+            InputStream responseStream = getResponseStreamFrom(response);
+            responseHandler.onSuccess(responseStream, statusCode);
+        } catch (HttpClientException e) {
+            LOGGER.error("Sending GetCapabilities failed.", e);
+            responseHandler.onFailure(e.getMessage());
+        }
+        catch (IOException e) {
+            LOGGER.error("Could not create response stream.", e);
+            responseHandler.onFailure(e.getMessage());
+        }
+    }
+    
+    @Override
+    public void sendViaPost(String serviceUrl, HttpClient httpClient) {
+        // TODO implement
     }
 
-    public ResponseHandler getResponseHandler() {
-        return responseHandler;
+    private InputStream getResponseStreamFrom(HttpResponse response) throws IOException {
+        return response.getEntity() != null ? response.getEntity().getContent() : null;
     }
-
+    
 }
