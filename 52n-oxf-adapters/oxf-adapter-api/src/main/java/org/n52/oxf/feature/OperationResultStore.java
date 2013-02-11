@@ -21,29 +21,33 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
+
 package org.n52.oxf.feature;
+
+import static org.n52.oxf.ows.capabilities.Parameter.COMMON_NAME_VERSION;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
-import org.n52.oxf.ows.capabilities.Parameter;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 
 public abstract class OperationResultStore {
-    
+
     protected XmlObject xmlObject;
-    protected String version;
     
+    protected String version;
+
     /**
-     * @deprecated Use argument constructor {@link OperationResultStore#OperationResultStore(OperationResult)} with {@link #unmarshalFeatures(OperationResult)}
+     * @deprecated Use argument constructor {@link OperationResultStore#OperationResultStore(OperationResult)}
+     *             with {@link #unmarshalFeatures(OperationResult)}
      */
     protected OperationResultStore() {
         // for backward compatibility .. TODO remove when deprecated contructor is going to be removed
     }
-    
+
     protected OperationResultStore(OperationResult operationResult) throws OXFException {
         try {
             this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsStream(), false);
@@ -56,7 +60,7 @@ public abstract class OperationResultStore {
 
     protected String getVersion(OperationResult operationResult) {
         ParameterContainer parameters = operationResult.getUsedParameters();
-        ParameterShell shell = parameters.getParameterShellWithCommonName(Parameter.COMMON_NAME_VERSION);
+        ParameterShell shell = parameters.getParameterShellWithCommonName(COMMON_NAME_VERSION);
         return (String) shell.getSpecifiedValue();
     }
 
