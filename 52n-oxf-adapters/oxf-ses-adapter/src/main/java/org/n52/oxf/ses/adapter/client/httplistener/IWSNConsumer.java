@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012
+ * Copyright (C) 2012
  * by 52 North Initiative for Geospatial Open Source Software GmbH
  *
  * Contact: Andreas Wytzisk
@@ -21,22 +21,33 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.ses.adapter;
+package org.n52.oxf.ses.adapter.client.httplistener;
+
+import java.net.URL;
+
+import org.n52.oxf.ses.adapter.client.httplistener.HttpListener;
 
 /**
- * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>
- * @version 03.08.2009
- * @deprecated where should this be used?!
+ * Interface for a WS-N consumer.
+ * 
+ * @author matthes rieke
+ *
  */
-public class SESResponseBuilderFactory {
+public interface IWSNConsumer {
 
-    public static ISESResponseBuilder generateResponseBuilder(String serviceVersion) {
+	/**
+	 * @param collectListener the request listener
+	 */
+	public void setListener(HttpListener collectListener);
 
-        if (serviceVersion.equals(SESAdapter.SUPPORTED_VERSIONS[0])) {
-            return new SESResponseBuilder_00();
-        }
-        else {
-            throw new IllegalArgumentException("Service version '" + serviceVersion + "' not supported.");
-        }
-    }
+	/**
+	 * use to free resources
+	 */
+	public void stop();
+	
+	/**
+	 * @return if available, return the publicly known URL of the consumer
+	 */
+	public URL getPublicURL();
+
 }

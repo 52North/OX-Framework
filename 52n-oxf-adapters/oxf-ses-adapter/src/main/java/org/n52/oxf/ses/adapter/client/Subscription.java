@@ -1,0 +1,257 @@
+/**
+ * Copyright (C) 2012
+ * by 52 North Initiative for Geospatial Open Source Software GmbH
+ *
+ * Contact: Andreas Wytzisk
+ * 52 North Initiative for Geospatial Open Source Software GmbH
+ * Martin-Luther-King-Weg 24
+ * 48155 Muenster, Germany
+ * info@52north.org
+ *
+ * This program is free software; you can redistribute and/or modify it under
+ * the terms of the GNU General Public License version 2 as published by the
+ * Free Software Foundation.
+ *
+ * This program is distributed WITHOUT ANY WARRANTY; even without the implied
+ * WARRANTY OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program (see gnu-gpl v2.txt). If not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
+ * visit the Free Software Foundation web page, http://www.fsf.org.
+ */
+package org.n52.oxf.ses.adapter.client;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.namespace.QName;
+
+import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
+import org.joda.time.DateTime;
+import org.n52.oxf.ses.adapter.client.ISESConnector.SESResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+public class Subscription {
+	
+	private static final Logger logger = LoggerFactory
+			.getLogger(Subscription.class);
+	
+	private ISESConnector manager;
+	private String resourceID;
+	private DateTime terminationTime;
+	private SubscriptionConstraints constraints;
+	private boolean failed;
+	private String exceptionText;
+	private String wsdlUrl;
+	private boolean destroyed;
+
+	private ResourceIdInstance resourceIdInstance;
+
+	private static List<ResourceIdInstance> resourceIdInstances = new ArrayList<ResourceIdInstance>(); 
+	
+	private static String SES_RESOURCES_NS = "http://ws.apache.org/muse/addressing";
+	private static String WSA_NS = "http://www.w3.org/2005/08/addressing";
+	private static String WSDL_INSTANCE_NS = "http://www.w3.org/ns/wsdl-instance";
+	private static QName WSDL_LOCATION_QN = new QName(WSDL_INSTANCE_NS, "wsdlLocation");
+	private static final String WSDL_NS = "http://schemas.xmlsoap.org/wsdl/";
+	private static final String WSDL_SOAP12_NS = "http://schemas.xmlsoap.org/wsdl/soap12/";
+	private static final QName WSDL_SOAP_LOCATION_QN = new QName("location");
+	
+	private static Map<String, ISESConnector> MANAGERS = new HashMap<String, ISESConnector>();
+	private static final Object MANAGERS_MUTEX = new Object();
+	
+	private static String MANAGER_WSDL_XPATH = "declare namespace wsa='"+WSA_NS+"'; " +
+			"declare namespace muse-wsa='"+SES_RESOURCES_NS+"'; " +
+			"declare namespace wsdl-inst='"+WSDL_INSTANCE_NS+"'; " +
+			"//wsa:Metadata[@wsdl-inst:"+ WSDL_LOCATION_QN.getLocalPart() +"]";
+	private static String MANAGER_XPATH = "declare namespace wsdl='"+WSDL_NS+"'; " +
+		"declare namespace wsdl-soap12='"+WSDL_SOAP12_NS+"'; " +
+		"//wsdl:service/wsdl:port/wsdl-soap12:address[@location]";
+	
+	static {
+		resourceIdInstances.add(new ResourceIdInstance("http://ws.apache.org/muse/addressing", "ResourceId"));
+		resourceIdInstances.add(new ResourceIdInstance("http://www.ids-spa.it/", "ResourceId"));
+	}
+	
+	
+	public Subscription(SubscriptionConstraints con) {
+		this.constraints = con;
+	}
+	
+	public void parseResponse(XmlObject response) {
+		if (response == null) {
+			this.failed = true;
+			this.exceptionText = "No response received.";
+			return;
+		}
+		/*
+		 * SubscribeResponse
+		 */
+		XmlObject[] body = response.selectPath("declare namespace soap='http://www.w3.org/2003/05/soap-envelope'; //soap:Body");
+		if (body == null || body.length == 0) this.setException(new Exception("Could not parse response: no SOAP body found."));
+		
+		XmlCursor cur = body[0].newCursor();
+		cur.toFirstChild();
+		if (cur.getName().getLocalPart().equals("SubscribeResponse")) {
+			XmlObject[] wsdlLocation = response.selectPath(MANAGER_WSDL_XPATH);
+			
+			/*
+			 * get the WSDL definition
+			 */
+			if (wsdlLocation != null && wsdlLocation.length > 0) {
+				this.wsdlUrl = wsdlLocation[0].newCursor().getAttributeText(WSDL_LOCATION_QN).split(" ")[1];
+				
+				SESResponse wsdl = null; 
+				try {
+					wsdl = SESClient.sendHttpGetRequest(new URI(this.wsdlUrl));
+				} catch (Exception e) {
+					logger.warn(e.getMessage(), e);
+				}
+				
+				/*
+				 * get the managers URL from the wsdl
+				 */
+				if (wsdl != null) {
+					XmlObject[] managerLocation = wsdl.getResponseBody().selectPath(MANAGER_XPATH);
+					if (managerLocation != null && managerLocation.length > 0) {
+						try {
+							URL url = new URL(managerLocation[0].newCursor().getAttributeText(WSDL_SOAP_LOCATION_QN));
+							
+							/*
+							 * only create one manager instance per URL
+							 */
+							synchronized (MANAGERS_MUTEX) {
+								if (MANAGERS.containsKey(url.toString())) {
+									this.manager = MANAGERS.get(url.toString());
+								}
+								else {
+									this.manager = SESClient.getNewConnectorInstance(new URL(managerLocation[0].newCursor().getAttributeText(WSDL_SOAP_LOCATION_QN)));
+									this.manager.setAddSoap(false);
+									MANAGERS.put(url.toString(), this.manager);
+								}
+							}
+						} catch (MalformedURLException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			
+			/*
+			 * get the resourceID
+			 */
+			this.resourceID = resolveSubscriptionResource(response);
+		}
+		/*
+		 * UnsubscribeResponse
+		 */
+		else if (cur.getName().getLocalPart().equals("DestroyResponse") || cur.getName().getLocalPart().equals("UnsubscribeResponse")) {
+			this.destroyed = true;
+		}
+		
+		else {
+			this.failed = true;
+		}
+		
+	}
+	
+
+	private String resolveSubscriptionResource(XmlObject response) {
+		for (ResourceIdInstance rid : resourceIdInstances) {
+			XmlObject[] resourceObj = response.selectPath(rid.getXPathExpression());
+			if (resourceObj != null && resourceObj.length > 0) {
+				this.resourceIdInstance = rid;
+				return resourceObj[0].newCursor().getTextValue().trim();
+			}
+		}
+		return null;
+	}
+
+	public XmlObject getUnSubscribeDocument() {
+		XmlObject xo = null;
+		
+		StringBuilder sb = new StringBuilder();
+		InputStream in = getClass().getResourceAsStream("template_unsubscribe.xml");
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		
+		try {
+			while (br.ready()) {
+				sb.append(br.readLine());
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		try {
+			xo = XmlObject.Factory.parse(sb.toString().replace("${resource}", this.resourceID).
+					replace("${ses_sub_host}", this.manager.getHost().toString()).replace("${resourceIdNamespace}",
+							this.resourceIdInstance.getNamespace()));
+		} catch (XmlException e) {
+			e.printStackTrace();
+		}
+		
+		return xo;
+	}
+	
+	/**
+	 * @return the manager instance instantiated dynamically from the SubscribeResponses wsdl
+	 */
+	public ISESConnector getManager() {
+		return manager;
+	}
+	
+	public String getResourceID() {
+		return resourceID;
+	}
+	
+	
+	public ResourceIdInstance getResourceIdInstance() {
+		return resourceIdInstance;
+	}
+
+	public DateTime getTerminationTime() {
+		return terminationTime;
+	}
+	
+	public void setException(Exception e) {
+		this.failed = true;
+		this.exceptionText = e.getMessage();
+	}
+
+	public boolean isFailed() {
+		return failed;
+	}
+
+	public String getExceptionText() {
+		return exceptionText;
+	}
+
+	public SubscriptionConstraints getConstraints() {
+		return constraints;
+	}
+
+	public boolean isDestroyed() {
+		return destroyed;
+	}
+
+	public void shutdown() {
+		
+	}
+
+	
+
+}

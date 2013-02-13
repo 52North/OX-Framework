@@ -29,6 +29,7 @@ import org.n52.oxf.adapter.ParameterShell;
 /**
  * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>
  * @version 03.08.2009
+ * @deprecated where should this be used?!
  */
 public interface ISESResponseBuilder {
     

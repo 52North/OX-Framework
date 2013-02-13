@@ -1,0 +1,8 @@
+		<wsnt:Notify  xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
+			<wsnt:NotificationMessage>
+				<wsnt:Topic Dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Simple">${topic}</wsnt:Topic>
+				<wsnt:Message>
+				${message_xml}
+				</wsnt:Message>
+			</wsnt:NotificationMessage>
+		</wsnt:Notify>

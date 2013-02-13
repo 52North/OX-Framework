@@ -37,6 +37,7 @@ import org.w3.x2003.x05.soapEnvelope.Header;
 /**
  * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>
  * @version 03.08.2009
+ * @deprecated where should this be used?!
  */
 public class SESResponseBuilder_00 implements ISESResponseBuilder {
 

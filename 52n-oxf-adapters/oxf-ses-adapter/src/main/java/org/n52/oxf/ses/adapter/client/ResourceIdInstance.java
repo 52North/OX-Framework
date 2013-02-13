@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012
+ * Copyright (C) 2012
  * by 52 North Initiative for Geospatial Open Source Software GmbH
  *
  * Contact: Andreas Wytzisk
@@ -21,22 +21,34 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.ses.adapter;
+package org.n52.oxf.ses.adapter.client;
 
-/**
- * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>
- * @version 03.08.2009
- * @deprecated where should this be used?!
- */
-public class SESResponseBuilderFactory {
+public class ResourceIdInstance {
 
-    public static ISESResponseBuilder generateResponseBuilder(String serviceVersion) {
+	private String namespace = "http://ws.apache.org/muse/addressing"; //http://www.ids-spa.it/
+	private String element = "ResourceId";
 
-        if (serviceVersion.equals(SESAdapter.SUPPORTED_VERSIONS[0])) {
-            return new SESResponseBuilder_00();
-        }
-        else {
-            throw new IllegalArgumentException("Service version '" + serviceVersion + "' not supported.");
-        }
-    }
+	public ResourceIdInstance(String namespace, String element) {
+		this.namespace = namespace;
+		this.element = element;
+	}
+	
+	
+	public String getNamespace() {
+		return namespace;
+	}
+
+	public String getElement() {
+		return element;
+	}
+
+	public String getXPathExpression() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("declare namespace res='");
+		sb.append(this.namespace);
+		sb.append("'; //res:");
+		sb.append(this.element);
+		return sb.toString();
+	}
+	
 }

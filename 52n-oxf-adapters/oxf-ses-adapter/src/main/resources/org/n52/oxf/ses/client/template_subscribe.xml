@@ -1,0 +1,8 @@
+    <wsnt:Subscribe xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
+      <wsnt:ConsumerReference>
+        <wsa:Address xmlns:wsa="http://www.w3.org/2005/08/addressing">${consumer}</wsa:Address>
+      </wsnt:ConsumerReference>
+      <wsnt:Filter>
+		${filter_xml}
+      </wsnt:Filter>
+    </wsnt:Subscribe>

@@ -1,0 +1,8 @@
+        <wsbn:RegisterPublisher  xmlns:wsbn="http://docs.oasis-open.org/wsn/br-2" xmlns:wsrf="http://docs.oasis-open.org/wsrf/rl-2">
+            <wsrf:RequestedLifetimeDuration>3008-08-06T15:46:56+02:00</wsrf:RequestedLifetimeDuration>
+            <wsbn:Topic
+                dialect="http://docs.oasis-open.org/wsn/t-1/TopicExpression/Simple">${topic}</wsbn:Topic>
+			${sensorml}
+            <wsbn:Demand>no</wsbn:Demand>
+            <wsa:EndpointReferenceType xmlns:wsa="http://www.w3.org/2005/08/addressing">ignore</wsa:EndpointReferenceType>
+        </wsbn:RegisterPublisher>
