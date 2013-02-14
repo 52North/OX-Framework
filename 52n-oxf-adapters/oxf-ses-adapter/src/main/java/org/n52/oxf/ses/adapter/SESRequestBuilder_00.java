@@ -187,7 +187,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		try {
 			topic.set(XmlObject.Factory.parse(topicMarkup));
 		} catch (XmlException e1) {
-			logger.warn("{} not an XML topic expression. Trying plain text.", topicMarkup);
+			logger.info("{} not an XML topic expression. Trying plain text.", topicMarkup);
 			XmlUtil.setTextContent(topic, topicMarkup);
 		}
 		topic.setDialect(topicDialect != null ? topicDialect : DEFAULT_TOPIC_DIALECT);
