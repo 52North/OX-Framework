@@ -45,6 +45,20 @@
 			<artifactId>52n-xml-swes-v20</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans-xpath</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>saxon</artifactId>
+					<groupId>net.sf.saxon</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>Saxon-HE</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-xml-sampling-v100</artifactId>
 			<scope>test</scope>

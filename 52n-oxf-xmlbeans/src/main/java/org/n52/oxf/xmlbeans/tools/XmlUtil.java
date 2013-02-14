@@ -40,6 +40,7 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.apache.xmlbeans.impl.store.Path;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 import org.w3c.dom.Node;
@@ -340,6 +341,20 @@ public class XmlUtil {
 
 		}
 		return null;
+	}
+	
+	/**
+	 * This method allows XPath 2.0 expressions with XmlBeans 2.4.0+
+	 * It uses a wrapper to access Saxon-HE 9.4.0.6
+	 * 
+	 * @param path the XPath expression
+	 * @param xo the Xmlobject
+	 * @return the resulting XmlObject array
+	 */
+	public static XmlObject[] selectPath(String path, XmlObject xo) {
+		XmlOptions opts = new XmlOptions();
+		opts.put(Path.PATH_DELEGATE_INTERFACE, "org.n52.oxf.xmlbeans.tools.XbeansXPathSaxon94");
+		return xo.selectPath(path, opts);
 	}
 
 	public static QName getElementType(XmlObject xml) {

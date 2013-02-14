@@ -265,6 +265,16 @@
 				<version>12.0</version>
 			</dependency>
 			<dependency>
+				<groupId>org.apache.xmlbeans</groupId>
+				<artifactId>xmlbeans-xpath</artifactId>
+				<version>2.6.0</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.saxon</groupId>
+				<artifactId>Saxon-HE</artifactId>
+				<version>9.4.0.6</version>
+			</dependency>
+			<dependency>
 				<groupId>commons-lang</groupId>
 				<artifactId>commons-lang</artifactId>
 				<version>2.6</version>
@@ -420,6 +430,7 @@
 						</includes>
 						<excludes>
 							<exclude>src/**/NanoHTTPD.java</exclude>
+							<exclude>src/**/XbeansXPathSaxon94.java</exclude>
 						</excludes>
 						<strictCheck>true</strictCheck>
 						<properties>
