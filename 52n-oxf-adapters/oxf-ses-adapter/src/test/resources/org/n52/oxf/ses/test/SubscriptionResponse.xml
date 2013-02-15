@@ -1,0 +1,39 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">
+    <soap:Header>
+        <wsa:To xmlns:wsa="http://www.w3.org/2005/08/addressing">http://www.w3.org/2005/08/addressing/role/anonymous</wsa:To>
+        <wsa:Action xmlns:wsa="http://www.w3.org/2005/08/addressing">http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeResponse</wsa:Action>
+        <wsa:MessageID xmlns:wsa="http://www.w3.org/2005/08/addressing">uuid:a7bb49f4-0531-a1fe-2eb4-424fc8684016</wsa:MessageID>
+        <wsa:RelatesTo xmlns:wsa="http://www.w3.org/2005/08/addressing" RelationshipType="wsa:Reply">uuid:1b4d3025-f80a-a5b6-aa37-864c47fa1a7e</wsa:RelatesTo>
+        <wsa:From xmlns:wsa="http://www.w3.org/2005/08/addressing">
+            <wsa:Address>http://localhost:8080/52n-ses-core-1.0-SNAPSHOT/services/Broker</wsa:Address>
+        </wsa:From>
+    </soap:Header>
+    <soap:Body>
+        <wsnt:SubscribeResponse xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
+            <wsnt:SubscriptionReference>
+                <wsa:Address xmlns:wsa="http://www.w3.org/2005/08/addressing">
+                                http://localhost:8080/52n-ses-core-1.0-SNAPSHOT/services/SubscriptionManager
+                </wsa:Address>
+                <wsa:ReferenceParameters xmlns:wsa="http://www.w3.org/2005/08/addressing">
+                    <muse-wsa:ResourceId xmlns:muse-wsa="http://ws.apache.org/muse/addressing">
+                          Subscription-2
+                    </muse-wsa:ResourceId>
+                </wsa:ReferenceParameters>
+                <wsa:Metadata
+                    xmlns:wsa="http://www.w3.org/2005/08/addressing"
+                    xmlns:NS1="http://www.w3.org/ns/wsdl-instance"
+                    NS1:wsdlLocation="http://docs.oasis-open.org/wsn/bw-2 ${wsdlLocation}"
+                    xmlns:sesinst="http://docs.oasis-open.org/wsn/bw-2">
+                    <InterfaceName xmlns="http://www.w3.org/2007/05/addressing/metadata">
+                       sesinst:SubscriptionManager
+                    </InterfaceName>
+                    <ServiceName
+                        xmlns="http://www.w3.org/2007/05/addressing/metadata" EndpointName="SubscriptionManagerPort">
+                         sesinst:SubscriptionManagerService
+                    </ServiceName>
+                </wsa:Metadata>
+            </wsnt:SubscriptionReference>
+            <wsnt:CurrentTime>2012-03-30T12:34:32+02:00</wsnt:CurrentTime>
+        </wsnt:SubscribeResponse>
+    </soap:Body>
+</soap:Envelope>

@@ -35,6 +35,7 @@ import java.util.Map;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,7 +112,7 @@ public class Publisher {
 	}
 
 	public void parseResponse(XmlObject response) {
-		XmlObject[] body = response.selectPath("declare namespace soap='http://www.w3.org/2003/05/soap-envelope'; //soap:Body");
+		XmlObject[] body = XmlUtil.selectPath("declare namespace soap='http://www.w3.org/2003/05/soap-envelope'; //soap:Body", response);
 		if (body == null || body.length == 0) this.setException(new Exception("Could not parse response: no SOAP body found."));
 		
 		XmlCursor cur = body[0].newCursor();
@@ -120,18 +121,18 @@ public class Publisher {
 			/*
 			 * get the resourceID
 			 */
-			XmlObject[] xo = response.selectPath(RESOURCE_ID_XPATH);
+			XmlObject[] xo = XmlUtil.selectPath(RESOURCE_ID_XPATH, response);
 			if (xo != null && xo.length > 0) {
-				this.resourceID = xo[0].newCursor().getTextValue();
+				this.resourceID = xo[0].newCursor().getTextValue().trim();
 			}
 			
 			/*
 			 * get the publishers address
 			 */
-			xo = response.selectPath(PUBLISHER_ADDRESS_XPATH);
+			xo = XmlUtil.selectPath(PUBLISHER_ADDRESS_XPATH, response);
 			publisher:
 			if (xo != null && xo.length > 0) {
-				this.publisherAddress = xo[0].newCursor().getTextValue();
+				this.publisherAddress = xo[0].newCursor().getTextValue().trim();
 				URL url = null;
 				try {
 					url = new URL(this.publisherAddress);
@@ -159,9 +160,9 @@ public class Publisher {
 			/*
 			 * get the consumer address
 			 */
-			xo = response.selectPath(CONSUMER_ADDRESS_XPATH);
+			xo = XmlUtil.selectPath(CONSUMER_ADDRESS_XPATH, response);
 			if (xo != null && xo.length > 0) {
-				this.consumerAddress = xo[0].newCursor().getTextValue();
+				this.consumerAddress = xo[0].newCursor().getTextValue().trim();
 			}
 		} else if (cur.getName().getLocalPart().equals("DestroyRegistrationResponse")){
 			this.destroyed = true;

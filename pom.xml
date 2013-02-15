@@ -431,6 +431,7 @@
 						<excludes>
 							<exclude>src/**/NanoHTTPD.java</exclude>
 							<exclude>src/**/XbeansXPathSaxon94.java</exclude>
+							<exclude>src/**/XbeansXQuerySaxon94.java</exclude>
 						</excludes>
 						<strictCheck>true</strictCheck>
 						<properties>

@@ -24,6 +24,8 @@
 package org.n52.oxf.ses.adapter.client;
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -198,6 +200,9 @@ public class SESClient {
 	
 	
 	public static SESResponse sendHttpGetRequest(URI uri) throws Exception {
+		if (uri.getScheme().equals("file")) {
+			return new SESResponse(200, XmlObject.Factory.parse(new FileInputStream(new File(uri))));
+		}
 		return connectorImplGetInst.sendHttpGetRequest(uri);
 	}
 	

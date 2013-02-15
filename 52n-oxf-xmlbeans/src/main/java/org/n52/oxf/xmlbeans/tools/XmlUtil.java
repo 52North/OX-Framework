@@ -352,10 +352,49 @@ public class XmlUtil {
 	 * @return the resulting XmlObject array
 	 */
 	public static XmlObject[] selectPath(String path, XmlObject xo) {
-		XmlOptions opts = new XmlOptions();
+		return selectPath(path, xo, new XmlOptions());
+	}
+	
+	/**
+	 * This method allows XPath 2.0 expressions with XmlBeans 2.4.0+
+	 * It uses a wrapper to access Saxon-HE 9.4.0.6
+	 * 
+	 * @param path the XPath expression
+	 * @param xo the Xmlobject
+	 * @param opts XmlOptions
+	 * @return the resulting XmlObject array
+	 */
+	public static XmlObject[] selectPath(String path, XmlObject xo, XmlOptions opts) {
 		opts.put(Path.PATH_DELEGATE_INTERFACE, "org.n52.oxf.xmlbeans.tools.XbeansXPathSaxon94");
 		return xo.selectPath(path, opts);
 	}
+	
+	/**
+	 * This method allows XQuery expressions with XmlBeans 2.4.0+
+	 * It uses a wrapper to access Saxon-HE 9.4.0.6
+	 * 
+	 * @param path the XQuery expression
+	 * @param xo the Xmlobject
+	 * @return the resulting XmlObject array
+	 */
+	public static XmlObject[] execQuery(String path, XmlObject xo) {
+		return execQuery(path, xo, new XmlOptions());
+	}
+	
+	/**
+	 * This method allows XQuery expressions with XmlBeans 2.4.0+
+	 * It uses a wrapper to access Saxon-HE 9.4.0.6
+	 * 
+	 * @param path the XQuery expression
+	 * @param xo the Xmlobject
+	 * @param opts XmlOptions
+	 * @return the resulting XmlObject array
+	 */
+	public static XmlObject[] execQuery(String path, XmlObject xo, XmlOptions opts) {
+		opts.put(Path.PATH_DELEGATE_INTERFACE, "org.n52.oxf.xmlbeans.tools.XbeansXQuerySaxon94");
+		return xo.execQuery(path, opts);
+	}
+	
 
 	public static QName getElementType(XmlObject xml) {
 		return xml == null ? null : xml.schemaType().getDocumentElementName();

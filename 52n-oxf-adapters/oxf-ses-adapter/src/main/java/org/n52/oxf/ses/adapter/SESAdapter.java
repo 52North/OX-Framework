@@ -50,6 +50,7 @@ import org.n52.oxf.util.web.HttpClient;
 import org.n52.oxf.util.web.HttpClientException;
 import org.n52.oxf.util.web.ProxyAwareHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3.x2003.x05.soapEnvelope.Envelope;
@@ -248,7 +249,7 @@ public class SESAdapter implements IServiceAdapter {
 
 					// check for right action
 					// http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse
-					XmlObject[] actions = header.selectPath("declare namespace s='http://www.w3.org/2005/08/addressing' .//s:Action");
+					XmlObject[] actions = XmlUtil.selectPath("declare namespace s='http://www.w3.org/2005/08/addressing' .//s:Action", header);
 					String action = null;
 
 					// is this the right request? If NOT throw Exception

@@ -42,6 +42,7 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
 import org.n52.oxf.ses.adapter.client.ISESConnector.SESResponse;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,13 +102,13 @@ public class Subscription {
 		/*
 		 * SubscribeResponse
 		 */
-		XmlObject[] body = response.selectPath("declare namespace soap='http://www.w3.org/2003/05/soap-envelope'; //soap:Body");
+		XmlObject[] body = XmlUtil.selectPath("declare namespace soap='http://www.w3.org/2003/05/soap-envelope'; //soap:Body", response);
 		if (body == null || body.length == 0) this.setException(new Exception("Could not parse response: no SOAP body found."));
 		
 		XmlCursor cur = body[0].newCursor();
 		cur.toFirstChild();
 		if (cur.getName().getLocalPart().equals("SubscribeResponse")) {
-			XmlObject[] wsdlLocation = response.selectPath(MANAGER_WSDL_XPATH);
+			XmlObject[] wsdlLocation = XmlUtil.selectPath(MANAGER_WSDL_XPATH, response);
 			
 			/*
 			 * get the WSDL definition
@@ -126,7 +127,7 @@ public class Subscription {
 				 * get the managers URL from the wsdl
 				 */
 				if (wsdl != null) {
-					XmlObject[] managerLocation = wsdl.getResponseBody().selectPath(MANAGER_XPATH);
+					XmlObject[] managerLocation = XmlUtil.selectPath(MANAGER_XPATH, wsdl.getResponseBody());
 					if (managerLocation != null && managerLocation.length > 0) {
 						try {
 							URL url = new URL(managerLocation[0].newCursor().getAttributeText(WSDL_SOAP_LOCATION_QN));
@@ -172,7 +173,7 @@ public class Subscription {
 
 	private String resolveSubscriptionResource(XmlObject response) {
 		for (ResourceIdInstance rid : resourceIdInstances) {
-			XmlObject[] resourceObj = response.selectPath(rid.getXPathExpression());
+			XmlObject[] resourceObj = XmlUtil.selectPath(rid.getXPathExpression(), response);
 			if (resourceObj != null && resourceObj.length > 0) {
 				this.resourceIdInstance = rid;
 				return resourceObj[0].newCursor().getTextValue().trim();
