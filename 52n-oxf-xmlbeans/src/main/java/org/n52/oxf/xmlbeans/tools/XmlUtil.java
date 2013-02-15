@@ -258,7 +258,7 @@ public class XmlUtil {
 	}
 
 	private static XmlObject getRootNode(XmlObject input) {
-		return input.selectPath("/*")[0];
+		return selectPath("/*", input)[0];
 	}
 
 	/**
