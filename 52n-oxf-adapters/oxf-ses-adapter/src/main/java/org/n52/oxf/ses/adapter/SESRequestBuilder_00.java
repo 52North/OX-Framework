@@ -70,6 +70,7 @@ import org.oasisOpen.docs.wsn.b2.SubscribeDocument.Subscribe;
 import org.oasisOpen.docs.wsn.b2.TopicExpressionDocument;
 import org.oasisOpen.docs.wsn.b2.TopicExpressionType;
 import org.oasisOpen.docs.wsn.b2.UnsubscribeDocument;
+import org.oasisOpen.docs.wsn.br2.DestroyRegistrationDocument;
 import org.oasisOpen.docs.wsn.br2.RegisterPublisherDocument;
 import org.oasisOpen.docs.wsn.br2.RegisterPublisherDocument.RegisterPublisher;
 import org.slf4j.Logger;
@@ -102,6 +103,8 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 
 	private static final String SOAP_ACTION_NOTIFY_REQUEST = "http://docs.oasis-open.org/wsn/bw-2/NotificationConsumer/Notify";
 	private static final String SOAP_ACTION_REGISTER_PUBLISHER_REQUEST = "http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherRequest";
+	private static final String SOAP_ACTION_DESTROY_REGISTRATION_REQUEST = "http://docs.oasis-open.org/wsn/brw-2/PublisherRegistrationManager/DestroyRegistrationRequest";
+	
 	private static final String W3C_ADDRESSING_ROLE_ANONYMOUS = "http://www.w3.org/2005/08/addressing/role/anonymous";
 
 	private static final String N52_SES_RESOURCE_ID_NAMESPACE = "http://ws.apache.org/muse/addressing";
@@ -109,6 +112,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 	public static final String DEFAULT_FILTER_XPATH_DIALECT = "http://www.w3.org/TR/1999/REC-xpath-19991116";
 
 	public static final String DEFAULT_TOPIC_DIALECT = "http://docs.oasis-open.org/wsn/t-1/TopicExpression/Simple";
+
 
 
 	public String buildGetCapabilitiesRequest(ParameterContainer parameters) throws OXFException{
@@ -579,6 +583,39 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		return request.xmlText();
 	}
 	
+
+	@Override
+	public String buildDestroyRegistrationRequest(
+			ParameterContainer parameters) throws OXFException {
+
+		EnvelopeDocument request = aSesRequest()
+				.addSoapAction(SOAP_ACTION_DESTROY_REGISTRATION_REQUEST)
+				.addRecipient(getStringValueFor(DESTROY_REGISTRATION_SES_URL, parameters))
+				.addFrom(getFromAddress(W3C_ADDRESSING_ROLE_ANONYMOUS, parameters))
+				.addMessageId()
+				.build();
+
+		Header soapHeader = request.getEnvelope().getHeader();
+		XmlCursor headerXmlCursor = soapHeader.newCursor();
+		headerXmlCursor.toLastChild();
+		
+		String resourceId = getStringValueFor(DESTROY_REGISTRATION_REFERENCE, parameters);
+		if (resourceId != null) {
+			headerXmlCursor.beginElement(new QName(N52_SES_RESOURCE_ID_NAMESPACE, "ResourceId", "muse-wsa"));
+			headerXmlCursor.insertAttributeWithValue(WSA.createQNameFor("IsReferenceParameter"), "true");
+			headerXmlCursor.insertChars(resourceId);
+		}
+		headerXmlCursor.dispose();		
+
+		XmlObject body = request.getEnvelope().getBody();
+
+		DestroyRegistrationDocument destroyDoc = DestroyRegistrationDocument.Factory.newInstance();
+		destroyDoc.addNewDestroyRegistration();
+		body.set(destroyDoc);
+
+		return request.xmlText(new XmlOptions().setSavePrettyPrint());
+	}
+	
 	public String buildUnsubscribeRequest(ParameterContainer parameters){
 
 		EnvelopeDocument request = aSesRequest()
@@ -674,5 +711,6 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 			return envelope;
 		}
 	}
+
 	
 }

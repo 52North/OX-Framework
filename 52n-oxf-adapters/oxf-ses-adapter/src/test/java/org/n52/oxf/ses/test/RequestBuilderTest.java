@@ -38,8 +38,11 @@ import org.apache.xmlbeans.XmlCursor.TokenType;
 import org.junit.Assert;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.ses.adapter.ISESRequestBuilder;
+import org.n52.oxf.ses.adapter.SESAdapter;
 import org.n52.oxf.ses.adapter.SESRequestBuilder_00;
 import org.n52.oxf.xmlbeans.parser.SASamplingPointCase;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
@@ -104,6 +107,22 @@ public class RequestBuilderTest {
 
 		Collection<XmlError> errors = XMLBeansParser.validate(envelope);
 		Assert.assertTrue("RegisterPublisher is not valid: "+ errors, errors.isEmpty());
+	}
+	
+	@Test public void
+	shouldCreateValidDestroyRegistrationRequest()
+			throws OXFException, XmlException, IOException {
+		String sesUrl = "http://ses.host";
+		ParameterContainer parameters = new ParameterContainer();
+		parameters.addParameterShell(SESRequestBuilder_00.DESTROY_REGISTRATION_SES_URL, sesUrl);
+		parameters.addParameterShell(SESRequestBuilder_00.DESTROY_REGISTRATION_REFERENCE, "Publisher-1");
+
+		SESRequestBuilder_00 request = new SESRequestBuilder_00();
+		String asText = request.buildDestroyRegistrationRequest(parameters);
+		EnvelopeDocument envelope = EnvelopeDocument.Factory.parse(asText);
+
+		Collection<XmlError> errors = XMLBeansParser.validate(envelope);
+		Assert.assertTrue("DestroyRegistration is not valid: "+ errors, errors.isEmpty());
 	}
 	
 	@Test public void

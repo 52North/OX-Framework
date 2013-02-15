@@ -84,6 +84,7 @@ public class SESAdapter implements IServiceAdapter {
 	public static final String NOTIFY = "Notify";
 	public static final String DESCRIBE_SENSOR = "DescribeSensor";
 	public static final String NOTIFY_RESPONSE = "NotifyResponse";
+	public static final String DESTROY_REGISTRATION = "DestroyRegistration";
 
 	/**
 	 * Description of the SESAdapter
@@ -106,6 +107,7 @@ public class SESAdapter implements IServiceAdapter {
 	 * {"1.1.0","1.2.0"}.
 	 */
 	public static final String[] SUPPORTED_VERSIONS = {"0.0.0"};
+
 
 	private String serviceVersion = SUPPORTED_VERSIONS[0];
 
@@ -200,6 +202,10 @@ public class SESAdapter implements IServiceAdapter {
 		// DESCRIBE_SENSOR
 		else if (operation.getName().equals(SESAdapter.DESCRIBE_SENSOR)) {
 			request = requestBuilder.buildDescribeSensorRequest(parameterContainer);
+		}
+		//DESTORY_REGISTRATION
+		else if (operation.getName().equals(SESAdapter.DESTROY_REGISTRATION)) {
+			request = requestBuilder.buildDestroyRegistrationRequest(parameterContainer);
 		}
 		// NOTIFY_RESPONSE
 		// this should never happen
