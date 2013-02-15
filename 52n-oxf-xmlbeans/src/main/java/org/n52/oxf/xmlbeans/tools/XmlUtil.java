@@ -41,6 +41,7 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.impl.store.Path;
+import org.apache.xmlbeans.impl.store.Query;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 import org.w3c.dom.Node;
@@ -391,7 +392,7 @@ public class XmlUtil {
 	 * @return the resulting XmlObject array
 	 */
 	public static XmlObject[] execQuery(String path, XmlObject xo, XmlOptions opts) {
-		opts.put(Path.PATH_DELEGATE_INTERFACE, "org.n52.oxf.xmlbeans.tools.XbeansXQuerySaxon94");
+		opts.put(Query.QUERY_DELEGATE_INTERFACE, "org.n52.oxf.xmlbeans.tools.XbeansXQuerySaxon94");
 		return xo.execQuery(path, opts);
 	}
 	
