@@ -35,7 +35,6 @@ import net.opengis.ses.x00.CapabilitiesDocument;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.entity.ContentType;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
