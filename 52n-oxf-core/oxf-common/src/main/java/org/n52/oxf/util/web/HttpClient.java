@@ -49,18 +49,37 @@ public interface HttpClient {
     public HttpResponse executeGet(String baseUri, RequestParameters parameters) throws HttpClientException;
 
     /**
-     * Sends the given payload as content-type text/xml to the determined URI.
+     * Sends the given payload as content-type text/xml with UTF-8 encoding to the determined URI.
+     * <strong>Callees are responsible for ensuring that the contents are actually
+     * encoded as UTF-8</strong>. If not UTF-8, use {@link #executePost(String, String, ContentType)}
+     * instead.
      * 
      * @param uri
      *        the target to send the POST request to.
      * @param payloadToSend
-     *        the POST payload as XML.
+     *        the POST payload as XML encoded as UTF-8.
      * @return the http response returned by the target.
      * @throws HttpClientException
      *         if sending the request fails.
      */
     public HttpResponse executePost(String uri, XmlObject payloadToSend) throws HttpClientException;
 
+    /**
+     * Sends the given payload as content-type text/xml with UTF-8 encoding to the determined URI.
+     * <strong>Callees are responsible for ensuring that the contents are actually
+     * encoded as UTF-8</strong>. If not UTF-8, use {@link #executePost(String, String, ContentType)}
+     * instead.
+     * 
+     * @param uri
+     *        the target to send the POST request to.
+     * @param payloadToSend
+     *        the POST payload as XML encoded as UTF-8.
+     * @return the http response returned by the target.
+     * @throws HttpClientException
+     *         if sending the request fails.
+     */
+    public HttpResponse executePost(String uri, String payloadToSend) throws HttpClientException;
+    
     /**
      * Sends the given payload (marked to be of a specific content-type) to the determined URI.
      * 

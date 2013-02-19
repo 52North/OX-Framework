@@ -225,7 +225,7 @@ public class SESAdapter implements IServiceAdapter {
 
 			// TODO extract to adapter interface
 			HttpClient httpClient = new ProxyAwareHttpClient(new SimpleHttpClient());
-			HttpResponse httpResponse = httpClient.executePost(uri, request, ContentType.TEXT_XML);
+			HttpResponse httpResponse = httpClient.executePost(uri, request);
 			HttpEntity responseEntity = httpResponse.getEntity();
 			if (httpResponse.getStatusLine().getStatusCode() != 204 && responseEntity.getContent() != null) {
 				return new OperationResult(responseEntity.getContent(), parameterContainer, request);

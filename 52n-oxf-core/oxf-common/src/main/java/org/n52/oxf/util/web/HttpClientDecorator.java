@@ -55,6 +55,10 @@ public abstract class HttpClientDecorator implements HttpClient {
     public HttpResponse executePost(String uri, XmlObject payloadToSend) throws HttpClientException {
         return httpclient.executePost(uri, payloadToSend);
     }
+    
+    public HttpResponse executePost(String uri, String payloadToSend) throws HttpClientException {
+        return httpclient.executePost(uri, payloadToSend);
+    }
 
     public HttpResponse executePost(String uri, String payloadToSend, ContentType contentType) throws HttpClientException {
         return httpclient.executePost(uri, payloadToSend, contentType);

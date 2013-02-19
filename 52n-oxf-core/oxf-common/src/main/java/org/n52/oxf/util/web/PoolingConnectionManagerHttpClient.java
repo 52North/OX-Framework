@@ -32,6 +32,10 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 
+/**
+ * @author matthes
+ * @deprecated will remain deprecated until workflow is fixed.
+ */
 public class PoolingConnectionManagerHttpClient extends SimpleHttpClient {
 
 	private static SchemeRegistry schemeRegistry;
@@ -52,6 +56,11 @@ public class PoolingConnectionManagerHttpClient extends SimpleHttpClient {
 		super(connectionTimeout);
 	}
 	
+
+	/*
+	 * XXX this cannot get called as it is overriding the superclass
+	 * getConnectionManager which is called in the superclass constructor.
+	 */
 	@Override
 	public ClientConnectionManager getConnectionManager() {
 		PoolingClientConnectionManager cm = new PoolingClientConnectionManager(schemeRegistry);

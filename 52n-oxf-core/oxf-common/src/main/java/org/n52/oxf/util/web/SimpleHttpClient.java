@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -137,15 +138,16 @@ public class SimpleHttpClient implements HttpClient {
     }
 
     public HttpResponse executePost(String uri, XmlObject payloadToSend) throws HttpClientException {
-        return executePost(uri, payloadToSend.xmlText(), ContentType.TEXT_XML);
+        return executePost(uri, payloadToSend.xmlText(), ContentType.create("text/xml", Consts.UTF_8));
+    }
+    
+    public HttpResponse executePost(String uri, String payloadToSend) throws HttpClientException {
+        return executePost(uri, payloadToSend, ContentType.create("text/xml", Consts.UTF_8));
     }
 
     public HttpResponse executePost(String uri, String payloadToSend, ContentType contentType) throws HttpClientException {
         StringEntity requestEntity = new StringEntity(payloadToSend, contentType);
-        LOGGER.debug("executing POST method to '{}':\n{}", uri, payloadToSend);
-        HttpPost post = new HttpPost(uri);
-        post.setEntity(requestEntity);
-        return executeMethod(post);
+        return executePost(uri, requestEntity);
     }
 
     public HttpResponse executePost(String uri, HttpEntity payloadToSend) throws HttpClientException {
