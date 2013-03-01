@@ -32,6 +32,10 @@
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>oxf-adapter-api</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>org.n52.sensorweb</groupId>
+            <artifactId>52n-oxf-xmlbeans</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-xml-ses-v00</artifactId>
@@ -63,15 +67,6 @@
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-oxf-xmlbeans</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-ses-v00</artifactId>
 		</dependency>
 
 		<dependency>
