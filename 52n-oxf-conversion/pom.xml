@@ -23,9 +23,6 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
-				<includes>
-					<include>${basedir}/*/**/*</include>
-				</includes>
 			</resource>
 		</resources>
 	</build>
