@@ -1,1 +1,7 @@
 /sys$command
+*~
+target
+.settings
+.classpath
+.project
+*_IS_UNDEFINED*
