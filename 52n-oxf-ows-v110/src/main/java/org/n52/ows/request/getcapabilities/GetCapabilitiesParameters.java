@@ -31,9 +31,9 @@ import org.n52.oxf.request.RequestParameters;
  */
 public class GetCapabilitiesParameters {
 
-    private RequestParameters standardParameters;
+    private RequestParameters standardParameters = new MultiValueRequestParameters();
 
-    private RequestParameters nonStandardParameters;
+    private RequestParameters nonStandardParameters = new MultiValueRequestParameters();
 
     /**
      * Creates a minimal ready to go GetCapabilities Request. Use the instance methods to add further
@@ -43,9 +43,7 @@ public class GetCapabilitiesParameters {
      *        the service type, e.g. <code>SPS</code>, or <code>SOS</code>.
      */
     public GetCapabilitiesParameters(String service) {
-        standardParameters = new MultiValueRequestParameters();
         standardParameters.addParameterValue(SERVICE.name(), service);
-        nonStandardParameters = new MultiValueRequestParameters();
     }
 
     /**
