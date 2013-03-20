@@ -363,12 +363,6 @@
 				<version>1.3</version>
 				<scope>test</scope>
 			</dependency>
-			<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
-			<dependency>
-				<groupId>org.n52.sensorweb.oxf-old</groupId>
-				<artifactId>wms-client-core</artifactId>
-				<version>0.0.0</version>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -479,12 +473,6 @@
 	</build>
 
 	<repositories>
-		<repository>
-			<!-- temporary local repo for libs not migrated to maven dependency mechanism -->
-			<id>52n-local-lib</id>
-			<name>localLibsRepo</name>
-			<url>file:///${basedir}/../lib-repository/</url>
-		</repository>
 		<repository>
 			<id>geotools-old</id>
 			<url>http://download.osgeo.org/webdav/geotools</url>
