@@ -22,9 +22,9 @@
 		<module>52n-oxf-conversion</module>
 	</modules>
 	<scm>
-		<connection>scm:svn:https://svn.52north.org/svn/swe/main/OX-Framework/52n-oxf/trunk/</connection>
-		<developerConnection>scm:svn:https://svn.52north.org/svn/swe/main/OX-Framework/52n-oxf/trunk/</developerConnection>
-		<url>https://svn.52north.org/cgi-bin/viewvc.cgi/main/OX-Framework/52n-oxf/trunk/?root=sensorweb</url>
+		<connection>scm:git:git://github.com/52North/OX-Framework.git</connection>
+		<developerConnection>scm:git:https://github.com/52North/OX-Framework.git</developerConnection>
+		<url>https://github.com/52North/OX-Framework</url>
 	</scm>
 
 	<properties>
