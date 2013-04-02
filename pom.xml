@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<groupId>org.n52</groupId>
 		<artifactId>52-North</artifactId>
@@ -241,11 +242,11 @@
 				<artifactId>52n-xml-wcs-v11</artifactId>
 				<version>${n52.xml.commons.version}</version>
 			</dependency>
-            <dependency>
-                <groupId>org.n52.sensorweb</groupId>
-                <artifactId>52n-xml-wsn-v13</artifactId>
-                <version>${n52.xml.commons.version}</version>
-            </dependency>
+			<dependency>
+				<groupId>org.n52.sensorweb</groupId>
+				<artifactId>52n-xml-wsn-v13</artifactId>
+				<version>${n52.xml.commons.version}</version>
+			</dependency>
 			<!-- ### EXTERNAL DEPENDENCIES ### -->
 			<dependency>
 				<groupId>com.google.guava</groupId>
@@ -387,6 +388,7 @@
 						<target>1.6</target>
 					</configuration>
 				</plugin>
+
 				<plugin>
 					<!-- check for correct source file headers during test phase: http://code.google.com/p/maven-license-plugin/wiki/HowTo -->
 					<!-- run "mvn license:check -Dyear=2011" to check -->
@@ -548,6 +550,23 @@
 			</activation>
 			<build>
 				<plugins>
+				    
+	                <plugin>
+	                    <groupId>org.apache.maven.plugins</groupId>
+	                    <artifactId>maven-source-plugin</artifactId>
+	                    <version>2.2.1</version>
+	                    <executions>
+	                        <execution>
+	                            <!-- Restrict execution of source compilation to install or deploy. -->
+	                            <!-- The default is package. -->
+	                            <phase>install</phase>
+	                            <goals>
+	                                <goal>jar</goal>
+	                            </goals>
+	                        </execution>
+	                    </executions>
+	                </plugin>
+				
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-release-plugin</artifactId>
