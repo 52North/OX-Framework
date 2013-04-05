@@ -2,3 +2,5 @@
 *.classpath
 *.project
 *.settings/
+*target/
+*config.logger.fileappender.filepath_IS_UNDEFINED/
