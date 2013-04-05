@@ -477,9 +477,9 @@ public class GenericObservationParser {
                                                                 List<String> names,
                                                                 XmlObject result) throws Exception {
 		SchemaType resultType = result.schemaType();
-        if (resultType == DataArrayType.type) {
-			DataArrayType dataArray = (DataArrayType) result;
-	        AbstractDataComponentType dataComponent = dataArray.getElementType().getAbstractDataComponent();
+        if (resultType == DataArrayType.type || resultType == DataArrayPropertyType.type) {
+            DataArrayPropertyType dataArray = DataArrayPropertyType.Factory.parse(result.newInputStream());
+	        AbstractDataComponentType dataComponent = dataArray.getDataArray1().getElementType().getAbstractDataComponent();
 
 	        // 1. in case of 'DataRecord':
 	        if (dataComponent instanceof net.opengis.swe.x20.DataRecordType) {
@@ -516,7 +516,7 @@ public class GenericObservationParser {
 	                // ... TODO there are more possibilities...
 	            }
 	        }
-	        return dataArray;
+	        return dataArray.getDataArray1();
 		} else {
 			throw new OXFException("No DataArray@http://www.opengis.net/swe/2.0 representing data structure.");
 		}

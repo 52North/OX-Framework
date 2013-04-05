@@ -1,7 +1,6 @@
 /sys$command
-*~
-target
-.settings
+*~*target
+*.settings
+*_IS_UNDEFINED*
 .classpath
 .project
-*_IS_UNDEFINED*
