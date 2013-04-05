@@ -1,1 +1,4 @@
 /sys$command
+*.classpath
+*.project
+*.settings/
