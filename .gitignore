@@ -1,5 +1,6 @@
 /sys$command
-*~*target
+*~
+*target
 *.settings
 *_IS_UNDEFINED*
 .classpath
