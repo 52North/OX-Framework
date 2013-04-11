@@ -56,6 +56,8 @@ public class GenericObservationParserTest {
     
     private static final String SOS_200_GETOBSERVATION_VALID_OM20_TIDEELBE = "/files/observationData/SOS_2.0.0_GetObservationResponse_valid_om_2.0_tideelbe.xml";
     
+    private static final String SOS_200_GETOBSERVATION_VALID_WML20_GEOWOW = "/files/observationData/SOS_2.0.0_GetObservationResponse_valid_wml_2.0_geowow.xml";
+    
     @Test public void 
     shouldParseHydroWml20ResultIntoFeatureCollection() 
     throws Exception {
@@ -86,6 +88,15 @@ public class GenericObservationParserTest {
         
     }
 
+    @Test public void
+    shouldParseValidGeowowResult()
+    throws Exception 
+    {
+        OMObservationDocument omObservation = parseObservationDataFrom(SOS_200_GETOBSERVATION_VALID_WML20_GEOWOW);
+        OXFFeatureCollection featureCollection = createFeatureCollectionFrom(omObservation);
+        Geometry geometry = featureCollection.getGeometry();
+    }
+    
     private OMObservationDocument parseObservationDataFrom(String resource) throws XmlException, IOException {
         InputStream is = getClass().getResourceAsStream(resource);
         XmlObject xmlObject = XmlObject.Factory.parse(is);

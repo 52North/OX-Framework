@@ -457,7 +457,12 @@ public class GenericObservationParser {
 					}
 				}
 			} catch (XmlException e) {
+<<<<<<< HEAD
 				LOGGER.warn("Could not find 'urn:ogc:def:identifier:OGC:uniqueID' in {}", omObservation);
+=======
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+>>>>>>> branch 'master' of https://github.com/52North/OX-Framework.git
 			}
     	}
     	return null;
