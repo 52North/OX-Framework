@@ -37,11 +37,9 @@ import net.opengis.gml.FeatureCollectionDocument2;
 import net.opengis.gml.FeaturePropertyType;
 import net.opengis.gml.x32.AbstractTimeObjectType;
 import net.opengis.gml.x32.CodeWithAuthorityType;
-import net.opengis.gml.x32.ReferenceType;
 import net.opengis.gml.x32.TimePositionType;
 import net.opengis.gml.x32.impl.MeasureTypeImpl;
 import net.opengis.gml.x32.impl.TimeInstantTypeImpl;
-import net.opengis.om.x10.MeasurementType;
 import net.opengis.om.x10.ObservationType;
 import net.opengis.om.x20.NamedValuePropertyType;
 import net.opengis.om.x20.NamedValueType;
@@ -59,23 +57,19 @@ import net.opengis.swe.x20.QuantityType;
 import net.opengis.swe.x20.TextEncodingType;
 import net.opengis.swe.x20.TextType;
 import net.opengis.swe.x20.TimeType;
-import net.opengis.waterml.x20.DefaultTVPMeasurementMetadataDocument;
 import net.opengis.waterml.x20.MeasureTVPType;
 import net.opengis.waterml.x20.MeasureType;
+import net.opengis.waterml.x20.MeasurementTimeseriesDocument;
 import net.opengis.waterml.x20.MeasurementTimeseriesType;
 import net.opengis.waterml.x20.MeasurementTimeseriesType.Point;
-import net.opengis.waterml.x20.MeasurementTimeseriesDocument;
 import net.opengis.waterml.x20.MonitoringPointDocument;
-import net.opengis.waterml.x20.MonitoringPointType;
+import net.opengis.waterml.x20.ObservationProcessDocument;
+import net.opengis.waterml.x20.ObservationProcessType;
 import net.opengis.waterml.x20.ObservationProcessDocument;
 import net.opengis.waterml.x20.ObservationProcessType;
 import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
-import net.opengis.waterml.x20.TVPMeasurementMetadataDocument;
 import net.opengis.waterml.x20.TVPMeasurementMetadataType;
 import net.opengis.waterml.x20.TVPMetadataType;
-import net.opengis.waterml.x20.TimeValuePairType;
-import net.opengis.waterml.x20.TimeseriesDocument;
-import net.opengis.waterml.x20.TimeseriesType;
 import net.opengis.waterml.x20.impl.ObservationProcessDocumentImpl;
 import net.opengis.waterml.x20.impl.ObservationProcessTypeImpl;
 
@@ -90,11 +84,9 @@ import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
 import org.n52.oxf.feature.dataTypes.OXFScopedName;
 import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.valueDomains.time.TimeFactory;
-import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Node;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -457,12 +449,7 @@ public class GenericObservationParser {
 					}
 				}
 			} catch (XmlException e) {
-<<<<<<< HEAD
 				LOGGER.warn("Could not find 'urn:ogc:def:identifier:OGC:uniqueID' in {}", omObservation);
-=======
-				// TODO Auto-generated catch block
-				e.printStackTrace();
->>>>>>> branch 'master' of https://github.com/52North/OX-Framework.git
 			}
     	}
     	return null;
