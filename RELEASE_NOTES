@@ -1,23 +1,26 @@
-Changes
-=======
+For a complete Release Notes overview visit
 
-The 52°North OXF version 1.12 represents the old style OX-Framework and was ported 
-to a Maven project for better management.
+  https://wiki.52north.org/bin/view/SensorWeb/OxF-ReleaseNotes#ReleaseNotes_2_0_0
+ 
 
-  https://wiki.52north.org/bin/view/SensorWeb/OxFramework
+Release Notes for OX-Framework 2.0.0
+====================================
+This release removes old modules and mark the old API as deprecated. It introduces a new API which
+is better to use than the old soft-typed interfaces.
 
-(New) Features
---------------
-   * SES Adapter
-   * SOS Adapter
-   * WCS Adapter
-   * WMS Adapter
+Features:
+---------
+ * New 52n-oxf-conversion module
+ 
+Changes:
+--------
+ * Removed old modules
+   * =oxf-wms-adapter= (unresolved dependencies) 
+   * =52n-oxf-client= (not applicable for a middleware framework)
+   * =52n-oxf-utilities= (was empty)
 
-Code Changes
-------------
-   * initial release
+Bugfixes:
+---------
+ * 
 
-Fixed Bugs
-----------
 
-   * no reported bugs
