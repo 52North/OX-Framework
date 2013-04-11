@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2003/05/soap-envelope http://www.w3.org/2003/05/soap-envelope http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sos.xsd http://www.opengis.net/om/2.0 http://schemas.opengis.net/om/2.0/observation.xsd http://www.opengis.net/sampling/2.0 http://schemas.opengis.net/sampling/2.0/samplingFeature.xsd http://www.opengis.net/samplingSpatial/2.0 http://schemas.opengis.net/samplingSpatial/2.0/spatialSamplingFeature.xsd">
+  <soap:Body>
+    <sos:GetObservationResponse xmlns:sos="http://www.opengis.net/sos/2.0" xmlns:om="http://www.opengis.net/om/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:wml2="http://www.opengis.net/waterml/2.0" xmlns:sf="http://www.opengis.net/sampling/2.0" xmlns:sams="http://www.opengis.net/samplingSpatial/2.0">
+      <sos:observationData>
+        <om:OM_Observation gml:id="o_1365416221735">
+          <om:type xlink:href="http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement"/>
+          <om:phenomenonTime>
+            <gml:TimePeriod gml:id="phenomenonTime_1">
+              <gml:beginPosition>2000-01-01</gml:beginPosition>
+              <gml:endPosition>2009-11-19</gml:endPosition>
+            </gml:TimePeriod>
+          </om:phenomenonTime>
+          <om:resultTime>
+            <gml:TimeInstant gml:id="ti_CA6F35C1F5C3D4D54F140FA6B262B0EB8354E78B">
+              <gml:timePosition>2009-11-19</gml:timePosition>
+            </gml:TimeInstant>
+          </om:resultTime>
+          <om:procedure>
+            <wml2:ObservationProcess gml:id="process.1">
+              <wml2:processType xlink:href="http://www.opengis.net/def/waterml/2.0/processType/Algorithm"/>
+              <wml2:input xlink:href="urn:ogc:def:phenomenon:OGC:1.0.0:Discharge" xlink:title="providerDischargeValue"/>
+              <wml2:parameter>
+                <om:NamedValue>
+                  <om:name xlink:href="urn:ogc:def:identifier:OGC:uniqueID" xlink:title="uniqueID"/>
+                  <om:value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">http://www.bafg.de/grdc/procedure/OriginalDailyMean</om:value>
+                </om:NamedValue>
+              </wml2:parameter>
+              <wml2:parameter>
+                <om:NamedValue>
+                  <om:name xlink:href="output"/>
+                  <om:value xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">urn:ogc:def:phenomenon:OGC:1.0.0:Discharge</om:value>
+                </om:NamedValue>
+              </wml2:parameter>
+            </wml2:ObservationProcess>
+          </om:procedure>
+          <om:observedProperty xlink:href="http://sweet.jpl.nasa.gov/2.0/hydroSurface.owl#Discharge"/>
+          <om:featureOfInterest>
+            <wml2:MonitoringPoint gml:id="mp_D060003086EDB7D9F8DEC224DCB50F296A471915">
+              <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">http://www.bafg.de/grdc/feature/6335020</gml:identifier>
+              <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">REES</gml:name>
+              <sf:sampledFeature xlink:href="http://www.bafg.de/grdc/feature/river/RHINE RIVER" xlink:title="RHEIN, RHIN, RIJIN"/>
+              <sf:sampledFeature xlink:href="http://www.bafg.de/grdc/feature/countryCode/DE" xlink:title="GERMANY"/>
+              <sf:sampledFeature xlink:href="http://www.bafg.de/grdc/feature/region/Europe &amp; Mediterranean Asia" xlink:title="Europe &amp; Mediterranean Asia"/>
+              <sf:sampledFeature xlink:href="http://www.bafg.de/grdc/feature/subregion/Rhine - Rhine (except Mosel)" xlink:title="Rhine - Rhine (except Mosel)"/>
+              <sf:parameter>
+                <om:NamedValue>
+                  <om:name xlink:href="CatchmentArea"/>
+                  <om:value xmlns:ns="http://www.opengis.net/gml/3.2" uom="km2" xsi:type="ns:MeasureType">159300.0</om:value>
+                </om:NamedValue>
+              </sf:parameter>
+              <sams:shape>
+                <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_D060003086EDB7D9F8DEC224DCB50F296A471915">
+                  <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/4329">51.75 6.4 8.0</ns:pos>
+                </ns:Point>
+              </sams:shape>
+            </wml2:MonitoringPoint>
+          </om:featureOfInterest>
+          <om:result>
+            <wml2:MeasurementTimeseries gml:id="timeseries.1">
+              <wml2:metadata>
+                <wml2:TimeseriesMetadata>
+                  <wml2:temporalExtent xlink:href="#phenomenonTime_1"/>
+                </wml2:TimeseriesMetadata>
+              </wml2:metadata>
+              <wml2:defaultPointMetadata>
+                <wml2:DefaultTVPMeasurementMetadata>
+                  <wml2:uom code=""/>
+                  <wml2:interpolationType xlink:href="http://www.opengis.net/def/timeseriesType/WaterML/2.0/continuous" xlink:title="Instantaneous"/>
+                </wml2:DefaultTVPMeasurementMetadata>
+              </wml2:defaultPointMetadata>
+              <wml2:point>
+                <wml2:MeasurementTVP>
+                  <wml2:time>2008-01-01</wml2:time>
+                  <wml2:value>1670.0</wml2:value>
+                </wml2:MeasurementTVP>
+              </wml2:point>
+              <wml2:point>
+                <wml2:MeasurementTVP>
+                  <wml2:time>2008-01-02</wml2:time>
+                  <wml2:value>1650.0</wml2:value>
+                </wml2:MeasurementTVP>
+              </wml2:point>
+              <wml2:point>
+                <wml2:MeasurementTVP>
+                  <wml2:time>2008-01-03</wml2:time>
+                  <wml2:value>1650.0</wml2:value>
+                </wml2:MeasurementTVP>
+              </wml2:point>
+              <wml2:point>
+                <wml2:MeasurementTVP>
+                  <wml2:time>2008-01-04</wml2:time>
+                  <wml2:value>1630.0</wml2:value>
+                </wml2:MeasurementTVP>
+              </wml2:point>
+              <wml2:point>
+                <wml2:MeasurementTVP>
+                  <wml2:time>2008-01-05</wml2:time>
+                  <wml2:value>1590.0</wml2:value>
+                </wml2:MeasurementTVP>
+              </wml2:point>
+              <wml2:point>
+                <wml2:MeasurementTVP>
+                  <wml2:time>2008-01-06</wml2:time>
+                  <wml2:value>1560.0</wml2:value>
+                </wml2:MeasurementTVP>
+              </wml2:point>
+              <wml2:point>
+                <wml2:MeasurementTVP>
+                  <wml2:time>2008-01-07</wml2:time>
+                  <wml2:value>1570.0</wml2:value>
+                </wml2:MeasurementTVP>
+              </wml2:point>
+            </wml2:MeasurementTimeseries>
+          </om:result>
+        </om:OM_Observation>
+      </sos:observationData>
+    </sos:GetObservationResponse>
+  </soap:Body>
+</soap:Envelope>
