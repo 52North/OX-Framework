@@ -28,6 +28,7 @@
       <directory>${project.basedir}</directory>
       <outputDirectory>/</outputDirectory>
       <useDefaultExcludes>true</useDefaultExcludes>
+      <filtered>true</filtered>
       <includes>
         <include>README*</include>
         <include>LICENSE*</include>
