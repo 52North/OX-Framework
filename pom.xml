@@ -459,11 +459,9 @@
 						<index>true</index>
 						<manifest>
 							<addClasspath>true</addClasspath>
-						</manifest>
-						<manifestEntries>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-						</manifestEntries>
+						</manifest>
 					</archive>
 				</configuration>
 			</plugin>
