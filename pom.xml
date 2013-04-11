@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>org.n52</groupId>
 		<artifactId>52-North</artifactId>
-		<version>5.4</version>
+		<version>5.6.4</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.n52.sensorweb</groupId>
@@ -11,8 +11,13 @@
 	<version>2.0.0-alpha.3-SNAPSHOT</version>
 	<name>52North OxFramework</name>
 	<description>Provides middleware components for 52n Sensor Web architecture</description>
+	<organization>
+		<name>52North Initiative for Geospatial Open Source Software GmbH</name>
+		<url>http://52north.org</url>
+	</organization>
 	<inceptionYear>2012</inceptionYear>
 	<packaging>pom</packaging>
+
 	<modules>
 		<module>52n-oxf-ows-v110</module>
 		<module>52n-oxf-sml-v110</module>
@@ -22,6 +27,7 @@
 		<module>52n-oxf-xmlbeans</module>
 		<module>52n-oxf-conversion</module>
 	</modules>
+
 	<scm>
 		<connection>scm:git:git://github.com/52North/OX-Framework.git</connection>
 		<developerConnection>scm:git:https://github.com/52North/OX-Framework.git</developerConnection>
@@ -269,34 +275,10 @@
 				<version>2.6</version>
 			</dependency>
 			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>1.1.1</version>
-				<scope>provided</scope>
-			</dependency>
-			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>servlet-api</artifactId>
 				<version>2.5</version>
 				<scope>provided</scope>
-			</dependency>
-			<dependency>
-				<!-- drop-in replacement for JCL version 1.1.1 -->
-				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
-				<version>1.6.4</version>
-				<scope>runtime</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-api</artifactId>
-				<version>1.6.4</version>
-			</dependency>
-			<dependency>
-				<groupId>ch.qos.logback</groupId>
-				<artifactId>logback-classic</artifactId>
-				<version>1.0.0</version>
-				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>javax.media</groupId>
@@ -329,9 +311,6 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			<!-- <dependency> <groupId>geoapi</groupId> <artifactId>geoapi</artifactId> 
-				<version>1.0.0</version> </dependency> <dependency> <groupId>org.geotools</groupId> 
-				<artifactId>gt-opengis</artifactId> <version>2.7.3</version> </dependency> -->
 			<dependency>
 				<groupId>jfree</groupId>
 				<artifactId>jcommon</artifactId>
@@ -352,20 +331,53 @@
 				<artifactId>joda-time</artifactId>
 				<version>2.1</version>
 			</dependency>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.11</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.hamcrest</groupId>
-				<artifactId>hamcrest-all</artifactId>
-				<version>1.3</version>
-				<scope>test</scope>
-			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<dependencies>
+		<!-- dependencies active by default -->
+
+		<!-- LOGGING DEPENDENCIES -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.5</version>
+		</dependency>
+		<dependency>
+			<!-- drop-in replacement for JCL version 1.1.1 -->
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.6.4</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<!-- drop-in replacement for JCL version 1.1.1 -->
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<!-- each application using OXF shall choose its favorite logging implementation -->
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.3</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<resources>
 			<resource>
@@ -377,51 +389,9 @@
 				<filtering>true</filtering>
 			</resource>
 		</resources>
+
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.2</version>
-					<configuration>
-						<source>1.6</source>
-						<target>1.6</target>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<!-- check for correct source file headers during test phase: http://code.google.com/p/maven-license-plugin/wiki/HowTo -->
-					<!-- run "mvn license:check -Dyear=2011" to check -->
-					<!-- run "mvn license:format -Dyear=2011" to add to the files -->
-					<groupId>com.mycila.maven-license-plugin</groupId>
-					<artifactId>maven-license-plugin</artifactId>
-					<version>1.9.0</version>
-					<configuration>
-						<header>misc/52N_license.txt</header>
-						<aggregate>true</aggregate>
-						<includes>
-							<include>**/*.java</include>
-						</includes>
-						<excludes>
-							<exclude>src/**/NanoHTTPD.java</exclude>
-							<exclude>src/**/XbeansXPathSaxon94.java</exclude>
-							<exclude>src/**/XbeansXQuerySaxon94.java</exclude>
-						</excludes>
-						<strictCheck>true</strictCheck>
-						<properties>
-							<year>${project.inceptionYear}</year>
-						</properties>
-					</configuration>
-					<executions>
-						<execution>
-							<id>check-headers</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>check</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>xmlbeans-maven-plugin</artifactId>
@@ -441,24 +411,6 @@
 						<download>false</download>
 					</configuration>
 				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>2.4</version>
-					<executions>
-						<execution>
-							<phase>package</phase>
-							<goals>
-								<goal>test-jar</goal>
-							</goals>
-							<configuration>
-								<excludes>
-									<excludes>logback-test.xml</excludes>
-								</excludes>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -472,6 +424,85 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+						<configuration>
+							<excludes>
+								<excludes>logback-test.xml</excludes>
+							</excludes>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<archive>
+						<index>true</index>
+						<manifest>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						<manifestEntries>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- check for correct source file headers during test phase: http://code.google.com/p/maven-license-plugin/wiki/HowTo -->
+				<!-- run "mvn license:check -Dyear=2011" to check -->
+				<!-- run "mvn license:format -Dyear=2011" to add to the files -->
+				<groupId>com.mycila.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.9.0</version>
+				<configuration>
+					<header>misc/52N_license_header.txt</header>
+					<aggregate>true</aggregate>
+					<includes>
+						<include>**/*.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/src/**/NanoHTTPD.java</exclude>
+						<exclude>**/src/**/XbeansXPathSaxon94.java</exclude>
+						<exclude>**/src/**/XbeansXQuerySaxon94.java</exclude>
+						<exclude>**/src/**/NcNameResolver.java</exclude>
+					</excludes>
+					<strictCheck>true</strictCheck>
+					<properties>
+						<year>${project.inceptionYear}</year>
+					</properties>
+				</configuration>
+				<executions>
+					<execution>
+						<id>check-headers</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 
 	<repositories>
@@ -550,23 +581,23 @@
 			</activation>
 			<build>
 				<plugins>
-				    
-	                <plugin>
-	                    <groupId>org.apache.maven.plugins</groupId>
-	                    <artifactId>maven-source-plugin</artifactId>
-	                    <version>2.2.1</version>
-	                    <executions>
-	                        <execution>
-	                            <!-- Restrict execution of source compilation to install or deploy. -->
-	                            <!-- The default is package. -->
-	                            <phase>install</phase>
-	                            <goals>
-	                                <goal>jar</goal>
-	                            </goals>
-	                        </execution>
-	                    </executions>
-	                </plugin>
-				
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>2.2.1</version>
+						<executions>
+							<execution>
+								<!-- Restrict execution of source compilation to install or deploy. -->
+								<!-- The default is package. -->
+								<phase>install</phase>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-release-plugin</artifactId>
