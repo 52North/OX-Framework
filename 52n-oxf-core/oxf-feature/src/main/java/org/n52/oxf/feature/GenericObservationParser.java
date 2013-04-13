@@ -65,13 +65,9 @@ import net.opengis.waterml.x20.MeasurementTimeseriesType.Point;
 import net.opengis.waterml.x20.MonitoringPointDocument;
 import net.opengis.waterml.x20.ObservationProcessDocument;
 import net.opengis.waterml.x20.ObservationProcessType;
-import net.opengis.waterml.x20.ObservationProcessDocument;
-import net.opengis.waterml.x20.ObservationProcessType;
 import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
 import net.opengis.waterml.x20.TVPMeasurementMetadataType;
 import net.opengis.waterml.x20.TVPMetadataType;
-import net.opengis.waterml.x20.impl.ObservationProcessDocumentImpl;
-import net.opengis.waterml.x20.impl.ObservationProcessTypeImpl;
 
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;

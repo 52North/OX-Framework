@@ -259,7 +259,14 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
                         + ") of the value of the parameter 'eventTime' is not supported.");
             }
 
+
             BinaryTemporalOpType xb_binTempOp = BinaryTemporalOpType.Factory.newInstance();
+            xb_binTempOp.addNewPropertyName();
+
+            XmlCursor cursor = xb_binTempOp.newCursor();
+            cursor.toChild(new QName("http://www.opengis.net/ogc", "PropertyName"));
+            cursor.setTextValue("urn:ogc:data:time:iso8601");
+//            cursor.setTextValue("om:samplingTime");
             
             String timeType = null;
 
@@ -293,7 +300,8 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
             eventTime.setTemporalOps(xb_binTempOp);
             
             // rename elements:
-            XmlCursor cursor = eventTime.newCursor();
+            cursor.dispose();
+            cursor = eventTime.newCursor();
             cursor.toChild(new QName("http://www.opengis.net/ogc", "temporalOps"));
             cursor.setName(new QName("http://www.opengis.net/ogc", "TM_Equals"));
 
