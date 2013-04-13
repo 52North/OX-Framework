@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
@@ -47,7 +48,7 @@ import org.n52.oxf.ows.capabilities.Parameter;
 import org.n52.oxf.valueDomains.time.TemporalValueDomain;
 import org.n52.oxf.valueDomains.time.TimePeriod;
 
-//@Ignore // comment out to run demo class via JUnit
+@Ignore // comment out to run demo class via JUnit
 public class GetObservationRequestExample extends SosAdapterRequestExample {
     
     @Before
