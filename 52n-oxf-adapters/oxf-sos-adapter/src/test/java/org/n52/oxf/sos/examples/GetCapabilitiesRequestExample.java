@@ -43,7 +43,6 @@ public class GetCapabilitiesRequestExample extends SosAdapterRequestExample {
     }
 
     @Test
-    @Ignore // for demonstration
     public void getCapabilities() {
         handleOperation(createGetCapabilitiesOperation());
     }
