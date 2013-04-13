@@ -10,7 +10,16 @@ Contact:
 <a href="http://52north.org/sensorweb">52°North Sensor Web Community</a>
 
 
-## Contents
+## Installation
+The OXF can also be downloaded as pre-build zip file from the
+<a href="http://52north.org/downloads/sensor-web/oxf">52°North's download section</a>.
+  
+The zip contains source and binary files. Alternatively, the OXF can be build directly from 
+source code via Maven command `mvn clean install`. To do so, check out the source from 
+<a href="https://github.com/52North/OX-Framework.git">GitHub</a>.
+
+
+## Contents of ZIP distribution file
 * `/src`: The source files
 * `/bin`: Executable binaries files
 * `/doc`: The JavaDoc files
@@ -20,15 +29,6 @@ Contact:
    
 No printer friendly documentation exist for this release. Instead, refer to the 
 <a href="https://wiki.52north.org/bin/view/SensorWeb/OxFramework">52°North wiki site</a>.
-
-
-## Installation
-The OXF can also be downloaded as pre-build zip file from the
-<a href="http://52north.org/downloads/sensor-web/oxf">52°North's download section</a>.
-  
-The zip contains source and binary files. Alternatively, the OXF can be build directly from 
-source code via Maven command `mvn clean install`. To do so, check out the source from 
-<a href="https://github.com/52North/OX-Framework.git">GitHub</a>.
 
 
 ## Download, Support and Contact
