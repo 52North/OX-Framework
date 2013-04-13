@@ -37,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
