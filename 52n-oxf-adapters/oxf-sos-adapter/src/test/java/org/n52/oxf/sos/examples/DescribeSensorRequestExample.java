@@ -33,11 +33,21 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
+import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.feature.OXFFeature;
+import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.sos.feature.SOSSensorStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Ignore // comment out to run demo class via JUnit
+//@Ignore // comment out to run demo class via JUnit
 public class DescribeSensorRequestExample extends SosAdapterRequestExample {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(DescribeSensorRequestExample.class);
+
+    private static final String PROCEDURE_WASSERSTAND = "Wasserstand-Ledasperrwerk_Up_3880050";
     
     @Before
     public void setUp() throws Exception {
@@ -46,21 +56,36 @@ public class DescribeSensorRequestExample extends SosAdapterRequestExample {
 
     @Test
     public void describeSensor() {
-        handleOperation(createDescribeSensorOperation());
+        performOperationParseResult(createDescribeSensorOperation());
     }
 
     private Operation createDescribeSensorOperation() {
         return new Operation(DESCRIBE_SENSOR, getServiceGETUrl(), getServicePOSTUrl());
     }
-
+    
     @Override
     protected ParameterContainer createParameterContainer() throws OXFException {
         ParameterContainer parameters = new ParameterContainer();
         parameters.addParameterShell(DESCRIBE_SENSOR_SERVICE_PARAMETER, "SOS");
         parameters.addParameterShell(DESCRIBE_SENSOR_VERSION_PARAMETER, "1.0.0");
         parameters.addParameterShell(DESCRIBE_SENSOR_OUTPUT_FORMAT, "text/xml;subtype=\"sensorML/1.0.1\"");
-        parameters.addParameterShell(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, "Wasserstand-Ledasperrwerk_Up_3880050");
+        parameters.addParameterShell(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, PROCEDURE_WASSERSTAND);
         return parameters;
     }
+
+    @Test
+    public void parseSosSensorStoreFromSensorML() {
+        try {
+            OperationResult result = performOperation(createDescribeSensorOperation());
+            SOSSensorStore store = new SOSSensorStore(result);
+            OXFFeatureCollection featureCollection = store.unmarshalFeatures();
+            for (OXFFeature oxfFeature : featureCollection.toSet()) {
+                LOGGER.info("OXFFeature with id '{}'", oxfFeature.getID());
+            }
+        } catch (OXFException e) {
+            LOGGER.error("Could not create SOSSensorStore.", e);
+        }
+    }
+    
 
 }

@@ -23,9 +23,8 @@
  */
 package org.n52.oxf.sos.examples;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_CAPABILITIES_SERVICE_PARAMETER;
-import static org.n52.oxf.sos.adapter.SOSAdapter.GET_CAPABILITIES;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+import static org.n52.oxf.sos.adapter.SOSAdapter.REGISTER_SENSOR;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -33,9 +32,11 @@ import org.junit.Test;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.sos.adapter.SOSAdapter;
+import org.n52.oxf.sos.adapter.SOSRequestBuilder_100;
 
 @Ignore // comment out to run demo class via JUnit
-public class GetCapabilitiesRequestExample extends SosAdapterRequestExample {
+public class RegisterSensorRequestExample extends SosAdapterRequestExample {
     
     @Before
     public void setUp() throws Exception {
@@ -43,19 +44,25 @@ public class GetCapabilitiesRequestExample extends SosAdapterRequestExample {
     }
 
     @Test
-    public void getCapabilities() {
-        performOperationParseResult(createGetCapabilitiesOperation());
+    public void describeSensor() {
+        
+        // TODO what if SOS-T interface is protected
+        
+        performOperationParseResult(createRegisterSensorOperation());
     }
 
-    private Operation createGetCapabilitiesOperation() {
-        return new Operation(GET_CAPABILITIES, getServiceGETUrl(), getServicePOSTUrl());
+    private Operation createRegisterSensorOperation() {
+        return new Operation(REGISTER_SENSOR, getServiceGETUrl(), getServicePOSTUrl());
     }
 
     @Override
     protected ParameterContainer createParameterContainer() throws OXFException {
         ParameterContainer parameters = new ParameterContainer();
-        parameters.addParameterShell(GET_CAPABILITIES_SERVICE_PARAMETER, "SOS");
-        parameters.addParameterShell(GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, "1.0.0");
+        parameters.addParameterShell(REGISTER_SENSOR_SERVICE_PARAMETER, "SOS");
+        parameters.addParameterShell(REGISTER_SENSOR_VERSION_PARAMETER, "1.0.0");
+                                     
+//        parameters.addParameterShell(DESCRIBE_SENSOR_OUTPUT_FORMAT, "text/xml;subtype=\"sensorML/1.0.1\"");
+//        parameters.addParameterShell(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, "Wasserstand-Ledasperrwerk_Up_3880050");
         return parameters;
     }
 

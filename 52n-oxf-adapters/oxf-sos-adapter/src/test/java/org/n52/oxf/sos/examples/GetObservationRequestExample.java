@@ -61,7 +61,7 @@ public class GetObservationRequestExample extends SosAdapterRequestExample {
 
     @Test
     public void getObservation() {
-        handleOperation(createGetObservationOperation());
+        performOperationParseResult(createGetObservationOperation());
     }
 
     private Operation createGetObservationOperation() {

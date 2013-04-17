@@ -48,7 +48,7 @@ public abstract class SosAdapterRequestExample {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(SosAdapterRequestExample.class);
     
-    private static final XmlOptions XML_OPTIONS = new XmlOptions().setSavePrettyPrint().setSaveOuter();
+    private static final XmlOptions XML_OPTIONS = new XmlOptions().setSavePrettyPrint().setSaveInner().setSaveOuter();
 
     private static final String REPORT_SEPARATOR_LINE = "################################\n";
 
@@ -70,12 +70,16 @@ public abstract class SosAdapterRequestExample {
     public String getServicePOSTUrl() {
         return SOS_BY_POST_URL;
     }
-
-    protected void handleOperation(Operation operation) {
+    
+    protected void performOperationParseResult(Operation operation){
+        OperationResult operationResult = performOperation(operation);
+        parseResponse(operationResult.getIncomingResultAsStream());
+    }
+    
+    protected OperationResult performOperation(Operation operation) {
         try {
-            OperationResult result = adapter.doOperation(operation, createParameterContainer());
-            InputStream responseStream = result.getIncomingResultAsStream();
-            parseResponse(responseStream);
+            ParameterContainer parameters = createParameterContainer();
+            return adapter.doOperation(operation, parameters);
         }
         catch (ExceptionReport e) {
             LOGGER.error("Remote reported an error:\n" + formatExceptionReport(e));
@@ -85,19 +89,20 @@ public abstract class SosAdapterRequestExample {
             LOGGER.error("SOS operation failed.", e);
             fail("SOS operation failed: " + e.getMessage());
         }
+        throw new RuntimeException();
     }
     
     protected abstract ParameterContainer createParameterContainer() throws OXFException;
 
-    private void parseResponse(InputStream responseStream) {
-        parseResponseWithXmlBeans(responseStream); // or parse via other parser 
-        //parseResponseWithYourFavouriteXmlAPI(responseStream);
+    protected void parseResponse(InputStream responseStream) {
+        // alternatively, parse stream with other parsers (e.g. stax)
+        XmlObject xml = parseResponseWithXmlBeans(responseStream); 
+        LOGGER.info(xml.xmlText(XML_OPTIONS));
     }
 
-    private void parseResponseWithXmlBeans(InputStream responseStream) {
+    protected XmlObject parseResponseWithXmlBeans(InputStream responseStream) {
         try {
-            XmlObject xmlResponse = XmlObject.Factory.parse(responseStream);
-            LOGGER.info(xmlResponse.xmlText(XML_OPTIONS));
+            return XmlObject.Factory.parse(responseStream, XML_OPTIONS);
         }
         catch (XmlException e) {
             LOGGER.error("Could not parse XML.", e);
@@ -107,6 +112,7 @@ public abstract class SosAdapterRequestExample {
             LOGGER.error("Could not read response stream.", e);
             fail("Could not read response stream. See LOG output.");
         }
+        throw new RuntimeException();
     }
 
     protected String formatExceptionReport(ExceptionReport report) {
