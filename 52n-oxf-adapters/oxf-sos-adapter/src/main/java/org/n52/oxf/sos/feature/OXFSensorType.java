@@ -291,7 +291,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
 				}
 			} else if (xb_abstractDataRecord instanceof DataRecordType) {
 				DataRecordType simpleDataRec = (DataRecordType) xb_abstractDataRecord
-						.substitute(qName, SimpleDataRecordType.type);
+						.substitute(qName, DataRecordType.type);
 				DataComponentPropertyType[] xb_fieldArray = simpleDataRec
 						.getFieldArray();
 				for (DataComponentPropertyType dataComponent : xb_fieldArray) {
