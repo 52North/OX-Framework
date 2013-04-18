@@ -61,7 +61,7 @@ public class GetObservationRequestExample extends SosAdapterRequestExample {
 
     @Test
     public void getObservation() {
-        handleOperation(createGetObservationOperation());
+        performOperationParseResult(createGetObservationOperation());
     }
 
     private Operation createGetObservationOperation() {
@@ -95,8 +95,8 @@ public class GetObservationRequestExample extends SosAdapterRequestExample {
     private ITime createLast24HoursInterval() {
         SimpleDateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         long nowInMillis = System.currentTimeMillis();
-        long aWeekInMillis = 1 * 24 * 60 * 60 * 1000;
-        long lastWeekInMillis = nowInMillis - aWeekInMillis;
+        long aDayInMillis = 1 * 24 * 60 * 60 * 1000;
+        long lastWeekInMillis = nowInMillis - aDayInMillis;
         String now = iso8601.format(new Date(nowInMillis));
         String lastWeek = iso8601.format(new Date(lastWeekInMillis));
         return new TimePeriod(lastWeek, now);

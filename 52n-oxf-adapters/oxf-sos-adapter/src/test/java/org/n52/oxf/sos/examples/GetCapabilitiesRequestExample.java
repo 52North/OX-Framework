@@ -44,7 +44,7 @@ public class GetCapabilitiesRequestExample extends SosAdapterRequestExample {
 
     @Test
     public void getCapabilities() {
-        handleOperation(createGetCapabilitiesOperation());
+        performOperationParseResult(createGetCapabilitiesOperation());
     }
 
     private Operation createGetCapabilitiesOperation() {
