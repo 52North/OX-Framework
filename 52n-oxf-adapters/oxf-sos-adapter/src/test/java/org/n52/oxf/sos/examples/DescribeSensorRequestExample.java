@@ -29,6 +29,12 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.DESCRIBE_SENSOR_SERVICE
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.DESCRIBE_SENSOR_VERSION_PARAMETER;
 import static org.n52.oxf.sos.adapter.SOSAdapter.DESCRIBE_SENSOR;
 
+import java.io.IOException;
+
+import net.opengis.sensorML.x101.SensorMLDocument;
+
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -38,6 +44,7 @@ import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.feature.OXFFeature;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.sml.util.SmlHelper;
 import org.n52.oxf.sos.feature.SOSSensorStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,14 +83,29 @@ public class DescribeSensorRequestExample extends SosAdapterRequestExample {
     @Test
     public void parseSosSensorStoreFromSensorML() {
         try {
+            SmlHelper smlHelper = new SmlHelper();
             OperationResult result = performOperation(createDescribeSensorOperation());
-            SOSSensorStore store = new SOSSensorStore(result);
-            OXFFeatureCollection featureCollection = store.unmarshalFeatures();
-            for (OXFFeature oxfFeature : featureCollection.toSet()) {
-                LOGGER.info("OXFFeature with id '{}'", oxfFeature.getID());
-            }
-        } catch (OXFException e) {
-            LOGGER.error("Could not create SOSSensorStore.", e);
+            XmlObject xmlResponse = XmlObject.Factory.parse(result.getIncomingResultAsStream());
+            SensorMLDocument smlDoc = smlHelper.getSmlFrom(xmlResponse);
+            
+            String longName = smlHelper.getIdValueFrom("longName", smlHelper.getIdentification(smlDoc));
+            LOGGER.info("longName: {}", longName);
+            
+//            SOSSensorStore store = new SOSSensorStore(result);
+//            OXFFeatureCollection featureCollection = store.unmarshalFeatures();
+//            for (OXFFeature oxfFeature : featureCollection.toSet()) {
+//                LOGGER.info("OXFFeature: {}", oxfFeature.toString());
+//                LOGGER.info("oxfSensorTypePosition: {}", oxfFeature.getAttribute("oxfSensorTypePosition"));
+//                LOGGER.info("oxfSensorTypeId: {}", oxfFeature.getAttribute("oxfSensorTypeId"));
+//                LOGGER.info("description: {}", oxfFeature.getAttribute("description"));
+//                
+//            }
+        }
+        catch (XmlException e) {
+            LOGGER.error("Could not parse XML.", e);
+        }
+        catch (IOException e) {
+            LOGGER.error("Could not read response.", e);
         }
     }
     
