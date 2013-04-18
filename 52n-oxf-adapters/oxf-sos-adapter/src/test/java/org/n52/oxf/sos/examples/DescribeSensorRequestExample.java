@@ -41,15 +41,12 @@ import org.junit.Test;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
-import org.n52.oxf.feature.OXFFeature;
-import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.sml.util.SmlHelper;
-import org.n52.oxf.sos.feature.SOSSensorStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//@Ignore // comment out to run demo class via JUnit
+@Ignore // comment out to run demo class via JUnit
 public class DescribeSensorRequestExample extends SosAdapterRequestExample {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(DescribeSensorRequestExample.class);

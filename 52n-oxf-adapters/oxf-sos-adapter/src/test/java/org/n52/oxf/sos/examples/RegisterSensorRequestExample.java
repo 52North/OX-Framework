@@ -37,12 +37,13 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.REGISTER_SENSOR_VERSION
 import static org.n52.oxf.sos.adapter.SOSAdapter.REGISTER_SENSOR;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.ows.capabilities.Operation;
 
-//@Ignore // comment out to run demo class via JUnit
+@Ignore // comment out to run demo class via JUnit
 public class RegisterSensorRequestExample extends SosAdapterRequestExample {
     
     @Before
@@ -52,9 +53,8 @@ public class RegisterSensorRequestExample extends SosAdapterRequestExample {
 
     @Test
     public void describeSensor() {
-        
-        // TODO what if SOS-T interface is protected
-        
+        // should return an exception when transactional interface is 
+        // not supported of public
         performOperationParseResult(createRegisterSensorOperation());
     }
 
