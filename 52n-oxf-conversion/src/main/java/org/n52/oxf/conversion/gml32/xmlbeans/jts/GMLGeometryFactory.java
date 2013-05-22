@@ -28,23 +28,30 @@ import java.util.Collection;
 import java.util.List;
 
 import net.opengis.gml.x32.AbstractCurveSegmentType;
-import net.opengis.gml.x32.AbstractRingPropertyType;
 import net.opengis.gml.x32.AbstractRingType;
 import net.opengis.gml.x32.AbstractSurfacePatchType;
-import net.opengis.gml.x32.BoundingShapeType;
 import net.opengis.gml.x32.CoordinatesType;
 import net.opengis.gml.x32.CurveInterpolationType;
 import net.opengis.gml.x32.DirectPositionType;
+import net.opengis.gml.x32.EnvelopeDocument;
 import net.opengis.gml.x32.EnvelopeType;
+import net.opengis.gml.x32.GeodesicStringDocument;
+import net.opengis.gml.x32.LineStringDocument;
+import net.opengis.gml.x32.LineStringType;
 import net.opengis.gml.x32.LinearRingType;
+import net.opengis.gml.x32.PointDocument;
+import net.opengis.gml.x32.PointType;
+import net.opengis.gml.x32.PolygonDocument;
+import net.opengis.gml.x32.PolygonType;
+import net.opengis.gml.x32.PosDocument;
 import net.opengis.gml.x32.CurveInterpolationType.Enum;
 import net.opengis.gml.x32.DirectPositionListType;
 import net.opengis.gml.x32.GeodesicStringType;
 import net.opengis.gml.x32.LineStringSegmentType;
-import net.opengis.gml.x32.PolygonPatchType;
 import net.opengis.gml.x32.RectangleType;
 import net.opengis.gml.x32.SurfacePatchArrayPropertyType;
 
+import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.conversion.gml32.geometry.GeometryWithInterpolation;
 import org.n52.oxf.conversion.gml32.srs.AxisOrder;
 import org.n52.oxf.conversion.gml32.srs.SRSUtils;
@@ -55,8 +62,11 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.io.ParseException;
+
+import static org.n52.oxf.conversion.gml32.xmlbeans.jts.PolygonFactory.createPolygon;
+import static org.n52.oxf.conversion.gml32.xmlbeans.jts.PolygonFactory.createPolygonPatch;
+import static org.n52.oxf.conversion.gml32.xmlbeans.jts.PointFactory.createPoint;
 
 /**
  * Class providing static methods for parsing AIXM
@@ -92,88 +102,6 @@ public class GMLGeometryFactory {
 		}
 	}
 
-	/**
-	 * @param curve the gml curve segment element
-	 * @return a geometry representing abstract curve segment
-	 * as LineString with an interpolation method defined.
-	 */
-	public static GeometryWithInterpolation createCurve(AbstractCurveSegmentType curve, String srs) {
-		if (curve instanceof LineStringSegmentType) {
-			return createLineString((LineStringSegmentType) curve, srs);
-		}
-		else if (curve instanceof GeodesicStringType) {
-			return createGreatCirlce((GeodesicStringType) curve, srs);
-		}
-		else {
-			throw new UnsupportedOperationException("Currently, only LineStringSegment and GeodesicString are supported.");
-		}
-	}
-
-	/**
-	 * Creates a polygon with one exterior and 0..*
-	 * interior holes.
-	 * 
-	 * @param exterior the exterior ring
-	 * @param interiors the holes
-	 * @param srs as defined in srsName
-	 * @return a raw polygon
-	 */
-	public static Polygon createPolygon(AbstractRingPropertyType exterior,
-			AbstractRingPropertyType[] interiors, String srs) {
-		LinearRing exteriorRing = createRing(exterior.getAbstractRing(), srs);
-
-		List<LinearRing> interiorRings = new ArrayList<LinearRing>();
-		for (AbstractRingPropertyType interiorRing : interiors) {
-			interiorRings.add(createRing(interiorRing.getAbstractRing(), srs));
-		}
-		LinearRing[] castedArray = new LinearRing[0];
-		return exteriorRing.getFactory().createPolygon(exteriorRing, interiorRings.toArray(castedArray));
-	}
-
-	/**
-	 * @param patch the gml polygon patch
-	 * @param srs as defined in srsName
-	 * @return a polygon with a defined interpolation method.
-	 */
-	public static GeometryWithInterpolation createPolygonPatch(AbstractSurfacePatchType abstractPatch, String srs) {
-		if (!(abstractPatch instanceof PolygonPatchType)) {
-			throw new UnsupportedOperationException("Currently, only PolygonPatch is supported.");
-		}
-		
-		PolygonPatchType patch = (PolygonPatchType) abstractPatch;
-		
-		if (!patch.isSetExterior()) throw new IllegalStateException("No exterior found in the Polygon patch.");
-
-		Polygon polygon = createPolygon(patch.getExterior(), patch.getInteriorArray(), srs);
-
-		String interpol;
-		if (patch.isSetInterpolation()) {
-			interpol = patch.getInterpolation().toString();
-		} else {
-			interpol = GeometryWithInterpolation.LINEAR;
-		}
-
-		return new GeometryWithInterpolation(polygon, interpol);
-	}
-
-	/**
-	 * @param patch the gml Rectangle
-	 * @param srs as defined in srsName
-	 * @return a rectangle with a defined interpolation method
-	 */
-	public static GeometryWithInterpolation createRectangle(RectangleType patch, String srs) {
-		LinearRing geom = createRing(patch.getExterior().getAbstractRing(), srs);
-		
-		String interpol;
-		if (patch.isSetInterpolation()) {
-			interpol = patch.getInterpolation().toString();
-		} else {
-			interpol = GeometryWithInterpolation.LINEAR;
-		}
-		
-		return new GeometryWithInterpolation(geom, interpol);
-	}
-
 	private static LineString concatenateLineStrings(List<LineString> resultList) {
 		List<Coordinate> coords = new ArrayList<Coordinate>();
 
@@ -190,18 +118,33 @@ public class GMLGeometryFactory {
 		return new GeometryFactory().createLineString(coords.toArray(coordsArray));
 	}
 
-	private static Coordinate createCoordinate(double first, double second,
+
+
+	public static Geometry createAggregatedGeometry(
+			List<GeometryWithInterpolation> geometryList) {
+		for (GeometryWithInterpolation geom : geometryList) {
+			return geom.getGeometry();
+		}
+		
+		/*
+		 * TODO implement actual aggregation
+		 */
+		
+		return null;
+	}
+
+	protected static Coordinate createCoordinate(double first, double second,
 			AxisOrder order) {
 		return createCoordinate(first, second, Double.NaN, order);
 	}
 
-	private static Coordinate createCoordinate(double first, double second,
+	protected static Coordinate createCoordinate(double first, double second,
 			double third, AxisOrder order) {
 		return (order == AxisOrder.LongLat) ?
 				new Coordinate(first, second, third) : new Coordinate(second, first, third);
 	}
 
-	private static Coordinate[] createCoordinatesFromCoordinates(
+	protected static Coordinate[] createCoordinatesFromCoordinates(
 			CoordinatesType coordinates, String srs) {
 		String coordinateSeparator;
 		if (coordinates.isSetCs()) {
@@ -231,7 +174,41 @@ public class GMLGeometryFactory {
 		return resultCoordinates;
 	}
 
-	public static Coordinate[] createCoordinatesFromPosList(
+	protected static Coordinate[] createCoordinatesFromList(List<?> coordList,
+			int dim, String srs) {
+		AxisOrder order = SRSUtils.resolveAxisOrder(srs);
+		Coordinate[] resultCoordinates = new Coordinate[coordList.size() / dim];
+		
+		int index = 0;
+		while (index+dim-1 < coordList.size()) {
+			
+			if (dim == 2) {
+				resultCoordinates[index/dim] = createCoordinate(Double.parseDouble(coordList.get(index).toString()),
+						Double.parseDouble(coordList.get(index+1).toString()), order);
+			} else if (dim == 3) {
+				resultCoordinates[index/dim] = createCoordinate(Double.parseDouble(coordList.get(index).toString()),
+						Double.parseDouble(coordList.get(index+1).toString()),
+						Double.parseDouble(coordList.get(index+2).toString()), order);
+			}
+			index += dim;
+		}
+		
+		return resultCoordinates;
+	}
+	
+	protected static Coordinate createCoordinatesFromPosition(
+			DirectPositionType position, String srs) {
+		int dim;
+		if (position.isSetSrsDimension()) {
+			dim = position.getSrsDimension().intValue();
+		} else {
+			dim = position.getListValue().size();
+		}
+		return createCoordinatesFromList(position.getListValue(),
+				dim, srs != null ? srs : position.getSrsName())[0];
+	}
+
+	protected static Coordinate[] createCoordinatesFromPosList(
 			DirectPositionListType posList, String srs) {
 		List<?> coordList = posList.getListValue();
 
@@ -246,6 +223,23 @@ public class GMLGeometryFactory {
 			}
 		}
 		return createCoordinatesFromList(coordList, dim, srs != null ? srs : posList.getSrsName());
+	}
+
+	/**
+	 * @param curve the gml curve segment element
+	 * @return a geometry representing abstract curve segment
+	 * as LineString with an interpolation method defined.
+	 */
+	public static GeometryWithInterpolation createCurve(AbstractCurveSegmentType curve, String srs) {
+		if (curve instanceof LineStringSegmentType) {
+			return createLineString((LineStringSegmentType) curve, srs);
+		}
+		else if (curve instanceof GeodesicStringType) {
+			return createGreatCirlce((GeodesicStringType) curve, srs);
+		}
+		else {
+			throw new UnsupportedOperationException("Currently, only LineStringSegment and GeodesicString are supported.");
+		}
 	}
 
 	public static GeometryWithInterpolation createGreatCirlce(GeodesicStringType segment, String srs) {
@@ -286,6 +280,50 @@ public class GMLGeometryFactory {
 		return new GeometryWithInterpolation(geom, GeometryWithInterpolation.LINEAR);
 	}
 
+	public static Geometry createLineString(LineStringType ls) {
+		GeometryFactory gf = new GeometryFactory();
+		
+		Coordinate[] coords = null;
+		if (ls.isSetCoordinates()) {
+			coords = createCoordinatesFromCoordinates(ls.getCoordinates(), ls.getSrsName());
+		}
+		else if (ls.isSetPosList()) {
+			coords = createCoordinatesFromPosList(ls.getPosList(), ls.getSrsName());
+		}
+
+		if (coords != null) {
+			return gf.createLineString(coords);
+		}
+		return null;
+	}
+
+	public static List<GeometryWithInterpolation> createMultiPolygonPatch(
+			SurfacePatchArrayPropertyType patches, String srs) {
+		List<GeometryWithInterpolation> result = new ArrayList<GeometryWithInterpolation>();
+		for (AbstractSurfacePatchType p : patches.getAbstractSurfacePatchArray()) {
+			result.add(createPolygonPatch(p, srs));
+		}
+		return result;
+	}
+
+	/**
+	 * @param patch the gml Rectangle
+	 * @param srs as defined in srsName
+	 * @return a rectangle with a defined interpolation method
+	 */
+	public static GeometryWithInterpolation createRectangle(RectangleType patch, String srs) {
+		LinearRing geom = createRing(patch.getExterior().getAbstractRing(), srs);
+		
+		String interpol;
+		if (patch.isSetInterpolation()) {
+			interpol = patch.getInterpolation().toString();
+		} else {
+			interpol = GeometryWithInterpolation.LINEAR;
+		}
+		
+		return new GeometryWithInterpolation(geom, interpol);
+	}
+
 	public static LinearRing createRing(AbstractRingType abstractRing, String srs) {
 		if (abstractRing instanceof LinearRingType) {
 			LinearRingType linearRing = (LinearRingType) abstractRing;
@@ -310,6 +348,7 @@ public class GMLGeometryFactory {
 		return geometry;
 	}
 
+
 	private static LineString interpolateGreatCircle(LineString geom) {
 		List<LineString> resultList = new ArrayList<LineString>();
 		Coordinate last = null;
@@ -327,6 +366,8 @@ public class GMLGeometryFactory {
 		}
 	}
 
+
+
 	private static LineString interpolateLineString(LineString geom,
 			String linear) {
 		if (geom.getLength() > interpolatedSegmentLength) {
@@ -338,6 +379,7 @@ public class GMLGeometryFactory {
 		}
 		return geom;
 	}
+
 
 	private static LineString interpolateRhumbLine(LineString geom) {
 		List<LineString> resultList = new ArrayList<LineString>();
@@ -356,120 +398,64 @@ public class GMLGeometryFactory {
 		}
 	}
 
-	public static Point createPoint(DirectPositionType pos, String srs) {
-		List<?> list = pos.getListValue();
-		int dim;
-		if (pos.isSetSrsDimension()) {
-			dim = pos.getSrsDimension().intValue();
-		} else {
-			dim = list.size();
+	/**
+	 * Main method for parsing a geometry from an xml-fragment.
+	 * This method delegates to the private concrete parsing methods.
+	 * 
+	 * @param geomElement the geometry xml object
+	 * @return a {@link Geometry} as a JTS representation.
+	 * @throws ParseException if the geometry could not be parsed.
+	 * @throws GMLParseException if something could not be parsed or is not supported.
+	 */
+	public static Geometry parseGeometry(XmlObject geomElement) throws ParseException {
+		if (geomElement instanceof EnvelopeType) {
+			return createPolygon((EnvelopeType) geomElement);
 		}
-		
-		if (dim == 2) {
-			return new GeometryFactory().createPoint(createCoordinate(Double.parseDouble(list.get(0).toString()),
-					Double.parseDouble(list.get(1).toString()),
-					SRSUtils.resolveAxisOrder(srs != null ? srs : pos.getSrsName())));
+		else if (geomElement instanceof PointType) {
+			return createPoint((PointType) geomElement, null);
 		}
-		else if (dim == 3) {
-			return new GeometryFactory().createPoint(createCoordinate(Double.parseDouble(list.get(0).toString()),
-					Double.parseDouble(list.get(1).toString()),
-					Double.parseDouble(list.get(2).toString()),
-					SRSUtils.resolveAxisOrder(srs != null ? srs : pos.getSrsName())));
-		}
-		
-		throw new IllegalStateException("Point must have dimension 2 or 3.");
-	}
-
-	public static Geometry createAggregatedGeometry(
-			List<GeometryWithInterpolation> geometryList) {
-		for (GeometryWithInterpolation geom : geometryList) {
-			return geom.getGeometry();
-		}
-		
-		/*
-		 * TODO implement actual aggregation
-		 */
-		
-		return null;
-	}
-
-	public static Geometry createPolygon(BoundingShapeType boundedBy) {
-		if (boundedBy.isSetEnvelope()) {
-			return createPolygon(boundedBy.getEnvelope());
-		}
-		return null;
-	}
-
-	public static Geometry createPolygon(EnvelopeType envelope) {
-		String srs = envelope.getSrsName();
-		if (envelope.isSetLowerCorner() && envelope.isSetUpperCorner()) {
-			Coordinate lowerLeft = createCoordinatesFromPosition(envelope.getLowerCorner(), srs);
-			Coordinate upperRight = createCoordinatesFromPosition(envelope.getUpperCorner(), srs);
-			Coordinate upperLeft = new Coordinate(lowerLeft.x, upperRight.y);
-			Coordinate lowerRight = new Coordinate(upperRight.x, lowerLeft.y);
-			GeometryFactory gf = new GeometryFactory();
-			LinearRing lr = gf.createLinearRing(new Coordinate[] {
-					lowerLeft, upperLeft, upperRight, lowerRight, lowerLeft
-			});
-			return gf.createPolygon(lr, null);
-		}
-		
-		if (envelope.isSetCoordinates()) {
-			Coordinate[] coords = createCoordinatesFromCoordinates(envelope.getCoordinates(),
-					envelope.getSrsName());
-			GeometryFactory gf = new GeometryFactory();
-			LinearRing lr = gf.createLinearRing(coords);
-			return gf.createPolygon(lr, null);
-		}
-		
-		if (envelope.getPosArray().length > 0) {
-
-		}
-		throw new UnsupportedOperationException("Currently only gml:Coordinates and gml:posList are supported.");
-	}
-
-	private static Coordinate createCoordinatesFromPosition(
-			DirectPositionType position, String srs) {
-		int dim;
-		if (position.isSetSrsDimension()) {
-			dim = position.getSrsDimension().intValue();
-		} else {
-			dim = position.getListValue().size();
-		}
-		return createCoordinatesFromList(position.getListValue(),
-				dim, srs != null ? srs : position.getSrsName())[0];
-	}
-
-	private static Coordinate[] createCoordinatesFromList(List<?> coordList,
-			int dim, String srs) {
-		AxisOrder order = SRSUtils.resolveAxisOrder(srs);
-		Coordinate[] resultCoordinates = new Coordinate[coordList.size() / dim];
-		
-		int index = 0;
-		while (index+dim-1 < coordList.size()) {
-			
-			if (dim == 2) {
-				resultCoordinates[index/dim] = createCoordinate(Double.parseDouble(coordList.get(index).toString()),
-						Double.parseDouble(coordList.get(index+1).toString()), order);
-			} else if (dim == 3) {
-				resultCoordinates[index/dim] = createCoordinate(Double.parseDouble(coordList.get(index).toString()),
-						Double.parseDouble(coordList.get(index+1).toString()),
-						Double.parseDouble(coordList.get(index+2).toString()), order);
+		else if (geomElement instanceof DirectPositionType) {
+			DirectPositionType dirPos = (DirectPositionType) geomElement;
+			String srs;
+			if (dirPos.isSetSrsName()) {
+				srs = dirPos.getSrsName();
+			} else {
+				srs = null;
 			}
-			index += dim;
+			return createPoint(dirPos, srs);
 		}
-		
-		return resultCoordinates;
-	}
-
-	public static List<GeometryWithInterpolation> createMultiPolygonPatch(
-			SurfacePatchArrayPropertyType patches, String srs) {
-		List<GeometryWithInterpolation> result = new ArrayList<GeometryWithInterpolation>();
-		for (AbstractSurfacePatchType p : patches.getAbstractSurfacePatchArray()) {
-			result.add(createPolygonPatch(p, srs));
+		else if (geomElement instanceof LineStringType) {
+			return createLineString((LineStringType) geomElement);
 		}
-		return result;
-	}
+		else if (geomElement instanceof LinearRingType) {
+			return createRing((LinearRingType) geomElement, null);
+		}
 
+		else if (geomElement instanceof GeodesicStringType) {
+			return createGreatCirlce((GeodesicStringType) geomElement, null).getGeometry();
+		}
+		else if (geomElement instanceof PolygonType) {
+			return createPolygon((PolygonType) geomElement);
+		}
+		else if (geomElement instanceof EnvelopeDocument) {
+			return createPolygon(((EnvelopeDocument) geomElement).getEnvelope());
+		}
+		else if (geomElement instanceof PosDocument) {
+			return createPoint(((PosDocument) geomElement).getPos(), null);
+		}
+		else if (geomElement instanceof GeodesicStringDocument) {
+			return parseGeometry(((GeodesicStringDocument) geomElement).getGeodesicString());
+		}
+		else if (geomElement instanceof PolygonDocument) {
+			return parseGeometry(((PolygonDocument) geomElement).getPolygon());
+		}
+		else if (geomElement instanceof PointDocument) {
+			return parseGeometry(((PointDocument) geomElement).getPoint());
+		}
+		else if (geomElement instanceof LineStringDocument) {
+			return parseGeometry(((LineStringDocument) geomElement).getLineString());
+		}
+		return null;
+	}
 
 }
