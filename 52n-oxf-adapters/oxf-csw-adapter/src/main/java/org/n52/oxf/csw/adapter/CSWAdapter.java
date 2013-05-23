@@ -112,8 +112,32 @@ public class CSWAdapter implements IServiceAdapter {
      * 
      */
     public ServiceDescriptor initService(String url) throws ExceptionReport, OXFException {
+        ParameterContainer paramContainer = new ParameterContainer();
+        paramContainer.addParameterShell("acceptVersions", SUPPORTED_VERSIONS[0]);
+        paramContainer.addParameterShell("service", SERVICE_TYPE);
 
-        throw new UnsupportedOperationException("Not yet implemented.");
+        Operation operation = new Operation("GetCapabilities", url+"?", null);
+        return initService(doOperation(operation, paramContainer));
+    }
+
+    public ServiceDescriptor initService(OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
+        try {
+            net.opengis.cat.csw.x202.CapabilitiesDocument capsDoc = net.opengis.cat.csw.x202.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
+            return initService(capsDoc);
+        }
+        catch (XmlException e) {
+            throw new OXFException(e);
+        }
+        catch (IOException e) {
+            throw new OXFException(e);
+        }
+    }
+
+    public ServiceDescriptor initService(net.opengis.cat.csw.x202.CapabilitiesDocument capsDoc) throws OXFException {
+        CSWCapabilitiesMapper_202 capsMapper = new CSWCapabilitiesMapper_202();
+        ServiceDescriptor result = capsMapper.mapCapabilities(capsDoc);
+
+        return result;
     }
 
     /**
@@ -157,7 +181,7 @@ public class CSWAdapter implements IServiceAdapter {
         }
 
         else if (operation.getName().equals(GET_RECORD_BY_ID)) {
-            request = requestBuilder.buildGetRecordsRequest(parameters);
+            request = requestBuilder.buildGetRecordByIdRequest(parameters);
         }
         
         // Operation not supported
