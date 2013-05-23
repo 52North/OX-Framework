@@ -146,7 +146,7 @@ public class CSWRequestBuilder {
         //
         // set required elements:
         //
-        queryString += DESCRIBE_RECORD_REQUEST_PARAMETER + "=" + "DescribeRecord" + "&";
+        queryString += DESCRIBE_RECORD_REQUEST_PARAMETER + "=" + CSWAdapter.DESCRIBE_RECORD + "&";
 
         String serviceParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_SERVICE_PARAMETER).getSpecifiedValue();
         queryString += DESCRIBE_RECORD_SERVICE_PARAMETER + "=" + serviceParam + "&";
@@ -255,5 +255,31 @@ public class CSWRequestBuilder {
     	request +=     	"</csw:GetRecords> \n";
     	
     	return request;
+    }
+    
+    public String buildGetRecordByIdRequest(ParameterContainer parameters) {
+        String queryString = "";
+
+        //
+        // set required elements:
+        //
+        queryString += DESCRIBE_RECORD_REQUEST_PARAMETER + "=" + CSWAdapter.GET_RECORD_BY_ID + "&";
+
+        String serviceParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_SERVICE_PARAMETER).getSpecifiedValue();
+        queryString += DESCRIBE_RECORD_SERVICE_PARAMETER + "=" + serviceParam + "&";
+
+        String versionParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_VERSION_PARAMETER).getSpecifiedValue();
+        queryString += DESCRIBE_RECORD_VERSION_PARAMETER + "=" + versionParam + "&";
+
+        String formatsParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_OUTPUT_FORMAT_PARAMETER).getSpecifiedValue();
+        queryString += DESCRIBE_RECORD_OUTPUT_FORMAT_PARAMETER + "=" + formatsParam + "&";
+
+        String schemaLangParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER).getSpecifiedValue();
+        queryString += DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER + "=" + schemaLangParam + "&";
+
+        String nameSpaceParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_NAME_SPACE_PARAMETER).getSpecifiedValue();
+        queryString += DESCRIBE_RECORD_NAME_SPACE_PARAMETER + "=" + nameSpaceParam + "&";
+        
+        return queryString;
     }
 }

@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012
+ * ﻿Copyright (C) 2013
  * by 52 North Initiative for Geospatial Open Source Software GmbH
  *
  * Contact: Andreas Wytzisk
@@ -89,15 +89,12 @@ public class CSWAdapter implements IServiceAdapter {
 
     private CSWRequestBuilder requestBuilder;
 
-    // private SOSCapabilitiesMapper_000 capsMapper;
 
     /**
      * standard constructor
      */
     public CSWAdapter() {
         requestBuilder = new CSWRequestBuilder();
-
-        // capsMapper = new SOSCapabilitiesMapper_000();
     }
 
     /**
@@ -116,7 +113,7 @@ public class CSWAdapter implements IServiceAdapter {
      */
     public ServiceDescriptor initService(String url) throws ExceptionReport, OXFException {
 
-        return null;
+        throw new UnsupportedOperationException("Not yet implemented.");
     }
 
     /**
@@ -152,24 +149,23 @@ public class CSWAdapter implements IServiceAdapter {
 
         else if (operation.getName().equals(DESCRIBE_RECORD)) {
             request = requestBuilder.buildDescribeRecordRequest(parameters);
-//        	request = requestBuilder.buildDescribeRecordRequestPost(parameters);
-//        	httpMethod = "POST";
         }
 
         else if (operation.getName().equals(GET_RECORDS)) {
             request = requestBuilder.buildGetRecordsRequest(parameters);
-
-        	httpMethod = "POST";
+            httpMethod = "POST";
         }
 
+        else if (operation.getName().equals(GET_RECORD_BY_ID)) {
+            request = requestBuilder.buildGetRecordsRequest(parameters);
+        }
+        
         // Operation not supported
         else {
             throw new OXFException("The operation '" + operation.getName() + "' is not supported.");
         }
 
         try {
-            
-
             if (operation.getDcps().length == 0) {
                 throw new IllegalStateException("No DCP links available to send request to.");
             }
