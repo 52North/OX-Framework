@@ -72,14 +72,50 @@ public class CSWAdapterTest extends TestCase {
                                                                          url + "?",
                                                                          url), paramCon);
     
-            System.out.println(new String(opResult.getIncomingResult()));
+           LOGGER.info(new String(opResult.getIncomingResult()));
             
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getLocalizedMessage());
             fail();
         }
     }
 
+    @Test
+    public void testGetRecordById() throws OXFException, ExceptionReport {
+        try {
+            CSWAdapter adapter = new CSWAdapter();
+    
+            String recordID = "glues:pik:metadata:dataset:noco2-echo-g-sresa1-annualcropyieldincreases";
+            String elementSetName = "full";
+            String outputSchema= "http://www.isotc211.org/2005/gmd";
+            
+            
+            ParameterContainer paramCon = new ParameterContainer();
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_REQUEST,
+                                       CSWAdapter.GET_RECORD_BY_ID);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_VERSION,
+                                       CSWAdapter.SUPPORTED_VERSIONS[0]);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_SERVICE,
+                                       CSWAdapter.SERVICE_TYPE);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_ID,
+                                       recordID);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_ELEMENT_SET_NAME,
+                                       elementSetName);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_OUTPUT_SCHEMA,
+                                       outputSchema);
+            
+            OperationResult opResult = adapter.doOperation(new Operation(CSWAdapter.GET_RECORD_BY_ID,
+                    url + "?",
+                    url), paramCon);
+    
+            LOGGER.info(new String(opResult.getIncomingResult()));
+        } catch (Exception e) {
+            LOGGER.error(e.getLocalizedMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
+    
     @Test
     public void testDescribeRecord() throws OXFException, ExceptionReport {
         CSWAdapter adapter = new CSWAdapter();

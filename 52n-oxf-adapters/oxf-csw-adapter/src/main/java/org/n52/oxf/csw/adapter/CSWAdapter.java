@@ -25,8 +25,8 @@ package org.n52.oxf.csw.adapter;
 
 import java.io.IOException;
 
-import net.opengis.ows.x11.ExceptionReportDocument;
-import net.opengis.ows.x11.ExceptionType;
+import net.opengis.ows.ExceptionReportDocument;
+import net.opengis.ows.ExceptionType;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -205,8 +205,9 @@ public class CSWAdapter implements IServiceAdapter {
                 result = new OperationResult(responseEntity.getContent(), parameters, request);
             }
             else {
-                String uri = dcp.getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
-                HttpResponse response = httpClient.executeGet(uri);
+                String baseURI = dcp.getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
+                String requestURI = baseURI + request;
+                HttpResponse response = httpClient.executeGet(requestURI);
                 HttpEntity responseEntity = response.getEntity(); 
                 result = new OperationResult(responseEntity.getContent(), parameters, request);
             }
@@ -249,7 +250,7 @@ public class CSWAdapter implements IServiceAdapter {
         ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(requestResult);
         ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
 
-        String language = xb_execRepDoc.getExceptionReport().getLang();
+        String language = null;//xb_execRepDoc.getExceptionReport().getLang();
         String version = xb_execRepDoc.getExceptionReport().getVersion();
 
         ExceptionReport oxf_execReport = new ExceptionReport(version, language);

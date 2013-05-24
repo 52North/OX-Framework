@@ -269,18 +269,21 @@ public class CSWRequestBuilder {
         //
         // set optional elements:
         //
-        String elementSetName = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_ELEMENT_SET_NAME).getSpecifiedValue();
-        if (elementSetName != null) {
+        ParameterShell elementSetNameParam = parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_ELEMENT_SET_NAME);
+        if (elementSetNameParam != null) {
+            String elementSetName = (String) elementSetNameParam.getSpecifiedValue();
             queryString += GET_RECORD_BY_ID_ELEMENT_SET_NAME + "=" + elementSetName + "&";
         }
 
-        String outputFormat = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_OUTPUT_FORMAT).getSpecifiedValue();
-        if (outputFormat != null) {
+        ParameterShell outputFormatParam = parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_OUTPUT_FORMAT);
+        if (outputFormatParam != null) {
+            String outputFormat = (String) outputFormatParam.getSpecifiedValue();
             queryString += GET_RECORD_BY_ID_OUTPUT_FORMAT + "=" + outputFormat + "&";
         }
         
-        String outputSchema = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_OUTPUT_SCHEMA).getSpecifiedValue();
-        if (outputSchema != null) {
+        ParameterShell outputSchemaParam = parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_OUTPUT_SCHEMA);
+        if (outputSchemaParam != null) {
+            String outputSchema = (String) outputSchemaParam.getSpecifiedValue();
             queryString += GET_RECORD_BY_ID_OUTPUT_SCHEMA + "=" + outputSchema + "&";
         }
         
