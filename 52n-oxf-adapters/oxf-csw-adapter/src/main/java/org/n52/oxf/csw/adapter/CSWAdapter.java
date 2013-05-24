@@ -87,6 +87,9 @@ public class CSWAdapter implements IServiceAdapter {
      */
     public static final String RESOURCE_OPERATION = "GetRecords";
 
+    public static final String NAMESPACE = "http://www.opengis.net/cat/csw/2.0.2";
+    
+    
     private CSWRequestBuilder requestBuilder;
 
 

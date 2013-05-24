@@ -115,8 +115,42 @@ public class CSWAdapterTest extends TestCase {
             fail();
         }
     }
-    
+
     @Test
+    public void testGetRecords() throws OXFException, ExceptionReport {
+    	 try {
+    	     CSWAdapter adapter = new CSWAdapter();
+    	     
+             ParameterContainer paramCon = new ParameterContainer();
+             
+             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_OUTPUT_FORMAT_PARAMETER, "application/xml");
+             
+             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_OUTPUT_SCHEMA_FORMAT, "http://www.opengis.net/cat/csw/2.0.2");
+             
+             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_ELEMENT_SET_NAME_FORMAT, "full");
+             
+             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_MAX_RECORDS, 5);
+             
+             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_START_POSITION, 1);
+             
+             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_RESULT_TYPE, "results");
+             
+             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_QUERY_TYPE_NAMES_PARAMETER, "csw:Record");
+           
+             OperationResult opResult = adapter.doOperation(new Operation(CSWAdapter.GET_RECORDS,
+                                                                          url + "?",
+                                                                          url), paramCon);
+    
+             LOGGER.info(new String(opResult.getIncomingResult()));
+    	} catch (Exception e) {
+            LOGGER.error(e.getLocalizedMessage());
+            e.printStackTrace();
+            fail();
+        }
+    }
+    
+
+    
     public void testDescribeRecord() throws OXFException, ExceptionReport {
         CSWAdapter adapter = new CSWAdapter();
 
@@ -135,7 +169,7 @@ public class CSWAdapterTest extends TestCase {
         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER,
                                    "XMLSCHEMA");
         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_NAME_SPACE_PARAMETER,
-        							"xmlns(rim=urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0)");
+                                                                "xmlns(rim=urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0)");
                                     //"xmlns(rim=urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.5),xmlns(csw=http://www.opengis.net/cat/csw)");
 //    "xmlns(rim=urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.5),xmlns(csw=http://www.opengis.net/cat/csw)");
         System.out.println("http://geossregistries.info:1090/GEOSSCSW202/discovery?Request=DescribeRecord&Service=CSW&Version=2.0.2&NAMESPACE=xmlns(rim=urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0)");
@@ -144,33 +178,5 @@ public class CSWAdapterTest extends TestCase {
                                                                      url), paramCon);
 
         LOGGER.info(new String(opResult.getIncomingResult()));
-    }
-
-    @Test
-    public void testGetRecords() throws OXFException, ExceptionReport {
-    	 CSWAdapter adapter = new CSWAdapter();
-
-         ParameterContainer paramCon = new ParameterContainer();
-         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_VERSION_PARAMETER,
-                                    CSWAdapter.SUPPORTED_VERSIONS[0]);
-         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_SERVICE_PARAMETER,
-                                    CSWAdapter.SERVICE_TYPE);
-         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_OUTPUT_FORMAT_PARAMETER,
-                                    "application/xml");
-//         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_TYPE_NAME_PARAMETER,
-//                                    "csw:Record,rim:Service,rim:Organization");
-
-         
-         paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_OUTPUT_SCHEMA_FORMAT,"http://www.opengis.net/cat/csw");
-         String typeNames[] = {"Service","Organization"};
-         paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_TYPE_NAME_PARAMETER,typeNames);
-         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER,
-                                    "XMLSCHEMA");
-       
-         OperationResult opResult = adapter.doOperation(new Operation("GetRecords",
-                                                                      url + "?",
-                                                                      url), paramCon);
-
-         LOGGER.info(new String(opResult.getIncomingResult()));
     }
 }
