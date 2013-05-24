@@ -37,43 +37,43 @@ import java.util.List;
  */
 public class OWSException extends Exception {
 	
-	public static final String OPERATION_NOT_SUPPORTED = "OperationNotSupported";
-	public static final String MISSING_PARAMETER_VALUE = "MissingParameterValue";
-	public static final String INVALID_PARAMTER_VALUE = "InvalidParameterValue";
-	public static final String VERSION_NEGOTIATION_FOUND = "VersionNegotiationFound";
-	public static final String INVALID_UPDATE_SEQUENCE = "InvalidUpdateSequence";
-	public static final String NO_APPLICABLE_CODE = "NoApplicableCode";
-
-	private String[] exceptionTexts;
-	private String sendedRequest;
-	private String exceptionCode;
+    public static final String OPERATION_NOT_SUPPORTED = "OperationNotSupported";
+    public static final String MISSING_PARAMETER_VALUE = "MissingParameterValue";
+    public static final String INVALID_PARAMTER_VALUE = "InvalidParameterValue";
+    public static final String VERSION_NEGOTIATION_FOUND = "VersionNegotiationFound";
+    public static final String INVALID_UPDATE_SEQUENCE = "InvalidUpdateSequence";
+    public static final String NO_APPLICABLE_CODE = "NoApplicableCode";
+    
+    private String[] exceptionTexts;
+    private String sentRequest;
+    private String exceptionCode;
     private String locator;
 
     /**
      * 
      * @param exceptionTexts
      * @param exceptionCode
-     * @param sendedRequest
+     * @param sentRequest
      */
-	public OWSException(String[] exceptionTexts, String exceptionCode, String sendedRequest) {
+	public OWSException(String[] exceptionTexts, String exceptionCode, String sentRequest) {
         super(exceptionCode);
 		this.exceptionCode = exceptionCode;
 		this.exceptionTexts = exceptionTexts;
-        this.sendedRequest = sendedRequest;
+        this.sentRequest = sentRequest;
 	}
     
     /**
      * 
      * @param exceptionTexts
      * @param exceptionCode
-     * @param sendedRequest
+     * @param sentRequest
      * @param locator
      */
-    public OWSException(String[] exceptionTexts, String exceptionCode, String sendedRequest, String locator) {
+    public OWSException(String[] exceptionTexts, String exceptionCode, String sentRequest, String locator) {
         super(exceptionCode);
         this.exceptionCode = exceptionCode;
         this.exceptionTexts = exceptionTexts;
-        this.sendedRequest = sendedRequest;
+        this.sentRequest = sentRequest;
         this.locator = locator;
     }
     
@@ -90,8 +90,8 @@ public class OWSException extends Exception {
             s.println("Exception text: " + excTxt);
         }
         
-        s.println("Sended request was:");
-        s.println(sendedRequest);
+        s.println("Sent request was:");
+        s.println(sentRequest);
         
         super.printStackTrace(s);
     }
@@ -108,8 +108,8 @@ public class OWSException extends Exception {
             res += "<b>Exception text:</b> " + excTxt + "<br>";
         }
         
-        res += "<b>Sended request was:</b>" + "<br>";
-        res += "<code>" + replaceTagBrackets(sendedRequest) + "</code>";
+        res += "<b>Sendt request was:</b>" + "<br>";
+        res += "<code>" + replaceTagBrackets(sentRequest) + "</code>";
         
         return res;
     }
@@ -138,8 +138,8 @@ public class OWSException extends Exception {
 		return exceptionTexts;
 	}
 
-	public String getSendedRequest() {
-        return sendedRequest;
+	public String getSentRequest() {
+        return sentRequest;
     }
 
     /**
