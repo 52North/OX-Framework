@@ -160,7 +160,7 @@ public class CSWAdapter implements IServiceAdapter {
      */
     public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
             OXFException {
-
+        
         OperationResult result = null;
 
         String request = null;
