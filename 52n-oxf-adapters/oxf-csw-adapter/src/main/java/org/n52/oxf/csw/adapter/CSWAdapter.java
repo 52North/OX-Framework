@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012
+ * ﻿Copyright (C) 2013
  * by 52 North Initiative for Geospatial Open Source Software GmbH
  *
  * Contact: Andreas Wytzisk
@@ -25,8 +25,8 @@ package org.n52.oxf.csw.adapter;
 
 import java.io.IOException;
 
-import net.opengis.ows.x11.ExceptionReportDocument;
-import net.opengis.ows.x11.ExceptionType;
+import net.opengis.ows.ExceptionReportDocument;
+import net.opengis.ows.ExceptionType;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -89,15 +89,12 @@ public class CSWAdapter implements IServiceAdapter {
 
     private CSWRequestBuilder requestBuilder;
 
-    // private SOSCapabilitiesMapper_000 capsMapper;
 
     /**
      * standard constructor
      */
     public CSWAdapter() {
         requestBuilder = new CSWRequestBuilder();
-
-        // capsMapper = new SOSCapabilitiesMapper_000();
     }
 
     /**
@@ -115,8 +112,32 @@ public class CSWAdapter implements IServiceAdapter {
      * 
      */
     public ServiceDescriptor initService(String url) throws ExceptionReport, OXFException {
+        ParameterContainer paramContainer = new ParameterContainer();
+        paramContainer.addParameterShell("acceptVersions", SUPPORTED_VERSIONS[0]);
+        paramContainer.addParameterShell("service", SERVICE_TYPE);
 
-        return null;
+        Operation operation = new Operation("GetCapabilities", url+"?", null);
+        return initService(doOperation(operation, paramContainer));
+    }
+
+    public ServiceDescriptor initService(OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
+        try {
+            net.opengis.cat.csw.x202.CapabilitiesDocument capsDoc = net.opengis.cat.csw.x202.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
+            return initService(capsDoc);
+        }
+        catch (XmlException e) {
+            throw new OXFException(e);
+        }
+        catch (IOException e) {
+            throw new OXFException(e);
+        }
+    }
+
+    public ServiceDescriptor initService(net.opengis.cat.csw.x202.CapabilitiesDocument capsDoc) throws OXFException {
+        CSWCapabilitiesMapper_202 capsMapper = new CSWCapabilitiesMapper_202();
+        ServiceDescriptor result = capsMapper.mapCapabilities(capsDoc);
+
+        return result;
     }
 
     /**
@@ -152,24 +173,23 @@ public class CSWAdapter implements IServiceAdapter {
 
         else if (operation.getName().equals(DESCRIBE_RECORD)) {
             request = requestBuilder.buildDescribeRecordRequest(parameters);
-//        	request = requestBuilder.buildDescribeRecordRequestPost(parameters);
-//        	httpMethod = "POST";
         }
 
         else if (operation.getName().equals(GET_RECORDS)) {
             request = requestBuilder.buildGetRecordsRequest(parameters);
-
-        	httpMethod = "POST";
+            httpMethod = "POST";
         }
 
+        else if (operation.getName().equals(GET_RECORD_BY_ID)) {
+            request = requestBuilder.buildGetRecordByIdRequest(parameters);
+        }
+        
         // Operation not supported
         else {
             throw new OXFException("The operation '" + operation.getName() + "' is not supported.");
         }
 
         try {
-            
-
             if (operation.getDcps().length == 0) {
                 throw new IllegalStateException("No DCP links available to send request to.");
             }
@@ -185,8 +205,9 @@ public class CSWAdapter implements IServiceAdapter {
                 result = new OperationResult(responseEntity.getContent(), parameters, request);
             }
             else {
-                String uri = dcp.getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
-                HttpResponse response = httpClient.executeGet(uri);
+                String baseURI = dcp.getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
+                String requestURI = baseURI + request;
+                HttpResponse response = httpClient.executeGet(requestURI);
                 HttpEntity responseEntity = response.getEntity(); 
                 result = new OperationResult(responseEntity.getContent(), parameters, request);
             }
@@ -229,7 +250,7 @@ public class CSWAdapter implements IServiceAdapter {
         ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(requestResult);
         ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
 
-        String language = xb_execRepDoc.getExceptionReport().getLang();
+        String language = null;//xb_execRepDoc.getExceptionReport().getLang();
         String version = xb_execRepDoc.getExceptionReport().getVersion();
 
         ExceptionReport oxf_execReport = new ExceptionReport(version, language);

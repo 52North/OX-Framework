@@ -331,15 +331,16 @@ public class XmlUtil {
 	 */
 	public static String stripText(XmlObject elem) {
 		if (elem != null) {
+			StringBuilder sb = new StringBuilder();
 			NodeList children = elem.getDomNode().getChildNodes();
 			Node child;
 			for (int i = 0; i < children.getLength(); i++) {
 				child = children.item(i);
 				if (child.getNodeType() == Node.TEXT_NODE) {
-					return toString(child).trim();
+					sb.append(toString(child).trim());
 				}			
 			}
-
+			return sb.toString();
 		}
 		return null;
 	}

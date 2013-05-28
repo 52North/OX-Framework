@@ -140,7 +140,7 @@ public abstract class SosAdapterRequestExample {
             }
             sb.append("\t").append(REPORT_SEPARATOR_LINE);
         }
-        sb.append("Sent Request: ").append(exception.getSendedRequest());
+        sb.append("Sent Request: ").append(exception.getSentRequest());
         return sb.append("\n").toString();
     }
 

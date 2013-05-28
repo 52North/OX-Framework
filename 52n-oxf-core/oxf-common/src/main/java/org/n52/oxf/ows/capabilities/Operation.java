@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * 
  * This class holds the values to invoke a service operation. One Operation will be generated for each
- * operation of a OWS (ie. GetMap)
+ * operation of a OWS (i.e. GetMap)
  * 
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>

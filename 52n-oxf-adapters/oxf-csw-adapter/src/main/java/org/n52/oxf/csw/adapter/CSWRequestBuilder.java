@@ -45,7 +45,6 @@ public class CSWRequestBuilder {
     public static final String GET_CAPABILITIES_ACCEPT_FORMATS_PARAMETER = "acceptFormats";
     public static final String GET_CAPABILITIES_SECTIONS_PARAMETER = "Sections";
 
-    
     public static final String DESCRIBE_RECORD_MAX_RECORDS = "maxRecords";
     public static final String DESCRIBE_RECORD_START_POSITION = "startPosition";
     public static final String DESCRIBE_RECORD_REQUEST_PARAMETER = "request";
@@ -67,7 +66,13 @@ public class CSWRequestBuilder {
     public static final String GET_RECORDS_PROPERTY_NAME = "PropertyName";
     public static final String GET_RECORDS_SERVICE_TYPE_2SEARCH4_PARAMETER = "GET_RECORDS_SERVICE_TYPE_2SEARCH4_PARAMETER";
     
-    
+    public static final String GET_RECORD_BY_ID_REQUEST = "request";
+    public static final String GET_RECORD_BY_ID_SERVICE = "service";
+    public static final String GET_RECORD_BY_ID_VERSION = "version";
+    public static final String GET_RECORD_BY_ID_ID = "ID";
+    public static final String GET_RECORD_BY_ID_ELEMENT_SET_NAME = "ElementSetName";
+    public static final String GET_RECORD_BY_ID_OUTPUT_FORMAT = "outputFormat";
+    public static final String GET_RECORD_BY_ID_OUTPUT_SCHEMA = "outputSchema";
 
     /**
      * builds the GetCapabilities-Request. <br>
@@ -146,7 +151,7 @@ public class CSWRequestBuilder {
         //
         // set required elements:
         //
-        queryString += DESCRIBE_RECORD_REQUEST_PARAMETER + "=" + "DescribeRecord" + "&";
+        queryString += DESCRIBE_RECORD_REQUEST_PARAMETER + "=" + CSWAdapter.DESCRIBE_RECORD + "&";
 
         String serviceParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_SERVICE_PARAMETER).getSpecifiedValue();
         queryString += DESCRIBE_RECORD_SERVICE_PARAMETER + "=" + serviceParam + "&";
@@ -188,23 +193,10 @@ public class CSWRequestBuilder {
         describeRecordType.setService(serviceParam);
         
         return describeRecordDocument.xmlText(XmlUtil.PRETTYPRINT);
-      
-        //
-        // set required elements:
-        //
-//        queryString += DESCRIBE_RECORD_REQUEST_PARAMETER + "=" + "DescribeRecord" + "&";
-//
-//        String typeNameParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_TYPE_NAME_PARAMETER).getSpecifiedValue();
-//        queryString += DESCRIBE_RECORD_TYPE_NAME_PARAMETER + "=" + typeNameParam + "&";
-//        
-//        String nameSpaceParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_NAME_SPACE_PARAMETER).getSpecifiedValue();
-//        queryString += DESCRIBE_RECORD_NAME_SPACE_PARAMETER + "=" + nameSpaceParam + "&";
-//        
-       
     }
     
+    // TODO: use adjust to XML Beans
     public String buildGetRecordsRequest(ParameterContainer parameters) {
-
     	String literal = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORDS_LITERAL).getSpecifiedValue();
     	String propertyName = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORDS_PROPERTY_NAME).getSpecifiedValue();
     	String maxRecords = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_MAX_RECORDS).getSpecifiedValue();
@@ -255,5 +247,46 @@ public class CSWRequestBuilder {
     	request +=     	"</csw:GetRecords> \n";
     	
     	return request;
+    }
+    
+    public String buildGetRecordByIdRequest(ParameterContainer parameters) {
+        String queryString = "";
+
+        //
+        // set required elements:
+        //
+        queryString += GET_RECORD_BY_ID_REQUEST + "=" + CSWAdapter.GET_RECORD_BY_ID + "&";
+
+        String serviceParam = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_SERVICE).getSpecifiedValue();
+        queryString += GET_RECORD_BY_ID_SERVICE + "=" + serviceParam + "&";
+
+        String versionParam = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_VERSION).getSpecifiedValue();
+        queryString += GET_RECORD_BY_ID_VERSION + "=" + versionParam + "&";
+
+        String idParam = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_ID).getSpecifiedValue();
+        queryString += GET_RECORD_BY_ID_ID + "=" + idParam + "&";
+
+        //
+        // set optional elements:
+        //
+        ParameterShell elementSetNameParam = parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_ELEMENT_SET_NAME);
+        if (elementSetNameParam != null) {
+            String elementSetName = (String) elementSetNameParam.getSpecifiedValue();
+            queryString += GET_RECORD_BY_ID_ELEMENT_SET_NAME + "=" + elementSetName + "&";
+        }
+
+        ParameterShell outputFormatParam = parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_OUTPUT_FORMAT);
+        if (outputFormatParam != null) {
+            String outputFormat = (String) outputFormatParam.getSpecifiedValue();
+            queryString += GET_RECORD_BY_ID_OUTPUT_FORMAT + "=" + outputFormat + "&";
+        }
+        
+        ParameterShell outputSchemaParam = parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_OUTPUT_SCHEMA);
+        if (outputSchemaParam != null) {
+            String outputSchema = (String) outputSchemaParam.getSpecifiedValue();
+            queryString += GET_RECORD_BY_ID_OUTPUT_SCHEMA + "=" + outputSchema + "&";
+        }
+        
+        return queryString;
     }
 }
