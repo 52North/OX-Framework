@@ -550,7 +550,8 @@ public class GenericObservationParser {
 	        }
 	        return dataArray.getDataArray1();
 		} else {
-			throw new OXFException("No DataArray@http://www.opengis.net/swe/2.0 representing data structure.");
+		    LOGGER.warn("No DataArray found to parse SweCommon fields: {}", result);
+			throw new OXFException("Expected DataArray@http://www.opengis.net/swe/2.0 or DataArrayPropertyType@http://www.opengis.net/swe/2.0 instead of " + resultType);
 		}
     }
 
