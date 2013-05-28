@@ -57,11 +57,11 @@ public class CSWCapabilitiesMapper_202 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CSWCapabilitiesMapper_202.class);
 
-    public ServiceDescriptor mapCapabilities(CapabilitiesDocument capabilitiesDoc) throws OXFException {
+    public ServiceDescriptor mapCapabilities(CapabilitiesDocument xb_capabilitiesDoc) throws OXFException {
         String version = null;
         ServiceIdentification serviceIdentification = null;
         ServiceProvider serviceProvider = null;
-        OperationsMetadata operationsMetadata = mapOperationsMetadata(capabilitiesDoc.getCapabilities().getOperationsMetadata());
+        OperationsMetadata operationsMetadata = mapOperationsMetadata(xb_capabilitiesDoc.getCapabilities().getOperationsMetadata());
         Contents contents = null;
 
         ServiceDescriptor serviceDesc = new ServiceDescriptor(version,
@@ -72,13 +72,13 @@ public class CSWCapabilitiesMapper_202 {
         return serviceDesc;
     }
 
-    private OperationsMetadata mapOperationsMetadata(net.opengis.ows.OperationsMetadataDocument.OperationsMetadata operationsMetadata)
+    private OperationsMetadata mapOperationsMetadata(net.opengis.ows.OperationsMetadataDocument.OperationsMetadata xb_operationsMetadata)
     {
         //
         // map the operations:
         //
 
-        OperationDocument.Operation[] xb_operations = operationsMetadata.getOperationArray();
+        OperationDocument.Operation[] xb_operations = xb_operationsMetadata.getOperationArray();
         Operation[] oc_operations = new Operation[xb_operations.length];
         for (int i = 0; i < xb_operations.length; i++) {
             OperationDocument.Operation xb_operation = xb_operations[i];

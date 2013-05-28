@@ -61,10 +61,10 @@ public class CSWAdapter implements IServiceAdapter {
     public static final String GET_RECORDS = "GetRecords";
     
     // optional operations:
-    public static final String GET_DOMAIN = "GetDomain";
     public static final String GET_RECORD_BY_ID = "GetRecordById";
     public static final String HARVEST = "Harvest";
     public static final String TRANSACTION = "Transaction";
+    public static final String GET_DOMAIN = "GetDomain";
 
     /**
      * Description of the CSWAdapter

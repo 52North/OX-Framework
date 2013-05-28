@@ -25,6 +25,8 @@
 package org.n52.oxf.csw.adapter;
 
 import junit.framework.TestCase;
+import net.opengis.cat.csw.x202.AbstractRecordType;
+import net.opengis.cat.csw.x202.GetRecordByIdResponseDocument;
 
 import org.junit.Test;
 import org.n52.oxf.OXFException;
@@ -60,13 +62,10 @@ public class CSWAdapterTest extends TestCase {
             CSWAdapter adapter = new CSWAdapter();
     
             ParameterContainer paramCon = new ParameterContainer();
-            paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER,
-                                       CSWAdapter.SUPPORTED_VERSIONS[0]);
-            paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_SERVICE_PARAMETER,
-                                       CSWAdapter.SERVICE_TYPE);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, CSWAdapter.SUPPORTED_VERSIONS[0]);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_SERVICE_PARAMETER, CSWAdapter.SERVICE_TYPE);
             paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_SECTIONS_PARAMETER, "ALL");
-            paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_ACCEPT_FORMATS_PARAMETER,
-                                       "application/xml");
+            paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_ACCEPT_FORMATS_PARAMETER,"application/xml");
     
             OperationResult opResult = adapter.doOperation(new Operation("GetCapabilities",
                                                                          url + "?",
@@ -89,20 +88,13 @@ public class CSWAdapterTest extends TestCase {
             String elementSetName = "full";
             String outputSchema= "http://www.isotc211.org/2005/gmd";
             
-            
             ParameterContainer paramCon = new ParameterContainer();
-            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_REQUEST,
-                                       CSWAdapter.GET_RECORD_BY_ID);
-            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_VERSION,
-                                       CSWAdapter.SUPPORTED_VERSIONS[0]);
-            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_SERVICE,
-                                       CSWAdapter.SERVICE_TYPE);
-            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_ID,
-                                       recordID);
-            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_ELEMENT_SET_NAME,
-                                       elementSetName);
-            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_OUTPUT_SCHEMA,
-                                       outputSchema);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_REQUEST, CSWAdapter.GET_RECORD_BY_ID);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_VERSION, CSWAdapter.SUPPORTED_VERSIONS[0]);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_SERVICE, CSWAdapter.SERVICE_TYPE);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_ID, recordID);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_ELEMENT_SET_NAME, elementSetName);
+            paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_OUTPUT_SCHEMA, outputSchema);
             
             OperationResult opResult = adapter.doOperation(new Operation(CSWAdapter.GET_RECORD_BY_ID,
                     url + "?",
@@ -124,24 +116,20 @@ public class CSWAdapterTest extends TestCase {
              ParameterContainer paramCon = new ParameterContainer();
              
              paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_OUTPUT_FORMAT_PARAMETER, "application/xml");
-             
              paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_OUTPUT_SCHEMA_FORMAT, "http://www.opengis.net/cat/csw/2.0.2");
-             
              paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_ELEMENT_SET_NAME_FORMAT, "full");
-             
              paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_MAX_RECORDS, 5);
-             
              paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_START_POSITION, 1);
-             
              paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_RESULT_TYPE, "results");
-             
              paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_QUERY_TYPE_NAMES_PARAMETER, "csw:Record");
            
              OperationResult opResult = adapter.doOperation(new Operation(CSWAdapter.GET_RECORDS,
                                                                           url + "?",
                                                                           url), paramCon);
     
-             LOGGER.info(new String(opResult.getIncomingResult()));
+             String result = new String(opResult.getIncomingResult());
+             LOGGER.info(result);
+             
     	} catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage());
             e.printStackTrace();
@@ -150,7 +138,7 @@ public class CSWAdapterTest extends TestCase {
     }
     
 
-    
+    // TODO untested:
     public void testDescribeRecord() throws OXFException, ExceptionReport {
         CSWAdapter adapter = new CSWAdapter();
 
