@@ -61,10 +61,10 @@ public class CSWAdapter implements IServiceAdapter {
     public static final String GET_RECORDS = "GetRecords";
     
     // optional operations:
-    public static final String GET_DOMAIN = "GetDomain";
     public static final String GET_RECORD_BY_ID = "GetRecordById";
     public static final String HARVEST = "Harvest";
     public static final String TRANSACTION = "Transaction";
+    public static final String GET_DOMAIN = "GetDomain";
 
     /**
      * Description of the CSWAdapter
@@ -87,6 +87,9 @@ public class CSWAdapter implements IServiceAdapter {
      */
     public static final String RESOURCE_OPERATION = "GetRecords";
 
+    public static final String NAMESPACE = "http://www.opengis.net/cat/csw/2.0.2";
+    
+    
     private CSWRequestBuilder requestBuilder;
 
 
@@ -160,7 +163,7 @@ public class CSWAdapter implements IServiceAdapter {
      */
     public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
             OXFException {
-
+        
         OperationResult result = null;
 
         String request = null;
