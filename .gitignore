@@ -1,1 +1,6 @@
 /sys$command
+.settings
+.project
+target
+META-INF
+.classpath
