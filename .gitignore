@@ -1,8 +1,8 @@
 /sys$command
+META-INF
 *~
 *target
 *.settings
 *_IS_UNDEFINED*
 .classpath
 .project
-META-INF
