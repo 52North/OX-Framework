@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<om:ObservationCollection xmlns:om="http://www.opengis.net/om/1.0" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:swe="http://www.opengis.net/swe/1.0.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sa="http://www.opengis.net/sampling/1.0" gml:id="oc_0" xsi:schemaLocation="http://www.opengis.net/om/1.0 http://schemas.opengis.net/om/1.0.0/om.xsd http://www.opengis.net/sampling/1.0 http://schemas.opengis.net/sampling/1.0.0/sampling.xsd">
+  <gml:metaDataProperty>
+    <swe:DataArray>
+      <swe:elementCount>
+        <swe:Count>
+          <swe:value>15</swe:value>
+        </swe:Count>
+      </swe:elementCount>
+      <swe:elementType name="Components">
+        <swe:SimpleDataRecord>
+          <swe:field name="Id"/>
+          <swe:field name="GenericQualifier"/>
+          <swe:field name="SpecificQualifier"/>
+        </swe:SimpleDataRecord>
+      </swe:elementType>
+      <swe:encoding>
+        <swe:TextBlock decimalSeparator="." tokenSeparator="," blockSeparator=";"/>
+      </swe:encoding>
+      <swe:values>13,baddata,autosampler;15,baddata,irregular;18,baddata,isolatedspike;6,baddata,max;5,baddata,min;12,doubtful,autosampler;17,doubtful,max;16,doubtful,min;14,doubtful,missing;4,gapfilled,extrapolated;3,gapfilled,interpolated;11,ok,autosampler;2,ok,ok;10,unevaluated,autosampler;1,unevaluated,unevaluated</swe:values>
+    </swe:DataArray>
+  </gml:metaDataProperty>
+  <gml:metaDataProperty>
+    <swe:DataArray>
+      <swe:elementCount>
+        <swe:Count>
+          <swe:value>4</swe:value>
+        </swe:Count>
+      </swe:elementCount>
+      <swe:elementType name="Components">
+        <swe:SimpleDataRecord>
+          <swe:field name="Id"/>
+          <swe:field name="ProcessingStatus"/>
+        </swe:SimpleDataRecord>
+      </swe:elementType>
+      <swe:encoding>
+        <swe:TextBlock decimalSeparator="." tokenSeparator="," blockSeparator=";"/>
+      </swe:encoding>
+      <swe:values>2,2a;1,1;3,2b;4,3</swe:values>
+    </swe:DataArray>
+  </gml:metaDataProperty>
+  <gml:boundedBy>
+    <gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
+      <gml:lowerCorner>50.5049018859863 6.33092021942139</gml:lowerCorner>
+      <gml:upperCorner>50.5049018859863 6.33092021942139</gml:upperCorner>
+    </gml:Envelope>
+  </gml:boundedBy>
+  <om:member>
+    <om:Observation gml:id="ot_453285359">
+      <om:samplingTime>
+        <gml:TimePeriod xsi:type="gml:TimePeriodType">
+          <gml:beginPosition>2013-01-20T00:50:00.000+01:00</gml:beginPosition>
+          <gml:endPosition>2013-01-20T00:50:00.000+01:00</gml:endPosition>
+        </gml:TimePeriod>
+      </om:samplingTime>
+      <om:procedure xlink:href="WU_K_002"/>
+      <om:observedProperty>
+        <swe:CompositePhenomenon gml:id="cpid0" dimension="2">
+          <gml:name>resultComponents</gml:name>
+          <swe:component xlink:href="urn:ogc:data:time:iso8601"/>
+          <swe:component xlink:href="LoggerTemperature"/>
+          <swe:component xlink:href="LoggerTemperatureQualityFlag"/>
+        </swe:CompositePhenomenon>
+      </om:observedProperty>
+      <om:featureOfInterest>
+        <gml:FeatureCollection>
+          <gml:featureMember>
+            <sa:SamplingPoint gml:id="WU_K_002">
+              <gml:name>Wetterturm Wuestebach</gml:name>
+              <sa:position>
+                <gml:Point>
+                  <gml:pos srsName="urn:ogc:def:crs:EPSG:4326">50.5049018859863 6.33092021942139</gml:pos>
+                </gml:Point>
+              </sa:position>
+            </sa:SamplingPoint>
+          </gml:featureMember>
+        </gml:FeatureCollection>
+      </om:featureOfInterest>
+      <om:result>
+        <swe:DataArray>
+          <swe:elementCount>
+            <swe:Count>
+              <swe:value>1</swe:value>
+            </swe:Count>
+          </swe:elementCount>
+          <swe:elementType name="Components">
+            <swe:SimpleDataRecord>
+              <swe:field name="Time">
+                <swe:Time definition="urn:ogc:data:time:iso8601"/>
+              </swe:field>
+              <swe:field name="feature">
+                <swe:Text definition="urn:ogc:data:feature"/>
+              </swe:field>
+              <swe:field name="LoggerTemperature">
+                <swe:Quantity definition="LoggerTemperature">
+                  <swe:uom code="degC"/>
+                </swe:Quantity>
+              </swe:field>
+              <swe:field name="LoggerTemperatureQualityFlag">
+                <swe:Category definition="LoggerTemperatureQualityFlag"/>
+              </swe:field>
+            </swe:SimpleDataRecord>
+          </swe:elementType>
+          <swe:encoding>
+            <swe:TextBlock decimalSeparator="." tokenSeparator="," blockSeparator=";"/>
+          </swe:encoding>
+          <swe:values>2013-01-20T00:50:00.000+01:00,WU_K_002,-7.1890000000000001,2_NULL;</swe:values>
+        </swe:DataArray>
+      </om:result>
+    </om:Observation>
+  </om:member>
+</om:ObservationCollection>
