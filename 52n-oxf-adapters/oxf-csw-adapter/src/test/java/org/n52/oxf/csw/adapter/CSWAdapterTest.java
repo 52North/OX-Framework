@@ -24,7 +24,7 @@
 
 package org.n52.oxf.csw.adapter;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.n52.oxf.OXFException;
@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
-public class CSWAdapterTest extends TestCase {
+public class CSWAdapterTest {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(CSWAdapterTest.class);
 
@@ -163,7 +163,12 @@ public class CSWAdapterTest extends TestCase {
          
          paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_OUTPUT_SCHEMA_FORMAT,"http://www.opengis.net/cat/csw");
          String typeNames[] = {"Service","Organization"};
-         paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_TYPE_NAME_PARAMETER,typeNames);
+         
+         
+         // FIXME this parameter is missing
+         //paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_TYPE_NAME_PARAMETER,typeNames);
+         
+         
          paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER,
                                     "XMLSCHEMA");
        
