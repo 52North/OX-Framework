@@ -24,9 +24,25 @@
 
 package org.n52.oxf.csw.adapter;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.namespace.QName;
+
+import net.opengis.cat.csw.x202.AbstractQueryType;
 import net.opengis.cat.csw.x202.DescribeRecordDocument;
 import net.opengis.cat.csw.x202.DescribeRecordType;
+import net.opengis.cat.csw.x202.GetRecordsDocument;
+import net.opengis.cat.csw.x202.GetRecordsType;
+import net.opengis.cat.csw.x202.QueryDocument;
+import net.opengis.cat.csw.x202.QueryType;
+import net.opengis.cat.csw.x202.ResultType;
 
+import org.apache.xmlbeans.XmlOptions;
+import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
@@ -45,7 +61,6 @@ public class CSWRequestBuilder {
     public static final String GET_CAPABILITIES_ACCEPT_FORMATS_PARAMETER = "acceptFormats";
     public static final String GET_CAPABILITIES_SECTIONS_PARAMETER = "Sections";
 
-    
     public static final String DESCRIBE_RECORD_MAX_RECORDS = "maxRecords";
     public static final String DESCRIBE_RECORD_START_POSITION = "startPosition";
     public static final String DESCRIBE_RECORD_REQUEST_PARAMETER = "request";
@@ -56,18 +71,25 @@ public class CSWRequestBuilder {
     public static final String DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER = "schemaLanguage";
     public static final String DESCRIBE_RECORD_NAME_SPACE_PARAMETER = "nameSpace";
 
-    public static final String GET_RECORDS_SERVICE_PARAMETER = "service";
-    public static final String GET_RECORDS_VERSION_PARAMETER = "version";
-    public static final String GET_RECORDS_TYPE_NAME_PARAMETER = "TypeName";
+    public static final String GET_RECORDS_QUERY_TYPE_NAMES_PARAMETER = "typeNames";
     public static final String GET_RECORDS_OUTPUT_SCHEMA_FORMAT = "outputSchema";
-    public static final String GET_RECORDS_RESULT_TYPE_FORMAT = "resultType";
+    public static final String GET_RECORDS_RESULT_TYPE = "resultType";
     public static final String GET_RECORDS_ELEMENT_SET_NAME_FORMAT = "ElementSetName";
     public static final String GET_RECORDS_CONSTRAINTLANGUAGE_FORMAT = "CONSTRAINTLANGUAGE";
     public static final String GET_RECORDS_LITERAL = "Literal";
     public static final String GET_RECORDS_PROPERTY_NAME = "PropertyName";
     public static final String GET_RECORDS_SERVICE_TYPE_2SEARCH4_PARAMETER = "GET_RECORDS_SERVICE_TYPE_2SEARCH4_PARAMETER";
+    public static final String GET_RECORDS_MAX_RECORDS = "maxRecords";
+    public static final String GET_RECORDS_START_POSITION = "startPosition";
+    public static final String GET_RECORDS_OUTPUT_FORMAT_PARAMETER = "outputFormat";
     
-    
+    public static final String GET_RECORD_BY_ID_REQUEST = "request";
+    public static final String GET_RECORD_BY_ID_SERVICE = "service";
+    public static final String GET_RECORD_BY_ID_VERSION = "version";
+    public static final String GET_RECORD_BY_ID_ID = "ID";
+    public static final String GET_RECORD_BY_ID_ELEMENT_SET_NAME = "ElementSetName";
+    public static final String GET_RECORD_BY_ID_OUTPUT_FORMAT = "outputFormat";
+    public static final String GET_RECORD_BY_ID_OUTPUT_SCHEMA = "outputSchema";
 
     /**
      * builds the GetCapabilities-Request. <br>
@@ -146,7 +168,7 @@ public class CSWRequestBuilder {
         //
         // set required elements:
         //
-        queryString += DESCRIBE_RECORD_REQUEST_PARAMETER + "=" + "DescribeRecord" + "&";
+        queryString += DESCRIBE_RECORD_REQUEST_PARAMETER + "=" + CSWAdapter.DESCRIBE_RECORD + "&";
 
         String serviceParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_SERVICE_PARAMETER).getSpecifiedValue();
         queryString += DESCRIBE_RECORD_SERVICE_PARAMETER + "=" + serviceParam + "&";
@@ -188,72 +210,133 @@ public class CSWRequestBuilder {
         describeRecordType.setService(serviceParam);
         
         return describeRecordDocument.xmlText(XmlUtil.PRETTYPRINT);
-      
+    }
+    
+    public String buildGetRecordsRequest(ParameterContainer parameters) throws OXFException {
+        
+        GetRecordsDocument xb_getRecordsDocument = GetRecordsDocument.Factory.newInstance();
+        GetRecordsType xb_getRecords = xb_getRecordsDocument.addNewGetRecords();
+        
+        xb_getRecords.setService(CSWAdapter.SERVICE_TYPE);
+        xb_getRecords.setVersion(CSWAdapter.SUPPORTED_VERSIONS[0]);
+        
+        
+        ParameterShell maxRecords = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_MAX_RECORDS);
+        if (maxRecords != null) {
+            xb_getRecords.setMaxRecords( BigInteger.valueOf((Integer) maxRecords.getSpecifiedValue()));
+        }
+        
+        ParameterShell startPosition = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_START_POSITION);
+        if (startPosition != null) {
+            xb_getRecords.setStartPosition( BigInteger.valueOf((Integer) startPosition.getSpecifiedValue()));
+        }
+        
+        ParameterShell formatsParam = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_OUTPUT_FORMAT_PARAMETER);
+        if (formatsParam != null) {
+            xb_getRecords.setOutputFormat( (String) formatsParam.getSpecifiedValue());
+        }
+        
+        ParameterShell outputSchemaParam = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_OUTPUT_SCHEMA_FORMAT);
+        if (outputSchemaParam != null) {
+            xb_getRecords.setOutputSchema( (String) outputSchemaParam.getSpecifiedValue());
+        }
+        
+        ParameterShell resultTypeParam = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_RESULT_TYPE);
+        if (resultTypeParam != null) {
+            
+            String resultTypeString = (String) resultTypeParam.getSpecifiedValue();
+            if (resultTypeString.equals("results")) {            
+                xb_getRecords.setResultType( ResultType.RESULTS );
+            }
+            else {
+                throw new OXFException("Specified value '" + resultTypeString + "' for parameter '" + GET_RECORDS_RESULT_TYPE + "' is not yet supported.");
+            }
+        }
+        
+        //
+        // constructing a Query:
+        
+        QueryType xb_query = QueryType.Factory.newInstance();
+        
+        ParameterShell typeNamesParam = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_QUERY_TYPE_NAMES_PARAMETER);
+        if (typeNamesParam != null) {
+            
+            List typeNameList = new ArrayList();
+            
+            if (((String) typeNamesParam.getSpecifiedValue()).equals("csw:Record")) {
+                typeNameList.add(new QName(CSWAdapter.NAMESPACE, "Record"));
+            }
+            else {
+                throw new OXFException("typeNames not yet supported.");
+            }
+            
+            xb_query.setTypeNames(typeNameList);
+        }
+        
+        ParameterShell elementSetNameParam = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_ELEMENT_SET_NAME_FORMAT);
+        if (elementSetNameParam != null) {
+            if (xb_query == null) {
+                throw new OXFException("Query not yet initialized.");
+            }
+            xb_query.addNewElementSetName().setStringValue((String) elementSetNameParam.getSpecifiedValue());
+        }
+        
+        // adding the Query and setting correct type:
+        
+        AbstractQueryType abstractQuery = xb_getRecords.addNewAbstractQuery();
+        abstractQuery.set(xb_query);
+        XmlUtil.qualifySubstitutionGroup(xb_getRecords.getAbstractQuery(),
+                QueryDocument.type.getDocumentElementName(),
+                QueryType.type);
+        
+        Map suggestedPrefixes = new HashMap();
+        suggestedPrefixes.put(CSWAdapter.NAMESPACE, "csw");
+        
+        XmlOptions xmlOptions = new XmlOptions();
+        xmlOptions.setSaveSuggestedPrefixes(suggestedPrefixes);
+        xmlOptions.setSavePrettyPrint();
+        
+        return xb_getRecordsDocument.xmlText(xmlOptions);
+    }
+    
+    public String buildGetRecordByIdRequest(ParameterContainer parameters) {
+        String queryString = "";
+
         //
         // set required elements:
         //
-//        queryString += DESCRIBE_RECORD_REQUEST_PARAMETER + "=" + "DescribeRecord" + "&";
-//
-//        String typeNameParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_TYPE_NAME_PARAMETER).getSpecifiedValue();
-//        queryString += DESCRIBE_RECORD_TYPE_NAME_PARAMETER + "=" + typeNameParam + "&";
-//        
-//        String nameSpaceParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_NAME_SPACE_PARAMETER).getSpecifiedValue();
-//        queryString += DESCRIBE_RECORD_NAME_SPACE_PARAMETER + "=" + nameSpaceParam + "&";
-//        
-       
-    }
-    
-    public String buildGetRecordsRequest(ParameterContainer parameters) {
+        queryString += GET_RECORD_BY_ID_REQUEST + "=" + CSWAdapter.GET_RECORD_BY_ID + "&";
 
-    	String literal = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORDS_LITERAL).getSpecifiedValue();
-    	String propertyName = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORDS_PROPERTY_NAME).getSpecifiedValue();
-    	String maxRecords = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_MAX_RECORDS).getSpecifiedValue();
-    	String startPosition = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_START_POSITION).getSpecifiedValue();
-    	String versionParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_VERSION_PARAMETER).getSpecifiedValue();   
-        String formatsParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_OUTPUT_FORMAT_PARAMETER).getSpecifiedValue();
-        String service2Search4Param = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORDS_SERVICE_TYPE_2SEARCH4_PARAMETER).getSpecifiedValue();
+        String serviceParam = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_SERVICE).getSpecifiedValue();
+        queryString += GET_RECORD_BY_ID_SERVICE + "=" + serviceParam + "&";
+
+        String versionParam = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_VERSION).getSpecifiedValue();
+        queryString += GET_RECORD_BY_ID_VERSION + "=" + versionParam + "&";
+
+        String idParam = (String) parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_ID).getSpecifiedValue();
+        queryString += GET_RECORD_BY_ID_ID + "=" + idParam + "&";
+
+        //
+        // set optional elements:
+        //
+        ParameterShell elementSetNameParam = parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_ELEMENT_SET_NAME);
+        if (elementSetNameParam != null) {
+            String elementSetName = (String) elementSetNameParam.getSpecifiedValue();
+            queryString += GET_RECORD_BY_ID_ELEMENT_SET_NAME + "=" + elementSetName + "&";
+        }
+
+        ParameterShell outputFormatParam = parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_OUTPUT_FORMAT);
+        if (outputFormatParam != null) {
+            String outputFormat = (String) outputFormatParam.getSpecifiedValue();
+            queryString += GET_RECORD_BY_ID_OUTPUT_FORMAT + "=" + outputFormat + "&";
+        }
         
-    	String request = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    	request +=       "<csw:GetRecords \n";
-    	request += 		 "xmlns=\"http://www.opengis.net/cat/csw\" \n";
-    	request += 		 "xmlns:csw=\"http://www.opengis.net/cat/csw\" \n";
-    	request += 		 "xmlns:ogc=\"http://www.opengis.net/ogc\" \n";
-    	request += 		 "xmlns:gml=\"http://www.opengis.net/gml\" \n";
-    	request += 		 "xmlns:rim=\"urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0\" \n";
-    	request += 		 "version=\""+versionParam+"\" \n";
-    	request += 		 "outputFormat=\""+formatsParam+"\" \n";
-    	request += 		 "outputSchema=\"http://www.opengis.net/cat/csw\" \n";
-    	request += 		 "maxRecords=\""+maxRecords+"\" \n";
-    	request += 		 "startPosition=\""+startPosition+"\"> \n";
-    	request += 		 "<csw:Query typeNames=\"rim:Service\"> \n";
-    	request += 		  "<csw:ElementName>/rim:Service/</csw:ElementName> \n";
-    	request += 		  "<csw:Constraint version=\"1.1.0\"> \n";
-    	request += 		   "<ogc:Filter> \n";
-    	
-    	if ( (propertyName.trim().equals("")) || (literal.trim().equals(""))) {
-    	    request +=        "<ogc:PropertyIsLike wildCard=\"*\" singleChar=\"#\" escapeChar=\"\\\"> \n";
-            request +=            "<ogc:PropertyName>/rim:Service/rim:Slot/rim:ValueList/rim:Value</ogc:PropertyName>\n";
-            request +=            "<ogc:Literal>*" + service2Search4Param + "*</ogc:Literal>\n";
-            request +=        "</ogc:PropertyIsLike>\n";
-    	}
-    	else {
-        	request += 		  "<ogc:And> \n";
-        	request += 			  "<ogc:PropertyIsLike wildCard=\"*\" singleChar=\"#\" escapeChar=\"\\\"> \n";
-        	request += 			    "<ogc:PropertyName>"+propertyName+"</ogc:PropertyName> \n";
-        	request += 			    "<ogc:Literal>"+literal+"</ogc:Literal> \n";
-        	request += 		      "</ogc:PropertyIsLike> \n";
-        	request += 		      "<ogc:PropertyIsLike wildCard=\"*\" singleChar=\"#\" escapeChar=\"\\\"> \n";
-        	request += 		        "<ogc:PropertyName>/rim:Service/rim:Slot/rim:ValueList/rim:Value</ogc:PropertyName>\n";
-        	request += 		        "<ogc:Literal>*" + service2Search4Param + "*</ogc:Literal>\n";
-        	request += 	          "</ogc:PropertyIsLike>\n";
-        	request += 	      "</ogc:And> \n";
-    	}
-    	
-    	request += 		   "</ogc:Filter> \n";
-    	request += 		  "</csw:Constraint> \n";
-    	request += 		 "</csw:Query> \n";
-    	request +=     	"</csw:GetRecords> \n";
-    	
-    	return request;
+        ParameterShell outputSchemaParam = parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_OUTPUT_SCHEMA);
+        if (outputSchemaParam != null) {
+            String outputSchema = (String) outputSchemaParam.getSpecifiedValue();
+            queryString += GET_RECORD_BY_ID_OUTPUT_SCHEMA + "=" + outputSchema + "&";
+        }
+        
+        return queryString;
     }
 }

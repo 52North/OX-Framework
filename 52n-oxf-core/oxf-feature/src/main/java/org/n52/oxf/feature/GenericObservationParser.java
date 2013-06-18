@@ -65,13 +65,9 @@ import net.opengis.waterml.x20.MeasurementTimeseriesType.Point;
 import net.opengis.waterml.x20.MonitoringPointDocument;
 import net.opengis.waterml.x20.ObservationProcessDocument;
 import net.opengis.waterml.x20.ObservationProcessType;
-import net.opengis.waterml.x20.ObservationProcessDocument;
-import net.opengis.waterml.x20.ObservationProcessType;
 import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
 import net.opengis.waterml.x20.TVPMeasurementMetadataType;
 import net.opengis.waterml.x20.TVPMetadataType;
-import net.opengis.waterml.x20.impl.ObservationProcessDocumentImpl;
-import net.opengis.waterml.x20.impl.ObservationProcessTypeImpl;
 
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;
@@ -554,7 +550,8 @@ public class GenericObservationParser {
 	        }
 	        return dataArray.getDataArray1();
 		} else {
-			throw new OXFException("No DataArray@http://www.opengis.net/swe/2.0 representing data structure.");
+		    LOGGER.warn("No DataArray found to parse SweCommon fields: {}", result);
+			throw new OXFException("Expected DataArray@http://www.opengis.net/swe/2.0 or DataArrayPropertyType@http://www.opengis.net/swe/2.0 instead of " + resultType);
 		}
     }
 

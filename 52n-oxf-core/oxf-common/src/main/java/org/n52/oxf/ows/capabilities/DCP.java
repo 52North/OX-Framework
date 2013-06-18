@@ -40,12 +40,12 @@ public class DCP {
      * @param httpGet
      * @param httpPost
      */
-	public DCP(GetRequestMethod httpGet, PostRequestMethod httpPost){
+    public DCP(GetRequestMethod httpGet, PostRequestMethod httpPost){
         requestMethods = new ArrayList<RequestMethod>();
         
         addHTTPGet(httpGet);
         addHTTPPost(httpPost);
-	}
+    }
 	
     /**
      * 
