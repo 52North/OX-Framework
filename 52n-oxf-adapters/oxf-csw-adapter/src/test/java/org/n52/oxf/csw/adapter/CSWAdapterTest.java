@@ -26,6 +26,7 @@ package org.n52.oxf.csw.adapter;
 
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
@@ -41,10 +42,19 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
+
+/*
+ * These tests require network access and rely on external services to be available.
+ * This is why this test is set to be ignored by JUnit runs (@Ignore annotation).
+ * 
+ * To enable this test it is necessary to uncomment the @Ignore annotation bolow.
+ */
+@Ignore // uncomment if you want to run tests
 public class CSWAdapterTest {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(CSWAdapterTest.class);
-
+    
+    
     //private final String url = "http://laits.gmu.edu:8099/csw/CSW_Service";
     //private final String url = "http://uddi.csiss.gmu.edu:1090/GEOSSCSW202/discovery";
     //private final String url = "http://laits.gmu.edu:8099/LAITSCSW2/discovery"; //only working with post request
