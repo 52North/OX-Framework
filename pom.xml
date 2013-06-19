@@ -30,7 +30,7 @@
 
 	<scm>
 		<connection>scm:git:git://github.com/52North/OX-Framework.git</connection>
-		<developerConnection>scm:git:https://github.com/52North/OX-Framework.git</developerConnection>
+		<developerConnection>scm:git:ssh://git@github.com/52North/OX-Framework.git</developerConnection>
 		<url>https://github.com/52North/OX-Framework</url>
 	</scm>
 
