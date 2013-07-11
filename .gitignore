@@ -1,6 +1,6 @@
 /sys$command
-META-INF
 *~
+META-INF
 *target
 *.settings
 *_IS_UNDEFINED*

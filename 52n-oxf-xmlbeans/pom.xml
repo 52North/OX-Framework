@@ -39,6 +39,10 @@
 					<artifactId>saxon</artifactId>
 					<groupId>net.sf.saxon</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>org.apache.xmlbeans</artifactId>
+					<groupId>xmlbeans</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
