@@ -131,7 +131,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 	 */
 	private void initTime(String time) throws IllegalArgumentException {
 		if ( !isDateComplete) {
-			throw new IllegalArgumentException(String.format("Date in: \"%s\" does not correspond to the year-month-day scheme. Hence, this time is not allowed.",
+			throw new IllegalArgumentException(String.format("Date in: '%s' does not correspond to the year-month-day scheme. Hence, this time is not allowed.",
 					timePos));
 		}
 		String[] timeArray = time.split(":");
