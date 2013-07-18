@@ -24,23 +24,20 @@
 
 package org.n52.oxf.sos.request.observation;
 
-import java.util.HashMap;
-import java.util.Map;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 import javax.xml.namespace.QName;
 
 import org.n52.oxf.request.MultimapRequestParameters;
-
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
  * Assembles all Observation parameters needed for an InsertObservation request.
  */
 public abstract class ObservationParameters extends MultimapRequestParameters {
 
-    private QName type;
+    private final QName type;
 
-    protected ObservationParameters(QName type) {
+    protected ObservationParameters(final QName type) {
         this.type = type;
     }
 
@@ -56,31 +53,31 @@ public abstract class ObservationParameters extends MultimapRequestParameters {
     // be careful when changing following methods
     // begin -> parameter methods necessary for: MeasurementObservationParameters and CategoryObservationBuilder
 
-    public void addSamplingTime(String samplingTime) {
+    public void addSamplingTime(final String samplingTime) {
         addParameterValue(INSERT_OBSERVATION_SAMPLING_TIME, samplingTime);
     }
 
-    public void addFoiId(String foiId) {
+    public void addFoiId(final String foiId) {
         addParameterValue(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);
     }
 
-    public void addNewFoiName(String foiName) {
+    public void addNewFoiName(final String foiName) {
         addParameterValue(INSERT_OBSERVATION_NEW_FOI_NAME, foiName);
     }
 
-    public void addFoiDescription(String foiDescription) {
+    public void addFoiDescription(final String foiDescription) {
         addParameterValue(INSERT_OBSERVATION_NEW_FOI_DESC, foiDescription);
     }
 
-    public void addFoiPosition(String foiPosition) {
+    public void addFoiPosition(final String foiPosition) {
         addParameterValue(INSERT_OBSERVATION_NEW_FOI_POSITION, foiPosition);
     }
 
-    public void addSrsPosition(String srsPosition) {
+    public void addSrsPosition(final String srsPosition) {
         addParameterValue(INSERT_OBSERVATION_POSITION_SRS, srsPosition);
     }
 
-    public void addObservedProperty(String observedProperty) {
+    public void addObservedProperty(final String observedProperty) {
         addParameterValue(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
     }
 
