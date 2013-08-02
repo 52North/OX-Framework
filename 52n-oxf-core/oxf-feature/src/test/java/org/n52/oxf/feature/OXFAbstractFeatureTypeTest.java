@@ -36,6 +36,11 @@ import java.util.UUID;
 import net.opengis.gml.MetaDataPropertyType;
 import net.opengis.om.x10.ObservationCollectionDocument;
 import net.opengis.om.x10.ObservationCollectionType;
+import net.opengis.swe.x101.AbstractDataRecordType;
+import net.opengis.swe.x101.AnyScalarPropertyType;
+import net.opengis.swe.x101.DataArrayDocument;
+import net.opengis.swe.x101.DataComponentPropertyType;
+import net.opengis.swe.x101.SimpleDataRecordType;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -75,11 +80,21 @@ public class OXFAbstractFeatureTypeTest {
             OXFFeatureCollection featureCollection = createFeatureCollection(randomUUID().toString(), observationCollection);
             String[] metadatas = (String[]) featureCollection.getAttribute(METADATA_PROPERTY_TYPES);
             for (String metadata : metadatas) {
-                System.out.println(metadata);
+                DataArrayDocument dataArray = DataArrayDocument.Factory.parse(metadata);
+                DataComponentPropertyType elementType = dataArray.getDataArray1().getElementType();
+                if (elementType.getName().equalsIgnoreCase("components")) {
+                    SimpleDataRecordType abstractDataRecord = (SimpleDataRecordType) elementType.getAbstractDataRecord();
+                    for (AnyScalarPropertyType scalarType : abstractDataRecord.getFieldArray()) {
+                        System.out.println(scalarType.getName());
+                    }
+                }
             }
         }
         catch (OXFException e) {
             fail("Could not create FeatureCollection from document: " + observationCollectionDoc);
+        }
+        catch (XmlException e) {
+            fail("Could not parse DataArray from MetadataProperties: " + observationCollectionDoc);
         }
     }
 }

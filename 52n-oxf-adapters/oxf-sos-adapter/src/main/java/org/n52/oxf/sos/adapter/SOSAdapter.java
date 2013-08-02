@@ -26,14 +26,7 @@ package org.n52.oxf.sos.adapter;
 
 import static java.lang.String.format;
 import static org.apache.http.entity.ContentType.TEXT_XML;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OFFERING_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_VERSION_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 import java.io.IOException;
 
@@ -41,7 +34,6 @@ import net.opengis.ows.x11.ExceptionReportDocument;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.entity.ContentType;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -106,7 +98,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @param serviceVersion
      *        the schema version for which this adapter instance shall be initialized.
      */
-    public SOSAdapter(String serviceVersion) {
+    public SOSAdapter(final String serviceVersion) {
         this(serviceVersion, (ISOSRequestBuilder) null);
     }
 
@@ -116,7 +108,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @param httpclient
      *        the (decorated) {@link HttpClient} to use for service connections.
      */
-    public SOSAdapter(String serviceVersion, HttpClient httpclient) {
+    public SOSAdapter(final String serviceVersion, final HttpClient httpclient) {
         this(serviceVersion, (ISOSRequestBuilder) null);
         setHttpClient(httpclient); // override simple client
     }
@@ -135,8 +127,8 @@ public class SOSAdapter implements IServiceAdapter {
      *        (according to the given version).
      * @see ISOSRequestBuilder
      */
-    public SOSAdapter(String serviceVersion, ISOSRequestBuilder requestBuilder) {
-        this.httpClient = new SimpleHttpClient();
+    public SOSAdapter(final String serviceVersion, final ISOSRequestBuilder requestBuilder) {
+        httpClient = new SimpleHttpClient();
         this.serviceVersion = serviceVersion;
         if (requestBuilder == null) {
             this.requestBuilder = SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
@@ -150,7 +142,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @param requestBuilder
      *        a custom {@link ISOSRequestBuilder} implementation the {@link SOSAdapter} shall use.
      */
-    public void setRequestBuilder(ISOSRequestBuilder requestBuilder) {
+    public void setRequestBuilder(final ISOSRequestBuilder requestBuilder) {
         if (requestBuilder != null) {
             this.requestBuilder = requestBuilder;
         }
@@ -166,7 +158,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @see ProxyAwareHttpClient
      * @see GzipEnabledHttpClient
      */
-    public void setHttpClient(HttpClient httpClient) {
+    public void setHttpClient(final HttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
@@ -186,42 +178,43 @@ public class SOSAdapter implements IServiceAdapter {
      *         if internal exception (in general parsing error or Capabilities doc is incorrect) occurs
      * 
      */
-    public ServiceDescriptor initService(String url) throws ExceptionReport, OXFException {
-        ParameterContainer paramContainer = new ParameterContainer();
+    @Override
+	public ServiceDescriptor initService(final String url) throws ExceptionReport, OXFException {
+        final ParameterContainer paramContainer = new ParameterContainer();
         paramContainer.addParameterShell("acceptVersions", serviceVersion);
         paramContainer.addParameterShell("service", "SOS");
 
-        String baseUrlPost = url.toString();
-        String baseUrlGet = baseUrlPost + "?";
-        Operation operation = new Operation("GetCapabilities", baseUrlGet, baseUrlPost);
+        final String baseUrlPost = url.toString();
+        final String baseUrlGet = baseUrlPost + "?";
+        final Operation operation = new Operation("GetCapabilities", baseUrlGet, baseUrlPost);
         return initService(doOperation(operation, paramContainer));
     }
 
-    public ServiceDescriptor initService(OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
+    public ServiceDescriptor initService(final OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
         try {
             if (SosUtil.isVersion100(serviceVersion)) {
-                net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
+                final net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
                 return initService(capsDoc);
             }
             else if (SosUtil.isVersion200(serviceVersion)) {
-                net.opengis.sos.x20.CapabilitiesDocument capsDoc = net.opengis.sos.x20.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
+                final net.opengis.sos.x20.CapabilitiesDocument capsDoc = net.opengis.sos.x20.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
                 return initService(capsDoc);
             }
             else {
                 throw new OXFException("Version is not supported: " + serviceVersion);
             }
         }
-        catch (XmlException e) {
+        catch (final XmlException e) {
             throw new OXFException(e);
         }
-        catch (IOException e) {
+        catch (final IOException e) {
             throw new OXFException(e);
         }
     }
 
-    public ServiceDescriptor initService(net.opengis.sos.x20.CapabilitiesDocument capsDoc) throws OXFException {
-        SOSCapabilitiesMapper_200 capsMapper = new SOSCapabilitiesMapper_200();
-        ServiceDescriptor result = capsMapper.mapCapabilities(capsDoc);
+    public ServiceDescriptor initService(final net.opengis.sos.x20.CapabilitiesDocument capsDoc) throws OXFException {
+        final SOSCapabilitiesMapper_200 capsMapper = new SOSCapabilitiesMapper_200();
+        final ServiceDescriptor result = capsMapper.mapCapabilities(capsDoc);
 
         return result;
     }
@@ -232,10 +225,10 @@ public class SOSAdapter implements IServiceAdapter {
      * @return
      * @throws OXFException
      */
-    public ServiceDescriptor initService(net.opengis.sos.x10.CapabilitiesDocument capsDoc) throws OXFException {
-        SOSCapabilitiesMapper_100 capsMapper = new SOSCapabilitiesMapper_100();
+    public ServiceDescriptor initService(final net.opengis.sos.x10.CapabilitiesDocument capsDoc) throws OXFException {
+        final SOSCapabilitiesMapper_100 capsMapper = new SOSCapabilitiesMapper_100();
 
-        ServiceDescriptor result = capsMapper.mapCapabilities(capsDoc);
+        final ServiceDescriptor result = capsMapper.mapCapabilities(capsDoc);
 
         return result;
     }
@@ -258,12 +251,13 @@ public class SOSAdapter implements IServiceAdapter {
      * 
      * @return the result of the executed operation
      */
-    public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
+    @Override
+	public OperationResult doOperation(final Operation operation, final ParameterContainer parameters) throws ExceptionReport,
             OXFException {
 
         OperationResult result = null;
 
-        String request = buildRequest(operation, parameters);
+        final String request = buildRequest(operation, parameters);
 
         try {
             if (operation.getDcps().length == 0) {
@@ -275,8 +269,8 @@ public class SOSAdapter implements IServiceAdapter {
                 uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
             }
 
-            HttpResponse httpResponse = httpClient.executePost(uri.trim(), request, TEXT_XML);
-            HttpEntity responseEntity = httpResponse.getEntity();
+            final HttpResponse httpResponse = httpClient.executePost(uri.trim(), request, TEXT_XML);
+            final HttpEntity responseEntity = httpResponse.getEntity();
             result = new OperationResult(responseEntity.getContent(), parameters, request);
 
             // TODO make us independent from XmlObject
@@ -289,25 +283,25 @@ public class SOSAdapter implements IServiceAdapter {
             // throw createExceptionReportException(exceptionReport, result);
             // }
             try {
-                XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsStream());
+                final XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsStream());
                 if (result_xb.schemaType() == ExceptionReportDocument.type) {
                     throw parseExceptionReport_100(result);
                 }
             }
-            catch (XmlException e) {
+            catch (final XmlException e) {
                 throw new OXFException("Could not parse response to XML.", e);
             }
             return result;
         }
-        catch (HttpClientException e) {
+        catch (final HttpClientException e) {
             throw new OXFException("Sending request failed.", e);
         }
-        catch (IOException e) {
+        catch (final IOException e) {
             throw new OXFException("Could not create OperationResult.", e);
         }
     }
 
-    private String buildRequest(Operation operation, ParameterContainer parameters) throws OXFException {
+    private String buildRequest(final Operation operation, final ParameterContainer parameters) throws OXFException {
         if (operation.getName().equals(GET_CAPABILITIES)) {
             return requestBuilder.buildGetCapabilitiesRequest(parameters);
         }
@@ -342,14 +336,14 @@ public class SOSAdapter implements IServiceAdapter {
      * resultModel := Observation <br>
      * responseMode := inline
      */
-    public OXFFeatureCollection requestObservations(String sosURL,
-                                                    String offering,
-                                                    String observedProperty,
-                                                    String eventTime) throws OXFException, ExceptionReport {
+    public OXFFeatureCollection requestObservations(final String sosURL,
+                                                    final String offering,
+                                                    final String observedProperty,
+                                                    final String eventTime) throws OXFException, ExceptionReport {
 
-        Operation operation = new Operation("GetObservation", "http://GET_URL_not_used", sosURL);
+        final Operation operation = new Operation("GetObservation", "http://GET_URL_not_used", sosURL);
 
-        ParameterContainer container = new ParameterContainer();
+        final ParameterContainer container = new ParameterContainer();
         container.addParameterShell(GET_OBSERVATION_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
         container.addParameterShell(GET_OBSERVATION_VERSION_PARAMETER, serviceVersion);
         container.addParameterShell(GET_OBSERVATION_OFFERING_PARAMETER, offering);
@@ -359,39 +353,39 @@ public class SOSAdapter implements IServiceAdapter {
         container.addParameterShell(GET_OBSERVATION_EVENT_TIME_PARAMETER, eventTime);
         container.addParameterShell(GET_OBSERVATION_RESPONSE_MODE_PARAMETER, "inline");
 
-        ISOSRequestBuilder requestBuilder = SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
+        final ISOSRequestBuilder requestBuilder = SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion);
         LOGGER.info("Send Request: {}", requestBuilder.buildGetObservationRequest(container));
 
-        OperationResult opResult = doOperation(operation, container);
-        IFeatureStore featureStore = new SOSObservationStore(opResult);
+        final OperationResult opResult = doOperation(operation, container);
+        final IFeatureStore featureStore = new SOSObservationStore(opResult);
 
         // The OperationResult can be used as an input for the 'unmarshalFeatures' operation of the
         // SOSObservationStore to parse the returned O&M document and to build up OXFFeature objects.
-        OXFFeatureCollection featureCollection = featureStore.unmarshalFeatures();
+        final OXFFeatureCollection featureCollection = featureStore.unmarshalFeatures();
 
         return featureCollection;
     }
 
-    private ExceptionReport createExceptionReportException(Element exceptionReport, OperationResult result) {
+    private ExceptionReport createExceptionReportException(final Element exceptionReport, final OperationResult result) {
         // TODO Auto-generated method stub
         return null;
     }
 
-    private ExceptionReport parseExceptionReport_100(OperationResult result) throws XmlException, IOException {
+    private ExceptionReport parseExceptionReport_100(final OperationResult result) throws XmlException, IOException {
 
-        ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsStream());
-        net.opengis.ows.x11.ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
+        final ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsStream());
+        final net.opengis.ows.x11.ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
 
-        String language = xb_execRepDoc.getExceptionReport().getLang();
-        String version = xb_execRepDoc.getExceptionReport().getVersion();
+        final String language = xb_execRepDoc.getExceptionReport().getLang();
+        final String version = xb_execRepDoc.getExceptionReport().getVersion();
 
-        ExceptionReport oxf_execReport = new ExceptionReport(version, language);
-        for (net.opengis.ows.x11.ExceptionType xb_exec : xb_exceptions) {
-            String execCode = xb_exec.getExceptionCode();
-            String[] execMsgs = xb_exec.getExceptionTextArray();
-            String locator = xb_exec.getLocator();
+        final ExceptionReport oxf_execReport = new ExceptionReport(version, language);
+        for (final net.opengis.ows.x11.ExceptionType xb_exec : xb_exceptions) {
+            final String execCode = xb_exec.getExceptionCode();
+            final String[] execMsgs = xb_exec.getExceptionTextArray();
+            final String locator = xb_exec.getLocator();
 
-            OWSException owsExec = new OWSException(execMsgs, execCode, result.getSendedRequest(), locator);
+            final OWSException owsExec = new OWSException(execMsgs, execCode, result.getSendedRequest(), locator);
 
             oxf_execReport.addException(owsExec);
         }
@@ -405,7 +399,8 @@ public class SOSAdapter implements IServiceAdapter {
      * 
      * @return The name of the service operation which returns the data to be added to a map view as a layer.
      */
-    public String getResourceOperationName() {
+    @Override
+	public String getResourceOperationName() {
         return RESOURCE_OPERATION;
     }
 
@@ -414,7 +409,8 @@ public class SOSAdapter implements IServiceAdapter {
      * 
      * @return String the description of the adapter
      */
-    public String getDescription() {
+    @Override
+	public String getDescription() {
         return DESCRIPTION;
     }
 
@@ -423,7 +419,8 @@ public class SOSAdapter implements IServiceAdapter {
      * 
      * @return String the type of service
      */
-    public String getServiceType() {
+    @Override
+	public String getServiceType() {
         return SosUtil.SERVICE_TYPE;
     }
 
@@ -432,7 +429,8 @@ public class SOSAdapter implements IServiceAdapter {
      * 
      * @return String[] the supported versions of the service which is connectable by this ServiceAdapter
      */
-    public String[] getSupportedVersions() {
+    @Override
+	public String[] getSupportedVersions() {
         return SosUtil.SUPPORTED_VERSIONS;
     }
 
