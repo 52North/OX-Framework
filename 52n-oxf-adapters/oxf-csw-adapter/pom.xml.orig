@@ -1,0 +1,105 @@
+<<<<<<< HEAD
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.n52.sensorweb</groupId>
+		<artifactId>52n-oxf-adapters</artifactId>
+		<version>2.0.0-alpha.4-SNAPSHOT</version>
+	</parent>
+	<artifactId>oxf-csw-adapter</artifactId>
+	<name>OxFramework CSW Adapter</name>
+	<description>Provides CSW Adapter implementation.</description>
+	<packaging>jar</packaging>
+	<dependencies>
+		<!-- ### MODULE DEPENDENCIES ### -->
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-common</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>jts</artifactId>
+					<groupId>com.vividsolutions</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-adapter-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>oxf-layer</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>52n-xml-sos-v20</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>52n-xml-sos-v100</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>52n-xml-waterML-v20</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-csw-v202</artifactId>
+		</dependency>
+	</dependencies>
+</project>
+=======
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.n52.sensorweb</groupId>
+		<artifactId>52n-oxf-adapters</artifactId>
+		<version>2.0.1-alpha.3-SNAPSHOT</version>
+	</parent>
+	<artifactId>oxf-csw-adapter</artifactId>
+	<name>OxFramework CSW Adapter</name>
+	<description>Provides CSW Adapter implementation.</description>
+	<packaging>jar</packaging>
+	<dependencies>
+		<!-- ### MODULE DEPENDENCIES ### -->
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-common</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>jts</artifactId>
+					<groupId>com.vividsolutions</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-adapter-api</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>oxf-layer</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>52n-xml-sos-v20</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>52n-xml-sos-v100</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>52n-xml-waterML-v20</artifactId>
+					<groupId>org.n52.sensorweb</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-csw-v202</artifactId>
+		</dependency>
+	</dependencies>
+</project>
+>>>>>>> master

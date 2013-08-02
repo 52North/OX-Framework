@@ -1,0 +1,129 @@
+<<<<<<< HEAD
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.n52.sensorweb</groupId>
+		<artifactId>52n-oxf-core</artifactId>
+		<version>2.0.0-alpha.4-SNAPSHOT</version>
+	</parent>
+	<artifactId>oxf-feature</artifactId>
+	<name>OxF Features</name>
+	<description>Provides Oxf Feature Model</description>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-oxf-xmlbeans</artifactId>
+		</dependency>
+		<!-- ### XML BINDING DEPENDENCIES ### -->
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-context-v100</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.n52.sensorweb</groupId>
+					<artifactId>52n-xml-gml-v212</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-sampling-v100</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-sensorML-v100</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-sweCommon-v101</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-waterML-v20</artifactId>
+		</dependency>
+		<!-- ### EXTERNAL DEPENDENCIES ### -->
+		<dependency>
+			<groupId>com.vividsolutions</groupId>
+			<artifactId>jts</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>isorelax</groupId>
+			<artifactId>isorelax</artifactId>
+		</dependency>
+		<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-feature-grdc</artifactId>
+		</dependency>
+	</dependencies>
+</project>
+=======
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.n52.sensorweb</groupId>
+		<artifactId>52n-oxf-core</artifactId>
+		<version>2.0.1-alpha.3-SNAPSHOT</version>
+	</parent>
+	<artifactId>oxf-feature</artifactId>
+	<name>OxF Features</name>
+	<description>Provides Oxf Feature Model</description>
+	<packaging>jar</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-oxf-xmlbeans</artifactId>
+		</dependency>
+		<!-- ### XML BINDING DEPENDENCIES ### -->
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-context-v100</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.n52.sensorweb</groupId>
+					<artifactId>52n-xml-gml-v212</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-sampling-v100</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-sensorML-v100</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-sweCommon-v101</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>52n-xml-waterML-v20</artifactId>
+		</dependency>
+		<!-- ### EXTERNAL DEPENDENCIES ### -->
+		<dependency>
+			<groupId>com.vividsolutions</groupId>
+			<artifactId>jts</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>isorelax</groupId>
+			<artifactId>isorelax</artifactId>
+		</dependency>
+		<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
+		<dependency>
+			<groupId>org.n52.sensorweb</groupId>
+			<artifactId>oxf-feature-grdc</artifactId>
+		</dependency>
+	</dependencies>
+</project>
+>>>>>>> master
