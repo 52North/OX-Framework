@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<parent>
 		<groupId>org.n52</groupId>
 		<artifactId>52-North</artifactId>
@@ -7,9 +8,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.n52.sensorweb</groupId>
 	<artifactId>52n-oxf</artifactId>
-	<version>2.0.0-alpha.4-SNAPSHOT</version>	
-	<name>52North OxFramework</name>
-	<description>Provides middleware components for 52n Sensor Web architecture</description>
+		<version>2.0.0-alpha.4-SNAPSHOT</version>
+	</parent>	<description>Provides middleware components for 52n Sensor Web architecture</description>
 	<organization>
 		<name>52North Initiative for Geospatial Open Source Software GmbH</name>
 		<url>http://52north.org</url>
@@ -418,17 +418,17 @@
 						<download>false</download>
 					</configuration>
 				</plugin>
-				
-                <plugin>
-                    <groupId>com.atlassian.maven.plugins</groupId>
-                    <artifactId>maven-jgitflow-plugin</artifactId>
-                    <version>1.0-alpha9</version>
-                    <configuration>
-                       <autoVersionSubmodules>true</autoVersionSubmodules>
-                       <noDeploy>true</noDeploy>
-                    </configuration>
                 </plugin>
-                
+				<plugin>
+					<groupId>com.atlassian.maven.plugins</groupId>
+					<artifactId>maven-jgitflow-plugin</artifactId>
+					<version>1.0-alpha9</version>
+					<configuration>
+						<autoVersionSubmodules>true</autoVersionSubmodules>
+						<noDeploy>true</noDeploy>
+					</configuration>
+				</plugin>
+
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
@@ -614,14 +614,14 @@
 					</plugin>
 
 					<plugin>
-                        <groupId>com.atlassian.maven.plugins</groupId>
-                        <artifactId>maven-jgitflow-plugin</artifactId>
-                        <version>1.0-alpha9</version>
-                        <configuration>
-                            <!-- see goals wiki page for configuration options -->
-                            <autoVersionSubmodules>true</autoVersionSubmodules>
-                        </configuration>
-                    </plugin>
+						<groupId>com.atlassian.maven.plugins</groupId>
+						<artifactId>maven-jgitflow-plugin</artifactId>
+						<version>1.0-alpha9</version>
+						<configuration>
+							<!-- see goals wiki page for configuration options -->
+							<autoVersionSubmodules>true</autoVersionSubmodules>
+						</configuration>
+					</plugin>
 				</plugins>
 			</build>
 		</profile>
