@@ -3,7 +3,8 @@
 	<parent>
 		<groupId>org.n52.sensorweb</groupId>
 		<artifactId>52n-oxf</artifactId>
-		<version>2.0.0-alpha.4-SNAPSHOT</version>	</parent>
+		<version>2.0.0-alpha.4-SNAPSHOT</version>
+	</parent>
 	<artifactId>52n-oxf-core</artifactId>
 	<name>52North OxFramework Core</name>
 	<description>Provides OxFramework Core Modules</description>
