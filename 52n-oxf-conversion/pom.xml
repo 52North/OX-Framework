@@ -6,7 +6,8 @@
 		<groupId>org.n52.sensorweb</groupId>
 		<artifactId>52n-oxf</artifactId>
 		<version>2.0.0-alpha.4-SNAPSHOT</version>
-	</parent>	<artifactId>52n-oxf-conversion</artifactId>
+	</parent>
+	<artifactId>52n-oxf-conversion</artifactId>
 	<packaging>jar</packaging>
 
 	<name>52°North OXF Conversion module</name>

@@ -8,8 +8,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.n52.sensorweb</groupId>
 	<artifactId>52n-oxf</artifactId>
-		<version>2.0.0-alpha.4-SNAPSHOT</version>
-	</parent>	<description>Provides middleware components for 52n Sensor Web architecture</description>
+	<version>2.0.0-alpha.4-SNAPSHOT</version>
+	<description>Provides middleware components for 52n Sensor Web architecture</description>
 	<organization>
 		<name>52North Initiative for Geospatial Open Source Software GmbH</name>
 		<url>http://52north.org</url>
@@ -418,7 +418,6 @@
 						<download>false</download>
 					</configuration>
 				</plugin>
-                </plugin>
 				<plugin>
 					<groupId>com.atlassian.maven.plugins</groupId>
 					<artifactId>maven-jgitflow-plugin</artifactId>
