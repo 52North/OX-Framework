@@ -87,6 +87,11 @@ public interface ISOSRequestBuilder {
     public static String INSERT_OBSERVATION_NEW_FOI_POSITION_SRS = "insertObSRS";
     public static String INSERT_OBSERVATION_PROCEDURE_PARAMETER = "procedure";
 	public static String INSERT_OBSERVATION_SENSOR_ID_PARAMETER = "sensorid";
+	public static String INSERT_OBSERVATION_TYPE_COUNT = "count";
+	public static String INSERT_OBSERVATION_TYPE_TRUTH = "truth";
+	public static String INSERT_OBSERVATION_TYPE_TEMPORAL = "temporal";
+	public static String INSERT_OBSERVATION_TYPE_GEOMETRY = "geometry";
+	public static String INSERT_OBSERVATION_TYPE_COMPLEX = "complex";
     
     public static String REGISTER_SENSOR_SERVICE_PARAMETER = "service";
     public static String REGISTER_SENSOR_VERSION_PARAMETER = "version";
@@ -94,11 +99,6 @@ public interface ISOSRequestBuilder {
     public static String REGISTER_SENSOR_OBSERVATION_TEMPLATE = "observationTemplate";
     public static String REGISTER_SENSOR_OBSERVATION_TYPE = "type";
 	public static String REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY = "category";
-	public static String INSERT_OBSERVATION_TYPE_COUNT = "count";
-	public static String INSERT_OBSERVATION_TYPE_TRUTH = "truth";
-	public static String INSERT_OBSERVATION_TYPE_TEMPORAL = "temporal";
-	public static String INSERT_OBSERVATION_TYPE_GEOMETRY = "geometry";
-	public static String INSERT_OBSERVATION_TYPE_COMPLEX = "complex";
 	public static String REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT = "measurement";
     public static String REGISTER_SENSOR_ID_PARAMETER = "id";
     public static String REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER = "observedProperty";
@@ -138,7 +138,7 @@ public interface ISOSRequestBuilder {
     /**
      * Builds a RegisterSensor request and returns it.
      * A SensorML file can either be passed along or a set of parameters is used to create one.
-     * @throws OXFException 
+     * @throws OXFException
      */
     public String buildRegisterSensor(ParameterContainer parameters) throws OXFException;
 
