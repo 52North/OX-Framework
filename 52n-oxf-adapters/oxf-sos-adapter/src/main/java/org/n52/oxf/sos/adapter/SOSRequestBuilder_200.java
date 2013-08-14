@@ -45,7 +45,6 @@ import net.opengis.swes.x20.DescribeSensorDocument;
 import net.opengis.swes.x20.DescribeSensorType;
 
 import org.apache.commons.lang.NotImplementedException;
-import org.jfree.util.Log;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
@@ -55,17 +54,22 @@ import org.n52.oxf.valueDomains.time.ITimePeriod;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 import org.n52.oxf.valueDomains.time.TimeFactory;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * contains attributes and methods to encode SOSOperationRequests as String in xml-format
  */
 public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(SOSRequestBuilder_200.class);
 
-    public String buildGetCapabilitiesRequest(ParameterContainer parameters) {
+    @Override
+	public String buildGetCapabilitiesRequest(final ParameterContainer parameters) {
         
         // FIXME not tested yet
-        GetCapabilitiesDocument getCapDoc = GetCapabilitiesDocument.Factory.newInstance();
-        GetCapabilitiesType getCap = getCapDoc.addNewGetCapabilities2();
+        final GetCapabilitiesDocument getCapDoc = GetCapabilitiesDocument.Factory.newInstance();
+        final GetCapabilitiesType getCap = getCapDoc.addNewGetCapabilities2();
 
         //
         // set required elements:
@@ -88,28 +92,28 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
             versionPS = parameters.getParameterShellWithCommonName(Parameter.COMMON_NAME_VERSION);
         }
         if (versionPS != null) {
-            AcceptVersionsType acceptedVersions = getCap.addNewAcceptVersions();
+            final AcceptVersionsType acceptedVersions = getCap.addNewAcceptVersions();
             
             if (versionPS.hasSingleSpecifiedValue()) {
                 acceptedVersions.addVersion((String) versionPS.getSpecifiedValue());
             }
             else {
-                String[] versionArray = versionPS.getSpecifiedTypedValueArray(String[].class);;
-                for (String version : versionArray) {
+                final String[] versionArray = versionPS.getSpecifiedTypedValueArray(String[].class);;
+                for (final String version : versionArray) {
                     acceptedVersions.addVersion(version);
                 }
             }
         }
 
         // Parameter "sections":
-        ParameterShell sectionParamShell = parameters.getParameterShellWithServiceSidedName(GET_CAPABILITIES_SECTIONS_PARAMETER);
+        final ParameterShell sectionParamShell = parameters.getParameterShellWithServiceSidedName(GET_CAPABILITIES_SECTIONS_PARAMETER);
         if (sectionParamShell != null) {
-            SectionsType sections = getCap.addNewSections();
+            final SectionsType sections = getCap.addNewSections();
 
             if (sectionParamShell.hasMultipleSpecifiedValues()) {
-                String[] selectedSections = sectionParamShell.getSpecifiedTypedValueArray(String[].class);
-                for (int i = 0; i < selectedSections.length; i++) {
-                    sections.addSection(selectedSections[i]);
+                final String[] selectedSections = sectionParamShell.getSpecifiedTypedValueArray(String[].class);
+                for (final String selectedSection : selectedSections) {
+                    sections.addSection(selectedSection);
                 }
             }
             else if (sectionParamShell.hasSingleSpecifiedValue()) {
@@ -120,9 +124,10 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         return getCapDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
-    public String buildGetObservationRequest(ParameterContainer parameters) throws OXFException {
-        GetObservationDocument xb_getObsDoc = GetObservationDocument.Factory.newInstance();
-        GetObservationType xb_getObs = xb_getObsDoc.addNewGetObservation();
+    @Override
+	public String buildGetObservationRequest(final ParameterContainer parameters) throws OXFException {
+        final GetObservationDocument xb_getObsDoc = GetObservationDocument.Factory.newInstance();
+        final GetObservationType xb_getObs = xb_getObsDoc.addNewGetObservation();
         xb_getObs.setService((String) getShellForServerParameter(parameters, GET_OBSERVATION_SERVICE_PARAMETER).getSpecifiedValue());
         xb_getObs.setVersion((String) getShellForServerParameter(parameters, GET_OBSERVATION_VERSION_PARAMETER).getSpecifiedValue());
         processOffering(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_OFFERING_PARAMETER));
@@ -135,11 +140,11 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         return xb_getObsDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
     
-    private ParameterShell getShellForServerParameter(ParameterContainer container, String name) {
+    private ParameterShell getShellForServerParameter(final ParameterContainer container, final String name) {
         return container.getParameterShellWithServiceSidedName(name);
     }
 
-    private void processSpatialFilter(GetObservationType xb_getObs, ParameterShell shell) {
+    private void processSpatialFilter(final GetObservationType xb_getObs, final ParameterShell shell) {
         if (shell == null) {
             return; // optional parameter
         }
@@ -147,54 +152,54 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         throw new NotImplementedException();
     }
 
-    private void processFeatureOfInterest(GetObservationType xb_getObs, ParameterShell shell) {
+    private void processFeatureOfInterest(final GetObservationType xb_getObs, final ParameterShell shell) {
         if (shell == null) {
             return; // optional parameter
         }
-        ParameterShell foiParamShell = shell;
+        final ParameterShell foiParamShell = shell;
         if (foiParamShell.hasMultipleSpecifiedValues()) {
-            String[] fois = foiParamShell.getSpecifiedTypedValueArray(String[].class);
+            final String[] fois = foiParamShell.getSpecifiedTypedValueArray(String[].class);
             xb_getObs.setFeatureOfInterestArray(fois);
         }
         else {
-            Object foi = foiParamShell.getSpecifiedValue();
+            final Object foi = foiParamShell.getSpecifiedValue();
             xb_getObs.addNewFeatureOfInterest().setStringValue((String) foi);
         }
     }
 
-    protected void processOffering(GetObservationType xb_getObs, ParameterShell shell) {
+    protected void processOffering(final GetObservationType xb_getObs, final ParameterShell shell) {
         if (shell != null) { // optional parameter
             xb_getObs.setOfferingArray(shell.getSpecifiedTypedValueArray(String[].class));
         }
     }
 
-    protected void processResponseFormat(GetObservationType xb_getObs, ParameterShell shell) {
+    protected void processResponseFormat(final GetObservationType xb_getObs, final ParameterShell shell) {
         if (shell != null) {
             xb_getObs.setResponseFormat((String) shell.getSpecifiedValue());
         }
     }
 
-    protected void processProcedure(GetObservationType xb_getObs, ParameterShell shell) {
+    protected void processProcedure(final GetObservationType xb_getObs, final ParameterShell shell) {
         if (shell != null) { // optional parameter
             xb_getObs.setProcedureArray(shell.getSpecifiedTypedValueArray(String[].class));
         }
     }
     
-    protected void processObservedProperty(GetObservationType xb_getObs, ParameterShell shell) {
+    protected void processObservedProperty(final GetObservationType xb_getObs, final ParameterShell shell) {
         if (shell == null) {
             return; // optional parameter
         }
-        String[] observedProperties = shell.getSpecifiedTypedValueArray(String[].class);
+        final String[] observedProperties = shell.getSpecifiedTypedValueArray(String[].class);
         xb_getObs.setObservedPropertyArray(observedProperties);
     }
 
-    protected void processTemporalFilter(GetObservationType xb_getObs, ParameterShell shell) throws OXFException {
+    protected void processTemporalFilter(final GetObservationType xb_getObs, final ParameterShell shell) throws OXFException {
         if (shell == null) {
             return; // optional parameter
         }
         
         ITime specifiedTime;
-        Object timeParamValue = shell.getSpecifiedValue();
+        final Object timeParamValue = shell.getSpecifiedValue();
         if (timeParamValue instanceof ITime) {
             specifiedTime = (ITime) timeParamValue;
         }
@@ -208,14 +213,14 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 
         if (specifiedTime instanceof ITimePeriod) {
             
-            ITimePeriod oc_timePeriod = (ITimePeriod) specifiedTime;
-            TimePeriodDocument timePeriodDoc = TimePeriodDocument.Factory.newInstance();
-            TimePeriodType xb_timePeriod = timePeriodDoc.addNewTimePeriod();
-            DuringDocument duringDoc = DuringDocument.Factory.newInstance();
-            BinaryTemporalOpType during = duringDoc.addNewDuring();
+            final ITimePeriod oc_timePeriod = (ITimePeriod) specifiedTime;
+            final TimePeriodDocument timePeriodDoc = TimePeriodDocument.Factory.newInstance();
+            final TimePeriodType xb_timePeriod = timePeriodDoc.addNewTimePeriod();
+            final DuringDocument duringDoc = DuringDocument.Factory.newInstance();
+            final BinaryTemporalOpType during = duringDoc.addNewDuring();
             
-            TimePositionType xb_beginPosition = xb_timePeriod.addNewBeginPosition();
-            TimePositionType xb_endPosition = xb_timePeriod.addNewEndPosition();
+            final TimePositionType xb_beginPosition = xb_timePeriod.addNewBeginPosition();
+            final TimePositionType xb_endPosition = xb_timePeriod.addNewEndPosition();
             xb_beginPosition.setStringValue(oc_timePeriod.getStart().toISO8601Format());
             xb_endPosition.setStringValue(oc_timePeriod.getEnd().toISO8601Format());
 
@@ -223,36 +228,38 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
             during.set(timePeriodDoc);
             during.setValueReference("phenomenonTime");
 
-            TemporalFilter spatialFilter = xb_getObs.addNewTemporalFilter();
+            final TemporalFilter spatialFilter = xb_getObs.addNewTemporalFilter();
             spatialFilter.set(duringDoc);
         }
         else if (specifiedTime instanceof ITimePosition) {
-            ITimePosition oc_timePosition = (ITimePosition) specifiedTime;
-            TimeInstantDocument timeInstanceDoc = TimeInstantDocument.Factory.newInstance();
-            TimeInstantType xb_timeInstant = timeInstanceDoc.addNewTimeInstant();
-            TEqualsDocument equalsDoc = TEqualsDocument.Factory.newInstance();
-            BinaryTemporalOpType equals = equalsDoc.addNewTEquals();
+            final ITimePosition oc_timePosition = (ITimePosition) specifiedTime;
+            final TimeInstantDocument timeInstanceDoc = TimeInstantDocument.Factory.newInstance();
+            final TimeInstantType xb_timeInstant = timeInstanceDoc.addNewTimeInstant();
+            final TEqualsDocument equalsDoc = TEqualsDocument.Factory.newInstance();
+            final BinaryTemporalOpType equals = equalsDoc.addNewTEquals();
             
-            TimePositionType xb_timePosition = xb_timeInstant.addNewTimePosition();
+            final TimePositionType xb_timePosition = xb_timeInstant.addNewTimePosition();
             xb_timePosition.setStringValue(oc_timePosition.toISO8601Format());
 
             xb_timeInstant.setId("_1");
             equals.set(timeInstanceDoc);
             equals.setValueReference("phenomenonTime");
             
-            TemporalFilter spatialFilter = xb_getObs.addNewTemporalFilter();
+            final TemporalFilter spatialFilter = xb_getObs.addNewTemporalFilter();
             spatialFilter.set(equalsDoc);
         }
     }
     
     
-    public String buildGetObservationByIDRequest(ParameterContainer parameters) throws OXFException {
+    @Override
+	public String buildGetObservationByIDRequest(final ParameterContainer parameters) throws OXFException {
         throw new NotImplementedException("SOS Specification 2.0 not officially supported by now.");
     }
 
-    public String buildDescribeSensorRequest(ParameterContainer parameters) {
-        DescribeSensorDocument descSensorDoc = DescribeSensorDocument.Factory.newInstance();
-        DescribeSensorType descSensor = descSensorDoc.addNewDescribeSensor();
+    @Override
+	public String buildDescribeSensorRequest(final ParameterContainer parameters) {
+        final DescribeSensorDocument descSensorDoc = DescribeSensorDocument.Factory.newInstance();
+        final DescribeSensorType descSensor = descSensorDoc.addNewDescribeSensor();
 
         // set required elements:
 
@@ -265,15 +272,15 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         return descSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
     
-    protected void processProcedureDescriptionFormat(DescribeSensorType descSensor, ParameterShell shell) {
+    protected void processProcedureDescriptionFormat(final DescribeSensorType descSensor, final ParameterShell shell) {
         if (shell == null) {
-            Log.error("Missing shell parameter '" + DESCRIBE_SENSOR_PROCEDURE_DESCRIPTION_FORMAT + "'.");
+            LOGGER.error("Missing shell parameter '" + DESCRIBE_SENSOR_PROCEDURE_DESCRIPTION_FORMAT + "'.");
             return; // throwing OXFException would break interface
         }
         descSensor.setProcedureDescriptionFormat((String) shell.getSpecifiedValue());
     }
 
-    private void processProcedure(DescribeSensorType xb_descSensor, ParameterShell shell) {
+    private void processProcedure(final DescribeSensorType xb_descSensor, final ParameterShell shell) {
         if (shell == null) {
             xb_descSensor.setProcedureDescriptionFormat("http://www.opengis.net/sensorml/1.0.1");
         } else {
@@ -281,16 +288,18 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         }
     }
 
-    public String buildGetFeatureOfInterestRequest(ParameterContainer parameters) {
-    	GetFeatureOfInterestDocument xb_getFOIDoc = GetFeatureOfInterestDocument.Factory.newInstance();
-    	GetFeatureOfInterestType xb_getFOI = xb_getFOIDoc.addNewGetFeatureOfInterest();
+    @Override
+	public String buildGetFeatureOfInterestRequest(final ParameterContainer parameters) {
+    	final GetFeatureOfInterestDocument xb_getFOIDoc = GetFeatureOfInterestDocument.Factory.newInstance();
+    	final GetFeatureOfInterestType xb_getFOI = xb_getFOIDoc.addNewGetFeatureOfInterest();
     	xb_getFOI.setService((String) parameters.getParameterShellWithServiceSidedName(GET_FOI_SERVICE_PARAMETER).getSpecifiedValue());
     	xb_getFOI.setVersion((String) parameters.getParameterShellWithServiceSidedName(GET_FOI_VERSION_PARAMETER).getSpecifiedValue());
     	xb_getFOI.addProcedure((String) parameters.getParameterShellWithServiceSidedName("procedure").getSpecifiedValue());
         return xb_getFOIDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
-    public String buildInsertObservation(ParameterContainer parameters) {
+    @Override
+	public String buildInsertObservation(final ParameterContainer parameters) {
         // TODO implement
     	throw new NotImplementedException();
     }
@@ -299,7 +308,8 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
      * Builds a RegisterSensor request and returns it.
      * A SensorML file can either be passed along or a set of parameters is used to create one.
      */
-    public String buildRegisterSensor(ParameterContainer parameters) throws OXFException {
+    @Override
+	public String buildRegisterSensor(final ParameterContainer parameters) throws OXFException {
         // TODO implement
         throw new NotImplementedException();
     }	
