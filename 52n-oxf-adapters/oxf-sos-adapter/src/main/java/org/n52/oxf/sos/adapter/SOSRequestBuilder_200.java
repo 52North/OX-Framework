@@ -43,6 +43,8 @@ import net.opengis.sos.x20.GetObservationType;
 import net.opengis.sos.x20.GetObservationType.TemporalFilter;
 import net.opengis.swes.x20.DescribeSensorDocument;
 import net.opengis.swes.x20.DescribeSensorType;
+import net.opengis.swes.x20.InsertSensorDocument;
+import net.opengis.swes.x20.InsertSensorType;
 
 import org.apache.commons.lang.NotImplementedException;
 import org.n52.oxf.OXFException;
@@ -305,13 +307,26 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     }
 
     /**
-     * Builds a RegisterSensor request and returns it.
+     * Builds a <b>Insert</b>Sensor request and returns it.
      * A SensorML file can either be passed along or a set of parameters is used to create one.
+     * @throws OXFException
      */
     @Override
 	public String buildRegisterSensor(final ParameterContainer parameters) throws OXFException {
+    	if (parameters == null) {
+    		throw new OXFException(new IllegalArgumentException("ParameterContainer 'parameters' should not be null"));
+    	}
         // TODO implement
-        throw new NotImplementedException();
+    	final InsertSensorDocument xb_InsertSensorDoc = InsertSensorDocument.Factory.newInstance();
+    	final InsertSensorType xb_InsertSensorType = xb_InsertSensorDoc.addNewInsertSensor();
+    	// add version and service
+    	xb_InsertSensorType.setService((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
+    	xb_InsertSensorType.setVersion((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
+    	// add observable property
+    	// add procedure description format
+    	// add procedure description
+    	// add insertion metadata
+    	return xb_InsertSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
     }	
     
 }
