@@ -24,6 +24,8 @@
 
 package org.n52.oxf.sos.adapter;
 
+import javax.xml.namespace.QName;
+
 import net.opengis.fes.x20.BinaryTemporalOpType;
 import net.opengis.fes.x20.DuringDocument;
 import net.opengis.fes.x20.TEqualsDocument;
@@ -41,6 +43,7 @@ import net.opengis.sos.x20.GetFeatureOfInterestType;
 import net.opengis.sos.x20.GetObservationDocument;
 import net.opengis.sos.x20.GetObservationType;
 import net.opengis.sos.x20.GetObservationType.TemporalFilter;
+import net.opengis.sos.x20.SosInsertionMetadataType;
 import net.opengis.swes.x20.DescribeSensorDocument;
 import net.opengis.swes.x20.DescribeSensorType;
 import net.opengis.swes.x20.InsertSensorDocument;
@@ -336,8 +339,8 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     			xb_InsertSensorType.addObservableProperty((String) observedPropertyPS.getSpecifiedValue());
     		}
     		else {
-    			final String[] propertyArray = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
-    			for (final String property : propertyArray) {
+    			final String[] properties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
+    			for (final String property : properties) {
     				xb_InsertSensorType.addObservableProperty(property);
     			}
     		}
@@ -358,8 +361,46 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 		}
     	
     	// add insertion metadata
-    	// TODO implement
+		SosInsertionMetadataType xb_SosInsertionMetadata = null;
+		// add observation types
+		final ParameterShell obsTypeS = parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_OBSERVATION_TYPE);
+		if (obsTypeS != null) {
+			xb_SosInsertionMetadata = SosInsertionMetadataType.Factory.newInstance();
+			if (obsTypeS.hasSingleSpecifiedValue()) {
+				xb_SosInsertionMetadata.addObservationType((String)obsTypeS.getSpecifiedValue());
+			}
+			else {
+				final String[] obsTypes = obsTypeS.getSpecifiedTypedValueArray(String[].class);
+				for (final String obsType : obsTypes) {
+					xb_SosInsertionMetadata.addObservationType(obsType);
+				}
+			}
+		}
+		// add feature types
+		final ParameterShell foiTypeS = parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_FEATURE_TYPE_PARAMETER);
+		if (foiTypeS != null) {
+			if (xb_SosInsertionMetadata == null) {
+				xb_SosInsertionMetadata = SosInsertionMetadataType.Factory.newInstance();
+			}
+			if (foiTypeS.hasSingleSpecifiedValue()) {
+				xb_SosInsertionMetadata.addFeatureOfInterestType((String)foiTypeS.getSpecifiedValue());
+			}
+			else {
+				final String[] foiTypes = foiTypeS.getSpecifiedTypedValueArray(String[].class);
+				for (final String foiType : foiTypes) {
+					xb_SosInsertionMetadata.addFeatureOfInterestType(foiType);
+				}
+			}
+		}
+		if (xb_SosInsertionMetadata != null) {
+			// TODO substitute correctly to SosInsertionMetadata to get rid to InsertionMetadata xsi:type="ns:SosInsertionMetadataType"
+			xb_SosInsertionMetadata = (SosInsertionMetadataType) xb_SosInsertionMetadata.substitute(
+					new QName(xb_SosInsertionMetadata.getDomNode().getNamespaceURI(),
+							"SosInsertionMetadata"),
+							SosInsertionMetadataType.type);
+			xb_InsertSensorType.addNewMetadata().setInsertionMetadata(xb_SosInsertionMetadata);
+		}
     	return xb_InsertSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
-
+    
 }

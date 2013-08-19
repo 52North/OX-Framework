@@ -26,9 +26,10 @@ package org.n52.oxf.sos.adapter;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import net.opengis.sensorML.x101.SensorMLDocument;
+import net.opengis.sos.x20.SosInsertionMetadataType;
 import net.opengis.swes.x20.InsertSensorDocument;
 import net.opengis.swes.x20.InsertSensorType;
 
@@ -128,6 +129,32 @@ public class SOSRequestBuilder_200Test {
 			assertThat(e.getCause(),(is(instanceOf(XmlException.class))));
 			assertThat(e.getMessage(),is("Error while parsing MANDATORY parameter 'procedure description'!"));
 		}
+	}
+	
+	@Test public void
+	buildRegisterSenosr_should_set_insertion_metadata()
+			throws OXFException, XmlException{
+		final String obsType1 = "observation-type-1";
+		final String obsType2 = "observation-type-2";
+		final String foiType1 = "feature-type-1";
+		final String foiType2 = "feature-type-2";
+		final ParameterContainer parameters = createParamConWithMandatoryValues();
+		parameters.addParameterShell(REGISTER_SENSOR_OBSERVATION_TYPE, obsType1,obsType2);
+		parameters.addParameterShell(REGISTER_SENSOR_FEATURE_TYPE_PARAMETER, foiType1,foiType2);
+		
+		final String registerSensor = builder.buildRegisterSensor(parameters);
+		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
+		
+		assertThat(insertSensorType.getMetadataArray().length,is(1));
+		
+		final SosInsertionMetadataType insertionMetadata = (SosInsertionMetadataType)insertSensorType.getMetadataArray(0).getInsertionMetadata();
+		
+		assertThat(insertionMetadata.getObservationTypeArray().length,is(2));
+		assertThat(insertionMetadata.getFeatureOfInterestTypeArray().length,is(2));
+		assertThat(insertionMetadata.getObservationTypeArray(),hasItemInArray(obsType1));
+		assertThat(insertionMetadata.getObservationTypeArray(),hasItemInArray(obsType2));
+		assertThat(insertionMetadata.getFeatureOfInterestTypeArray(),hasItemInArray(foiType1));
+		assertThat(insertionMetadata.getFeatureOfInterestTypeArray(),hasItemInArray(foiType2));
 	}
 	
 	private String createSensorDescription()

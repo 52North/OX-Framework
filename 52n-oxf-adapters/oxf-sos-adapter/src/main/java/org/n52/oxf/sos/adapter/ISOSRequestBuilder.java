@@ -113,6 +113,11 @@ public interface ISOSRequestBuilder {
      */
     public static String REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER = "procedureDescriptionFormat";
     /**
+     * Required for SOS 2.0 InsertSensor requests. This parameter specifies the
+     * allowed feature types for observations of the inserted sensor.
+     */
+    public static String REGISTER_SENSOR_FEATURE_TYPE_PARAMETER = "featureType";
+    /**
      * Optional: Must be used in case of category observation type
      */
     public static String REGISTER_SENSOR_CODESPACE_PARAMETER = "codeSpace";
