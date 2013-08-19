@@ -326,39 +326,18 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     	final InsertSensorDocument xb_InsertSensorDoc = InsertSensorDocument.Factory.newInstance();
     	final InsertSensorType xb_InsertSensorType = xb_InsertSensorDoc.addNewInsertSensor();
     	
-    	// add version and service
-    	xb_InsertSensorType.setService((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
-    	xb_InsertSensorType.setVersion((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
+    	addOperationMetadata(parameters, xb_InsertSensorType);
+    	addObservableProperties(parameters, xb_InsertSensorType);
+    	addProcedure(parameters, xb_InsertSensorType);
+    	addInsertionMetadata(parameters, xb_InsertSensorType);
     	
-    	// add observable property
-    	final ParameterShell observedPropertyPS = parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER);
-    	if (observedPropertyPS != null) {
-    		if (observedPropertyPS.hasSingleSpecifiedValue()) {
-    			xb_InsertSensorType.addObservableProperty((String) observedPropertyPS.getSpecifiedValue());
-    		}
-    		else {
-    			final String[] properties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
-    			for (final String property : properties) {
-    				xb_InsertSensorType.addObservableProperty(property);
-    			}
-    		}
-    	}
-    	
-    	// add procedure description format
-    	xb_InsertSensorType.setProcedureDescriptionFormat((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER).getSpecifiedValue());
-    	
-    	// add procedure description
-    	XmlObject xb_obj;
-		try {
-			xb_obj = XmlObject.Factory.parse((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_ML_DOC_PARAMETER).getSpecifiedValue());
-			xb_InsertSensorType.addNewProcedureDescription().set(xb_obj);
-		} catch (final XmlException e) {
-			final String errorMsg = "Error while parsing MANDATORY parameter 'procedure description'!";
-			LOGGER.error("{} Exception message: {}", errorMsg, e.getMessage(), e);
-			throw new OXFException(errorMsg, e);
-		}
-    	
-    	// add insertion metadata
+    	return xb_InsertSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
+    }
+
+	private void addInsertionMetadata(final ParameterContainer parameters,
+			final InsertSensorType xb_InsertSensorType)
+	{
+		// add insertion metadata
 		SosInsertionMetadataType xb_SosInsertionMetadata = null;
 		// add observation types
 		final ParameterShell obsTypeS = parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_OBSERVATION_TYPE);
@@ -393,7 +372,50 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 		if (xb_SosInsertionMetadata != null) {
 			xb_InsertSensorType.addNewMetadata().setInsertionMetadata(xb_SosInsertionMetadata);
 		}
-    	return xb_InsertSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
-    }
+	}
+
+	private void addProcedure(final ParameterContainer parameters,
+			final InsertSensorType xb_InsertSensorType) throws OXFException
+	{
+		// add procedure description format
+    	xb_InsertSensorType.setProcedureDescriptionFormat((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER).getSpecifiedValue());
+    	
+    	// add procedure description
+    	XmlObject xb_obj;
+		try {
+			xb_obj = XmlObject.Factory.parse((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_ML_DOC_PARAMETER).getSpecifiedValue());
+			xb_InsertSensorType.addNewProcedureDescription().set(xb_obj);
+		} catch (final XmlException e) {
+			final String errorMsg = "Error while parsing MANDATORY parameter 'procedure description'!";
+			LOGGER.error("{} Exception message: {}", errorMsg, e.getMessage(), e);
+			throw new OXFException(errorMsg, e);
+		}
+	}
+
+	private void addObservableProperties(final ParameterContainer parameters,
+			final InsertSensorType xb_InsertSensorType)
+	{
+		// add observable property
+    	final ParameterShell observedPropertyPS = parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER);
+    	if (observedPropertyPS != null) {
+    		if (observedPropertyPS.hasSingleSpecifiedValue()) {
+    			xb_InsertSensorType.addObservableProperty((String) observedPropertyPS.getSpecifiedValue());
+    		}
+    		else {
+    			final String[] properties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
+    			for (final String property : properties) {
+    				xb_InsertSensorType.addObservableProperty(property);
+    			}
+    		}
+    	}
+	}
+
+	private void addOperationMetadata(final ParameterContainer parameters,
+			final InsertSensorType xb_InsertSensorType)
+	{
+		// add version and service
+    	xb_InsertSensorType.setService((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
+    	xb_InsertSensorType.setVersion((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
+	}
     
 }
