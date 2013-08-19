@@ -352,8 +352,9 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 			xb_obj = XmlObject.Factory.parse((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_ML_DOC_PARAMETER).getSpecifiedValue());
 			xb_InsertSensorType.addNewProcedureDescription().set(xb_obj);
 		} catch (final XmlException e) {
-			LOGGER.error("Error while parsing MANDATORY procedure description: {}", e.getMessage(), e);
-			throw new OXFException("Error while parsing MANDATORY procedure description!", e);
+			final String errorMsg = "Error while parsing MANDATORY parameter 'procedure description'!";
+			LOGGER.error("{} Exception message: {}", errorMsg, e.getMessage(), e);
+			throw new OXFException(errorMsg, e);
 		}
     	
     	// add insertion metadata

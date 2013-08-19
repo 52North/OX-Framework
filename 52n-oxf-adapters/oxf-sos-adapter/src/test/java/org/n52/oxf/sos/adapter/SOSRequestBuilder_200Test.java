@@ -23,6 +23,7 @@
  */
 package org.n52.oxf.sos.adapter;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -110,6 +111,23 @@ public class SOSRequestBuilder_200Test {
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
 		
 		assertThat(insertSensorType.getProcedureDescription().toString(),is(createSensorDescription()));
+	}
+	
+	@Test public void
+	buildRegisterSensor_should_throw_exception_if_receiving_invalid_procedure_description()
+			throws XmlException, OXFException {
+		final ParameterContainer parameters = createParamConWithMandatoryValues();
+		parameters.removeParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER);
+		parameters.addParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER, "INVALID");
+		
+		try {
+			builder.buildRegisterSensor(parameters);
+		}
+		catch (final Exception e) {
+			assertThat(e,is(instanceOf(OXFException.class)));
+			assertThat(e.getCause(),(is(instanceOf(XmlException.class))));
+			assertThat(e.getMessage(),is("Error while parsing MANDATORY parameter 'procedure description'!"));
+		}
 	}
 	
 	private String createSensorDescription()
