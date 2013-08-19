@@ -34,6 +34,7 @@ import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.gml.x32.TimePositionType;
 import net.opengis.ows.x11.AcceptVersionsType;
 import net.opengis.ows.x11.SectionsType;
+import net.opengis.sos.x10.InsertObservationDocument;
 import net.opengis.sos.x20.GetCapabilitiesDocument;
 import net.opengis.sos.x20.GetCapabilitiesType;
 import net.opengis.sos.x20.GetFeatureOfInterestDocument;
@@ -308,21 +309,30 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     }
 
     @Override
-	public String buildInsertObservation(final ParameterContainer parameters) {
+	public String buildInsertObservation(final ParameterContainer parameters) throws OXFException {
+    	checkParameterContainer(parameters);
+    	final InsertObservationDocument xb_InsertObservationDocument = InsertObservationDocument.Factory.newInstance();
         // TODO implement
-    	throw new NotImplementedException();
+    	return xb_InsertObservationDocument.xmlText(XmlUtil.PRETTYPRINT);
+    }
+    
+    /**
+     * Delegate to be SOS conform regarding operation names. For more details, see
+     * {@link #buildRegisterSensor(ParameterContainer)}. 
+     * @see {@link #buildRegisterSensor(ParameterContainer)}
+     */
+    public String buildInsertSensor(final ParameterContainer parameters) throws OXFException {
+    	return buildRegisterSensor(parameters);
     }
 
     /**
      * Builds a <b>Insert</b>Sensor request and returns it.
-     * A SensorML file can either be passed along or a set of parameters is used to create one.
+     * A SensorML document MUST be passed using <tt>ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER</tt>.
      * @throws OXFException
      */
     @Override
 	public String buildRegisterSensor(final ParameterContainer parameters) throws OXFException {
-    	if (parameters == null) {
-    		throw new OXFException(new IllegalArgumentException("ParameterContainer 'parameters' should not be null"));
-    	}
+    	checkParameterContainer(parameters);
     	final InsertSensorDocument xb_InsertSensorDoc = InsertSensorDocument.Factory.newInstance();
     	final InsertSensorType xb_InsertSensorType = xb_InsertSensorDoc.addNewInsertSensor();
     	
@@ -333,6 +343,13 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     	
     	return xb_InsertSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
+
+	private void checkParameterContainer(final ParameterContainer parameters) throws OXFException
+	{
+		if (parameters == null) {
+    		throw new OXFException(new IllegalArgumentException("ParameterContainer 'parameters' should not be null"));
+    	}
+	}
 
 	private void addInsertionMetadata(final ParameterContainer parameters,
 			final InsertSensorType xb_InsertSensorType)
