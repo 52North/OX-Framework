@@ -323,10 +323,28 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     	xb_InsertSensorType.setService((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
     	xb_InsertSensorType.setVersion((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
     	// add observable property
+    	final ParameterShell observedPropertyPS = parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER);
+    	if (observedPropertyPS != null) {
+    		if (observedPropertyPS.hasSingleSpecifiedValue()) {
+    			addObservableProperty(xb_InsertSensorType,(String) observedPropertyPS.getSpecifiedValue());
+    		}
+    		else {
+    			final String[] propertyArray = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
+    			for (final String property : propertyArray) {
+    				addObservableProperty(xb_InsertSensorType,property);
+    			}
+    		}
+    	}
     	// add procedure description format
     	// add procedure description
     	// add insertion metadata
     	return xb_InsertSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
-    }	
+    }
+
+	private void addObservableProperty(final InsertSensorType xb_InsertSensorType,
+			final String specifiedValue)
+	{
+		xb_InsertSensorType.addNewObservableProperty().setStringValue(specifiedValue);
+	}	
     
 }

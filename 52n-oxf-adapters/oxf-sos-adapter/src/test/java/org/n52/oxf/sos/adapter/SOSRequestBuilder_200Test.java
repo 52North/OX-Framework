@@ -23,6 +23,7 @@
  */
 package org.n52.oxf.sos.adapter;
 
+import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
@@ -37,7 +38,14 @@ import org.n52.oxf.adapter.ParameterContainer;
 
 public class SOSRequestBuilder_200Test {
 
+	private static final String TEST_OBSERVABLE_PROPERTY_2 = "test-observable-property-2";
+
+	private static final String TEST_OBSERVABLE_PROPERTY_1 = "test-observable-property-1";
+
 	private SOSRequestBuilder_200 builder;
+	
+	private final String sosVersion = "test-version";
+	private final String sosService = "test-service";
 	
 	@Before
 	public void init() {
@@ -53,17 +61,31 @@ public class SOSRequestBuilder_200Test {
 	@Test public void 
 	buildRegisterSensor_should_set_service_and_version()
 			 throws OXFException, XmlException {
-		final String sosVersion = "test-version";
-		final String sosService = "test-service";
-		final ParameterContainer parameters = createParamConWithVersionAndService(sosVersion, sosService);
+		final ParameterContainer parameters = createParamConWithVersionAndService();
 		final String registerSensor = builder.buildRegisterSensor(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
 		assertThat(insertSensorType.getVersion(),is(sosVersion));
 		assertThat(insertSensorType.getService(),is(sosService));
 	}
+
 	
-	private ParameterContainer createParamConWithVersionAndService(final String sosVersion,
-			final String sosService) throws OXFException
+	@Test public void
+	buildRegisterSensor_should_add_observable_properties()
+			throws OXFException, XmlException {
+		final ParameterContainer parameters = createParamConWithVersionAndService();
+		
+		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
+				TEST_OBSERVABLE_PROPERTY_1,
+				TEST_OBSERVABLE_PROPERTY_2);
+		
+		final String registerSensor = builder.buildRegisterSensor(parameters);
+		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
+		assertThat(insertSensorType.getObservablePropertyArray().length, is(2));
+		assertThat(insertSensorType.getObservablePropertyArray(),hasItemInArray(TEST_OBSERVABLE_PROPERTY_1));
+		assertThat(insertSensorType.getObservablePropertyArray(),hasItemInArray(TEST_OBSERVABLE_PROPERTY_2));
+	}
+	
+	private ParameterContainer createParamConWithVersionAndService() throws OXFException
 	{
 		final ParameterContainer parameters = new ParameterContainer();
 		parameters.addParameterShell(REGISTER_SENSOR_SERVICE_PARAMETER, sosService);
