@@ -34,7 +34,6 @@ import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.gml.x32.TimePositionType;
 import net.opengis.ows.x11.AcceptVersionsType;
 import net.opengis.ows.x11.SectionsType;
-import net.opengis.sos.x10.InsertObservationDocument;
 import net.opengis.sos.x20.GetCapabilitiesDocument;
 import net.opengis.sos.x20.GetCapabilitiesType;
 import net.opengis.sos.x20.GetFeatureOfInterestDocument;
@@ -42,6 +41,8 @@ import net.opengis.sos.x20.GetFeatureOfInterestType;
 import net.opengis.sos.x20.GetObservationDocument;
 import net.opengis.sos.x20.GetObservationType;
 import net.opengis.sos.x20.GetObservationType.TemporalFilter;
+import net.opengis.sos.x20.InsertObservationDocument;
+import net.opengis.sos.x20.InsertObservationType;
 import net.opengis.sos.x20.SosInsertionMetadataType;
 import net.opengis.swes.x20.DescribeSensorDocument;
 import net.opengis.swes.x20.DescribeSensorType;
@@ -312,7 +313,12 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 	public String buildInsertObservation(final ParameterContainer parameters) throws OXFException {
     	checkParameterContainer(parameters);
     	final InsertObservationDocument xb_InsertObservationDocument = InsertObservationDocument.Factory.newInstance();
-        // TODO implement
+    	final InsertObservationType xb_InsertObservationType = xb_InsertObservationDocument.addNewInsertObservation();
+    	xb_InsertObservationType.setVersion((String)parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
+    	xb_InsertObservationType.setService((String)parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
+        // TODO Continue implementation here
+    	// TODO add 1..n observation(s)
+    	// TODO add 1..n offering(s)
     	return xb_InsertObservationDocument.xmlText(XmlUtil.PRETTYPRINT);
     }
     

@@ -26,11 +26,11 @@ package org.n52.oxf.sos.adapter;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import net.opengis.sensorML.x101.SensorMLDocument;
-import net.opengis.sos.x10.InsertObservationDocument;
-import net.opengis.sos.x10.InsertObservationDocument.InsertObservation;
+import net.opengis.sos.x20.InsertObservationDocument;
+import net.opengis.sos.x20.InsertObservationType;
 import net.opengis.sos.x20.SosInsertionMetadataType;
 import net.opengis.swes.x20.InsertSensorDocument;
 import net.opengis.swes.x20.InsertSensorType;
@@ -59,6 +59,11 @@ public class SOSRequestBuilder_200Test {
 	private final String sosService = "test-service";
 	private final String format = "test-format";
 	
+	/*
+	 * 
+	 * 		INSERT / REGISTER SENSOR
+	 * 
+	 */
 		@Test (expected=OXFException.class) public void 
 	buildRegisterSensor_should_return_OXFException_if_parameters_is_null()
 			throws OXFException {
@@ -159,6 +164,11 @@ public class SOSRequestBuilder_200Test {
 		assertThat(insertionMetadata.getFeatureOfInterestTypeArray(),hasItemInArray(foiType2));
 	}
 	
+	/*
+	 * 
+	 * 		INSERT OBSERVATION
+	 * 
+	 */
 	@Test(expected=OXFException.class) public void
 	buildInsertObservation_should_throw_OXFException_if_parameters_is_null()
 			throws OXFException, XmlException {
@@ -173,7 +183,7 @@ public class SOSRequestBuilder_200Test {
 		parameters.addParameterShell(REGISTER_SENSOR_VERSION_PARAMETER, sosVersion);
 		
 		final String insertObservation = builder.buildInsertObservation(parameters);
-		final InsertObservation insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
+		final InsertObservationType insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
 		
 		assertThat(insertObservationType.getVersion(),is(sosVersion));
 		assertThat(insertObservationType.getService(),is(sosService));
