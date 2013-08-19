@@ -179,8 +179,8 @@ public class SOSRequestBuilder_200Test {
 	buildInsertObservation_should_set_service_and_version()
 			throws OXFException, XmlException {
 		final ParameterContainer parameters = new ParameterContainer();
-		parameters.addParameterShell(REGISTER_SENSOR_SERVICE_PARAMETER, sosService);
-		parameters.addParameterShell(REGISTER_SENSOR_VERSION_PARAMETER, sosVersion);
+		parameters.addParameterShell(INSERT_OBSERVATION_SERVICE_PARAMETER, sosService);
+		parameters.addParameterShell(INSERT_OBSERVATION_VERSION_PARAMETER, sosVersion);
 		
 		final String insertObservation = builder.buildInsertObservation(parameters);
 		final InsertObservationType insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
