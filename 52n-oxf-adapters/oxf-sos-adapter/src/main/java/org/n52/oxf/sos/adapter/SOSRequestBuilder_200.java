@@ -60,7 +60,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * contains attributes and methods to encode SOSOperationRequests as String in xml-format
+ * Contains attributes and methods to encode SOSOperationRequests as String in xml-format
+ * 
+ * TODO: add java doc for each public method including mandatory and optional parameters like {@link SOSRequestBuilder_100}.
+ * 
  */
 public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 	
@@ -316,12 +319,13 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     	if (parameters == null) {
     		throw new OXFException(new IllegalArgumentException("ParameterContainer 'parameters' should not be null"));
     	}
-        // TODO implement
     	final InsertSensorDocument xb_InsertSensorDoc = InsertSensorDocument.Factory.newInstance();
     	final InsertSensorType xb_InsertSensorType = xb_InsertSensorDoc.addNewInsertSensor();
+    	
     	// add version and service
     	xb_InsertSensorType.setService((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
     	xb_InsertSensorType.setVersion((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
+    	
     	// add observable property
     	final ParameterShell observedPropertyPS = parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER);
     	if (observedPropertyPS != null) {
@@ -335,9 +339,13 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     			}
     		}
     	}
+    	
     	// add procedure description format
+    	xb_InsertSensorType.setProcedureDescriptionFormat((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER).getSpecifiedValue());
+    	
     	// add procedure description
     	// add insertion metadata
+    	// TODO implement
     	return xb_InsertSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 

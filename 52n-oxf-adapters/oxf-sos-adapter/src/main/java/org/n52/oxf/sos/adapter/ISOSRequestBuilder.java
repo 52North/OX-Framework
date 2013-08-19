@@ -108,6 +108,11 @@ public interface ISOSRequestBuilder {
     public static String REGISTER_SENSOR_POSITION_FIXED_PARAMETER = "fixed";
     public static String REGISTER_SENSOR_UOM_PARAMETER = "uom";
     /**
+     * Required for SOS 2.0 InsertSensor requests. This parameter specifies the
+     * format of the procedure description in the InsertSensor request. 
+     */
+    public static String REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER = "procedureDescriptionFormat";
+    /**
      * Optional: Must be used in case of category observation type
      */
     public static String REGISTER_SENSOR_CODESPACE_PARAMETER = "codeSpace";

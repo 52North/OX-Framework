@@ -46,13 +46,9 @@ public class SOSRequestBuilder_200Test {
 	
 	private final String sosVersion = "test-version";
 	private final String sosService = "test-service";
+	private final String format = "test-format";
 	
-	@Before
-	public void init() {
-		builder = new SOSRequestBuilder_200();
-	}
-
-	@Test (expected=OXFException.class) public void 
+		@Test (expected=OXFException.class) public void 
 	buildRegisterSensor_should_return_OXFException_if_parameters_is_null()
 			throws OXFException {
 		builder.buildRegisterSensor(null);
@@ -61,18 +57,19 @@ public class SOSRequestBuilder_200Test {
 	@Test public void 
 	buildRegisterSensor_should_set_service_and_version()
 			 throws OXFException, XmlException {
-		final ParameterContainer parameters = createParamConWithVersionAndService();
+		final ParameterContainer parameters = createParamConWithDefaultValues();
+		
 		final String registerSensor = builder.buildRegisterSensor(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
+		
 		assertThat(insertSensorType.getVersion(),is(sosVersion));
 		assertThat(insertSensorType.getService(),is(sosService));
 	}
-
 	
 	@Test public void
 	buildRegisterSensor_should_add_observable_properties()
 			throws OXFException, XmlException {
-		final ParameterContainer parameters = createParamConWithVersionAndService();
+		final ParameterContainer parameters = createParamConWithDefaultValues();
 		
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
 				TEST_OBSERVABLE_PROPERTY_1,
@@ -80,17 +77,34 @@ public class SOSRequestBuilder_200Test {
 		
 		final String registerSensor = builder.buildRegisterSensor(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
+		
 		assertThat(insertSensorType.getObservablePropertyArray().length, is(2));
 		assertThat(insertSensorType.getObservablePropertyArray(),hasItemInArray(TEST_OBSERVABLE_PROPERTY_1));
 		assertThat(insertSensorType.getObservablePropertyArray(),hasItemInArray(TEST_OBSERVABLE_PROPERTY_2));
 	}
 	
-	private ParameterContainer createParamConWithVersionAndService() throws OXFException
+	@Test public void
+	buildRegisterSensor_should_set_procedure_description_format()
+			throws XmlException, OXFException {
+		final ParameterContainer parameters = createParamConWithDefaultValues();
+		
+		final String registerSensor = builder.buildRegisterSensor(parameters);
+		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
+		
+		assertThat(insertSensorType.getProcedureDescriptionFormat(),is(format));
+	}
+	
+	private ParameterContainer createParamConWithDefaultValues() throws OXFException
 	{
 		final ParameterContainer parameters = new ParameterContainer();
 		parameters.addParameterShell(REGISTER_SENSOR_SERVICE_PARAMETER, sosService);
 		parameters.addParameterShell(REGISTER_SENSOR_VERSION_PARAMETER, sosVersion);
+		parameters.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER, format);
 		return parameters;
 	}
 	
+	@Before
+	public void init() {
+		builder = new SOSRequestBuilder_200();
+	}
 }
