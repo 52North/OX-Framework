@@ -314,11 +314,23 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     	checkParameterContainer(parameters);
     	final InsertObservationDocument xb_InsertObservationDocument = InsertObservationDocument.Factory.newInstance();
     	final InsertObservationType xb_InsertObservationType = xb_InsertObservationDocument.addNewInsertObservation();
-    	xb_InsertObservationType.setVersion((String)parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
-    	xb_InsertObservationType.setService((String)parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
+    	xb_InsertObservationType.setVersion((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VERSION_PARAMETER).getSpecifiedValue());
+    	xb_InsertObservationType.setService((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_SERVICE_PARAMETER).getSpecifiedValue());
         // TODO Continue implementation here
     	// TODO add 1..n observation(s)
-    	// TODO add 1..n offering(s)
+    	// add offerings
+    	final ParameterShell offeringsPS = parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_OFFERINGS_PARAMETER);
+    	if (offeringsPS != null) {
+    		if (offeringsPS.hasSingleSpecifiedValue()) {
+    			xb_InsertObservationType.addOffering((String) offeringsPS.getSpecifiedValue());
+    		}
+    		else {
+    			final String[] offerings = offeringsPS.getSpecifiedTypedValueArray(String[].class);
+    			for (final String offering : offerings) {
+    				xb_InsertObservationType.addOffering(offering);
+    			}
+    		}
+    	}
     	return xb_InsertObservationDocument.xmlText(XmlUtil.PRETTYPRINT);
     }
     

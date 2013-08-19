@@ -92,6 +92,11 @@ public interface ISOSRequestBuilder {
 	public static String INSERT_OBSERVATION_TYPE_TEMPORAL = "temporal";
 	public static String INSERT_OBSERVATION_TYPE_GEOMETRY = "geometry";
 	public static String INSERT_OBSERVATION_TYPE_COMPLEX = "complex";
+	/*
+	 * Mandatory SOS 2.0 parameter: specifies the offering(s) the observation(s)
+	 * of the InsertObservation shall be added to.
+	 */
+	public static String INSERT_OBSERVATION_OFFERINGS_PARAMETER = "offerings";
     
     public static String REGISTER_SENSOR_SERVICE_PARAMETER = "service";
     public static String REGISTER_SENSOR_VERSION_PARAMETER = "version";

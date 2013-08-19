@@ -26,7 +26,7 @@ package org.n52.oxf.sos.adapter;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import net.opengis.sensorML.x101.SensorMLDocument;
 import net.opengis.sos.x20.InsertObservationDocument;
@@ -187,6 +187,24 @@ public class SOSRequestBuilder_200Test {
 		
 		assertThat(insertObservationType.getVersion(),is(sosVersion));
 		assertThat(insertObservationType.getService(),is(sosService));
+	}
+	
+	@Test public void
+	buildInsertObservation_shoult_add_offerings()
+			throws XmlException, OXFException {
+		final ParameterContainer parameters = new ParameterContainer();
+		parameters.addParameterShell(INSERT_OBSERVATION_SERVICE_PARAMETER, sosService);
+		parameters.addParameterShell(INSERT_OBSERVATION_VERSION_PARAMETER, sosVersion);
+		final String offering1 = "test-offering-1";
+		final String offering2 = "test-offering-2";
+		parameters.addParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER,offering1,offering2);
+		
+		final String insertObservation = builder.buildInsertObservation(parameters);
+		final InsertObservationType insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
+		
+		assertThat(insertObservationType.getOfferingArray().length, is(2));
+		assertThat(insertObservationType.getOfferingArray(),hasItemInArray(offering1));
+		assertThat(insertObservationType.getOfferingArray(),hasItemInArray(offering2));
 	}
 	
 	private String createSensorDescription()
