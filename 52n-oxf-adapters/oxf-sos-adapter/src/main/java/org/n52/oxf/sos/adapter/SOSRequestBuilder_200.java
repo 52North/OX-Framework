@@ -24,8 +24,6 @@
 
 package org.n52.oxf.sos.adapter;
 
-import javax.xml.namespace.QName;
-
 import net.opengis.fes.x20.BinaryTemporalOpType;
 import net.opengis.fes.x20.DuringDocument;
 import net.opengis.fes.x20.TEqualsDocument;
@@ -393,11 +391,6 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 			}
 		}
 		if (xb_SosInsertionMetadata != null) {
-			// TODO substitute correctly to SosInsertionMetadata to get rid to InsertionMetadata xsi:type="ns:SosInsertionMetadataType"
-			xb_SosInsertionMetadata = (SosInsertionMetadataType) xb_SosInsertionMetadata.substitute(
-					new QName(xb_SosInsertionMetadata.getDomNode().getNamespaceURI(),
-							"SosInsertionMetadata"),
-							SosInsertionMetadataType.type);
 			xb_InsertSensorType.addNewMetadata().setInsertionMetadata(xb_SosInsertionMetadata);
 		}
     	return xb_InsertSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
