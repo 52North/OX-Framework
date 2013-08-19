@@ -331,12 +331,12 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     	final ParameterShell observedPropertyPS = parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER);
     	if (observedPropertyPS != null) {
     		if (observedPropertyPS.hasSingleSpecifiedValue()) {
-    			addObservableProperty(xb_InsertSensorType,(String) observedPropertyPS.getSpecifiedValue());
+    			xb_InsertSensorType.addObservableProperty((String) observedPropertyPS.getSpecifiedValue());
     		}
     		else {
     			final String[] propertyArray = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
     			for (final String property : propertyArray) {
-    				addObservableProperty(xb_InsertSensorType,property);
+    				xb_InsertSensorType.addObservableProperty(property);
     			}
     		}
     	}
@@ -345,15 +345,17 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     	xb_InsertSensorType.setProcedureDescriptionFormat((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER).getSpecifiedValue());
     	
     	// add procedure description
+    	XmlObject xb_obj;
+		try {
+			xb_obj = XmlObject.Factory.parse((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_ML_DOC_PARAMETER).getSpecifiedValue());
+			xb_InsertSensorType.addNewProcedureDescription().set(xb_obj);
+		} catch (final XmlException e) {
+			LOGGER.error("Exception thrown: {}", e.getMessage(), e);
+		}
+    	
     	// add insertion metadata
     	// TODO implement
     	return xb_InsertSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
-	private void addObservableProperty(final InsertSensorType xb_InsertSensorType,
-			final String specifiedValue)
-	{
-		xb_InsertSensorType.addNewObservableProperty().setStringValue(specifiedValue);
-	}	
-    
 }
