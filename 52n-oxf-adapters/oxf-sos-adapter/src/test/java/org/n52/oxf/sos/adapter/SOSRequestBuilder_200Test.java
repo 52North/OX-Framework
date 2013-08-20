@@ -141,20 +141,23 @@ public class SOSRequestBuilder_200Test {
 	@Test public void
 	buildRegisterSenosr_should_set_insertion_metadata()
 			throws OXFException, XmlException{
+		/*
+		 * MULTIPLE FEATURE AND OBSERVATION TYPES
+		 */
 		final String obsType1 = "observation-type-1";
 		final String obsType2 = "observation-type-2";
 		final String foiType1 = "feature-type-1";
 		final String foiType2 = "feature-type-2";
-		final ParameterContainer parameters = createParamConWithMandatoryInsertSensorValues();
+		ParameterContainer parameters = createParamConWithMandatoryInsertSensorValues();
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVATION_TYPE, obsType1,obsType2);
 		parameters.addParameterShell(REGISTER_SENSOR_FEATURE_TYPE_PARAMETER, foiType1,foiType2);
 		
-		final String registerSensor = builder.buildRegisterSensor(parameters);
-		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
+		String registerSensor = builder.buildRegisterSensor(parameters);
+		InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
 		
 		assertThat(insertSensorType.getMetadataArray().length,is(1));
 		
-		final SosInsertionMetadataType insertionMetadata = (SosInsertionMetadataType)insertSensorType.getMetadataArray(0).getInsertionMetadata();
+		SosInsertionMetadataType insertionMetadata = (SosInsertionMetadataType)insertSensorType.getMetadataArray(0).getInsertionMetadata();
 		
 		assertThat(insertionMetadata.getObservationTypeArray().length,is(2));
 		assertThat(insertionMetadata.getFeatureOfInterestTypeArray().length,is(2));
@@ -162,6 +165,24 @@ public class SOSRequestBuilder_200Test {
 		assertThat(insertionMetadata.getObservationTypeArray(),hasItemInArray(obsType2));
 		assertThat(insertionMetadata.getFeatureOfInterestTypeArray(),hasItemInArray(foiType1));
 		assertThat(insertionMetadata.getFeatureOfInterestTypeArray(),hasItemInArray(foiType2));
+		/*
+		 * SINGLE FEATURE AND OBSERVATION TYPE
+		 */
+		parameters = createParamConWithMandatoryInsertSensorValues();
+		parameters.addParameterShell(REGISTER_SENSOR_OBSERVATION_TYPE, obsType1);
+		parameters.addParameterShell(REGISTER_SENSOR_FEATURE_TYPE_PARAMETER, foiType1);
+		
+		registerSensor = builder.buildRegisterSensor(parameters);
+		insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
+		
+		assertThat(insertSensorType.getMetadataArray().length,is(1));
+		
+		insertionMetadata = (SosInsertionMetadataType)insertSensorType.getMetadataArray(0).getInsertionMetadata();
+		
+		assertThat(insertionMetadata.getObservationTypeArray().length,is(1));
+		assertThat(insertionMetadata.getFeatureOfInterestTypeArray().length,is(1));
+		assertThat(insertionMetadata.getObservationTypeArray(),hasItemInArray(obsType1));
+		assertThat(insertionMetadata.getFeatureOfInterestTypeArray(),hasItemInArray(foiType1));
 	}
 	
 	/*
@@ -179,8 +200,7 @@ public class SOSRequestBuilder_200Test {
 	buildInsertObservation_should_set_service_and_version()
 			throws OXFException, XmlException {
 		final ParameterContainer parameters = new ParameterContainer();
-		parameters.addParameterShell(INSERT_OBSERVATION_SERVICE_PARAMETER, sosService);
-		parameters.addParameterShell(INSERT_OBSERVATION_VERSION_PARAMETER, sosVersion);
+		addServiceAndVersion(parameters);
 		
 		final String insertObservation = builder.buildInsertObservation(parameters);
 		final InsertObservationType insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
@@ -190,22 +210,42 @@ public class SOSRequestBuilder_200Test {
 	}
 	
 	@Test public void
-	buildInsertObservation_shoult_add_offerings()
+	buildInsertObservation_should_add_offerings()
 			throws XmlException, OXFException {
-		final ParameterContainer parameters = new ParameterContainer();
-		parameters.addParameterShell(INSERT_OBSERVATION_SERVICE_PARAMETER, sosService);
-		parameters.addParameterShell(INSERT_OBSERVATION_VERSION_PARAMETER, sosVersion);
+		/*
+		 * MULTIPLE OFFERINGS
+		 */
+		ParameterContainer parameters = new ParameterContainer();
+		addServiceAndVersion(parameters);
 		final String offering1 = "test-offering-1";
 		final String offering2 = "test-offering-2";
 		parameters.addParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER,offering1,offering2);
 		
-		final String insertObservation = builder.buildInsertObservation(parameters);
-		final InsertObservationType insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
+		String insertObservation = builder.buildInsertObservation(parameters);
+		InsertObservationType insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
 		
 		assertThat(insertObservationType.getOfferingArray().length, is(2));
 		assertThat(insertObservationType.getOfferingArray(),hasItemInArray(offering1));
 		assertThat(insertObservationType.getOfferingArray(),hasItemInArray(offering2));
+		/*
+		 * SINGLE OFFERING
+		 */
+		parameters = new ParameterContainer();
+		addServiceAndVersion(parameters);
+		parameters.addParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER,offering1);
+		
+		insertObservation = builder.buildInsertObservation(parameters);
+		insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
+		
+		assertThat(insertObservationType.getOfferingArray().length, is(1));
+		assertThat(insertObservationType.getOfferingArray(),hasItemInArray(offering1));
 	}
+	
+//	@Test public void
+//	buildInsertObservation_should_add_single_measurement()
+//			throws OXFException, XmlException {
+//		fail();
+//	}
 	
 	private String createSensorDescription()
 	{
@@ -220,11 +260,16 @@ public class SOSRequestBuilder_200Test {
 	private ParameterContainer createParamConWithMandatoryInsertSensorValues() throws OXFException
 	{
 		final ParameterContainer parameters = new ParameterContainer();
-		parameters.addParameterShell(REGISTER_SENSOR_SERVICE_PARAMETER, sosService);
-		parameters.addParameterShell(REGISTER_SENSOR_VERSION_PARAMETER, sosVersion);
+		addServiceAndVersion(parameters);
 		parameters.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER, format);
 		parameters.addParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER, createSensorDescription());
 		return parameters;
+	}
+
+	private void addServiceAndVersion(final ParameterContainer parameters) throws OXFException
+	{
+		parameters.addParameterShell(REGISTER_SENSOR_SERVICE_PARAMETER, sosService);
+		parameters.addParameterShell(REGISTER_SENSOR_VERSION_PARAMETER, sosVersion);
 	}
 	
 	@Before
