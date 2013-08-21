@@ -137,6 +137,14 @@ public interface ISOSRequestBuilder {
     public static String GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER = "responseFormat";
     public static String GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER = "responseMode";
     public static String GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER = "resultModel";
+	/**
+	 * SOS 2.0 Mandatory: Defines the time when the observation <i>occurred</i>. 
+	 */
+	public static String INSERT_OBSERVATION_PHENOMENON_TIME = "phenomenonTime";
+	/**
+	 * SOS 2.0 Mandatory: Defines the time when the observation is <i>performed</i>.
+	 */
+	public static String INSERT_OBSERVATION_RESULT_TIME = "resultTime";
 
     public String buildGetCapabilitiesRequest(ParameterContainer parameters) throws OXFException;
 
