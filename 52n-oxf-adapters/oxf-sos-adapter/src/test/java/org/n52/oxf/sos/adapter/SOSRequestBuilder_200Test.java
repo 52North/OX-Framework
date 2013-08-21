@@ -28,6 +28,9 @@ import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+import net.opengis.gml.x32.MeasureType;
+import net.opengis.gml.x32.TimeInstantType;
+import net.opengis.om.x20.OMObservationType;
 import net.opengis.sensorML.x101.SensorMLDocument;
 import net.opengis.sos.x20.InsertObservationDocument;
 import net.opengis.sos.x20.InsertObservationType;
@@ -40,7 +43,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.sos.adapter.wrapper.builder.SensorDescriptionBuilder;
+import org.n52.oxf.valueDomains.time.TimePosition;
 
 public class SOSRequestBuilder_200Test {
 
@@ -60,6 +65,20 @@ public class SOSRequestBuilder_200Test {
 	private final String format = "test-format";
 	
 	/*
+	 * INSERT OBSERVATION VALUES
+	 */
+	private final String offering = "offering-1";
+	private final String procedure = "procedure";
+	private final String obsProp = "observed-property";
+	private final String foi = "foiId";
+	private final String value = "52.0";
+	private final String uom = "degreeNorth";
+	private ParameterContainer parameters;
+	private final ITime phenTime = new TimePosition("1001-11-22T13:37:13.370+00:00");
+	private final ITime resultTime = new TimePosition("2002-11-22T13:37:13.370+00:00");
+
+	
+	/*
 	 * 
 	 * 		INSERT / REGISTER SENSOR
 	 * 
@@ -73,7 +92,7 @@ public class SOSRequestBuilder_200Test {
 	@Test public void 
 	buildRegisterSensor_should_set_service_and_version()
 			 throws OXFException, XmlException {
-		final ParameterContainer parameters = createParamConWithMandatoryInsertSensorValues();
+		createParamConWithMandatoryInsertSensorValues();
 		
 		final String registerSensor = builder.buildRegisterSensor(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
@@ -85,7 +104,7 @@ public class SOSRequestBuilder_200Test {
 	@Test public void
 	buildRegisterSensor_should_add_observable_properties()
 			throws OXFException, XmlException {
-		final ParameterContainer parameters = createParamConWithMandatoryInsertSensorValues();
+		createParamConWithMandatoryInsertSensorValues();
 		
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
 				TEST_OBSERVABLE_PROPERTY_1,
@@ -102,7 +121,7 @@ public class SOSRequestBuilder_200Test {
 	@Test public void
 	buildRegisterSensor_should_set_procedure_description_format()
 			throws XmlException, OXFException {
-		final ParameterContainer parameters = createParamConWithMandatoryInsertSensorValues();
+		createParamConWithMandatoryInsertSensorValues();
 		
 		final String registerSensor = builder.buildRegisterSensor(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
@@ -113,7 +132,7 @@ public class SOSRequestBuilder_200Test {
 	@Test public void
 	buildRegisterSensor_should_set_procedure_description()
 			throws XmlException, OXFException {
-		final ParameterContainer parameters = createParamConWithMandatoryInsertSensorValues();
+		createParamConWithMandatoryInsertSensorValues();
 		
 		final String registerSensor = builder.buildRegisterSensor(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
@@ -124,7 +143,7 @@ public class SOSRequestBuilder_200Test {
 	@Test public void
 	buildRegisterSensor_should_throw_exception_if_receiving_invalid_procedure_description()
 			throws XmlException, OXFException {
-		final ParameterContainer parameters = createParamConWithMandatoryInsertSensorValues();
+		createParamConWithMandatoryInsertSensorValues();
 		parameters.removeParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER);
 		parameters.addParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER, "INVALID");
 		
@@ -148,7 +167,7 @@ public class SOSRequestBuilder_200Test {
 		final String obsType2 = "observation-type-2";
 		final String foiType1 = "feature-type-1";
 		final String foiType2 = "feature-type-2";
-		ParameterContainer parameters = createParamConWithMandatoryInsertSensorValues();
+		createParamConWithMandatoryInsertSensorValues();
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVATION_TYPE, obsType1,obsType2);
 		parameters.addParameterShell(REGISTER_SENSOR_FEATURE_TYPE_PARAMETER, foiType1,foiType2);
 		
@@ -168,7 +187,8 @@ public class SOSRequestBuilder_200Test {
 		/*
 		 * SINGLE FEATURE AND OBSERVATION TYPE
 		 */
-		parameters = createParamConWithMandatoryInsertSensorValues();
+		parameters = new ParameterContainer();
+		createParamConWithMandatoryInsertSensorValues();
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVATION_TYPE, obsType1);
 		parameters.addParameterShell(REGISTER_SENSOR_FEATURE_TYPE_PARAMETER, foiType1);
 		
@@ -199,8 +219,8 @@ public class SOSRequestBuilder_200Test {
 	@Test public void
 	buildInsertObservation_should_set_service_and_version()
 			throws OXFException, XmlException {
-		final ParameterContainer parameters = new ParameterContainer();
-		addServiceAndVersion(parameters);
+		addServiceAndVersion();
+		addObservationValues();
 		
 		final String insertObservation = builder.buildInsertObservation(parameters);
 		final InsertObservationType insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
@@ -215,10 +235,11 @@ public class SOSRequestBuilder_200Test {
 		/*
 		 * MULTIPLE OFFERINGS
 		 */
-		ParameterContainer parameters = new ParameterContainer();
-		addServiceAndVersion(parameters);
+		addServiceAndVersion();
+		addObservationValues();
 		final String offering1 = "test-offering-1";
 		final String offering2 = "test-offering-2";
+		parameters.removeParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER);
 		parameters.addParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER,offering1,offering2);
 		
 		String insertObservation = builder.buildInsertObservation(parameters);
@@ -231,7 +252,9 @@ public class SOSRequestBuilder_200Test {
 		 * SINGLE OFFERING
 		 */
 		parameters = new ParameterContainer();
-		addServiceAndVersion(parameters);
+		addServiceAndVersion();
+		addObservationValues();
+		parameters.removeParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER);
 		parameters.addParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER,offering1);
 		
 		insertObservation = builder.buildInsertObservation(parameters);
@@ -241,11 +264,47 @@ public class SOSRequestBuilder_200Test {
 		assertThat(insertObservationType.getOfferingArray(),hasItemInArray(offering1));
 	}
 	
-//	@Test public void
-//	buildInsertObservation_should_add_single_measurement()
-//			throws OXFException, XmlException {
-//		fail();
-//	}
+	@Test public void
+	buildInsertObservation_should_add_single_measurement_with_foi_ref()
+			throws OXFException, XmlException {
+		addServiceAndVersion();
+		addObservationValues();
+		
+		final String insertObservation = builder.buildInsertObservation(parameters);
+		final InsertObservationType insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
+		
+		assertThat(insertObservationType.getOfferingArray().length,is(1));
+		assertThat(insertObservationType.getOfferingArray(0),is(offering));
+		assertThat(insertObservationType.getObservationArray().length,is(1));
+		
+		final OMObservationType observation = insertObservationType.getObservationArray(0).getOMObservation();
+		assertThat(observation.getType().getHref(),is("http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement"));
+		assertThat(((TimeInstantType)observation.getPhenomenonTime().getAbstractTimeObject()).getTimePosition().getStringValue(),is(phenTime.toISO8601Format())); // TODO phentime
+		assertThat(observation.getPhenomenonTime().getAbstractTimeObject().getId(),is("phenomenonTime"));
+		assertThat(observation.getResultTime().getTimeInstant().getTimePosition().getStringValue(),is(resultTime.toISO8601Format()));// TODO res time
+		assertThat(observation.getResultTime().getTimeInstant().getId(),is("resultTime"));
+		assertThat(observation.getProcedure().getHref(),is(procedure)); // proc
+		assertThat(observation.getObservedProperty().getHref(),is(obsProp)); // obsProp
+		assertThat(observation.getFeatureOfInterest().getHref(),is(foi)); // foi
+
+		final MeasureType result = (MeasureType) observation.getResult();
+		assertThat(result.getStringValue(),is(value)); // result value
+		assertThat(result.getUom(),is(uom)); // result uom
+//		fail("IMPL NOT FINISHED");
+	}
+
+	private void addObservationValues() throws OXFException
+	{
+		parameters.addParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER, offering);
+		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_MEASUREMENT);
+		parameters.addParameterShell(INSERT_OBSERVATION_PHENOMENON_TIME, phenTime ); // phentime
+		parameters.addParameterShell(INSERT_OBSERVATION_RESULT_TIME, resultTime ); // res time
+		parameters.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, procedure);// proc
+		parameters.addParameterShell(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, obsProp);// obsProp
+		parameters.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, foi);// foi
+		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER, value);// result
+		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, uom);// uom
+	}
 	
 	private String createSensorDescription()
 	{
@@ -257,16 +316,14 @@ public class SOSRequestBuilder_200Test {
 		return sensorMLDocument.toString();
 	}
 
-	private ParameterContainer createParamConWithMandatoryInsertSensorValues() throws OXFException
+	private void createParamConWithMandatoryInsertSensorValues() throws OXFException
 	{
-		final ParameterContainer parameters = new ParameterContainer();
-		addServiceAndVersion(parameters);
+		addServiceAndVersion();
 		parameters.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER, format);
 		parameters.addParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER, createSensorDescription());
-		return parameters;
 	}
 
-	private void addServiceAndVersion(final ParameterContainer parameters) throws OXFException
+	private void addServiceAndVersion() throws OXFException
 	{
 		parameters.addParameterShell(REGISTER_SENSOR_SERVICE_PARAMETER, sosService);
 		parameters.addParameterShell(REGISTER_SENSOR_VERSION_PARAMETER, sosVersion);
@@ -275,5 +332,6 @@ public class SOSRequestBuilder_200Test {
 	@Before
 	public void init() {
 		builder = new SOSRequestBuilder_200();
+		parameters = new ParameterContainer();
 	}
 }

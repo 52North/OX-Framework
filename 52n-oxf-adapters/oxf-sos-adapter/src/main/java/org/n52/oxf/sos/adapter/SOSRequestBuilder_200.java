@@ -27,11 +27,14 @@ package org.n52.oxf.sos.adapter;
 import net.opengis.fes.x20.BinaryTemporalOpType;
 import net.opengis.fes.x20.DuringDocument;
 import net.opengis.fes.x20.TEqualsDocument;
+import net.opengis.gml.x32.AbstractTimeObjectType;
+import net.opengis.gml.x32.MeasureType;
 import net.opengis.gml.x32.TimeInstantDocument;
 import net.opengis.gml.x32.TimeInstantType;
 import net.opengis.gml.x32.TimePeriodDocument;
 import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.gml.x32.TimePositionType;
+import net.opengis.om.x20.OMObservationType;
 import net.opengis.ows.x11.AcceptVersionsType;
 import net.opengis.ows.x11.SectionsType;
 import net.opengis.sos.x20.GetCapabilitiesDocument;
@@ -60,6 +63,9 @@ import org.n52.oxf.ows.capabilities.Parameter;
 import org.n52.oxf.valueDomains.time.ITimePeriod;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 import org.n52.oxf.valueDomains.time.TimeFactory;
+import org.n52.oxf.valueDomains.time.TimePeriod;
+import org.n52.oxf.valueDomains.time.TimePosition;
+import org.n52.oxf.xml.XMLConstants;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +79,10 @@ import org.slf4j.LoggerFactory;
  */
 public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 	
+	/**
+	 * 
+	 */
+	private static final String OGC_OM_2_0_OM_MEASUREMENT = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement";
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOSRequestBuilder_200.class);
 
     @Override
@@ -309,32 +319,174 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         return xb_getFOIDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
+    /**
+     * <ul><li>TODO implement support for OM_SWEArrayObservation</li>
+     * <li>TODO implement support for request extensions</li>
+     * <li>TODO implement feature of interest as in document instance (SpatialSamplingPoint)</li>
+     * <li>TODO implement referencing of duplicate values: result/phenomenonTime; foi instance</ul>
+     */
     @Override
 	public String buildInsertObservation(final ParameterContainer parameters) throws OXFException {
     	checkParameterContainer(parameters);
-    	final InsertObservationDocument xb_InsertObservationDocument = InsertObservationDocument.Factory.newInstance();
-    	final InsertObservationType xb_InsertObservationType = xb_InsertObservationDocument.addNewInsertObservation();
-    	xb_InsertObservationType.setVersion((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VERSION_PARAMETER).getSpecifiedValue());
-    	xb_InsertObservationType.setService((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_SERVICE_PARAMETER).getSpecifiedValue());
-        // TODO Continue implementation here
-    	// TODO add 1..n observation(s)
-    	// add offerings
+    	final InsertObservationDocument xbInsertObservationDocument = InsertObservationDocument.Factory.newInstance();
+    	final InsertObservationType xbInsertObservationType = xbInsertObservationDocument.addNewInsertObservation();
+    	addMetadata(parameters, xbInsertObservationType);
+    	addObservations(parameters, xbInsertObservationType);
+		addOfferings(parameters, xbInsertObservationType);
+    	return xbInsertObservationDocument.xmlText(XmlUtil.PRETTYPRINT);
+    }
+
+	private void addMetadata(final ParameterContainer parameters,
+			final InsertObservationType xbInsertObservationType)
+	{
+		xbInsertObservationType.setVersion((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VERSION_PARAMETER).getSpecifiedValue());
+    	xbInsertObservationType.setService((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_SERVICE_PARAMETER).getSpecifiedValue());
+	}
+
+	private void addObservations(final ParameterContainer parameters,
+			final InsertObservationType xbInsertObservationType) throws OXFException
+	{
+		// TODO add 1..n observation(s)
+    	// add observation
+    	final OMObservationType xbObservation = addObservationType(parameters, xbInsertObservationType);
+		addProcedure(parameters, xbObservation);
+		addObservedProperty(parameters, xbObservation);
+		addFeatureOfInterest(parameters, xbObservation);
+		addResultTime(parameters, xbObservation);
+		addPhenomenonTime(parameters, xbObservation);
+		// add result 
+		addResult(parameters,xbObservation);
+	}
+
+	private void addResult(final ParameterContainer parameters,
+			final OMObservationType xbObservation) throws OXFException
+	{
+		if (xbObservation.getType().getHref().equals(OGC_OM_2_0_OM_MEASUREMENT)) {
+			final String value = (String) parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
+			final String uom = (String) parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE).getSpecifiedValue();
+			final MeasureType xbResult = MeasureType.Factory.newInstance();
+			xbResult.setStringValue(value);
+			xbResult.setUom(uom);
+			xbObservation.addNewResult().set(xbResult);
+		} 
+		else { 
+			final String errorMsg = String.format("Observation Type '%s' not supported.", xbObservation.getType().getHref());
+			LOGGER.error(errorMsg);
+			throw new OXFException(errorMsg);
+		}
+	}
+
+	private OMObservationType addObservationType(final ParameterContainer parameters,
+			final InsertObservationType xbInsertObservationType) throws OXFException
+	{
+		// add observation type identifier
+    	final OMObservationType xbObservation = xbInsertObservationType.addNewObservation().addNewOMObservation();
+    	final String observationType = (String) parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_TYPE).getSpecifiedValue();
+		xbObservation.addNewType().setHref(getObservationTypeIdentifier(observationType));
+		return xbObservation;
+	}
+
+	private void addPhenomenonTime(final ParameterContainer parameters,
+			final OMObservationType xbObservation) throws OXFException
+	{
+		// add phenomenonTime
+		final Object phenomenonTimeObj = parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_PHENOMENON_TIME).getSpecifiedValue();
+		// add as reference
+		if (isObjStringAndInDocumentReference(phenomenonTimeObj)) {
+			xbObservation.addNewPhenomenonTime().setHref((String) phenomenonTimeObj);
+		}
+		// add as TimePosition
+		else if (phenomenonTimeObj instanceof TimePosition) {
+			final AbstractTimeObjectType timeObject = xbObservation.addNewPhenomenonTime().addNewAbstractTimeObject();
+			final TimeInstantType timeInstant = 
+	    			(TimeInstantType) timeObject.
+	    			substitute(XMLConstants.QNAME_GML_3_2_TIMEINSTANT,
+	    					TimeInstantType.type);
+	    	final TimePositionType timePos = timeInstant.addNewTimePosition();
+	    	timePos.setStringValue(((TimePosition) phenomenonTimeObj).toISO8601Format());
+	    	timeInstant.setId("phenomenonTime");
+		}
+		else if (phenomenonTimeObj instanceof TimePeriod) {
+			// TODO add as TimePeriod
+			throw new OXFException("TimePeriod for phenTime not yet implemented");
+		}
+	}
+
+	private void addFeatureOfInterest(final ParameterContainer parameters,
+			final OMObservationType xbObservation) throws OXFException
+	{
+		// add feature
+		if (parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_NEW_FOI_NAME) == null) {
+			xbObservation.addNewFeatureOfInterest().setHref((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue());
+		}
+		else {// TODO add new feature instance
+			throw new OXFException("Feature as instance not yet implemented");
+		}
+	}
+
+	private void addOfferings(final ParameterContainer parameters,
+			final InsertObservationType xbInsertObservationType)
+	{
+		// add offerings
     	final ParameterShell offeringsPS = parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_OFFERINGS_PARAMETER);
     	if (offeringsPS != null) {
     		if (offeringsPS.hasSingleSpecifiedValue()) {
-    			xb_InsertObservationType.addOffering((String) offeringsPS.getSpecifiedValue());
+    			xbInsertObservationType.addOffering((String) offeringsPS.getSpecifiedValue());
     		}
     		else {
     			final String[] offerings = offeringsPS.getSpecifiedTypedValueArray(String[].class);
     			for (final String offering : offerings) {
-    				xb_InsertObservationType.addOffering(offering);
+    				xbInsertObservationType.addOffering(offering);
     			}
     		}
     	}
-    	return xb_InsertObservationDocument.xmlText(XmlUtil.PRETTYPRINT);
-    }
+	}
+
+	private void addProcedure(final ParameterContainer parameters,
+			final OMObservationType xbObservation)
+	{
+		// add procedure identifier
+		xbObservation.addNewProcedure().setHref((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_PROCEDURE_PARAMETER).getSpecifiedValue());
+	}
+
+	private void addObservedProperty(final ParameterContainer parameters,
+			final OMObservationType xbObservation)
+	{
+		// add observed property
+		xbObservation.addNewObservedProperty().setHref((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue());
+	}
+
+	private void addResultTime(final ParameterContainer parameters,
+			final OMObservationType xbObservation)
+	{
+		// add resultTime
+		final Object resultTimeObj = parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_RESULT_TIME).getSpecifiedValue();
+		if (resultTimeObj instanceof TimePosition) {
+			final TimeInstantType resultTime = xbObservation.addNewResultTime().addNewTimeInstant();
+			resultTime.addNewTimePosition().setStringValue(((TimePosition)resultTimeObj).toISO8601Format());
+			resultTime.setId("resultTime");
+		}
+		else if (isObjStringAndInDocumentReference(resultTimeObj)){ // add resultTime as reference
+			xbObservation.addNewResultTime().setHref((String) resultTimeObj);
+		}
+	}
+
+	private boolean isObjStringAndInDocumentReference(final Object resultTimeObj)
+	{
+		return resultTimeObj instanceof String && resultTimeObj.toString().startsWith("#");
+	}
     
-    /**
+	private String getObservationTypeIdentifier(final String observationType) throws OXFException
+	{
+		if (observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)) {
+			return OGC_OM_2_0_OM_MEASUREMENT;
+		}
+		final String errorMsg = String.format("Observation Type '%s' not supported.", observationType);
+		LOGGER.error(errorMsg);
+		throw new OXFException(errorMsg);
+	}
+
+	/**
      * Delegate to be SOS conform regarding operation names. For more details, see
      * {@link #buildRegisterSensor(ParameterContainer)}. 
      * @see {@link #buildRegisterSensor(ParameterContainer)}
