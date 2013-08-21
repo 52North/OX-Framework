@@ -40,7 +40,7 @@ public class ParameterShell {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParameterShell.class);
     
-    private Parameter parameter;
+    private final Parameter parameter;
 
     private Object[] specifiedValueArray = null;
 
@@ -52,7 +52,7 @@ public class ParameterShell {
      * @throws OXFException
      *         if one value of the specifiedValues are not contained in the valueDomain of the parameter.
      */
-    public ParameterShell(Parameter parameter, Object... specifiedValues) throws OXFException {
+    public ParameterShell(final Parameter parameter, final Object... specifiedValues) throws OXFException {
         if (parameter == null) {
             throw new IllegalArgumentException("Parameter is null.");
         }
@@ -94,14 +94,16 @@ public class ParameterShell {
 
     /**
      * @return the specifiedValueArray
-     * @deprecated use {@link #getSpecifiedTypedValueArray(Class)} instead
+     * @deprecated
+     * 		Use {@link #getSpecifiedTypedValueArray(Class&lt;T[]&gt;)} instead,
+     * 		e.g. <tt>getSpecifiedTypedValueArray(String[].class)</tt>.
      */
     @Deprecated
     public Object[] getSpecifiedValueArray() {
-        return specifiedValueArray;
+        return getSpecifiedTypedValueArray(Object[].class);
     }
     
-    public <T> T[] getSpecifiedTypedValueArray(Class<T[]> clazz) {
+    public <T> T[] getSpecifiedTypedValueArray(final Class<T[]> clazz) {
         return Arrays.copyOf(specifiedValueArray, specifiedValueArray.length, clazz);
     }
 
@@ -113,19 +115,19 @@ public class ParameterShell {
      * @throws OXFException
      *         if the specifiedValue is not contained in the valueDomain of the parameter.
      */
-    public void setSpecifiedValue(Object specifiedValue) throws OXFException {
+    public void setSpecifiedValue(final Object specifiedValue) throws OXFException {
         if (specifiedValue == null) {
-            String exceptionMsg = "specifiedValue must not be null.";
+            final String exceptionMsg = "specifiedValue must not be null.";
             LOGGER.warn(exceptionMsg);
             throw new OXFException(new IllegalArgumentException(exceptionMsg));
         }
         else if (!parameter.getValueDomain().containsValue(specifiedValue)) {
-            String serviceName = parameter.getServiceSidedName();
-            String exceptionMsg = String.format("specifiedValue '%s' is not contained in the valueDomain of the parameter '%s'", specifiedValue, serviceName);
+            final String serviceName = parameter.getServiceSidedName();
+            final String exceptionMsg = String.format("specifiedValue '%s' is not contained in the valueDomain of the parameter '%s'", specifiedValue, serviceName);
             LOGGER.warn(exceptionMsg);
             throw new OXFException(exceptionMsg);
         }
-        this.specifiedValueArray = new Object[] { specifiedValue };
+        specifiedValueArray = new Object[] { specifiedValue };
     }
 
     /**
@@ -137,12 +139,12 @@ public class ParameterShell {
      * @throws OXFException
      *         if one value of the specifiedValueArray is not contained in the valueDomain of the parameter.
      */
-    public void setSpecifiedValueArray(Object[] specifiedValueArray) throws OXFException {
+    public void setSpecifiedValueArray(final Object[] specifiedValueArray) throws OXFException {
         if (specifiedValueArray == null) {
             throw new OXFException(new IllegalArgumentException("specifiedValueArray has to be != null"));
         }
-        for (Object obj : specifiedValueArray) {
-            if (!this.parameter.getValueDomain().containsValue(obj)) {
+        for (final Object obj : specifiedValueArray) {
+            if (!parameter.getValueDomain().containsValue(obj)) {
                 LOGGER.warn("One of the specifiedValueArray is not contained in the valueDomain of the parameter '"
                         + parameter.getServiceSidedName() + "'");
             }
@@ -152,11 +154,11 @@ public class ParameterShell {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("ParemeterShell [");
-        sb.append(this.parameter);
+        sb.append(parameter);
         sb.append(" - specifiedValue(s) = ");
-        sb.append(Arrays.toString(this.specifiedValueArray));
+        sb.append(Arrays.toString(specifiedValueArray));
         sb.append("]");
         return sb.toString();
     }
