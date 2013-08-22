@@ -37,132 +37,137 @@ import org.n52.oxf.adapter.ParameterContainer;
  */
 public interface ISOSRequestBuilder {
 
-    public static String GET_CAPABILITIES_UPDATE_SEQUENCE_PARAMETER = "updateSequence";
-    public static String GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER = "AcceptVersions";
-    public static String GET_CAPABILITIES_SECTIONS_PARAMETER = "sections";
-    public static String GET_CAPABILITIES_SERVICE_PARAMETER = "service";
+	String GET_CAPABILITIES_UPDATE_SEQUENCE_PARAMETER = "updateSequence";
+	String GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER = "AcceptVersions";
+	String GET_CAPABILITIES_SECTIONS_PARAMETER = "sections";
+	String GET_CAPABILITIES_SERVICE_PARAMETER = "service";
 
-    public static String GET_OBSERVATION_SERVICE_PARAMETER = "service";
-    public static String GET_OBSERVATION_VERSION_PARAMETER = "version";
-    public static String GET_OBSERVATION_OFFERING_PARAMETER = "offering";
-    public static String GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER = "observedProperty";
-    public static String GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER = "responseFormat";
-    public static String GET_OBSERVATION_EVENT_TIME_PARAMETER = "eventTime"; // SOS 1.0
-    public static String GET_OBSERVATION_TEMPORAL_FILTER_PARAMETER = "temporalFilter"; // SOS 2.0
-    public static String GET_OBSERVATION_PROCEDURE_PARAMETER = "procedure";
-    public static String GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER = "featureOfInterest";
-    public static String GET_OBSERVATION_SPATIAL_FILTER_PARAMETER = "spatialFilter"; // SOS 2.0
-    public static String GET_OBSERVATION_RESULT_PARAMETER = "result"; // SOS 1.0
-    public static String GET_OBSERVATION_RESULT_MODEL_PARAMETER = "resultModel"; // SOS 1.0
-    public static String GET_OBSERVATION_RESPONSE_MODE_PARAMETER = "responseMode"; // SOS 1.0
+	String GET_OBSERVATION_SERVICE_PARAMETER = "service";
+	String GET_OBSERVATION_VERSION_PARAMETER = "version";
+	String GET_OBSERVATION_OFFERING_PARAMETER = "offering";
+	String GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER = "observedProperty";
+	String GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER = "responseFormat";
+	String GET_OBSERVATION_EVENT_TIME_PARAMETER = "eventTime"; // SOS 1.0
+	String GET_OBSERVATION_TEMPORAL_FILTER_PARAMETER = "temporalFilter"; // SOS 2.0
+	String GET_OBSERVATION_PROCEDURE_PARAMETER = "procedure";
+	String GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER = "featureOfInterest";
+	String GET_OBSERVATION_SPATIAL_FILTER_PARAMETER = "spatialFilter"; // SOS 2.0
+	String GET_OBSERVATION_RESULT_PARAMETER = "result"; // SOS 1.0
+	String GET_OBSERVATION_RESULT_MODEL_PARAMETER = "resultModel"; // SOS 1.0
+	String GET_OBSERVATION_RESPONSE_MODE_PARAMETER = "responseMode"; // SOS 1.0
 
-    public static String DESCRIBE_SENSOR_SERVICE_PARAMETER = "service";
-    public static String DESCRIBE_SENSOR_VERSION_PARAMETER = "version";
-    public static String DESCRIBE_SENSOR_PROCEDURE_PARAMETER = "procedure";
-    public static String DESCRIBE_SENSOR_OUTPUT_FORMAT = "outputFormat";
-    public static String DESCRIBE_SENSOR_PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat"; // SOS 2.0
+	String DESCRIBE_SENSOR_SERVICE_PARAMETER = "service";
+	String DESCRIBE_SENSOR_VERSION_PARAMETER = "version";
+	String DESCRIBE_SENSOR_PROCEDURE_PARAMETER = "procedure";
+	String DESCRIBE_SENSOR_OUTPUT_FORMAT = "outputFormat";
+	String DESCRIBE_SENSOR_PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat"; // SOS 2.0
 
-    public static String GET_FOI_SERVICE_PARAMETER = "service";
-    public static String GET_FOI_VERSION_PARAMETER = "version";
-    public static String GET_FOI_EVENT_TIME_PARAMETER = "eventTime";
-    public static String GET_FOI_ID_PARAMETER = "featureOfInterestId";
-    public static String GET_FOI_LOCATION_PARAMETER = "location";
+	String GET_FOI_SERVICE_PARAMETER = "service";
+	String GET_FOI_VERSION_PARAMETER = "version";
+	String GET_FOI_EVENT_TIME_PARAMETER = "eventTime";
+	String GET_FOI_ID_PARAMETER = "featureOfInterestId";
+	String GET_FOI_LOCATION_PARAMETER = "location";
 
-    public static String INSERT_OBSERVATION_SERVICE_PARAMETER = "service";
-    public static String INSERT_OBSERVATION_VERSION_PARAMETER = "version";
-    public static String INSERT_OBSERVATION_FOI_ID_PARAMETER = "featureOfInterestID";
-    public static String INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER = "newFoiID";
-    public static String INSERT_OBSERVATION_NEW_FOI_NAME = "newFoiName";
-    public static String INSERT_OBSERVATION_NEW_FOI_DESC = "newFoiDesc";
-    public static String INSERT_OBSERVATION_NEW_FOI_POSITION = "newFoiPosition";
-    public static String INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER = "observedProperty";
-    public static String INSERT_OBSERVATION_SAMPLING_TIME = "samplingTime";
-    public static String INSERT_OBSERVATION_VALUE_PARAMETER = "value";
-	public static String INSERT_OBSERVATION_POSITION_SRS = "srsPosition";
-	public static String INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE = "catObsCodespace";
-	public static String INSERT_OBSERVATION_TYPE_TEXT = "text";
-	public static String INSERT_OBSERVATION_TYPE_MEASUREMENT = "measurement";
-	public static String INSERT_OBSERVATION_TYPE = "type";
-    public static String INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE = "resultUom";
-    public static String INSERT_OBSERVATION_NEW_FOI_POSITION_SRS = "insertObSRS";
-    public static String INSERT_OBSERVATION_PROCEDURE_PARAMETER = "procedure";
-	public static String INSERT_OBSERVATION_SENSOR_ID_PARAMETER = "sensorid";
-	public static String INSERT_OBSERVATION_TYPE_COUNT = "count";
-	public static String INSERT_OBSERVATION_TYPE_TRUTH = "truth";
-	public static String INSERT_OBSERVATION_TYPE_TEMPORAL = "temporal";
-	public static String INSERT_OBSERVATION_TYPE_GEOMETRY = "geometry";
-	public static String INSERT_OBSERVATION_TYPE_COMPLEX = "complex";
+	String INSERT_OBSERVATION_SERVICE_PARAMETER = "service";
+	String INSERT_OBSERVATION_VERSION_PARAMETER = "version";
+	String INSERT_OBSERVATION_FOI_ID_PARAMETER = "featureOfInterestID";
+	String INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER = "newFoiID";
+	String INSERT_OBSERVATION_NEW_FOI_NAME = "newFoiName";
+	String INSERT_OBSERVATION_NEW_FOI_DESC = "newFoiDesc";
+	/**
+	 * SOS 2.0 Optional: Defines the id of the optional parent feature of the 
+	 * feature of interest of an observation. If not specified for a "new" 
+	 * feature of interest "unknown" will be used.
+	 */
+	String INSERT_OBSERVATION_NEW_FOI_PARENT_FEATURE_ID = "parentFeatureId";
+	String INSERT_OBSERVATION_NEW_FOI_POSITION = "newFoiPosition";
+	String INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER = "observedProperty";
+	String INSERT_OBSERVATION_SAMPLING_TIME = "samplingTime";
+	String INSERT_OBSERVATION_VALUE_PARAMETER = "value";
+	String INSERT_OBSERVATION_POSITION_SRS = "srsPosition";
+	String INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE = "catObsCodespace";
+	String INSERT_OBSERVATION_TYPE_TEXT = "text";
+	String INSERT_OBSERVATION_TYPE_MEASUREMENT = "measurement";
+	String INSERT_OBSERVATION_TYPE = "type";
+	String INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE = "resultUom";
+	String INSERT_OBSERVATION_NEW_FOI_POSITION_SRS = "insertObSRS";
+	String INSERT_OBSERVATION_PROCEDURE_PARAMETER = "procedure";
+	String INSERT_OBSERVATION_SENSOR_ID_PARAMETER = "sensorid";
+	String INSERT_OBSERVATION_TYPE_COUNT = "count";
+	String INSERT_OBSERVATION_TYPE_TRUTH = "truth";
+	String INSERT_OBSERVATION_TYPE_TEMPORAL = "temporal";
+	String INSERT_OBSERVATION_TYPE_GEOMETRY = "geometry";
+	String INSERT_OBSERVATION_TYPE_COMPLEX = "complex";
+	/**
+	 * SOS 2.0 Mandatory: Defines the time when the observation <i>occurred</i>. 
+	 */
+	String INSERT_OBSERVATION_PHENOMENON_TIME = "phenomenonTime";
+	/**
+	 * SOS 2.0 Mandatory: Defines the time when the observation is <i>performed</i>.
+	 */
+	String INSERT_OBSERVATION_RESULT_TIME = "resultTime";
 	/*
 	 * Mandatory SOS 2.0 parameter: specifies the offering(s) the observation(s)
 	 * of the InsertObservation shall be added to.
 	 */
-	public static String INSERT_OBSERVATION_OFFERINGS_PARAMETER = "offerings";
-    
-    public static String REGISTER_SENSOR_SERVICE_PARAMETER = "service";
-    public static String REGISTER_SENSOR_VERSION_PARAMETER = "version";
-    public static String REGISTER_SENSOR_ML_DOC_PARAMETER = "sensorMLDoc";
-    public static String REGISTER_SENSOR_OBSERVATION_TEMPLATE = "observationTemplate";
-    public static String REGISTER_SENSOR_OBSERVATION_TYPE = "type";
-	public static String REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY = "category";
-	public static String REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT = "measurement";
-    public static String REGISTER_SENSOR_ID_PARAMETER = "id";
-    public static String REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER = "observedProperty";
-    public static String REGISTER_SENSOR_LATITUDE_POSITION_PARAMETER = "latitude";
-    public static String REGISTER_SENSOR_LONGITUDE_POSITION_PARAMETER = "longitude";
-    public static String REGISTER_SENSOR_POSITION_NAME_PARAMETER = "positionName";
-    public static String REGISTER_SENSOR_POSITION_FIXED_PARAMETER = "fixed";
-    public static String REGISTER_SENSOR_UOM_PARAMETER = "uom";
-    /**
-     * Required for SOS 2.0 InsertSensor requests. This parameter specifies the
-     * format of the procedure description in the InsertSensor request. 
-     */
-    public static String REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER = "procedureDescriptionFormat";
-    /**
-     * Required for SOS 2.0 InsertSensor requests. This parameter specifies the
-     * allowed feature types for observations of the inserted sensor.
-     */
-    public static String REGISTER_SENSOR_FEATURE_TYPE_PARAMETER = "featureType";
-    /**
-     * Optional: Must be used in case of category observation type
-     */
-    public static String REGISTER_SENSOR_CODESPACE_PARAMETER = "codeSpace";
-    /**
-     * Mandatory: Used in the observation template
-     */
-    public static String REGISTER_SENSOR_DEFAULT_RESULT_VALUE = "defaultResultValue";
+	String INSERT_OBSERVATION_OFFERINGS_PARAMETER = "offerings";
 
-    public static String GET_OBSERVATION_BY_ID_SERVICE_PARAMETER = "service";
-    public static String GET_OBSERVATION_BY_ID_VERSION_PARAMETER = "version";
-    public static String GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER = "ObservationID";
-    public static String GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER = "responseFormat";
-    public static String GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER = "responseMode";
-    public static String GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER = "resultModel";
+	String REGISTER_SENSOR_SERVICE_PARAMETER = "service";
+	String REGISTER_SENSOR_VERSION_PARAMETER = "version";
+	String REGISTER_SENSOR_ML_DOC_PARAMETER = "sensorMLDoc";
+	String REGISTER_SENSOR_OBSERVATION_TEMPLATE = "observationTemplate";
+	String REGISTER_SENSOR_OBSERVATION_TYPE = "type";
+	String REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY = "category";
+	String REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT = "measurement";
+	String REGISTER_SENSOR_ID_PARAMETER = "id";
+	String REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER = "observedProperty";
+	String REGISTER_SENSOR_LATITUDE_POSITION_PARAMETER = "latitude";
+	String REGISTER_SENSOR_LONGITUDE_POSITION_PARAMETER = "longitude";
+	String REGISTER_SENSOR_POSITION_NAME_PARAMETER = "positionName";
+	String REGISTER_SENSOR_POSITION_FIXED_PARAMETER = "fixed";
+	String REGISTER_SENSOR_UOM_PARAMETER = "uom";
 	/**
-	 * SOS 2.0 Mandatory: Defines the time when the observation <i>occurred</i>. 
+	 * Required for SOS 2.0 InsertSensor requests. This parameter specifies the
+	 * format of the procedure description in the InsertSensor request. 
 	 */
-	public static String INSERT_OBSERVATION_PHENOMENON_TIME = "phenomenonTime";
+	String REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER = "procedureDescriptionFormat";
 	/**
-	 * SOS 2.0 Mandatory: Defines the time when the observation is <i>performed</i>.
+	 * Required for SOS 2.0 InsertSensor requests. This parameter specifies the
+	 * allowed feature types for observations of the inserted sensor.
 	 */
-	public static String INSERT_OBSERVATION_RESULT_TIME = "resultTime";
+	String REGISTER_SENSOR_FEATURE_TYPE_PARAMETER = "featureType";
+	/**
+	 * Optional: Must be used in case of category observation type
+	 */
+	String REGISTER_SENSOR_CODESPACE_PARAMETER = "codeSpace";
+	/**
+	 * Mandatory: Used in the observation template
+	 */
+	String REGISTER_SENSOR_DEFAULT_RESULT_VALUE = "defaultResultValue";
 
-    public String buildGetCapabilitiesRequest(ParameterContainer parameters) throws OXFException;
+	String GET_OBSERVATION_BY_ID_SERVICE_PARAMETER = "service";
+	String GET_OBSERVATION_BY_ID_VERSION_PARAMETER = "version";
+	String GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER = "ObservationID";
+	String GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER = "responseFormat";
+	String GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER = "responseMode";
+	String GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER = "resultModel";
 
-    public String buildGetObservationRequest(ParameterContainer parameters) throws OXFException;
+	String buildGetCapabilitiesRequest(ParameterContainer parameters) throws OXFException;
 
-    public String buildGetObservationByIDRequest(ParameterContainer parameters) throws OXFException;
+	String buildGetObservationRequest(ParameterContainer parameters) throws OXFException;
 
-    public String buildDescribeSensorRequest(ParameterContainer parameters) throws OXFException;
+	String buildGetObservationByIDRequest(ParameterContainer parameters) throws OXFException;
 
-    public String buildGetFeatureOfInterestRequest(ParameterContainer parameters) throws OXFException;
+	String buildDescribeSensorRequest(ParameterContainer parameters) throws OXFException;
 
-    public String buildInsertObservation(ParameterContainer parameters) throws OXFException;
+	String buildGetFeatureOfInterestRequest(ParameterContainer parameters) throws OXFException;
 
-    /**
-     * Builds a RegisterSensor request and returns it.
-     * A SensorML file can either be passed along or a set of parameters is used to create one.
-     * @throws OXFException
-     */
-    public String buildRegisterSensor(ParameterContainer parameters) throws OXFException;
+	String buildInsertObservation(ParameterContainer parameters) throws OXFException;
 
+	/**
+	 * Builds a RegisterSensor request and returns it.
+	 * A SensorML file can either be passed along or a set of parameters is used to create one.
+	 * @throws OXFException
+	 */
+	String buildRegisterSensor(ParameterContainer parameters) throws OXFException;
 }
