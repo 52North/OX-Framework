@@ -105,17 +105,31 @@ public class SOSRequestBuilder_200Test {
 	buildRegisterSensor_should_add_observable_properties()
 			throws OXFException, XmlException {
 		createParamConWithMandatoryInsertSensorValues();
-		
+		/*
+		 * 	MULTIPLE OBSERVED PROPERTIES
+		 */
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
 				TEST_OBSERVABLE_PROPERTY_1,
 				TEST_OBSERVABLE_PROPERTY_2);
 		
-		final String registerSensor = builder.buildRegisterSensor(parameters);
-		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
+		String registerSensor = builder.buildRegisterSensor(parameters);
+		InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
 		
 		assertThat(insertSensorType.getObservablePropertyArray().length, is(2));
 		assertThat(insertSensorType.getObservablePropertyArray(),hasItemInArray(TEST_OBSERVABLE_PROPERTY_1));
 		assertThat(insertSensorType.getObservablePropertyArray(),hasItemInArray(TEST_OBSERVABLE_PROPERTY_2));
+		/*
+		 * SINGLE OBSERVED PROPERTY
+		 */
+		parameters.removeParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER);
+		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
+				TEST_OBSERVABLE_PROPERTY_1);
+		
+		registerSensor = builder.buildRegisterSensor(parameters);
+		insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
+		
+		assertThat(insertSensorType.getObservablePropertyArray().length, is(1));
+		assertThat(insertSensorType.getObservablePropertyArray(),hasItemInArray(TEST_OBSERVABLE_PROPERTY_1));
 	}
 	
 	@Test public void
