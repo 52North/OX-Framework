@@ -31,7 +31,7 @@ import javax.xml.namespace.QName;
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  */
-public class XMLConstants {
+public final class XMLConstants {
 
 	private static final String GML_NS_URI = "http://www.opengis.net/gml";
 	public static final QName QNAME_GML_TIMEINSTANT = new QName(GML_NS_URI, "TimeInstant");
@@ -72,6 +72,7 @@ public class XMLConstants {
 	 * 	O&M 2.0 
 	 */
 	public static final String OGC_OM_2_0_OM_MEASUREMENT = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement";
+	public static final String OGC_OM_2_0_OM_CATEGORY_OBSERVATION = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_CategoryObservation";
 
 	public static final String OGC_OM_2_0_SF_SAMPLING_POINT = "http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint";
 	
@@ -83,4 +84,6 @@ public class XMLConstants {
 	
 	public static final String OGC_UNKNOWN_VALUE = "http://www.opengis.net/def/nil/OGC/0/unknown";
 	public static final String OGC_URI_START_CRS = "http://www.opengis.net/def/crs/EPSG/0/";
+	
+	private XMLConstants() {}
 }

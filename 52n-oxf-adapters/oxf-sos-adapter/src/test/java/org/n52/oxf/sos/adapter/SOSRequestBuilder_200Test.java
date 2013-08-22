@@ -33,6 +33,7 @@ import static org.n52.oxf.xml.XMLConstants.*;
 import net.opengis.gml.x32.DirectPositionType;
 import net.opengis.gml.x32.MeasureType;
 import net.opengis.gml.x32.PointType;
+import net.opengis.gml.x32.ReferenceType;
 import net.opengis.gml.x32.TimeInstantType;
 import net.opengis.om.x20.OMObservationType;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
@@ -84,6 +85,8 @@ public class SOSRequestBuilder_200Test {
 	private final String newFoiPositionString = "52.0 7.5";
 	private final String newFoiEpsgCode = "4326";
 	private final String newFoiParentFeatureId = "parent-feature-id";
+
+	private final String category = "test-category";
 
 	
 	/*
@@ -368,6 +371,26 @@ public class SOSRequestBuilder_200Test {
 		assertThat(feature.getSampledFeature().getHref(),is(OGC_UNKNOWN_VALUE));
 	}
 
+	@Test public void
+	buildInsertObservation_should_add_single_category_observation()
+			throws OXFException, XmlException{
+		addServiceAndVersion();
+		addObservationValues();
+		parameters.removeParameterShell(INSERT_OBSERVATION_TYPE);
+		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_CATEGORY);
+		parameters.removeParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE);
+		parameters.removeParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER);
+		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER,category);
+		
+		final String insertObservation = builder.buildInsertObservation(parameters);
+		final OMObservationType observation = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation().getObservationArray(0).getOMObservation();
+		
+		assertThat(observation.getType().getHref(),is(OGC_OM_2_0_OM_CATEGORY_OBSERVATION));
+		
+		final ReferenceType result = ReferenceType.Factory.parse(observation.getResult().xmlText());
+		assertThat(result.getHref(),is(category));
+	}
+	
 	private void addNewFoiValues() throws OXFException
 	{
 		parameters.removeParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER);

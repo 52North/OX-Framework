@@ -33,6 +33,7 @@ import net.opengis.gml.x32.DirectPositionType;
 import net.opengis.gml.x32.MeasureType;
 import net.opengis.gml.x32.PointDocument;
 import net.opengis.gml.x32.PointType;
+import net.opengis.gml.x32.ReferenceType;
 import net.opengis.gml.x32.TimeInstantDocument;
 import net.opengis.gml.x32.TimeInstantType;
 import net.opengis.gml.x32.TimePeriodDocument;
@@ -370,8 +371,13 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 			final MeasureType xbResult = MeasureType.Factory.newInstance();
 			xbResult.setStringValue(value);
 			xbResult.setUom(uom);
-			xbObservation.addNewResult().set(xbResult);
+			xbObservation.setResult(xbResult);
 		} 
+		else if (xbObservation.getType().getHref().equals(OGC_OM_2_0_OM_CATEGORY_OBSERVATION)) {
+			final ReferenceType xbCategory = ReferenceType.Factory.newInstance();
+			xbCategory.setHref((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue());
+			xbObservation.setResult(xbCategory);
+		}
 		else { 
 			final String errorMsg = String.format("Observation Type '%s' not supported.", xbObservation.getType().getHref());
 			LOGGER.error(errorMsg);
@@ -507,6 +513,9 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 	{
 		if (observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)) {
 			return OGC_OM_2_0_OM_MEASUREMENT;
+		}
+		else if (observationType.equals(INSERT_OBSERVATION_TYPE_CATEGORY)) {
+			return OGC_OM_2_0_OM_CATEGORY_OBSERVATION;
 		}
 		final String errorMsg = String.format("Observation Type '%s' not supported.", observationType);
 		LOGGER.error(errorMsg);
