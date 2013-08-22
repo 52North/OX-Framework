@@ -290,7 +290,6 @@ public class SOSRequestBuilder_200Test {
 		final MeasureType result = (MeasureType) observation.getResult();
 		assertThat(result.getStringValue(),is(value)); // result value
 		assertThat(result.getUom(),is(uom)); // result uom
-//		fail("IMPL NOT FINISHED");
 	}
 
 	private void addObservationValues() throws OXFException
