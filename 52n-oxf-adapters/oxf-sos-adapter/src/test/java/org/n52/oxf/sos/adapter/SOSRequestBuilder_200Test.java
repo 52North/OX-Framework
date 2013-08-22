@@ -45,6 +45,7 @@ import net.opengis.sos.x20.SosInsertionMetadataType;
 import net.opengis.swes.x20.InsertSensorDocument;
 import net.opengis.swes.x20.InsertSensorType;
 
+import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlException;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +54,7 @@ import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.sos.adapter.wrapper.builder.SensorDescriptionBuilder;
 import org.n52.oxf.valueDomains.time.TimePosition;
+import org.n52.oxf.xml.XMLConstants;
 
 public class SOSRequestBuilder_200Test {
 
@@ -87,6 +89,8 @@ public class SOSRequestBuilder_200Test {
 	private final String newFoiParentFeatureId = "parent-feature-id";
 
 	private final String category = "test-category";
+
+	private final Boolean truth = true;
 
 	
 	/*
@@ -376,10 +380,8 @@ public class SOSRequestBuilder_200Test {
 			throws OXFException, XmlException{
 		addServiceAndVersion();
 		addObservationValues();
-		parameters.removeParameterShell(INSERT_OBSERVATION_TYPE);
+		removeObservationTypeAndMeasurementResult();
 		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_CATEGORY);
-		parameters.removeParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE);
-		parameters.removeParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER);
 		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER,category);
 		
 		final String insertObservation = builder.buildInsertObservation(parameters);
@@ -389,6 +391,43 @@ public class SOSRequestBuilder_200Test {
 		
 		final ReferenceType result = ReferenceType.Factory.parse(observation.getResult().xmlText());
 		assertThat(result.getHref(),is(category));
+	}
+	
+	@Test public void
+	buildInsertObservation_should_add_single_truth_observation()
+			throws OXFException, XmlException{
+		addServiceAndVersion();
+		addObservationValues();
+		removeObservationTypeAndMeasurementResult();
+		
+		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_TRUTH);
+		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER,Boolean.toString(truth));
+		
+		String insertObservation = builder.buildInsertObservation(parameters);
+		OMObservationType observation = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation().getObservationArray(0).getOMObservation();
+		
+		assertThat(observation.getType().getHref(),is(XMLConstants.OGC_OM_2_0_OM_TRUTH_OBSERVATION));
+		
+		XmlBoolean result = XmlBoolean.Factory.parse(observation.getResult().xmlText());
+		assertThat(result.getBooleanValue(),is(truth));
+		
+		parameters.removeParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER);
+		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER,"someStringNotTrue");
+		
+		insertObservation = builder.buildInsertObservation(parameters);
+		observation = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation().getObservationArray(0).getOMObservation();
+		
+		assertThat(observation.getType().getHref(),is(XMLConstants.OGC_OM_2_0_OM_TRUTH_OBSERVATION));
+		
+		result = XmlBoolean.Factory.parse(observation.getResult().xmlText());
+		assertThat(result.getBooleanValue(),is(false));
+	}
+
+	private void removeObservationTypeAndMeasurementResult()
+	{
+		parameters.removeParameterShell(INSERT_OBSERVATION_TYPE);
+		parameters.removeParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE);
+		parameters.removeParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER);
 	}
 	
 	private void addNewFoiValues() throws OXFException

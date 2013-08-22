@@ -60,6 +60,7 @@ import net.opengis.swes.x20.InsertSensorDocument;
 import net.opengis.swes.x20.InsertSensorType;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -378,6 +379,15 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 			xbCategory.setHref((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue());
 			xbObservation.setResult(xbCategory);
 		}
+		else if (xbObservation.getType().getHref().equals(OGC_OM_2_0_OM_TRUTH_OBSERVATION)) {
+			final XmlBoolean xbBoolean = XmlBoolean.Factory.newInstance();
+			xbBoolean.setBooleanValue(
+					Boolean.parseBoolean(
+							(String)parameters
+							.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER)
+							.getSpecifiedValue()));
+			xbObservation.setResult(xbBoolean);
+		}
 		else { 
 			final String errorMsg = String.format("Observation Type '%s' not supported.", xbObservation.getType().getHref());
 			LOGGER.error(errorMsg);
@@ -516,6 +526,9 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 		}
 		else if (observationType.equals(INSERT_OBSERVATION_TYPE_CATEGORY)) {
 			return OGC_OM_2_0_OM_CATEGORY_OBSERVATION;
+		}
+		else if (observationType.equals(INSERT_OBSERVATION_TYPE_TRUTH)) {
+			return OGC_OM_2_0_OM_TRUTH_OBSERVATION;
 		}
 		final String errorMsg = String.format("Observation Type '%s' not supported.", observationType);
 		LOGGER.error(errorMsg);
