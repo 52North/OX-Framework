@@ -25,6 +25,9 @@
 package org.n52.oxf.sos.adapter;
 
 import static org.n52.oxf.xml.XMLConstants.*;
+
+import java.math.BigInteger;
+
 import net.opengis.fes.x20.BinaryTemporalOpType;
 import net.opengis.fes.x20.DuringDocument;
 import net.opengis.fes.x20.TEqualsDocument;
@@ -33,6 +36,7 @@ import net.opengis.gml.x32.DirectPositionType;
 import net.opengis.gml.x32.MeasureType;
 import net.opengis.gml.x32.PointDocument;
 import net.opengis.gml.x32.PointType;
+import net.opengis.gml.x32.ReferenceType;
 import net.opengis.gml.x32.TimeInstantDocument;
 import net.opengis.gml.x32.TimeInstantType;
 import net.opengis.gml.x32.TimePeriodDocument;
@@ -59,8 +63,11 @@ import net.opengis.swes.x20.InsertSensorDocument;
 import net.opengis.swes.x20.InsertSensorType;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlString;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
@@ -370,8 +377,32 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 			final MeasureType xbResult = MeasureType.Factory.newInstance();
 			xbResult.setStringValue(value);
 			xbResult.setUom(uom);
-			xbObservation.addNewResult().set(xbResult);
+			xbObservation.setResult(xbResult);
 		} 
+		else if (xbObservation.getType().getHref().equals(OGC_OM_2_0_OM_CATEGORY_OBSERVATION)) {
+			final ReferenceType xbCategory = ReferenceType.Factory.newInstance();
+			xbCategory.setHref((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue());
+			xbObservation.setResult(xbCategory);
+		}
+		else if (xbObservation.getType().getHref().equals(OGC_OM_2_0_OM_TRUTH_OBSERVATION)) {
+			final XmlBoolean xbBoolean = XmlBoolean.Factory.newInstance();
+			xbBoolean.setBooleanValue(
+					Boolean.parseBoolean(
+							(String)parameters
+							.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER)
+							.getSpecifiedValue()));
+			xbObservation.setResult(xbBoolean);
+		}
+		else if (xbObservation.getType().getHref().equals(OGC_OM_2_0_OM_TEXT_OBSERVATION)) {
+			final XmlString xbString = XmlString.Factory.newInstance();
+			xbString.setStringValue((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue());
+			xbObservation.setResult(xbString);
+		}
+		else if (xbObservation.getType().getHref().equals(OGC_OM_2_0_OM_COUNT_OBSERVATION)) {
+			final XmlInteger xbInteger = XmlInteger.Factory.newInstance();
+			xbInteger.setBigIntegerValue(new BigInteger(parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue().toString()));
+			xbObservation.setResult(xbInteger);
+		}
 		else { 
 			final String errorMsg = String.format("Observation Type '%s' not supported.", xbObservation.getType().getHref());
 			LOGGER.error(errorMsg);
@@ -507,6 +538,18 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 	{
 		if (observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)) {
 			return OGC_OM_2_0_OM_MEASUREMENT;
+		}
+		else if (observationType.equals(INSERT_OBSERVATION_TYPE_CATEGORY)) {
+			return OGC_OM_2_0_OM_CATEGORY_OBSERVATION;
+		}
+		else if (observationType.equals(INSERT_OBSERVATION_TYPE_TRUTH)) {
+			return OGC_OM_2_0_OM_TRUTH_OBSERVATION;
+		}
+		else if (observationType.equals(INSERT_OBSERVATION_TYPE_TEXT)) {
+			return OGC_OM_2_0_OM_TEXT_OBSERVATION;
+		}
+		else if (observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
+			return OGC_OM_2_0_OM_COUNT_OBSERVATION;
 		}
 		final String errorMsg = String.format("Observation Type '%s' not supported.", observationType);
 		LOGGER.error(errorMsg);

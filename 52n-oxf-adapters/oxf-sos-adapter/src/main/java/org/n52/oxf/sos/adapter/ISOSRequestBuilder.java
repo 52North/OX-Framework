@@ -99,6 +99,10 @@ public interface ISOSRequestBuilder {
 	String INSERT_OBSERVATION_TYPE_GEOMETRY = "geometry";
 	String INSERT_OBSERVATION_TYPE_COMPLEX = "complex";
 	/**
+	 * Supported by SOS 2.0 request builder only
+	 */
+	String INSERT_OBSERVATION_TYPE_CATEGORY = "category";
+	/**
 	 * SOS 2.0 Mandatory: Defines the time when the observation <i>occurred</i>. 
 	 */
 	String INSERT_OBSERVATION_PHENOMENON_TIME = "phenomenonTime";
