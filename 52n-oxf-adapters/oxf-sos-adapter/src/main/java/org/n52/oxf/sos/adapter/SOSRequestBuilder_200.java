@@ -63,6 +63,7 @@ import org.apache.commons.lang.NotImplementedException;
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlString;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
@@ -388,6 +389,11 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 							.getSpecifiedValue()));
 			xbObservation.setResult(xbBoolean);
 		}
+		else if (xbObservation.getType().getHref().equals(OGC_OM_2_0_OM_TEXT_OBSERVATION)) {
+			final XmlString xbString = XmlString.Factory.newInstance();
+			xbString.setStringValue((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue());
+			xbObservation.setResult(xbString);
+		}
 		else { 
 			final String errorMsg = String.format("Observation Type '%s' not supported.", xbObservation.getType().getHref());
 			LOGGER.error(errorMsg);
@@ -529,6 +535,9 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 		}
 		else if (observationType.equals(INSERT_OBSERVATION_TYPE_TRUTH)) {
 			return OGC_OM_2_0_OM_TRUTH_OBSERVATION;
+		}
+		else if (observationType.equals(INSERT_OBSERVATION_TYPE_TEXT)) {
+			return OGC_OM_2_0_OM_TEXT_OBSERVATION;
 		}
 		final String errorMsg = String.format("Observation Type '%s' not supported.", observationType);
 		LOGGER.error(errorMsg);

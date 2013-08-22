@@ -47,6 +47,7 @@ import net.opengis.swes.x20.InsertSensorType;
 
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlString;
 import org.junit.Before;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
@@ -91,6 +92,8 @@ public class SOSRequestBuilder_200Test {
 	private final String category = "test-category";
 
 	private final Boolean truth = true;
+
+	private final String text = "text-observation-text";
 
 	
 	/*
@@ -423,6 +426,24 @@ public class SOSRequestBuilder_200Test {
 		assertThat(result.getBooleanValue(),is(false));
 	}
 
+	@Test public void
+	buildInsertObservation_should_add_single_text_observation()
+			throws OXFException, XmlException{
+		addServiceAndVersion();
+		addObservationValues();
+		removeObservationTypeAndMeasurementResult();
+		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_TEXT);
+		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER,text);
+		
+		final String insertObservation = builder.buildInsertObservation(parameters);
+		final OMObservationType observation = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation().getObservationArray(0).getOMObservation();
+		
+		assertThat(observation.getType().getHref(),is(OGC_OM_2_0_OM_TEXT_OBSERVATION));
+		
+		final XmlString result = XmlString.Factory.parse(observation.getResult().xmlText());
+		assertThat(result.getStringValue(),is(text));
+	}
+	
 	private void removeObservationTypeAndMeasurementResult()
 	{
 		parameters.removeParameterShell(INSERT_OBSERVATION_TYPE);
