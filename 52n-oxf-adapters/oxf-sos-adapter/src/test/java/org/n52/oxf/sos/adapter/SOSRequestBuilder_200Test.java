@@ -24,13 +24,19 @@
 package org.n52.oxf.sos.adapter;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.Matchers.hasItemInArray;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+import static org.n52.oxf.xml.XMLConstants.*;
+import net.opengis.gml.x32.DirectPositionType;
 import net.opengis.gml.x32.MeasureType;
+import net.opengis.gml.x32.PointType;
 import net.opengis.gml.x32.TimeInstantType;
 import net.opengis.om.x20.OMObservationType;
+import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
+import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
 import net.opengis.sensorML.x101.SensorMLDocument;
 import net.opengis.sos.x20.InsertObservationDocument;
 import net.opengis.sos.x20.InsertObservationType;
@@ -49,9 +55,6 @@ import org.n52.oxf.valueDomains.time.TimePosition;
 
 public class SOSRequestBuilder_200Test {
 
-	/**
-	 * 
-	 */
 	private static final String SENSOR_IDENTIFIER = "test-identifier";
 
 	private static final String TEST_OBSERVABLE_PROPERTY_2 = "test-observable-property-2";
@@ -70,12 +73,17 @@ public class SOSRequestBuilder_200Test {
 	private final String offering = "offering-1";
 	private final String procedure = "procedure";
 	private final String obsProp = "observed-property";
-	private final String foi = "foiId";
+	private final String foiId = "foiId";
 	private final String value = "52.0";
 	private final String uom = "degreeNorth";
 	private ParameterContainer parameters;
 	private final ITime phenTime = new TimePosition("1001-11-22T13:37:13.370+00:00");
 	private final ITime resultTime = new TimePosition("2002-11-22T13:37:13.370+00:00");
+	
+	private final String newFoiName = "foiId-name";
+	private final String newFoiPositionString = "52.0 7.5";
+	private final String newFoiEpsgCode = "4326";
+	private final String newFoiParentFeatureId = "parent-feature-id";
 
 	
 	/*
@@ -292,20 +300,84 @@ public class SOSRequestBuilder_200Test {
 		assertThat(insertObservationType.getObservationArray().length,is(1));
 		
 		final OMObservationType observation = insertObservationType.getObservationArray(0).getOMObservation();
+		assertThat(observation.getId(),not(isEmptyOrNullString()));
 		assertThat(observation.getType().getHref(),is("http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement"));
-		assertThat(((TimeInstantType)observation.getPhenomenonTime().getAbstractTimeObject()).getTimePosition().getStringValue(),is(phenTime.toISO8601Format())); // TODO phentime
+		assertThat(((TimeInstantType)observation.getPhenomenonTime().getAbstractTimeObject()).getTimePosition().getStringValue(),is(phenTime.toISO8601Format())); // phentime
 		assertThat(observation.getPhenomenonTime().getAbstractTimeObject().getId(),is("phenomenonTime"));
-		assertThat(observation.getResultTime().getTimeInstant().getTimePosition().getStringValue(),is(resultTime.toISO8601Format()));// TODO res time
+		assertThat(observation.getResultTime().getTimeInstant().getTimePosition().getStringValue(),is(resultTime.toISO8601Format()));// res time
 		assertThat(observation.getResultTime().getTimeInstant().getId(),is("resultTime"));
 		assertThat(observation.getProcedure().getHref(),is(procedure)); // proc
 		assertThat(observation.getObservedProperty().getHref(),is(obsProp)); // obsProp
-		assertThat(observation.getFeatureOfInterest().getHref(),is(foi)); // foi
+		assertThat(observation.getFeatureOfInterest().getHref(),is(foiId)); // foiId
 
 		final MeasureType result = (MeasureType) observation.getResult();
 		assertThat(result.getStringValue(),is(value)); // result value
 		assertThat(result.getUom(),is(uom)); // result uom
 	}
 
+	@Test(expected=OXFException.class) public void
+	buildInsertObservation_should_throws_Exception_because_of_invalid_observation_type()
+			throws OXFException	{
+		addServiceAndVersion();
+		addObservationValues();
+		parameters.removeParameterShell(INSERT_OBSERVATION_TYPE);
+		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, "INVALID");
+		
+		builder.buildInsertObservation(parameters);
+	}
+	
+	@Test public void
+	buildInsertObservation_shoul_add_feature_instance()
+			throws OXFException, XmlException {
+		addServiceAndVersion();
+		addObservationValues();
+		addNewFoiValues();
+		
+		String insertObservation = builder.buildInsertObservation(parameters);
+		SFSpatialSamplingFeatureType feature = SFSpatialSamplingFeatureDocument.Factory.parse(InsertObservationDocument.Factory.parse(insertObservation)
+        		.getInsertObservation()
+        		.getObservationArray(0)
+        		.getOMObservation()
+        		.getFeatureOfInterest()
+        		.xmlText())
+        		.getSFSpatialSamplingFeature();
+		
+		assertThat(feature.getId(),not(isEmptyOrNullString()));
+		assertThat(feature.getIdentifier().getStringValue(),is(foiId));
+		assertThat(feature.getNameArray(0).getStringValue(),is(newFoiName));
+		assertThat(feature.getType().getHref(),is(OGC_OM_2_0_SF_SAMPLING_POINT));
+		assertThat(feature.getSampledFeature().getHref(),is(newFoiParentFeatureId));
+
+		final DirectPositionType pos = ((PointType)feature.getShape().getAbstractGeometry()).getPos();
+		assertThat(pos.getSrsName(),endsWith(newFoiEpsgCode));
+		assertThat(pos.getSrsName(),startsWith(OGC_URI_START_CRS));
+		assertThat(pos.getStringValue(),is(newFoiPositionString));
+		/*
+		 * 2nd to test if parent feature id is set correct if not given
+		 */
+		parameters.removeParameterShell(INSERT_OBSERVATION_NEW_FOI_PARENT_FEATURE_ID);
+		insertObservation = builder.buildInsertObservation(parameters);
+		feature = SFSpatialSamplingFeatureDocument.Factory.parse(InsertObservationDocument.Factory.parse(insertObservation)
+        		.getInsertObservation()
+        		.getObservationArray(0)
+        		.getOMObservation()
+        		.getFeatureOfInterest()
+        		.xmlText())
+        		.getSFSpatialSamplingFeature();
+		
+		assertThat(feature.getSampledFeature().getHref(),is(OGC_UNKNOWN_VALUE));
+	}
+
+	private void addNewFoiValues() throws OXFException
+	{
+		parameters.removeParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER);
+		parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER,foiId);
+		parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_NAME,newFoiName);
+		parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION,newFoiPositionString );
+		parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS,newFoiEpsgCode );
+		parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_PARENT_FEATURE_ID,newFoiParentFeatureId);
+	}
+	
 	private void addObservationValues() throws OXFException
 	{
 		parameters.addParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER, offering);
@@ -314,7 +386,7 @@ public class SOSRequestBuilder_200Test {
 		parameters.addParameterShell(INSERT_OBSERVATION_RESULT_TIME, resultTime ); // res time
 		parameters.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, procedure);// proc
 		parameters.addParameterShell(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, obsProp);// obsProp
-		parameters.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, foi);// foi
+		parameters.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);// foiId
 		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER, value);// result
 		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, uom);// uom
 	}

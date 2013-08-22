@@ -67,4 +67,20 @@ public class XMLConstants {
 	public static final String SWE_1_0_1_NS_URI = "http://www.opengis.net/swe/1.0.1";
 	
 	public static final QName QNAME_SWE_1_0_1_DATA_RECORD = new QName(SWE_1_0_1_NS_URI, "DataRecord");
+
+	/*
+	 * 	O&M 2.0 
+	 */
+	public static final String OGC_OM_2_0_OM_MEASUREMENT = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement";
+
+	public static final String OGC_OM_2_0_SF_SAMPLING_POINT = "http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint";
+	
+	public static final String OM_2_0_NS_URI = "http://www.opengis.net/om/2.0";
+	
+	public static final String SAMS_2_0_NS_URI = "http://www.opengis.net/samplingSpatial/2.0";
+	
+	public static final QName QNAME_SAMS_2_0_SF_SSF = new QName(SAMS_2_0_NS_URI,"SF_SpatialSamplingFeature");
+	
+	public static final String OGC_UNKNOWN_VALUE = "http://www.opengis.net/def/nil/OGC/0/unknown";
+	public static final String OGC_URI_START_CRS = "http://www.opengis.net/def/crs/EPSG/0/";
 }
