@@ -47,6 +47,7 @@ import net.opengis.swes.x20.InsertSensorType;
 
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlString;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,6 +95,8 @@ public class SOSRequestBuilder_200Test {
 	private final Boolean truth = true;
 
 	private final String text = "text-observation-text";
+
+	private final int count = 52;
 
 	
 	/*
@@ -442,6 +445,24 @@ public class SOSRequestBuilder_200Test {
 		
 		final XmlString result = XmlString.Factory.parse(observation.getResult().xmlText());
 		assertThat(result.getStringValue(),is(text));
+	}
+	
+	@Test public void
+	buildInsertObservation_should_add_single_count_observation()
+			throws OXFException, XmlException {
+		addServiceAndVersion();
+		addObservationValues();
+		removeObservationTypeAndMeasurementResult();
+		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_COUNT);
+		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER,count );
+		
+		final String insertObservation = builder.buildInsertObservation(parameters);
+		final OMObservationType observation = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation().getObservationArray(0).getOMObservation();
+		
+		assertThat(observation.getType().getHref(),is(OGC_OM_2_0_OM_COUNT_OBSERVATION));
+		
+		final XmlInteger result = XmlInteger.Factory.parse(observation.getResult().xmlText());
+		assertThat(result.getBigIntegerValue().intValue(),is(count));
 	}
 	
 	private void removeObservationTypeAndMeasurementResult()

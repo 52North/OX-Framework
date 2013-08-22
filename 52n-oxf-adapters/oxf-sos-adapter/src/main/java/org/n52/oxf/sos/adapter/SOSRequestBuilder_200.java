@@ -25,6 +25,9 @@
 package org.n52.oxf.sos.adapter;
 
 import static org.n52.oxf.xml.XMLConstants.*;
+
+import java.math.BigInteger;
+
 import net.opengis.fes.x20.BinaryTemporalOpType;
 import net.opengis.fes.x20.DuringDocument;
 import net.opengis.fes.x20.TEqualsDocument;
@@ -62,6 +65,7 @@ import net.opengis.swes.x20.InsertSensorType;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
 import org.n52.oxf.OXFException;
@@ -394,6 +398,11 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 			xbString.setStringValue((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue());
 			xbObservation.setResult(xbString);
 		}
+		else if (xbObservation.getType().getHref().equals(OGC_OM_2_0_OM_COUNT_OBSERVATION)) {
+			final XmlInteger xbInteger = XmlInteger.Factory.newInstance();
+			xbInteger.setBigIntegerValue(new BigInteger(parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue().toString()));
+			xbObservation.setResult(xbInteger);
+		}
 		else { 
 			final String errorMsg = String.format("Observation Type '%s' not supported.", xbObservation.getType().getHref());
 			LOGGER.error(errorMsg);
@@ -538,6 +547,9 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 		}
 		else if (observationType.equals(INSERT_OBSERVATION_TYPE_TEXT)) {
 			return OGC_OM_2_0_OM_TEXT_OBSERVATION;
+		}
+		else if (observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
+			return OGC_OM_2_0_OM_COUNT_OBSERVATION;
 		}
 		final String errorMsg = String.format("Observation Type '%s' not supported.", observationType);
 		LOGGER.error(errorMsg);
