@@ -429,21 +429,43 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 		if (isObjStringAndInDocumentReference(phenomenonTimeObj)) {
 			xbObservation.addNewPhenomenonTime().setHref((String) phenomenonTimeObj);
 		}
-		// add as TimePosition
 		else if (phenomenonTimeObj instanceof TimePosition) {
-			final AbstractTimeObjectType timeObject = xbObservation.addNewPhenomenonTime().addNewAbstractTimeObject();
-			final TimeInstantType timeInstant = 
-	    			(TimeInstantType) timeObject.
-	    			substitute(XMLConstants.QNAME_GML_3_2_TIMEINSTANT,
-	    					TimeInstantType.type);
-	    	final TimePositionType timePos = timeInstant.addNewTimePosition();
-	    	timePos.setStringValue(((TimePosition) phenomenonTimeObj).toISO8601Format());
-	    	timeInstant.setId("phenomenonTime");
+			addTimePosition(xbObservation, phenomenonTimeObj);
 		}
 		else if (phenomenonTimeObj instanceof TimePeriod) {
-			// TODO add as TimePeriod
-			throw new OXFException("TimePeriod for phenTime not yet implemented");
+			addTimePeriod(xbObservation, phenomenonTimeObj);
 		}
+		else {
+			throw new OXFException(
+					String.format("Unsupported type for phenTime not yet implemented. Received type: %s",
+							phenomenonTimeObj!=null?phenomenonTimeObj.getClass().getName():phenomenonTimeObj));
+		}
+	}
+
+	private void addTimePeriod(final OMObservationType xbObservation,
+			final Object phenomenonTimeObj)
+	{
+		final AbstractTimeObjectType timeObject = xbObservation.addNewPhenomenonTime().addNewAbstractTimeObject();
+		final TimePeriodType timePeriod = 
+				(TimePeriodType) timeObject.
+				substitute(XMLConstants.QNAME_GML_3_2_TIME_PERIOD,
+						TimePeriodType.type);
+		timePeriod.addNewBeginPosition().setStringValue(((TimePeriod) phenomenonTimeObj).getStart().toISO8601Format());
+		timePeriod.addNewEndPosition().setStringValue(((TimePeriod) phenomenonTimeObj).getEnd().toISO8601Format());
+		timePeriod.setId("phenomenonTime");
+	}
+
+	private void addTimePosition(final OMObservationType xbObservation,
+			final Object phenomenonTimeObj)
+	{
+		final AbstractTimeObjectType timeObject = xbObservation.addNewPhenomenonTime().addNewAbstractTimeObject();
+		final TimeInstantType timeInstant = 
+				(TimeInstantType) timeObject.
+				substitute(XMLConstants.QNAME_GML_3_2_TIMEINSTANT,
+						TimeInstantType.type);
+		final TimePositionType timePos = timeInstant.addNewTimePosition();
+		timePos.setStringValue(((TimePosition) phenomenonTimeObj).toISO8601Format());
+		timeInstant.setId("phenomenonTime");
 	}
 
 	private void addFeatureOfInterest(final ParameterContainer parameters,

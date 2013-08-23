@@ -35,6 +35,7 @@ import net.opengis.gml.x32.MeasureType;
 import net.opengis.gml.x32.PointType;
 import net.opengis.gml.x32.ReferenceType;
 import net.opengis.gml.x32.TimeInstantType;
+import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.om.x20.OMObservationType;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
@@ -55,6 +56,8 @@ import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.sos.adapter.wrapper.builder.SensorDescriptionBuilder;
+import org.n52.oxf.valueDomains.time.ITimePosition;
+import org.n52.oxf.valueDomains.time.TimePeriod;
 import org.n52.oxf.valueDomains.time.TimePosition;
 import org.n52.oxf.xml.XMLConstants;
 
@@ -97,6 +100,10 @@ public class SOSRequestBuilder_200Test {
 	private final String text = "text-observation-text";
 
 	private final int count = 52;
+
+	private final ITimePosition phenTimePeriodStart = (ITimePosition)phenTime;
+	private final ITimePosition phenTimePeriodEnd = (ITimePosition)resultTime;
+	private final TimePeriod phenTimePeriod = new TimePeriod(phenTimePeriodStart,phenTimePeriodEnd);
 
 	
 	/*
@@ -463,6 +470,26 @@ public class SOSRequestBuilder_200Test {
 		
 		final XmlInteger result = XmlInteger.Factory.parse(observation.getResult().xmlText());
 		assertThat(result.getBigIntegerValue().intValue(),is(count));
+	}
+	
+	@Test public void
+	buildInsertObservation_should_add_single_measurement_with_timePeriod_as_phenomenonTime()
+			throws OXFException, XmlException {
+		addServiceAndVersion();
+		addObservationValues();
+		parameters.removeParameterShell(INSERT_OBSERVATION_PHENOMENON_TIME);
+		parameters.addParameterShell(INSERT_OBSERVATION_PHENOMENON_TIME,phenTimePeriod);
+		
+		final String insertObservation = builder.buildInsertObservation(parameters);
+		final TimePeriodType phenomenonTime = (TimePeriodType)InsertObservationDocument.Factory.parse(insertObservation)
+				.getInsertObservation()
+				.getObservationArray(0)
+				.getOMObservation()
+				.getPhenomenonTime()
+				.getAbstractTimeObject();
+		
+		assertThat(phenomenonTime.getBeginPosition().getStringValue(),is(phenTimePeriodStart.toISO8601Format()));
+		assertThat(phenomenonTime.getEndPosition().getStringValue(),is(phenTimePeriodEnd.toISO8601Format()));
 	}
 	
 	private void removeObservationTypeAndMeasurementResult()

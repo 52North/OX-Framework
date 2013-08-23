@@ -37,6 +37,7 @@ public final class XMLConstants {
 	public static final QName QNAME_GML_TIMEINSTANT = new QName(GML_NS_URI, "TimeInstant");
 	private static final String GML_3_2_NS_URI = "http://www.opengis.net/gml/3.2";
 	public static final QName QNAME_GML_3_2_TIMEINSTANT = new QName(GML_3_2_NS_URI, "TimeInstant");
+	public static final QName QNAME_GML_3_2_TIME_PERIOD = new QName(GML_3_2_NS_URI, "TimePeriod");
 
 	private static final String SA_NS_URI = "http://www.opengis.net/sampling/1.0";
 	public static final QName QNAME_SA_1_0_SAMPLING_POINT = new QName(SA_NS_URI, "SamplingPoint");
