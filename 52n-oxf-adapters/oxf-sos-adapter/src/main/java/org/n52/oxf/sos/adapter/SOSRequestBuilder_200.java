@@ -95,8 +95,6 @@ import org.slf4j.LoggerFactory;
  * Contains attributes and methods to encode SOSOperationRequests as String in xml-format
  * 
  * TODO: add java doc for each public method including mandatory and optional parameters like {@link SOSRequestBuilder_100}.
- * TODO: add validation to each request creation
- * 
  */
 public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 	
