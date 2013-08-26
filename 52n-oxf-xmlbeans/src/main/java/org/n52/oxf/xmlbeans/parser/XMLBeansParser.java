@@ -68,7 +68,7 @@ public class XMLBeansParser {
 	/**
 	 * Use this method to set the state of the validation flag.
 	 */
-	public static void setValidationGloballyEnabled(boolean b) {
+	public static void setValidationGloballyEnabled(final boolean b) {
 		validationGlobally = b;
 	}
 
@@ -78,7 +78,7 @@ public class XMLBeansParser {
 	 * 
 	 * @param lvc a new lax case
 	 */
-	public static void registerLaxValidationCase(LaxValidationCase lvc) {
+	public static void registerLaxValidationCase(final LaxValidationCase lvc) {
 		laxValidationCases.add(lvc);
 	}
 	
@@ -99,7 +99,7 @@ public class XMLBeansParser {
 	 * @return The parsed xbeans XmlObject
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
-	public static XmlObject parse(String source) throws XMLHandlingException {
+	public static XmlObject parse(final String source) throws XMLHandlingException {
 		return parse(source, true);
 	}
 
@@ -114,11 +114,11 @@ public class XMLBeansParser {
 	 * @return The parsed xbeans XmlObject
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
-	public static XmlObject parse(String source, boolean validate) throws XMLHandlingException {
+	public static XmlObject parse(final String source, final boolean validate) throws XMLHandlingException {
 		XmlObject doc;
 		try {
 			doc = XmlObject.Factory.parse(source);
-		} catch (XmlException e) {
+		} catch (final XmlException e) {
 			throw new XMLHandlingException("Cannot parse xml: "+e.getMessage(), e);
 		}
 		
@@ -134,7 +134,7 @@ public class XMLBeansParser {
 	 * @return The parsed xbeans XmlObject
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
-	public static XmlObject parse(InputStream resourceAsStream) throws XMLHandlingException {
+	public static XmlObject parse(final InputStream resourceAsStream) throws XMLHandlingException {
 		return parse(resourceAsStream, true);
 	}
 
@@ -145,15 +145,15 @@ public class XMLBeansParser {
 	 * @return The parsed xbeans XmlObject
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
-	public static XmlObject parse(InputStream resourceAsStream, boolean validate) throws XMLHandlingException {
+	public static XmlObject parse(final InputStream resourceAsStream, final boolean validate) throws XMLHandlingException {
 		XmlObject doc;
 		try {
 			doc = XmlObject.Factory.parse(resourceAsStream);
-		} catch (XmlException e) {
+		} catch (final XmlException e) {
 			/* cannot parse xml string. Maybe a stream problem? try to read as String!
 			 * This has been implemented because of XmlBeans stream issues. */
 			doc = parseAsStringDueToXmlBeansStreamIssues(resourceAsStream, e);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new XMLHandlingException("Cannot read the document: Transmission interrupted!", e);
 		}
 		
@@ -164,22 +164,22 @@ public class XMLBeansParser {
 	}
 
 	private static XmlObject parseAsStringDueToXmlBeansStreamIssues(
-			InputStream resourceAsStream, XmlException e)
+			final InputStream resourceAsStream, final XmlException e)
 			throws XMLHandlingException {
-		BufferedReader b = new BufferedReader(new InputStreamReader(resourceAsStream));
+		final BufferedReader b = new BufferedReader(new InputStreamReader(resourceAsStream));
 
-		StringWriter w = new StringWriter();			
+		final StringWriter w = new StringWriter();			
 		try {
 			while(b.ready()) {
 				w.write(b.readLine());
 			}
-		} catch (IOException e2) {
+		} catch (final IOException e2) {
 			throw new XMLHandlingException("Cannot read the document: Transmission interrupted!", e);
 		}
 
 		try {
 			return XmlObject.Factory.parse(w.toString());
-		} catch (XmlException e1) {
+		} catch (final XmlException e1) {
 			throw new XMLHandlingException("The document you supplied was incomplete. Please try again.", e);
 		}
 	}
@@ -193,7 +193,7 @@ public class XMLBeansParser {
 	 * @return The parsed xbeans XmlObject
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
-	public static XmlObject parse(Node xmlnode) throws XMLHandlingException {
+	public static XmlObject parse(final Node xmlnode) throws XMLHandlingException {
 		return parse(xmlnode, true);
 	}
 
@@ -208,11 +208,11 @@ public class XMLBeansParser {
 	 * @return The parsed xbeans XmlObject
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
-	public static XmlObject parse(Node xmlnode, boolean validate) throws XMLHandlingException {
+	public static XmlObject parse(final Node xmlnode, final boolean validate) throws XMLHandlingException {
 		XmlObject doc;
 		try {
 			doc = XmlObject.Factory.parse(xmlnode);
-		} catch (XmlException e) {
+		} catch (final XmlException e) {
 			throw new XMLHandlingException("Cannot read the node", e);
 		}
 
@@ -227,15 +227,19 @@ public class XMLBeansParser {
 	 * private helper method for throwing an exception if validation
 	 * was used within a parsing request.
 	 */
-	private static void validateOnParse(XmlObject doc) throws XMLHandlingException {
-		if (!validationGlobally) return;
-		String errorString = createErrorMessage(validate(doc));
-		if (errorString.length() > 0) throw new XMLHandlingException(errorString);		
+	private static void validateOnParse(final XmlObject doc) throws XMLHandlingException {
+		if (!validationGlobally) {
+			return;
+		}
+		final String errorString = createErrorMessage(validate(doc));
+		if (errorString.length() > 0) {
+			throw new XMLHandlingException(errorString);
+		}		
 	}
 
-	private static String createErrorMessage(Collection<XmlError> errors) {
-		StringBuilder errorBuilder = new StringBuilder();
-		for (XmlError xmlError : errors) {
+	private static String createErrorMessage(final Collection<XmlError> errors) {
+		final StringBuilder errorBuilder = new StringBuilder();
+		for (final XmlError xmlError : errors) {
 			errorBuilder.append(xmlError.getMessage()).append(";");
 		}
 		
@@ -252,14 +256,16 @@ public class XMLBeansParser {
 	 * @param doc the document to validate
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
-	public static void strictValidate(XmlObject doc) throws XMLHandlingException {
-		if (!validationGlobally) return;
+	public static void strictValidate(final XmlObject doc) throws XMLHandlingException {
+		if (!validationGlobally) {
+			return;
+		}
 		
-		List<XmlError> validationErrors = new ArrayList<XmlError>();
-		XmlOptions validationOptions = new XmlOptions();
+		final List<XmlError> validationErrors = new ArrayList<XmlError>();
+		final XmlOptions validationOptions = new XmlOptions();
 		validationOptions.setErrorListener(validationErrors);
 
-		boolean isValid = doc.validate(validationOptions);
+		final boolean isValid = doc.validate(validationOptions);
 
 		// create XmlException with error-message if the XML is invalid.
 		if (!isValid) {
@@ -274,17 +280,19 @@ public class XMLBeansParser {
 	 * @param doc the document to validate
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
-	public static Collection<XmlError> validate(XmlObject doc) {
-		Set<XmlError> validationErrors = new HashSet<XmlError>();
-		if (!validationGlobally) return validationErrors;
+	public static Collection<XmlError> validate(final XmlObject doc) {
+		final Set<XmlError> validationErrors = new HashSet<XmlError>();
+		if (!validationGlobally) {
+			return validationErrors;
+		}
 		
 		// Create an XmlOptions instance and set the error listener.
-		List<XmlError> allValidationErrors = new ArrayList<XmlError>();
-		XmlOptions validationOptions = new XmlOptions();
+		final List<XmlError> allValidationErrors = new ArrayList<XmlError>();
+		final XmlOptions validationOptions = new XmlOptions();
 		validationOptions.setErrorListener(allValidationErrors);
 
 		// Validate the XML document
-		boolean isValid = doc.validate(validationOptions);
+		final boolean isValid = doc.validate(validationOptions);
 
 		// Create Exception with error message if the xml document is invalid
 		if (!isValid) {
@@ -299,16 +307,20 @@ public class XMLBeansParser {
 		return validationErrors;
 	}
 
-	private static void filterValidationErrors(Set<XmlError> validationErrors, List<XmlError> allValidationErrors) {
+	private static void filterValidationErrors(final Set<XmlError> validationErrors, final List<XmlError> allValidationErrors) {
 	    if (laxValidationCases.isEmpty()) {
             validationErrors.addAll(allValidationErrors);
             return;
         }
 	    
-	    for (XmlError validationError : allValidationErrors) {
+	    for (final XmlError validationError : allValidationErrors) {
 	    	boolean shouldPass = false;
-			for (LaxValidationCase lvc : laxValidationCases) {
+			for (final LaxValidationCase lvc : laxValidationCases) {
 				if (lvc.shouldPass(validationError)) {
+					shouldPass = true;
+					break;
+				} else if (lvc instanceof DependentLaxValidationCase &&
+						((DependentLaxValidationCase)lvc).shouldPass(validationError,allValidationErrors)) {
 					shouldPass = true;
 					break;
 				}
@@ -319,7 +331,7 @@ public class XMLBeansParser {
 		}
 	}
 
-	public void sosValidateExample(XmlObject xb_doc) throws OwsExceptionReport {
+	public void sosValidateExample(final XmlObject xb_doc) throws OwsExceptionReport {
 		/*
 		 * this is just an example :-)
 		 */
@@ -328,11 +340,11 @@ public class XMLBeansParser {
 		/*
 		 * get errors. if empty, do not throw exception
 		 */
-		Collection<XmlError> exs = XMLBeansParser.validate(xb_doc);
+		final Collection<XmlError> exs = XMLBeansParser.validate(xb_doc);
 
 		String message = null;
 		String parameterName = null;
-		for (XmlError error : exs) {
+		for (final XmlError error : exs) {
 			// ExceptionCode for Exception
 			ExceptionCode exCode = null;
 
@@ -350,7 +362,7 @@ public class XMLBeansParser {
 					exCode = ExceptionCode.InvalidParameterValue;
 
 					// split message string to get attribute name
-					String[] messAndAttribute = message
+					final String[] messAndAttribute = message
 							.split("attribute '");
 					if (messAndAttribute.length == 2) {
 						parameterName = messAndAttribute[1]
@@ -363,7 +375,7 @@ public class XMLBeansParser {
 					exCode = ExceptionCode.InvalidParameterValue;
 
 					// get attribute name
-					String[] messAndAttribute = message.split(" ");
+					final String[] messAndAttribute = message.split(" ");
 					parameterName = messAndAttribute[10];
 				}
 
@@ -373,10 +385,10 @@ public class XMLBeansParser {
 					exCode = ExceptionCode.MissingParameterValue;
 
 					// get attribute name
-					String[] messAndAttribute = message
+					final String[] messAndAttribute = message
 							.split("attribute: ");
 					if (messAndAttribute.length == 2) {
-						String[] attrAndRest = messAndAttribute[1]
+						final String[] attrAndRest = messAndAttribute[1]
 								.split(" in");
 						if (attrAndRest.length == 2) {
 							parameterName = attrAndRest[0];
@@ -390,9 +402,9 @@ public class XMLBeansParser {
 					exCode = ExceptionCode.MissingParameterValue;
 
 					// get element name
-					String[] messAndElements = message.split(" '");
+					final String[] messAndElements = message.split(" '");
 					if (messAndElements.length >= 2) {
-						String elements = messAndElements[1];
+						final String elements = messAndElements[1];
 						if (elements.contains("offering")) {
 							parameterName = "offering";
 						} else if (elements.contains("observedProperty")) {
@@ -413,9 +425,9 @@ public class XMLBeansParser {
 					exCode = ExceptionCode.InvalidParameterValue;
 
 					// get element name
-					String[] messAndElements = message.split(" '");
+					final String[] messAndElements = message.split(" '");
 					if (messAndElements.length >= 2) {
-						String elements = messAndElements[1];
+						final String elements = messAndElements[1];
 						if (elements.contains("offering")) {
 							parameterName = "offering";
 						} else if (elements.contains("observedProperty")) {
@@ -432,7 +444,7 @@ public class XMLBeansParser {
 					}
 				} else {
 					// create service exception
-					OwsExceptionReport se = new OwsExceptionReport();
+					final OwsExceptionReport se = new OwsExceptionReport();
 					se.addCodedException(ExceptionCode.InvalidRequest,
 							null, "[XmlBeans validation error:] " + message);
 					//						LOGGER.error("The request is invalid!", se);
@@ -440,7 +452,7 @@ public class XMLBeansParser {
 				}
 
 				// create service exception
-				OwsExceptionReport se = new OwsExceptionReport();
+				final OwsExceptionReport se = new OwsExceptionReport();
 				se.addCodedException(exCode, parameterName,
 						"[XmlBeans validation error:] " + message);
 				//					LOGGER.error("The request is invalid!", se);
