@@ -40,7 +40,7 @@ public interface LaxValidationCase {
 	 * @return true, if this lax case embodies an exceptional
 	 * validation case on the given error
 	 */
-	public boolean shouldPass(XmlError validationError);
+	boolean shouldPass(XmlError validationError);
 	
 	/**
 	 * @deprecated no longer called, due to the fact that errors can also be XmlError (the supertype).
@@ -48,6 +48,7 @@ public interface LaxValidationCase {
 	 * @param validationError the validation error
 	 * @return true, if this lax case embodies an exceptional validation case on the given error
 	 */
-	public boolean shouldPass(XmlValidationError validationError);
+	@Deprecated
+	boolean shouldPass(XmlValidationError validationError);
 	
 }
