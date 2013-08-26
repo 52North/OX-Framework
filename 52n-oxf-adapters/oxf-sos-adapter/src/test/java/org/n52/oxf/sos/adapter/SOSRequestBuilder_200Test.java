@@ -42,6 +42,7 @@ import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
 import net.opengis.sensorML.x101.SensorMLDocument;
 import net.opengis.sos.x20.InsertObservationDocument;
 import net.opengis.sos.x20.InsertObservationType;
+import net.opengis.sos.x20.SosInsertionMetadataDocument;
 import net.opengis.sos.x20.SosInsertionMetadataType;
 import net.opengis.swes.x20.InsertSensorDocument;
 import net.opengis.swes.x20.InsertSensorType;
@@ -121,6 +122,8 @@ public class SOSRequestBuilder_200Test {
 	buildRegisterSensor_should_set_service_and_version()
 			 throws OXFException, XmlException {
 		createParamConWithMandatoryInsertSensorValues();
+		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
+				TEST_OBSERVABLE_PROPERTY_1);
 		
 		final String registerSensor = builder.buildRegisterSensor(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
@@ -164,6 +167,8 @@ public class SOSRequestBuilder_200Test {
 	buildRegisterSensor_should_set_procedure_description_format()
 			throws XmlException, OXFException {
 		createParamConWithMandatoryInsertSensorValues();
+		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
+				TEST_OBSERVABLE_PROPERTY_1);
 		
 		final String registerSensor = builder.buildRegisterSensor(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
@@ -175,6 +180,8 @@ public class SOSRequestBuilder_200Test {
 	buildRegisterSensor_should_set_procedure_description()
 			throws XmlException, OXFException {
 		createParamConWithMandatoryInsertSensorValues();
+		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
+				TEST_OBSERVABLE_PROPERTY_1);
 		
 		final String registerSensor = builder.buildRegisterSensor(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
@@ -212,13 +219,15 @@ public class SOSRequestBuilder_200Test {
 		createParamConWithMandatoryInsertSensorValues();
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVATION_TYPE, obsType1,obsType2);
 		parameters.addParameterShell(REGISTER_SENSOR_FEATURE_TYPE_PARAMETER, foiType1,foiType2);
+		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
+				TEST_OBSERVABLE_PROPERTY_1);
 		
 		String registerSensor = builder.buildRegisterSensor(parameters);
 		InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
 		
 		assertThat(insertSensorType.getMetadataArray().length,is(1));
 		
-		SosInsertionMetadataType insertionMetadata = (SosInsertionMetadataType)insertSensorType.getMetadataArray(0).getInsertionMetadata();
+		SosInsertionMetadataType insertionMetadata = SosInsertionMetadataDocument.Factory.parse(insertSensorType.getMetadataArray()[0].xmlText()).getSosInsertionMetadata();
 		
 		assertThat(insertionMetadata.getObservationTypeArray().length,is(2));
 		assertThat(insertionMetadata.getFeatureOfInterestTypeArray().length,is(2));
@@ -233,13 +242,15 @@ public class SOSRequestBuilder_200Test {
 		createParamConWithMandatoryInsertSensorValues();
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVATION_TYPE, obsType1);
 		parameters.addParameterShell(REGISTER_SENSOR_FEATURE_TYPE_PARAMETER, foiType1);
+		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
+				TEST_OBSERVABLE_PROPERTY_1);
 		
 		registerSensor = builder.buildRegisterSensor(parameters);
 		insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
 		
 		assertThat(insertSensorType.getMetadataArray().length,is(1));
 		
-		insertionMetadata = (SosInsertionMetadataType)insertSensorType.getMetadataArray(0).getInsertionMetadata();
+		insertionMetadata = SosInsertionMetadataDocument.Factory.parse(insertSensorType.getMetadataArray()[0].xmlText()).getSosInsertionMetadata();
 		
 		assertThat(insertionMetadata.getObservationTypeArray().length,is(1));
 		assertThat(insertionMetadata.getFeatureOfInterestTypeArray().length,is(1));
