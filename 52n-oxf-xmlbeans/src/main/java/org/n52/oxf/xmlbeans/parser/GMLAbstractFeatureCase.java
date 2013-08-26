@@ -23,10 +23,8 @@
  */
 package org.n52.oxf.xmlbeans.parser;
 
-import javax.xml.namespace.QName;
-
-import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlValidationError;
+import org.n52.oxf.xml.XMLConstants;
 
 /**
  * Allow substitutions of gml:AbstractFeature.
@@ -35,11 +33,8 @@ import org.apache.xmlbeans.XmlValidationError;
  * 
  * @author matthes rieke <m.rieke@52north.org>
  */
-public class GMLAbstractFeatureCase implements LaxValidationCase {
+public class GMLAbstractFeatureCase extends AbstractLaxValidationCase {
 
-	private static final Object FEATURE_QN = new QName("http://www.opengis.net/gml", "_Feature");
-	private static final Object FEATURE_COLLECTION_QN = new QName("http://www.opengis.net/gml", "_FeatureCollection");
-	
 	private static GMLAbstractFeatureCase instance = null;
 	
 	private GMLAbstractFeatureCase() {}
@@ -51,16 +46,9 @@ public class GMLAbstractFeatureCase implements LaxValidationCase {
 		return instance;
 	}
 
-	public boolean shouldPass(XmlValidationError xve) {
-		return xve.getExpectedQNames() != null && (xve.getExpectedQNames().contains(FEATURE_QN)
-				|| xve.getExpectedQNames().contains(FEATURE_COLLECTION_QN));
+	@Override
+	public boolean shouldPass(final XmlValidationError xve) {
+		return xve.getExpectedQNames() != null && (xve.getExpectedQNames().contains(XMLConstants.FEATURE_QN)
+				|| xve.getExpectedQNames().contains(XMLConstants.FEATURE_COLLECTION_QN));
 	}
-
-	public boolean shouldPass(XmlError validationError) {
-		if (!(validationError instanceof XmlValidationError)) return false;
-		
-		XmlValidationError xve = (XmlValidationError) validationError;
-		return shouldPass(xve);
-	}
-
 }

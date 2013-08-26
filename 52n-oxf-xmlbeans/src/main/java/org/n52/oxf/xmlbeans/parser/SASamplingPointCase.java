@@ -27,8 +27,8 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlValidationError;
+import org.n52.oxf.xml.XMLConstants;
 
 /**
  * Allow sa:SamplingPoint when gml:AbstractFeature is expected.<br />
@@ -39,14 +39,8 @@ import org.apache.xmlbeans.XmlValidationError;
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  */
-public class SASamplingPointCase implements LaxValidationCase {
+public class SASamplingPointCase extends AbstractLaxValidationCase {
 
-	private static final Object QN_GML_ABSTRACT_FEATURE = 
-			new QName("http://www.opengis.net/gml", "_Feature");
-	
-	private static final QName QN_SA_1_0_SAMPLING_POINT = 
-			new QName("http://www.opengis.net/sampling/1.0", "SamplingPoint");
-	
 	private static SASamplingPointCase instance = null;
 	
 	private SASamplingPointCase() {}
@@ -58,18 +52,11 @@ public class SASamplingPointCase implements LaxValidationCase {
 		return instance;
 	}
 	
-	public boolean shouldPass(XmlValidationError xve) {
-		return false;
+	@Override
+	public boolean shouldPass(final XmlValidationError xve) {
+		final QName offending = xve.getOffendingQName();
+		final List<?> expected = xve.getExpectedQNames();
+		return offending != null && offending.equals(XMLConstants.QN_SA_1_0_SAMPLING_POINT) && // correct substitution
+				expected != null && expected.contains(XMLConstants.QN_GML_ABSTRACT_FEATURE); // correct super class
 	}
-
-	public boolean shouldPass(XmlError validationError) {
-		if (!(validationError instanceof XmlValidationError)) return false;
-		
-		XmlValidationError xve = (XmlValidationError) validationError;
-		QName offending = xve.getOffendingQName();
-		List<?> expected = xve.getExpectedQNames();
-		return offending != null && offending.equals(QN_SA_1_0_SAMPLING_POINT) && // correct substitution
-				expected != null && expected.contains(QN_GML_ABSTRACT_FEATURE); // correct super class
-	}
-
 }
