@@ -291,7 +291,7 @@ public class SOSAdapter implements IServiceAdapter {
             try {
                 final XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsStream());
                 if (result_xb.schemaType() == ExceptionReportDocument.type) {
-                    throw parseExceptionReport_100(result);
+                    throw parseOws110ExceptionReport(result);
                 }
             }
             catch (final XmlException e) {
@@ -372,13 +372,7 @@ public class SOSAdapter implements IServiceAdapter {
         return featureCollection;
     }
 
-    private ExceptionReport createExceptionReportException(final Element exceptionReport, final OperationResult result) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    private ExceptionReport parseExceptionReport_100(final OperationResult result) throws XmlException, IOException {
-
+    private ExceptionReport parseOws110ExceptionReport(final OperationResult result) throws IOException, XmlException {
         final ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsStream());
         final ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
 
