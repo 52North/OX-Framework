@@ -36,6 +36,21 @@ import org.n52.oxf.adapter.ParameterContainer;
  * 
  */
 public interface ISOSRequestBuilder {
+	
+	/**
+	 * Currently supported by SOS 2.0 request builder only.<br />
+	 * Specifies the communication binding uses by the SOS instances the builder will create requests for.
+	 * Allowed values: <ul>
+	 * <li><b>KVP</b> &rarr; Key Value Pair: all request are executed via HTTP GET &rarr; only read operations are supported.</li>
+	 * <li><b>POX</b> &rarr; Plain Old XML: all requests are executed via HTTP POST using OGC XML encoding.</li>
+	 * <li><b>SOAP</b>: all requests are executed via HTTP POST using OGC XML encoding in soap:envelopes.</li>
+	 * </ul>
+	 */
+	String BINDING = "binding";
+	
+	public enum Binding {
+		POX, KVP, SOAP;
+	}
 
 	String GET_CAPABILITIES_UPDATE_SEQUENCE_PARAMETER = "updateSequence";
 	String GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER = "AcceptVersions";
