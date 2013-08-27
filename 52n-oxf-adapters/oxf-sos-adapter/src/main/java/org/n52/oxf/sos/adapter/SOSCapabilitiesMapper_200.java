@@ -94,8 +94,12 @@ import org.n52.oxf.valueDomains.filter.IFilter;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
 import org.n52.oxf.valueDomains.time.TemporalValueDomain;
 import org.n52.oxf.valueDomains.time.TimePeriod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SOSCapabilitiesMapper_200 {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(SOSCapabilitiesMapper_200.class);
 
     public ServiceDescriptor mapCapabilities(final CapabilitiesDocument capabilitiesDoc) throws OXFException {
 
@@ -279,19 +283,19 @@ public class SOSCapabilitiesMapper_200 {
         }
         catch (final HttpClientException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+        	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
         }
         catch (final IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+        	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
         }
         catch (final XmlException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+        	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
         }
         catch (final OXFException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+        	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
         }
     }
 
