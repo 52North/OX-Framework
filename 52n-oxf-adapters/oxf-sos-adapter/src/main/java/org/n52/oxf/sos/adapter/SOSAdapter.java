@@ -259,16 +259,22 @@ public class SOSAdapter implements IServiceAdapter {
 
         final String request = buildRequest(operation, parameters);
 
+        if (operation.getDcps().length == 0) {
+        	throw new IllegalStateException("No DCP links available to send request to.");
+        }
+
+        String uri = null;
+        if (operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0) {
+        	uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
+        }
+
+        /*
+         *  TODO implement support for different bindings using other HTTP methods than POST!
+         * Ideas: binding information in parameters and some default values resulting in the same 
+         * result like the current implementation
+         */
+
         try {
-            if (operation.getDcps().length == 0) {
-                throw new IllegalStateException("No DCP links available to send request to.");
-            }
-
-            String uri = null;
-            if (operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0) {
-                uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
-            }
-
             final HttpResponse httpResponse = httpClient.executePost(uri.trim(), request, TEXT_XML);
             final HttpEntity responseEntity = httpResponse.getEntity();
             result = new OperationResult(responseEntity.getContent(), parameters, request);
