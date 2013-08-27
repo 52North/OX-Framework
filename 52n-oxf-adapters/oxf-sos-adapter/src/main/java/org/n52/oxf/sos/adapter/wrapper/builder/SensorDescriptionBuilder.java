@@ -24,6 +24,7 @@
 package org.n52.oxf.sos.adapter.wrapper.builder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -105,16 +106,16 @@ public class SensorDescriptionBuilder {
 	private SystemDocument sysDoc;
 	private SystemType system;
 	
-	private String[] validTime;
-	private ArrayList<String> keywords;
-	private ArrayList<String[]> identifier, classifier; // {name, definition, value}
-	private ArrayList<String[]> inputs; // {name, definition}
-	private ArrayList<String[]> outputsMeasurement; // {name, definition, offeringUri, offeringName, uom }
-	private ArrayList<String[]> outputsText; // {name, definition, offeringUri, offeringName }
-	private ArrayList<String[]> outputsBoolean; // {name, definition, offeringUri, offeringName }
-	private ArrayList<String[]> outputsCount; // {name, definition, offeringUri, offeringName }
-	private ArrayList<String[]> componentXlink; // {name, xlink}
-	private ArrayList<String[]> componentInline; // {name, description}
+	private final String[] validTime;
+	private final List<String> keywords;
+	private final List<String[]> identifier, classifier; // {name, definition, value}
+	private final List<String[]> inputs; // {name, definition}
+	private final List<String[]> outputsMeasurement; // {name, definition, offeringUri, offeringName, uom }
+	private final List<String[]> outputsText; // {name, definition, offeringUri, offeringName }
+	private final List<String[]> outputsBoolean; // {name, definition, offeringUri, offeringName }
+	private final List<String[]> outputsCount; // {name, definition, offeringUri, offeringName }
+	private final List<String[]> componentXlink; // {name, xlink}
+	private final List<String[]> componentInline; // {name, description}
 
 	// capabilities data
 	private String statusName;
@@ -146,79 +147,79 @@ public class SensorDescriptionBuilder {
 		componentInline = new ArrayList<String[]>();
 	}
 	
-	public void addKeyword(String keyword) {
+	public void addKeyword(final String keyword) {
 		keywords.add(keyword);
 	}
 	
-	public void addIdentifier(String name, String definition, String value) {
+	public void addIdentifier(final String name, final String definition, final String value) {
 		if (entryExists(definition, identifier)) {
 			removeEntry(definition, identifier);
 		}
 		identifier.add(new String[] { name, definition, value });
 	}
 
-	public void setIdentifierUniqeId(String value) {
+	public void setIdentifierUniqeId(final String value) {
 		if (entryExists(UNIQUE_ID_DEF, identifier)) {
 			removeEntry(UNIQUE_ID_DEF, identifier);
 		}
 		addIdentifier(UNIQUE_ID_NAME, UNIQUE_ID_DEF, value);
 	}
 
-	public void setIdentifierLongName(String value) {
+	public void setIdentifierLongName(final String value) {
 		if (entryExists(LONG_NAME_DEF, identifier)) {
 			removeEntry(LONG_NAME_DEF, identifier);
 		}
 		addIdentifier(LONG_NAME_NAME, LONG_NAME_DEF, value);
 	}
 
-	public void setIdentifierShortName(String value) {
+	public void setIdentifierShortName(final String value) {
 		if (entryExists(SHORT_NAME_DEF, identifier)) {
 			removeEntry(SHORT_NAME_DEF, identifier);
 		}
 		addIdentifier(SHORT_NAME_NAME, SHORT_NAME_DEF, value);
 	}
 
-	public void setIdentifierParentSystemUniqueId(String value) {
+	public void setIdentifierParentSystemUniqueId(final String value) {
 		if (entryExists(PARENT_SYSTEM_UNIQUE_ID_DEF, identifier)) {
 			removeEntry(PARENT_SYSTEM_UNIQUE_ID_DEF, identifier);
 		}
 		addIdentifier(PARENT_SYSTEM_UNIQUE_ID_NAME, PARENT_SYSTEM_UNIQUE_ID_DEF, value);
 	}
 	
-	public void addClassifier(String name, String definition, String value) {
+	public void addClassifier(final String name, final String definition, final String value) {
 		if (entryExists(definition, classifier)) {
 			removeEntry(definition, classifier);
 		}
 		classifier.add(new String[]{name, definition, value});
 	}
 	
-	public void setClassifierIntendedApplication(String value) {
+	public void setClassifierIntendedApplication(final String value) {
 		if (entryExists(INTENDED_APPLICATION_DEF, classifier)) {
 			removeEntry(INTENDED_APPLICATION_DEF, classifier);
 		}
 		addClassifier(INTENDED_APPLICATION_NAME, INTENDED_APPLICATION_DEF, value);
 	}
 	
-	public void setClassifierSensorType(String value) {
+	public void setClassifierSensorType(final String value) {
 		if (entryExists(SENSOR_TYPE_DEF, classifier)) {
 			removeEntry(SENSOR_TYPE_DEF, classifier);
 		}
 		addClassifier(SENSOR_TYPE_NAME, SENSOR_TYPE_DEF, value);
 	}
 	
-	public void setValidTime(String begin, String end) {
+	public void setValidTime(final String begin, final String end) {
 		validTime[0] = begin;
 		validTime[1] = end;
 	}
 	
-	public void setCapabilityCollectingStatus(String statusName, boolean isCollecting) {
+	public void setCapabilityCollectingStatus(final String statusName, final boolean isCollecting) {
 		this.statusName = statusName;
 		this.isCollecting = isCollecting;
 	}
 	
-	public void setCapabilityBbox(String lcEastingUom, double lcEastingValue,
-			String lcNorthingUom, double lcNorthingValue, String ucEastingUom,
-			double ucEastingValue, String ucNorthingUom, double ucNorthingValue) {
+	public void setCapabilityBbox(final String lcEastingUom, final double lcEastingValue,
+			final String lcNorthingUom, final double lcNorthingValue, final String ucEastingUom,
+			final double ucEastingValue, final String ucNorthingUom, final double ucNorthingValue) {
 		this.lcEastingUom = lcEastingUom; // lower corner
 		this.lcEastingValue = lcEastingValue;
 		this.lcNorthingUom = lcNorthingUom;
@@ -229,14 +230,14 @@ public class SensorDescriptionBuilder {
 		this.ucNorthingValue = ucNorthingValue;
 	}
 	
-	public void addFeatureOfInterest(String foiName, String foiUri) {
+	public void addFeatureOfInterest(final String foiName, final String foiUri) {
 		this.foiName = foiName;
 		this.foiUri = foiUri;
 	}
 	
-	public void setContact(String id, String individualName,
-			String organizationName, String deliveryPoint, String city,
-			String postalCode, String country, String email) {
+	public void setContact(final String id, final String individualName,
+			final String organizationName, final String deliveryPoint, final String city,
+			final String postalCode, final String country, final String email) {
 		this.id = id;
 		this.individualName = individualName;
 		this.organizationName = organizationName;
@@ -247,10 +248,10 @@ public class SensorDescriptionBuilder {
 		this.email = email;
 	}
 
-	public void setPosition(String positionName, String referenceFrame,
-			String vectorId, String eastingUom, double eastingValue,
-			String northingUom, double northingValue, String altitudeUom,
-			double altiValue) {
+	public void setPosition(final String positionName, final String referenceFrame,
+			final String vectorId, final String eastingUom, final double eastingValue,
+			final String northingUom, final double northingValue, final String altitudeUom,
+			final double altiValue) {
 		this.positionName = positionName;
 		this.referenceFrame = referenceFrame;
 		this.vectorId = vectorId;
@@ -260,48 +261,48 @@ public class SensorDescriptionBuilder {
 		this.northingValue = northingValue;
 		// optional values
 		this.altitudeUom = altitudeUom;
-		this.altitudeValue = altiValue;
+		altitudeValue = altiValue;
 	}
 	
-	public void setInterface(String iName, String serviceUrl, String serviceType,
-			String sensorId) {
+	public void setInterface(final String iName, final String serviceUrl, final String serviceType,
+			final String sensorId) {
 		this.iName = iName;
 		this.serviceUrl = serviceUrl;
 		this.serviceType = serviceType;
 		this.sensorId = sensorId;
 	}
 	
-	public void addInput(String name, String definition) {
+	public void addInput(final String name, final String definition) {
 		inputs.add(new String[] { name, definition });
 	}
 	
-	public void addOutputMeasurement(String name, String definition, String offeringUri, String offeringName, String uom) {
+	public void addOutputMeasurement(final String name, final String definition, final String offeringUri, final String offeringName, final String uom) {
 		outputsMeasurement.add(new String[] { name, definition, offeringUri, offeringName, uom});
 	}
 	
-	public void addOutputText(String name, String definition, String offeringUri, String offeringName) {
+	public void addOutputText(final String name, final String definition, final String offeringUri, final String offeringName) {
 		outputsText.add(new String[] { name, definition, offeringUri, offeringName});
 	}
 	
-	public void addOutputBoolean(String name, String definition, String offeringUri, String offeringName) {
+	public void addOutputBoolean(final String name, final String definition, final String offeringUri, final String offeringName) {
 		outputsBoolean.add(new String[] { name, definition, offeringUri, offeringName});
 	}
 	
-	public void addOutputCount(String name, String definition, String offeringUri, String offeringName) {
+	public void addOutputCount(final String name, final String definition, final String offeringUri, final String offeringName) {
 		outputsCount.add(new String[] { name, definition, offeringUri, offeringName});
 	}
 
-	public void addComponentXlink(String name, String url) {
+	public void addComponentXlink(final String name, final String url) {
 		componentXlink.add(new String[] { name, url });
 	}
 	
-	public void addComponentInline(String name, String description) {
+	public void addComponentInline(final String name, final String description) {
 		componentInline.add(new String[] { name, description });
 	}
 	
-	private boolean entryExists(String definition, ArrayList<String[]> list) {
+	private boolean entryExists(final String definition, final List<String[]> identifiers) {
 		boolean exists = false;
-		for (String[] id : list) {
+		for (final String[] id : identifiers) {
 			if (id[1].equals(definition)) {
 				exists = true;
 				break;
@@ -310,10 +311,10 @@ public class SensorDescriptionBuilder {
 		return exists;
 	}
 	
-	private void removeEntry(String definition, ArrayList<String[]> list) {
-		for (String[] id : list) {
+	private void removeEntry(final String definition, final List<String[]> identifiers) {
+		for (final String[] id : identifiers) {
 			if (id[1].equals(definition)) {
-				list.remove(id);
+				identifiers.remove(id);
 				break;
 			}
 		}
@@ -366,18 +367,18 @@ public class SensorDescriptionBuilder {
 	}
 	
 	private void addKeywords() {
-		KeywordList keywordList = system.addNewKeywords().addNewKeywordList();
-		for (String keyword : keywords) {
+		final KeywordList keywordList = system.addNewKeywords().addNewKeywordList();
+		for (final String keyword : keywords) {
 			keywordList.addKeyword(keyword);
 		}
 	}
 	
 	private void addIdentifier() {
-		IdentifierList identifierList = system.addNewIdentification().addNewIdentifierList();
+		final IdentifierList identifierList = system.addNewIdentification().addNewIdentifierList();
 		
 		Identifier forId;
 		Term forTerm;
-		for (String[] id : identifier) {
+		for (final String[] id : identifier) {
 			forId = identifierList.addNewIdentifier();
 			forId.setName(id[0]);
 			forTerm = forId.addNewTerm();
@@ -387,11 +388,11 @@ public class SensorDescriptionBuilder {
 	}
 	
 	private void addClassifier() {
-		ClassifierList classifierList = system.addNewClassification().addNewClassifierList();
+		final ClassifierList classifierList = system.addNewClassification().addNewClassifierList();
 
 		Classifier forClassifier;
 		Term forTerm;
-		for (String[] classifier : this.classifier) {
+		for (final String[] classifier : this.classifier) {
 			forClassifier = classifierList.addNewClassifier();
 			forClassifier.setName(classifier[0]);
 			forTerm = forClassifier.addNewTerm();
@@ -401,18 +402,18 @@ public class SensorDescriptionBuilder {
 	}
 	
 	private void addValidTime() {
-		TimePeriodType period = system.addNewValidTime().addNewTimePeriod();
+		final TimePeriodType period = system.addNewValidTime().addNewTimePeriod();
 		period.addNewBeginPosition().setStringValue(validTime[0]);
 		period.addNewEndPosition().setStringValue(validTime[1]);
 	}
 	
 	private void addCapabilities() {
-		Capabilities caps = system.addNewCapabilities();
+		final Capabilities caps = system.addNewCapabilities();
 		DataRecordType dataRecordType;
 	    DataComponentPropertyType f;
 	    Boolean b;
 	    Text t;
-	    AbstractDataRecordType adrt = caps.addNewAbstractDataRecord();
+	    final AbstractDataRecordType adrt = caps.addNewAbstractDataRecord();
 	    dataRecordType = (DataRecordType) adrt.substitute(SWE101_DATARECORD, DataRecordType.type);
 	    
 	    // Status of the Sensor (collecting data?)
@@ -436,10 +437,10 @@ public class SensorDescriptionBuilder {
 	    
 	    // add observed boundingbox
 	    // TODO implement solution for moving sensors
-	    DataComponentPropertyType observedBBoxField = dataRecordType.addNewField();
+	    final DataComponentPropertyType observedBBoxField = dataRecordType.addNewField();
 		observedBBoxField.setName("observedBBOX");
-		AbstractDataRecordType aDRT = observedBBoxField.addNewAbstractDataRecord();
-		EnvelopeType envelope = (EnvelopeType) aDRT.substitute(SWE101_ENVELOPE, EnvelopeType.type);
+		final AbstractDataRecordType aDRT = observedBBoxField.addNewAbstractDataRecord();
+		final EnvelopeType envelope = (EnvelopeType) aDRT.substitute(SWE101_ENVELOPE, EnvelopeType.type);
 		envelope.setDefinition(OGC_DISCOVERY_OBSERVED_BBOX_DEFINITION);
 		envelope.addNewLowerCorner().setVector(getLowerCornerOfObservedBBox());
 		envelope.addNewUpperCorner().setVector(getUpperCornerOfObservedBBox());
@@ -448,17 +449,17 @@ public class SensorDescriptionBuilder {
 	}
 	
 	private VectorType getLowerCornerOfObservedBBox() {
-		VectorType positionVector = VectorType.Factory.newInstance();
-		Coordinate easting = positionVector.addNewCoordinate();
+		final VectorType positionVector = VectorType.Factory.newInstance();
+		final Coordinate easting = positionVector.addNewCoordinate();
 		easting.setName("easting");
-		Quantity eastingValue = easting.addNewQuantity();
+		final Quantity eastingValue = easting.addNewQuantity();
 		eastingValue.setAxisID("x");
 		eastingValue.addNewUom().setCode(lcEastingUom);
 		eastingValue.setValue(lcEastingValue);
 		
-		Coordinate northing = positionVector.addNewCoordinate();
+		final Coordinate northing = positionVector.addNewCoordinate();
 		northing.setName("northing");
-		Quantity northingValue = northing.addNewQuantity();
+		final Quantity northingValue = northing.addNewQuantity();
 		northingValue.setAxisID("y");
 		northingValue.addNewUom().setCode(lcNorthingUom);
 		northingValue.setValue(lcNorthingValue);
@@ -472,11 +473,11 @@ public class SensorDescriptionBuilder {
 	}
 	
 	private void addContact() {
-		ResponsibleParty respParty = system.addNewContact().addNewResponsibleParty();
+		final ResponsibleParty respParty = system.addNewContact().addNewResponsibleParty();
 		respParty.setId(id);
 		respParty.setIndividualName(individualName);
 		respParty.setOrganizationName(organizationName);
-		Address address = respParty.addNewContactInfo().addNewAddress();
+		final Address address = respParty.addNewContactInfo().addNewAddress();
 		address.setDeliveryPointArray(new String[] {deliveryPoint});
 		address.setCity(city);
 		address.setPostalCode(postalCode);
@@ -485,75 +486,75 @@ public class SensorDescriptionBuilder {
 	}
 	
 	private void addPosition() {
-		Position p = system.addNewPosition();
+		final Position p = system.addNewPosition();
 		p.setName(positionName);
 		
 	    PositionType pT;
 	    pT = p.addNewPosition();
 	    pT.setReferenceFrame(EPSG_CODE_PREFIX + referenceFrame);	    
 	    
-	    VectorType vT = pT.addNewLocation().addNewVector();
+	    final VectorType vT = pT.addNewLocation().addNewVector();
 	    vT.setId(vectorId);
 	    
 	    // Easting
-	    Coordinate easting = vT.addNewCoordinate();
+	    final Coordinate easting = vT.addNewCoordinate();
 	    easting.setName("easting");
-	    Quantity eastQuantity = easting.addNewQuantity();
+	    final Quantity eastQuantity = easting.addNewQuantity();
 	    eastQuantity.setAxisID("x");
-	    UomPropertyType eastUom = eastQuantity.addNewUom();
+	    final UomPropertyType eastUom = eastQuantity.addNewUom();
 	    eastUom.setCode(eastingUom);
 	    eastQuantity.setValue(eastingValue);
 
 	    // Northing
-	    Coordinate northing = vT.addNewCoordinate();
+	    final Coordinate northing = vT.addNewCoordinate();
 	    northing.setName("northing");
-	    Quantity northQuantity = northing.addNewQuantity();
+	    final Quantity northQuantity = northing.addNewQuantity();
 	    northQuantity.setAxisID("y");
-	    UomPropertyType northUom = northQuantity.addNewUom();
+	    final UomPropertyType northUom = northQuantity.addNewUom();
 	    northUom.setCode(northingUom);
 	    northQuantity.setValue(northingValue);
 
 	    // OPTIONAL: Altitude (depends on CRS)
 	    if (altitudeUom != null) 
 	    {
-	    	Coordinate altitude = vT.addNewCoordinate();
+	    	final Coordinate altitude = vT.addNewCoordinate();
 	    	altitude.setName("altitude");
-	    	Quantity altiQuantity = altitude.addNewQuantity();
+	    	final Quantity altiQuantity = altitude.addNewQuantity();
 	    	altiQuantity.setAxisID("z");
-	    	UomPropertyType altiUom = altiQuantity.addNewUom();
+	    	final UomPropertyType altiUom = altiQuantity.addNewUom();
 	    	altiUom.setCode(altitudeUom);
 	    	altiQuantity.setValue(altitudeValue);
 	    }
 	}
 	
 	private void addInterface() {
-		Interface  interFace = system.addNewInterfaces().addNewInterfaceList().addNewInterface();
+		final Interface  interFace = system.addNewInterfaces().addNewInterfaceList().addNewInterface();
 		interFace.setName(iName);
-		AbstractDataRecordType interfaceDataRecord = interFace
+		final AbstractDataRecordType interfaceDataRecord = interFace
 				.addNewInterfaceDefinition().addNewServiceLayer()
 				.addNewAbstractDataRecord();
 		
-		DataRecordType interfaceDr = (DataRecordType) interfaceDataRecord
+		final DataRecordType interfaceDr = (DataRecordType) interfaceDataRecord
 				.substitute(SWE101_DATARECORD, DataRecordType.type);
 		interfaceDr.setDefinition(SERVICE_INTERFACE);
 		
-		DataComponentPropertyType serviceUrlField = interfaceDr.addNewField();
+		final DataComponentPropertyType serviceUrlField = interfaceDr.addNewField();
 		serviceUrlField.setName(SERVICE_URL);
 		serviceUrlField.addNewText().setValue(serviceUrl);
 		
-		DataComponentPropertyType serviceTypeField = interfaceDr.addNewField();
+		final DataComponentPropertyType serviceTypeField = interfaceDr.addNewField();
 		serviceTypeField.setName(SERVICE_TYPE);
 		serviceTypeField.addNewText().setValue(serviceType);
 		
-		DataComponentPropertyType serviceSpecificSensorIdField = interfaceDr.addNewField();
+		final DataComponentPropertyType serviceSpecificSensorIdField = interfaceDr.addNewField();
 		serviceSpecificSensorIdField.setName(SERVICE_SPECIFIC_SENSOR_ID);
 		serviceSpecificSensorIdField.addNewText().setValue(sensorId);
 	}
 	
 	private void addInputs() {
-		InputList inputList = system.addNewInputs().addNewInputList();
+		final InputList inputList = system.addNewInputs().addNewInputList();
 		IoComponentPropertyType input;
-		for (String[] inputValues : inputs) {
+		for (final String[] inputValues : inputs) {
 			input = inputList.addNewInput();
 			input.setName(inputValues[0]);
 			input.addNewObservableProperty().setDefinition(inputValues[1]);
@@ -561,45 +562,45 @@ public class SensorDescriptionBuilder {
 	}
 
 	private void addOutputs() {
-		OutputList outputList = system.addNewOutputs().addNewOutputList();
+		final OutputList outputList = system.addNewOutputs().addNewOutputList();
 		IoComponentPropertyType output;
 
-		for (String[] outputValues : outputsMeasurement) { // sos 1.0 52n implementation
+		for (final String[] outputValues : outputsMeasurement) { // sos 1.0 52n implementation
 			output = outputList.addNewOutput();
 			output.setName(outputValues[0]);
-			Quantity quantity = output.addNewQuantity();
+			final Quantity quantity = output.addNewQuantity();
 			quantity.setDefinition(outputValues[1]);
 			addOfferingMetadata(quantity.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
 			quantity.addNewUom().setCode(outputValues[4]);
 		}
 		
-		for (String[] outputValues : outputsText) { // sos 1.0 52n implementation
+		for (final String[] outputValues : outputsText) { // sos 1.0 52n implementation
 			output = outputList.addNewOutput();
 			output.setName(outputValues[0]);
-			Text text = output.addNewText();
+			final Text text = output.addNewText();
 			text.setDefinition(outputValues[1]);
 			addOfferingMetadata(text.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
 		}
 		
-		for (String[] outputValues : outputsBoolean) { // sos 1.0 52n implementation
+		for (final String[] outputValues : outputsBoolean) { // sos 1.0 52n implementation
 			output = outputList.addNewOutput();
 			output.setName(outputValues[0]);
-			Boolean bool = output.addNewBoolean();
+			final Boolean bool = output.addNewBoolean();
 			bool.setDefinition(outputValues[1]);
 			addOfferingMetadata(bool.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
 		}
 		
-		for (String[] outputValues : outputsCount) { // sos 1.0 52n implementation
+		for (final String[] outputValues : outputsCount) { // sos 1.0 52n implementation
 			output = outputList.addNewOutput();
 			output.setName(outputValues[0]);
-			Count count = output.addNewCount();
+			final Count count = output.addNewCount();
 			count.setDefinition(outputValues[1]);
 			addOfferingMetadata(count.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
 		}
 	}
 	
-	private void addOfferingMetadata(MetaDataPropertyType addNewMetaDataProperty, String uri, String name) {
-		XmlCursor c = addNewMetaDataProperty.newCursor();
+	private void addOfferingMetadata(final MetaDataPropertyType addNewMetaDataProperty, final String uri, final String name) {
+		final XmlCursor c = addNewMetaDataProperty.newCursor();
 		c.toNextToken();
 		c.beginElement(SWE10_OFFERING);
 		c.insertElementWithText(SWE10_ID, uri);
@@ -611,17 +612,17 @@ public class SensorDescriptionBuilder {
 	 * TODO add inline description setting
 	 */
 	private void addComponents() {
-		ComponentList compList = system.addNewComponents().addNewComponentList();
+		final ComponentList compList = system.addNewComponents().addNewComponentList();
 		// add xlink components
 		Component comp;
-		for (String[] compValues : componentXlink) {
+		for (final String[] compValues : componentXlink) {
 			comp = compList.addNewComponent();
 			comp.setName(compValues[0]);
 			comp.setHref(compValues[1]);
 		}
 		
 		// add inline components
-		for (String[] compValues : componentInline) {
+		for (final String[] compValues : componentInline) {
 			comp = compList.addNewComponent();
 			comp.setName(compValues[0]);
 			// TODO set inline description
