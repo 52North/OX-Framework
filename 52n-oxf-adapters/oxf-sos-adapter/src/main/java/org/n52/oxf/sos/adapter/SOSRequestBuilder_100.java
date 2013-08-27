@@ -746,14 +746,19 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         	result.set(doc);
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TEMPORAL)) {
     		final TemporalObservationType tt = TemporalObservationType.Factory.newInstance();
-    		System.out.println("NOT YET IMPLEMENTED!");
+    		logTypeNotImplemented(tt.getClass());
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_GEOMETRY)) {
     		final GeometryObservationType gt = GeometryObservationType.Factory.newInstance();
-    		System.out.println("NOT YET IMPLEMENTED!");
+    		logTypeNotImplemented(gt.getClass());
      	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_COMPLEX)) {
      		final ComplexObservationType ct = ComplexObservationType.Factory.newInstance();
-     		
+     		logTypeNotImplemented(ct.getClass());
      	}
+	}
+
+	private void logTypeNotImplemented(final Class<?> clazz)
+	{
+		LOGGER.info("Support for type '{}' NOT YET IMPLEMENTED",clazz.getName());
 	}
 
 	/**
