@@ -23,12 +23,12 @@
  */
 package org.n52.oxf.sos.adapter.wrapper.builder;
 
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
-
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 /**
  * This class describes a set of parameters, which is necessary to call
@@ -38,7 +38,7 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
  */
 public class GetFeatureOfInterestParameterBuilder_v100 {
 	
-	private Map<String, String> parameters = new HashMap<String, String>();
+	private final Map<String, String> parameters = new HashMap<String, String>();
 
 	/**
 	 * Assembles mandatory parameters from method parameter list.
@@ -47,16 +47,19 @@ public class GetFeatureOfInterestParameterBuilder_v100 {
 	 * @param identificationType
 	 * @see ISOSRequestBuilder
 	 */
-	public GetFeatureOfInterestParameterBuilder_v100(String identification, String identificationType) {
+	public GetFeatureOfInterestParameterBuilder_v100(final String identification, final String identificationType) {
 		if (identification == null || identificationType == null ||
-				(!identificationType.equals(GET_FOI_ID_PARAMETER) && !identificationType.equals(GET_FOI_LOCATION_PARAMETER)))
+				(!identificationType.equals(GET_FOI_ID_PARAMETER) && !identificationType.equals(GET_FOI_LOCATION_PARAMETER))) {
 			throw new IllegalArgumentException("The parameters \"identification\" and \"identificationType\" are mandatory. " +
 					"They cannot be left empty! Take care of the available identification types! (" +
 					GET_FOI_ID_PARAMETER + ", " + GET_FOI_LOCATION_PARAMETER + ")");
-		if (identificationType.equals(GET_FOI_ID_PARAMETER))
+		}
+		if (identificationType.equals(GET_FOI_ID_PARAMETER)) {
 			parameters.put(GET_FOI_ID_PARAMETER, identification);
-		else
+		}
+		else {
 			parameters.put(GET_FOI_LOCATION_PARAMETER, identification);
+		}
 	}
 	
 	/**
@@ -72,7 +75,7 @@ public class GetFeatureOfInterestParameterBuilder_v100 {
 	 * @param eventTime
 	 * @return parameter builder
 	 */
-	public GetFeatureOfInterestParameterBuilder_v100 addEventTime(String eventTime) {
+	public GetFeatureOfInterestParameterBuilder_v100 addEventTime(final String eventTime) {
 		if (parameters.get(GET_FOI_EVENT_TIME_PARAMETER) != null) {
 			parameters.remove(GET_FOI_EVENT_TIME_PARAMETER);
 		}
