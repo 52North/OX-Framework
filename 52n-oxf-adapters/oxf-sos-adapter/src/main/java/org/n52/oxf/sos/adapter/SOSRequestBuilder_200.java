@@ -95,6 +95,12 @@ import org.slf4j.LoggerFactory;
  * Contains attributes and methods to encode SOSOperationRequests as String in xml-format
  * 
  * TODO: add java doc for each public method including mandatory and optional parameters like {@link SOSRequestBuilder_100}.
+ * 
+ * TODO: implement binding specific request creation
+ *  using new to be implemented request builder hierarchy. This current implementation reflects the default implementation: POX
+ * TODO: SOAP
+ * TODO: KVP 
+ * TODO: REST?
  */
 public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 	
@@ -343,7 +349,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
      */
     @Override
 	public String buildInsertObservation(final ParameterContainer parameters) throws OXFException {
-    	checkParameterContainer(parameters);
+    	getBinding(parameters);
     	final InsertObservationDocument xbInsertObservationDocument = InsertObservationDocument.Factory.newInstance();
     	final InsertObservationType xbInsertObservationType = xbInsertObservationDocument.addNewInsertObservation();
     	addMetadata(parameters, xbInsertObservationType);
@@ -602,22 +608,12 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 	}
 
 	/**
-     * Delegate to be SOS conform regarding operation names. For more details, see
-     * {@link #buildRegisterSensor(ParameterContainer)}. 
-     * @see {@link #buildRegisterSensor(ParameterContainer)}
-     */
-    public String buildInsertSensor(final ParameterContainer parameters) throws OXFException {
-    	return buildRegisterSensor(parameters);
-    }
-
-    /**
-     * Builds a <b>Insert</b>Sensor request and returns it.
+	 * Builds a <b>Insert</b>Sensor request and returns it.
      * A SensorML document MUST be passed using <tt>ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER</tt>.
      * @throws OXFException
      */
-    @Override
-	public String buildRegisterSensor(final ParameterContainer parameters) throws OXFException {
-    	checkParameterContainer(parameters);
+    public String buildInsertSensor(final ParameterContainer parameters) throws OXFException {
+    	getBinding(parameters);
     	final InsertSensorDocument xbInsertSensorDoc = InsertSensorDocument.Factory.newInstance();
     	final InsertSensorType xbInsertSensorType = xbInsertSensorDoc.addNewInsertSensor();
     	
@@ -630,11 +626,44 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     	return xbInsertSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
-	private void checkParameterContainer(final ParameterContainer parameters) throws OXFException
+    /**
+     * Builds a <b>Insert</b>Sensor request and returns it.
+     * A SensorML document MUST be passed using <tt>ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER</tt>.
+     * @throws OXFException
+     * @Deprecated since SOS 2.0 using SWES 2.0 this operation is called InsertSensor
+     * @see #buildInsertSensor(ParameterContainer)
+     */
+    @Override
+	public String buildRegisterSensor(final ParameterContainer parameters) throws OXFException {
+    	return buildInsertSensor(parameters);
+    }
+
+	private Binding getBinding(final ParameterContainer parameters) throws OXFException
 	{
 		if (parameters == null) {
     		throw new OXFException(new IllegalArgumentException("ParameterContainer 'parameters' should not be null"));
     	}
+		if (isBindingParameterSpecified(parameters)) {
+			final String bindingName = (String) parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).getSpecifiedValue();
+			if (bindingName.equalsIgnoreCase(Binding.POX.toString())) {
+				return Binding.POX;
+			}
+			else if (bindingName.equalsIgnoreCase(Binding.SOAP.toString())) {
+				return Binding.SOAP;
+			}
+			else if (bindingName.equalsIgnoreCase(Binding.KVP.toString())) {
+				return Binding.KVP;
+			}
+		}
+		LOGGER.info("Missing parameter 'binding'. Using POX.");
+		return Binding.POX;
+	}
+
+	private boolean isBindingParameterSpecified(final ParameterContainer parameters)
+	{
+		return parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING) != null && 
+				parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).hasSingleSpecifiedValue() &&
+				parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).getSpecifiedValue() instanceof String;
 	}
 
 	private void addInsertionMetadata(final ParameterContainer parameters,
