@@ -174,65 +174,65 @@ public class SOSCapabilitiesMapper_100 {
      * SOS-Capabilities and maps the provided informations to the OXF internal capabilities-model (e.g. the
      * class org.n52.oxf.ows.capabilities.OperationsMetadata)
      * 
-     * @param xb_opMetadata
+     * @param xbOpMetadata
      * @return
      */
-    private OperationsMetadata mapOperationsMetadata(final net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata xb_opMetadata) {
+    private OperationsMetadata mapOperationsMetadata(final net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata xbOpMetadata) {
 
         //
         // map the operations:
         //
 
-        final OperationDocument.Operation[] xb_operations = xb_opMetadata.getOperationArray();
-        final Operation[] oc_operations = new Operation[xb_operations.length];
-        for (int i = 0; i < xb_operations.length; i++) {
-            final OperationDocument.Operation xb_operation = xb_operations[i];
+        final OperationDocument.Operation[] xbOperations = xbOpMetadata.getOperationArray();
+        final Operation[] ocOperations = new Operation[xbOperations.length];
+        for (int i = 0; i < xbOperations.length; i++) {
+            final OperationDocument.Operation xbOperation = xbOperations[i];
 
-            final String oc_operationName = xb_operation.getName();
+            final String ocOperationName = xbOperation.getName();
 
             //
             // map the operations DCPs:
             //
 
-            final DCPDocument.DCP[] xb_dcps = xb_operation.getDCPArray();
-            final DCP[] oc_dcps = new DCP[xb_dcps.length];
-            for (int j = 0; j < xb_dcps.length; j++) {
-                final DCPDocument.DCP xb_dcp = xb_dcps[j];
+            final DCPDocument.DCP[] xbDcps = xbOperation.getDCPArray();
+            final DCP[] ocDcps = new DCP[xbDcps.length];
+            for (int j = 0; j < xbDcps.length; j++) {
+                final DCPDocument.DCP xbDcp = xbDcps[j];
 
                 //
                 // map the RequestMethods:
                 //
 
-                final List<RequestMethod> oc_requestMethods = new ArrayList<RequestMethod>();
+                final List<RequestMethod> ocRequestMethods = new ArrayList<RequestMethod>();
 
-                final RequestMethodType[] xb_getRequestMethods = xb_dcp.getHTTP().getGetArray();
-                for (final RequestMethodType xb_getRequestMethod : xb_getRequestMethods) {
-                    final OnlineResource oc_onlineRessource = new OnlineResource(xb_getRequestMethod.getHref());
-                    final RequestMethod oc_requestMethod = new GetRequestMethod(oc_onlineRessource);
-                    oc_requestMethods.add(oc_requestMethod);
+                final RequestMethodType[] xbGetRequestMethods = xbDcp.getHTTP().getGetArray();
+                for (final RequestMethodType xbGetRequestMethod : xbGetRequestMethods) {
+                    final OnlineResource ocOnlineRessource = new OnlineResource(xbGetRequestMethod.getHref());
+                    final RequestMethod ocRequestMethod = new GetRequestMethod(ocOnlineRessource);
+                    ocRequestMethods.add(ocRequestMethod);
                 }
 
-                final RequestMethodType[] xb_postRequestMethods = xb_dcp.getHTTP().getPostArray();
-                for (final RequestMethodType xb_postRequestMethod : xb_postRequestMethods) {
-                    final OnlineResource oc_onlineRessource = new OnlineResource(xb_postRequestMethod.getHref());
-                    final RequestMethod oc_requestMethod = new PostRequestMethod(oc_onlineRessource);
-                    oc_requestMethods.add(oc_requestMethod);
+                final RequestMethodType[] xbPostRequestMethods = xbDcp.getHTTP().getPostArray();
+                for (final RequestMethodType xbPostRequestMethod : xbPostRequestMethods) {
+                    final OnlineResource ocOnlineRessource = new OnlineResource(xbPostRequestMethod.getHref());
+                    final RequestMethod ocRequestMethod = new PostRequestMethod(ocOnlineRessource);
+                    ocRequestMethods.add(ocRequestMethod);
                 }
 
-                oc_dcps[j] = new DCP(oc_requestMethods);
+                ocDcps[j] = new DCP(ocRequestMethods);
             }
 
             //
             // map the operations parameters:
             //
 
-            final DomainType[] xb_parameters = xb_operation.getParameterArray();
+            final DomainType[] xbParameters = xbOperation.getParameterArray();
 
-            final List<Parameter> oc_parameters = new ArrayList<Parameter>();
+            final List<Parameter> ocParameters = new ArrayList<Parameter>();
 
-            for (final DomainType xb_parameter : xb_parameters) {
+            for (final DomainType xbParameter : xbParameters) {
 
-                final String parameterName = xb_parameter.getName();
+                final String parameterName = xbParameter.getName();
 
                 if (!parameterName.equalsIgnoreCase("eventTime")) {
 
@@ -240,64 +240,64 @@ public class SOSCapabilitiesMapper_100 {
                     // map the parameters' values to StringValueDomains
                     //
 
-                    final AllowedValues xb_allowedValues = xb_parameter.getAllowedValues();
+                    final AllowedValues xbAllowedValues = xbParameter.getAllowedValues();
                     
-                    if (xb_allowedValues != null) {
-                        final ValueType[] xb_values = xb_allowedValues.getValueArray();
+                    if (xbAllowedValues != null) {
+                        final ValueType[] xbValues = xbAllowedValues.getValueArray();
     
-                        final StringValueDomain oc_values = new StringValueDomain();
-                        for (final ValueType xb_value : xb_values) {
-                            oc_values.addPossibleValue(xb_value.getStringValue());
+                        final StringValueDomain ocValues = new StringValueDomain();
+                        for (final ValueType xbValue : xbValues) {
+                            ocValues.addPossibleValue(xbValue.getStringValue());
                         }
     
-                        final Parameter oc_parameter = new Parameter(parameterName, true, oc_values, null);
-                        oc_parameters.add(oc_parameter);
+                        final Parameter ocParameter = new Parameter(parameterName, true, ocValues, null);
+                        ocParameters.add(ocParameter);
                     }
                 }
             }
 
-            final Parameter[] parametersArray = new Parameter[oc_parameters.size()];
-            oc_parameters.toArray(parametersArray);
+            final Parameter[] parametersArray = new Parameter[ocParameters.size()];
+            ocParameters.toArray(parametersArray);
 
-            oc_operations[i] = new Operation(oc_operationName, parametersArray, null, oc_dcps);
+            ocOperations[i] = new Operation(ocOperationName, parametersArray, null, ocDcps);
         }
 
-        return new OperationsMetadata(oc_operations);
+        return new OperationsMetadata(ocOperations);
     }
 
     private SOSContents mapContents(final CapabilitiesDocument capabilitiesDoc) throws OXFException {
-        final ContentsDocument.Contents xb_contents = capabilitiesDoc.getCapabilities().getContents();
+        final ContentsDocument.Contents xbContents = capabilitiesDoc.getCapabilities().getContents();
 
-        final ContentsDocument.Contents.ObservationOfferingList xb_obsOfferingList = xb_contents.getObservationOfferingList();
+        final ContentsDocument.Contents.ObservationOfferingList xbObsOfferingList = xbContents.getObservationOfferingList();
 
-        final ObservationOfferingType[] xb_obsOfferings = xb_obsOfferingList.getObservationOfferingArray();
-        final ArrayList<ObservationOffering> oc_obsOffList = new ArrayList<ObservationOffering>();
-        for (final ObservationOfferingType xb_obsOffering : xb_obsOfferings) {
+        final ObservationOfferingType[] xbObsOfferings = xbObsOfferingList.getObservationOfferingArray();
+        final ArrayList<ObservationOffering> ocObsOffList = new ArrayList<ObservationOffering>();
+        for (final ObservationOfferingType xbObsOffering : xbObsOfferings) {
             
 
-//            if(xb_obsOffering instanceof net.opengis.gml.AbstractFeatureType);
-//            if(xb_obsOffering instanceof net.opengis.gml.AbstractGMLType);
+//            if(xbObsOffering instanceof net.opengis.gml.AbstractFeatureType);
+//            if(xbObsOffering instanceof net.opengis.gml.AbstractGMLType);
             
             // identifier
-            final String oc_identifier = xb_obsOffering.getId();
+            final String ocIdentifier = xbObsOffering.getId();
 
             // title (take the first name or if name does not exist take the id)
-            String oc_title;
-            final net.opengis.gml.CodeType[] xb_names = xb_obsOffering.getNameArray();
-            if (xb_names != null && xb_names.length > 0 && xb_names[0].getStringValue() != null) {
-                oc_title = xb_names[0].getStringValue();
+            String ocTitle;
+            final net.opengis.gml.CodeType[] xbNames = xbObsOffering.getNameArray();
+            if (xbNames != null && xbNames.length > 0 && xbNames[0].getStringValue() != null) {
+                ocTitle = xbNames[0].getStringValue();
             }
             else {
-                oc_title = xb_obsOffering.getId();
+                ocTitle = xbObsOffering.getId();
             }
 
             // availableCRSs:
-            final EnvelopeType envelope = xb_obsOffering.getBoundedBy().getEnvelope();
-            final String oc_crs = envelope.getSrsName();
+            final EnvelopeType envelope = xbObsOffering.getBoundedBy().getEnvelope();
+            final String ocCrs = envelope.getSrsName();
 
-            String[] oc_availabaleCRSs = null;
-            if (oc_crs != null) {
-                oc_availabaleCRSs = new String[] {oc_crs};
+            String[] ocAvailabaleCRSs = null;
+            if (ocCrs != null) {
+                ocAvailabaleCRSs = new String[] {ocCrs};
             }
             else {
                 // TODO Think about throwing an exception because of one missing attribute because this situation can occur often when a new offering is set up and no data is available. Set it null and then it's okay! (ehjuerrens@52north.org)
@@ -306,84 +306,84 @@ public class SOSCapabilitiesMapper_100 {
 
             // BoundingBox:
             final DirectPositionType lowerCorner = envelope.getLowerCorner();
-            final List<?> xb_lowerCornerList = lowerCorner.getListValue();
-            double[] oc_lowerCornerList = new double[xb_lowerCornerList.size()];
+            final List<?> xbLowerCornerList = lowerCorner.getListValue();
+            double[] ocLowerCornerList = new double[xbLowerCornerList.size()];
 
             final DirectPositionType upperCorner = envelope.getUpperCorner();
-            final List<?> xb_upperCornerList = upperCorner.getListValue();
-            double[] oc_upperCornerList = new double[xb_upperCornerList.size()];
+            final List<?> xbUpperCornerList = upperCorner.getListValue();
+            double[] ocUpperCornerList = new double[xbUpperCornerList.size()];
 
-            if (oc_lowerCornerList.length == 0) {
+            if (ocLowerCornerList.length == 0) {
                 LOGGER.warn("Evelope contains invalid lower corner: {}.", envelope.xmlText());
-                oc_lowerCornerList = new double[] {0.0, 0.0};
+                ocLowerCornerList = new double[] {0.0, 0.0};
             } else {
-                for (int j = 0; j < xb_lowerCornerList.size(); j++) {
-                    oc_lowerCornerList[j] = (Double) xb_lowerCornerList.get(j);
+                for (int j = 0; j < xbLowerCornerList.size(); j++) {
+                    ocLowerCornerList[j] = (Double) xbLowerCornerList.get(j);
                 }
             }
             
-            if (oc_upperCornerList.length == 0) {
+            if (ocUpperCornerList.length == 0) {
                 LOGGER.warn("Evelope contains invalid upper corner: {}.", envelope.xmlText());
-                oc_upperCornerList = new double[] {0.0, 0.0};
+                ocUpperCornerList = new double[] {0.0, 0.0};
             } else {
-                for (int j = 0; j < xb_upperCornerList.size(); j++) {
-                    oc_upperCornerList[j] = (Double) xb_upperCornerList.get(j);
+                for (int j = 0; j < xbUpperCornerList.size(); j++) {
+                    ocUpperCornerList[j] = (Double) xbUpperCornerList.get(j);
                 }
             }
             
 
-            final IBoundingBox[] oc_bbox = new IBoundingBox[1];
-            oc_bbox[0] = new BoundingBox(oc_crs, oc_lowerCornerList, oc_upperCornerList);
+            final IBoundingBox[] ocBbox = new IBoundingBox[1];
+            ocBbox[0] = new BoundingBox(ocCrs, ocLowerCornerList, ocUpperCornerList);
 
             // outputFormats:
-            final String[] oc_outputFormats = xb_obsOffering.getResponseFormatArray();
+            final String[] ocOutputFormats = xbObsOffering.getResponseFormatArray();
 
             // TemporalDomain:
-            final List<ITime> oc_timeList = new ArrayList<ITime>();
-            if (xb_obsOffering.getTime() != null && xb_obsOffering.getTime().getTimeGeometricPrimitive() != null) {
+            final List<ITime> ocTimeList = new ArrayList<ITime>();
+            if (xbObsOffering.getTime() != null && xbObsOffering.getTime().getTimeGeometricPrimitive() != null) {
               
-                final XmlObject xo = xb_obsOffering.getTime().getTimeGeometricPrimitive().newCursor().getObject();
+                final XmlObject xo = xbObsOffering.getTime().getTimeGeometricPrimitive().newCursor().getObject();
                 final SchemaType schemaType = xo.schemaType();
                 if (schemaType.getJavaClass().isAssignableFrom(TimeInstantType.class)) {
-                    final TimeInstantType xb_timeInstant = (TimeInstantType) xo;
-                    final String xb_timePos = xb_timeInstant.getTimePosition().getStringValue();
+                    final TimeInstantType xbTimeInstant = (TimeInstantType) xo;
+                    final String xbTimePos = xbTimeInstant.getTimePosition().getStringValue();
 
-                    if ( !xb_timePos.equals("")) {
-                        oc_timeList.add(TimeFactory.createTime(xb_timePos));
+                    if ( !xbTimePos.equals("")) {
+                        ocTimeList.add(TimeFactory.createTime(xbTimePos));
                     }
                 }
                 else if (schemaType.getJavaClass().isAssignableFrom(TimePeriodType.class)) {
-                    final TimePeriodType xb_timePeriod = (TimePeriodType) xo;
+                    final TimePeriodType xbTimePeriod = (TimePeriodType) xo;
 
-                    final String beginPos = xb_timePeriod.getBeginPosition().getStringValue();
-                    final String endPos = xb_timePeriod.getEndPosition().getStringValue();
+                    final String beginPos = xbTimePeriod.getBeginPosition().getStringValue();
+                    final String endPos = xbTimePeriod.getEndPosition().getStringValue();
 
                     if ( !beginPos.equals("") && !endPos.equals("")) {
-                        final TimePeriod oc_timePeriod = new TimePeriod(beginPos, endPos);
-                        oc_timeList.add(oc_timePeriod);
+                        final TimePeriod ocTimePeriod = new TimePeriod(beginPos, endPos);
+                        ocTimeList.add(ocTimePeriod);
                     }
                 }
             }
-            final IDiscreteValueDomain<ITime> oc_temporalDomain = new TemporalValueDomain(oc_timeList);
+            final IDiscreteValueDomain<ITime> ocTemporalDomain = new TemporalValueDomain(ocTimeList);
 
             // resultModels:
             final List<String> resultModelList = new ArrayList<String>();
 
-            final Object[] resultModelArray = xb_obsOffering.getResultModelArray();
+            final Object[] resultModelArray = xbObsOffering.getResultModelArray();
             for (final Object resultModelObject : resultModelArray) {
                 final QName resultModelQName = (QName) resultModelObject;
                 resultModelList.add(resultModelQName.getLocalPart());
             }
-            final String[] oc_resultModels = new String[resultModelList.size()];
-            resultModelList.toArray(oc_resultModels);
+            final String[] ocResultModels = new String[resultModelList.size()];
+            resultModelList.toArray(ocResultModels);
 
             // result:
             final FilterValueDomain filterDomain = new FilterValueDomain();
             final FilterCapabilities filterCaps = capabilitiesDoc.getCapabilities().getFilterCapabilities();
             if (filterCaps != null){
                 if (filterCaps.getScalarCapabilities().getComparisonOperators()!= null){
-                	final ComparisonOperatorType.Enum[] xb_compOpsArray = filterCaps.getScalarCapabilities().getComparisonOperators().getComparisonOperatorArray();
-                	for (final ComparisonOperatorType.Enum compOp : xb_compOpsArray) {
+                	final ComparisonOperatorType.Enum[] xbCompOpsArray = filterCaps.getScalarCapabilities().getComparisonOperators().getComparisonOperatorArray();
+                	for (final ComparisonOperatorType.Enum compOp : xbCompOpsArray) {
                 		if (compOp.equals(ComparisonOperatorType.EQUAL_TO)) {
                 			final IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_EQUAL_TO);
                 			filterDomain.addPossibleValue(filter);
@@ -421,16 +421,16 @@ public class SOSCapabilitiesMapper_100 {
             }
 
             // observedProperty:
-            final PhenomenonPropertyType[] xb_observedProperties = xb_obsOffering.getObservedPropertyArray();
+            final PhenomenonPropertyType[] xbObservedProperties = xbObsOffering.getObservedPropertyArray();
             final List<String> obsPropsList = new ArrayList<String>();
 
-            for (final PhenomenonPropertyType xb_observedPropertie : xb_observedProperties) {
-                if (xb_observedPropertie.getHref() != null) {
-                    obsPropsList.add(xb_observedPropertie.getHref());
+            for (final PhenomenonPropertyType xbObservedPropertie : xbObservedProperties) {
+                if (xbObservedPropertie.getHref() != null) {
+                    obsPropsList.add(xbObservedPropertie.getHref());
                 }
-                else if (xb_observedPropertie.getPhenomenon() != null
-                        && xb_observedPropertie.getPhenomenon() instanceof CompositePhenomenonType) {
-                    final CompositePhenomenonType compositePhenomenon = (CompositePhenomenonType) xb_observedPropertie.getPhenomenon();
+                else if (xbObservedPropertie.getPhenomenon() != null
+                        && xbObservedPropertie.getPhenomenon() instanceof CompositePhenomenonType) {
+                    final CompositePhenomenonType compositePhenomenon = (CompositePhenomenonType) xbObservedPropertie.getPhenomenon();
 
                     final PhenomenonPropertyType[] phenomenonPropArray = compositePhenomenon.getComponentArray();
                     for (final PhenomenonPropertyType phenomenonProp : phenomenonPropArray) {
@@ -438,59 +438,59 @@ public class SOSCapabilitiesMapper_100 {
                     }
                 }
             }
-            String[] oc_obsProps = new String[obsPropsList.size()];
-            oc_obsProps = obsPropsList.toArray(oc_obsProps);
+            String[] ocObsProps = new String[obsPropsList.size()];
+            ocObsProps = obsPropsList.toArray(ocObsProps);
 
             // procedures:
-            final ReferenceType[] xb_procedures = xb_obsOffering.getProcedureArray();
-            final String[] oc_procedures = new String[xb_procedures.length];
-            for (int j = 0; j < xb_procedures.length; j++) {
-                oc_procedures[j] = xb_procedures[j].getHref();
+            final ReferenceType[] xbProcedures = xbObsOffering.getProcedureArray();
+            final String[] ocProcedures = new String[xbProcedures.length];
+            for (int j = 0; j < xbProcedures.length; j++) {
+                ocProcedures[j] = xbProcedures[j].getHref();
             }
 
             // featuresOfInterest:
-            final ReferenceType[] xb_foi = xb_obsOffering.getFeatureOfInterestArray();
-            final String[] oc_foiIDs = new String[xb_foi.length];
-            for (int j = 0; j < xb_foi.length; j++) {
-                oc_foiIDs[j] = xb_foi[j].getHref();
+            final ReferenceType[] xbFoi = xbObsOffering.getFeatureOfInterestArray();
+            final String[] ocFoiIDs = new String[xbFoi.length];
+            for (int j = 0; j < xbFoi.length; j++) {
+                ocFoiIDs[j] = xbFoi[j].getHref();
             }
 
             // responseModes:
-            final ResponseModeType.Enum[] xb_responseModes = xb_obsOffering.getResponseModeArray();
-            final String[] oc_respModes = new String[xb_responseModes.length];
-            for (int j = 0; j < xb_responseModes.length; j++) {
-                oc_respModes[j] = xb_responseModes[j].toString();
+            final ResponseModeType.Enum[] xbResponseModes = xbObsOffering.getResponseModeArray();
+            final String[] ocRespModes = new String[xbResponseModes.length];
+            for (int j = 0; j < xbResponseModes.length; j++) {
+                ocRespModes[j] = xbResponseModes[j].toString();
             }
 
             // TODO: these variables should also be initialized
-            final String oc_fees = null;
-            final String oc_pointOfContact = null;
-            final Locale[] oc_language = null;
-            final String[] oc_keywords = null;
-            final String oc_abstractDescription = null;
+            final String ocFees = null;
+            final String ocPointOfContact = null;
+            final Locale[] ocLanguage = null;
+            final String[] ocKeywords = null;
+            final String ocAbstractDescription = null;
 
-            final ObservationOffering oc_obsOff = new ObservationOffering(oc_title,
-                                                                    oc_identifier,
-                                                                    oc_bbox,
-                                                                    oc_outputFormats,
-                                                                    oc_availabaleCRSs,
-                                                                    oc_fees,
-                                                                    oc_language,
-                                                                    oc_pointOfContact,
-                                                                    oc_temporalDomain,
-                                                                    oc_abstractDescription,
-                                                                    oc_keywords,
-                                                                    oc_procedures,
-                                                                    oc_foiIDs,
-                                                                    oc_obsProps,
-                                                                    oc_resultModels,
-                                                                    oc_respModes,
+            final ObservationOffering ocObsOff = new ObservationOffering(ocTitle,
+                                                                    ocIdentifier,
+                                                                    ocBbox,
+                                                                    ocOutputFormats,
+                                                                    ocAvailabaleCRSs,
+                                                                    ocFees,
+                                                                    ocLanguage,
+                                                                    ocPointOfContact,
+                                                                    ocTemporalDomain,
+                                                                    ocAbstractDescription,
+                                                                    ocKeywords,
+                                                                    ocProcedures,
+                                                                    ocFoiIDs,
+                                                                    ocObsProps,
+                                                                    ocResultModels,
+                                                                    ocRespModes,
                                                                     filterDomain);
 
-            oc_obsOffList.add(oc_obsOff);
+            ocObsOffList.add(ocObsOff);
         }
 
-        return new SOSContents(oc_obsOffList);
+        return new SOSContents(ocObsOffList);
     }
 
     /**
@@ -498,34 +498,34 @@ public class SOSCapabilitiesMapper_100 {
      * @param capsDoc
      * @return
      */
-    private ServiceIdentification mapServiceIdentification(final net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification xb_serviceId) {
+    private ServiceIdentification mapServiceIdentification(final net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification xbServiceId) {
 
-        final String oc_title = xb_serviceId.getTitleArray(0).getStringValue();
-        final String oc_serviceType = xb_serviceId.getServiceType().getStringValue();
-        final String[] oc_serviceTypeVersions = xb_serviceId.getServiceTypeVersionArray();
+        final String ocTitle = xbServiceId.getTitleArray(0).getStringValue();
+        final String ocServiceType = xbServiceId.getServiceType().getStringValue();
+        final String[] ocServiceTypeVersions = xbServiceId.getServiceTypeVersionArray();
 
-        final String oc_fees = xb_serviceId.getFees();
-        final String[] oc_accessConstraints = xb_serviceId.getAccessConstraintsArray();
-        final String oc_abstract = xb_serviceId.getAbstractArray(0).getStringValue();
-        String[] oc_keywords = null;
+        final String ocFees = xbServiceId.getFees();
+        final String[] ocAccessConstraints = xbServiceId.getAccessConstraintsArray();
+        final String ocAbstract = xbServiceId.getAbstractArray(0).getStringValue();
+        String[] ocKeywords = null;
 
-        final Vector<String> oc_keywordsVec = new Vector<String>();
-        for (int i = 0; i < xb_serviceId.getKeywordsArray().length; i++) {
-            final LanguageStringType[] xb_keywords = xb_serviceId.getKeywordsArray(i).getKeywordArray();
-            for (final LanguageStringType xb_keyword : xb_keywords) {
-                oc_keywordsVec.add(xb_keyword.getStringValue());
+        final Vector<String> ocKeywordsVec = new Vector<String>();
+        for (int i = 0; i < xbServiceId.getKeywordsArray().length; i++) {
+            final LanguageStringType[] xbKeywords = xbServiceId.getKeywordsArray(i).getKeywordArray();
+            for (final LanguageStringType xbKeyword : xbKeywords) {
+                ocKeywordsVec.add(xbKeyword.getStringValue());
             }
         }
-        oc_keywords = new String[oc_keywordsVec.size()];
-        oc_keywordsVec.toArray(oc_keywords);
+        ocKeywords = new String[ocKeywordsVec.size()];
+        ocKeywordsVec.toArray(ocKeywords);
 
-        return new ServiceIdentification(oc_title,
-                                         oc_serviceType,
-                                         oc_serviceTypeVersions,
-                                         oc_fees,
-                                         oc_accessConstraints,
-                                         oc_abstract,
-                                         oc_keywords);
+        return new ServiceIdentification(ocTitle,
+                                         ocServiceType,
+                                         ocServiceTypeVersions,
+                                         ocFees,
+                                         ocAccessConstraints,
+                                         ocAbstract,
+                                         ocKeywords);
     }
 
     /**
