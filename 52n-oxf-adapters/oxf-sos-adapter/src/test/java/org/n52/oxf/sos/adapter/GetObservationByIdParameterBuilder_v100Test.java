@@ -29,7 +29,6 @@ import static org.junit.Assert.assertNull;
 import java.util.HashMap;
 
 import org.junit.Test;
-import org.n52.oxf.sos.adapter.wrapper.SOSWrapper;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationByIdParameterBuilder_v100;
 
 /**
@@ -86,7 +85,7 @@ public class GetObservationByIdParameterBuilder_v100Test {
 		
 		HashMap<String, String> hm = (HashMap<String, String>) gobipb.getParameters();
 		
-		assertNull(hm.get(SOSWrapper.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER));
+		assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER));
 		assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER));
 		assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER));
 		
@@ -97,7 +96,7 @@ public class GetObservationByIdParameterBuilder_v100Test {
 		gobipb.addResponseMode("responseModeOld");
 		gobipb.addResponseMode("responseMode");
 		
-		String parOpt_01 = hm.get(SOSWrapper.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER);
+		String parOpt_01 = hm.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER);
 		String parOpt_02 = hm.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER);
 		String parOpt_03 = hm.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER);
 		

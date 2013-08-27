@@ -32,7 +32,7 @@ import java.util.Map;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.ows.capabilities.Parameter;
-import org.n52.oxf.sos.adapter.wrapper.SOSWrapper;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 import org.n52.oxf.valueDomains.StringValueDomain;
 
 /**
@@ -98,10 +98,10 @@ public class GetObservationParameterBuilder_v100 {
 	 * @return parameter builder
 	 */
 	public GetObservationParameterBuilder_v100 addSrsName(final String srsName) {
-		if (parameters.get(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER) != null) {
-			parameters.remove(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER);
+		if (parameters.get(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER) != null) {
+			parameters.remove(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER);
 		}
-		parameters.put(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER, srsName);
+		parameters.put(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER, srsName);
 		return this;
 	}
 	

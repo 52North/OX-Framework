@@ -55,6 +55,7 @@ public interface ISOSRequestBuilder {
 	String GET_OBSERVATION_RESULT_PARAMETER = "result"; // SOS 1.0
 	String GET_OBSERVATION_RESULT_MODEL_PARAMETER = "resultModel"; // SOS 1.0
 	String GET_OBSERVATION_RESPONSE_MODE_PARAMETER = "responseMode"; // SOS 1.0
+	String GET_OBSERVATION_SRS_NAME_PARAMETER = "srsName";
 
 	String DESCRIBE_SENSOR_SERVICE_PARAMETER = "service";
 	String DESCRIBE_SENSOR_VERSION_PARAMETER = "version";
@@ -155,6 +156,7 @@ public interface ISOSRequestBuilder {
 	String GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER = "responseFormat";
 	String GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER = "responseMode";
 	String GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER = "resultModel";
+	String GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER = "srsName";
 
 	String buildGetCapabilitiesRequest(ParameterContainer parameters) throws OXFException;
 

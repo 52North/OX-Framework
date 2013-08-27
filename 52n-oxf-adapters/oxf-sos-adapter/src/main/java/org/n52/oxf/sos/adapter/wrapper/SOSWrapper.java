@@ -36,6 +36,7 @@ import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.ows.capabilities.OperationsMetadata;
 import org.n52.oxf.request.MultimapRequestParameters;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 import org.n52.oxf.sos.adapter.SOSAdapter;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetFeatureOfInterestParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationByIdParameterBuilder_v100;
@@ -54,10 +55,6 @@ public class SOSWrapper {
     
     // XXX SOSWrapper is not capable of intercepting custom IRequestBuilder implementations yet!
 
-	// TODO MOVE CONSTANTS TO ISOSRequestBuilder
-	public static final String GET_OBSERVATION_SRS_NAME_PARAMETER = "srsName";
-	public static final String GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER = "srsName";
-	
 	private static final String SERVICE_TYPE = "SOS"; // name of the service
 	private final ServiceDescriptor serviceDescriptor; // GetCapabilities specific description of the service
 	
@@ -203,8 +200,8 @@ public class SOSWrapper {
 		parameterContainer.addParameterShell((ParameterShell) parameters.get(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER));
 		parameterContainer.addParameterShell(GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER, (String) parameters.get(GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER));
 		// optional parameters from builder
-		if (parameters.get(GET_OBSERVATION_SRS_NAME_PARAMETER) != null) {
-			parameterContainer.addParameterShell(GET_OBSERVATION_SRS_NAME_PARAMETER, (String) parameters.get(GET_OBSERVATION_SRS_NAME_PARAMETER));
+		if (parameters.get(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER) != null) {
+			parameterContainer.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER, (String) parameters.get(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER));
 		}
 		if (parameters.get(GET_OBSERVATION_EVENT_TIME_PARAMETER) != null) {
 			parameterContainer.addParameterShell((ParameterShell) parameters.get(GET_OBSERVATION_EVENT_TIME_PARAMETER));
@@ -405,8 +402,8 @@ public class SOSWrapper {
 		parameterContainer.addParameterShell(GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER, parameters.get(GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER));
 		parameterContainer.addParameterShell(GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER, parameters.get(GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER));
 		// optional parameters from builder
-		if (parameters.get(GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER) != null) {
-			parameterContainer.addParameterShell(GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER, parameters.get(GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER));
+		if (parameters.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER) != null) {
+			parameterContainer.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER, parameters.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER));
 		}
 		if (parameters.get(GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER) != null) {
 			parameterContainer.addParameterShell(GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER, parameters.get(GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER));

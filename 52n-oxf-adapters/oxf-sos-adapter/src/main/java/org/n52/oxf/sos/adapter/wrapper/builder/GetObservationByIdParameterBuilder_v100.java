@@ -26,7 +26,7 @@ package org.n52.oxf.sos.adapter.wrapper.builder;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.n52.oxf.sos.adapter.wrapper.SOSWrapper;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
@@ -67,10 +67,10 @@ public class GetObservationByIdParameterBuilder_v100 {
 	 * @return parameter builder
 	 */
 	public GetObservationByIdParameterBuilder_v100 addSrsName(String srsName) {
-		if (parameters.get(SOSWrapper.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER) != null) {
-			parameters.remove(SOSWrapper.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER);
+		if (parameters.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER) != null) {
+			parameters.remove(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER);
 		}
-		parameters.put(SOSWrapper.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER, srsName);
+		parameters.put(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER, srsName);
 		return this;
 	}
 	
