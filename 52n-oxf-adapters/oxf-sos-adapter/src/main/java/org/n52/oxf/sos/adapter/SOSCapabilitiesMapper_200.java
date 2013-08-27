@@ -481,18 +481,18 @@ public class SOSCapabilitiesMapper_200 {
 
     private void processSpatialFilterCapabilities(final FilterValueDomain filterDomain,
                                                   final SpatialCapabilitiesType spatialCapabilities) {
-        if (spatialCapabilities != null) {
+//        if (spatialCapabilities != null) {
             // TODO implement
             // throw new NotImplementedException();
-        }
+//        }
     }
 
     private void processTemporalFilterCapabilities(final FilterValueDomain filterDomain,
                                                    final TemporalCapabilitiesType temporalCapabilities) {
-        if (temporalCapabilities != null) {
+//        if (temporalCapabilities != null) {
             // TODO implement
             // throw new NotImplementedException();
-        }
+//        }
 
     }
 
