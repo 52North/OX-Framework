@@ -110,7 +110,7 @@ public class SOSAdapter implements IServiceAdapter {
      */
     public SOSAdapter(final String serviceVersion, final HttpClient httpclient) {
         this(serviceVersion, (ISOSRequestBuilder) null);
-        setHttpClient(httpclient); // override simple client
+        httpClient = httpclient; // override simple client
     }
 
     /**
