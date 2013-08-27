@@ -27,6 +27,7 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.n52.oxf.OXFException;
@@ -44,9 +45,9 @@ import org.n52.oxf.valueDomains.StringValueDomain;
 public class GetObservationParameterBuilder_v100 {
 	
 	private final Map<String, Object> parameters = new HashMap<String, Object>();
-	private final ArrayList<String> eventTimeList = new ArrayList<String>();
-	private final ArrayList<String> procedureList = new ArrayList<String>();
-	private final ArrayList<String> observedPropertyList = new ArrayList<String>();
+	private final List<String> eventTimeList = new ArrayList<String>();
+	private final List<String> procedureList = new ArrayList<String>();
+	private final List<String> observedPropertyList = new ArrayList<String>();
 	
 	/**
 	 * Assembles mandatory parameters from method parameter list.
