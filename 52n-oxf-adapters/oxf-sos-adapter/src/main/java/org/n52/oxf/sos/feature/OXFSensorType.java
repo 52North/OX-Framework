@@ -88,17 +88,17 @@ public class OXFSensorType extends OXFAbstractFeatureType {
 
     public static final String OUTPUTS = "oxfSensorTypeOutputs";
 
-    public static final ArrayList<String> X_AXIS_IDENTIFIERS = new ArrayList<String>(Arrays.asList(new String[] {"x",
+    public static final List<String> X_AXIS_IDENTIFIERS = new ArrayList<String>(Arrays.asList(new String[] {"x",
                                                                                                                  "xcoord",
                                                                                                                  "easting",
                                                                                                                  "longitude"}));
 
-    public static final ArrayList<String> Y_AXIS_IDENTIFIERS = new ArrayList<String>(Arrays.asList(new String[] {"y",
+    public static final List<String> Y_AXIS_IDENTIFIERS = new ArrayList<String>(Arrays.asList(new String[] {"y",
                                                                                                                  "ycoord",
                                                                                                                  "northing",
                                                                                                                  "latitude"}));
 
-    public static final ArrayList<String> Z_AXIS_IDENTIFIERS = new ArrayList<String>(Arrays.asList(new String[] {"z",
+    public static final List<String> Z_AXIS_IDENTIFIERS = new ArrayList<String>(Arrays.asList(new String[] {"z",
                                                                                                                  "zcoord",
                                                                                                                  "altitude",
                                                                                                                  "elevation"}));
@@ -120,11 +120,11 @@ public class OXFSensorType extends OXFAbstractFeatureType {
     @Override
     protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
-        List<OXFFeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
+        final List<OXFFeatureAttributeDescriptor> attributeDescriptors = super.generateAttributeDescriptors();
         // location (abstract feature type)
 
         // TODO should this attribute not have the DataType.GEOMETRY
-        OXFFeatureAttributeDescriptor position = new OXFFeatureAttributeDescriptor(POSITION,
+        final OXFFeatureAttributeDescriptor position = new OXFFeatureAttributeDescriptor(POSITION,
                                                                                    DataType.OBJECT,
                                                                                    Point.class,
                                                                                    1,
@@ -132,7 +132,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
                                                                                    "The Position as a com.vividsolutions.jts.geom.Point.");
         attributeDescriptors.add(position);
 
-        OXFFeatureAttributeDescriptor history = new OXFFeatureAttributeDescriptor(HISTORY,
+        final OXFFeatureAttributeDescriptor history = new OXFFeatureAttributeDescriptor(HISTORY,
                                                                                   DataType.OBJECT,
                                                                                   History[].class,
                                                                                   0,
@@ -140,7 +140,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
                                                                                   "The history as an array of net.opengis.sensorML.x101.HistoryDocument.History.");
         attributeDescriptors.add(history);
 
-        OXFFeatureAttributeDescriptor id = new OXFFeatureAttributeDescriptor(ID,
+        final OXFFeatureAttributeDescriptor id = new OXFFeatureAttributeDescriptor(ID,
                                                                              DataType.STRING,
                                                                              String.class,
                                                                              1,
@@ -148,7 +148,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
                                                                              "The identification string of a sensor.");
         attributeDescriptors.add(id);
 
-        OXFFeatureAttributeDescriptor active = new OXFFeatureAttributeDescriptor(ACTIVE,
+        final OXFFeatureAttributeDescriptor active = new OXFFeatureAttributeDescriptor(ACTIVE,
                                                                                  DataType.OBJECT,
                                                                                  Boolean.class,
                                                                                  1,
@@ -156,7 +156,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
                                                                                  "The activity attribute of a sensor as a Boolean.");
         attributeDescriptors.add(active);
 
-        OXFFeatureAttributeDescriptor mobile = new OXFFeatureAttributeDescriptor(MOBILE,
+        final OXFFeatureAttributeDescriptor mobile = new OXFFeatureAttributeDescriptor(MOBILE,
                                                                                  DataType.OBJECT,
                                                                                  Boolean.class,
                                                                                  1,
@@ -164,7 +164,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
                                                                                  "The mobility attribute of a sensor as a Boolean.");
         attributeDescriptors.add(mobile);
 
-        OXFFeatureAttributeDescriptor inputs = new OXFFeatureAttributeDescriptor(INPUTS,
+        final OXFFeatureAttributeDescriptor inputs = new OXFFeatureAttributeDescriptor(INPUTS,
                                                                                  DataType.OBJECT,
                                                                                  IoComponentPropertyType[].class,
                                                                                  0,
@@ -172,7 +172,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
                                                                                  "The inputs of a sensor as an array of IoComponentPropertyType.");
         attributeDescriptors.add(inputs);
 
-        OXFFeatureAttributeDescriptor outputs = new OXFFeatureAttributeDescriptor(OUTPUTS,
+        final OXFFeatureAttributeDescriptor outputs = new OXFFeatureAttributeDescriptor(OUTPUTS,
                                                                                   DataType.OBJECT,
                                                                                   IoComponentPropertyType[].class,
                                                                                   0,
@@ -189,15 +189,15 @@ public class OXFSensorType extends OXFAbstractFeatureType {
      * @return
      * @throws OXFException
      */
-    public static OXFFeature create(SystemType xb_system) throws OXFException {
+    public static OXFFeature create(final SystemType xb_system) throws OXFException {
 
         /** id **/
-        String id = getId(xb_system);
+        final String id = getId(xb_system);
 
         // FeatureType of the feature:
-        OXFSensorType oxf_sensorType = new OXFSensorType();
+        final OXFSensorType oxf_sensorType = new OXFSensorType();
 
-        OXFFeature feature = new OXFFeature(id, oxf_sensorType);
+        final OXFFeature feature = new OXFFeature(id, oxf_sensorType);
 
         // initialize the feature with the attributes from the XMLBean:
         oxf_sensorType.initializeFeature(feature, xb_system);
@@ -212,22 +212,22 @@ public class OXFSensorType extends OXFAbstractFeatureType {
      * @return
      * @throws OXFException
      */
-    private static String getId(SystemType xb_sensor) throws OXFException {
+    private static String getId(final SystemType xb_sensor) throws OXFException {
 
         try {
-            Identification[] xb_identificatinArray = xb_sensor.getIdentificationArray();
+            final Identification[] xb_identificatinArray = xb_sensor.getIdentificationArray();
             if (xb_identificatinArray.length > 1) {
                 LOGGER.warn("just the first sml:IdentifierList of the identification array will be used!");
             }
-            IdentifierList xb_identifiersList = xb_identificatinArray[0].getIdentifierList();
+            final IdentifierList xb_identifiersList = xb_identificatinArray[0].getIdentifierList();
             if (xb_identifiersList.sizeOfIdentifierArray() > 1) {
                 LOGGER.warn("just the first sml:identifier of the identification array will be used!");
             }
-            Identifier xb_identifier = xb_identifiersList.getIdentifierArray(0);
-            Term term = xb_identifier.getTerm();
+            final Identifier xb_identifier = xb_identifiersList.getIdentifierArray(0);
+            final Term term = xb_identifier.getTerm();
             return term.getValue();
         }
-        catch (ArrayIndexOutOfBoundsException e) {
+        catch (final ArrayIndexOutOfBoundsException e) {
             LOGGER.error("no id found in sml:IdentifierList, trying fallback solution...", e);
             if (xb_sensor.getId() != null) {
                 return xb_sensor.getId();
@@ -244,7 +244,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
      * @throws ClassCastException
      * @throws IllegalArgumentException
      */
-    public void initializeFeature(OXFFeature feature, SystemType xb_sensor) throws IllegalArgumentException,
+    public void initializeFeature(final OXFFeature feature, final SystemType xb_sensor) throws IllegalArgumentException,
             ClassCastException,
             OXFException {
         super.initializeFeature(feature, xb_sensor);
@@ -260,7 +260,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
         // MultimapRequestParameters xb_parameters = xb_sensor.getParameters();
 
         /** history **/
-        History[] xb_history = xb_sensor.getHistoryArray();
+        final History[] xb_history = xb_sensor.getHistoryArray();
         feature.setAttribute(HISTORY, xb_history);
 
         /** position **/
@@ -268,41 +268,41 @@ public class OXFSensorType extends OXFAbstractFeatureType {
 
         /** mobile and active **/
         // SOSmobileRequestBuilder.REGISTER_SENSOR_MOBILE_PARAMETER
-        Capabilities[] xb_capsArray = xb_sensor.getCapabilitiesArray();
+        final Capabilities[] xb_capsArray = xb_sensor.getCapabilitiesArray();
 
-        for (Capabilities capabilities : xb_capsArray) {
-            AbstractDataRecordType xb_abstractDataRecord = capabilities.getAbstractDataRecord();
-            QName qName = new QName("http://www.opengis.net/swe/1.0.1", "SimpleDataRecord");
+        for (final Capabilities capabilities : xb_capsArray) {
+            final AbstractDataRecordType xb_abstractDataRecord = capabilities.getAbstractDataRecord();
+            final QName qName = new QName("http://www.opengis.net/swe/1.0.1", "SimpleDataRecord");
             if (xb_abstractDataRecord instanceof SimpleDataRecordType) {
-				SimpleDataRecordType simpleDataRec = (SimpleDataRecordType) xb_abstractDataRecord.substitute(qName, SimpleDataRecordType.type);
-				AnyScalarPropertyType[] xb_fieldArray = simpleDataRec.getFieldArray();
-				for (AnyScalarPropertyType anyScalarPropertyType : xb_fieldArray) {
-					String name = anyScalarPropertyType.getName();
+				final SimpleDataRecordType simpleDataRec = (SimpleDataRecordType) xb_abstractDataRecord.substitute(qName, SimpleDataRecordType.type);
+				final AnyScalarPropertyType[] xb_fieldArray = simpleDataRec.getFieldArray();
+				for (final AnyScalarPropertyType anyScalarPropertyType : xb_fieldArray) {
+					final String name = anyScalarPropertyType.getName();
 					if (name.equals(ACTIVE_PARAMETER_NAME)) {
-						boolean active = anyScalarPropertyType.getBoolean()
+						final boolean active = anyScalarPropertyType.getBoolean()
 								.getValue();
 						feature.setAttribute(ACTIVE, Boolean.valueOf(active));
 					}
 					if (name.equals(MOBILE_PARAMETER_NAME)) {
-						boolean mobile = anyScalarPropertyType.getBoolean()
+						final boolean mobile = anyScalarPropertyType.getBoolean()
 								.getValue();
 						feature.setAttribute(MOBILE, Boolean.valueOf(mobile));
 					}
 				}
 			} else if (xb_abstractDataRecord instanceof DataRecordType) {
-				DataRecordType simpleDataRec = (DataRecordType) xb_abstractDataRecord
+				final DataRecordType simpleDataRec = (DataRecordType) xb_abstractDataRecord
 						.substitute(qName, DataRecordType.type);
-				DataComponentPropertyType[] xb_fieldArray = simpleDataRec
+				final DataComponentPropertyType[] xb_fieldArray = simpleDataRec
 						.getFieldArray();
-				for (DataComponentPropertyType dataComponent : xb_fieldArray) {
-					String name = dataComponent.getName();
+				for (final DataComponentPropertyType dataComponent : xb_fieldArray) {
+					final String name = dataComponent.getName();
 					if (name.equals(ACTIVE_PARAMETER_NAME)) {
-						boolean active = dataComponent.getBoolean()
+						final boolean active = dataComponent.getBoolean()
 								.getValue();
 						feature.setAttribute(ACTIVE, Boolean.valueOf(active));
 					}
 					if (name.equals(MOBILE_PARAMETER_NAME)) {
-						boolean mobile = dataComponent.getBoolean()
+						final boolean mobile = dataComponent.getBoolean()
 								.getValue();
 						feature.setAttribute(MOBILE, Boolean.valueOf(mobile));
 					}
@@ -311,32 +311,32 @@ public class OXFSensorType extends OXFAbstractFeatureType {
         }
 
         /** input list **/
-        InputList inputList = xb_sensor.getInputs().getInputList();
-        IoComponentPropertyType[] inputArray = inputList.getInputArray();
+        final InputList inputList = xb_sensor.getInputs().getInputList();
+        final IoComponentPropertyType[] inputArray = inputList.getInputArray();
         feature.setAttribute(INPUTS, inputArray);
 
         /** output list **/
-        OutputList outputList = xb_sensor.getOutputs().getOutputList();
-        IoComponentPropertyType[] outputArray = outputList.getOutputArray();
+        final OutputList outputList = xb_sensor.getOutputs().getOutputList();
+        final IoComponentPropertyType[] outputArray = outputList.getOutputArray();
         feature.setAttribute(OUTPUTS, outputArray);
     }
 
-    private void initializePosition(OXFFeature feature, SystemType xb_sensor) {
+    private void initializePosition(final OXFFeature feature, final SystemType xb_sensor) {
         if (xb_sensor.getPosition() != null && xb_sensor.getPosition().getPosition() != null
                 && xb_sensor.getPosition().getPosition().getLocation() != null) {
 
-            Position xb_smlPostion = xb_sensor.getPosition();
-            PositionType xb_swePosition = xb_smlPostion.getPosition();
-            VectorPropertyType xb_sweLocation = xb_swePosition.getLocation();
+            final Position xb_smlPostion = xb_sensor.getPosition();
+            final PositionType xb_swePosition = xb_smlPostion.getPosition();
+            final VectorPropertyType xb_sweLocation = xb_swePosition.getLocation();
 
-            VectorType xb_sweVector = xb_sweLocation.getVector();
+            final VectorType xb_sweVector = xb_sweLocation.getVector();
 
-            net.opengis.swe.x101.VectorType.Coordinate[] xb_sweCoordinates = xb_sweVector.getCoordinateArray();
+            final net.opengis.swe.x101.VectorType.Coordinate[] xb_sweCoordinates = xb_sweVector.getCoordinateArray();
 
             double xCoord = Double.NaN;
             double yCoord = Double.NaN;
             double zCoord = Double.NaN;
-            for (net.opengis.swe.x101.VectorType.Coordinate coord : xb_sweCoordinates) {
+            for (final net.opengis.swe.x101.VectorType.Coordinate coord : xb_sweCoordinates) {
                 if (X_AXIS_IDENTIFIERS.contains(coord.getName())) {
                     xCoord = coord.getQuantity().getValue();
                 }
@@ -362,9 +362,9 @@ public class OXFSensorType extends OXFAbstractFeatureType {
                         + Arrays.toString(Z_AXIS_IDENTIFIERS.toArray()) + ".");
             }
 
-            Point point = new GeometryFactory().createPoint(new Coordinate(xCoord, yCoord, zCoord));
+            final Point point = new GeometryFactory().createPoint(new Coordinate(xCoord, yCoord, zCoord));
 
-            String srsString = xb_swePosition.getReferenceFrame();
+            final String srsString = xb_swePosition.getReferenceFrame();
             point.setSRID(Integer.parseInt(srsString.substring(srsString.lastIndexOf(":") + 1)));
 
             feature.setAttribute(POSITION, point);
@@ -381,7 +381,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(super.toString());
         return sb.toString();
     }
