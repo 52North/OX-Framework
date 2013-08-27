@@ -353,13 +353,13 @@ public class SOSCapabilitiesMapper_200 {
                 if (oc_crs != null) {
                     oc_availabaleCRSs = new String[] {oc_crs};
                 }
-                else {
+//                else {
                     // TODO Think about throwing an exception because of one missing attribute because this
                     // situation can occur often when a new offering is set up and no data is available. Set
                     // it null and then it's okay! (ehjuerrens@52north.org)
                     // throw new
                     // NullPointerException("SRS not specified in the Capabilities' 'gml:Envelope'-tag.");
-                }
+//                }
 
                 // BoundingBox:
                 oc_bbox = new IBoundingBox[1];
