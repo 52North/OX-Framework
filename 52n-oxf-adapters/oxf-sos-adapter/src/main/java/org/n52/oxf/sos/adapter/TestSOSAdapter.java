@@ -48,7 +48,12 @@ import org.slf4j.LoggerFactory;
  */
 public class TestSOSAdapter {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestSOSAdapter.class);
+    /**
+	 * 
+	 */
+	private static final String IGNORE_GET_URL = "http://GET_URL_not_used";
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(TestSOSAdapter.class);
 
 	// private final String url = "http://localhost:8080/52nSOSv2_WeatherSA_artifical/sos";
 
@@ -152,7 +157,7 @@ public class TestSOSAdapter {
 	public void testGetObservation() throws OXFException, ExceptionReport {
 		final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
-		final Operation op = new Operation("GetObservation", "http://GET_URL_not_used", url);
+		final Operation op = new Operation("GetObservation", TestSOSAdapter.IGNORE_GET_URL, url);
 
 		// put all parameters you want to use into a ParameterContainer:
 		final ParameterContainer paramCon = new ParameterContainer();
@@ -215,7 +220,7 @@ public class TestSOSAdapter {
 	public OXFFeatureCollection testGetFeatureOfInterest() throws OXFException, ExceptionReport {
 		final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
-		final Operation op = new Operation("GetFeatureOfInterest", "http://GET_URL_not_used", url);
+		final Operation op = new Operation("GetFeatureOfInterest", TestSOSAdapter.IGNORE_GET_URL, url);
 
 		final ParameterContainer paramCon = new ParameterContainer();
 
@@ -274,7 +279,7 @@ public class TestSOSAdapter {
 	public void testInsertObservation() throws OXFException, ExceptionReport {
 		final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
-		final Operation op = new Operation("InsertObservation", "http://GET_URL_not_used", url);
+		final Operation op = new Operation("InsertObservation", TestSOSAdapter.IGNORE_GET_URL, url);
 
 		// put all parameters you want to use into a ParameterContainer:
 		final ParameterContainer paramCon = new ParameterContainer();
@@ -305,7 +310,7 @@ public class TestSOSAdapter {
 	public void testInsertCategoryObservation() throws OXFException, ExceptionReport {
 		final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
-		final Operation op = new Operation("InsertObservation", "http://GET_URL_not_used", url);
+		final Operation op = new Operation("InsertObservation", TestSOSAdapter.IGNORE_GET_URL, url);
 
         final String sosURL = url;
         // get the values from InsertObservation
@@ -340,7 +345,7 @@ public class TestSOSAdapter {
 	public void testRegisterSensor() throws OXFException, ExceptionReport {
 		final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
-		final Operation op = new Operation("RegisterSensor", "http://GET_URL_not_used", url);
+		final Operation op = new Operation("RegisterSensor", TestSOSAdapter.IGNORE_GET_URL, url);
 
 		// put all parameters you want to use into a ParameterContainer:
 		final ParameterContainer paramCon = new ParameterContainer();
