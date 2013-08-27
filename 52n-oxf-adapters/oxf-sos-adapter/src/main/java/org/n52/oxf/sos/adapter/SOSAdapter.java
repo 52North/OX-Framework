@@ -31,6 +31,7 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import java.io.IOException;
 
 import net.opengis.ows.x11.ExceptionReportDocument;
+import net.opengis.ows.x11.ExceptionType;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -55,7 +56,6 @@ import org.n52.oxf.util.web.ProxyAwareHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
 
 /**
  * SOS-Adapter for the OX-Framework
@@ -374,13 +374,13 @@ public class SOSAdapter implements IServiceAdapter {
     private ExceptionReport parseExceptionReport_100(final OperationResult result) throws XmlException, IOException {
 
         final ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsStream());
-        final net.opengis.ows.x11.ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
+        final ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
 
         final String language = xb_execRepDoc.getExceptionReport().getLang();
         final String version = xb_execRepDoc.getExceptionReport().getVersion();
 
         final ExceptionReport oxf_execReport = new ExceptionReport(version, language);
-        for (final net.opengis.ows.x11.ExceptionType xb_exec : xb_exceptions) {
+        for (final ExceptionType xb_exec : xb_exceptions) {
             final String execCode = xb_exec.getExceptionCode();
             final String[] execMsgs = xb_exec.getExceptionTextArray();
             final String locator = xb_exec.getLocator();
@@ -389,9 +389,7 @@ public class SOSAdapter implements IServiceAdapter {
 
             oxf_execReport.addException(owsExec);
         }
-
         return oxf_execReport;
-
     }
 
     /**
