@@ -319,6 +319,19 @@ public class SOSCapabilitiesMapper_200 {
                 continue; // does not contain any observations/features
             }
 
+            // identifier
+            final String oc_identifier = xb_obsOffering.getIdentifier();
+
+            // title (take the first name or if name does not exist take the id)
+            String oc_title;
+            final CodeType[] xb_names = xb_obsOffering.getNameArray();
+            if (xb_names != null && xb_names.length > 0 && xb_names[0].getStringValue() != null) {
+                oc_title = xb_names[0].getStringValue();
+            }
+            else {
+                oc_title = xb_obsOffering.getIdentifier();
+            }
+
             IBoundingBox[] oc_bbox = null;
             String[] oc_availabaleCRSs = null;
             EnvelopeDocument envelopeDoc = null;
@@ -365,7 +378,40 @@ public class SOSCapabilitiesMapper_200 {
                 oc_bbox[0] = new BoundingBox(oc_crs, oc_lowerCornerList, oc_upperCornerList);
             }
 
+            // outputFormats:
+            final String[] oc_outputFormats = (String[]) ArrayUtils.addAll(responseFormats,
+                                                                     xb_obsOffering.getResponseFormatArray());
+
+            // TemporalDomain:
+            final List<ITime> oc_timeList = new ArrayList<ITime>();
+            final ResultTime resultTime = xb_obsOffering.getResultTime();
+            if (resultTime != null && resultTime.getTimePeriod() != null) {
+                final TimePeriodType xb_timePeriod = resultTime.getTimePeriod();
+                final String beginPos = xb_timePeriod.getBeginPosition().getStringValue();
+                final String endPos = xb_timePeriod.getEndPosition().getStringValue();
+                if ( !beginPos.equals("") && !endPos.equals("")) {
+                    final TimePeriod oc_timePeriod = new TimePeriod(beginPos, endPos);
+                    oc_timeList.add(oc_timePeriod);
+                }
+            }
+            final IDiscreteValueDomain<ITime> oc_temporalDomain = new TemporalValueDomain(oc_timeList);
+
             // result:
+            final FilterValueDomain filterDomain = new FilterValueDomain();
+            if (capabilities.getFilterCapabilities() != null) {
+                final FilterCapabilities filterCaps = capabilities.getFilterCapabilities().getFilterCapabilities();
+                if (filterCaps != null) {
+                    processScalarFilterCapabilities(filterDomain, filterCaps.getScalarCapabilities());
+                    processSpatialFilterCapabilities(filterDomain, filterCaps.getSpatialCapabilities());
+                    processTemporalFilterCapabilities(filterDomain, filterCaps.getTemporalCapabilities());
+                }
+            }
+
+            final String[] oc_respModes = xb_obsOffering.getResponseFormatArray();
+            final String[] oc_obsProps = (String[]) ArrayUtils.addAll(xb_obsOffering.getObservablePropertyArray(),
+                                                                observablePropertys);
+            final String[] oc_procedures = new String[] {xb_obsOffering.getProcedure()};
+
             final RelatedFeature[] oc_foiIDs = xb_obsOffering.getRelatedFeatureArray();
             final String[] oc_relatedFeatures = new String[oc_foiIDs.length];
             for (int j = 0; j < oc_foiIDs.length; j++) {
@@ -373,82 +419,38 @@ public class SOSCapabilitiesMapper_200 {
                 oc_relatedFeatures[j] = oc_foiIDs[j].getFeatureRelationship().getTarget().getHref();
             }
 
+            final String oc_fees = capabilities.getServiceIdentification().getFees();
             // TODO: these variables should also be initialized
             final String oc_pointOfContact = null;
             final Locale[] oc_language = null;
             final String[] oc_keywords = null;
             final String oc_abstractDescription = null;
 
-            final ObservationOffering oc_obsOff = new ObservationOffering(getTitle(xb_obsOffering),
-                                                                    xb_obsOffering.getIdentifier(),
+            final ObservationOffering oc_obsOff = new ObservationOffering(oc_title,
+                                                                    oc_identifier,
                                                                     oc_bbox,
-                                                                    (String[]) ArrayUtils.addAll(responseFormats,xb_obsOffering.getResponseFormatArray()),
+                                                                    oc_outputFormats,
                                                                     oc_availabaleCRSs,
-                                                                    capabilities.getServiceIdentification().getFees(),
+                                                                    oc_fees,
                                                                     oc_language,
                                                                     oc_pointOfContact,
-                                                                    getTemporalDomain(xb_obsOffering),
+                                                                    oc_temporalDomain,
                                                                     oc_abstractDescription,
                                                                     oc_keywords,
-                                                                    new String[] {xb_obsOffering.getProcedure()},
+                                                                    oc_procedures,
                                                                     oc_relatedFeatures,
-                                                                    (String[]) ArrayUtils.addAll(xb_obsOffering.getObservablePropertyArray(),observablePropertys),
+                                                                    oc_obsProps,
                                                                     null, // not supported in SOS 2.0
-                                                                    xb_obsOffering.getResponseFormatArray(),
-                                                                    getFilterDomain(capabilities));
+                                                                    oc_respModes,
+                                                                    filterDomain);
 
             oc_obsOffList.add(oc_obsOff);
         }
 
         return new SOSContents(oc_obsOffList);
     }
-    
-    private IDiscreteValueDomain<ITime> getTemporalDomain(final ObservationOfferingType xb_obsOffering)
-    {
-    	// TemporalDomain:
-    	final List<ITime> oc_timeList = new ArrayList<ITime>();
-    	final ResultTime resultTime = xb_obsOffering.getResultTime();
-    	if (resultTime != null && resultTime.getTimePeriod() != null) {
-    		final TimePeriodType xb_timePeriod = resultTime.getTimePeriod();
-    		final String beginPos = xb_timePeriod.getBeginPosition().getStringValue();
-    		final String endPos = xb_timePeriod.getEndPosition().getStringValue();
-    		if ( !beginPos.equals("") && !endPos.equals("")) {
-    			final TimePeriod oc_timePeriod = new TimePeriod(beginPos, endPos);
-    			oc_timeList.add(oc_timePeriod);
-    		}
-    	}
-    	return new TemporalValueDomain(oc_timeList);
-    }
 
-	private FilterValueDomain getFilterDomain(final CapabilitiesType capabilities)
-	{
-		final FilterValueDomain filterDomain = new FilterValueDomain();
-		if (capabilities.getFilterCapabilities() != null) {
-		    final FilterCapabilities filterCaps = capabilities.getFilterCapabilities().getFilterCapabilities();
-		    if (filterCaps != null) {
-		        processScalarFilterCapabilities(filterDomain, filterCaps.getScalarCapabilities());
-		        processSpatialFilterCapabilities(filterDomain, filterCaps.getSpatialCapabilities());
-		        processTemporalFilterCapabilities(filterDomain, filterCaps.getTemporalCapabilities());
-		    }
-		}
-		return filterDomain;
-	}
-
-	private String getTitle(final ObservationOfferingType xb_obsOffering)
-	{
-		// title (take the first name or if name does not exist take the id)
-		final CodeType[] xb_names = xb_obsOffering.getNameArray();
-        String oc_title;
-		if (xb_names != null && xb_names.length > 0 && xb_names[0].getStringValue() != null) {
-            oc_title = xb_names[0].getStringValue();
-        }
-        else {
-            oc_title = xb_obsOffering.getIdentifier();
-        }
-		return oc_title;
-	}
-
-	private void processScalarFilterCapabilities(final FilterValueDomain filterDomain,
+    private void processScalarFilterCapabilities(final FilterValueDomain filterDomain,
                                                  final ScalarCapabilitiesType scalarCapabilities) {
         if (scalarCapabilities != null) {
             final ComparisonOperatorsType comparisonOperators = scalarCapabilities.getComparisonOperators();
