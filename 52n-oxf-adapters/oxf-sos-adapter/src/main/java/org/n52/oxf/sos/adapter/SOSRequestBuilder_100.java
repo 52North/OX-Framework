@@ -634,7 +634,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         	final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
         	final DataArrayType arrayType = doc.addNewDataArray1();
         	final ElementCount ec = arrayType.addNewElementCount();
-        	ec.addNewCount().setValue(new BigInteger("1"));
+        	ec.addNewCount().setValue(BigInteger.ONE);
         	final DataComponentPropertyType et = arrayType.addNewElementType();
         	et.setName("Components");
         	final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
@@ -683,7 +683,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         	final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
         	final DataArrayType arrayType = doc.addNewDataArray1();
         	final ElementCount ec = arrayType.addNewElementCount();
-        	ec.addNewCount().setValue(new BigInteger("1"));
+        	ec.addNewCount().setValue(BigInteger.ONE);
         	final DataComponentPropertyType et = arrayType.addNewElementType();
         	et.setName("Components");
         	final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
@@ -718,7 +718,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         	final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
         	final DataArrayType arrayType = doc.addNewDataArray1();
         	final ElementCount ec = arrayType.addNewElementCount();
-        	ec.addNewCount().setValue(new BigInteger("1"));
+        	ec.addNewCount().setValue(BigInteger.ONE);
         	final DataComponentPropertyType et = arrayType.addNewElementType();
         	et.setName("Components");
         	final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
