@@ -281,19 +281,15 @@ public class SOSCapabilitiesMapper_200 {
             new SOSCapabilitiesMapper_200().mapCapabilities(CapabilitiesDocument.Factory.parse(responseStream));
         }
         catch (final HttpClientException e) {
-            // TODO Auto-generated catch block
         	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
         }
         catch (final IOException e) {
-            // TODO Auto-generated catch block
         	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
         }
         catch (final XmlException e) {
-            // TODO Auto-generated catch block
         	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
         }
         catch (final OXFException e) {
-            // TODO Auto-generated catch block
         	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
         }
     }
