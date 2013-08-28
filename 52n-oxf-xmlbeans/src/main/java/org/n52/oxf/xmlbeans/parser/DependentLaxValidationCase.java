@@ -41,6 +41,6 @@ public interface DependentLaxValidationCase extends LaxValidationCase {
 	 * @param allExceptionalCases all validation errors in the current document incl. the one that is currently checked!
 	 * @return <tt>true</tt>, if this {@link DependentLaxValidationCase} is caused by one of the other cases and can be ignored.
 	 */
-	public boolean shouldPass(XmlError validationError, List<XmlError> allExceptionalCases);
+	boolean shouldPass(XmlError validationError, List<XmlError> allExceptionalCases);
 
 }
