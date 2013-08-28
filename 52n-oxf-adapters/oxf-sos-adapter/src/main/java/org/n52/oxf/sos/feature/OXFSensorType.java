@@ -208,32 +208,32 @@ public class OXFSensorType extends OXFAbstractFeatureType {
 
     /**
      * 
-     * @param xb_sensor
+     * @param xbSensor
      * @return
      * @throws OXFException
      */
-    private static String getId(final SystemType xb_sensor) throws OXFException {
+    private static String getId(final SystemType xbSensor) throws OXFException {
 
-        try {
-            final Identification[] xb_identificatinArray = xb_sensor.getIdentificationArray();
-            if (xb_identificatinArray.length > 1) {
-                LOGGER.warn("just the first sml:IdentifierList of the identification array will be used!");
-            }
-            final IdentifierList xb_identifiersList = xb_identificatinArray[0].getIdentifierList();
-            if (xb_identifiersList.sizeOfIdentifierArray() > 1) {
-                LOGGER.warn("just the first sml:identifier of the identification array will be used!");
-            }
-            final Identifier xb_identifier = xb_identifiersList.getIdentifierArray(0);
-            final Term term = xb_identifier.getTerm();
-            return term.getValue();
-        }
-        catch (final ArrayIndexOutOfBoundsException e) {
-            LOGGER.error("no id found in sml:IdentifierList, trying fallback solution...", e);
-            if (xb_sensor.getId() != null) {
-                return xb_sensor.getId();
-            }
-            throw new OXFException("no identifier could be found in the given System");
-        }
+    	final Identification[] xbIdentificationArray = xbSensor.getIdentificationArray();
+    	if (xbIdentificationArray.length > 0) {
+    		if (xbIdentificationArray.length > 1) {
+    			LOGGER.warn("just the first sml:IdentifierList of the identification array will be used!");
+    		}
+    		final IdentifierList xbIdentifiersList = xbIdentificationArray[0].getIdentifierList();
+    		if (xbIdentifiersList.sizeOfIdentifierArray() > 0) {
+    			if (xbIdentifiersList.sizeOfIdentifierArray() > 1) {
+    				LOGGER.warn("just the first sml:identifier of the identification array will be used!");
+    			}
+    			final Identifier xbIdentifier = xbIdentifiersList.getIdentifierArray(0);
+    			final Term term = xbIdentifier.getTerm();
+    			return term.getValue();
+    		}
+    	}
+    	LOGGER.error("no id found in sml:IdentifierList, trying fallback solution...");
+    	if (xbSensor.getId() != null) {
+    		return xbSensor.getId();
+    	}
+    	throw new OXFException("no identifier could be found in the given System");
     }
 
     /**
