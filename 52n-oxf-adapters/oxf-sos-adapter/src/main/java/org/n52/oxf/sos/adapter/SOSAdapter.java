@@ -184,7 +184,7 @@ public class SOSAdapter implements IServiceAdapter {
         paramContainer.addParameterShell("acceptVersions", serviceVersion);
         paramContainer.addParameterShell("service", "SOS");
 
-        final String baseUrlPost = url.toString();
+        final String baseUrlPost = url;
         final String baseUrlGet = baseUrlPost + "?";
         final Operation operation = new Operation("GetCapabilities", baseUrlGet, baseUrlPost);
         return initService(doOperation(operation, paramContainer));
