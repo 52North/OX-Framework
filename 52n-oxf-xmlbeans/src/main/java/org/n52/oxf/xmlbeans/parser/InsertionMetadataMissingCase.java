@@ -46,7 +46,7 @@ public class InsertionMetadataMissingCase extends AbstractDependentLaxValidation
 			return false;
 		}
 		final XmlValidationError xve = (XmlValidationError) validationError;
-		if (isTheContextCorrect(xve)) {
+		if (isContextCorrect(xve)) {
 			// clone list
 			final ArrayList<XmlError> workingCopy = new ArrayList<XmlError>(allExceptionalCases);
 			// remove validation error
@@ -62,7 +62,7 @@ public class InsertionMetadataMissingCase extends AbstractDependentLaxValidation
 		return false;
 	}
 
-	private boolean isTheContextCorrect(final XmlValidationError xve)
+	private boolean isContextCorrect(final XmlValidationError xve)
 	{
 		return xve.getOffendingQName() == null &&
 				xve.getFieldQName().equals(XMLConstants.QN_SWES_2_0_METADATA) &&
