@@ -44,7 +44,7 @@ public class SOSContents extends Contents {
         super();
 
         for (final ObservationOffering offering : observationOfferingList) {
-            addDataIdentication(offering);
+            super.addDataIdentication(offering);
         }
     }
 
