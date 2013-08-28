@@ -76,13 +76,13 @@ public class SOSWrapper {
      * Requests and returns the SOS capability description.
      * 
      * @param url Location of the SOS service.
-     * @param acceptVersion Compatible specification version.
+     * @param serviceVersion Compatible specification version.
      * @return ServiceDescriptor filled with data resulting from the GetCapabilities request.
      * @throws ExceptionReport
      * @throws OXFException
      */
-    public static ServiceDescriptor doGetCapabilities(final String url, final String acceptVersion) throws ExceptionReport, OXFException {
-        final SOSAdapter adapter = new SOSAdapter(acceptVersion);
+    public static ServiceDescriptor doGetCapabilities(final String url, final String serviceVersion) throws ExceptionReport, OXFException {
+        final SOSAdapter adapter = new SOSAdapter(serviceVersion);
         return adapter.initService(url);
     }
 
