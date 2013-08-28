@@ -499,7 +499,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     }
     
     @Override
-	public String buildInsertObservation(final ParameterContainer parameters) throws OXFException {
+	public String buildInsertObservationRequest(final ParameterContainer parameters) throws OXFException {
     	final InsertObservationDocument insObDoc = InsertObservationDocument.Factory.newInstance();
     	final InsertObservation insert = insObDoc.addNewInsertObservation();
     	addOperationMetadata(insert,parameters);
@@ -514,7 +514,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     }
 
 	@Override
-	public String buildRegisterSensor(final ParameterContainer parameters) throws OXFException{
+	public String buildRegisterSensorRequest(final ParameterContainer parameters) throws OXFException{
 		
 		final RegisterSensorDocument regSensorDoc = RegisterSensorDocument.Factory.newInstance();
 		final RegisterSensor regSensor = regSensorDoc.addNewRegisterSensor();

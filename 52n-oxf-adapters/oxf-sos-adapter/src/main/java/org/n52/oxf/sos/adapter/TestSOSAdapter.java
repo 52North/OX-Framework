@@ -300,7 +300,7 @@ public class TestSOSAdapter {
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_POSITION_SRS, "4326");
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_DESC, "The Airport in Berlin Germany");
 
-		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildInsertObservation(paramCon));
+		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildInsertObservationRequest(paramCon));
 
 		// now use this ParameterContainer as an input for the 'doOperation' method of your SOSAdapter. What
 		// you receive is an OperationResult.
@@ -339,7 +339,7 @@ public class TestSOSAdapter {
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER,value);
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, "http://example.com/myCodespace");
 
-		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildInsertObservation(paramCon));
+		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildInsertObservationRequest(paramCon));
 	}
 	
 	public void testRegisterSensor() throws OXFException, ExceptionReport {
@@ -362,7 +362,7 @@ public class TestSOSAdapter {
 		paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_UOM_PARAMETER, "mm");
 		paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE, ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT);
 
-		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildRegisterSensor(paramCon));
+		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildRegisterSensorRequest(paramCon));
 
 		final OperationResult opResult = sosAdapter.doOperation(new Operation(SOSAdapter.REGISTER_SENSOR, url + "?", url), paramCon);
 

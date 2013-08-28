@@ -183,12 +183,12 @@ public interface ISOSRequestBuilder {
 
 	String buildGetFeatureOfInterestRequest(ParameterContainer parameters) throws OXFException;
 
-	String buildInsertObservation(ParameterContainer parameters) throws OXFException;
+	String buildInsertObservationRequest(ParameterContainer parameters) throws OXFException;
 
 	/**
 	 * Builds a RegisterSensor request and returns it.
 	 * A SensorML file can either be passed along or a set of parameters is used to create one.
 	 * @throws OXFException
 	 */
-	String buildRegisterSensor(ParameterContainer parameters) throws OXFException;
+	String buildRegisterSensorRequest(ParameterContainer parameters) throws OXFException;
 }

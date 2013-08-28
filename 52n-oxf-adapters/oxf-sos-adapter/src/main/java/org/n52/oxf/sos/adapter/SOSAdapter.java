@@ -321,10 +321,10 @@ public class SOSAdapter implements IServiceAdapter {
             return requestBuilder.buildGetFeatureOfInterestRequest(parameters);
         }
         else if (operation.getName().equals(INSERT_OBSERVATION)) {
-            return requestBuilder.buildInsertObservation(parameters);
+            return requestBuilder.buildInsertObservationRequest(parameters);
         }
         else if (operation.getName().equals(REGISTER_SENSOR)) {
-            return requestBuilder.buildRegisterSensor(parameters);
+            return requestBuilder.buildRegisterSensorRequest(parameters);
         }
         else if (operation.getName().equals(GET_OBSERVATION_BY_ID)) {
             return requestBuilder.buildGetObservationByIDRequest(parameters);
