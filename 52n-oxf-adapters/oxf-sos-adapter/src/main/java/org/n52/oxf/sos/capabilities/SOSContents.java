@@ -26,6 +26,7 @@ package org.n52.oxf.sos.capabilities;
 
 import java.util.List;
 
+import org.n52.oxf.ows.capabilities.Contents;
 import org.n52.oxf.ows.capabilities.Dataset;
 
 /**
@@ -33,32 +34,25 @@ import org.n52.oxf.ows.capabilities.Dataset;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * 
  */
-public class SOSContents extends org.n52.oxf.ows.capabilities.Contents {
+public class SOSContents extends Contents {
 
     public SOSContents() {
         super();
     }
 
-    public SOSContents(List<ObservationOffering> observationOfferingList) {
+    public SOSContents(final List<ObservationOffering> observationOfferingList) {
         super();
 
-        for (ObservationOffering offering : observationOfferingList) {
+        for (final ObservationOffering offering : observationOfferingList) {
             addDataIdentication(offering);
         }
-    }
-
-    /**
-     * 
-     */
-    public void addDataIdentication(ObservationOffering obsOff) {
-        super.addDataIdentication(obsOff);
     }
 
     /**
      * override this superclass method to avoid adding Dataset objects.
      */
     @Override
-    public void addDataIdentication(Dataset dataID) {
+    public void addDataIdentication(final Dataset dataID) {
         throw new UnsupportedOperationException();
     }
 
@@ -66,7 +60,7 @@ public class SOSContents extends org.n52.oxf.ows.capabilities.Contents {
      * 
      */
     @Override
-    public ObservationOffering getDataIdentification(int i) {
+    public ObservationOffering getDataIdentification(final int i) {
         return (ObservationOffering) super.getDataIdentification(i);
     }
 
@@ -77,7 +71,7 @@ public class SOSContents extends org.n52.oxf.ows.capabilities.Contents {
      *         there is no dataset with the specified identifier/name.
      */
     @Override
-    public ObservationOffering getDataIdentification(String identifier) {
+    public ObservationOffering getDataIdentification(final String identifier) {
         return (ObservationOffering) super.getDataIdentification(identifier);
     }
 
