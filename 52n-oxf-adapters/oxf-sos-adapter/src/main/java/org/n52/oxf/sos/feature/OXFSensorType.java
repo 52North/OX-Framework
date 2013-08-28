@@ -365,7 +365,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
             final Point point = new GeometryFactory().createPoint(new Coordinate(xCoord, yCoord, zCoord));
 
             final String srsString = xb_swePosition.getReferenceFrame();
-            point.setSRID(Integer.parseInt(srsString.substring(srsString.lastIndexOf(":") + 1)));
+            point.setSRID(Integer.parseInt(srsString.substring(srsString.lastIndexOf(':') + 1)));
 
             feature.setAttribute(POSITION, point);
             initializeFeaturesGeometry(feature, point);
