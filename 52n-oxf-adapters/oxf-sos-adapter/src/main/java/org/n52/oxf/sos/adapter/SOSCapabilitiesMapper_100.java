@@ -27,7 +27,6 @@ package org.n52.oxf.sos.adapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
 
 import javax.xml.namespace.QName;
 
@@ -509,7 +508,7 @@ public class SOSCapabilitiesMapper_100 {
         final String ocAbstract = xbServiceId.getAbstractArray(0).getStringValue();
         String[] ocKeywords = null;
 
-        final Vector<String> ocKeywordsVec = new Vector<String>();
+        final List<String> ocKeywordsVec = new ArrayList<String>();
         for (int i = 0; i < xbServiceId.getKeywordsArray().length; i++) {
             final LanguageStringType[] xbKeywords = xbServiceId.getKeywordsArray(i).getKeywordArray();
             for (final LanguageStringType xbKeyword : xbKeywords) {
