@@ -29,7 +29,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Vector;
 
 import net.opengis.fes.x20.ComparisonOperatorType;
 import net.opengis.fes.x20.ComparisonOperatorsType;
@@ -367,10 +366,10 @@ public class SOSCapabilitiesMapper_200 {
 
                 // BoundingBox:
                 oc_bbox = new IBoundingBox[1];
-                final List xb_lowerCornerList = envelope.getLowerCorner().getListValue();
+                final List<?> xb_lowerCornerList = envelope.getLowerCorner().getListValue();
                 final double[] oc_lowerCornerList = new double[xb_lowerCornerList.size()];
 
-                final List xb_upperCornerList = envelope.getUpperCorner().getListValue();
+                final List<?> xb_upperCornerList = envelope.getUpperCorner().getListValue();
                 final double[] oc_upperCornerList = new double[xb_upperCornerList.size()];
 
                 for (int j = 0; j < xb_lowerCornerList.size(); j++) {
@@ -520,7 +519,7 @@ public class SOSCapabilitiesMapper_200 {
         }
         String[] oc_keywords = null;
 
-        final Vector<String> oc_keywordsVec = new Vector<String>();
+        final List<String> oc_keywordsVec = new ArrayList<String>();
         for (int i = 0; i < serviceIdentification.getKeywordsArray().length; i++) {
             final LanguageStringType[] xb_keywords = serviceIdentification.getKeywordsArray(i).getKeywordArray();
             for (final LanguageStringType xb_keyword : xb_keywords) {
