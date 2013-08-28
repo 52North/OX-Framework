@@ -315,14 +315,14 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         }
 
         if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_PROCEDURE_PARAMETER) != null) {
-            final Object[] procedures = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_PROCEDURE_PARAMETER).getSpecifiedValueArray();
+            final Object[] procedures = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_PROCEDURE_PARAMETER).getSpecifiedTypedValueArray(Object[].class);
             xb_getObs.setProcedureArray(objectArrayToStringArray(procedures));
         }
 
         if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER) != null) {
             final ParameterShell foiParamShell = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER);
             if (foiParamShell.hasMultipleSpecifiedValues()) {
-                final Object[] fois = foiParamShell.getSpecifiedValueArray();
+                final Object[] fois = foiParamShell.getSpecifiedTypedValueArray(Object[].class);
                 xb_getObs.addNewFeatureOfInterest().setObjectIDArray(objectArrayToStringArray(fois));
             }
             else {
