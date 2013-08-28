@@ -1002,7 +1002,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 			final ObservationType obsType = ObservationType.Factory.parse((String)parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVATION_TEMPLATE).getSpecifiedValue());
 			obsTemp.set(obsType);
 		} catch (final XmlException e) {
-			throw new OXFException("Could not parse observation type from paramter shell.");
+			throw new OXFException("Could not parse observation type from paramter shell.",e);
 		}
 		
 		regSensor.setObservationTemplate(obsTemp);
