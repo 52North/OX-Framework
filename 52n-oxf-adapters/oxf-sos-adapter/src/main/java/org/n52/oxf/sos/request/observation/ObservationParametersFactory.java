@@ -37,7 +37,7 @@ public interface ObservationParametersFactory {
      *        the observation type to create parameter assembly for.
      * @return an observation parameters assembly to create InsertObservation request.
      */
-    public ObservationParameters createObservationParametersFor(QName type);
+    ObservationParameters createObservationParametersFor(QName type);
 
     /**
      * A fallback which is called when no observation type matches in
@@ -48,5 +48,5 @@ public interface ObservationParametersFactory {
      *        which extended Observation type to create.
      * @return an observation parameters assembly to create InsertObservation request.
      */
-    public ObservationParameters createExtendedObservationFor(QName type);
+    ObservationParameters createExtendedObservationFor(QName type);
 }
