@@ -31,6 +31,11 @@ import java.util.Collections;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
+/**
+ * @deprecated use {@link MultiValueRequestParameters} instead.
+ * @see MultiValueRequestParameters 
+ */
+@Deprecated
 public abstract class MultimapRequestParameters implements RequestParameters {
 
     private final Multimap<String, String> parameters;
@@ -71,7 +76,7 @@ public abstract class MultimapRequestParameters implements RequestParameters {
         if (parameters.containsKey(parameter)) {
             return parameters.get(parameter).iterator().next();
         }
-        return null; // TODO return null?
+        return "";
     }
 
     @Override
