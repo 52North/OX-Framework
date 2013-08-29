@@ -97,6 +97,9 @@ public abstract class MultiValueRequestParameters implements RequestParameters {
 
     @Override
     public boolean mergeWith(final RequestParameters parameters) {
+    	if (parameters == null) {
+            throw new IllegalArgumentException("Parameter assembly to merge with may not be null!");
+    	}
         boolean hasChanged = false;
         for (final String parameter : parameters.getParameterNames()) {
             final MultiValue multiValue = getMultiValueFor(parameter);
