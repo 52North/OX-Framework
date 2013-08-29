@@ -228,12 +228,15 @@ public class MultiValueRequestParametersTest {
     }
 
     @Test public void 
-    shouldNotContainParameterAfterRemovingIt() 
+    shouldNotContainParameterAfterRemovingItAndReturnPreviouslyAssignedValues() 
     {
         requestParameters.addParameterValue("version", "1.0.0");
         requestParameters.addParameterValue("version", "2.0.0");
-        requestParameters.remove("version");
+        final Collection<String> removedValues = requestParameters.remove("version");
         assertThat(requestParameters.contains("version"), is(false));
+        assertThat(removedValues.size(), is(2));
+        assertThat(removedValues.contains("1.0.0"), is(true));
+        assertThat(removedValues.contains("2.0.0"), is(true));
     }
 
     @Test public void 
