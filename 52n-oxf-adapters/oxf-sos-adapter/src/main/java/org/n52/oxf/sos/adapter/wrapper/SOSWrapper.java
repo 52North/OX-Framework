@@ -294,7 +294,7 @@ public class SOSWrapper {
 	 * used by SOSAdapter.
 	 * 
 	 * @param parameters list of parameters
-	 * @return reassembled set of parameters needed to call the opertion in the SOSAdapter
+	 * @return reassembled set of parameters needed to call the operation in the SOSAdapter
 	 * @throws OXFException
 	 * @throws ExceptionReport
 	 */
