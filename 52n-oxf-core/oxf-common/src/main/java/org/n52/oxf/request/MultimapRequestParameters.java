@@ -33,7 +33,7 @@ import com.google.common.collect.Multimap;
 
 public abstract class MultimapRequestParameters implements RequestParameters {
 
-    private Multimap<String, String> parameters;
+    private final Multimap<String, String> parameters;
 
     protected MultimapRequestParameters() {
         parameters = HashMultimap.create();
@@ -45,22 +45,22 @@ public abstract class MultimapRequestParameters implements RequestParameters {
     }
 
     @Override
-    public boolean contains(String key) {
+    public boolean contains(final String key) {
         return parameters.containsKey(key);
     }
 
     @Override
-    public boolean isSingleValue(String parameter) {
+    public boolean isSingleValue(final String parameter) {
         return parameters.get(parameter).size() == 1;
     }
 
     @Override
-    public boolean hasMultipleValues(String parameter) {
+    public boolean hasMultipleValues(final String parameter) {
         return parameters.get(parameter).size() > 1;
     }
 
     @Override
-    public String getSingleValue(String parameter) {
+    public String getSingleValue(final String parameter) {
         if (parameters.containsKey(parameter)) {
             return parameters.get(parameter).iterator().next();
         }
@@ -68,7 +68,7 @@ public abstract class MultimapRequestParameters implements RequestParameters {
     }
 
     @Override
-    public Iterable<String> getAllValues(String parameter) {
+    public Iterable<String> getAllValues(final String parameter) {
         return Collections.unmodifiableCollection(parameters.get(parameter));
     }
 
@@ -78,43 +78,44 @@ public abstract class MultimapRequestParameters implements RequestParameters {
     }
 
     @Override
-    public boolean mergeWith(RequestParameters parameters) {
+    public boolean mergeWith(final RequestParameters parameters) {
         boolean hasChanged = false;
-        for (String parameter : parameters.getParameterNames()) {
-            Iterable<String> values = parameters.getAllValues(parameter);
-            boolean changed = this.parameters.putAll(parameter, values);
+        for (final String parameter : parameters.getParameterNames()) {
+            final Iterable<String> values = parameters.getAllValues(parameter);
+            final boolean changed = this.parameters.putAll(parameter, values);
             hasChanged = changed ? changed : hasChanged;
         }
         return hasChanged;
     }
 
     @Override
-    public boolean addParameterValue(String parameter, String value) {
-        String nonNull = value == null ? "" : value;
+    public boolean addParameterValue(final String parameter, final String value) {
+        final String nonNull = value == null ? "" : value;
         return parameters.put(parameter, nonNull);
     }
     
-    public boolean addParameterEnumValues(String parameter, Enum< ? >... values) {
+    @Override
+	public boolean addParameterEnumValues(final String parameter, final Enum< ? >... values) {
         if (values == null) {
             return addEmptyParameter(parameter);
         }
         return addParameterStringValues(parameter, copyEnumValuesAsStrings(values));
     }
 
-    private String[] copyEnumValuesAsStrings(Enum< ? >[] values) {
-        String[] enumValuesAsStrings = new String[values.length];
+    private String[] copyEnumValuesAsStrings(final Enum< ? >[] values) {
+        final String[] enumValuesAsStrings = new String[values.length];
         for (int i = 0; i < values.length; i++) {
             enumValuesAsStrings[i] = values[i].toString();
         }
         return enumValuesAsStrings;
     }
 
-    boolean addEmptyParameter(String parameter) {
+    private boolean addEmptyParameter(final String parameter) {
         return addParameterValue(parameter, null);
     }
 
     @Override
-    public boolean addParameterStringValues(String parameter, String... values) {
+    public boolean addParameterStringValues(final String parameter, final String... values) {
         if (values == null) {
             return addEmptyParameter(parameter);
         }
@@ -122,17 +123,17 @@ public abstract class MultimapRequestParameters implements RequestParameters {
     }
 
     @Override
-    public boolean addParameterValues(String parameter, Iterable<String> values) {
+    public boolean addParameterValues(final String parameter, final Iterable<String> values) {
         boolean changed = false;
-        for (String value : values) {
-            String nonNull = value == null ? "" : value;
+        for (final String value : values) {
+            final String nonNull = value == null ? "" : value;
             changed = addParameterValue(parameter, nonNull) || changed;
         }
         return changed;
     }
     
     @Override
-    public Collection<String> remove(String parameter) {
+    public Collection<String> remove(final String parameter) {
         return parameters.removeAll(parameter);
     }
 
@@ -152,9 +153,9 @@ public abstract class MultimapRequestParameters implements RequestParameters {
      * @throws IllegalArgumentException
      *         if the <code>key</code>'s associated <code>value</code> is <code>null</code> or empty.
      */
-    protected boolean addNonEmpty(String key, String value) {
+    protected boolean addNonEmpty(final String key, final String value) {
         if (isEmptyString(value)) {
-            String format = "Parameter '%s' is required and may not be null or empty!";
+            final String format = "Parameter '%s' is required and may not be null or empty!";
             throw new IllegalArgumentException(String.format(format, key));
         }
         return addParameterValue(key, value);
@@ -168,13 +169,13 @@ public abstract class MultimapRequestParameters implements RequestParameters {
      * @return <code>true</code> if parameter value is <code>null</code> or empty, <code>false</code>
      *         otherwise.
      */
-    protected boolean isEmptyValue(String parameter) {
+    protected boolean isEmptyValue(final String parameter) {
 //        String value = parameters.get(parameter);
 //        return isEmptyString(value);
         return false;
     }
 
-    protected boolean isEmptyString(String value) {
+    protected boolean isEmptyString(final String value) {
         return value == null || value.isEmpty();
     }
 
