@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * <b>This class is test only yet!</b>
  */
-public class MultiValueRequestParameters implements RequestParameters {
+public abstract class MultiValueRequestParameters implements RequestParameters {
 
     private final Map<String, MultiValue> parameters;
     
@@ -50,7 +50,10 @@ public class MultiValueRequestParameters implements RequestParameters {
 	public boolean isEmpty(final String parameter)
 	{
 		return !parameters.containsKey(parameter) || 
-				parameters.get(parameter).isEmpty();
+				parameters.get(parameter).isEmpty() ||
+        		(parameters.get(parameter).size() == 1 &&
+        		parameters.get(parameter).getValues().size() == 1 &&
+        		parameters.get(parameter).getValues().iterator().next().length() == 0);
 	}
 
 
@@ -145,6 +148,46 @@ public class MultiValueRequestParameters implements RequestParameters {
     @Override
     public void removeAll() {
         parameters.clear();
+    }
+    
+    /**
+     * Adds a required parameter to the map doing a non-null check beforehand.
+     * 
+     * @param key
+     *        the parameter's name.
+     * @param value
+     *        the non-null value.
+     * @return if the assembly has changed.
+     * @throws IllegalArgumentException
+     *         if the parameter <code>value</code> is <code>null</code> or empty.
+     */
+    protected boolean addNonEmpty(final String key, final String value) {
+        if (isEmptyString(value)) {
+            final String format = "Parameter '%s' is required and may not be null or empty!";
+            throw new IllegalArgumentException(String.format(format, key));
+        }
+        return addParameterValue(key, value);
+    }
+
+    /**
+     * Checks if value of the given parameter is empty.
+     * 
+     * @param parameterName
+     *        the parameter name.
+     * @return <code>true</code> if parameter value is <code>null</code> or empty, <code>false</code>
+     *         otherwise.
+     */
+    protected boolean isEmptyValue(final String parameter) {
+        return parameter == null || 
+        		!parameters.containsKey(parameter) ||
+        		parameters.get(parameter).isEmpty() ||
+        		(parameters.get(parameter).size() == 1 &&
+        		parameters.get(parameter).getValues().size() == 1 &&
+        		parameters.get(parameter).getValues().iterator().next().length() == 0);
+    }
+
+    protected boolean isEmptyString(final String value) {
+        return value == null || value.isEmpty();
     }
 
     private boolean isPresent(final MultiValue multiValue) {

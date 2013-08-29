@@ -34,7 +34,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class MultiValueRequestParametersTest {
 
@@ -281,11 +283,47 @@ public class MultiValueRequestParametersTest {
     	final String parameter = "parameter";
 		assertThat(requestParameters.isEmpty(parameter),is(true));
 		requestParameters.addParameterValue(parameter, null);
-		assertThat(requestParameters.isEmpty(parameter),is(false));
+		assertThat(requestParameters.isEmpty(parameter),is(true));
 		requestParameters.addParameterValue(parameter, "value");
 		assertThat(requestParameters.isEmpty(parameter),is(false));
 		requestParameters.addParameterValue(parameter, "value2");
 		assertThat(requestParameters.isEmpty(parameter),is(false));
+    }
+    
+    @Rule public ExpectedException thrown = ExpectedException.none();
+    
+    @Test public void
+    shouldThrowIllegalArgumentExceptionIfAddingNullOrEmptyValueViaAddNonEmpty()
+    {
+    	thrown.expect(IllegalArgumentException.class);
+    	thrown.expectMessage(is("Parameter 'key' is required and may not be null or empty!"));
+    	((MultiValueRequestParameters)requestParameters).addNonEmpty("key", null);
+    }
+    
+    @Test public void
+    shouldAddValueViaAddNonEmpty()
+    {
+    	final String key = "key";
+		final String value = "value";
+		assertThat(((MultiValueRequestParameters)requestParameters).addNonEmpty(key,value),is(true));
+    	assertThat(requestParameters.contains(key),is(true));
+    	assertThat(requestParameters.isEmpty(key),is(false));
+    	assertThat(requestParameters.isEmpty(),is(false));
+    	assertThat(requestParameters.getSingleValue(key),is(value));
+    }
+    
+    @Test public void
+    shouldReturnTrueIfNoValueIsAssociatedToParameterViaIsEmptyValue()
+    {
+    	final String emptyValue = null;
+    	final String nonEmptyValue = "value";
+		final String parameter = "parameter";
+		requestParameters.addParameterValue(parameter, emptyValue );
+		final MultiValueRequestParameters parameters = (MultiValueRequestParameters)requestParameters;
+		
+		assertThat(parameters.isEmptyValue(parameter),is(true));
+		requestParameters.addParameterValue(parameter, nonEmptyValue);
+		assertThat(parameters.isEmptyValue(parameter),is(false));
     }
 
     private Collection<String> getValueCollectionFor(final String parameter) {

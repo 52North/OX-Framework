@@ -23,27 +23,21 @@
  */
 package org.n52.oxf.swes.request;
 
-import static org.junit.Assert.assertEquals;
-import static org.n52.oxf.swes.request.DescribeSensorParameters.OUTPUT_FORMAT_PARAMETER;
-import static org.n52.oxf.swes.request.DescribeSensorParameters.PROCEDURE_PARAMETER;
-import static org.n52.oxf.swes.request.DescribeSensorParameters.OUTPUT_FORMAT_SENSORML;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
+import static org.n52.oxf.swes.request.DescribeSensorParameters.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.n52.oxf.request.RequestParameters;
 
 public class DescribeSensorParametersTest {
-    
-    private RequestParameters parameterAssembly;
 
-    @Before
-    public void setUp() {
-        parameterAssembly = new DescribeSensorParameters("sensorId", OUTPUT_FORMAT_SENSORML);
-    }
+	private static final String SENSOR_ID = "sensorId";
+	private DescribeSensorParameters parameterAssembly;
 
-	@Test
-	public void testValidConstructorParameters() {
-		new DescribeSensorParameters("sdf", "sdf");
+	@Before
+	public void setUp() {
+		parameterAssembly = new DescribeSensorParameters(SENSOR_ID, OUTPUT_FORMAT_SENSORML);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -55,14 +49,25 @@ public class DescribeSensorParametersTest {
         new DescribeSensorParameters("", "sdf");
         new DescribeSensorParameters("sdf", "");
 	}
-	
-	@Test
-	public void testApplyingAndGettingMandatoryParameters() {
-		String parMan_01 = parameterAssembly.getSingleValue(PROCEDURE_PARAMETER);
-		String parMan_02 = parameterAssembly.getSingleValue(OUTPUT_FORMAT_PARAMETER);
+
+	@Test public void
+	shouldApplyMandatoryParametersWithAllConstructors()
+	{
+		String procedure = parameterAssembly.getSingleValue(PROCEDURE_PARAMETER);
+		String outputFormat = parameterAssembly.getSingleValue(OUTPUT_FORMAT_PARAMETER);
+
+		assertEquals(SENSOR_ID, procedure);
+		assertEquals(OUTPUT_FORMAT_SENSORML, outputFormat);
+		assertThat(parameterAssembly.isValid(),is(true));
 		
-		assertEquals("sensorId", parMan_01);
-		assertEquals(OUTPUT_FORMAT_SENSORML, parMan_02);
+		parameterAssembly = new DescribeSensorParameters(SENSOR_ID);
+		
+		procedure = parameterAssembly.getSingleValue(PROCEDURE_PARAMETER);
+		outputFormat = parameterAssembly.getSingleValue(OUTPUT_FORMAT_PARAMETER);
+		
+		assertEquals(SENSOR_ID, procedure);
+		assertEquals(OUTPUT_FORMAT_SENSORML, outputFormat);
+		assertThat(parameterAssembly.isValid(),is(true));
 	}
 
 }
