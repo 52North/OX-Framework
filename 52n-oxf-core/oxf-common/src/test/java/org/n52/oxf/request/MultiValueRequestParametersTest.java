@@ -275,7 +275,18 @@ public class MultiValueRequestParametersTest {
 		assertThat(((List<String>)allValues).isEmpty(), is(true));
     }
     
-    
+    @Test public void
+    shouldReturnTrueIfNoValueIsAssociatedToParameterOrParameterIsNotContained()
+    {
+    	final String parameter = "parameter";
+		assertThat(requestParameters.isEmpty(parameter),is(true));
+		requestParameters.addParameterValue(parameter, null);
+		assertThat(requestParameters.isEmpty(parameter),is(true));
+		requestParameters.addParameterValue(parameter, "value");
+		assertThat(requestParameters.isEmpty(parameter),is(false));
+		requestParameters.addParameterValue(parameter, "value2");
+		assertThat(requestParameters.isEmpty(parameter),is(false));
+    }
 
     private Collection<String> getValueCollectionFor(final String parameter) {
         return (Collection<String>) requestParameters.getAllValues(parameter);

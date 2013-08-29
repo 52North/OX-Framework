@@ -53,7 +53,6 @@ public class MultiValue {
     }
 
     /**
-     * TODO change to return the list of removed elements
      * @param value
      *        the value to remove.
      * @return <code>true</code> if the list of values has been changed, <code>false</code> otherwise.
@@ -99,5 +98,13 @@ public class MultiValue {
     public void removeAll() {
         values.clear();
     }
+
+	/**
+	 * @return <code>true</code>, if this instance is empty
+	 */
+	public boolean isEmpty()
+	{
+		return values.isEmpty();
+	}
     
 }

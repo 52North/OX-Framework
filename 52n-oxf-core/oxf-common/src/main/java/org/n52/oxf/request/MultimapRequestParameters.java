@@ -43,6 +43,13 @@ public abstract class MultimapRequestParameters implements RequestParameters {
     public boolean isEmpty() {
         return parameters.isEmpty();
     }
+    
+    @Override
+    public boolean isEmpty(final String parameter) {
+    	return !parameters.containsKey(parameter) || 
+    			(parameters.get(parameter).size() == 1 && 
+    			parameters.get(parameter).iterator().next().length() < 1);
+    }
 
     @Override
     public boolean contains(final String key) {

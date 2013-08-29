@@ -37,12 +37,23 @@ import java.util.Collection;
 public interface RequestParameters {
 
     /**
-     * TODO add an isEmpty(String parameter) method
+     * Checks if the assembly is empty at all. 
      * 
-     * @return <code>true</code> if there are no key-value pairs available, <code>false</code> if the assembly
-     *         contains at least one key-value pair.
+     * @return <code>true</code> if there are no key-value pairs available,<br/>
+     *		<code>false</code> if the assembly contains at least one key-value pair.
      */
     public boolean isEmpty();
+    
+    /**
+     * Checks if the given parameter has at least one associated value.
+     * 
+     * @param parameter
+     * 		  the parameter key to check.
+     * @return <code>true</code> if the passed parameter has zero associated values
+     * 					or is not present in the assembly,<br/>
+     * 		   <code>false</code> if the parameter is has one or more associated values.
+     */
+    public boolean isEmpty(String parameter);
 
     /**
      * Checks if the given parameter is present in the assembly.

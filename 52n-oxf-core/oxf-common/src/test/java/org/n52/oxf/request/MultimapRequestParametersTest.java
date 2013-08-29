@@ -137,6 +137,18 @@ public class MultimapRequestParametersTest {
         assertTrue(parameters.isEmpty());
     }
     
+    @Test
+    public void testIsParameterEmpty() {
+    	final String parameter = "parameter";
+		assertTrue(parameters.isEmpty(parameter));
+    	parameters.addParameterStringValues(parameter, (String[])null);
+    	assertTrue(parameters.isEmpty(parameter));
+    	parameters.addParameterValue(parameter, "value");
+    	assertFalse(parameters.isEmpty(parameter));
+    	parameters.addParameterValue(parameter, "value2");
+    	assertFalse(parameters.isEmpty(parameter));
+    }
+    
 
     private void assertContainingAcceptedVersions(final RequestParameters parameters) {
         assertTrue(parameters.contains("acceptVersion"));
