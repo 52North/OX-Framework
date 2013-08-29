@@ -24,12 +24,12 @@
 
 package org.n52.ows.request;
 
-import org.n52.oxf.request.MultimapRequestParameters;
+import org.n52.oxf.request.MultiValueRequestParameters;
 
 /**
  * Assembles all parameters needed for a GetCapabilities request.
  */
-public class GetCapabilitiesParameters extends MultimapRequestParameters {
+public class GetCapabilitiesParameters extends MultiValueRequestParameters {
     
     private final String REQUEST_PARAMETER = "request";
 
@@ -43,16 +43,16 @@ public class GetCapabilitiesParameters extends MultimapRequestParameters {
 
     static final String ACCEPT_VERSIONS_PARAMETER = "acceptVersion";
 
-    public GetCapabilitiesParameters(String service, String acceptVersion) {
+    public GetCapabilitiesParameters(final String service, final String acceptVersion) {
         addNonEmpty(REQUEST_PARAMETER, "GetCapabilities");
         addNonEmpty(SERVICE_PARAMETER, service);
         addParameterValue(ACCEPT_VERSIONS_PARAMETER, acceptVersion);
     }
 
-    public GetCapabilitiesParameters(String service, String... acceptVersions) {
+    public GetCapabilitiesParameters(final String service, final String... acceptVersions) {
         addNonEmpty(SERVICE_PARAMETER, service);
         if (acceptVersions != null) {
-            for (String acceptVersion : acceptVersions) {
+            for (final String acceptVersion : acceptVersions) {
                 addAcceptedVersion(acceptVersion);
             }
         }
@@ -67,7 +67,7 @@ public class GetCapabilitiesParameters extends MultimapRequestParameters {
      * @param updateSequence
      *        a content section the capabilities shall contain.
      */
-    public void addUpdateSequence(String updateSequence) {
+    public void setUpdateSequence(final String updateSequence) {
         addParameterValue(UPDATE_SEQUENCE, updateSequence);
     }
 
@@ -79,7 +79,7 @@ public class GetCapabilitiesParameters extends MultimapRequestParameters {
      * @param section
      *        a content section the capabilities shall contain.
      */
-    public void addSection(String section) {
+    public void addSection(final String section) {
         addParameterValue(SECTION_PARAMETER, section);
     }
 
@@ -91,7 +91,7 @@ public class GetCapabilitiesParameters extends MultimapRequestParameters {
      * @param acceptedFormat
      *        an accepted capabilities format.
      */
-    public void addAcceptedFormat(String acceptedFormat) {
+    public void addAcceptedFormat(final String acceptedFormat) {
         addParameterValue(ACCEPT_FORMATS_PARAMETER, acceptedFormat);
     }
 
@@ -103,7 +103,7 @@ public class GetCapabilitiesParameters extends MultimapRequestParameters {
      * @param acceptedVersion
      *        an accepted capabilities version.
      */
-    public void addAcceptedVersion(String acceptedVersion) {
+    public void addAcceptedVersion(final String acceptedVersion) {
         addParameterValue(ACCEPT_VERSIONS_PARAMETER, acceptedVersion);
     }
 
