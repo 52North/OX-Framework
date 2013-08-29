@@ -23,12 +23,10 @@
  */
 package org.n52.oxf.request;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.isA;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.assertThat;
-import static org.n52.oxf.request.MultiValueRequestParametersTest.TestEnum.SERVICE;
-import static org.n52.oxf.request.MultiValueRequestParametersTest.TestEnum.VERSION;
+import static org.n52.oxf.request.MultiValueRequestParametersTest.TestEnum.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,7 +71,7 @@ public class MultiValueRequestParametersTest {
     {
         requestParameters.addParameterValue("version", "1.0.0");
         requestParameters.addParameterValue("version", "2.0.0");
-        Collection<String> values = getValueCollectionFor("version");
+        final Collection<String> values = getValueCollectionFor("version");
         assertThat(values.contains("1.0.0"), is(true));
         assertThat(values.contains("2.0.0"), is(true));
     }
@@ -132,7 +130,7 @@ public class MultiValueRequestParametersTest {
     {
         requestParameters.addParameterValue("version", "1.0.0");
         requestParameters.addParameterStringValues("service", "SOS", "SPS");
-        Collection<String> parameters = (Collection<String>) requestParameters.getParameterNames();
+        final Collection<String> parameters = (Collection<String>) requestParameters.getParameterNames();
         assertThat("version is missing.", parameters.contains("version"), is(true));
         assertThat("service is missing", parameters.contains("service"), is(true));
     }
@@ -140,7 +138,7 @@ public class MultiValueRequestParametersTest {
     @Test public void 
     shouldContainAllValuesForParameterAddedViaVarArgs() {
         requestParameters.addParameterStringValues("service", "SOS", "SPS");
-        Collection<String> services = getValueCollectionFor("service");
+        final Collection<String> services = getValueCollectionFor("service");
         assertThat(services.contains("SOS"), is(true));
         assertThat(services.contains("SPS"), is(true));
     }
@@ -148,25 +146,25 @@ public class MultiValueRequestParametersTest {
     @Test public void 
     shouldAddParameterWithEmptyArrayValueViaVarArgs() {
         requestParameters.addParameterStringValues("service", new String[0]);
-        Iterable<String> services = requestParameters.getAllValues("service");
+        final Iterable<String> services = requestParameters.getAllValues("service");
         assertThat((Collection<String>) services, is(empty()));
     }
     
     @Test public void 
     shouldAddParameterWithNullValueViaVarArgs() {
         requestParameters.addParameterStringValues("service", (String[]) null);
-        Iterable<String> services = requestParameters.getAllValues("service");
+        final Iterable<String> services = requestParameters.getAllValues("service");
         assertThat((Collection<String>) services, is(empty()));
     }
 
     @Test public void 
     shouldContainAllValuesForParameterAddedViaIterable()
     {
-        List<String> parameterValues = new ArrayList<String>();
+        final List<String> parameterValues = new ArrayList<String>();
         parameterValues.add("1.0.0");
         parameterValues.add("2.0.0");
         requestParameters.addParameterValues("version", parameterValues);
-        Collection<String> versions = getValueCollectionFor("version");
+        final Collection<String> versions = getValueCollectionFor("version");
         assertThat(versions.contains("1.0.0"), is(true));
         assertThat(versions.contains("2.0.0"), is(true));
     }
@@ -179,20 +177,19 @@ public class MultiValueRequestParametersTest {
     
     @Test public void
     shouldPreserveOrderWhenAddingMultipleValuesViaStringVarArgs() {
-        // XXX what if order under test matches wrong impl. by accident? 
         requestParameters.addParameterStringValues("version", "2.0.0", "1.0.0");
-        Collection<String> versions = getValueCollectionFor("version");
-        Iterator<String> iterator = versions.iterator();
-        assertThat(iterator.next(), is("2.0.0"));
-        assertThat(iterator.next(), is("1.0.0"));
+        final Collection<String> versions = getValueCollectionFor("version");
+        assertThat(versions.size(), is(2));
+        assertThat(versions.contains("2.0.0"), is(true));
+        assertThat(versions.contains("1.0.0"), is(true));
     }
     
     @Test public void
     shouldPreserveOrderWhenAddingMultipleValuesViaDifferentCalls() {
         requestParameters.addParameterValue("version", "3.0.0");
         requestParameters.addParameterStringValues("version", "2.0.0", "1.0.0");
-        Collection<String> versions = getValueCollectionFor("version");
-        Iterator<String> iterator = versions.iterator();
+        final Collection<String> versions = getValueCollectionFor("version");
+        final Iterator<String> iterator = versions.iterator();
         assertThat(iterator.next(), is("3.0.0"));
         assertThat(iterator.next(), is("2.0.0"));
         assertThat(iterator.next(), is("1.0.0"));
@@ -201,8 +198,8 @@ public class MultiValueRequestParametersTest {
     @Test public void
     shouldPreserveOrderWhenAddingMultipleValuesViaEnumVarArgs() {
         requestParameters.addParameterEnumValues("keys", SERVICE, VERSION);
-        Collection<String> versions = getValueCollectionFor("keys");
-        Iterator<String> iterator = versions.iterator();
+        final Collection<String> versions = getValueCollectionFor("keys");
+        final Iterator<String> iterator = versions.iterator();
         assertThat(iterator.next(), is("service"));
         assertThat(iterator.next(), is("version"));
     }
@@ -211,14 +208,14 @@ public class MultiValueRequestParametersTest {
     shouldContainAllValuesFromTwoMergedRequestParameters()
     {
         requestParameters.addParameterStringValues("version", "1.0.0", "2.0.0");
-        RequestParameters other = new MultiValueRequestParameters();
+        final RequestParameters other = new MultiValueRequestParameters();
         other.addParameterStringValues("version", "2.0.0", "3.0.0");
         other.addParameterStringValues("service", "SPS", "SOS");
         requestParameters.mergeWith(other);
-        Collection<String> versions = getValueCollectionFor("version");
+        final Collection<String> versions = getValueCollectionFor("version");
         assertThat(versions.contains("1.0.0"), is(true));
         assertThat(versions.contains("2.0.0"), is(true));
-        Collection<String> services = getValueCollectionFor("service");
+        final Collection<String> services = getValueCollectionFor("service");
         assertThat(services.contains("SPS"), is(true));
         assertThat(services.contains("SOS"), is(true));
     }
@@ -242,7 +239,7 @@ public class MultiValueRequestParametersTest {
     @Test public void 
     shouldReturnEmptyCollectionWhenRemovingNonExistingParameter() 
     {
-        Collection<String> removedValues = requestParameters.remove("version");
+        final Collection<String> removedValues = requestParameters.remove("version");
         assertThat(removedValues, isA(Collection.class));
         assertThat(removedValues, is(empty()));
     }
@@ -257,7 +254,7 @@ public class MultiValueRequestParametersTest {
         assertThat(requestParameters.isEmpty(), is(true));
     }
 
-    private Collection<String> getValueCollectionFor(String parameter) {
+    private Collection<String> getValueCollectionFor(final String parameter) {
         return (Collection<String>) requestParameters.getAllValues(parameter);
     }
     
