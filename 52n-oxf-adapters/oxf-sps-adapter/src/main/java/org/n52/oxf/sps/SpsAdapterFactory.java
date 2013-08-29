@@ -37,17 +37,17 @@ public class SpsAdapterFactory {
         // do not instantiate static factory
     }
     
-    public static SpsAdapter createAdapter(String serviceUrl, String version) throws MissingAdapterImplementationException {
+    public static SpsAdapter createAdapter(final String serviceUrl, final String version) throws MissingAdapterImplementationException {
         if (serviceUrl == null) {
-            throw new NullPointerException("Service URL must not be null.");
+            throw new IllegalArgumentException("Service URL must not be null.");
         }
         if (version == null) {
-            throw new NullPointerException("Service version must not be null.");
+            throw new IllegalArgumentException("Service version must not be null.");
         }
         if (VERSION_100.equals(version)) {
             return new SpsAdapterV100(serviceUrl);
         } else {
-            String msg = "No adapter found for version '%s'.";
+            final String msg = "No adapter found for version '%s'.";
             throw new MissingAdapterImplementationException(format(msg, version));
         }
     }
