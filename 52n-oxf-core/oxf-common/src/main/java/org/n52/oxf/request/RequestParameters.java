@@ -42,7 +42,7 @@ public interface RequestParameters {
      * @return <code>true</code> if there are no key-value pairs available,<br/>
      *		<code>false</code> if the assembly contains at least one key-value pair.
      */
-    public boolean isEmpty();
+    boolean isEmpty();
     
     /**
      * Checks if the given parameter has at least one associated value.
@@ -53,7 +53,7 @@ public interface RequestParameters {
      * 					or is not present in the assembly,<br/>
      * 		   <code>false</code> if the parameter is has one or more associated values.
      */
-    public boolean isEmpty(String parameter);
+    boolean isEmpty(String parameter);
 
     /**
      * Checks if the given parameter is present in the assembly.
@@ -63,7 +63,7 @@ public interface RequestParameters {
      * @return <code>true</code> if the passed parameter has one or more associated value(s),<br/>
      *         <code>false</code> if parameter is not present.
      */
-    public boolean contains(String parameter);
+    boolean contains(String parameter);
 
     /**
      * Checks if the assembly has exact one parameter value associated to the given key. If the value is not
@@ -77,7 +77,7 @@ public interface RequestParameters {
      * @throws NullPointerException
      *         may be thrown if no entry for the given parameter can be found.
      */
-    public boolean isSingleValue(String parameter);
+    boolean isSingleValue(String parameter);
 
     /**
      * Checks if the assembly has more than one parameter value associated to the given key. If the value is
@@ -91,7 +91,7 @@ public interface RequestParameters {
      * @throws NullPointerException
      *         may be thrown if no entry for the given parameter can be found.
      */
-    public boolean hasMultipleValues(String parameter);
+    boolean hasMultipleValues(String parameter);
 
     /**
      * Gets the first parameter value for the given parameter. It is not guaranteed that, if multiple
@@ -108,14 +108,14 @@ public interface RequestParameters {
      * @return the first parameter value associated to the given parameter.
      * @see {@link #contains(String)} to ensure if the parameter is contained by this assembly.
      */
-    public String getSingleValue(String parameter);
+    String getSingleValue(String parameter);
 
     /**
      * Returns all parameter names available in this parameter assembly.
      * 
      * @return a read-only access to all parameter keys added to this assembly.
      */
-    public Iterable<String> getParameterNames();
+    Iterable<String> getParameterNames();
 
     /**
      * Get read-only access to all parameter values associated with the given parameter.
@@ -124,7 +124,7 @@ public interface RequestParameters {
      *        the parameter key to check.
      * @return read-only access on the parameter values associated with the given parameter.
      */
-    public Iterable<String> getAllValues(String parameter);
+    Iterable<String> getAllValues(String parameter);
 
     /**
      * Merge the given parameter assembly with this instance.
@@ -133,7 +133,7 @@ public interface RequestParameters {
      *        the parameter assembly to merge with.
      * @return <code>true</code> if the assembly has changed,<br /><code>false</code> otherwise.
      */
-    public boolean mergeWith(RequestParameters parameters);
+    boolean mergeWith(RequestParameters parameters);
 
     /**
      * Adds a new parameter value to the given parameter. A parameter can have multiple parameter values
@@ -148,7 +148,7 @@ public interface RequestParameters {
      *        the value to associate the with parameter.
      * @return <code>true</code> if the assembly has changed (size has increased).
      */
-    public boolean addParameterValue(String parameter, String value);
+    boolean addParameterValue(String parameter, String value);
 
     /**
      * Adds a bulString of parameter values (from a particular codelist) to the given parameter. If you want to
@@ -162,7 +162,7 @@ public interface RequestParameters {
      *        the {@linString Enum#toString()} values to associate with the parameter.
      * @return <code>true</code> if the assembly has changed (size has increased).
      */
-    public boolean addParameterEnumValues(String parameter, Enum< ? >... values);
+    boolean addParameterEnumValues(String parameter, Enum< ? >... values);
 
     /**
      * Adds a bulString of parameter values to the given parameter. If you want to remove a particular parameter
@@ -176,7 +176,7 @@ public interface RequestParameters {
      *        the values to associate with the parameter.
      * @return <code>true</code> if the assembly has changed (size has increased).
      */
-    public boolean addParameterStringValues(String parameter, String... values);
+    boolean addParameterStringValues(String parameter, String... values);
 
     /**
      * Adds a bulString of parameter values to the given parameter. If you want to remove a particular parameter
@@ -190,7 +190,7 @@ public interface RequestParameters {
      *        the values to associate with the parameter.
      * @return <code>true</code> if the assembly has changed (size has increased).
      */
-    public boolean addParameterValues(String parameter, Iterable<String> values);
+    boolean addParameterValues(String parameter, Iterable<String> values);
 
     /**
      * Removes the given parameter and its associated values.
@@ -199,11 +199,11 @@ public interface RequestParameters {
      * 		  the parameter key.
      * @return the previously associated value(s) for the given parameter.
      */
-    public Collection<String> remove(String parameter);
+    Collection<String> remove(String parameter);
 
     /**
      * Performs a complete clean of this assembly instance.
      */
-    public void removeAll();
+    void removeAll();
 
 }
