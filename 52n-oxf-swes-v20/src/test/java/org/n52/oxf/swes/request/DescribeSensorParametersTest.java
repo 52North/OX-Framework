@@ -39,15 +39,56 @@ public class DescribeSensorParametersTest {
 	public void setUp() {
 		parameterAssembly = new DescribeSensorParameters(SENSOR_ID, OUTPUT_FORMAT_SENSORML);
 	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void testInvalidConstructorParameters() {
-		new DescribeSensorParameters(null, null);
-		new DescribeSensorParameters("", null);
-		new DescribeSensorParameters(null, "");
-        new DescribeSensorParameters("", "");
-        new DescribeSensorParameters("", "sdf");
-        new DescribeSensorParameters("sdf", "");
+
+	@Test public void 
+	shouldThrowIllegalArgumentExceptionsForInvalidConstructorParameters()
+	{
+		boolean case1 = false, case2 = false,case3 = false,
+				case4 = false, case5 = false,case6 = false,
+				case7 = false, case8 = false;
+		try {
+			new DescribeSensorParameters(null, null);
+		} catch (final IllegalArgumentException e) {
+			case1 = true;
+		}
+		try {
+			new DescribeSensorParameters("", null);
+		} catch (final IllegalArgumentException e) {
+			case2 = true;
+		}
+		try {
+			new DescribeSensorParameters(null, "");
+		} catch (final IllegalArgumentException e) {
+			case3 = true;
+		}
+		try {
+			new DescribeSensorParameters("", "");
+		} catch (final IllegalArgumentException e) {
+			case4 = true;
+		}
+		try {
+			new DescribeSensorParameters("", "sdf");
+		} catch (final IllegalArgumentException e) {
+			case5 = true;
+		}
+		try {
+			new DescribeSensorParameters("sdf", "");
+		} catch (final IllegalArgumentException e) {
+			case6 = true;
+		}
+		try {
+			new DescribeSensorParameters("");
+		} catch (final IllegalArgumentException e) {
+			case7 = true;
+		}
+		try {
+			new DescribeSensorParameters(null);
+		} catch (final IllegalArgumentException e) {
+			case8 = true;
+		}
+		if (!(case1&&case2&&case3&&case4&&case5&&case6&&case7&&case8)) {
+			fail("Not all cases of illegal argument combinations are handled!");
+		}
 	}
 
 	@Test public void
