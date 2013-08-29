@@ -25,11 +25,7 @@ package org.n52.oxf.request;
 
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -68,7 +64,7 @@ public class MultimapRequestParametersTest {
     
     @Test
     public void testAddMultipleValues() {
-        for (String acceptedVersion : acceptedVersions) {
+        for (final String acceptedVersion : acceptedVersions) {
             parameters.addParameterValue("acceptVersion", acceptedVersion);
         }
         assertContainingAcceptedVersions(parameters);
@@ -82,13 +78,13 @@ public class MultimapRequestParametersTest {
     
     @Test
     public void testGetAllValuesNonNull() {
-        Iterable<String> allValues = parameters.getAllValues("acceptVersion");
+        final Iterable<String> allValues = parameters.getAllValues("acceptVersion");
         assertNotNull(allValues);
     }
 
     @Test
     public void testGetAllValuesHasNoEntries() {
-        Iterable<String> allValues = parameters.getAllValues("acceptVersion");
+        final Iterable<String> allValues = parameters.getAllValues("acceptVersion");
         assertThat(allValues.iterator().hasNext(), is(false));
     }
     
@@ -128,7 +124,7 @@ public class MultimapRequestParametersTest {
 
     @Test
     public void testMerging() {
-        RequestParameters otherParameters = new MultimapRequestParametersSeam();
+        final RequestParameters otherParameters = new MultimapRequestParametersSeam();
         otherParameters.addParameterValues("acceptVersion", acceptedVersions);
         parameters.addParameterValue("service", "SOS");
         assertTrue(parameters.mergeWith(otherParameters));
@@ -142,11 +138,10 @@ public class MultimapRequestParametersTest {
     }
     
 
-    private void assertContainingAcceptedVersions(RequestParameters parameters) {
+    private void assertContainingAcceptedVersions(final RequestParameters parameters) {
         assertTrue(parameters.contains("acceptVersion"));
-        Iterable<String> allValues = parameters.getAllValues("acceptVersion");
-        for (String value : allValues) {
-//            assertTrue(parameters.containsValue(value));
+        final Iterable<String> allValues = parameters.getAllValues("acceptVersion");
+        for (final String value : allValues) {
             assertTrue(acceptedVersions.contains(value));
         }
     }
