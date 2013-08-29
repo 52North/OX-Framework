@@ -182,9 +182,7 @@ public abstract class MultimapRequestParameters implements RequestParameters {
      *         otherwise.
      */
     protected boolean isEmptyValue(final String parameter) {
-//        String value = parameters.get(parameter);
-//        return isEmptyString(value);
-        return false;
+        return parameter != null && (!parameters.containsKey(parameter) || parameters.get(parameter).isEmpty());
     }
 
     protected boolean isEmptyString(final String value) {

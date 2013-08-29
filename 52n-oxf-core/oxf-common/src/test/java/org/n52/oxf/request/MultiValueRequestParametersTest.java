@@ -43,7 +43,7 @@ public class MultiValueRequestParametersTest {
     @Before public void
     setUp()
     {
-        requestParameters = new MultiValueRequestParameters();
+        requestParameters = new MultiValueRequestParametersSeam();
     }
     
     @Test
@@ -208,7 +208,7 @@ public class MultiValueRequestParametersTest {
     shouldContainAllValuesFromTwoMergedRequestParameters()
     {
         requestParameters.addParameterStringValues("version", "1.0.0", "2.0.0");
-        final RequestParameters other = new MultiValueRequestParameters();
+        final RequestParameters other = new MultiValueRequestParametersSeam();
         other.addParameterStringValues("version", "2.0.0", "3.0.0");
         other.addParameterStringValues("service", "SPS", "SOS");
         requestParameters.mergeWith(other);
@@ -281,7 +281,7 @@ public class MultiValueRequestParametersTest {
     	final String parameter = "parameter";
 		assertThat(requestParameters.isEmpty(parameter),is(true));
 		requestParameters.addParameterValue(parameter, null);
-		assertThat(requestParameters.isEmpty(parameter),is(true));
+		assertThat(requestParameters.isEmpty(parameter),is(false));
 		requestParameters.addParameterValue(parameter, "value");
 		assertThat(requestParameters.isEmpty(parameter),is(false));
 		requestParameters.addParameterValue(parameter, "value2");
@@ -300,4 +300,6 @@ public class MultiValueRequestParametersTest {
             return name().toLowerCase();
         }
     }
+    
+    private class MultiValueRequestParametersSeam extends MultiValueRequestParameters {}
 }
