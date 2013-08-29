@@ -257,6 +257,26 @@ public class MultiValueRequestParametersTest {
         assertThat(requestParameters.isEmpty(), is(true));
     }
 
+    @Test public void 
+    shouldAddEmptyListIfNullIsAddedAsParameterEnum()
+    {
+    	final String parameter = "test-parameter";
+		requestParameters.addParameterEnumValues(parameter, (Enum[])null);
+    	final Iterator<String> iterator = requestParameters.getAllValues(parameter).iterator();
+		assertThat(iterator.hasNext(), is(false));
+    }
+    
+    @Test public void
+    shouldReturnEmptyListWhenRequestingAllElementsForNotContainedParameter()
+    {
+    	final String parameter = "test";
+		assertThat(requestParameters.contains(parameter),is(false));
+		final Iterable<String> allValues = requestParameters.getAllValues(parameter);
+		assertThat(((List<String>)allValues).isEmpty(), is(true));
+    }
+    
+    
+
     private Collection<String> getValueCollectionFor(final String parameter) {
         return (Collection<String>) requestParameters.getAllValues(parameter);
     }
