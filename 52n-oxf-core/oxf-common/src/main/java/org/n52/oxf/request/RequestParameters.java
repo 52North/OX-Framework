@@ -31,7 +31,7 @@ import java.util.Collection;
  * one key can be associated to one or more parameter values. <code>null</code> values are hold as empty
  * strings.
  * 
- * TODO checString how duplicates are handled
+ * TODO check how duplicates are handled
  * 
  */
 public interface RequestParameters {
@@ -60,7 +60,7 @@ public interface RequestParameters {
      * 
      * @param parameter
      *        the parameter key to check.
-     * @return <code>true</code> if the passed parameter has one or more associated value(s),
+     * @return <code>true</code> if the passed parameter has one or more associated value(s),<br/>
      *         <code>false</code> if parameter is not present.
      */
     public boolean contains(String parameter);
@@ -72,7 +72,7 @@ public interface RequestParameters {
      * 
      * @param parameter
      *        the parameter key to check.
-     * @return <code>true</code> if there is exact one value associated with the given parameter,
+     * @return <code>true</code> if there is exact one value associated with the given parameter,<br/>
      *         <code>false</code> if there are more than one parameter value, or the parameter is not present.
      * @throws NullPointerException
      *         may be thrown if no entry for the given parameter can be found.
@@ -86,7 +86,7 @@ public interface RequestParameters {
      * 
      * @param parameter
      *        the parameter key to check.
-     * @return <code>true</code> if more than one value is associated with the given parameter,
+     * @return <code>true</code> if more than one value is associated with the given parameter,<br />
      *         <code>false</code> if there is only one parameter value, or the parameter is not present.
      * @throws NullPointerException
      *         may be thrown if no entry for the given parameter can be found.
@@ -99,13 +99,14 @@ public interface RequestParameters {
      * convenient method for parameters which have a cardinality of one, or it is clear that only one
      * parameter value is associated with the parameter.<br>
      * <br>
-     * <b>Note:</b> If the given parameter is not contained by the assembly <code>null</code> will be
-     * returned! Any <code>null</code> value associated to a parameter will be hold as en empty string:
+     * <b>Note:</b> If the given parameter is not contained by the assembly or <code>null</code> value 
+     * associated to it an empty string &quot;&quot; will be returned. Use {@link #contains(String)} to
+     * ensure if the parameter is contained by this assembly.
      * 
      * @param parameter
      *        the parameter key to check.
      * @return the first parameter value associated to the given parameter.
-     * @see RequestParameters#contains(String) to ensure if the parameter is contained by assembly.
+     * @see {@link #contains(String)} to ensure if the parameter is contained by this assembly.
      */
     public String getSingleValue(String parameter);
 
@@ -130,14 +131,14 @@ public interface RequestParameters {
      * 
      * @param parameters
      *        the parameter assembly to merge with.
-     * @return <code>true</code> if the assembly has changed, <code>false</code> otherwise.
+     * @return <code>true</code> if the assembly has changed,<br /><code>false</code> otherwise.
      */
     public boolean mergeWith(RequestParameters parameters);
 
     /**
      * Adds a new parameter value to the given parameter. A parameter can have multiple parameter values
      * associated with it. No replacement takes place when adding different values to exactly the same
-     * parameter key. If you want to remove a particular parameter value use {@linString #remove(String, String)}.<br>
+     * parameter key. If you want to remove a particular parameter value use {@link #remove(String)}.<br>
      * <br>
      * <b>Note:</b> <code>null</code> values are stored as empty Strings.
      * 
@@ -193,6 +194,10 @@ public interface RequestParameters {
 
     /**
      * Removes the given parameter and its associated values.
+     * 
+     * @param parameter
+     * 		  the parameter key.
+     * @return the previously associated value(s) for the given parameter.
      */
     public Collection<String> remove(String parameter);
 
