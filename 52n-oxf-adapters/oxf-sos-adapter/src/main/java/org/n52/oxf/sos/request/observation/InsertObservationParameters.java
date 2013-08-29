@@ -25,23 +25,27 @@ package org.n52.oxf.sos.request.observation;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER;
 
-import org.n52.oxf.request.MultimapRequestParameters;
+import org.n52.oxf.request.MultiValueRequestParameters;
 
 /**
  * Assembles all parameters needed for an InsertObservation request.
  */
-public class InsertObservationParameters extends MultimapRequestParameters {
+public class InsertObservationParameters extends MultiValueRequestParameters {
     
     private static final String REQUEST_PARAMETER = "request";
 	
-	public InsertObservationParameters(String assignedSensorId, ObservationParameters observationBuilder) throws IllegalArgumentException {
+	public InsertObservationParameters(final String assignedSensorId, final ObservationParameters observationParameters) throws IllegalArgumentException {
 	    addNonEmpty(REQUEST_PARAMETER, "InsertObservation");
         addNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, assignedSensorId);
-		mergeWith(observationBuilder);
+        if (observationParameters == null || observationParameters.isEmpty() || !observationParameters.isValid()) {
+        	throw new IllegalArgumentException("Parameter 'ObservationParameters' with may not be null or empty!");
+        }
+		mergeWith(observationParameters);
 	}
 
     public boolean isValid() {
-        return true;
+    	// TODO how to validate the already mergedStuff?
+        return !isEmptyValue(INSERT_OBSERVATION_PROCEDURE_PARAMETER);
     }
 	
 }

@@ -51,7 +51,7 @@ public class MeasurementObservationParameters extends ObservationParameters {
      * @param observationValue
      *        the observation value to add
      */
-    public void addObservationValue(String observationValue) {
+    public void addObservationValue(final String observationValue) {
         addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
     }
 
@@ -61,12 +61,13 @@ public class MeasurementObservationParameters extends ObservationParameters {
      * @param uom
      *        the unit of measure to add.
      */
-    public void addUom(String uom) {
+    public void addUom(final String uom) {
         addParameterValue(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, uom);
     }
 
-    public boolean isValid() {
-        return true;
+    @Override
+	public boolean isValid() {
+        return !isEmpty(INSERT_OBSERVATION_VALUE_PARAMETER);
     }
 
 }

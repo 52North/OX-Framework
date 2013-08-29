@@ -40,6 +40,11 @@ public abstract class ObservationParameters extends MultimapRequestParameters {
     protected ObservationParameters(final QName type) {
         this.type = type;
     }
+    
+    /**
+     * @return <code>true</code> if at least all mandatory parameters are set.
+     */
+    abstract boolean isValid();
 
     /**
      * Return the type of Observation.

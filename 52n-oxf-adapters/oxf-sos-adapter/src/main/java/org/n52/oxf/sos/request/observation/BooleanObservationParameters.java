@@ -24,9 +24,7 @@
 
 package org.n52.oxf.sos.request.observation;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_TRUTH;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import static org.n52.oxf.xml.XMLConstants.QNAME_OM_1_0_TRUTH_OBSERVATION;
 
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
@@ -52,11 +50,12 @@ public class BooleanObservationParameters extends ObservationParameters {
      * @param observationValue
      *        the observation value to add.
      */
-    public void addObservationValue(boolean observationValue) {
+    public void addObservationValue(final boolean observationValue) {
         addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, Boolean.toString(observationValue));
     }
 
-    public boolean isValid() {
-        return true;
+    @Override
+	public boolean isValid() {
+        return !isEmptyValue(INSERT_OBSERVATION_VALUE_PARAMETER);
     }
 }

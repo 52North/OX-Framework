@@ -50,11 +50,12 @@ public class TextObservationParameters extends ObservationParameters {
      * @param observationValue
      *        the observation value to add.
      */
-    public void addObservationValue(String observationValue) {
+    public void addObservationValue(final String observationValue) {
         addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
     }
 
-    public boolean isValid() {
-        return true;
+    @Override
+	public boolean isValid() {
+        return !isEmptyValue(INSERT_OBSERVATION_VALUE_PARAMETER);
     }
 }
