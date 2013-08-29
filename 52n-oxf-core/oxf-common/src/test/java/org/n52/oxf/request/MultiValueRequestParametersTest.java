@@ -221,7 +221,7 @@ public class MultiValueRequestParametersTest {
     }
 
     @Test public void 
-    testAddParameterValue() {
+    shouldAddSingleStringParameterValue() {
         assertThat(requestParameters.addParameterValue("version", "1.0.0"), is(true));
         assertThat(requestParameters.contains("version"), is(true));
         assertThat(requestParameters.getSingleValue("version"), is("1.0.0"));
