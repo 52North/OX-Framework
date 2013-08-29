@@ -37,6 +37,7 @@ import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.ows.capabilities.OperationsMetadata;
 import org.n52.oxf.request.MultimapRequestParameters;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder.Binding;
 import org.n52.oxf.sos.adapter.SOSAdapter;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetFeatureOfInterestParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationByIdParameterBuilder_v100;
@@ -61,18 +62,53 @@ public class SOSWrapper {
     /**
      * Creates a SOSWrapper instance by initiating a GetCapabilities request.
      * 
-     * @param url Location of the SOS service.
-     * @param acceptVersion Compatible specification version.
+     * @param serviceEndpoint Location of the SOS service.
+     * @param serviceVersion specification version.
      * @return Instance of a SOSWrapper for a certain SOS service.
      * @throws ExceptionReport
      * @throws OXFException
      */
-    public static SOSWrapper createFromCapabilities(final String url, final String acceptVersion) throws ExceptionReport, OXFException {
-        final ServiceDescriptor capabilities = doGetCapabilities(url, acceptVersion);
-        return new SOSWrapper(capabilities);
+    public static SOSWrapper createFromCapabilities(final String serviceEndpoint, final String serviceVersion) throws ExceptionReport, OXFException {
+    	return createFromCapabilities(serviceEndpoint, serviceVersion, Binding.POX);
     }
+    
+	/**
+	 * Creates a SOSWrapper instance by initiating a GetCapabilities request.
+	 * 
+	 * @param serviceEndpoint Location of the SOS service.
+	 * @param serviceVersion specification version.
+	 * @param binding binding protocol used by this service instance.
+	 * @return Instance of a SOSWrapper for a certain SOS service.
+	 * @throws OXFException 
+	 * @throws ExceptionReport 
+	 */
+	public static SOSWrapper createFromCapabilities(final String serviceEndpoint,
+			final String serviceVersion,
+			final Binding binding) throws ExceptionReport, OXFException
+	{
+		final ServiceDescriptor capabilities = doGetCapabilities(serviceEndpoint, serviceVersion,binding);
+		return new SOSWrapper(capabilities);
+	}
 
     /**
+     * Requests and returns the SOS capability description.
+     * 
+	 * @param serviceEndpoint Location of the SOS service.
+	 * @param serviceVersion specification version.
+	 * @param binding
+	 * @return ServiceDescriptor filled with data resulting from the GetCapabilities request.
+     * @throws OXFException 
+     * @throws ExceptionReport 
+	 */
+	private static ServiceDescriptor doGetCapabilities(final String serviceEndpoint,
+			final String serviceVersion,
+			final Binding binding) throws ExceptionReport, OXFException
+	{
+		final SOSAdapter adapter = new SOSAdapter(serviceVersion);
+		return adapter.initService(serviceEndpoint,binding);
+	}
+
+	/**
      * Requests and returns the SOS capability description.
      * 
      * @param url Location of the SOS service.
@@ -82,8 +118,7 @@ public class SOSWrapper {
      * @throws OXFException
      */
     public static ServiceDescriptor doGetCapabilities(final String url, final String serviceVersion) throws ExceptionReport, OXFException {
-        final SOSAdapter adapter = new SOSAdapter(serviceVersion);
-        return adapter.initService(url);
+    	return doGetCapabilities(url, serviceVersion, Binding.POX);
     }
 
 	/**
@@ -92,7 +127,7 @@ public class SOSWrapper {
 	 * @param serviceDesciptor Specific description of the service.
 	 * @param serviceBaseUrl Base url of the service.
 	 */
-	protected SOSWrapper(final ServiceDescriptor serviceDesciptor) {
+	private SOSWrapper(final ServiceDescriptor serviceDesciptor) {
 		serviceDescriptor = serviceDesciptor;
 	}
 	
@@ -123,7 +158,7 @@ public class SOSWrapper {
 	 * @param operationsMetadata
 	 * @return truth
 	 */
-	boolean isDescribeSensorDefined(final OperationsMetadata operationsMetadata) {
+	private boolean isDescribeSensorDefined(final OperationsMetadata operationsMetadata) {
 		return operationsMetadata.getOperationByName(SOSAdapter.DESCRIBE_SENSOR) != null;
 	}
 	
@@ -136,7 +171,7 @@ public class SOSWrapper {
 	 * @throws OXFException
 	 * @throws ExceptionReport
 	 */
-	ParameterContainer createParameterContainerForDoDescribeSensor(final MultimapRequestParameters parameters) throws OXFException, ExceptionReport {
+	private ParameterContainer createParameterContainerForDoDescribeSensor(final MultimapRequestParameters parameters) throws OXFException, ExceptionReport {
 		final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		final String procedure = parameters.getSingleValue(DESCRIBE_SENSOR_PROCEDURE_PARAMETER);
         parameterContainer.addParameterShell(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, procedure);
@@ -180,7 +215,7 @@ public class SOSWrapper {
 	 * @param operationsMetadata
 	 * @return truth
 	 */
-	boolean isGetObservationDefined(final OperationsMetadata operationsMetadata) {
+	private boolean isGetObservationDefined(final OperationsMetadata operationsMetadata) {
 		return operationsMetadata.getOperationByName(SOSAdapter.GET_OBSERVATION) != null;
 	}
 	
@@ -193,7 +228,7 @@ public class SOSWrapper {
 	 * @throws OXFException
 	 * @throws ExceptionReport
 	 */
-	ParameterContainer createParameterContainerForGetOservation(final Map <String, Object> parameters) throws OXFException, ExceptionReport {
+	private ParameterContainer createParameterContainerForGetOservation(final Map <String, Object> parameters) throws OXFException, ExceptionReport {
 	    final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		// mandatory parameters from builder
 		parameterContainer.addParameterShell(GET_OBSERVATION_OFFERING_PARAMETER, (String) parameters.get(GET_OBSERVATION_OFFERING_PARAMETER));
@@ -251,7 +286,7 @@ public class SOSWrapper {
 	 * @param operationsMetadata
 	 * @return truth
 	 */
-	boolean isRegisterSensorDefined(final OperationsMetadata operationsMetadata) {
+	private boolean isRegisterSensorDefined(final OperationsMetadata operationsMetadata) {
 		return operationsMetadata.getOperationByName(SOSAdapter.REGISTER_SENSOR) != null;
 	}
 
@@ -264,7 +299,7 @@ public class SOSWrapper {
 	 * @throws OXFException
 	 * @throws ExceptionReport
 	 */
-	ParameterContainer createParameterContainerForRegisterSensor(final MultimapRequestParameters parameters) throws OXFException, ExceptionReport {
+	private ParameterContainer createParameterContainerForRegisterSensor(final MultimapRequestParameters parameters) throws OXFException, ExceptionReport {
 	    final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		// mandatory parameters from builder
 		final String smlDoc = parameters.getSingleValue(REGISTER_SENSOR_ML_DOC_PARAMETER);
@@ -309,7 +344,7 @@ public class SOSWrapper {
 	 * @param operationsMetadata
 	 * @return truth
 	 */
-	boolean isInsertObservationDefined(final OperationsMetadata operationsMetadata) {
+	private boolean isInsertObservationDefined(final OperationsMetadata operationsMetadata) {
 		return operationsMetadata.getOperationByName(SOSAdapter.INSERT_OBSERVATION) != null;
 	}
 
@@ -322,7 +357,7 @@ public class SOSWrapper {
 	 * @throws OXFException
 	 * @throws ExceptionReport
 	 */
-	ParameterContainer createParameterContainerForInsertObservation(final Map<String, String> parameters) throws OXFException, ExceptionReport {
+	private ParameterContainer createParameterContainerForInsertObservation(final Map<String, String> parameters) throws OXFException, ExceptionReport {
 	    final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		// mandatory parameters from builder
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, parameters.get(INSERT_OBSERVATION_PROCEDURE_PARAMETER));
@@ -383,7 +418,7 @@ public class SOSWrapper {
 	 * @param operationsMetadata
 	 * @return truth
 	 */
-	boolean isGetObservationByIdDefined(final OperationsMetadata operationsMetadata) {
+	private boolean isGetObservationByIdDefined(final OperationsMetadata operationsMetadata) {
 		return operationsMetadata.getOperationByName(SOSAdapter.GET_OBSERVATION_BY_ID) != null;
 	}
 	
@@ -392,11 +427,11 @@ public class SOSWrapper {
 	 * used by SOSAdapter.
 	 * 
 	 * @param parameters list of parameters
-	 * @return reassembled set of parameters needed to call the opertion in the SOSAdapter
+	 * @return reassembled set of parameters needed to call the operation in the SOSAdapter
 	 * @throws OXFException
 	 * @throws ExceptionReport
 	 */
-	ParameterContainer createParameterContainerForGetObservationById(final Map<String, String> parameters) throws OXFException, ExceptionReport {
+	private ParameterContainer createParameterContainerForGetObservationById(final Map<String, String> parameters) throws OXFException, ExceptionReport {
 	    final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		// mandatory parameters from builder
 		parameterContainer.addParameterShell(GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER, parameters.get(GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER));
@@ -442,11 +477,11 @@ public class SOSWrapper {
 	 * @param operationsMetadata
 	 * @return truth
 	 */
-	boolean isGetFeatureOfInterestDefined(final OperationsMetadata operationsMetadata) {
+	private boolean isGetFeatureOfInterestDefined(final OperationsMetadata operationsMetadata) {
 		return operationsMetadata.getOperationByName(SOSAdapter.GET_FEATURE_OF_INTEREST) != null;
 	}
 	
-	ParameterContainer createParameterContainerForGetFeatureOfInterest(final Map<String, String> parameters) throws OXFException, ExceptionReport {
+	private ParameterContainer createParameterContainerForGetFeatureOfInterest(final Map<String, String> parameters) throws OXFException, ExceptionReport {
 	    final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		// mandatory parameters from builder
 		if (parameters.get(GET_FOI_ID_PARAMETER) != null) {
@@ -469,5 +504,4 @@ public class SOSWrapper {
     public ServiceDescriptor getServiceDescriptor() {
         return serviceDescriptor;
     }
-
 }

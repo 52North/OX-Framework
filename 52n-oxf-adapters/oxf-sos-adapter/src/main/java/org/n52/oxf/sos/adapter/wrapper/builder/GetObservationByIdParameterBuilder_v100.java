@@ -23,22 +23,22 @@
  */
 package org.n52.oxf.sos.adapter.wrapper.builder;
 
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
-
 /**
- * This class describes a set ofparameters, which is necessary to call
+ * This class describes a set of parameters, which is necessary to call
  * doGetObservationById([...]) from SOSWrapper.
  * 
  * @author Eric
  */
 public class GetObservationByIdParameterBuilder_v100 {
 	
-	private Map<String, String> parameters = new HashMap<String, String>();
+	private final Map<String, String> parameters = new HashMap<String, String>();
 	
 	/**
 	 * Assembles mandatory parameters from method parameter list.
@@ -46,9 +46,10 @@ public class GetObservationByIdParameterBuilder_v100 {
 	 * @param observationId
 	 * @param responseFormat
 	 */
-	public GetObservationByIdParameterBuilder_v100(String observationId, String responseFormat) {
-		if (observationId == null || responseFormat == null)
-			throw new IllegalArgumentException("The parameters \"observationId\" and \"responseFormat\" are mandatory. They cannot be left empty!");
+	public GetObservationByIdParameterBuilder_v100(final String observationId, final String responseFormat) {
+		if (observationId == null || responseFormat == null) {
+			throw new IllegalArgumentException("The parameters 'observationId' and 'responseFormat' are mandatory. They cannot be left empty!");
+		}
 		parameters.put(GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER, observationId);
 		parameters.put(GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER, responseFormat);
 	}
@@ -66,7 +67,7 @@ public class GetObservationByIdParameterBuilder_v100 {
 	 * @param srsName
 	 * @return parameter builder
 	 */
-	public GetObservationByIdParameterBuilder_v100 addSrsName(String srsName) {
+	public GetObservationByIdParameterBuilder_v100 addSrsName(final String srsName) {
 		if (parameters.get(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER) != null) {
 			parameters.remove(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER);
 		}
@@ -80,7 +81,7 @@ public class GetObservationByIdParameterBuilder_v100 {
 	 * @param resultModel
 	 * @return parameter builder
 	 */
-	public GetObservationByIdParameterBuilder_v100 addResultModel(String resultModel) {
+	public GetObservationByIdParameterBuilder_v100 addResultModel(final String resultModel) {
 		if (parameters.get(GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER) != null) {
 			parameters.remove(GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER);
 		}
@@ -94,7 +95,7 @@ public class GetObservationByIdParameterBuilder_v100 {
 	 * @param responseMode
 	 * @return parameter builder
 	 */
-	public GetObservationByIdParameterBuilder_v100 addResponseMode(String responseMode) {
+	public GetObservationByIdParameterBuilder_v100 addResponseMode(final String responseMode) {
 		if (parameters.get(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER) != null) {
 			parameters.remove(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER);
 		}

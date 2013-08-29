@@ -47,6 +47,7 @@ import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.OWSException;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder.Binding;
 import org.n52.oxf.sos.feature.SOSObservationStore;
 import org.n52.oxf.sos.util.SosUtil;
 import org.n52.oxf.util.web.GzipEnabledHttpClient;
@@ -189,6 +190,27 @@ public class SOSAdapter implements IServiceAdapter {
         final Operation operation = new Operation("GetCapabilities", baseUrlGet, baseUrlPost);
         return initService(doOperation(operation, paramContainer));
     }
+    
+	/**
+	 * initializes the ServiceDescriptor by requesting the capabilities document of the SOS using the binding specified.
+	 * 
+	 * @param serviceEndpoint
+	 * @param binding
+	 * @return
+	 * @throws OXFException 
+	 * @throws ExceptionReport 
+	 */
+	public ServiceDescriptor initService(final String serviceEndpoint,
+			final Binding binding) throws OXFException, ExceptionReport
+	{
+		final ParameterContainer paramContainer = new ParameterContainer();
+        paramContainer.addParameterShell(GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, serviceVersion);
+        paramContainer.addParameterShell(GET_CAPABILITIES_SERVICE_PARAMETER, "SOS");
+        paramContainer.addParameterShell(BINDING, binding.name());
+        final String baseUrlGet = serviceEndpoint + "?";
+        final Operation operation = new Operation("GetCapabilities", baseUrlGet, serviceEndpoint);
+        return initService(doOperation(operation, paramContainer));
+	}
 
     public ServiceDescriptor initService(final OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
         try {
@@ -442,4 +464,5 @@ public class SOSAdapter implements IServiceAdapter {
     public String getServiceVersion() {
         return serviceVersion;
     }
+
 }
