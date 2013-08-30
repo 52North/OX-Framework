@@ -28,12 +28,12 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 import javax.xml.namespace.QName;
 
-import org.n52.oxf.request.MultimapRequestParameters;
+import org.n52.oxf.request.MultiValueRequestParameters;
 
 /**
  * Assembles all Observation parameters needed for an InsertObservation request.
  */
-public abstract class ObservationParameters extends MultimapRequestParameters {
+public abstract class ObservationParameters extends MultiValueRequestParameters {
 
     private final QName type;
 

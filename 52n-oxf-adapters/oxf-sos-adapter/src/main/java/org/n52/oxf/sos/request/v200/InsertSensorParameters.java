@@ -24,12 +24,12 @@
 
 package org.n52.oxf.sos.request.v200;
 
-import org.n52.oxf.request.MultimapRequestParameters;
+import org.n52.oxf.request.MultiValueRequestParameters;
 
 /**
  * Assembles all parameters needed for a RegisterSensor request. This request is SOS 2.0.0 specific. 
  */
-public class InsertSensorParameters extends MultimapRequestParameters {
+public class InsertSensorParameters extends MultiValueRequestParameters {
     
     private static final String REQUEST_PARAMETER = "request";
 
@@ -51,7 +51,7 @@ public class InsertSensorParameters extends MultimapRequestParameters {
      * @throws IllegalArgumentException
      *         if passed arguments are <code>null</code> or empty.
      */
-    public InsertSensorParameters(String sensorDescription, String... observableProperties) {
+    public InsertSensorParameters(final String sensorDescription, final String... observableProperties) {
         this(sensorDescription, DEFAULT_DESCRIPTION_FORMAT, observableProperties);
     }
     
@@ -67,7 +67,7 @@ public class InsertSensorParameters extends MultimapRequestParameters {
      * @throws IllegalArgumentException
      *         if passed arguments are <code>null</code> or empty.
      */
-    public InsertSensorParameters(String sensorDescription, String procedureDescriptionFormat, String observableProperty) {
+    public InsertSensorParameters(final String sensorDescription, final String procedureDescriptionFormat, final String observableProperty) {
         addNonEmpty(REQUEST_PARAMETER, "InsertSensor");
         addNonEmpty(PROCEDURE_DESCRIPTION, sensorDescription);
         addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
@@ -87,7 +87,7 @@ public class InsertSensorParameters extends MultimapRequestParameters {
      * @throws IllegalArgumentException
      *         if passed arguments are <code>null</code> or empty.
      */
-    public InsertSensorParameters(String sensorDescription, String procedureDescriptionFormat, String... observableProperties) {
+    public InsertSensorParameters(final String sensorDescription, final String procedureDescriptionFormat, final String... observableProperties) {
         addNonEmpty(PROCEDURE_DESCRIPTION, sensorDescription);
         addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
         addParameterStringValues(OBSERVABLE_PROPERTY, observableProperties);
@@ -103,7 +103,7 @@ public class InsertSensorParameters extends MultimapRequestParameters {
      * @throws IllegalArgumentException
      *         if passed argument is <code>null</code> or empty.
      */
-    public InsertSensorParameters addProcedureDescription(String procedureDescription) {
+    public InsertSensorParameters addProcedureDescription(final String procedureDescription) {
         addNonEmpty(PROCEDURE_DESCRIPTION, procedureDescription);
         return this;
     }
@@ -117,15 +117,15 @@ public class InsertSensorParameters extends MultimapRequestParameters {
      * @throws IllegalArgumentException
      *         if passed argument is <code>null</code> or empty.
      */
-    public InsertSensorParameters setObservationTemplate(String procedureDescriptionFormat) {
+    public InsertSensorParameters setObservationTemplate(final String procedureDescriptionFormat) {
         addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
         return this;
     }
 
     public boolean isValid() {
-        boolean invalidProcedureDescription = isEmptyValue(PROCEDURE_DESCRIPTION);
-        boolean invalidProcedureDescriptionFormat = isEmptyValue(PROCEDURE_DESCRIPTION_FORMAT);
-        boolean invalidObservableProperty = isEmptyValue(OBSERVABLE_PROPERTY);
+        final boolean invalidProcedureDescription = isEmptyValue(PROCEDURE_DESCRIPTION);
+        final boolean invalidProcedureDescriptionFormat = isEmptyValue(PROCEDURE_DESCRIPTION_FORMAT);
+        final boolean invalidObservableProperty = isEmptyValue(OBSERVABLE_PROPERTY);
         return ! (invalidProcedureDescription || invalidProcedureDescriptionFormat || invalidObservableProperty);
     }
 
