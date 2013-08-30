@@ -21,13 +21,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.sos.request;
+package org.n52.oxf.sos.request.v100;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.n52.oxf.sos.observation.DefaultObservationParametersFactory;
-import org.n52.oxf.sos.request.InsertObservationParameters;
+import org.n52.oxf.sos.request.v100.InsertObservationParameters;
 import org.n52.oxf.xml.XMLConstants;
 
 
