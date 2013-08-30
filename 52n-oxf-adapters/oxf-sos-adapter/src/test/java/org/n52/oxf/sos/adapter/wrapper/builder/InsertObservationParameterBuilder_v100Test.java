@@ -31,9 +31,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.n52.oxf.sos.request.observation.MeasurementObservationParameters;
-import org.n52.oxf.sos.request.observation.ObservationParameters;
-import org.n52.oxf.sos.request.observation.TextObservationParameters;
+import org.n52.oxf.sos.observation.MeasurementObservationParameters;
+import org.n52.oxf.sos.observation.ObservationParameters;
+import org.n52.oxf.sos.observation.TextObservationParameters;
 
 
 /**

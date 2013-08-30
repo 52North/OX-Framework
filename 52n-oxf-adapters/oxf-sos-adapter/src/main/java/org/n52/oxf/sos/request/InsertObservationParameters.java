@@ -21,11 +21,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.sos.request.observation;
+package org.n52.oxf.sos.request;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER;
 
 import org.n52.oxf.request.MultiValueRequestParameters;
+import org.n52.oxf.sos.observation.ObservationParameters;
 
 /**
  * Assembles all parameters needed for an InsertObservation request.

@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.sos.adapter;
+package org.n52.oxf.sos.adapter.v200;
 
 import java.io.IOException;
 import java.io.InputStream;

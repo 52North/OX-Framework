@@ -22,10 +22,13 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.sos.adapter;
+package org.n52.oxf.sos.adapter.v200;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder.Binding;
+import org.n52.oxf.sos.adapter.v100.SOSRequestBuilder_100;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

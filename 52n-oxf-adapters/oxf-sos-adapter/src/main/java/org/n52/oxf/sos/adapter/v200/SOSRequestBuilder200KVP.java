@@ -21,10 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.sos.adapter;
+package org.n52.oxf.sos.adapter.v200;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>

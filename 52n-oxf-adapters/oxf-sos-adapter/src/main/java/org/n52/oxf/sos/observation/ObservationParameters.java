@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.sos.request.observation;
+package org.n52.oxf.sos.observation;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
@@ -44,7 +44,7 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
     /**
      * @return <code>true</code> if at least all mandatory parameters are set.
      */
-    abstract boolean isValid();
+    public abstract boolean isValid();
 
     /**
      * Return the type of Observation.

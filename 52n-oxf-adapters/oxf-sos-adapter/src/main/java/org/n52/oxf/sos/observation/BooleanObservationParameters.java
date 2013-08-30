@@ -22,52 +22,40 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.sos.request.observation;
+package org.n52.oxf.sos.observation;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
-import static org.n52.oxf.xml.XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION;
+import static org.n52.oxf.xml.XMLConstants.QNAME_OM_1_0_TRUTH_OBSERVATION;
 
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 import org.n52.oxf.xml.XMLConstants;
 
 /**
- * Assembles parameters for a MeasurementObservationParameters observation.
+ * Assembles parameters for a Boolean observation.
  */
-public class MeasurementObservationParameters extends ObservationParameters {
-
+public class BooleanObservationParameters extends ObservationParameters {
+    
     /**
-     * Crreates truth observations of type {@link XMLConstants#QNAME_OM_1_0_MEASUREMENT_OBSERVATION}. Adds
-     * {@link ISOSRequestBuilder#INSERT_OBSERVATION_TYPE_MEASUREMENT} as its type description to the parameter
-     * list.
+     * Creates truth observations of type {@link XMLConstants#QNAME_OM_1_0_TRUTH_OBSERVATION}. Adds
+     * {@link ISOSRequestBuilder#INSERT_OBSERVATION_TYPE_TRUTH} as its type description to the parameter list.
      */
-    public MeasurementObservationParameters() {
-        super(QNAME_OM_1_0_MEASUREMENT_OBSERVATION);
-        addNonEmpty(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_MEASUREMENT);
+    public BooleanObservationParameters() {
+        super(QNAME_OM_1_0_TRUTH_OBSERVATION);
+        addParameterValue(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_TRUTH);
     }
 
     /**
      * Adds or replaces the (current) observation value.
      * 
      * @param observationValue
-     *        the observation value to add
+     *        the observation value to add.
      */
-    public void addObservationValue(final String observationValue) {
-        addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
-    }
-
-    /**
-     * Adds or replaces the (current) unit of measure.
-     * 
-     * @param uom
-     *        the unit of measure to add.
-     */
-    public void addUom(final String uom) {
-        addParameterValue(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, uom);
+    public void addObservationValue(final boolean observationValue) {
+        addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, Boolean.toString(observationValue));
     }
 
     @Override
 	public boolean isValid() {
-        return !isEmpty(INSERT_OBSERVATION_VALUE_PARAMETER);
+        return !isEmptyValue(INSERT_OBSERVATION_VALUE_PARAMETER);
     }
-
 }

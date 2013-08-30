@@ -27,8 +27,8 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_COUNT;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER;
 
-import org.n52.oxf.sos.request.observation.CountObservationParameters;
-import org.n52.oxf.sos.request.observation.ObservationParametersFactory;
+import org.n52.oxf.sos.observation.CountObservationParameters;
+import org.n52.oxf.sos.observation.ObservationParametersFactory;
 import org.n52.oxf.xml.XMLConstants;
 
 /**

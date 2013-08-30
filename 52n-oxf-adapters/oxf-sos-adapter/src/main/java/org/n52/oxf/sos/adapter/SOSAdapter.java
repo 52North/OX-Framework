@@ -48,6 +48,8 @@ import org.n52.oxf.ows.OWSException;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder.Binding;
+import org.n52.oxf.sos.adapter.v100.SOSCapabilitiesMapper_100;
+import org.n52.oxf.sos.adapter.v200.SOSCapabilitiesMapper_200;
 import org.n52.oxf.sos.feature.SOSObservationStore;
 import org.n52.oxf.sos.util.SosUtil;
 import org.n52.oxf.util.web.GzipEnabledHttpClient;

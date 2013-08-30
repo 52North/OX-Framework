@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.sos.adapter;
+package org.n52.oxf.sos.adapter.v100;
 
 import java.math.BigInteger;
 import java.util.Collection;
@@ -87,6 +87,7 @@ import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.ows.OwsExceptionCode;
 import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.ows.capabilities.Parameter;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 import org.n52.oxf.valueDomains.time.ITimePeriod;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 import org.n52.oxf.valueDomains.time.TimeFactory;

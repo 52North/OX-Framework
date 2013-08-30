@@ -28,7 +28,7 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_PROC
 import java.util.HashMap;
 import java.util.Map;
 
-import org.n52.oxf.sos.request.observation.ObservationParameters;
+import org.n52.oxf.sos.observation.ObservationParameters;
 
 /**
  * This class describes a set of parameters, which is necessary to call

@@ -23,6 +23,8 @@
  */
 package org.n52.oxf.sos.adapter;
 
+import org.n52.oxf.sos.adapter.v100.SOSRequestBuilder_100;
+import org.n52.oxf.sos.adapter.v200.SOSRequestBuilder_200;
 import org.n52.oxf.sos.util.SosUtil;
 
 public class SOSRequestBuilderFactory {
