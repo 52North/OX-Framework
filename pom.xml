@@ -9,7 +9,7 @@
 	<groupId>org.n52.sensorweb</groupId>
 	<artifactId>52n-oxf</artifactId>
 	<version>2.0.0-alpha.4-SNAPSHOT</version>
-	<description>Provides middleware components for 52n Sensor Web architecture</description>
+	<description>Provides middleware components for 52North Sensor Web architecture</description>
 	<organization>
 		<name>52North Initiative for Geospatial Open Source Software GmbH</name>
 		<url>http://52north.org</url>
@@ -616,4 +616,5 @@
 			</build>
 		</profile>
 	</profiles>
+	<name>52North OxFramework</name>
 </project>
