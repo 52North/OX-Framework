@@ -123,11 +123,11 @@ public class SOSWrapper {
 	/**
 	 * Constructs a wrapper for a certain SOS and defines GetCapabilities specific metadata of the service.
 	 * 
-	 * @param serviceDesciptor Specific description of the service.
+	 * @param serviceDescriptor Specific description of the service.
 	 * @param serviceBaseUrl Base url of the service.
 	 */
-	private SOSWrapper(final ServiceDescriptor serviceDesciptor) {
-		serviceDescriptor = serviceDesciptor;
+	private SOSWrapper(final ServiceDescriptor serviceDescriptor) {
+		this.serviceDescriptor = serviceDescriptor;
 	}
 	
 	/**
