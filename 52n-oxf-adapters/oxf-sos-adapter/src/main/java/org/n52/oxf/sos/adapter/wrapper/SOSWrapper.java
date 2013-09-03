@@ -83,7 +83,6 @@ public class SOSWrapper {
         if (checkOperationAvailability(DESCRIBE_SENSOR)) {
             final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(DESCRIBE_SENSOR);    
             final ParameterContainer parameterContainer = createParameterContainerForDoDescribeSensor(parameters);
-            addBinding(parameterContainer);
             return adapter.doOperation(operation, parameterContainer);
         } else {
             throw new OXFException("Operation: \"" + DESCRIBE_SENSOR + "\" not supported by the SOS!");
@@ -94,6 +93,9 @@ public class SOSWrapper {
         final ParameterContainer parameterContainer = new ParameterContainer();
 		parameterContainer.addParameterShell(SERVICE, SERVICE_TYPE);
 		parameterContainer.addParameterShell(VERSION, serviceDescriptor.getVersion());
+		if (binding != null) {
+			parameterContainer.addParameterShell(BINDING, binding.name());
+		}
         return parameterContainer;
     }
     
@@ -121,7 +123,6 @@ public class SOSWrapper {
 		if (checkOperationAvailability(GET_OBSERVATION)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(GET_OBSERVATION);
 			final ParameterContainer parameterContainer = createParameterContainerForGetOservation(builder.getParameters());
-			addBinding(parameterContainer);
 			return adapter.doOperation(operation, parameterContainer);
 		} else {
 			throw new OXFException("Operation: \"" + GET_OBSERVATION + "\" not supported by the SOS!");
@@ -190,7 +191,6 @@ public class SOSWrapper {
 		if (checkOperationAvailability(INSERT_SENSOR)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(INSERT_SENSOR);
 			final ParameterContainer parameterContainer = getParameterContainer(insertSensorParameters);
-			addBinding(parameterContainer);
 			return adapter.doOperation(operation, parameterContainer);
 		}
 		else {
@@ -236,18 +236,9 @@ public class SOSWrapper {
 			pc.addParameterShell(ISOSRequestBuilder.SERVICE, "SOS");
 			pc.addParameterShell(ISOSRequestBuilder.VERSION, serviceDescriptor.getVersion());
 			pc.addParameterShell(ISOSRequestBuilder.DELETE_SENSOR_PROCEDURE, sensorId);
-			addBinding(pc);
 			return adapter.doOperation(operation, pc);
 		}else {
 			throw new OXFException("Operation: '" + DELETE_SENSOR + "' not supported by the SOS instance!");
-		}
-	}
-
-	
-	private void addBinding(final ParameterContainer parameterContainer) throws OXFException
-	{
-		if (binding != null) {
-			parameterContainer.addParameterShell(BINDING, binding.name());
 		}
 	}
 	
@@ -286,7 +277,6 @@ public class SOSWrapper {
 		if (checkOperationAvailability(INSERT_OBSERVATION)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(INSERT_OBSERVATION);
 			final ParameterContainer parameterContainer = createParameterContainerForInsertObservation(builder.getParameters());
-			addBinding(parameterContainer);
 			return adapter.doOperation(operation, parameterContainer);
 		} else {
 			throw new OXFException("Operation: \"" + INSERT_OBSERVATION + "\" not supported by the SOS!");
@@ -341,7 +331,6 @@ public class SOSWrapper {
 		if (checkOperationAvailability(GET_OBSERVATION_BY_ID)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(GET_OBSERVATION_BY_ID);
 			final ParameterContainer parameterContainer = createParameterContainerForGetObservationById(builder.getParameters());
-			addBinding(parameterContainer);	
 			return adapter.doOperation(operation, parameterContainer);
 		} else {
 			throw new OXFException("Operation: \"" + GET_OBSERVATION_BY_ID + "\" not supported by the SOS!");
@@ -381,7 +370,6 @@ public class SOSWrapper {
 		if (checkOperationAvailability(GET_FEATURE_OF_INTEREST)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(GET_FEATURE_OF_INTEREST);
 			final ParameterContainer parameterContainer = createParameterContainerForGetFeatureOfInterest(builder.getParameters());
-			addBinding(parameterContainer);
 			return adapter.doOperation(operation, parameterContainer);
 		} else {
 			throw new OXFException("Operation: \"" + GET_OBSERVATION + "\" not supported by the SOS!");
