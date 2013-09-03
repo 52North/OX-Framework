@@ -38,7 +38,6 @@ import org.n52.oxf.ows.capabilities.OperationsMetadata;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder.Binding;
 import org.n52.oxf.sos.adapter.SOSAdapter;
-import org.n52.oxf.sos.adapter.v200.DeleteSensorParameters;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetFeatureOfInterestParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationByIdParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationParameterBuilder_v100;
@@ -306,14 +305,17 @@ public class SOSWrapper {
 	 * @param sensorId
 	 * @throws ExceptionReport 
 	 */
-	public OperationResult doDeleteSensor(final DeleteSensorParameters deleteSensorParameters) throws OXFException, ExceptionReport
+	public OperationResult doDeleteSensor(final String sensorId) throws OXFException, ExceptionReport
 	{
 		final SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
 		if (isDeleteSensorDefined()) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(SOSAdapter.DELETE_SENSOR);
-			final ParameterContainer parameterContainer = deleteSensorParameters.getParameterContainer();
-			addBinding(parameterContainer);
-			return adapter.doOperation(operation, parameterContainer);
+			final ParameterContainer pc = new ParameterContainer();
+			pc.addParameterShell(ISOSRequestBuilder.SERVICE, "SOS");
+			pc.addParameterShell(ISOSRequestBuilder.VERSION, serviceDescriptor.getVersion());
+			pc.addParameterShell(ISOSRequestBuilder.DELETE_SENSOR_PROCEDURE, sensorId);
+			addBinding(pc);
+			return adapter.doOperation(operation, pc);
 		}else {
 			throw new OXFException("Operation: '" + SOSAdapter.DELETE_SENSOR + "' not supported by the SOS instance!");
 		}
