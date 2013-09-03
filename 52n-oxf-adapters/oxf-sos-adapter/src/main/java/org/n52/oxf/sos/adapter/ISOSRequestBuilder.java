@@ -37,6 +37,9 @@ import org.n52.oxf.adapter.ParameterContainer;
  */
 public interface ISOSRequestBuilder {
 	
+	String VERSION = "version";
+	
+	String SERVICE = "service";
 	/**
 	 * Currently supported by SOS 2.0 request builder only.<br />
 	 * Specifies the communication binding uses by the SOS instances the builder will create requests for.
@@ -55,10 +58,22 @@ public interface ISOSRequestBuilder {
 	String GET_CAPABILITIES_UPDATE_SEQUENCE_PARAMETER = "updateSequence";
 	String GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER = "AcceptVersions";
 	String GET_CAPABILITIES_SECTIONS_PARAMETER = "sections";
-	String GET_CAPABILITIES_SERVICE_PARAMETER = "service";
+	/**
+	 * @deprecated use {@link #SERVICE}
+	 */
+	@Deprecated
+	String GET_CAPABILITIES_SERVICE_PARAMETER = SERVICE;
 
-	String GET_OBSERVATION_SERVICE_PARAMETER = "service";
-	String GET_OBSERVATION_VERSION_PARAMETER = "version";
+	/**
+	 * @deprecated use {@link #SERVICE}
+	 */
+	@Deprecated
+	String GET_OBSERVATION_SERVICE_PARAMETER = SERVICE;
+	/**
+	 * @deprecated use {@link #VERSION}
+	 */
+	@Deprecated
+	String GET_OBSERVATION_VERSION_PARAMETER = VERSION;
 	String GET_OBSERVATION_OFFERING_PARAMETER = "offering";
 	String GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER = "observedProperty";
 	String GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER = "responseFormat";
@@ -72,20 +87,44 @@ public interface ISOSRequestBuilder {
 	String GET_OBSERVATION_RESPONSE_MODE_PARAMETER = "responseMode"; // SOS 1.0
 	String GET_OBSERVATION_SRS_NAME_PARAMETER = "srsName";
 
-	String DESCRIBE_SENSOR_SERVICE_PARAMETER = "service";
-	String DESCRIBE_SENSOR_VERSION_PARAMETER = "version";
+	/**
+	 * @deprecated use {@link #SERVICE}
+	 */
+	@Deprecated
+	String DESCRIBE_SENSOR_SERVICE_PARAMETER = SERVICE;
+	/**
+	 * @deprecated use {@link #VERSION}
+	 */
+	@Deprecated
+	String DESCRIBE_SENSOR_VERSION_PARAMETER = VERSION;
 	String DESCRIBE_SENSOR_PROCEDURE_PARAMETER = "procedure";
 	String DESCRIBE_SENSOR_OUTPUT_FORMAT = "outputFormat";
 	String DESCRIBE_SENSOR_PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat"; // SOS 2.0
 
-	String GET_FOI_SERVICE_PARAMETER = "service";
-	String GET_FOI_VERSION_PARAMETER = "version";
+	/**
+	 * @deprecated use {@link #SERVICE}
+	 */
+	@Deprecated
+	String GET_FOI_SERVICE_PARAMETER = SERVICE;
+	/**
+	 * @deprecated use {@link #VERSION}
+	 */
+	@Deprecated
+	String GET_FOI_VERSION_PARAMETER = VERSION;
 	String GET_FOI_EVENT_TIME_PARAMETER = "eventTime";
 	String GET_FOI_ID_PARAMETER = "featureOfInterestId";
 	String GET_FOI_LOCATION_PARAMETER = "location";
 
-	String INSERT_OBSERVATION_SERVICE_PARAMETER = "service";
-	String INSERT_OBSERVATION_VERSION_PARAMETER = "version";
+	/**
+	 * @deprecated use {@link #SERVICE}
+	 */
+	@Deprecated
+	String INSERT_OBSERVATION_SERVICE_PARAMETER = SERVICE;
+	/**
+	 * @deprecated use {@link #VERSION}
+	 */
+	@Deprecated
+	String INSERT_OBSERVATION_VERSION_PARAMETER = VERSION;
 	String INSERT_OBSERVATION_FOI_ID_PARAMETER = "featureOfInterestID";
 	String INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER = "newFoiID";
 	String INSERT_OBSERVATION_NEW_FOI_NAME = "newFoiName";
@@ -132,8 +171,16 @@ public interface ISOSRequestBuilder {
 	 */
 	String INSERT_OBSERVATION_OFFERINGS_PARAMETER = "offerings";
 
-	String REGISTER_SENSOR_SERVICE_PARAMETER = "service";
-	String REGISTER_SENSOR_VERSION_PARAMETER = "version";
+	/**
+	 * @deprecated use {@link #SERVICE}
+	 */
+	@Deprecated
+	String REGISTER_SENSOR_SERVICE_PARAMETER = SERVICE;
+	/**
+	 * @deprecated use {@link #VERSION}
+	 */
+	@Deprecated
+	String REGISTER_SENSOR_VERSION_PARAMETER = VERSION;
 	String REGISTER_SENSOR_ML_DOC_PARAMETER = "sensorMLDoc";
 	String REGISTER_SENSOR_OBSERVATION_TEMPLATE = "observationTemplate";
 	String REGISTER_SENSOR_OBSERVATION_TYPE = "type";
@@ -165,8 +212,16 @@ public interface ISOSRequestBuilder {
 	 */
 	String REGISTER_SENSOR_DEFAULT_RESULT_VALUE = "defaultResultValue";
 
-	String GET_OBSERVATION_BY_ID_SERVICE_PARAMETER = "service";
-	String GET_OBSERVATION_BY_ID_VERSION_PARAMETER = "version";
+	/**
+	 * @deprecated use {@link #SERVICE}
+	 */
+	@Deprecated
+	String GET_OBSERVATION_BY_ID_SERVICE_PARAMETER = SERVICE;
+	/**
+	 * @deprecated use {@link #VERSION}
+	 */
+	@Deprecated
+	String GET_OBSERVATION_BY_ID_VERSION_PARAMETER = VERSION;
 	String GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER = "ObservationID";
 	String GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER = "responseFormat";
 	String GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER = "responseMode";
