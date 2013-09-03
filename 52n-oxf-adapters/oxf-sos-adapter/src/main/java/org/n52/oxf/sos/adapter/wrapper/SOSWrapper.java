@@ -56,10 +56,13 @@ public class SOSWrapper {
     
     // XXX SOSWrapper is not capable of intercepting custom IRequestBuilder implementations yet!
 
-	private static final String SERVICE_TYPE = "SOS"; // name of the service
+	// name of the service
+	private static final String SERVICE_TYPE = "SOS";
 	
-	private final ServiceDescriptor serviceDescriptor; // GetCapabilities specific description of the service
+	// GetCapabilities specific description of the service
+	private final ServiceDescriptor serviceDescriptor; 
 	
+	// Binding to use (SOS 2.0 specific)
 	private final Binding binding;
 	
     protected SOSWrapper(final ServiceDescriptor serviceDescriptor, final Binding binding) {
