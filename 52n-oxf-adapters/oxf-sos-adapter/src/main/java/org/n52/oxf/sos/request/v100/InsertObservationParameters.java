@@ -33,6 +33,7 @@ import org.n52.oxf.sos.observation.ObservationParameters;
 public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertObservationParameters {
     
     private static final String REQUEST_PARAMETER = "request";
+	private final ObservationParameters observationParameters;
 	
 	public InsertObservationParameters(final String assignedSensorId, final ObservationParameters observationParameters) throws IllegalArgumentException {
 	    addNonEmpty(REQUEST_PARAMETER, "InsertObservation");
@@ -41,11 +42,12 @@ public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertO
         	throw new IllegalArgumentException("Parameter 'ObservationParameters' with may not be null or empty!");
         }
 		mergeWith(observationParameters);
+		this.observationParameters = observationParameters;
 	}
 
     public boolean isValid() {
-    	// TODO how to validate the already mergedStuff?
-        return !isEmptyValue(INSERT_OBSERVATION_PROCEDURE_PARAMETER);
+        return !isEmptyValue(INSERT_OBSERVATION_PROCEDURE_PARAMETER) &&
+        		observationParameters.isValid();
     }
 	
 }
