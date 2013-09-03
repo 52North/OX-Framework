@@ -505,7 +505,7 @@ public class SOSWrapper {
 	}
 	
 	/**
-	 * Requests a feature of interst.
+	 * Requests a feature of interest.
 	 * 
 	 * @param builder parameter assembler
 	 * @return Request result
