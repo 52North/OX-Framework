@@ -30,9 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * <b>This class is test only yet!</b>
- */
 public abstract class MultiValueRequestParameters implements RequestParameters {
 
     private final Map<String, MultiValue> parameters;
