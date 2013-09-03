@@ -60,74 +60,9 @@ public class SOSWrapper {
 	
 	private final ServiceDescriptor serviceDescriptor; // GetCapabilities specific description of the service
 	
-	/*
-	 * TODO add binding to each ParameterContainer if set 
-	 */
 	private final Binding binding;
 	
-    /**
-     * Creates a SOSWrapper instance by initiating a GetCapabilities request.
-     * 
-     * @param serviceEndpoint Location of the SOS service.
-     * @param serviceVersion specification version.
-     * @return Instance of a SOSWrapper for a certain SOS service.
-     * @throws ExceptionReport
-     * @throws OXFException
-     */
-    public static SOSWrapper createFromCapabilities(final String serviceEndpoint, final String serviceVersion) throws ExceptionReport, OXFException {
-    	return createFromCapabilities(serviceEndpoint, serviceVersion, Binding.POX);
-    }
-    
-	/**
-	 * Creates a SOSWrapper instance by initiating a GetCapabilities request.
-	 * 
-	 * @param serviceEndpoint Location of the SOS service.
-	 * @param serviceVersion specification version.
-	 * @param binding binding protocol used by this service instance.
-	 * @return Instance of a SOSWrapper for a certain SOS service.
-	 * @throws OXFException 
-	 * @throws ExceptionReport 
-	 */
-	public static SOSWrapper createFromCapabilities(final String serviceEndpoint,
-			final String serviceVersion,
-			final Binding binding) throws ExceptionReport, OXFException
-	{
-		final ServiceDescriptor capabilities = doGetCapabilities(serviceEndpoint, serviceVersion,binding);
-		return new SOSWrapper(capabilities,binding);
-	}
-
-    /**
-     * Requests and returns the SOS capability description.
-     * 
-	 * @param serviceEndpoint Location of the SOS service.
-	 * @param serviceVersion specification version.
-	 * @param binding
-	 * @return ServiceDescriptor filled with data resulting from the GetCapabilities request.
-     * @throws OXFException 
-     * @throws ExceptionReport 
-	 */
-	private static ServiceDescriptor doGetCapabilities(final String serviceEndpoint,
-			final String serviceVersion,
-			final Binding binding) throws ExceptionReport, OXFException
-	{
-		final SOSAdapter adapter = new SOSAdapter(serviceVersion);
-		return adapter.initService(serviceEndpoint,binding);
-	}
-
-	/**
-     * Requests and returns the SOS capability description.
-     * 
-     * @param url Location of the SOS service.
-     * @param serviceVersion Compatible specification version.
-     * @return ServiceDescriptor filled with data resulting from the GetCapabilities request.
-     * @throws ExceptionReport
-     * @throws OXFException
-     */
-    public static ServiceDescriptor doGetCapabilities(final String url, final String serviceVersion) throws ExceptionReport, OXFException {
-    	return doGetCapabilities(url, serviceVersion, Binding.POX);
-    }
-
-	private SOSWrapper(final ServiceDescriptor serviceDescriptor, final Binding binding) {
+    protected SOSWrapper(final ServiceDescriptor serviceDescriptor, final Binding binding) {
 		this.serviceDescriptor = serviceDescriptor;
 		this.binding = binding;
 	}
