@@ -258,18 +258,16 @@ public class SOSWrapper {
 
 	private ParameterContainer createParameterContainerForRegisterSensor(final RegisterSensorParameters parameters) throws OXFException, ExceptionReport {
 	    final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
-		// mandatory parameters from builder
-		final String smlDoc = parameters.getSingleValue(REGISTER_SENSOR_ML_DOC_PARAMETER);
-        parameterContainer.addParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER, smlDoc);
-		final String template = parameters.getSingleValue(REGISTER_SENSOR_OBSERVATION_TEMPLATE);
-        parameterContainer.addParameterShell(REGISTER_SENSOR_OBSERVATION_TEMPLATE, template);
-		
-		// parameters not from builder but importer TODO CHECK
+		parameterContainer.addParameterShell(
+				REGISTER_SENSOR_ML_DOC_PARAMETER,
+				parameters.getSingleValue(REGISTER_SENSOR_ML_DOC_PARAMETER));
+		parameterContainer.addParameterShell(
+				REGISTER_SENSOR_OBSERVATION_TEMPLATE,
+				parameters.getSingleValue(REGISTER_SENSOR_OBSERVATION_TEMPLATE));
         if (parameters.contains(REGISTER_SENSOR_DEFAULT_RESULT_VALUE)) {
             final String defaultResult = parameters.getSingleValue(REGISTER_SENSOR_DEFAULT_RESULT_VALUE);
 			parameterContainer.addParameterShell(REGISTER_SENSOR_DEFAULT_RESULT_VALUE, defaultResult);
 		}
-		
 		return parameterContainer;
 	}
 
