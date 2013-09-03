@@ -28,13 +28,12 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_OFFE
 import java.util.Collection;
 
 import org.n52.oxf.sos.observation.ObservationParameters;
-import org.n52.oxf.sos.request.SosRequestParameters;
 
 /**
  * Assembles all parameters needed for an InsertObservation request according to 
  * SOS 2.0.0 specification version.
  */
-public class InsertObservationParameters extends SosRequestParameters {
+public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertObservationParameters {
     
     private final ObservationParameters observation;
 	

@@ -26,12 +26,11 @@ package org.n52.oxf.sos.request.v100;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER;
 
 import org.n52.oxf.sos.observation.ObservationParameters;
-import org.n52.oxf.sos.request.SosRequestParameters;
 
 /**
  * Assembles all parameters needed for an InsertObservation request.
  */
-public class InsertObservationParameters extends SosRequestParameters {
+public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertObservationParameters {
     
     private static final String REQUEST_PARAMETER = "request";
 	
