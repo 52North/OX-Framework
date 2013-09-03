@@ -24,12 +24,7 @@
 
 package org.n52.oxf.sos.request.v200;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
-
 import java.util.Collection;
-
-import org.n52.oxf.OXFException;
-import org.n52.oxf.adapter.ParameterContainer;
 
 /**
  * Assembles all parameters needed for a InsertSensor request. This request is SOS 2.0.0 specific. 
@@ -78,19 +73,5 @@ public class InsertSensorParameters extends Sos200RequestParameters {
         return ! (isEmptyValue(PROCEDURE_DESCRIPTION) || 
         		isEmptyValue(PROCEDURE_DESCRIPTION_FORMAT) ||
         		isEmptyValue(OBSERVABLE_PROPERTIES));
-    }
-
-    // TODO move to one of the super classes
-    protected ParameterContainer createParameterContainerWithCommonServiceParameters()
-    {
-    	try {
-    		final ParameterContainer paramContainer = new ParameterContainer();
-    		paramContainer.addParameterShell(DESCRIBE_SENSOR_SERVICE_PARAMETER, getSingleValue(SERVICE_TYPE));
-    		paramContainer.addParameterShell(DESCRIBE_SENSOR_VERSION_PARAMETER, getSingleValue(SERVICE_VERSION));
-    		return paramContainer;
-    	} catch(final OXFException e) {
-    		throw new RuntimeException(e);
-    	}
-    }
-    
+    }    
 }
