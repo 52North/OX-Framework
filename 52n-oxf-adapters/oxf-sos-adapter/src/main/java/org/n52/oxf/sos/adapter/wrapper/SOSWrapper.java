@@ -41,7 +41,7 @@ import org.n52.oxf.sos.adapter.SOSAdapter;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetFeatureOfInterestParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationByIdParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationParameterBuilder_v100;
-import org.n52.oxf.sos.adapter.wrapper.builder.InsertObservationParameterBuilder_v100;
+import org.n52.oxf.sos.request.InsertObservationParameters;
 import org.n52.oxf.sos.request.v100.RegisterSensorParameters;
 import org.n52.oxf.sos.request.v200.InsertSensorParameters;
 import org.n52.oxf.swes.request.DescribeSensorParameters;
@@ -265,55 +265,99 @@ public class SOSWrapper {
 	/**
 	 * Requests the insertion of an observation.
 	 * 
-	 * @param builder parameter assembler
+	 * @param parameters parameter assembler
 	 * @return Request result
 	 * @throws OXFException
 	 * @throws ExceptionReport
 	 */
-	public OperationResult doInsertObservation(final InsertObservationParameterBuilder_v100 builder) throws OXFException, ExceptionReport {
+	public OperationResult doInsertObservation(final InsertObservationParameters parameters) throws OXFException, ExceptionReport {
 		// wrapped SOSAdapter instance
 		final SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
 		// if there are operations defined
 		if (checkOperationAvailability(INSERT_OBSERVATION)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(INSERT_OBSERVATION);
-			final ParameterContainer parameterContainer = createParameterContainerForInsertObservation(builder.getParameters());
+			final ParameterContainer parameterContainer = createParameterContainerForInsertObservation(parameters);
 			return adapter.doOperation(operation, parameterContainer);
 		} else {
 			throw new OXFException("Operation: \"" + INSERT_OBSERVATION + "\" not supported by the SOS!");
 		}
 	}
 
-	private ParameterContainer createParameterContainerForInsertObservation(final Map<String, String> parameters) throws OXFException, ExceptionReport {
+	private ParameterContainer createParameterContainerForInsertObservation(final InsertObservationParameters parameters) throws OXFException, ExceptionReport {
 	    final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
-		// mandatory parameters from builder
-		parameterContainer.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, parameters.get(INSERT_OBSERVATION_PROCEDURE_PARAMETER));
-		parameterContainer.addParameterShell(INSERT_OBSERVATION_TYPE, parameters.get(INSERT_OBSERVATION_TYPE));
-		parameterContainer.addParameterShell(INSERT_OBSERVATION_SAMPLING_TIME, parameters.get(INSERT_OBSERVATION_SAMPLING_TIME));
-		parameterContainer.addParameterShell(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, parameters.get(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER));
-		parameterContainer.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, parameters.get(INSERT_OBSERVATION_FOI_ID_PARAMETER));
-		// optional parameters from builder
-		if (parameters.get(INSERT_OBSERVATION_NEW_FOI_NAME) != null) {
-			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_NAME, parameters.get(INSERT_OBSERVATION_NEW_FOI_NAME));
+		if (parameters instanceof org.n52.oxf.sos.request.v100.InsertObservationParameters) {
+			addSos100Values((org.n52.oxf.sos.request.v100.InsertObservationParameters) parameters, parameterContainer);
 		}
-		if (parameters.get(INSERT_OBSERVATION_NEW_FOI_DESC) != null) {
-			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_DESC, parameters.get(INSERT_OBSERVATION_NEW_FOI_DESC));
+		else if (parameters instanceof org.n52.oxf.sos.request.v200.InsertObservationParameters) {
+			addSos200Values((org.n52.oxf.sos.request.v200.InsertObservationParameters) parameters, parameterContainer);
 		}
-		if (parameters.get(INSERT_OBSERVATION_NEW_FOI_POSITION) != null) {
-			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION, parameters.get(INSERT_OBSERVATION_NEW_FOI_POSITION));
-		}
-		if (parameters.get(INSERT_OBSERVATION_POSITION_SRS) != null) {
-			parameterContainer.addParameterShell(INSERT_OBSERVATION_POSITION_SRS, parameters.get(INSERT_OBSERVATION_POSITION_SRS));
-		}
-		if (parameters.get(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE) != null) {
-			parameterContainer.addParameterShell(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, parameters.get(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE));
-		}
-		if (parameters.get(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE) != null) {
-			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, parameters.get(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE));
-		}
-		if (parameters.get(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
-			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER, parameters.get(INSERT_OBSERVATION_VALUE_PARAMETER));
+		else {
+			throw new OXFException(String.format("Subtype of %s: %s not supported by this implemenation.",InsertObservationParameters.class.getName(),parameters.getClass().getName()));
 		}
 		return parameterContainer;
+	}
+
+	private void addSos200Values(final org.n52.oxf.sos.request.v200.InsertObservationParameters parameters,
+			final ParameterContainer parameterContainer) throws OXFException
+	{
+		parameterContainer.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_PROCEDURE_PARAMETER));
+		parameterContainer.addParameterShell(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER));
+		if(parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_NAME, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_NAME));
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER));
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_DESC, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_DESC));
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_POSITION));
+		} 
+		else {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_FOI_ID_PARAMETER));
+		}
+		if (parameters.getSingleValue(INSERT_OBSERVATION_POSITION_SRS) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_POSITION_SRS, parameters.getSingleValue(INSERT_OBSERVATION_POSITION_SRS));
+		}
+		parameterContainer.addParameterShell(INSERT_OBSERVATION_RESULT_TIME, parameters.getSingleValue(INSERT_OBSERVATION_RESULT_TIME));
+		parameterContainer.addParameterShell(INSERT_OBSERVATION_PHENOMENON_TIME, parameters.getSingleValue(INSERT_OBSERVATION_PHENOMENON_TIME));
+		if (parameters.getSingleValue(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, parameters.getSingleValue(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE));
+		}
+		if (parameters.getSingleValue(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, parameters.getSingleValue(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE));
+		}
+		if (parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER));
+		}
+	}
+
+	private void addSos100Values(final org.n52.oxf.sos.request.v100.InsertObservationParameters parameters,
+			final ParameterContainer parameterContainer) throws OXFException
+	{
+		// mandatory parameters
+		parameterContainer.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_PROCEDURE_PARAMETER));
+		parameterContainer.addParameterShell(INSERT_OBSERVATION_TYPE, parameters.getSingleValue(INSERT_OBSERVATION_TYPE));
+		parameterContainer.addParameterShell(INSERT_OBSERVATION_SAMPLING_TIME, parameters.getSingleValue(INSERT_OBSERVATION_SAMPLING_TIME));
+		parameterContainer.addParameterShell(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER));
+		parameterContainer.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_FOI_ID_PARAMETER));
+		// optional parameters
+		if (parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_NAME) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_NAME, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_NAME));
+		}
+		if (parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_DESC) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_DESC, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_DESC));
+		}
+		if (parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_POSITION) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_POSITION));
+		}
+		if (parameters.getSingleValue(INSERT_OBSERVATION_POSITION_SRS) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_POSITION_SRS, parameters.getSingleValue(INSERT_OBSERVATION_POSITION_SRS));
+		}
+		if (parameters.getSingleValue(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, parameters.getSingleValue(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE));
+		}
+		if (parameters.getSingleValue(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, parameters.getSingleValue(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE));
+		}
+		if (parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
+			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER));
+		}
 	}
 
 	/**
