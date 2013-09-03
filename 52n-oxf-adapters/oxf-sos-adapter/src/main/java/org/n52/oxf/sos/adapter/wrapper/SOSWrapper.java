@@ -147,6 +147,7 @@ public class SOSWrapper {
         if (isDescribeSensorDefined(operationsMetadata)) {
             final Operation operation = operationsMetadata.getOperationByName(SOSAdapter.DESCRIBE_SENSOR);    
             final ParameterContainer parameterContainer = createParameterContainerForDoDescribeSensor(parameters);
+            addBinding(parameterContainer);
             return adapter.doOperation(operation, parameterContainer);
         } else {
             throw new OXFException("Operation: \"" + SOSAdapter.DESCRIBE_SENSOR + "\" not supported by the SOS!");
@@ -204,6 +205,7 @@ public class SOSWrapper {
 		if (isGetObservationDefined(operationsMetadata)) {
 			final Operation operation = operationsMetadata.getOperationByName(SOSAdapter.GET_OBSERVATION);
 			final ParameterContainer parameterContainer = createParameterContainerForGetOservation(builder.getParameters());
+			addBinding(parameterContainer);
 			return adapter.doOperation(operation, parameterContainer);
 		} else {
 			throw new OXFException("Operation: \"" + SOSAdapter.GET_OBSERVATION + "\" not supported by the SOS!");
@@ -383,6 +385,7 @@ public class SOSWrapper {
 		if (isInsertObservationDefined(operationsMetadata)) {
 			final Operation operation = operationsMetadata.getOperationByName(SOSAdapter.INSERT_OBSERVATION);
 			final ParameterContainer parameterContainer = createParameterContainerForInsertObservation(builder.getParameters());
+			addBinding(parameterContainer);
 			return adapter.doOperation(operation, parameterContainer);
 		} else {
 			throw new OXFException("Operation: \"" + SOSAdapter.INSERT_OBSERVATION + "\" not supported by the SOS!");
@@ -456,7 +459,8 @@ public class SOSWrapper {
 		// if there are operations defined
 		if (isGetObservationByIdDefined(operationsMetadata)) {
 			final Operation operation = operationsMetadata.getOperationByName(SOSAdapter.GET_OBSERVATION_BY_ID);
-				final ParameterContainer parameterContainer = createParameterContainerForGetObservationById(builder.getParameters());
+			final ParameterContainer parameterContainer = createParameterContainerForGetObservationById(builder.getParameters());
+			addBinding(parameterContainer);	
 			return adapter.doOperation(operation, parameterContainer);
 		} else {
 			throw new OXFException("Operation: \"" + SOSAdapter.GET_OBSERVATION_BY_ID + "\" not supported by the SOS!");
@@ -516,6 +520,7 @@ public class SOSWrapper {
 		if (isGetFeatureOfInterestDefined(operationsMetadata)) {
 			final Operation operation = operationsMetadata.getOperationByName(SOSAdapter.GET_FEATURE_OF_INTEREST);
 			final ParameterContainer parameterContainer = createParameterContainerForGetFeatureOfInterest(builder.getParameters());
+			addBinding(parameterContainer);
 			return adapter.doOperation(operation, parameterContainer);
 		} else {
 			throw new OXFException("Operation: \"" + SOSAdapter.GET_OBSERVATION + "\" not supported by the SOS!");
