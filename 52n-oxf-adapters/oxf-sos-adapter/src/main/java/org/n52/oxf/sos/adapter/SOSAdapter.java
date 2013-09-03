@@ -73,9 +73,17 @@ public class SOSAdapter implements IServiceAdapter {
     public static final String GET_OBSERVATION = "GetObservation";
     public static final String GET_OBSERVATION_BY_ID = "GetObservationById";
     public static final String DESCRIBE_SENSOR = "DescribeSensor";
+    public static final String DELETE_SENSOR = "DeleteSensor";
     public static final String GET_FEATURE_OF_INTEREST = "GetFeatureOfInterest";
     public static final String INSERT_OBSERVATION = "InsertObservation";
+    /**
+     * In version 2.0.0 replaced by {@link #INSERT_SENSOR}
+     */
     public static final String REGISTER_SENSOR = "RegisterSensor";
+    /**
+     * Replaces version 1.0.0 operation {@link #REGISTER_SENSOR}
+     */
+    public static final String INSERT_SENSOR = "InsertSensor";
 
     /**
      * Description of the SOSAdapter
@@ -87,6 +95,8 @@ public class SOSAdapter implements IServiceAdapter {
      * The name of the service operation which returns the data to be added to a map view as a layer.
      */
     public static final String RESOURCE_OPERATION = "GetObservation";
+
+
 
     /**
      * the schema version this adapter instance shall work with.
@@ -347,11 +357,15 @@ public class SOSAdapter implements IServiceAdapter {
         else if (operation.getName().equals(INSERT_OBSERVATION)) {
             return requestBuilder.buildInsertObservationRequest(parameters);
         }
-        else if (operation.getName().equals(REGISTER_SENSOR)) {
+        else if (operation.getName().equals(REGISTER_SENSOR) ||
+        		operation.getName().equals(INSERT_SENSOR)) {
             return requestBuilder.buildRegisterSensorRequest(parameters);
         }
         else if (operation.getName().equals(GET_OBSERVATION_BY_ID)) {
             return requestBuilder.buildGetObservationByIDRequest(parameters);
+        }
+        else if (operation.getName().equals(DELETE_SENSOR)) {
+        	return requestBuilder.buildDeleteSensorRequest(parameters);
         }
         else {
             throw new OXFException(format("Operation '%s' not supported.", operation.getName()));

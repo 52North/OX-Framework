@@ -38,11 +38,13 @@ import org.n52.oxf.ows.capabilities.OperationsMetadata;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder.Binding;
 import org.n52.oxf.sos.adapter.SOSAdapter;
+import org.n52.oxf.sos.adapter.v200.DeleteSensorParameters;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetFeatureOfInterestParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationByIdParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationParameterBuilder_v100;
 import org.n52.oxf.sos.adapter.wrapper.builder.InsertObservationParameterBuilder_v100;
 import org.n52.oxf.sos.request.v100.RegisterSensorParameters;
+import org.n52.oxf.sos.request.v200.InsertSensorParameters;
 import org.n52.oxf.swes.request.DescribeSensorParameters;
 
 /**
@@ -56,7 +58,13 @@ public class SOSWrapper {
     // XXX SOSWrapper is not capable of intercepting custom IRequestBuilder implementations yet!
 
 	private static final String SERVICE_TYPE = "SOS"; // name of the service
+	
 	private final ServiceDescriptor serviceDescriptor; // GetCapabilities specific description of the service
+	
+	/*
+	 * TODO add binding to each ParameterContainer if set 
+	 */
+	private final Binding binding;
 	
     /**
      * Creates a SOSWrapper instance by initiating a GetCapabilities request.
@@ -86,7 +94,7 @@ public class SOSWrapper {
 			final Binding binding) throws ExceptionReport, OXFException
 	{
 		final ServiceDescriptor capabilities = doGetCapabilities(serviceEndpoint, serviceVersion,binding);
-		return new SOSWrapper(capabilities);
+		return new SOSWrapper(capabilities,binding);
 	}
 
     /**
@@ -120,14 +128,9 @@ public class SOSWrapper {
     	return doGetCapabilities(url, serviceVersion, Binding.POX);
     }
 
-	/**
-	 * Constructs a wrapper for a certain SOS and defines GetCapabilities specific metadata of the service.
-	 * 
-	 * @param serviceDescriptor Specific description of the service.
-	 * @param serviceBaseUrl Base url of the service.
-	 */
-	private SOSWrapper(final ServiceDescriptor serviceDescriptor) {
+	private SOSWrapper(final ServiceDescriptor serviceDescriptor, final Binding binding) {
 		this.serviceDescriptor = serviceDescriptor;
+		this.binding = binding;
 	}
 	
 	/**
@@ -278,13 +281,60 @@ public class SOSWrapper {
             throw new OXFException("Operation: \"" + SOSAdapter.REGISTER_SENSOR + "\" not supported by the SOS!");
         }
     }
+    
+    /**
+	 * @throws OXFException 
+     * @throws ExceptionReport 
+     * @see {@link #doRegisterSensor(RegisterSensorParameters)}
+	 */
+	public OperationResult doInsertSensor(final InsertSensorParameters insertSensorParameters) throws OXFException, ExceptionReport
+	{
+		final SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
+		if (isInsertSensorDefined()) {
+			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(SOSAdapter.INSERT_SENSOR);
+			final ParameterContainer parameterContainer = insertSensorParameters.getParameterContainer();
+			addBinding(parameterContainer);
+			return adapter.doOperation(operation, parameterContainer);
+		}
+		else {
+			throw new OXFException("Operation: '" + SOSAdapter.INSERT_SENSOR + "' not supported by the SOS instance!");
+		}
+	}
 	
 	/**
-	 * Subroutine of doRegisterSensor, which is used to check the existence of that operation in the SOS.
 	 * 
-	 * @param operationsMetadata
-	 * @return truth
+	 * @param sensorId
+	 * @throws ExceptionReport 
 	 */
+	public OperationResult doDeleteSensor(final DeleteSensorParameters deleteSensorParameters) throws OXFException, ExceptionReport
+	{
+		final SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
+		if (isDeleteSensorDefined()) {
+			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(SOSAdapter.DELETE_SENSOR);
+			final ParameterContainer parameterContainer = deleteSensorParameters.getParameterContainer();
+			addBinding(parameterContainer);
+			return adapter.doOperation(operation, parameterContainer);
+		}else {
+			throw new OXFException("Operation: '" + SOSAdapter.DELETE_SENSOR + "' not supported by the SOS instance!");
+		}
+	}
+
+	
+	private void addBinding(final ParameterContainer parameterContainer) throws OXFException
+	{
+		parameterContainer.addParameterShell(BINDING, binding.name());
+	}
+	
+	private boolean isDeleteSensorDefined()
+	{
+		return serviceDescriptor.getOperationsMetadata().getOperationByName(SOSAdapter.DELETE_SENSOR) != null;
+	}
+
+	private boolean isInsertSensorDefined()
+	{
+		return serviceDescriptor.getOperationsMetadata().getOperationByName(SOSAdapter.INSERT_SENSOR) != null;
+	}
+
 	private boolean isRegisterSensorDefined(final OperationsMetadata operationsMetadata) {
 		return operationsMetadata.getOperationByName(SOSAdapter.REGISTER_SENSOR) != null;
 	}
@@ -503,4 +553,5 @@ public class SOSWrapper {
     public ServiceDescriptor getServiceDescriptor() {
         return serviceDescriptor;
     }
+
 }

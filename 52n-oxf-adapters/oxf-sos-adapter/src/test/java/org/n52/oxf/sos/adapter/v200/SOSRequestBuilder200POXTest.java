@@ -40,6 +40,7 @@ import net.opengis.om.x20.OMObservationType;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
 import net.opengis.sensorML.x101.SensorMLDocument;
+import net.opengis.sensorML.x101.SystemType;
 import net.opengis.sos.x20.GetObservationByIdDocument;
 import net.opengis.sos.x20.GetObservationByIdType;
 import net.opengis.sos.x20.InsertObservationDocument;
@@ -87,8 +88,8 @@ public class SOSRequestBuilder200POXTest {
 
 	private SOSRequestBuilder_200 builder;
 	
-	private final String sosVersion = "test-version";
-	private final String sosService = "test-service";
+	private final String sosVersion = "2.0.0";
+	private final String sosService = "SOS";
 	private final String format = "test-format";
 	
 	/*
@@ -201,7 +202,19 @@ public class SOSRequestBuilder200POXTest {
 		final String registerSensor = builder.buildRegisterSensorRequest(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
 		
-		assertThat(insertSensorType.getProcedureDescription().toString(),is(createSensorDescription()));
+		final String identifierFromRequestBuilder = SystemType.Factory.parse(
+				SensorMLDocument.Factory.parse(insertSensorType.getProcedureDescription().toString())
+						.getSensorML()
+						.getMemberArray(0)
+						.getProcess().xmlText()
+						)
+						.getIdentificationArray(0)
+						.getIdentifierList()
+						.getIdentifierArray(0)
+						.getTerm()
+						.getValue();
+		
+		assertThat(identifierFromRequestBuilder,is(SENSOR_IDENTIFIER));
 	}
 	
 	@Test public void
@@ -604,10 +617,7 @@ public class SOSRequestBuilder200POXTest {
 	{
 		final SensorDescriptionBuilder builder = new SensorDescriptionBuilder();
 		builder.setIdentifierUniqeId(SENSOR_IDENTIFIER);
-		final SensorMLDocument sensorMLDocument = SensorMLDocument.Factory.newInstance();
-		sensorMLDocument.addNewSensorML().addNewMember().set(builder.buildSensorDescription());
-		sensorMLDocument.getSensorML().setVersion("1.0.1");
-		return sensorMLDocument.toString();
+		return builder.buildSensorDescription();
 	}
 
 	private void createParamConWithMandatoryInsertSensorValues() throws OXFException

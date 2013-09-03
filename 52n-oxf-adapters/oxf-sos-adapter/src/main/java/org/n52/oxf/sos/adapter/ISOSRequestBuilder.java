@@ -246,4 +246,18 @@ public interface ISOSRequestBuilder {
 	 * @throws OXFException
 	 */
 	String buildRegisterSensorRequest(ParameterContainer parameters) throws OXFException;
+	
+	/**
+	 * Mandatory parameter for SOS 2.0 DeleteSensor request
+	 */
+	String DELETE_SENSOR_PROCEDURE = "procedure";
+
+	/**
+	 * Builds a DeleteSensor request and returns it. Required for SOS 2.0 support.
+	 * @param parameters
+	 * 		The container needs to contain all mandatory parameters including 
+	 * @return
+	 * @throws OXFException 
+	 */
+	String buildDeleteSensorRequest(ParameterContainer parameters) throws OXFException;
 }

@@ -115,7 +115,7 @@ public interface RequestParameters {
      * 
      * @return a read-only access to all parameter keys added to this assembly.
      */
-    Iterable<String> getParameterNames();
+    Collection<String> getParameterNames();
 
     /**
      * Get read-only access to all parameter values associated with the given parameter.
@@ -124,7 +124,7 @@ public interface RequestParameters {
      *        the parameter key to check.
      * @return read-only access on the parameter values associated with the given parameter.
      */
-    Iterable<String> getAllValues(String parameter);
+    Collection<String> getAllValues(String parameter);
 
     /**
      * Merge the given parameter assembly with this instance.

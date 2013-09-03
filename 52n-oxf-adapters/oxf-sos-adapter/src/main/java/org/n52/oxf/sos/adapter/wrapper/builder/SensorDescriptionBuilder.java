@@ -45,6 +45,8 @@ import net.opengis.sensorML.x101.KeywordsDocument.Keywords.KeywordList;
 import net.opengis.sensorML.x101.OutputsDocument.Outputs.OutputList;
 import net.opengis.sensorML.x101.PositionDocument.Position;
 import net.opengis.sensorML.x101.ResponsiblePartyDocument.ResponsibleParty;
+import net.opengis.sensorML.x101.SensorMLDocument;
+import net.opengis.sensorML.x101.SensorMLDocument.SensorML;
 import net.opengis.sensorML.x101.SystemDocument;
 import net.opengis.sensorML.x101.SystemType;
 import net.opengis.sensorML.x101.TermDocument.Term;
@@ -62,6 +64,7 @@ import net.opengis.swe.x101.VectorType;
 import net.opengis.swe.x101.VectorType.Coordinate;
 
 import org.apache.xmlbeans.XmlCursor;
+import org.n52.oxf.xmlbeans.tools.XmlUtil;
 
 /**
  * Sensor description generating class. All data that describes the sensor is
@@ -147,77 +150,88 @@ public class SensorDescriptionBuilder {
 		componentInline = new ArrayList<String[]>();
 	}
 	
-	public void addKeyword(final String keyword) {
+	public SensorDescriptionBuilder addKeyword(final String keyword) {
 		keywords.add(keyword);
+		return this;
 	}
 	
-	public void addIdentifier(final String name, final String definition, final String value) {
+	public SensorDescriptionBuilder addIdentifier(final String name, final String definition, final String value) {
 		if (entryExists(definition, identifier)) {
 			removeEntry(definition, identifier);
 		}
 		identifier.add(new String[] { name, definition, value });
+		return this;
 	}
 
-	public void setIdentifierUniqeId(final String value) {
+	public SensorDescriptionBuilder setIdentifierUniqeId(final String value) {
 		if (entryExists(UNIQUE_ID_DEF, identifier)) {
 			removeEntry(UNIQUE_ID_DEF, identifier);
 		}
 		addIdentifier(UNIQUE_ID_NAME, UNIQUE_ID_DEF, value);
+		return this;
 	}
 
-	public void setIdentifierLongName(final String value) {
+	public SensorDescriptionBuilder setIdentifierLongName(final String value) {
 		if (entryExists(LONG_NAME_DEF, identifier)) {
 			removeEntry(LONG_NAME_DEF, identifier);
 		}
 		addIdentifier(LONG_NAME_NAME, LONG_NAME_DEF, value);
+		return this;
 	}
 
-	public void setIdentifierShortName(final String value) {
+	public SensorDescriptionBuilder setIdentifierShortName(final String value) {
 		if (entryExists(SHORT_NAME_DEF, identifier)) {
 			removeEntry(SHORT_NAME_DEF, identifier);
 		}
 		addIdentifier(SHORT_NAME_NAME, SHORT_NAME_DEF, value);
+		return this;
 	}
 
-	public void setIdentifierParentSystemUniqueId(final String value) {
+	public SensorDescriptionBuilder setIdentifierParentSystemUniqueId(final String value) {
 		if (entryExists(PARENT_SYSTEM_UNIQUE_ID_DEF, identifier)) {
 			removeEntry(PARENT_SYSTEM_UNIQUE_ID_DEF, identifier);
 		}
 		addIdentifier(PARENT_SYSTEM_UNIQUE_ID_NAME, PARENT_SYSTEM_UNIQUE_ID_DEF, value);
+		return this;
 	}
 	
-	public void addClassifier(final String name, final String definition, final String value) {
+	public SensorDescriptionBuilder addClassifier(final String name, final String definition, final String value) {
 		if (entryExists(definition, classifier)) {
 			removeEntry(definition, classifier);
 		}
 		classifier.add(new String[]{name, definition, value});
+		return this;
 	}
 	
-	public void setClassifierIntendedApplication(final String value) {
+	public SensorDescriptionBuilder setClassifierIntendedApplication(final String value) {
 		if (entryExists(INTENDED_APPLICATION_DEF, classifier)) {
 			removeEntry(INTENDED_APPLICATION_DEF, classifier);
 		}
 		addClassifier(INTENDED_APPLICATION_NAME, INTENDED_APPLICATION_DEF, value);
+		return this;
 	}
 	
-	public void setClassifierSensorType(final String value) {
+	public SensorDescriptionBuilder setClassifierSensorType(final String value) {
 		if (entryExists(SENSOR_TYPE_DEF, classifier)) {
 			removeEntry(SENSOR_TYPE_DEF, classifier);
 		}
 		addClassifier(SENSOR_TYPE_NAME, SENSOR_TYPE_DEF, value);
+		return this;
 	}
 	
-	public void setValidTime(final String begin, final String end) {
+	public SensorDescriptionBuilder setValidTime(final String begin, final String end) {
 		validTime[0] = begin;
 		validTime[1] = end;
+		return this;
 	}
 	
-	public void setCapabilityCollectingStatus(final String statusName, final boolean isCollecting) {
+	public SensorDescriptionBuilder setCapabilityCollectingStatus(final String statusName, final boolean isCollecting) {
 		this.statusName = statusName;
 		this.isCollecting = isCollecting;
+		return this;
 	}
 	
-	public void setCapabilityBbox(final String lcEastingUom, final double lcEastingValue,
+	public SensorDescriptionBuilder setCapabilityBbox(final String lcEastingUom, final double lcEastingValue,
 			final String lcNorthingUom, final double lcNorthingValue, final String ucEastingUom,
 			final double ucEastingValue, final String ucNorthingUom, final double ucNorthingValue) {
 		this.lcEastingUom = lcEastingUom; // lower corner
@@ -228,14 +242,16 @@ public class SensorDescriptionBuilder {
 		this.ucEastingValue = ucEastingValue;
 		this.ucNorthingUom = ucNorthingUom;
 		this.ucNorthingValue = ucNorthingValue;
+		return this;
 	}
 	
-	public void addFeatureOfInterest(final String foiName, final String foiUri) {
+	public SensorDescriptionBuilder addFeatureOfInterest(final String foiName, final String foiUri) {
 		this.foiName = foiName;
 		this.foiUri = foiUri;
+		return this;
 	}
 	
-	public void setContact(final String id, final String individualName,
+	public SensorDescriptionBuilder setContact(final String id, final String individualName,
 			final String organizationName, final String deliveryPoint, final String city,
 			final String postalCode, final String country, final String email) {
 		this.id = id;
@@ -246,9 +262,10 @@ public class SensorDescriptionBuilder {
 		this.postalCode = postalCode;
 		this.country = country;
 		this.email = email;
+		return this;
 	}
 
-	public void setPosition(final String positionName, final String referenceFrame,
+	public SensorDescriptionBuilder setPosition(final String positionName, final String referenceFrame,
 			final String vectorId, final String eastingUom, final double eastingValue,
 			final String northingUom, final double northingValue, final String altitudeUom,
 			final double altiValue) {
@@ -262,42 +279,51 @@ public class SensorDescriptionBuilder {
 		// optional values
 		this.altitudeUom = altitudeUom;
 		altitudeValue = altiValue;
+		return this;
 	}
 	
-	public void setInterface(final String iName, final String serviceUrl, final String serviceType,
+	public SensorDescriptionBuilder setInterface(final String iName, final String serviceUrl, final String serviceType,
 			final String sensorId) {
 		this.iName = iName;
 		this.serviceUrl = serviceUrl;
 		this.serviceType = serviceType;
 		this.sensorId = sensorId;
+		return this;
 	}
 	
-	public void addInput(final String name, final String definition) {
+	public SensorDescriptionBuilder addInput(final String name, final String definition) {
 		inputs.add(new String[] { name, definition });
+		return this;
 	}
 	
-	public void addOutputMeasurement(final String name, final String definition, final String offeringUri, final String offeringName, final String uom) {
+	public SensorDescriptionBuilder addOutputMeasurement(final String name, final String definition, final String offeringUri, final String offeringName, final String uom) {
 		outputsMeasurement.add(new String[] { name, definition, offeringUri, offeringName, uom});
+		return this;
 	}
 	
-	public void addOutputText(final String name, final String definition, final String offeringUri, final String offeringName) {
+	public SensorDescriptionBuilder addOutputText(final String name, final String definition, final String offeringUri, final String offeringName) {
 		outputsText.add(new String[] { name, definition, offeringUri, offeringName});
+		return this;
 	}
 	
-	public void addOutputBoolean(final String name, final String definition, final String offeringUri, final String offeringName) {
+	public SensorDescriptionBuilder addOutputBoolean(final String name, final String definition, final String offeringUri, final String offeringName) {
 		outputsBoolean.add(new String[] { name, definition, offeringUri, offeringName});
+		return this;
 	}
 	
-	public void addOutputCount(final String name, final String definition, final String offeringUri, final String offeringName) {
+	public SensorDescriptionBuilder addOutputCount(final String name, final String definition, final String offeringUri, final String offeringName) {
 		outputsCount.add(new String[] { name, definition, offeringUri, offeringName});
+		return this;
 	}
 
-	public void addComponentXlink(final String name, final String url) {
+	public SensorDescriptionBuilder addComponentXlink(final String name, final String url) {
 		componentXlink.add(new String[] { name, url });
+		return this;
 	}
 	
-	public void addComponentInline(final String name, final String description) {
+	public SensorDescriptionBuilder addComponentInline(final String name, final String description) {
 		componentInline.add(new String[] { name, description });
+		return this;
 	}
 	
 	private boolean entryExists(final String definition, final List<String[]> identifiers) {
@@ -320,7 +346,7 @@ public class SensorDescriptionBuilder {
 		}
 	}
 	
-	public SystemDocument buildSensorDescription() {
+	public String buildSensorDescription() {
 		sysDoc = SystemDocument.Factory.newInstance();
 		system = sysDoc.addNewSystem();
 		if (!keywords.isEmpty()) {
@@ -362,8 +388,11 @@ public class SensorDescriptionBuilder {
 		if (!componentXlink.isEmpty() || !componentInline.isEmpty()) {
 			addComponents();
 		}
-		
-		return sysDoc;
+		final SensorMLDocument sensorML101 = SensorMLDocument.Factory.newInstance();
+		final SensorML sml101 = sensorML101.addNewSensorML();
+		sml101.setVersion("1.0.1");
+		sml101.addNewMember().set(sysDoc);
+		return sensorML101.xmlText(XmlUtil.FAST);
 	}
 	
 	private void addKeywords() {

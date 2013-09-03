@@ -1037,5 +1037,13 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 		}
 		return stringArray;
 	}
+
+	@Override
+	public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException
+	{
+		final OXFException e = new OXFException("Operation DeleteSensor not supported by SOS 1.0.0");
+		LOGGER.error("NOT SUPPORTED:",e);
+		throw e;
+	}
     
 }

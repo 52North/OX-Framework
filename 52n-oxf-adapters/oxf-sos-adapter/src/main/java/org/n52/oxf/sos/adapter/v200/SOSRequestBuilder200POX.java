@@ -61,6 +61,8 @@ import net.opengis.sos.x20.InsertObservationDocument;
 import net.opengis.sos.x20.InsertObservationType;
 import net.opengis.sos.x20.SosInsertionMetadataDocument;
 import net.opengis.sos.x20.SosInsertionMetadataType;
+import net.opengis.swes.x20.DeleteSensorDocument;
+import net.opengis.swes.x20.DeleteSensorType;
 import net.opengis.swes.x20.DescribeSensorDocument;
 import net.opengis.swes.x20.DescribeSensorType;
 import net.opengis.swes.x20.InsertSensorDocument;
@@ -125,7 +127,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
         // set required elements:
         //  
 
-        getCap.setService((String) parameters.getParameterShellWithServiceSidedName(GET_CAPABILITIES_SERVICE_PARAMETER).getSpecifiedValue());
+        getCap.setService("SOS");
 
         //
         // set optional elements:
@@ -171,7 +173,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
             }
         }
         doLaxRequestValidation(getCapDoc);
-        return getCapDoc.xmlText(XmlUtil.PRETTYPRINT);
+        return getCapDoc.xmlText(XmlUtil.FAST);
 	}
 
 	@Override
@@ -179,8 +181,8 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 	{
 		final GetObservationDocument xbGetObsDoc = GetObservationDocument.Factory.newInstance();
 		final GetObservationType xbGetObs = xbGetObsDoc.addNewGetObservation();
-		xbGetObs.setService((String) getShellForServerParameter(parameters, GET_OBSERVATION_SERVICE_PARAMETER).getSpecifiedValue());
-		xbGetObs.setVersion((String) getShellForServerParameter(parameters, GET_OBSERVATION_VERSION_PARAMETER).getSpecifiedValue());
+		xbGetObs.setService("SOS");
+		xbGetObs.setVersion("2.0.0");
 		processOffering(xbGetObs, getShellForServerParameter(parameters, GET_OBSERVATION_OFFERING_PARAMETER));
 		processResponseFormat(xbGetObs, getShellForServerParameter(parameters, GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER));
 		processObservedProperty(xbGetObs, getShellForServerParameter(parameters, GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER));
@@ -189,7 +191,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 		processFeatureOfInterest(xbGetObs, getShellForServerParameter(parameters, GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER));
 		processSpatialFilter(xbGetObs, getShellForServerParameter(parameters, GET_OBSERVATION_SPATIAL_FILTER_PARAMETER));
 		doLaxRequestValidation(xbGetObsDoc);
-		return xbGetObsDoc.xmlText(XmlUtil.PRETTYPRINT);
+		return xbGetObsDoc.xmlText(XmlUtil.FAST);
 	}
 
 	@Override
@@ -197,8 +199,8 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 	{
 		final GetObservationByIdDocument xbGetOBsByIdDoc = GetObservationByIdDocument.Factory.newInstance();
 		final GetObservationByIdType xbGetObsById = xbGetOBsByIdDoc.addNewGetObservationById();
-		xbGetObsById.setService((String) getShellForServerParameter(parameters, GET_OBSERVATION_BY_ID_SERVICE_PARAMETER).getSpecifiedValue());
-		xbGetObsById.setVersion((String) getShellForServerParameter(parameters, GET_OBSERVATION_BY_ID_VERSION_PARAMETER).getSpecifiedValue());
+		xbGetObsById.setService("SOS");
+		xbGetObsById.setVersion("2.0.0");
 		final ParameterShell observationIds = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER);
 		if (observationIds != null) {
 			if (observationIds.hasSingleSpecifiedValue()) {
@@ -214,6 +216,19 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 		}
 		throw new OXFException("Parameter 'GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER' is mandatory!");
 	}
+	
+	@Override
+	public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException
+	{
+		final DeleteSensorDocument xbDeleteSensorDoc = DeleteSensorDocument.Factory.newInstance();
+		final DeleteSensorType xbDeleteSensor = xbDeleteSensorDoc.addNewDeleteSensor();
+		xbDeleteSensor.setService("SOS");
+		xbDeleteSensor.setVersion("2.0.0");
+		xbDeleteSensor.setProcedure((String) parameters.getParameterShellWithCommonName(DELETE_SENSOR_PROCEDURE).getSpecifiedValue());
+		
+		doLaxRequestValidation(xbDeleteSensorDoc);
+		return xbDeleteSensorDoc.xmlText(XmlUtil.FAST);
+	}
 
 	@Override
 	public String buildDescribeSensorRequest(final ParameterContainer parameters) throws OXFException
@@ -228,7 +243,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 		processProcedureDescriptionFormat(descSensor, getShellForServerParameter(parameters, DESCRIBE_SENSOR_PROCEDURE_DESCRIPTION_FORMAT));
 
 		doLaxRequestValidation(descSensorDoc);
-		return descSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
+		return descSensorDoc.xmlText(XmlUtil.FAST);
 	}
 
 	@Override
@@ -236,11 +251,11 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 	{
 		final GetFeatureOfInterestDocument xbGetFOIDoc = GetFeatureOfInterestDocument.Factory.newInstance();
 		final GetFeatureOfInterestType xbGetFOI = xbGetFOIDoc.addNewGetFeatureOfInterest();
-		xbGetFOI.setService((String) parameters.getParameterShellWithServiceSidedName(GET_FOI_SERVICE_PARAMETER).getSpecifiedValue());
-		xbGetFOI.setVersion((String) parameters.getParameterShellWithServiceSidedName(GET_FOI_VERSION_PARAMETER).getSpecifiedValue());
+		xbGetFOI.setService("SOS");
+		xbGetFOI.setVersion("2.0.0");
 		xbGetFOI.addProcedure((String) parameters.getParameterShellWithServiceSidedName("procedure").getSpecifiedValue());
 		doLaxRequestValidation(xbGetFOI);
-		return xbGetFOIDoc.xmlText(XmlUtil.PRETTYPRINT);
+		return xbGetFOIDoc.xmlText(XmlUtil.FAST);
 	}
 
 	/**
@@ -253,11 +268,12 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 	{
 		final InsertObservationDocument xbInsertObservationDocument = InsertObservationDocument.Factory.newInstance();
 		final InsertObservationType xbInsertObservationType = xbInsertObservationDocument.addNewInsertObservation();
-		addMetadata(parameters, xbInsertObservationType);
+		xbInsertObservationType.setVersion("2.0.0");
+		xbInsertObservationType.setService("SOS");
 		addObservations(parameters, xbInsertObservationType);
 		addOfferings(parameters, xbInsertObservationType);
 		doLaxRequestValidation(xbInsertObservationDocument);
-		return xbInsertObservationDocument.xmlText(XmlUtil.PRETTYPRINT);
+		return xbInsertObservationDocument.xmlText(XmlUtil.FAST);
 	}
 
 	/**
@@ -281,21 +297,14 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 	{
 		final InsertSensorDocument xbInsertSensorDoc = InsertSensorDocument.Factory.newInstance();
 		final InsertSensorType xbInsertSensorType = xbInsertSensorDoc.addNewInsertSensor();
-
-		addOperationMetadata(parameters, xbInsertSensorType);
+		xbInsertSensorType.setService("SOS");
+		xbInsertSensorType.setVersion("2.0.0");
 		addObservableProperties(parameters, xbInsertSensorType);
 		addProcedure(parameters, xbInsertSensorType);
 		addInsertionMetadata(parameters, xbInsertSensorType);
 
 		doLaxRequestValidation(xbInsertSensorDoc);
-		return xbInsertSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
-	}
-
-	private void addMetadata(final ParameterContainer parameters,
-			final InsertObservationType xbInsertObservationType)
-	{
-		xbInsertObservationType.setVersion((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VERSION_PARAMETER).getSpecifiedValue());
-		xbInsertObservationType.setService((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_SERVICE_PARAMETER).getSpecifiedValue());
+		return xbInsertSensorDoc.xmlText(XmlUtil.FAST);
 	}
 
 	private void addObservations(final ParameterContainer parameters,
@@ -613,14 +622,6 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 		}
 	}
 
-	private void addOperationMetadata(final ParameterContainer parameters,
-			final InsertSensorType xbInsertSensorType)
-	{
-		// add version and service
-		xbInsertSensorType.setService((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
-		xbInsertSensorType.setVersion((String) parameters.getParameterShellWithServiceSidedName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
-	}
-
 	private void processProcedureDescriptionFormat(final DescribeSensorType descSensor, final ParameterShell shell) {
 		if (shell == null) {
 			LOGGER.error("Missing shell parameter '" + DESCRIBE_SENSOR_PROCEDURE_DESCRIPTION_FORMAT + "'.");
@@ -738,4 +739,5 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 			spatialFilter.set(equalsDoc);
 		}
 	}
+
 }

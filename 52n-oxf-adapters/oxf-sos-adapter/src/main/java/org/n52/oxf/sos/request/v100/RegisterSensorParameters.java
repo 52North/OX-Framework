@@ -24,12 +24,13 @@
 
 package org.n52.oxf.sos.request.v100;
 
-import org.n52.oxf.request.MultiValueRequestParameters;
+import org.n52.oxf.sos.request.SosRequestParameters;
+
 
 /**
  * Assembles all parameters needed for a RegisterSensor request. This request is SOS 1.0.0 specific. 
  */
-public class RegisterSensorParameters extends MultiValueRequestParameters {
+public class RegisterSensorParameters extends SosRequestParameters {
     
     private static final String REQUEST_PARAMETER = "request";
 

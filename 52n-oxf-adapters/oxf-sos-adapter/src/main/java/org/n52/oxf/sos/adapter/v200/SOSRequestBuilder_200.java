@@ -27,7 +27,6 @@ package org.n52.oxf.sos.adapter.v200;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
-import org.n52.oxf.sos.adapter.ISOSRequestBuilder.Binding;
 import org.n52.oxf.sos.adapter.v100.SOSRequestBuilder_100;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -162,6 +161,16 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 		return parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING) != null && 
 				parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).hasSingleSpecifiedValue() &&
 				parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).getSpecifiedValue() instanceof String;
+	}
+
+	@Override
+	public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException
+	{
+		final Binding binding = getBinding(parameters);
+    	if (binding.equals(Binding.POX)) {
+    		return poxBuilder.buildDeleteSensorRequest(parameters);
+    	}
+    	throw new OXFException(String.format("Building DeleteSensor request not supported via binding '%s'!",binding.toString()));
 	}
 
 }

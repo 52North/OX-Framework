@@ -91,12 +91,12 @@ public abstract class MultiValueRequestParameters implements RequestParameters {
     }
 
     @Override
-    public Iterable<String> getParameterNames() {
+    public Collection<String> getParameterNames() {
         return Collections.unmodifiableCollection(parameters.keySet());
     }
 
     @Override
-    public Iterable<String> getAllValues(final String parameter) {
+    public Collection<String> getAllValues(final String parameter) {
         if (!parameters.containsKey(parameter)) {
             return Collections.emptyList();
         }
@@ -181,6 +181,17 @@ public abstract class MultiValueRequestParameters implements RequestParameters {
         return addParameterValue(key, value);
     }
     
+    protected boolean addNonEmpty(final String key, final Collection<String> values) {
+    	boolean hasChanged = false;
+    	if (values == null || values.isEmpty()) {
+        	throw new IllegalArgumentException("Parameter '"+key+"' is required and may not be null or empty!");
+        }
+        for (final String value : values) {
+        	final boolean changed = addNonEmpty(key, value);
+            hasChanged = changed ? changed : hasChanged;
+        }
+        return hasChanged;
+    }
     /**
      * Checks if value of the given parameter is empty.
      * 

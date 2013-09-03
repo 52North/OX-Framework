@@ -25,29 +25,31 @@ package org.n52.oxf.sos.request.v200;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_OFFERINGS_PARAMETER;
 
-import org.n52.oxf.request.MultiValueRequestParameters;
+import java.util.Collection;
+
 import org.n52.oxf.sos.observation.ObservationParameters;
+import org.n52.oxf.sos.request.SosRequestParameters;
 
 /**
- * Assembles all parameters needed for an InsertObservation request according to SOS 2.0.0 specification version.
+ * Assembles all parameters needed for an InsertObservation request according to 
+ * SOS 2.0.0 specification version.
  */
-public class InsertObservationParameters extends MultiValueRequestParameters {
-    
-    private static final String REQUEST_PARAMETER = "request";
+public class InsertObservationParameters extends SosRequestParameters {
     
     private final ObservationParameters observation;
 	
-	public InsertObservationParameters(final ObservationParameters observationParameters, final String... offeringIds) throws IllegalArgumentException {
-	    addNonEmpty(REQUEST_PARAMETER, "InsertObservation");
-	    if (offeringIds == null || offeringIds.length==0) {
-	    	throw new IllegalArgumentException("Parameter 'offeringIds' is required and may not be null or empty!");
-	    }
-        if (observationParameters == null || observationParameters.isEmpty() || !observationParameters.isValid()) {
-        	throw new IllegalArgumentException("Parameter 'ObservationParameters' with may not be null or empty!");
+	public InsertObservationParameters(
+			final ObservationParameters observationParameters,
+			final Collection<String> offerings)
+			throws IllegalArgumentException
+	{
+        if (observationParameters == null || 
+        		observationParameters.isEmpty() || 
+        		!observationParameters.isValid()) {
+        	throw new IllegalArgumentException(
+        			"Parameter 'ObservationParameters' is required and may not be null or empty!");
         }
-        for (final String offeringId : offeringIds) {
-        	addNonEmpty(INSERT_OBSERVATION_OFFERINGS_PARAMETER, offeringId);
-        }
+        addNonEmpty(INSERT_OBSERVATION_OFFERINGS_PARAMETER,offerings);
 		mergeWith(observationParameters);
 		observation = observationParameters;
 	}

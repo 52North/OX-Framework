@@ -132,7 +132,7 @@ public class MultiValueRequestParametersTest {
     {
         requestParameters.addParameterValue("version", "1.0.0");
         requestParameters.addParameterStringValues("service", "SOS", "SPS");
-        final Collection<String> parameters = (Collection<String>) requestParameters.getParameterNames();
+        final Collection<String> parameters = requestParameters.getParameterNames();
         assertThat("version is missing.", parameters.contains("version"), is(true));
         assertThat("service is missing", parameters.contains("service"), is(true));
     }
@@ -297,7 +297,7 @@ public class MultiValueRequestParametersTest {
     {
     	thrown.expect(IllegalArgumentException.class);
     	thrown.expectMessage(is("Parameter 'key' is required and may not be null or empty!"));
-    	((MultiValueRequestParameters)requestParameters).addNonEmpty("key", null);
+    	((MultiValueRequestParameters)requestParameters).addNonEmpty("key", "");
     }
     
     @Test public void
@@ -327,7 +327,7 @@ public class MultiValueRequestParametersTest {
     }
 
     private Collection<String> getValueCollectionFor(final String parameter) {
-        return (Collection<String>) requestParameters.getAllValues(parameter);
+        return requestParameters.getAllValues(parameter);
     }
     
     enum TestEnum {

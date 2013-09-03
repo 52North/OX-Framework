@@ -67,7 +67,8 @@ public class MeasurementObservationParameters extends ObservationParameters {
 
     @Override
 	public boolean isValid() {
-        return !isEmpty(INSERT_OBSERVATION_VALUE_PARAMETER);
+        return !isEmpty(INSERT_OBSERVATION_VALUE_PARAMETER) && 
+        		!isEmpty(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE);
     }
 
 }
