@@ -164,7 +164,14 @@ public class SOSWrapper {
 		return operationsMetadata.getOperationByName(SOSAdapter.DESCRIBE_SENSOR) != null;
 	}
 	
-	/**
+    private ParameterContainer createParameterContainerWithCommonServiceParameters() throws OXFException {
+        final ParameterContainer parameterContainer = new ParameterContainer();
+		parameterContainer.addParameterShell(SERVICE, SERVICE_TYPE);
+		parameterContainer.addParameterShell(VERSION, serviceDescriptor.getVersion());
+        return parameterContainer;
+    }
+    
+    /**
 	 * Subroutine of doDescribeSensor, which is used to reassemble the incoming parameters to fit the structure
 	 * used by SOSAdapter.
 	 * 
@@ -181,13 +188,6 @@ public class SOSWrapper {
         parameterContainer.addParameterShell(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
 		return parameterContainer;
 	}
-
-    private ParameterContainer createParameterContainerWithCommonServiceParameters() throws OXFException {
-        final ParameterContainer parameterContainer = new ParameterContainer();
-		parameterContainer.addParameterShell(DESCRIBE_SENSOR_SERVICE_PARAMETER, SERVICE_TYPE);
-		parameterContainer.addParameterShell(DESCRIBE_SENSOR_VERSION_PARAMETER, serviceDescriptor.getVersion());
-        return parameterContainer;
-    }
 	
 	/**
 	 * Requests an observation.
@@ -293,7 +293,7 @@ public class SOSWrapper {
 		final SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
 		if (isInsertSensorDefined()) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(SOSAdapter.INSERT_SENSOR);
-			final ParameterContainer parameterContainer = insertSensorParameters.getParameterContainer();
+			final ParameterContainer parameterContainer = getParameterContainer(insertSensorParameters);
 			addBinding(parameterContainer);
 			return adapter.doOperation(operation, parameterContainer);
 		}
@@ -302,6 +302,34 @@ public class SOSWrapper {
 		}
 	}
 	
+	private ParameterContainer getParameterContainer(final InsertSensorParameters insertSensorParameters)
+	{
+		try {
+			final ParameterContainer paramContainer = createParameterContainerWithCommonServiceParameters();
+			paramContainer.addParameterShell(
+					REGISTER_SENSOR_ML_DOC_PARAMETER,
+					insertSensorParameters.getSingleValue(InsertSensorParameters.PROCEDURE_DESCRIPTION));
+			paramContainer.addParameterShell(
+					REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER,
+					insertSensorParameters.getSingleValue(InsertSensorParameters.PROCEDURE_DESCRIPTION_FORMAT));
+			paramContainer.addParameterShell(
+					REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
+					insertSensorParameters.getAllValues(InsertSensorParameters.OBSERVABLE_PROPERTIES)
+					.toArray(new String[insertSensorParameters.getAllValues(InsertSensorParameters.OBSERVABLE_PROPERTIES).size()]));
+			paramContainer.addParameterShell(
+					REGISTER_SENSOR_OBSERVATION_TYPE,
+					insertSensorParameters.getAllValues(InsertSensorParameters.OBSERVATION_TYPES)
+					.toArray(new String[insertSensorParameters.getAllValues(InsertSensorParameters.OBSERVATION_TYPES).size()]));
+			paramContainer.addParameterShell(
+					REGISTER_SENSOR_FEATURE_TYPE_PARAMETER,
+					insertSensorParameters.getAllValues(InsertSensorParameters.FEATURE_OF_INTEREST_TYPES)
+					.toArray(new String[insertSensorParameters.getAllValues(InsertSensorParameters.FEATURE_OF_INTEREST_TYPES).size()]));
+			return paramContainer;
+		} catch(final OXFException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	/**
 	 * 
 	 * @param sensorId

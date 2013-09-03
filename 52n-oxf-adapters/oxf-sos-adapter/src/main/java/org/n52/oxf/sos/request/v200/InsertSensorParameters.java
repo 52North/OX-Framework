@@ -36,17 +36,17 @@ import org.n52.oxf.adapter.ParameterContainer;
  */
 public class InsertSensorParameters extends Sos200RequestParameters {
     
-    static final String PROCEDURE_DESCRIPTION = "procedureDescription";
+    public static final String PROCEDURE_DESCRIPTION = "procedureDescription";
     
-    static final String PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat";
+    public static final String PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat";
     
-    static final String OBSERVABLE_PROPERTIES = "observableProperties";
+    public static final String OBSERVABLE_PROPERTIES = "observableProperties";
     
-    static final String FEATURE_OF_INTEREST_TYPES = "featureOfInterestTypes";
+    public static final String FEATURE_OF_INTEREST_TYPES = "featureOfInterestTypes";
     
     public static final String DEFAULT_DESCRIPTION_FORMAT = "http://www.opengis.net/sensorML/1.0.1";
 
-	static final String OBSERVATION_TYPES = "observationTypes";
+    public static final String OBSERVATION_TYPES = "observationTypes";
 
     /**
      * Creates InsertSensor parameters.
@@ -93,36 +93,4 @@ public class InsertSensorParameters extends Sos200RequestParameters {
     	}
     }
     
-	/**
-	 *  TODO add to one of the super classes
-	 * @throws OXFException 
-	 */
-	public ParameterContainer getParameterContainer() throws OXFException
-	{
-		try {
-			final ParameterContainer paramContainer = createParameterContainerWithCommonServiceParameters();
-			paramContainer.addParameterShell(
-					REGISTER_SENSOR_ML_DOC_PARAMETER,
-					getSingleValue(PROCEDURE_DESCRIPTION));
-			paramContainer.addParameterShell(
-					REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER,
-					getSingleValue(PROCEDURE_DESCRIPTION_FORMAT));
-			paramContainer.addParameterShell(
-					REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
-					getAllValues(OBSERVABLE_PROPERTIES)
-						.toArray(new String[getAllValues(OBSERVABLE_PROPERTIES).size()]));
-			paramContainer.addParameterShell(
-					REGISTER_SENSOR_OBSERVATION_TYPE,
-					getAllValues(OBSERVATION_TYPES)
-						.toArray(new String[getAllValues(OBSERVATION_TYPES).size()]));
-			paramContainer.addParameterShell(
-					REGISTER_SENSOR_FEATURE_TYPE_PARAMETER,
-					getAllValues(FEATURE_OF_INTEREST_TYPES)
-						.toArray(new String[getAllValues(FEATURE_OF_INTEREST_TYPES).size()]));
-			return paramContainer;
-		} catch(final OXFException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 }

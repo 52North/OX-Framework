@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012
+ * Copyright (C) 2013
  * by 52 North Initiative for Geospatial Open Source Software GmbH
  *
  * Contact: Andreas Wytzisk
@@ -23,17 +23,7 @@
  */
 package org.n52.oxf.sos.request;
 
-import org.n52.oxf.request.MultiValueRequestParameters;
-
 /**
- * Super class for all SOS specific request parameter assemblies.
- * 
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+ * Empty abstract super class for InsertObservation request parameter assemblies
  */
-public abstract class SosRequestParameters extends MultiValueRequestParameters {
-
-	public SosRequestParameters() {
-		addNonEmpty(SERVICE_TYPE, "SOS");
-	}
-	
-}
+public abstract class InsertObservationParameters extends SosRequestParameters {}
