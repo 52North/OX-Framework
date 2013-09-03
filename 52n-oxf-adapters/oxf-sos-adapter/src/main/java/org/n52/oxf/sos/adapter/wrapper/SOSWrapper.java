@@ -354,7 +354,9 @@ public class SOSWrapper {
 	
 	private void addBinding(final ParameterContainer parameterContainer) throws OXFException
 	{
-		parameterContainer.addParameterShell(BINDING, binding.name());
+		if (binding != null) {
+			parameterContainer.addParameterShell(BINDING, binding.name());
+		}
 	}
 	
 	private boolean isDeleteSensorDefined()
