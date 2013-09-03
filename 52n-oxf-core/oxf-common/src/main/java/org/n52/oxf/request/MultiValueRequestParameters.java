@@ -31,6 +31,18 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class MultiValueRequestParameters implements RequestParameters {
+	
+	/**
+	 * Service version parameter identifier for OWS requests, e.g. set to "1.0.0"
+	 *  for version 1.0.0 requests of a specific service interface.
+	 */
+	public static final String SERVICE_VERSION = "version";
+
+	/**
+	 * Service type parameter identifier for OWS requests,
+	 * e.g. set to "SOS" for Sensor Observation Service requests.
+	 */
+	public static final String SERVICE_TYPE = "service";
 
     private final Map<String, MultiValue> parameters;
     
