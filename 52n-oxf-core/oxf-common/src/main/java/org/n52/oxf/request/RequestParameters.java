@@ -151,8 +151,8 @@ public interface RequestParameters {
     boolean addParameterValue(String parameter, String value);
 
     /**
-     * Adds a bulString of parameter values (from a particular codelist) to the given parameter. If you want to
-     * remove a particular parameter value use {@linString #remove(String, String)}.<br>
+     * Adds a bulk of parameter values (from a particular codelist) to the given parameter. If you want to
+     * remove a particular parameter value use {@link #remove(String, String)}.<br>
      * <br>
      * <b>Note:</b> <code>null</code> values are stored as empty Strings.
      * 
@@ -165,8 +165,8 @@ public interface RequestParameters {
     boolean addParameterEnumValues(String parameter, Enum< ? >... values);
 
     /**
-     * Adds a bulString of parameter values to the given parameter. If you want to remove a particular parameter
-     * value use {@linString #remove(String, String)}.<br>
+     * Adds a bulk of parameter values to the given parameter. If you want to remove a particular parameter
+     * value use {@link #remove(String, String)}.<br>
      * <br>
      * <b>Note:</b> <code>null</code> values are stored as empty Strings.
      * 
@@ -179,8 +179,8 @@ public interface RequestParameters {
     boolean addParameterStringValues(String parameter, String... values);
 
     /**
-     * Adds a bulString of parameter values to the given parameter. If you want to remove a particular parameter
-     * value use {@linString #remove(String, String)}.<br>
+     * Adds a bulk of parameter values to the given parameter. If you want to remove a particular parameter
+     * value use {@link #remove(String, String)}.<br>
      * <br>
      * <b>Note:</b> <code>null</code> values are stored as empty Strings.
      * 
