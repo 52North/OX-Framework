@@ -27,7 +27,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.n52.oxf.sos.observation.DefaultObservationParametersFactory;
-import org.n52.oxf.sos.request.v100.InsertObservationParameters;
 import org.n52.oxf.xml.XMLConstants;
 
 
@@ -36,32 +35,17 @@ public class InsertObservationParametersTest {
 	@Rule public ExpectedException thrown = ExpectedException.none();
 	
 	@Test public void
-	shouldThrowIllegalArgumentExceptionIfMissingAllParameters() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("Parameter 'procedure' is required and may not be null or empty!");
-		new InsertObservationParameters(null, null);
-	}
-	
-	@Test public void
-	shouldThrowIllegalArgumentExceptionIfMissingProcedureId() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("Parameter 'procedure' is required and may not be null or empty!");
-		new InsertObservationParameters(null, new DefaultObservationParametersFactory()
-		.createObservationParametersFor(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION));
-	}
-	
-	@Test public void
 	shouldThrowIllegalArgumentExceptionIfMissingObservationParameter() {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Parameter 'ObservationParameters' with may not be null or empty!");
-		new InsertObservationParameters("sdf", null);
+		new InsertObservationParameters(null);
 	}
 	
 	@Test public void
 	shouldThrowIllegalArgumentExceptionIfReceivingInvalidObservationParameter() {
 		thrown.expect(IllegalArgumentException.class);
 		thrown.expectMessage("Parameter 'ObservationParameters' with may not be null or empty!");
-		new InsertObservationParameters("sdf",  new DefaultObservationParametersFactory()
+		new InsertObservationParameters(new DefaultObservationParametersFactory()
 		.createObservationParametersFor(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION));
 	}
 	

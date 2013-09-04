@@ -35,9 +35,8 @@ public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertO
     private static final String REQUEST_PARAMETER = "request";
 	private final ObservationParameters observationParameters;
 	
-	public InsertObservationParameters(final String assignedSensorId, final ObservationParameters observationParameters) throws IllegalArgumentException {
+	public InsertObservationParameters(final ObservationParameters observationParameters) throws IllegalArgumentException {
 	    addNonEmpty(REQUEST_PARAMETER, "InsertObservation");
-        addNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, assignedSensorId);
         if (observationParameters == null || observationParameters.isEmpty() || !observationParameters.isValid()) {
         	throw new IllegalArgumentException("Parameter 'ObservationParameters' with may not be null or empty!");
         }
