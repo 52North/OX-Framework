@@ -59,32 +59,59 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
     // begin -> parameter methods necessary for: MeasurementObservationParameters and CategoryObservationBuilder
 
     public void addSamplingTime(final String samplingTime) {
-        addParameterValue(INSERT_OBSERVATION_SAMPLING_TIME, samplingTime);
     }
-
+    
+    /**
+     * SOS 2.0 specific
+     * @param resultTime
+     */
+    public void addResultTime(final String resultTime) {
+    	addNonEmpty(INSERT_OBSERVATION_RESULT_TIME, resultTime);
+    }
+    
+    /**
+     * SOS 2.0 specific
+     * @param phenomenonTime
+     */
+    public void addPhenomenonTime(final String phenomenonTime) {
+    	addNonEmpty(INSERT_OBSERVATION_PHENOMENON_TIME, phenomenonTime);
+    }
+    
     public void addFoiId(final String foiId) {
-        addParameterValue(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);
+    	addNonEmpty(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);
+    }
+    
+    public void addNewFoiId(final String foiId) {
+    	addNonEmpty(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER, foiId);
     }
 
     public void addNewFoiName(final String foiName) {
-        addParameterValue(INSERT_OBSERVATION_NEW_FOI_NAME, foiName);
+    	addNonEmpty(INSERT_OBSERVATION_NEW_FOI_NAME, foiName);
     }
 
     public void addFoiDescription(final String foiDescription) {
-        addParameterValue(INSERT_OBSERVATION_NEW_FOI_DESC, foiDescription);
+    	addNonEmpty(INSERT_OBSERVATION_NEW_FOI_DESC, foiDescription);
     }
 
     public void addFoiPosition(final String foiPosition) {
-        addParameterValue(INSERT_OBSERVATION_NEW_FOI_POSITION, foiPosition);
+    	addNonEmpty(INSERT_OBSERVATION_NEW_FOI_POSITION, foiPosition);
     }
 
     public void addSrsPosition(final String srsPosition) {
-        addParameterValue(INSERT_OBSERVATION_POSITION_SRS, srsPosition);
+        addNonEmpty(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS, srsPosition);
     }
 
     public void addObservedProperty(final String observedProperty) {
-        addParameterValue(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
+    	addNonEmpty(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
     }
+
+	/**
+	 * @param procedureId
+	 */
+	public void addProcedure(final String procedureId)
+	{
+		addNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, procedureId);
+	}
 
     // end -> parameter methods shared by: MeasurementObservationParameters and CategoryObservationBuilder
 
