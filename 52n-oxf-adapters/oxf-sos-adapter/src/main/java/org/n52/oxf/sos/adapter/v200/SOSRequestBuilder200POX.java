@@ -270,8 +270,8 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 		final InsertObservationType xbInsertObservationType = xbInsertObservationDocument.addNewInsertObservation();
 		xbInsertObservationType.setVersion("2.0.0");
 		xbInsertObservationType.setService("SOS");
-		addObservations(parameters, xbInsertObservationType);
 		addOfferings(parameters, xbInsertObservationType);
+		addObservations(parameters, xbInsertObservationType);
 		doLaxRequestValidation(xbInsertObservationDocument);
 		return xbInsertObservationDocument.xmlText(XmlUtil.FAST);
 	}
@@ -383,9 +383,8 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 		return xbObservation;
 			}
 
-	private void addPhenomenonTime(final ParameterContainer parameters,
-			final OMObservationType xbObservation) throws OXFException
-			{
+	private void addPhenomenonTime(final ParameterContainer parameters, final OMObservationType xbObservation) throws OXFException
+	{
 		// add phenomenonTime
 		final Object phenomenonTimeObj = parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_PHENOMENON_TIME).getSpecifiedValue();
 		// add as reference
@@ -398,12 +397,48 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 		else if (phenomenonTimeObj instanceof TimePeriod) {
 			addTimePeriod(xbObservation, phenomenonTimeObj);
 		}
-		else {
-			throw new OXFException(
-					String.format("Unsupported type for phenTime not yet implemented. Received type: %s",
-							phenomenonTimeObj!=null?phenomenonTimeObj.getClass().getName():phenomenonTimeObj));
-		}
+		else if (phenomenonTimeObj instanceof String) {
+			final ITime time = getITimeFromString((String) phenomenonTimeObj);
+			if (time == null) {
+				throw wrongPhenTimeType(phenomenonTimeObj);
 			}
+			else if (time instanceof TimePosition) {
+				addTimePosition(xbObservation, time);
+			}
+			else if (time instanceof TimePeriod) {
+				addTimePeriod(xbObservation, time);
+			}
+		}
+		else {
+			throw wrongPhenTimeType(phenomenonTimeObj);
+		}
+	}
+
+	private ITime getITimeFromString(final String phenomenonTimeObj)
+	{
+		try {
+			// 1 try timeposition
+			return new TimePosition(phenomenonTimeObj);
+		}
+		catch (final Exception e1) {
+			try {
+				LOGGER.debug("Exception thrown: ",e1);
+				// 2 try timeperiod
+				return new TimePeriod(phenomenonTimeObj);
+			}
+			catch(final Exception e2) {
+				LOGGER.debug("Exception thrown: ",e2);
+				return null;
+			}
+		}
+	}
+
+	private OXFException wrongPhenTimeType(final Object phenomenonTimeObj) throws OXFException
+	{
+		return new OXFException(
+				String.format("Unsupported type for phenTime not yet implemented. Received type: %s",
+						phenomenonTimeObj!=null?phenomenonTimeObj.getClass().getName():phenomenonTimeObj));
+	}
 
 	private void addTimePeriod(final OMObservationType xbObservation,
 			final Object phenomenonTimeObj)
@@ -502,18 +537,43 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 	}
 
 	private void addResultTime(final ParameterContainer parameters,
-			final OMObservationType xbObservation)
+			final OMObservationType xbObservation) throws OXFException
 	{
 		// add resultTime
 		final Object resultTimeObj = parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_RESULT_TIME).getSpecifiedValue();
 		if (resultTimeObj instanceof TimePosition) {
-			final TimeInstantType resultTime = xbObservation.addNewResultTime().addNewTimeInstant();
-			resultTime.addNewTimePosition().setStringValue(((TimePosition)resultTimeObj).toISO8601Format());
-			resultTime.setId("resultTime");
+			addResultTimeObject(xbObservation, (TimePosition) resultTimeObj);
 		}
 		else if (isObjStringAndInDocumentReference(resultTimeObj)){ // add resultTime as reference
 			xbObservation.addNewResultTime().setHref((String) resultTimeObj);
 		}
+		else if (resultTimeObj instanceof String) {
+			final ITime time = getITimeFromString((String)resultTimeObj);
+			if (time != null && time instanceof TimePosition) {
+				addResultTimeObject(xbObservation, (TimePosition) time);
+			}
+			else {
+				throw wrongResultTimeType(resultTimeObj);
+			}
+		}
+		else {
+			throw wrongResultTimeType(resultTimeObj);
+		}
+	}
+
+	private OXFException wrongResultTimeType(final Object resultTimeObj) throws OXFException
+	{
+		return new OXFException(
+				String.format("Unsupported type for phenTime not yet implemented. Received type: %s",
+						resultTimeObj!=null?resultTimeObj.getClass().getName():resultTimeObj));
+	}
+
+	private void addResultTimeObject(final OMObservationType xbObservation,
+			final TimePosition resultTimeObj)
+	{
+		final TimeInstantType resultTime = xbObservation.addNewResultTime().addNewTimeInstant();
+		resultTime.addNewTimePosition().setStringValue(resultTimeObj.toISO8601Format());
+		resultTime.setId("resultTime");
 	}
 
 	private boolean isObjStringAndInDocumentReference(final Object resultTimeObj)
