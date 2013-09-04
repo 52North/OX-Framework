@@ -24,7 +24,10 @@
 package org.n52.oxf.sos.adapter.wrapper.builder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 
@@ -51,6 +54,7 @@ import net.opengis.sensorML.x101.SystemDocument;
 import net.opengis.sensorML.x101.SystemType;
 import net.opengis.sensorML.x101.TermDocument.Term;
 import net.opengis.swe.x101.AbstractDataRecordType;
+import net.opengis.swe.x101.AnyScalarPropertyType;
 import net.opengis.swe.x101.BooleanDocument.Boolean;
 import net.opengis.swe.x101.CountDocument.Count;
 import net.opengis.swe.x101.DataComponentPropertyType;
@@ -58,6 +62,7 @@ import net.opengis.swe.x101.DataRecordType;
 import net.opengis.swe.x101.EnvelopeType;
 import net.opengis.swe.x101.PositionType;
 import net.opengis.swe.x101.QuantityDocument.Quantity;
+import net.opengis.swe.x101.SimpleDataRecordType;
 import net.opengis.swe.x101.TextDocument.Text;
 import net.opengis.swe.x101.UomPropertyType;
 import net.opengis.swe.x101.VectorType;
@@ -77,11 +82,16 @@ import org.n52.oxf.xmlbeans.tools.XmlUtil;
  */
 public class SensorDescriptionBuilder {
 	
-	public static final QName SWE101_DATARECORD = new QName("http://www.opengis.net/swe/1.0.1", "DataRecord");
-	public static final QName SWE101_FIELD = new QName("http://www.opengis.net/swe/1.0.1", "Field");
-	public static final QName SWE101_COMPONENT = new QName("http://www.opengis.net/swe/1.0.1", "Component");
+	/**
+	 * 
+	 */
+	private static final String SWE_101_NS_URI = "http://www.opengis.net/swe/1.0.1";
+	public static final QName SWE101_DATARECORD = new QName(SWE_101_NS_URI, "DataRecord");
+	public static final QName SWE101_SIMPLE_DATA_RECORD = new QName(SWE_101_NS_URI, "SimpleDataRecord");
+	public static final QName SWE101_FIELD = new QName(SWE_101_NS_URI, "Field");
+	public static final QName SWE101_COMPONENT = new QName(SWE_101_NS_URI, "Component");
 	public static final QName SWE10_OFFERING = new QName("http://www.opengis.net/sos/1.0", "offering");
-	public static final QName SWE101_ENVELOPE = new QName ("http://www.opengis.net/swe/1.0.1","Envelope");
+	public static final QName SWE101_ENVELOPE = new QName (SWE_101_NS_URI,"Envelope");
 	public static final QName SWE10_ID = new QName("http://www.opengis.net/sos/1.0", "id");
 	public static final QName SWE10_NAME = new QName("http://www.opengis.net/sos/1.0", "name");
 	
@@ -135,6 +145,7 @@ public class SensorDescriptionBuilder {
 	private double eastingValue, northingValue, altitudeValue;
 	// interface data
 	private String iName, serviceUrl, serviceType, sensorId;
+	private Map<String,String[]> capabilities;
 
 	public SensorDescriptionBuilder() {
 		validTime = new String[2];
@@ -365,6 +376,9 @@ public class SensorDescriptionBuilder {
 				&& lcNorthingUom != null) {
 			addCapabilities();
 		}
+		if (capabilities != null && capabilities.size() > 0) {
+			addGenericCapabilites();
+		}
 		if (id != null && individualName != null && organizationName != null
 				&& deliveryPoint != null && city != null && postalCode != null
 				&& country != null && email != null) {
@@ -395,6 +409,22 @@ public class SensorDescriptionBuilder {
 		return sensorML101.xmlText(XmlUtil.FAST);
 	}
 	
+	private void addGenericCapabilites()
+	{
+		for (final Entry<String, String[]> capability : capabilities.entrySet()) {
+			final Capabilities xbCapabilities = system.addNewCapabilities();
+			xbCapabilities.setName(capability.getKey());
+			final AbstractDataRecordType record = xbCapabilities.addNewAbstractDataRecord();
+			final SimpleDataRecordType recordType = (SimpleDataRecordType) record.substitute(SWE101_SIMPLE_DATA_RECORD, SimpleDataRecordType.type);
+			final AnyScalarPropertyType field = recordType.addNewField();
+			field.setName(capability.getValue()[0]);
+			final Text text = field.addNewText();
+			text.setDefinition(capability.getValue()[1]);
+			text.setValue(capability.getValue()[2]);
+			xbCapabilities.setAbstractDataRecord(recordType);
+		}
+	}
+
 	private void addKeywords() {
 		final KeywordList keywordList = system.addNewKeywords().addNewKeywordList();
 		for (final String keyword : keywords) {
@@ -657,5 +687,23 @@ public class SensorDescriptionBuilder {
 			// TODO set inline description
 			// AbstractComponentType inlineComp = (AbstractComponentType) comp.substitute(SWE101_COMPONENT, ComponentType.type);
 		}
+	}
+
+	/**
+	 * 
+	 * @param capabilityName
+	 * @param fieldName
+	 * @param fieldDefinition
+	 * @param value
+	 */
+	public void addCapability(final String capabilityName,
+			final String fieldName,
+			final String fieldDefinition,
+			final String value)
+	{
+		if (capabilities == null) {
+			capabilities = new HashMap<String, String[]>();
+		}
+		capabilities.put(capabilityName,new String[]{fieldName,fieldDefinition,value});
 	}
 }
