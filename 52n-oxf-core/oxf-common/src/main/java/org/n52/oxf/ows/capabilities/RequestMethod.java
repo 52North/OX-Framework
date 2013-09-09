@@ -53,10 +53,21 @@ public abstract class RequestMethod {
 	 * @param onlineResource
 	 * @param type
 	 * @param constraints
+	 * @deprecated Use {@link #RequestMethod(OnlineResource, Set)} using type {@link Constraint}.
 	 */
+	@Deprecated
 	public RequestMethod(final OnlineResource onlineResouce, final String[] constraints){
 		setOnlineResource(onlineResouce);
 		setConstraints(constraints);
+	}
+	
+	/**
+	 * @param onlineResource
+	 * @param constraints the constraints that are relevant for this request method.
+	 */
+	public RequestMethod(final OnlineResource onlineResource, final Set<Constraint> constraints) {
+		setOnlineResource(onlineResource);
+		setOwsConstraints(constraints);
 	}
 	
 	/**
@@ -74,40 +85,40 @@ public abstract class RequestMethod {
     public abstract String toXML();
 	
     /**
-     * @return Returns the constraints.
+     * @deprecated Use {@link #getOwsConstraints()} and type {@link Constraint} instead
      */
-    public String[] getConstraints() {
+    @Deprecated
+	public String[] getConstraints() {
         return constraints;
     }
+    
     /**
-     * @param constraints The constraints to set.
+     * @deprecated Use {@link #setOwsConstraints(Set)} and type {@link Constraint} instead.
      */
+    @Deprecated
     protected void setConstraints(final String[] constraints) {
         this.constraints = constraints;
     }
-    /**
-     * 
-     * @return
-     */
+
     public OnlineResource getOnlineResource() {
         return onlineResource;
     }
-    /**
-     * 
-     * @param onlineResource
-     */
+    
     protected void setOnlineResource(final OnlineResource onlineResource) {
         this.onlineResource = onlineResource;
     }
     
     // TODO Eike: add tests for new methods 
 
+	/**
+	 * @return an unmodifiable view of the constraints for this {@link RequestMethod} or an empty {@link Set} if not set.
+	 */
 	public Set<Constraint> getOwsConstraints()
 	{
 		if (owsConstraints == null) {
 			return Collections.emptySet();
 		}
-		return owsConstraints;
+		return Collections.unmodifiableSet(owsConstraints);
 	}
 
 	/**
@@ -132,11 +143,11 @@ public abstract class RequestMethod {
 	 */
 	public boolean setOwsConstraints(final Set<Constraint> owsConstraints)
 	{
-		if (owsConstraints != null) {
-			this.owsConstraints = owsConstraints;
-			return true;
+		if (owsConstraints == null) {
+			return false;
 		}
-		return false;
+		this.owsConstraints = owsConstraints;
+		return true;
 	}
 
 	@Override
@@ -148,6 +159,4 @@ public abstract class RequestMethod {
 				owsConstraints);
 	}
 	
-	
-    
 }
