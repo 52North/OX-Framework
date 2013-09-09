@@ -112,7 +112,7 @@ public class Operation {
         }
         res += "</Parameters>";
 
-        res += "<Constraints>";
+        res += "<Constraint>";
         if (constraints != null) {
             for (String c : constraints) {
                 res += "<Constraint>";
@@ -120,7 +120,7 @@ public class Operation {
                 res += "<Constraint>";
             }
         }
-        res += "</Constraints>";
+        res += "</Constraint>";
 
         res += "<DCPs>";
         if (dcps != null) {

@@ -43,10 +43,14 @@ import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
+import org.n52.oxf.ows.Constraint;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.OWSException;
 import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ows.capabilities.DCP;
+import org.n52.oxf.ows.capabilities.GetRequestMethod;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.ows.capabilities.PostRequestMethod;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder.Binding;
 import org.n52.oxf.sos.adapter.v100.SOSCapabilitiesMapper_100;
 import org.n52.oxf.sos.adapter.v200.SOSCapabilitiesMapper_200;
@@ -298,7 +302,36 @@ public class SOSAdapter implements IServiceAdapter {
         }
 
         String uri = null;
-        if (operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0) {
+        boolean isHttpGet = false;
+        // try to get binding specific uri
+        if (serviceVersion.equals("2.0.0") && parameters.containsParameterShellWithCommonName(BINDING)) {
+        	final String binding = (String) parameters.getParameterShellWithCommonName(BINDING).getSpecifiedValue();
+        	uriFind:
+        	for (final DCP dcp : operation.getDcps()) {
+        		if (binding.equals(Binding.KVP.name())) {
+        			for (final GetRequestMethod getMethod : dcp.getHTTPGetRequestMethods()) {
+        				for (final Constraint constraint : getMethod.getOwsConstraints()) {
+        					if (isContraintForThisBinding(binding, constraint)) {
+        						uri = getMethod.getOnlineResource().getHref();
+        						isHttpGet = true;
+        						break uriFind;
+        					}
+						}
+					}
+				}
+        		else if (binding.equals(Binding.POX.name()) || binding.equals(Binding.SOAP.name())) {
+        			for (final PostRequestMethod postMethod : dcp.getHTTPPostRequestMethods()) {
+        				for (final Constraint constraint : postMethod.getOwsConstraints()) {
+        					if (isContraintForThisBinding(binding, constraint)) {
+        						uri = postMethod.getOnlineResource().getHref();
+        						break uriFind;
+        					}
+						}
+					}
+        		}
+			}
+        }
+        if (uri == null && operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0) {
         	uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
         }
 
@@ -309,8 +342,13 @@ public class SOSAdapter implements IServiceAdapter {
          */
 
         try {
-            final HttpResponse httpResponse = httpClient.executePost(uri.trim(), request, TEXT_XML);
-            final HttpEntity responseEntity = httpResponse.getEntity();
+        	HttpResponse httpResponse = null;
+        	if (isHttpGet) {
+        		httpResponse = httpClient.executeGet(uri.trim());
+        	} else {
+        		httpResponse = httpClient.executePost(uri.trim(), request, TEXT_XML);
+        	}
+			final HttpEntity responseEntity = httpResponse.getEntity();
             result = new OperationResult(responseEntity.getContent(), parameters, request);
 
             // TODO make us independent from XmlObject
@@ -341,7 +379,20 @@ public class SOSAdapter implements IServiceAdapter {
         }
     }
 
-    private String buildRequest(final Operation operation, final ParameterContainer parameters) throws OXFException {
+	private boolean isContraintForThisBinding(final String binding,
+			final Constraint constraint)
+	{
+		if (constraint.getName().equals("encoding")) {
+			for (final String allowedValue : constraint.getAllowedValues()) {
+				if (allowedValue.equalsIgnoreCase(binding)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	private String buildRequest(final Operation operation, final ParameterContainer parameters) throws OXFException {
         if (operation.getName().equals(GET_CAPABILITIES)) {
             return requestBuilder.buildGetCapabilitiesRequest(parameters);
         }

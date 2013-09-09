@@ -102,7 +102,7 @@ public class OperationsMetadata {
 		}
 		res += "</Parameters>";
 
-		res += "<Constraints>";
+		res += "<Constraint>";
 		if (constraints != null) {
 			for (String c : constraints) {
 				res += "<Constraint>";
@@ -110,7 +110,7 @@ public class OperationsMetadata {
 				res += "<Constraint>";
 			}
 		}
-		res += "</Constraints>";
+		res += "</Constraint>";
 
 		res += "</OperationsMetadata>";
 
@@ -118,7 +118,7 @@ public class OperationsMetadata {
 	}
 
 	/**
-	 * Representation of possible Constraints. These constraints will be
+	 * Representation of possible Constraint. These constraints will be
 	 * inherited by all underlying operations.
 	 * 
 	 * @return a String representation of the constraints.
@@ -128,7 +128,7 @@ public class OperationsMetadata {
 	}
 
 	/**
-	 * Representation of possible Constraints. These constraints will be
+	 * Representation of possible Constraint. These constraints will be
 	 * inherited by all underlying operations.
 	 * 
 	 * @param constraints

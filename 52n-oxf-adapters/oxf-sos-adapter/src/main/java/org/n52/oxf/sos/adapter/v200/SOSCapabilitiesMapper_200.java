@@ -64,6 +64,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.xmlbeans.XmlException;
 import org.n52.oxf.OXFException;
+import org.n52.oxf.ows.Constraint;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Contact;
 import org.n52.oxf.ows.capabilities.DCP;
@@ -181,94 +182,92 @@ public class SOSCapabilitiesMapper_200 {
         if ( !capabilities.isSetOperationsMetadata()) {
             return null;
         }
-
         final net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata operationsMetadata = capabilities.getOperationsMetadata();
-
         //
         // map the operations:
         //
-
-        final OperationDocument.Operation[] xb_operations = operationsMetadata.getOperationArray();
-        final Operation[] oc_operations = new Operation[xb_operations.length];
-        for (int i = 0; i < xb_operations.length; i++) {
-            final OperationDocument.Operation xb_operation = xb_operations[i];
-
-            final String oc_operationName = xb_operation.getName();
-
+        final OperationDocument.Operation[] xbOperations = operationsMetadata.getOperationArray();
+        final Operation[] ocOperations = new Operation[xbOperations.length];
+        for (int i = 0; i < xbOperations.length; i++) {
+            final OperationDocument.Operation xbOperation = xbOperations[i];
+            final String ocOperationName = xbOperation.getName();
             //
             // map the operations DCPs:
             //
-
-            final DCPDocument.DCP[] xb_dcps = xb_operation.getDCPArray();
-            final DCP[] oc_dcps = new DCP[xb_dcps.length];
-            for (int j = 0; j < xb_dcps.length; j++) {
-                final DCPDocument.DCP xb_dcp = xb_dcps[j];
-
+            final DCPDocument.DCP[] xbDcps = xbOperation.getDCPArray();
+            final DCP[] ocDcps = new DCP[xbDcps.length];
+            for (int j = 0; j < xbDcps.length; j++) {
+                final DCPDocument.DCP xbDcp = xbDcps[j];
                 //
                 // map the RequestMethods:
                 //
+                final List<RequestMethod> ocRequestMethods = new ArrayList<RequestMethod>();
 
-                final List<RequestMethod> oc_requestMethods = new ArrayList<RequestMethod>();
-
-                final RequestMethodType[] xb_getRequestMethods = xb_dcp.getHTTP().getGetArray();
-                for (final RequestMethodType xb_getRequestMethod : xb_getRequestMethods) {
-                    final OnlineResource oc_onlineRessource = new OnlineResource(xb_getRequestMethod.getHref());
-                    final RequestMethod oc_requestMethod = new GetRequestMethod(oc_onlineRessource);
-                    oc_requestMethods.add(oc_requestMethod);
+                final RequestMethodType[] xbGetRequestMethods = xbDcp.getHTTP().getGetArray();
+                for (final RequestMethodType xbGetRequestMethod : xbGetRequestMethods) {
+                    final OnlineResource ocOnlineRessource = new OnlineResource(xbGetRequestMethod.getHref());
+                    final RequestMethod ocRequestMethod = new GetRequestMethod(ocOnlineRessource);
+                    addConstraints(xbGetRequestMethod, ocRequestMethod);
+                    ocRequestMethods.add(ocRequestMethod);
+                }
+                final RequestMethodType[] xbPostRequestMethods = xbDcp.getHTTP().getPostArray();
+                for (final RequestMethodType xbPostRequestMethod : xbPostRequestMethods) {
+                    final OnlineResource ocOnlineRessource = new OnlineResource(xbPostRequestMethod.getHref());
+                    final RequestMethod ocRequestMethod = new PostRequestMethod(ocOnlineRessource);
+                    addConstraints(xbPostRequestMethod, ocRequestMethod);
+                    ocRequestMethods.add(ocRequestMethod);
                 }
 
-                final RequestMethodType[] xb_postRequestMethods = xb_dcp.getHTTP().getPostArray();
-                for (final RequestMethodType xb_postRequestMethod : xb_postRequestMethods) {
-                    final OnlineResource oc_onlineRessource = new OnlineResource(xb_postRequestMethod.getHref());
-                    final RequestMethod oc_requestMethod = new PostRequestMethod(oc_onlineRessource);
-                    oc_requestMethods.add(oc_requestMethod);
-                }
-
-                oc_dcps[j] = new DCP(oc_requestMethods);
+                ocDcps[j] = new DCP(ocRequestMethods);
             }
-
             //
             // map the operations parameters:
             //
-
-            final DomainType[] xb_parameters = xb_operation.getParameterArray();
-
-            final List<Parameter> oc_parameters = new ArrayList<Parameter>();
-
-            for (final DomainType xb_parameter : xb_parameters) {
-
-                final String parameterName = xb_parameter.getName();
-
+            final DomainType[] xbParameters = xbOperation.getParameterArray();
+            final List<Parameter> ocParameters = new ArrayList<Parameter>();
+            for (final DomainType xbParameter : xbParameters) {
+                final String parameterName = xbParameter.getName();
                 if (!parameterName.equalsIgnoreCase("eventTime")) {
-
                     //
                     // map the parameters' values to StringValueDomains
                     //
-
-                    final AllowedValues xb_allowedValues = xb_parameter.getAllowedValues();
-
-                    if (xb_allowedValues != null) {
-                        final ValueType[] xb_values = xb_allowedValues.getValueArray();
-
-                        final StringValueDomain oc_values = new StringValueDomain();
-                        for (final ValueType xb_value : xb_values) {
-                            oc_values.addPossibleValue(xb_value.getStringValue());
+                    final AllowedValues xbAllowedValues = xbParameter.getAllowedValues();
+                    if (xbAllowedValues != null) {
+                        final ValueType[] xbValues = xbAllowedValues.getValueArray();
+                        final StringValueDomain ocValues = new StringValueDomain();
+                        for (final ValueType xbValue : xbValues) {
+                            ocValues.addPossibleValue(xbValue.getStringValue());
                         }
-
-                        final Parameter oc_parameter = new Parameter(parameterName, true, oc_values, null);
-                        oc_parameters.add(oc_parameter);
+                        final Parameter ocParameter = new Parameter(parameterName, true, ocValues, null);
+                        ocParameters.add(ocParameter);
                     }
                 }
             }
-
-            final Parameter[] parametersArray = new Parameter[oc_parameters.size()];
-            oc_parameters.toArray(parametersArray);
-
-            oc_operations[i] = new Operation(oc_operationName, parametersArray, null, oc_dcps);
+            final Parameter[] parametersArray = new Parameter[ocParameters.size()];
+            ocParameters.toArray(parametersArray);
+            ocOperations[i] = new Operation(ocOperationName, parametersArray, null, ocDcps);
         }
-
-        return new OperationsMetadata(oc_operations);
+        return new OperationsMetadata(ocOperations);
     }
+
+	private void addConstraints(final RequestMethodType xbGetRequestMethod,
+			final RequestMethod ocRequestMethod)
+	{
+		if (xbGetRequestMethod.getConstraintArray() != null ) {
+			for (final DomainType xbConstraint : xbGetRequestMethod.getConstraintArray()) {
+				final String name = xbConstraint.getName();
+				final ArrayList<String> allowedValues = new ArrayList<String>();
+				if(xbConstraint.isSetAllowedValues()) {
+					for (final ValueType xbAllowedValue : xbConstraint.getAllowedValues().getValueArray()) {
+						allowedValues.add(xbAllowedValue.getStringValue());
+					}
+				}
+				if (name != null && !name.isEmpty() && !allowedValues.isEmpty()) {
+					ocRequestMethod.addOwsConstraint(new Constraint(name,allowedValues.toArray(new String[allowedValues.size()])));
+				}
+			}
+		}
+	}
 
     public static void main(final String[] args) {
         try {
