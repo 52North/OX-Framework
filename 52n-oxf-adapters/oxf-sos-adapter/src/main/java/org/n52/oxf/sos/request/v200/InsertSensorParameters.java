@@ -24,109 +24,54 @@
 
 package org.n52.oxf.sos.request.v200;
 
-import org.n52.oxf.request.MultimapRequestParameters;
+import java.util.Collection;
 
 /**
- * Assembles all parameters needed for a RegisterSensor request. This request is SOS 2.0.0 specific. 
+ * Assembles all parameters needed for a InsertSensor request. This request is SOS 2.0.0 specific. 
  */
-public class InsertSensorParameters extends MultimapRequestParameters {
+public class InsertSensorParameters extends Sos200RequestParameters {
     
-    private static final String REQUEST_PARAMETER = "request";
+    public static final String PROCEDURE_DESCRIPTION = "procedureDescription";
+    
+    public static final String PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat";
+    
+    public static final String OBSERVABLE_PROPERTIES = "observableProperties";
+    
+    public static final String FEATURE_OF_INTEREST_TYPES = "featureOfInterestTypes";
+    
+    public static final String DEFAULT_DESCRIPTION_FORMAT = "http://www.opengis.net/sensorML/1.0.1";
 
-    static final String PROCEDURE_DESCRIPTION = "procedureDescription";
-    
-    static final String PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat";
-    
-    static final String OBSERVABLE_PROPERTY = "observableProperty";
-    
-    static final String DEFAULT_DESCRIPTION_FORMAT = "text/xml;subtype=\"sensorML/1.0.1\"";
+    public static final String OBSERVATION_TYPES = "observationTypes";
 
     /**
      * Creates InsertSensor parameters.
      * 
-     * @param sensorDescription
-     *        the sensor's description document.
-     * @param observableProperties
-     *        the sensor's observation template.
-     * @throws IllegalArgumentException
-     *         if passed arguments are <code>null</code> or empty.
-     */
-    public InsertSensorParameters(String sensorDescription, String... observableProperties) {
-        this(sensorDescription, DEFAULT_DESCRIPTION_FORMAT, observableProperties);
-    }
-    
-    /**
-     * Creates InsertSensor parameters.
-     * 
-     * @param sensorDescription
-     *        the sensor's description document.
-     * @param procedureDescriptionFormat
-     *        the procedureDescription's format.
-     * @param observableProperty
-     *        the sensor's observable property.
-     * @throws IllegalArgumentException
-     *         if passed arguments are <code>null</code> or empty.
-     */
-    public InsertSensorParameters(String sensorDescription, String procedureDescriptionFormat, String observableProperty) {
-        addNonEmpty(REQUEST_PARAMETER, "InsertSensor");
-        addNonEmpty(PROCEDURE_DESCRIPTION, sensorDescription);
-        addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
-        addNonEmpty(OBSERVABLE_PROPERTY, observableProperty);
-    }
-       
-    
-    /**
-     * Creates InsertSensor parameters.
-     * 
-     * @param sensorDescription
-     *        the sensor's description document.
+     * @param procedureDescriptionXml
+     *        the procedure's description document.
      * @param procedureDescriptionFormat
      *        the procedureDescription's format.
      * @param observableProperties
-     *        the sensor's observable properties.
+     *        the procedure's observable properties (1..n)
+     * @param featureOfInterestTypes
+     *        the procedure's feature of interest types (1..n)
      * @throws IllegalArgumentException
      *         if passed arguments are <code>null</code> or empty.
      */
-    public InsertSensorParameters(String sensorDescription, String procedureDescriptionFormat, String... observableProperties) {
-        addNonEmpty(PROCEDURE_DESCRIPTION, sensorDescription);
-        addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
-        addParameterStringValues(OBSERVABLE_PROPERTY, observableProperties);
-        // XXX add multiple parameter support!
-//        putNonEmpty(OBSERVABLE_PROPERTY, observableProperties);
+    public InsertSensorParameters(final String procedureDescriptionXml,
+    		final String procedureDescriptionFormat,
+    		final Collection<String> observableProperties,
+    		final Collection<String> featureOfInterestTypes,
+    		final Collection<String> observationTypes) {
+    	addNonEmpty(PROCEDURE_DESCRIPTION, procedureDescriptionXml);
+    	addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
+    	addNonEmpty(OBSERVABLE_PROPERTIES,observableProperties);
+    	addNonEmpty(FEATURE_OF_INTEREST_TYPES,featureOfInterestTypes);
+    	addNonEmpty(OBSERVATION_TYPES, observationTypes);
     }
-
-    /**
-     * Overrides required procedureDescription parameter.
-     * 
-     * @param procedureDescription
-     *        the new procedureDescription.
-     * @throws IllegalArgumentException
-     *         if passed argument is <code>null</code> or empty.
-     */
-    public InsertSensorParameters addProcedureDescription(String procedureDescription) {
-        addNonEmpty(PROCEDURE_DESCRIPTION, procedureDescription);
-        return this;
-    }
-
-    /**
-     * Overrides required observationTemplate parameter.
-     * 
-     * @param procedureDescriptionFormat
-     *        the procedureDescription's format.
-     * @return this parameter assembly instance.
-     * @throws IllegalArgumentException
-     *         if passed argument is <code>null</code> or empty.
-     */
-    public InsertSensorParameters setObservationTemplate(String procedureDescriptionFormat) {
-        addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
-        return this;
-    }
-
+    
     public boolean isValid() {
-        boolean invalidProcedureDescription = isEmptyValue(PROCEDURE_DESCRIPTION);
-        boolean invalidProcedureDescriptionFormat = isEmptyValue(PROCEDURE_DESCRIPTION_FORMAT);
-        boolean invalidObservableProperty = isEmptyValue(OBSERVABLE_PROPERTY);
-        return ! (invalidProcedureDescription || invalidProcedureDescriptionFormat || invalidObservableProperty);
-    }
-
+        return ! (isEmptyValue(PROCEDURE_DESCRIPTION) || 
+        		isEmptyValue(PROCEDURE_DESCRIPTION_FORMAT) ||
+        		isEmptyValue(OBSERVABLE_PROPERTIES));
+    }    
 }

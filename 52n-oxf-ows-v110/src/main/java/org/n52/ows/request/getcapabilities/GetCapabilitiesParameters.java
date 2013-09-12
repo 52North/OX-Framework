@@ -24,11 +24,7 @@
 
 package org.n52.ows.request.getcapabilities;
 
-import static org.n52.ows.request.getcapabilities.GetCapabilitiesParameter.ACCEPT_FORMAT;
-import static org.n52.ows.request.getcapabilities.GetCapabilitiesParameter.ACCEPT_VERSIONS;
-import static org.n52.ows.request.getcapabilities.GetCapabilitiesParameter.SECTIONS;
-import static org.n52.ows.request.getcapabilities.GetCapabilitiesParameter.SERVICE;
-import static org.n52.ows.request.getcapabilities.GetCapabilitiesParameter.UPDATE_SEQUENCE;
+import static org.n52.ows.request.getcapabilities.GetCapabilitiesParameter.*;
 
 import org.n52.oxf.request.MultiValueRequestParameters;
 import org.n52.oxf.request.RequestParameters;
@@ -52,11 +48,11 @@ import org.n52.oxf.request.RequestParameters;
  * that server). This service metadata also makes an OWS server partially self-describing, supporting late
  * binding of clients. </blockquote>
  */
-public class GetCapabilitiesParameters {
+public class GetCapabilitiesParameters extends MultiValueRequestParameters{
 
-    private RequestParameters standardParameters = new MultiValueRequestParameters();
+    private final RequestParameters standardParameters = new GetCapabilitiesParametersSeam();
 
-    private RequestParameters nonStandardParameters = new MultiValueRequestParameters();
+    private final RequestParameters nonStandardParameters = new GetCapabilitiesParametersSeam();
 
     /**
      * Creates a minimal ready to go GetCapabilities Request. Use the instance methods to add further
@@ -65,7 +61,7 @@ public class GetCapabilitiesParameters {
      * @param service
      *        the service type, e.g. <code>SPS</code>, or <code>SOS</code>.
      */
-    public GetCapabilitiesParameters(String service) {
+    public GetCapabilitiesParameters(final String service) {
         standardParameters.addParameterValue(SERVICE.name(), service);
     }
 
@@ -149,5 +145,7 @@ public class GetCapabilitiesParameters {
     public RequestParameters getNonStandardParameters() {
         return nonStandardParameters;
     }
+    
+    private class GetCapabilitiesParametersSeam extends MultiValueRequestParameters {}
 
 }

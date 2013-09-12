@@ -31,6 +31,7 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import java.io.IOException;
 
 import net.opengis.ows.x11.ExceptionReportDocument;
+import net.opengis.ows.x11.ExceptionType;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -42,10 +43,17 @@ import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
+import org.n52.oxf.ows.Constraint;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.OWSException;
 import org.n52.oxf.ows.ServiceDescriptor;
+import org.n52.oxf.ows.capabilities.DCP;
+import org.n52.oxf.ows.capabilities.GetRequestMethod;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.ows.capabilities.PostRequestMethod;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder.Binding;
+import org.n52.oxf.sos.adapter.v100.SOSCapabilitiesMapper_100;
+import org.n52.oxf.sos.adapter.v200.SOSCapabilitiesMapper_200;
 import org.n52.oxf.sos.feature.SOSObservationStore;
 import org.n52.oxf.sos.util.SosUtil;
 import org.n52.oxf.util.web.GzipEnabledHttpClient;
@@ -55,7 +63,6 @@ import org.n52.oxf.util.web.ProxyAwareHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
 
 /**
  * SOS-Adapter for the OX-Framework
@@ -70,9 +77,17 @@ public class SOSAdapter implements IServiceAdapter {
     public static final String GET_OBSERVATION = "GetObservation";
     public static final String GET_OBSERVATION_BY_ID = "GetObservationById";
     public static final String DESCRIBE_SENSOR = "DescribeSensor";
+    public static final String DELETE_SENSOR = "DeleteSensor";
     public static final String GET_FEATURE_OF_INTEREST = "GetFeatureOfInterest";
     public static final String INSERT_OBSERVATION = "InsertObservation";
+    /**
+     * In version 2.0.0 replaced by {@link #INSERT_SENSOR}
+     */
     public static final String REGISTER_SENSOR = "RegisterSensor";
+    /**
+     * Replaces version 1.0.0 operation {@link #REGISTER_SENSOR}
+     */
+    public static final String INSERT_SENSOR = "InsertSensor";
 
     /**
      * Description of the SOSAdapter
@@ -84,6 +99,8 @@ public class SOSAdapter implements IServiceAdapter {
      * The name of the service operation which returns the data to be added to a map view as a layer.
      */
     public static final String RESOURCE_OPERATION = "GetObservation";
+
+
 
     /**
      * the schema version this adapter instance shall work with.
@@ -110,7 +127,7 @@ public class SOSAdapter implements IServiceAdapter {
      */
     public SOSAdapter(final String serviceVersion, final HttpClient httpclient) {
         this(serviceVersion, (ISOSRequestBuilder) null);
-        setHttpClient(httpclient); // override simple client
+        httpClient = httpclient; // override simple client
     }
 
     /**
@@ -184,11 +201,32 @@ public class SOSAdapter implements IServiceAdapter {
         paramContainer.addParameterShell("acceptVersions", serviceVersion);
         paramContainer.addParameterShell("service", "SOS");
 
-        final String baseUrlPost = url.toString();
+        final String baseUrlPost = url;
         final String baseUrlGet = baseUrlPost + "?";
         final Operation operation = new Operation("GetCapabilities", baseUrlGet, baseUrlPost);
         return initService(doOperation(operation, paramContainer));
     }
+    
+	/**
+	 * initializes the ServiceDescriptor by requesting the capabilities document of the SOS using the binding specified.
+	 * 
+	 * @param serviceEndpoint
+	 * @param binding
+	 * @return
+	 * @throws OXFException 
+	 * @throws ExceptionReport 
+	 */
+	public ServiceDescriptor initService(final String serviceEndpoint,
+			final Binding binding) throws OXFException, ExceptionReport
+	{
+		final ParameterContainer paramContainer = new ParameterContainer();
+        paramContainer.addParameterShell(GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, serviceVersion);
+        paramContainer.addParameterShell(GET_CAPABILITIES_SERVICE_PARAMETER, "SOS");
+        paramContainer.addParameterShell(BINDING, binding.name());
+        final String baseUrlGet = serviceEndpoint + "?";
+        final Operation operation = new Operation("GetCapabilities", baseUrlGet, serviceEndpoint);
+        return initService(doOperation(operation, paramContainer));
+	}
 
     public ServiceDescriptor initService(final OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
         try {
@@ -259,18 +297,58 @@ public class SOSAdapter implements IServiceAdapter {
 
         final String request = buildRequest(operation, parameters);
 
+        if (operation.getDcps().length == 0) {
+        	throw new IllegalStateException("No DCP links available to send request to.");
+        }
+
+        String uri = null;
+        boolean isHttpGet = false;
+        // try to get binding specific uri
+        if (serviceVersion.equals("2.0.0") && parameters.containsParameterShellWithCommonName(BINDING)) {
+        	final String binding = (String) parameters.getParameterShellWithCommonName(BINDING).getSpecifiedValue();
+        	uriFind:
+        	for (final DCP dcp : operation.getDcps()) {
+        		if (binding.equals(Binding.KVP.name())) {
+        			for (final GetRequestMethod getMethod : dcp.getHTTPGetRequestMethods()) {
+        				for (final Constraint constraint : getMethod.getOwsConstraints()) {
+        					if (isContraintForThisBinding(binding, constraint)) {
+        						uri = getMethod.getOnlineResource().getHref();
+        						isHttpGet = true;
+        						break uriFind;
+        					}
+						}
+					}
+				}
+        		else if (binding.equals(Binding.POX.name()) || binding.equals(Binding.SOAP.name())) {
+        			for (final PostRequestMethod postMethod : dcp.getHTTPPostRequestMethods()) {
+        				for (final Constraint constraint : postMethod.getOwsConstraints()) {
+        					if (isContraintForThisBinding(binding, constraint)) {
+        						uri = postMethod.getOnlineResource().getHref();
+        						break uriFind;
+        					}
+						}
+					}
+        		}
+			}
+        }
+        if (uri == null && operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0) {
+        	uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
+        }
+
+        /*
+         *  TODO implement support for different bindings using other HTTP methods than POST!
+         * Ideas: binding information in parameters and some default values resulting in the same 
+         * result like the current implementation
+         */
+
         try {
-            if (operation.getDcps().length == 0) {
-                throw new IllegalStateException("No DCP links available to send request to.");
-            }
-
-            String uri = null;
-            if (operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0) {
-                uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
-            }
-
-            final HttpResponse httpResponse = httpClient.executePost(uri.trim(), request, TEXT_XML);
-            final HttpEntity responseEntity = httpResponse.getEntity();
+        	HttpResponse httpResponse = null;
+        	if (isHttpGet) {
+        		httpResponse = httpClient.executeGet(uri.trim());
+        	} else {
+        		httpResponse = httpClient.executePost(uri.trim(), request, TEXT_XML);
+        	}
+			final HttpEntity responseEntity = httpResponse.getEntity();
             result = new OperationResult(responseEntity.getContent(), parameters, request);
 
             // TODO make us independent from XmlObject
@@ -285,7 +363,7 @@ public class SOSAdapter implements IServiceAdapter {
             try {
                 final XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsStream());
                 if (result_xb.schemaType() == ExceptionReportDocument.type) {
-                    throw parseExceptionReport_100(result);
+                    throw parseOws110ExceptionReport(result);
                 }
             }
             catch (final XmlException e) {
@@ -301,7 +379,35 @@ public class SOSAdapter implements IServiceAdapter {
         }
     }
 
-    private String buildRequest(final Operation operation, final ParameterContainer parameters) throws OXFException {
+	private boolean isContraintForThisBinding(final String binding,
+			final Constraint constraint)
+	{
+		if (constraint.getName().equals("Content-Type")) {
+			for (final String allowedValue : constraint.getAllowedValues()) {
+				if (binding.equalsIgnoreCase(Binding.KVP.name()) &&
+						allowedValue.equalsIgnoreCase("application/x-kvp")){
+					return true;
+				}
+				if (binding.equalsIgnoreCase(Binding.POX.name()) &&
+						( allowedValue.equalsIgnoreCase("application/xml") || 
+						allowedValue.equalsIgnoreCase("text/xml") ) ){
+					return true;
+				}
+				if (binding.equalsIgnoreCase(Binding.SOAP.name()) &&
+						allowedValue.equalsIgnoreCase("application/soap+xml")){
+					return true;
+				}
+				if (binding.equalsIgnoreCase(Binding.JSON.name()) &&
+						allowedValue.equalsIgnoreCase("application/json")){
+					return true;
+				}
+				
+			}
+		}
+		return false;
+	}
+
+	private String buildRequest(final Operation operation, final ParameterContainer parameters) throws OXFException {
         if (operation.getName().equals(GET_CAPABILITIES)) {
             return requestBuilder.buildGetCapabilitiesRequest(parameters);
         }
@@ -315,13 +421,17 @@ public class SOSAdapter implements IServiceAdapter {
             return requestBuilder.buildGetFeatureOfInterestRequest(parameters);
         }
         else if (operation.getName().equals(INSERT_OBSERVATION)) {
-            return requestBuilder.buildInsertObservation(parameters);
+            return requestBuilder.buildInsertObservationRequest(parameters);
         }
-        else if (operation.getName().equals(REGISTER_SENSOR)) {
-            return requestBuilder.buildRegisterSensor(parameters);
+        else if (operation.getName().equals(REGISTER_SENSOR) ||
+        		operation.getName().equals(INSERT_SENSOR)) {
+            return requestBuilder.buildRegisterSensorRequest(parameters);
         }
         else if (operation.getName().equals(GET_OBSERVATION_BY_ID)) {
             return requestBuilder.buildGetObservationByIDRequest(parameters);
+        }
+        else if (operation.getName().equals(DELETE_SENSOR)) {
+        	return requestBuilder.buildDeleteSensorRequest(parameters);
         }
         else {
             throw new OXFException(format("Operation '%s' not supported.", operation.getName()));
@@ -366,21 +476,15 @@ public class SOSAdapter implements IServiceAdapter {
         return featureCollection;
     }
 
-    private ExceptionReport createExceptionReportException(final Element exceptionReport, final OperationResult result) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    private ExceptionReport parseExceptionReport_100(final OperationResult result) throws XmlException, IOException {
-
+    private ExceptionReport parseOws110ExceptionReport(final OperationResult result) throws IOException, XmlException {
         final ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsStream());
-        final net.opengis.ows.x11.ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
+        final ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
 
         final String language = xb_execRepDoc.getExceptionReport().getLang();
         final String version = xb_execRepDoc.getExceptionReport().getVersion();
 
         final ExceptionReport oxf_execReport = new ExceptionReport(version, language);
-        for (final net.opengis.ows.x11.ExceptionType xb_exec : xb_exceptions) {
+        for (final ExceptionType xb_exec : xb_exceptions) {
             final String execCode = xb_exec.getExceptionCode();
             final String[] execMsgs = xb_exec.getExceptionTextArray();
             final String locator = xb_exec.getLocator();
@@ -389,9 +493,7 @@ public class SOSAdapter implements IServiceAdapter {
 
             oxf_execReport.addException(owsExec);
         }
-
         return oxf_execReport;
-
     }
 
     /**
@@ -444,4 +546,5 @@ public class SOSAdapter implements IServiceAdapter {
     public String getServiceVersion() {
         return serviceVersion;
     }
+
 }

@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.sos.adapter;
+package org.n52.oxf.sos.adapter.v100;
 
 import java.math.BigInteger;
 import java.util.Collection;
@@ -87,6 +87,7 @@ import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.ows.OwsExceptionCode;
 import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.ows.capabilities.Parameter;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 import org.n52.oxf.valueDomains.time.ITimePeriod;
 import org.n52.oxf.valueDomains.time.ITimePosition;
 import org.n52.oxf.valueDomains.time.TimeFactory;
@@ -129,11 +130,12 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
      * 
      * @return CapabilitiesRequest in xml-Format as String
      */
-    public String buildGetCapabilitiesRequest(ParameterContainer parameters) {
+    @Override
+	public String buildGetCapabilitiesRequest(final ParameterContainer parameters) {
 
-        GetCapabilitiesDocument getCapDoc = GetCapabilitiesDocument.Factory.newInstance();
+        final GetCapabilitiesDocument getCapDoc = GetCapabilitiesDocument.Factory.newInstance();
 
-        GetCapabilities getCap = getCapDoc.addNewGetCapabilities();
+        final GetCapabilities getCap = getCapDoc.addNewGetCapabilities();
 
         //
         // set required elements:
@@ -156,28 +158,28 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
             versionPS = parameters.getParameterShellWithCommonName(Parameter.COMMON_NAME_VERSION);
         }
         if (versionPS != null) {
-            AcceptVersionsType acceptedVersions = getCap.addNewAcceptVersions();
+            final AcceptVersionsType acceptedVersions = getCap.addNewAcceptVersions();
             
             if (versionPS.hasSingleSpecifiedValue()) {
                 acceptedVersions.addVersion((String) versionPS.getSpecifiedValue());
             }
             else {
-                String[] versionArray = versionPS.getSpecifiedTypedValueArray(String[].class);
-                for (String version : versionArray) {
+                final String[] versionArray = versionPS.getSpecifiedTypedValueArray(String[].class);
+                for (final String version : versionArray) {
                     acceptedVersions.addVersion(version);
                 }
             }
         }
 
         // Parameter "sections":
-        ParameterShell sectionParamShell = parameters.getParameterShellWithServiceSidedName(GET_CAPABILITIES_SECTIONS_PARAMETER);
+        final ParameterShell sectionParamShell = parameters.getParameterShellWithServiceSidedName(GET_CAPABILITIES_SECTIONS_PARAMETER);
         if (sectionParamShell != null) {
-            SectionsType sections = getCap.addNewSections();
+            final SectionsType sections = getCap.addNewSections();
 
             if (sectionParamShell.hasMultipleSpecifiedValues()) {
-                String[] selectedSections = sectionParamShell.getSpecifiedTypedValueArray(String[].class);
-                for (int i = 0; i < selectedSections.length; i++) {
-                    sections.addSection(selectedSections[i]);
+                final String[] selectedSections = sectionParamShell.getSpecifiedTypedValueArray(String[].class);
+                for (final String selectedSection : selectedSections) {
+                    sections.addSection(selectedSection);
                 }
             }
             else if (sectionParamShell.hasSingleSpecifiedValue()) {
@@ -217,11 +219,12 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
      * @throws OXFException
      * 
      */
-    public String buildGetObservationRequest(ParameterContainer parameters) throws OXFException {
+    @Override
+	public String buildGetObservationRequest(final ParameterContainer parameters) throws OXFException {
 
-        GetObservationDocument xb_getObsDoc = GetObservationDocument.Factory.newInstance();
+        final GetObservationDocument xb_getObsDoc = GetObservationDocument.Factory.newInstance();
 
-        GetObservation xb_getObs = xb_getObsDoc.addNewGetObservation();
+        final GetObservation xb_getObs = xb_getObsDoc.addNewGetObservation();
 
         //
         // set required elements:
@@ -234,8 +237,8 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 
         xb_getObs.setResponseFormat((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER).getSpecifiedValue());
 
-        ParameterShell observedPropertyPS = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
-        String[] observedProperties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
+        final ParameterShell observedPropertyPS = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
+        final String[] observedProperties = observedPropertyPS.getSpecifiedTypedValueArray(String[].class);
         xb_getObs.setObservedPropertyArray(observedProperties);
         
         //
@@ -247,7 +250,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_EVENT_TIME_PARAMETER) != null) {
             ITime specifiedTime;
 
-            Object timeParamValue = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_EVENT_TIME_PARAMETER).getSpecifiedValue();
+            final Object timeParamValue = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_EVENT_TIME_PARAMETER).getSpecifiedValue();
             if (timeParamValue instanceof ITime) {
                 specifiedTime = (ITime) timeParamValue;
             }
@@ -260,7 +263,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
             }
 
 
-            BinaryTemporalOpType xb_binTempOp = BinaryTemporalOpType.Factory.newInstance();
+            final BinaryTemporalOpType xb_binTempOp = BinaryTemporalOpType.Factory.newInstance();
             xb_binTempOp.addNewPropertyName();
 
             XmlCursor cursor = xb_binTempOp.newCursor();
@@ -271,23 +274,23 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
             String timeType = null;
 
             if (specifiedTime instanceof ITimePeriod) {
-                ITimePeriod oc_timePeriod = (ITimePeriod) specifiedTime;
-                TimePeriodType xb_timePeriod = TimePeriodType.Factory.newInstance();
+                final ITimePeriod oc_timePeriod = (ITimePeriod) specifiedTime;
+                final TimePeriodType xb_timePeriod = TimePeriodType.Factory.newInstance();
 
-                TimePositionType xb_beginPosition = xb_timePeriod.addNewBeginPosition();
+                final TimePositionType xb_beginPosition = xb_timePeriod.addNewBeginPosition();
                 xb_beginPosition.setStringValue(oc_timePeriod.getStart().toISO8601Format());
 
-                TimePositionType xb_endPosition = xb_timePeriod.addNewEndPosition();
+                final TimePositionType xb_endPosition = xb_timePeriod.addNewEndPosition();
                 xb_endPosition.setStringValue(oc_timePeriod.getEnd().toISO8601Format());
                 
                 xb_binTempOp.setTimeObject(xb_timePeriod);
                 timeType = "TimePeriod";
             }
             else if (specifiedTime instanceof ITimePosition) {
-                ITimePosition oc_timePosition = (ITimePosition) specifiedTime;
-                TimeInstantType xb_timeInstant = TimeInstantType.Factory.newInstance();
+                final ITimePosition oc_timePosition = (ITimePosition) specifiedTime;
+                final TimeInstantType xb_timeInstant = TimeInstantType.Factory.newInstance();
 
-                TimePositionType xb_timePosition = TimePositionType.Factory.newInstance();
+                final TimePositionType xb_timePosition = TimePositionType.Factory.newInstance();
                 xb_timePosition.setStringValue(oc_timePosition.toISO8601Format());
 
                 xb_timeInstant.setTimePosition(xb_timePosition);
@@ -296,7 +299,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
                 timeType = "TimePosition";
             }
 
-            EventTime eventTime = xb_getObs.addNewEventTime();
+            final EventTime eventTime = xb_getObs.addNewEventTime();
             eventTime.setTemporalOps(xb_binTempOp);
             
             // rename elements:
@@ -313,18 +316,18 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         }
 
         if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_PROCEDURE_PARAMETER) != null) {
-            Object[] procedures = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_PROCEDURE_PARAMETER).getSpecifiedValueArray();
+            final Object[] procedures = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_PROCEDURE_PARAMETER).getSpecifiedTypedValueArray(Object[].class);
             xb_getObs.setProcedureArray(objectArrayToStringArray(procedures));
         }
 
         if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER) != null) {
-            ParameterShell foiParamShell = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER);
+            final ParameterShell foiParamShell = parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER);
             if (foiParamShell.hasMultipleSpecifiedValues()) {
-                Object[] fois = foiParamShell.getSpecifiedValueArray();
+                final Object[] fois = foiParamShell.getSpecifiedTypedValueArray(Object[].class);
                 xb_getObs.addNewFeatureOfInterest().setObjectIDArray(objectArrayToStringArray(fois));
             }
             else {
-                Object foi = foiParamShell.getSpecifiedValue();
+                final Object foi = foiParamShell.getSpecifiedValue();
                 xb_getObs.addNewFeatureOfInterest().setObjectIDArray(new String[] { (String) foi });
             }
             // TODO Spec-Too-Flexible-Problem: it is also possible that the FeatureOfInterest is specified as
@@ -332,15 +335,15 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         }
 
         if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESULT_PARAMETER) != null) {
-            String filter = (String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESULT_PARAMETER).getSpecifiedValue();
+            final String filter = (String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESULT_PARAMETER).getSpecifiedValue();
 
-            Result resultFilter = xb_getObs.addNewResult();
+            final Result resultFilter = xb_getObs.addNewResult();
 
             try {
-                XmlObject xobj = XmlObject.Factory.parse(filter);
+                final XmlObject xobj = XmlObject.Factory.parse(filter);
                 resultFilter.set(xobj);
             }
-            catch (XmlException e) {
+            catch (final XmlException e) {
                 throw new OXFException(e);
             }
         }
@@ -351,7 +354,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         }
 
         if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESPONSE_MODE_PARAMETER) != null) {
-            ResponseModeType.Enum responseModeEnum = ResponseModeType.Enum.forString((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESPONSE_MODE_PARAMETER).getSpecifiedValue());
+            final ResponseModeType.Enum responseModeEnum = ResponseModeType.Enum.forString((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESPONSE_MODE_PARAMETER).getSpecifiedValue());
             xb_getObs.setResponseMode(responseModeEnum);
         }
 
@@ -380,11 +383,12 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
      * @throws OXFException
      * 
      */
-    public String buildGetObservationByIDRequest(ParameterContainer parameters)
+    @Override
+	public String buildGetObservationByIDRequest(final ParameterContainer parameters)
     throws OXFException {
-    	GetObservationByIdDocument xb_getObsDoc = GetObservationByIdDocument.Factory.newInstance();
+    	final GetObservationByIdDocument xb_getObsDoc = GetObservationByIdDocument.Factory.newInstance();
 
-    	GetObservationById xb_getObs = xb_getObsDoc.addNewGetObservationById();
+    	final GetObservationById xb_getObs = xb_getObsDoc.addNewGetObservationById();
 
 
 //  	set required elements:
@@ -401,7 +405,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 //  	set optional elements:
 
     	if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER) != null) {
-    		ResponseModeType.Enum responseModeEnum = ResponseModeType.Enum.forString((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER).getSpecifiedValue());
+    		final ResponseModeType.Enum responseModeEnum = ResponseModeType.Enum.forString((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER).getSpecifiedValue());
     		xb_getObs.setResponseMode(responseModeEnum);
     	}
 //  	TODO ResultModel?
@@ -429,11 +433,12 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
      * 
      * @return DescribeSensorRequest in XML-Format as String
      */
-    public String buildDescribeSensorRequest(ParameterContainer parameters) {
+    @Override
+	public String buildDescribeSensorRequest(final ParameterContainer parameters) {
 
-        DescribeSensorDocument descSensorDoc = DescribeSensorDocument.Factory.newInstance();
+        final DescribeSensorDocument descSensorDoc = DescribeSensorDocument.Factory.newInstance();
 
-        DescribeSensor descSensor = descSensorDoc.addNewDescribeSensor();
+        final DescribeSensor descSensor = descSensorDoc.addNewDescribeSensor();
 
         // set required elements:
 
@@ -454,29 +459,30 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         return descSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
-    public String buildGetFeatureOfInterestRequest(ParameterContainer parameters) {
+    @Override
+	public String buildGetFeatureOfInterestRequest(final ParameterContainer parameters) {
 
-        GetFeatureOfInterestDocument getFoIDoc = GetFeatureOfInterestDocument.Factory.newInstance();
+        final GetFeatureOfInterestDocument getFoIDoc = GetFeatureOfInterestDocument.Factory.newInstance();
 
-        GetFeatureOfInterest getFoI = getFoIDoc.addNewGetFeatureOfInterest();
+        final GetFeatureOfInterest getFoI = getFoIDoc.addNewGetFeatureOfInterest();
 
         // set required elements:
 
         getFoI.setService((String) parameters.getParameterShellWithServiceSidedName(GET_FOI_SERVICE_PARAMETER).getSpecifiedValue());
 
-        ParameterShell versionPS = parameters.getParameterShellWithServiceSidedName(GET_FOI_VERSION_PARAMETER);
+        final ParameterShell versionPS = parameters.getParameterShellWithServiceSidedName(GET_FOI_VERSION_PARAMETER);
         getFoI.setVersion((String) versionPS.getSpecifiedValue());
         
         // set optional elements:
 
         if (parameters.getParameterShellWithServiceSidedName(GET_FOI_ID_PARAMETER) != null) {
-            ParameterShell foiIDParamShell = parameters.getParameterShellWithServiceSidedName(GET_FOI_ID_PARAMETER);
+            final ParameterShell foiIDParamShell = parameters.getParameterShellWithServiceSidedName(GET_FOI_ID_PARAMETER);
             if (foiIDParamShell.hasSingleSpecifiedValue()) {
-                String foiIDParamValue = (String) foiIDParamShell.getSpecifiedValue();
+                final String foiIDParamValue = (String) foiIDParamShell.getSpecifiedValue();
                 getFoI.setFeatureOfInterestIdArray(new String[] {foiIDParamValue});
             }
             else {
-                String[] foiIDParamValue = foiIDParamShell.getSpecifiedTypedValueArray(String[].class);
+                final String[] foiIDParamValue = foiIDParamShell.getSpecifiedTypedValueArray(String[].class);
                 getFoI.setFeatureOfInterestIdArray(foiIDParamValue);
             }
         }
@@ -493,9 +499,10 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         return getFoIDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
     
-    public String buildInsertObservation(ParameterContainer parameters) throws OXFException {
-    	InsertObservationDocument insObDoc = InsertObservationDocument.Factory.newInstance();
-    	InsertObservation insert = insObDoc.addNewInsertObservation();
+    @Override
+	public String buildInsertObservationRequest(final ParameterContainer parameters) throws OXFException {
+    	final InsertObservationDocument insObDoc = InsertObservationDocument.Factory.newInstance();
+    	final InsertObservation insert = insObDoc.addNewInsertObservation();
     	addOperationMetadata(insert,parameters);
     	addAssignedSensorId(insert,parameters);
     	addObservation(insert,parameters);    	
@@ -507,10 +514,11 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     	return insObDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
-	public String buildRegisterSensor(ParameterContainer parameters) throws OXFException{
+	@Override
+	public String buildRegisterSensorRequest(final ParameterContainer parameters) throws OXFException{
 		
-		RegisterSensorDocument regSensorDoc = RegisterSensorDocument.Factory.newInstance();
-		RegisterSensor regSensor = regSensorDoc.addNewRegisterSensor();
+		final RegisterSensorDocument regSensorDoc = RegisterSensorDocument.Factory.newInstance();
+		final RegisterSensor regSensor = regSensorDoc.addNewRegisterSensor();
 		addOperationMetadata(regSensor, parameters);
 		addSensorDescription(regSensor,parameters);
 		addObservationTemplate(regSensor,parameters);
@@ -526,13 +534,13 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
      * 	om:featureOfInterest<br />
      * 	om:result<br />
 	 */
-	private void addObservation(InsertObservation insert,
-			ParameterContainer parameters) {
+	private void addObservation(final InsertObservation insert,
+			final ParameterContainer parameters) {
 		ObservationType obsType = insert.addNewObservation();
     	String observationType = INSERT_OBSERVATION_TYPE_MEASUREMENT;
     	try {
     		observationType = (String)parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_TYPE).getSpecifiedValue();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			// ignoring -> value not defined -> using default
 		}
     	// TODO add more observation types
@@ -608,10 +616,10 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 	/**
 	 * om:result
 	 */
-	private void addResult(ObservationType obsType,
-			ParameterContainer parameters,
-			String observationType) {
-    	XmlObject result = obsType.addNewResult();
+	private void addResult(final ObservationType obsType,
+			final ParameterContainer parameters,
+			final String observationType) {
+    	final XmlObject result = obsType.addNewResult();
     	
     	/*
     	 * if observation is a CategoryObservation 
@@ -619,34 +627,34 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     	 */
     	// TODO Check if this is working with validating SOS?
     	if(observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TEXT)){
-    		String value = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
-    		String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
-    		String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
-         	String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
+    		final String value = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
+    		final String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
+    		final String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
+         	final String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
     		
-        	DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
-        	DataArrayType arrayType = doc.addNewDataArray1();
-        	ElementCount ec = arrayType.addNewElementCount();
-        	ec.addNewCount().setValue(new BigInteger("1"));
-        	DataComponentPropertyType et = arrayType.addNewElementType();
+        	final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
+        	final DataArrayType arrayType = doc.addNewDataArray1();
+        	final ElementCount ec = arrayType.addNewElementCount();
+        	ec.addNewCount().setValue(BigInteger.ONE);
+        	final DataComponentPropertyType et = arrayType.addNewElementType();
         	et.setName("Components");
-        	AbstractDataRecordType adr = et.addNewAbstractDataRecord();
-        	DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
-        	DataComponentPropertyType textField1 = drt.addNewField();
+        	final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
+        	final DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
+        	final DataComponentPropertyType textField1 = drt.addNewField();
         	textField1.setName("Time");
         	textField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
-        	DataComponentPropertyType textField2 = drt.addNewField();
+        	final DataComponentPropertyType textField2 = drt.addNewField();
         	textField2.setName("feature");
         	textField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
-        	DataComponentPropertyType textField3 = drt.addNewField();
+        	final DataComponentPropertyType textField3 = drt.addNewField();
         	textField3.setName("resultValue");
         	textField3.addNewText().setDefinition(obsPropId);
-        	TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
+        	final TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
         	block.setDecimalSeparator(".");
         	block.setTokenSeparator(",");
         	block.setBlockSeparator(";");
         	
-        	XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
+        	final XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
         	dataArrayCursor.toChild("values");
         	dataArrayCursor.toNextToken();
         	dataArrayCursor.insertChars(time + "," + foi + "," + value);
@@ -654,12 +662,12 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         	
         	result.set(doc);
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)) {
-    		MeasureType mt = MeasureType.Factory.newInstance();
+    		final MeasureType mt = MeasureType.Factory.newInstance();
         	
-        	ParameterShell ps = parameters.getParameterShellWithCommonName(
+        	final ParameterShell ps = parameters.getParameterShellWithCommonName(
         			INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE);
         	if (ps != null) {
-        		 String uomCode = ps.getSpecifiedValue().toString();
+        		 final String uomCode = ps.getSpecifiedValue().toString();
         		 mt.setUom(uomCode);
         	}
     		mt.setStringValue((String) 
@@ -668,34 +676,34 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         					getSpecifiedValue());
         	result.set(mt);        	
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
-    		int value = (int) Double.parseDouble((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue());
-    		String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
-    		String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
-         	String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
+    		final int value = (int) Double.parseDouble((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue());
+    		final String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
+    		final String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
+         	final String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
     		
-        	DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
-        	DataArrayType arrayType = doc.addNewDataArray1();
-        	ElementCount ec = arrayType.addNewElementCount();
-        	ec.addNewCount().setValue(new BigInteger("1"));
-        	DataComponentPropertyType et = arrayType.addNewElementType();
+        	final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
+        	final DataArrayType arrayType = doc.addNewDataArray1();
+        	final ElementCount ec = arrayType.addNewElementCount();
+        	ec.addNewCount().setValue(BigInteger.ONE);
+        	final DataComponentPropertyType et = arrayType.addNewElementType();
         	et.setName("Components");
-        	AbstractDataRecordType adr = et.addNewAbstractDataRecord();
-        	DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
-        	DataComponentPropertyType countField1 = drt.addNewField();
+        	final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
+        	final DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
+        	final DataComponentPropertyType countField1 = drt.addNewField();
         	countField1.setName("Time");
         	countField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
-        	DataComponentPropertyType countField2 = drt.addNewField();
+        	final DataComponentPropertyType countField2 = drt.addNewField();
         	countField2.setName("feature");
         	countField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
-        	DataComponentPropertyType countField3 = drt.addNewField();
+        	final DataComponentPropertyType countField3 = drt.addNewField();
         	countField3.setName("resultValue");
         	countField3.addNewCount().setDefinition(obsPropId);
-        	TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
+        	final TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
         	block.setDecimalSeparator(".");
         	block.setTokenSeparator(",");
         	block.setBlockSeparator(";");
         	
-        	XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
+        	final XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
         	dataArrayCursor.toChild("values");
         	dataArrayCursor.toNextToken();
         	dataArrayCursor.insertChars(time + "," + foi + "," + value);
@@ -703,34 +711,34 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         	
         	result.set(doc);
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TRUTH)) {
-    		String value = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
-    		String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
-    		String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
-         	String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
+    		final String value = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
+    		final String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
+    		final String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
+         	final String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
     		
-        	DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
-        	DataArrayType arrayType = doc.addNewDataArray1();
-        	ElementCount ec = arrayType.addNewElementCount();
-        	ec.addNewCount().setValue(new BigInteger("1"));
-        	DataComponentPropertyType et = arrayType.addNewElementType();
+        	final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
+        	final DataArrayType arrayType = doc.addNewDataArray1();
+        	final ElementCount ec = arrayType.addNewElementCount();
+        	ec.addNewCount().setValue(BigInteger.ONE);
+        	final DataComponentPropertyType et = arrayType.addNewElementType();
         	et.setName("Components");
-        	AbstractDataRecordType adr = et.addNewAbstractDataRecord();
-        	DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
-        	DataComponentPropertyType booleanField1 = drt.addNewField();
+        	final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
+        	final DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
+        	final DataComponentPropertyType booleanField1 = drt.addNewField();
         	booleanField1.setName("Time");
         	booleanField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
-        	DataComponentPropertyType booleanField2 = drt.addNewField();
+        	final DataComponentPropertyType booleanField2 = drt.addNewField();
         	booleanField2.setName("feature");
         	booleanField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
-        	DataComponentPropertyType booleanField3 = drt.addNewField();
+        	final DataComponentPropertyType booleanField3 = drt.addNewField();
         	booleanField3.setName("resultValue");
         	booleanField3.addNewBoolean().setDefinition(obsPropId);
-        	TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
+        	final TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
         	block.setDecimalSeparator(".");
         	block.setTokenSeparator(",");
         	block.setBlockSeparator(";");
         	
-        	XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
+        	final XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
         	dataArrayCursor.toChild("values");
         	dataArrayCursor.toNextToken();
         	dataArrayCursor.insertChars(time + "," + foi + "," + value);
@@ -738,41 +746,46 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
         	
         	result.set(doc);
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TEMPORAL)) {
-    		TemporalObservationType tt = TemporalObservationType.Factory.newInstance();
-    		System.out.println("NOT YET IMPLEMENTED!");
+    		final TemporalObservationType tt = TemporalObservationType.Factory.newInstance();
+    		logTypeNotImplemented(tt.getClass());
     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_GEOMETRY)) {
-    		GeometryObservationType gt = GeometryObservationType.Factory.newInstance();
-    		System.out.println("NOT YET IMPLEMENTED!");
+    		final GeometryObservationType gt = GeometryObservationType.Factory.newInstance();
+    		logTypeNotImplemented(gt.getClass());
      	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_COMPLEX)) {
-     		ComplexObservationType ct = ComplexObservationType.Factory.newInstance();
-     		
+     		final ComplexObservationType ct = ComplexObservationType.Factory.newInstance();
+     		logTypeNotImplemented(ct.getClass());
      	}
+	}
+
+	private void logTypeNotImplemented(final Class<?> clazz)
+	{
+		LOGGER.info("Support for type '{}' NOT YET IMPLEMENTED",clazz.getName());
 	}
 
 	/**
 	 * Feature of Interest
 	 */
-	private void addFeatureOfInterest(ObservationType obsType,
-			ParameterContainer parameters) {
-    	FeaturePropertyType featureProp = obsType.addNewFeatureOfInterest();
-    	SamplingPointDocument sampPointDoc = 
+	private void addFeatureOfInterest(final ObservationType obsType,
+			final ParameterContainer parameters) {
+    	final FeaturePropertyType featureProp = obsType.addNewFeatureOfInterest();
+    	final SamplingPointDocument sampPointDoc = 
     			SamplingPointDocument.Factory.newInstance();
-    	SamplingPointType sampPoint = sampPointDoc.addNewSamplingPoint();
+    	final SamplingPointType sampPoint = sampPointDoc.addNewSamplingPoint();
     	sampPoint.setId((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue());
     	//Code for new Features
-    	ParameterShell nameObj =  parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_NEW_FOI_NAME);
+    	final ParameterShell nameObj =  parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_NEW_FOI_NAME);
     	if(nameObj !=null){
-    		String name = (String) nameObj.getSpecifiedValue();
+    		final String name = (String) nameObj.getSpecifiedValue();
     		sampPoint.addNewName().setStringValue(name);
     		
-    		String desc = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_NEW_FOI_DESC).getSpecifiedValue();
+    		final String desc = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_NEW_FOI_DESC).getSpecifiedValue();
     		sampPoint.addNewDescription().setStringValue(desc);
     		
     		sampPoint.addNewSampledFeature();
     		
-    		PointType type = sampPoint.addNewPosition().addNewPoint();
+    		final PointType type = sampPoint.addNewPosition().addNewPoint();
     		type.addNewPos().setStringValue((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_NEW_FOI_POSITION).getSpecifiedValue());
-    		String srsName = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_POSITION_SRS).getSpecifiedValue();
+    		final String srsName = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_POSITION_SRS).getSpecifiedValue();
     		if (srsName != null) {
     			type.setSrsName(srsName);
     		} else { //default is epsg:4326 (= WGS84)
@@ -786,9 +799,9 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 	/**
 	 * Observed Property
 	 */
-	private void addObservedProperty(ObservationType obsType,
-			ParameterContainer parameters) {
-    	PhenomenonPropertyType phenProp = obsType.addNewObservedProperty();
+	private void addObservedProperty(final ObservationType obsType,
+			final ParameterContainer parameters) {
+    	final PhenomenonPropertyType phenProp = obsType.addNewObservedProperty();
     	phenProp.setHref((String) parameters.
     			getParameterShellWithCommonName(
     					INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).
@@ -798,9 +811,9 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 	/**
 	 * Procedure/Sensor
 	 */
-	private void addProcedure(ObservationType obsType,
-			ParameterContainer parameters) {
-    	ProcessPropertyType procedure = obsType.addNewProcedure();
+	private void addProcedure(final ObservationType obsType,
+			final ParameterContainer parameters) {
+    	final ProcessPropertyType procedure = obsType.addNewProcedure();
     	procedure.setHref((String) parameters.
     			getParameterShellWithCommonName(
     					INSERT_OBSERVATION_PROCEDURE_PARAMETER).
@@ -810,20 +823,20 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 	/**
 	 * om:samplingTime
 	 */
-	private void addSamplingTime(ObservationType obsType,
-			ParameterContainer parameters) {
-    	TimeObjectPropertyType timeProp = obsType.addNewSamplingTime();
-    	AbstractTimeObjectType atot = timeProp.addNewTimeObject();
-    	TimeInstantType timeInstant = 
+	private void addSamplingTime(final ObservationType obsType,
+			final ParameterContainer parameters) {
+    	final TimeObjectPropertyType timeProp = obsType.addNewSamplingTime();
+    	final AbstractTimeObjectType atot = timeProp.addNewTimeObject();
+    	final TimeInstantType timeInstant = 
     			(TimeInstantType) atot.
     			substitute(XMLConstants.QNAME_GML_TIMEINSTANT,
     					TimeInstantType.type);
-    	TimePositionType timePos = timeInstant.addNewTimePosition();
-    	String timeParamValue = (String)parameters.
+    	final TimePositionType timePos = timeInstant.addNewTimePosition();
+    	final String timeParamValue = (String)parameters.
     			getParameterShellWithCommonName(
     					INSERT_OBSERVATION_SAMPLING_TIME).
     					getSpecifiedValue();
-    	ITimePosition timePosition = (ITimePosition)TimeFactory.createTime(timeParamValue);
+    	final ITimePosition timePosition = (ITimePosition)TimeFactory.createTime(timeParamValue);
     	timePos.setStringValue(timePosition.toISO8601Format());
     	timeInstant.setId("t_"+timeInstant.hashCode());
 	}
@@ -831,19 +844,19 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 	/**
 	 * sos:AssignedSensorId
 	 */
-	private void addAssignedSensorId(InsertObservation insert,
-			ParameterContainer parameters) {
+	private void addAssignedSensorId(final InsertObservation insert,
+			final ParameterContainer parameters) {
     	insert.setAssignedSensorId((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_PROCEDURE_PARAMETER).getSpecifiedValue());
 	}
 
 	/**
 	 * Operation Metadata: Service type and version
 	 */
-	private void addOperationMetadata(InsertObservation insert,
-			ParameterContainer parameters) {
-		String version =(String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VERSION_PARAMETER).getSpecifiedValue();
+	private void addOperationMetadata(final InsertObservation insert,
+			final ParameterContainer parameters) {
+		final String version =(String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VERSION_PARAMETER).getSpecifiedValue();
     	insert.setVersion(version);
-    	String service =(String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SERVICE_PARAMETER).getSpecifiedValue();
+    	final String service =(String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SERVICE_PARAMETER).getSpecifiedValue();
     	insert.setService(service);
 	}
 
@@ -852,7 +865,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 	 * Throws OXFException at the first error that is found
 	 * @throws OXFException in the case of not valid request
 	 */
-	private void doLaxRequestValidation(XmlObject xmlDoc) throws OXFException {
+	private void doLaxRequestValidation(final XmlObject xmlDoc) throws OXFException {
 		XMLBeansParser.registerLaxValidationCase(GMLAbstractFeatureCase.getInstance());
 		XMLBeansParser.registerLaxValidationCase(SASamplingPointCase.getInstance());
 		
@@ -863,11 +876,11 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 		/*
 		 * get errors. if empty, do not throw exception
 		 */
-		Collection<XmlError> exs = XMLBeansParser.validate(xmlDoc);
+		final Collection<XmlError> exs = XMLBeansParser.validate(xmlDoc);
 
 		String message = null;
 		String parameterName = null;
-		for (XmlError error : exs) {
+		for (final XmlError error : exs) {
 			// ExceptionCode for Exception
 			OwsExceptionCode exCode = null;
 
@@ -885,7 +898,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 					exCode = OwsExceptionCode.InvalidParameterValue;
 
 					// split message string to get attribute name
-					String[] messAndAttribute = message
+					final String[] messAndAttribute = message
 							.split("attribute '");
 					if (messAndAttribute.length == 2) {
 						parameterName = messAndAttribute[1]
@@ -898,7 +911,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 					exCode = OwsExceptionCode.InvalidParameterValue;
 
 					// get attribute name
-					String[] messAndAttribute = message.split(" ");
+					final String[] messAndAttribute = message.split(" ");
 					parameterName = messAndAttribute[10];
 				}
 
@@ -908,10 +921,10 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 					exCode = OwsExceptionCode.MissingParameterValue;
 
 					// get attribute name
-					String[] messAndAttribute = message
+					final String[] messAndAttribute = message
 							.split("attribute: ");
 					if (messAndAttribute.length == 2) {
-						String[] attrAndRest = messAndAttribute[1]
+						final String[] attrAndRest = messAndAttribute[1]
 								.split(" in");
 						if (attrAndRest.length == 2) {
 							parameterName = attrAndRest[0];
@@ -925,9 +938,9 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 					exCode = OwsExceptionCode.MissingParameterValue;
 
 					// get element name
-					String[] messAndElements = message.split(" '");
+					final String[] messAndElements = message.split(" '");
 					if (messAndElements.length >= 2) {
-						String elements = messAndElements[1];
+						final String elements = messAndElements[1];
 						if (elements.contains("offering")) {
 							parameterName = "offering";
 						} else if (elements.contains("observedProperty")) {
@@ -938,9 +951,8 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 							parameterName = "procedure";
 						} else if (elements.contains("featureOfInterest")) {
 							parameterName = "featureOfInterest";
-						} else {
-							// TODO check if other elements are invalid
-						}
+						} 
+						// TODO check if other elements are invalid
 					}
 				}
 				// invalidParameterValue
@@ -948,9 +960,9 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 					exCode = OwsExceptionCode.InvalidParameterValue;
 
 					// get element name
-					String[] messAndElements = message.split(" '");
+					final String[] messAndElements = message.split(" '");
 					if (messAndElements.length >= 2) {
-						String elements = messAndElements[1];
+						final String elements = messAndElements[1];
 						if (elements.contains("offering")) {
 							parameterName = "offering";
 						} else if (elements.contains("observedProperty")) {
@@ -961,19 +973,18 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 							parameterName = "procedure";
 						} else if (elements.contains("featureOfInterest")) {
 							parameterName = "featureOfInterest";
-						} else {
-							// TODO check if other elements are invalid
 						}
+						// TODO check if other elements are invalid
 					}
 				} else {
 					// create simple OXFExcpetion exception
-					String msg = String.format("Error in XMLBeans request validation: %s",
+					final String msg = String.format("Error in XMLBeans request validation: %s",
 							message);
 					throw new OXFException(msg);
 				}
 
 				// create OXFException with more information exception
-				String msg = String.format("Error in XMLBeans request validation. Causing error: %s. Element name: %s. Message: %s",
+				final String msg = String.format("Error in XMLBeans request validation. Causing error: %s. Element name: %s. Message: %s",
 						exCode,
 						parameterName,
 						message);
@@ -982,49 +993,57 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 		}
 	}
 
-	private void addObservationTemplate(RegisterSensor regSensor,
-			ParameterContainer parameters) throws OXFException {
+	private void addObservationTemplate(final RegisterSensor regSensor,
+			final ParameterContainer parameters) throws OXFException {
 		
 		ObservationTemplate obsTemp = ObservationTemplate.Factory.newInstance();
 		// TODO add method "addParameterShell(String, XmlObject)" to ParameterContainer
 		try {
 			obsTemp = regSensor.addNewObservationTemplate();
-			ObservationType obsType = ObservationType.Factory.parse((String)parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVATION_TEMPLATE).getSpecifiedValue());
+			final ObservationType obsType = ObservationType.Factory.parse((String)parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVATION_TEMPLATE).getSpecifiedValue());
 			obsTemp.set(obsType);
-		} catch (XmlException e) {
-			throw new OXFException("Could not parse observation type from paramter shell.");
+		} catch (final XmlException e) {
+			throw new OXFException("Could not parse observation type from paramter shell.",e);
 		}
 		
 		regSensor.setObservationTemplate(obsTemp);
 	}
 
-	private void addSensorDescription(RegisterSensor regSensor,
-			ParameterContainer parameters) throws OXFException {
-    	SensorDescription sensorDesc = regSensor.addNewSensorDescription();
+	private void addSensorDescription(final RegisterSensor regSensor,
+			final ParameterContainer parameters) throws OXFException {
+    	final SensorDescription sensorDesc = regSensor.addNewSensorDescription();
 
     	SensorMLDocument sensorDescripiton = null;
     	
 		try {
 			sensorDescripiton = SensorMLDocument.Factory.parse((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_ML_DOC_PARAMETER).getSpecifiedValue());
-		} catch (XmlException e) {
+		} catch (final XmlException e) {
 			LOGGER.error(String.format("Exception thrown: %s", e.getMessage()), e);
 		}
  
     	sensorDesc.set(sensorDescripiton);
 	}
 
-	private void addOperationMetadata(RegisterSensor regSensor,
-			ParameterContainer parameters) {
+	private void addOperationMetadata(final RegisterSensor regSensor,
+			final ParameterContainer parameters) {
 		regSensor.setVersion((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
     	regSensor.setService((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
 	}
 	
-	private String[] objectArrayToStringArray(Object[] objectArray) {
-		String[] stringArray = new String[objectArray.length];
+	private String[] objectArrayToStringArray(final Object[] objectArray) {
+		final String[] stringArray = new String[objectArray.length];
 		for (int i = 0; i < objectArray.length; i++) {
 			stringArray[i] = (String) objectArray[i];
 		}
 		return stringArray;
+	}
+
+	@Override
+	public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException
+	{
+		final OXFException e = new OXFException("Operation DeleteSensor not supported by SOS 1.0.0");
+		LOGGER.error("NOT SUPPORTED:",e);
+		throw e;
 	}
     
 }

@@ -7,7 +7,7 @@
 		<version>2.0.0-alpha.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>52n-oxf-sml-v101</artifactId>
-	<name>52North OX-Framework SML</name>
+	<name>52North OxFramework SensorML</name>
 	<description>Provides SensorML functionality.</description>
 	<packaging>jar</packaging>
 	<dependencies>

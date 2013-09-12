@@ -27,12 +27,13 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.ows.capabilities.Parameter;
-import org.n52.oxf.sos.adapter.wrapper.SOSWrapper;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 import org.n52.oxf.valueDomains.StringValueDomain;
 
 /**
@@ -44,9 +45,9 @@ import org.n52.oxf.valueDomains.StringValueDomain;
 public class GetObservationParameterBuilder_v100 {
 	
 	private final Map<String, Object> parameters = new HashMap<String, Object>();
-	private final ArrayList<String> eventTimeList = new ArrayList<String>();
-	private final ArrayList<String> procedureList = new ArrayList<String>();
-	private final ArrayList<String> observedPropertyList = new ArrayList<String>();
+	private final List<String> eventTimeList = new ArrayList<String>();
+	private final List<String> procedureList = new ArrayList<String>();
+	private final List<String> observedPropertyList = new ArrayList<String>();
 	
 	/**
 	 * Assembles mandatory parameters from method parameter list.
@@ -98,10 +99,10 @@ public class GetObservationParameterBuilder_v100 {
 	 * @return parameter builder
 	 */
 	public GetObservationParameterBuilder_v100 addSrsName(final String srsName) {
-		if (parameters.get(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER) != null) {
-			parameters.remove(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER);
+		if (parameters.get(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER) != null) {
+			parameters.remove(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER);
 		}
-		parameters.put(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER, srsName);
+		parameters.put(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER, srsName);
 		return this;
 	}
 	

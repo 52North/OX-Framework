@@ -24,12 +24,13 @@
 
 package org.n52.oxf.swes.request;
 
-import org.n52.oxf.request.MultimapRequestParameters;
+import org.n52.oxf.request.MultiValueRequestParameters;
+
 
 /**
  * Assembles all parameters needed for a DescribeSensor request. 
  */
-public class DescribeSensorParameters extends MultimapRequestParameters {
+public class DescribeSensorParameters extends MultiValueRequestParameters {
 
     private final String REQUEST_PARAMETER = "request";
     
@@ -46,7 +47,7 @@ public class DescribeSensorParameters extends MultimapRequestParameters {
      * @param procedure
      *        the procedure which sensor description shall requested.
      */
-    public DescribeSensorParameters(String procedure) {
+    public DescribeSensorParameters(final String procedure) {
         this(procedure, OUTPUT_FORMAT_SENSORML);
     }
 
@@ -58,35 +59,15 @@ public class DescribeSensorParameters extends MultimapRequestParameters {
      * @param outputFormat
      *        the output format of the sensor description.
      */
-    public DescribeSensorParameters(String procedure, String outputFormat) {
+    public DescribeSensorParameters(final String procedure, final String outputFormat) {
         addNonEmpty(REQUEST_PARAMETER, "DescribeSensor");
         addNonEmpty(PROCEDURE_PARAMETER, procedure);
         addNonEmpty(OUTPUT_FORMAT_PARAMETER, outputFormat);
     }
 
-    /**
-     * Overrides required Procedure parameter.
-     * 
-     * @param procedureId
-     *        the procedure which sensor description shall requested.
-     */
-    public void setProcedureId(String procedureId) {
-        addNonEmpty(PROCEDURE_PARAMETER, procedureId);
-    }
-
-    /**
-     * Overrides required OutputFormat parameter.
-     * 
-     * @param outputFormat
-     *        the output format of the sensor description.
-     */
-    public void setOutputFormat(String outputFormat) {
-        addNonEmpty(OUTPUT_FORMAT_PARAMETER, outputFormat);
-    }
-
     public boolean isValid() {
-        boolean invalidProcedureValue = isEmptyValue(PROCEDURE_PARAMETER);
-        boolean invalidOutputFormatValue = isEmptyValue(OUTPUT_FORMAT_PARAMETER);
+        final boolean invalidProcedureValue = isEmptyValue(PROCEDURE_PARAMETER);
+        final boolean invalidOutputFormatValue = isEmptyValue(OUTPUT_FORMAT_PARAMETER);
         return ! (invalidProcedureValue || invalidOutputFormatValue);
     }
 

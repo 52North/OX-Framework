@@ -28,8 +28,8 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE;
 
-import org.n52.oxf.sos.request.observation.MeasurementObservationParameters;
-import org.n52.oxf.sos.request.observation.ObservationParametersFactory;
+import org.n52.oxf.sos.observation.MeasurementObservationParameters;
+import org.n52.oxf.sos.observation.ObservationParametersFactory;
 import org.n52.oxf.xml.XMLConstants;
 
 /**

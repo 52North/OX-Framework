@@ -7,7 +7,7 @@
 		<version>2.0.0-alpha.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>oxf-wcs-adapter</artifactId>
-	<name>OxFramework WCS Adapter</name>
+	<name>52North OxFramework WCS Adapter</name>
 	<description>Provides WCS Adapter implementation.</description>
 	<packaging>jar</packaging>
 	<dependencies>

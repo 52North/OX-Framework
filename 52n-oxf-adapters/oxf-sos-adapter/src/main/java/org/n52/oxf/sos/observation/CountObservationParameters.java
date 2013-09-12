@@ -22,28 +22,25 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.sos.request.observation;
+package org.n52.oxf.sos.observation;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_TRUTH;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER;
-import static org.n52.oxf.xml.XMLConstants.QNAME_OM_1_0_TRUTH_OBSERVATION;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 import org.n52.oxf.xml.XMLConstants;
 
 /**
- * Assembles parameters for a Boolean observation.
+ * Assembles parameters for a Count observation.
  */
-public class BooleanObservationParameters extends ObservationParameters {
-    
+public class CountObservationParameters extends ObservationParameters {
+
     /**
-     * Creates truth observations of type {@link XMLConstants#QNAME_OM_1_0_TRUTH_OBSERVATION}. Adds
-     * {@link ISOSRequestBuilder#INSERT_OBSERVATION_TYPE_TRUTH} as its type description to the parameter list.
+     * Creates truth observations of type {@link XMLConstants#QNAME_OM_1_0_COUNT_OBSERVATION}. Adds
+     * {@link ISOSRequestBuilder#INSERT_OBSERVATION_TYPE_COUNT} as its type description to the parameter list.
      */
-    public BooleanObservationParameters() {
-        super(QNAME_OM_1_0_TRUTH_OBSERVATION);
-        addParameterValue(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_TRUTH);
+    public CountObservationParameters() {
+        super(XMLConstants.QNAME_OM_1_0_COUNT_OBSERVATION);
+        addParameterValue(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_COUNT);
     }
 
     /**
@@ -52,11 +49,12 @@ public class BooleanObservationParameters extends ObservationParameters {
      * @param observationValue
      *        the observation value to add.
      */
-    public void addObservationValue(boolean observationValue) {
-        addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, Boolean.toString(observationValue));
+    public void addObservationValue(final int observationValue) {
+        addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, Integer.toString(observationValue));
     }
 
-    public boolean isValid() {
-        return true;
+    @Override
+	public boolean isValid() {
+        return !isEmptyValue(INSERT_OBSERVATION_VALUE_PARAMETER);
     }
 }

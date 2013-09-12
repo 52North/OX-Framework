@@ -51,7 +51,7 @@ package org.n52.oxf.sos.adapter;
 //import org.n52.oxf.sos.adapter.wrapper.builder.GetFeatureOfInterestParameterBuilder_v100;
 //import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationByIdParameterBuilder_v100;
 //import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationParameterBuilder_v100;
-//import org.n52.oxf.sos.adapter.wrapper.builder.InsertObservationParameterBuilder_v100;
+//import org.n52.oxf.sos.adapter.wrapper.builder.InsertObservationParameters;
 //import org.n52.oxf.sos.adapter.wrapper.builder.ObservationBuilder;
 //import org.n52.oxf.sos.util.SosUtil;
 //import org.n52.oxf.xml.XMLConstants;

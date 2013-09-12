@@ -68,14 +68,14 @@ public class Operation {
      */
     private DCP[] dcps;
 
-    public Operation(String name, Parameter[] parameters, String[] constraints, DCP[] dcps) {
+    public Operation(final String name, final Parameter[] parameters, final String[] constraints, final DCP[] dcps) {
         setName(name);
         setParameters(parameters);
         setConstraints(constraints);
         setDcps(dcps);
     }
 
-    public Operation(String name, DCP[] dcps) {
+    public Operation(final String name, final DCP[] dcps) {
         setName(name);
         setDcps(dcps);
     }
@@ -88,10 +88,10 @@ public class Operation {
      * @param name
      * @param dcps
      */
-    public Operation(String name, String httpGetHref, String httpPostHref) {
+    public Operation(final String name, final String httpGetHref, final String httpPostHref) {
         setName(name);
 
-        DCP[] dcp = new DCP[1];
+        final DCP[] dcp = new DCP[1];
         dcp[0] = new DCP(new GetRequestMethod(new OnlineResource(httpGetHref)),
                          new PostRequestMethod(new OnlineResource(httpPostHref)));
 
@@ -106,7 +106,7 @@ public class Operation {
 
         res += "<Parameters>";
         if (parameters != null) {
-            for (Parameter parameter : parameters) {
+            for (final Parameter parameter : parameters) {
                 res += parameter.toXML();
             }
         }
@@ -114,7 +114,7 @@ public class Operation {
 
         res += "<Constraints>";
         if (constraints != null) {
-            for (String c : constraints) {
+            for (final String c : constraints) {
                 res += "<Constraint>";
                 res += c;
                 res += "<Constraint>";
@@ -124,7 +124,7 @@ public class Operation {
 
         res += "<DCPs>";
         if (dcps != null) {
-            for (DCP dcp : dcps) {
+            for (final DCP dcp : dcps) {
                 res += dcp.toXML();
             }
         }
@@ -140,7 +140,7 @@ public class Operation {
     	String params = null;
     	if (parameters != null) {
     		params = "[";
-    		for (Parameter param : parameters) {
+    		for (final Parameter param : parameters) {
                 params += "ServiceSidedName: " 	+ param.getServiceSidedName() 
                 		+ "  CommonName: "		+ param.getCommonName()
                 		+ "  ValueDomain-class: "
@@ -167,7 +167,7 @@ public class Operation {
      * @param constraints
      *        The constraints to set.
      */
-    protected void setConstraints(String[] constraints) {
+    protected void setConstraints(final String[] constraints) {
         this.constraints = constraints;
     }
 
@@ -182,7 +182,7 @@ public class Operation {
      * @param dcps
      *        The dcps to set.
      */
-    protected void setDcps(DCP[] dcps) {
+    protected void setDcps(final DCP[] dcps) {
         this.dcps = dcps;
     }
 
@@ -199,7 +199,7 @@ public class Operation {
      * @exception IllegalArgumentException
      *            if name is empty.
      */
-    protected void setName(String name) throws IllegalArgumentException {
+    protected void setName(final String name) throws IllegalArgumentException {
         if ( !name.equals("")) {
             this.name = name;
         }
@@ -219,11 +219,11 @@ public class Operation {
      * @param parameters
      *        The parameters to set.
      */
-    protected void setParameters(Parameter[] parameters) {
+    protected void setParameters(final Parameter[] parameters) {
         this.parameters = new ArrayList<Parameter>();
 
-        for (int i = 0; i < parameters.length; i++) {
-            this.parameters.add(parameters[i]);
+        for (final Parameter parameter : parameters) {
+            this.parameters.add(parameter);
         }
     }
 
@@ -237,8 +237,8 @@ public class Operation {
         if (parameters == null) {
             throw new NullPointerException();
         }
-        Map<String, Parameter> parameterMap = new HashMap<String, Parameter>();
-        for (Parameter param : parameters) {
+        final Map<String, Parameter> parameterMap = new HashMap<String, Parameter>();
+        for (final Parameter param : parameters) {
             parameterMap.put(param.getServiceSidedName(), param);
         }
         return parameterMap;
@@ -247,8 +247,8 @@ public class Operation {
     /**
      * @return the parameter with the specified serviceSidedName (ignore case!).
      */
-    public Parameter getParameter(String serviceSidedName) {
-        for (Parameter param : parameters) {
+    public Parameter getParameter(final String serviceSidedName) {
+        for (final Parameter param : parameters) {
             if (param.getServiceSidedName().equalsIgnoreCase(serviceSidedName)) {
                 return param;
             }
@@ -263,10 +263,10 @@ public class Operation {
      * @return the DatasetParameter with the specified serviceSidedName (ignore case!) and the specified
      *         datasetID.
      */
-    public DatasetParameter getParameter(String serviceSidedName, String datasetID) {
-        for (Parameter param : parameters) {
+    public DatasetParameter getParameter(final String serviceSidedName, final String datasetID) {
+        for (final Parameter param : parameters) {
             if (param instanceof DatasetParameter) {
-                DatasetParameter datasetParam = (DatasetParameter) param;
+                final DatasetParameter datasetParam = (DatasetParameter) param;
 
                 if (datasetParam.getAssociatedDataset().getIdentifier().equalsIgnoreCase(datasetID)
                         && param.getServiceSidedName().equalsIgnoreCase(serviceSidedName)) {
@@ -281,7 +281,7 @@ public class Operation {
      * 
      * @param param
      */
-    public void addParameter(Parameter param) {
-        this.parameters.add(param);
+    public void addParameter(final Parameter param) {
+        parameters.add(param);
     }
 }

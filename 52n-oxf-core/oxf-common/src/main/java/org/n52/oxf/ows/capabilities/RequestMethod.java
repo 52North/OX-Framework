@@ -24,6 +24,11 @@
 package org.n52.oxf.ows.capabilities;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.n52.oxf.ows.Constraint;
 
 /**
  *  Specifies the type of request of a specific operation. Only HTTP is supported.
@@ -34,32 +39,44 @@ public abstract class RequestMethod {
 	/**
 	 * required
 	 */
-	private OnlineResource or;
+	private OnlineResource onlineResource;
 	
 	/**
 	 * optional
 	 */
     private String[] constraints;
-	
+    
+    private Set<Constraint> owsConstraints;
 	
 	/**
 	 * this constructor has all attributes as its parameters.
-	 * @param or
+	 * @param onlineResource
 	 * @param type
 	 * @param constraints
+	 * @deprecated Use {@link #RequestMethod(OnlineResource, Set)} using type {@link Constraint}.
 	 */
-	public RequestMethod(OnlineResource or, String[] constraints){
-		setOnlineResource(or);
+	@Deprecated
+	public RequestMethod(final OnlineResource onlineResouce, final String[] constraints){
+		setOnlineResource(onlineResouce);
 		setConstraints(constraints);
 	}
 	
 	/**
+	 * @param onlineResource
+	 * @param constraints the constraints that are relevant for this request method.
+	 */
+	public RequestMethod(final OnlineResource onlineResource, final Set<Constraint> constraints) {
+		setOnlineResource(onlineResource);
+		setOwsConstraints(constraints);
+	}
+	
+	/**
 	 * this constructor has all required attributes as its parameters.
-	 * @param or
+	 * @param onlineResource
 	 * @param type
 	 */
-	public RequestMethod(OnlineResource or){
-		setOnlineResource(or);
+	public RequestMethod(final OnlineResource onlineResource){
+		setOnlineResource(onlineResource);
 	}
 	
     /**
@@ -68,37 +85,78 @@ public abstract class RequestMethod {
     public abstract String toXML();
 	
     /**
-     * @return Returns the constraints.
+     * @deprecated Use {@link #getOwsConstraints()} and type {@link Constraint} instead
      */
-    public String[] getConstraints() {
+    @Deprecated
+	public String[] getConstraints() {
         return constraints;
     }
+    
     /**
-     * @param constraints The constraints to set.
+     * @deprecated Use {@link #setOwsConstraints(Set)} and type {@link Constraint} instead.
      */
-    protected void setConstraints(String[] constraints) {
+    @Deprecated
+    protected void setConstraints(final String[] constraints) {
         this.constraints = constraints;
     }
-    /**
-     * 
-     * @return
-     */
+
     public OnlineResource getOnlineResource() {
-        return or;
+        return onlineResource;
     }
-    /**
-     * 
-     * @param url
-     */
-    protected void setOnlineResource(OnlineResource url) {
-        this.or = url;
+    
+    protected void setOnlineResource(final OnlineResource onlineResource) {
+        this.onlineResource = onlineResource;
     }
+    
+    // TODO Eike: add tests for new methods 
+
+	/**
+	 * @return an unmodifiable view of the constraints for this {@link RequestMethod} or an empty {@link Set} if not set.
+	 */
+	public Set<Constraint> getOwsConstraints()
+	{
+		if (owsConstraints == null) {
+			return Collections.emptySet();
+		}
+		return Collections.unmodifiableSet(owsConstraints);
+	}
+
+	/**
+	 * Adds a single constraint to the set of constraints.
+	 * @param constraint
+	 * @return <tt>true</tt>, if the constraint is added. <tt>false</tt>, if adding failed or constraint already contained.
+	 */
+	public boolean addOwsConstraint(final Constraint constraint) {
+		if (constraint == null) {
+			return false;
+		}
+		if (owsConstraints == null) {
+			owsConstraints = new HashSet<Constraint>();
+		}
+		return owsConstraints.add(constraint);
+	}
+	
+	/**
+	 * Replaces the constraints set with the given one if it's not null.
+	 * @param owsConstraints
+	 * @return <tt>true</tt>, if owsConstraints is set, else <tt>false</tt>.
+	 */
+	public boolean setOwsConstraints(final Set<Constraint> owsConstraints)
+	{
+		if (owsConstraints == null) {
+			return false;
+		}
+		this.owsConstraints = owsConstraints;
+		return true;
+	}
 
 	@Override
-	public String toString() {
-		return String.format("RequestMethod [onlineResource=%s, constraints=%s]", 
-				or,
-				Arrays.toString(constraints));
+	public String toString()
+	{
+		return String.format("RequestMethod [onlineResource=%s, constraints=%s, owsConstraints=%s]",
+				onlineResource,
+				Arrays.toString(constraints),
+				owsConstraints);
 	}
-    
+	
 }

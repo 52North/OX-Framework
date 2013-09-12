@@ -10,8 +10,8 @@
 	<artifactId>52n-oxf-conversion</artifactId>
 	<packaging>jar</packaging>
 
-	<name>52°North OXF Conversion module</name>
-	<description>52°North OXF Conversion module</description>
+	<name>52North OxFramework Conversion module</name>
+	<description>52North OxFramework Conversion module</description>
 	<inceptionYear>2012</inceptionYear>
 
 	<build>

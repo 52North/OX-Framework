@@ -24,21 +24,20 @@
 package org.n52.oxf.sps;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.n52.oxf.sps.SpsAdapterFactory.createAdapter;
 
 import org.junit.Test;
 
 public class SpsAdapterFactoryTest {
 
-    @Test(expected = NullPointerException.class) public void 
+    @Test(expected = IllegalArgumentException.class) public void 
     shouldThrowExceptionWhenPassedServiceUrlIsNull() 
     throws Exception {
         createAdapter(null, null);
     }
     
-    @Test(expected = NullPointerException.class) public void 
+    @Test(expected = IllegalArgumentException.class) public void 
     shouldThrowExceptionWhenPassedVersionIsNull() 
     throws Exception {
         createAdapter("http://fake.url", null);
@@ -53,11 +52,11 @@ public class SpsAdapterFactoryTest {
     @Test public void 
     shouldCreateSpsAdapterWithVersion100() 
     {
-        String version = "1.0.0";
+        final String version = "1.0.0";
         try {
-            SpsAdapter adapter = createAdapter("http://fake.url", version);
+            final SpsAdapter adapter = createAdapter("http://fake.url", version);
             assertThat(adapter.isSupporting(version), is(true));
-        } catch (MissingAdapterImplementationException e) {
+        } catch (final MissingAdapterImplementationException e) {
             fail("SpsAdapter with " + version + " could not be created");
         }
     }

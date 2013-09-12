@@ -23,11 +23,13 @@
  */
 package org.n52.oxf.sos.adapter;
 
+import org.n52.oxf.sos.adapter.v100.SOSRequestBuilder_100;
+import org.n52.oxf.sos.adapter.v200.SOSRequestBuilder_200;
 import org.n52.oxf.sos.util.SosUtil;
 
 public class SOSRequestBuilderFactory {
     
-    public static ISOSRequestBuilder generateRequestBuilder(String serviceVersion) {
+    public static ISOSRequestBuilder generateRequestBuilder(final String serviceVersion) {
 
         if (SosUtil.isVersion100(serviceVersion)) {
             return new SOSRequestBuilder_100();
@@ -39,6 +41,7 @@ public class SOSRequestBuilderFactory {
             throw new IllegalArgumentException("Service version '" + serviceVersion + "' not supported.");
         }
     }
-    
+ 
+    private SOSRequestBuilderFactory() {};
     
 }
