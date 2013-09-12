@@ -382,11 +382,26 @@ public class SOSAdapter implements IServiceAdapter {
 	private boolean isContraintForThisBinding(final String binding,
 			final Constraint constraint)
 	{
-		if (constraint.getName().equals("encoding")) {
+		if (constraint.getName().equals("Content-Type")) {
 			for (final String allowedValue : constraint.getAllowedValues()) {
-				if (allowedValue.equalsIgnoreCase(binding)) {
+				if (binding.equalsIgnoreCase(Binding.KVP.name()) &&
+						allowedValue.equalsIgnoreCase("application/x-kvp")){
 					return true;
 				}
+				if (binding.equalsIgnoreCase(Binding.POX.name()) &&
+						( allowedValue.equalsIgnoreCase("application/xml") || 
+						allowedValue.equalsIgnoreCase("text/xml") ) ){
+					return true;
+				}
+				if (binding.equalsIgnoreCase(Binding.SOAP.name()) &&
+						allowedValue.equalsIgnoreCase("application/soap+xml")){
+					return true;
+				}
+				if (binding.equalsIgnoreCase(Binding.JSON.name()) &&
+						allowedValue.equalsIgnoreCase("application/json")){
+					return true;
+				}
+				
 			}
 		}
 		return false;
