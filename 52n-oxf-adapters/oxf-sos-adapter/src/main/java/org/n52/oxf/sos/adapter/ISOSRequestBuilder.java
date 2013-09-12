@@ -52,7 +52,7 @@ public interface ISOSRequestBuilder {
 	String BINDING = "binding";
 	
 	public enum Binding {
-		POX, KVP, SOAP;
+		POX, KVP, SOAP, JSON;
 	}
 
 	String GET_CAPABILITIES_UPDATE_SEQUENCE_PARAMETER = "updateSequence";
