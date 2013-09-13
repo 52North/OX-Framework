@@ -24,8 +24,6 @@
 
 package org.n52.oxf.sos.adapter;
 
-import java.util.Iterator;
-
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
@@ -50,7 +48,12 @@ import org.slf4j.LoggerFactory;
  */
 public class TestSOSAdapter {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestSOSAdapter.class);
+    /**
+	 * 
+	 */
+	private static final String IGNORE_GET_URL = "http://GET_URL_not_used";
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(TestSOSAdapter.class);
 
 	// private final String url = "http://localhost:8080/52nSOSv2_WeatherSA_artifical/sos";
 
@@ -72,7 +75,7 @@ public class TestSOSAdapter {
 	
 	private final String serviceVersion = "1.0.0";
 
-	public static void main(String[] args) throws OXFException, ExceptionReport {
+	public static void main(final String[] args) throws OXFException, ExceptionReport {
 		new TestSOSAdapter().testGetObservation();
 //		    	new TestSOSAdapter().testGetCapabilities();
 //		    	new TestSOSAdapter().testGetFeatureOfInterest();
@@ -82,19 +85,19 @@ public class TestSOSAdapter {
 
 	public void testGetCapabilities() throws ExceptionReport, OXFException {
 
-		SOSAdapter adapter = new SOSAdapter(serviceVersion);
+		final SOSAdapter adapter = new SOSAdapter(serviceVersion);
 
-		ParameterContainer paramCon = new ParameterContainer();
+		final ParameterContainer paramCon = new ParameterContainer();
 		paramCon.addParameterShell(ISOSRequestBuilder.GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, serviceVersion);
 		paramCon.addParameterShell(ISOSRequestBuilder.GET_CAPABILITIES_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
 
-		OperationResult opResult = adapter.doOperation(new Operation("GetCapabilities", url + "?", url), paramCon);
+		final OperationResult opResult = adapter.doOperation(new Operation("GetCapabilities", url + "?", url), paramCon);
 
-		ServiceDescriptor desc = adapter.initService(opResult);
+		final ServiceDescriptor desc = adapter.initService(opResult);
 
 		LOGGER.info(desc.getServiceIdentification().getTitle());
 
-		ObservationOffering obsOff = (ObservationOffering) desc.getContents().getDataIdentification(0);
+		final ObservationOffering obsOff = (ObservationOffering) desc.getContents().getDataIdentification(0);
 
 		LOGGER.info("Offering: " + obsOff.getIdentifier());
 	}
@@ -152,17 +155,17 @@ public class TestSOSAdapter {
 	 */
 	@SuppressWarnings("unused")
 	public void testGetObservation() throws OXFException, ExceptionReport {
-		SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
+		final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
-		Operation op = new Operation("GetObservation", "http://GET_URL_not_used", url);
+		final Operation op = new Operation("GetObservation", TestSOSAdapter.IGNORE_GET_URL, url);
 
 		// put all parameters you want to use into a ParameterContainer:
-		ParameterContainer paramCon = new ParameterContainer();
+		final ParameterContainer paramCon = new ParameterContainer();
 
 		//////// definition of request parameters:
-		String omFormat = "text/xml;subtype=\"om/1.0.0\"";
-		String responseMode = "inline";
-		String resultModel = "MeasurementObservationParameters";
+		final String omFormat = "text/xml;subtype=\"om/1.0.0\"";
+		final String responseMode = "inline";
+		final String resultModel = "MeasurementObservationParameters";
 		
 		/*
 		// example parameters for 'http://fluggs.wupperverband.de/sos/sos'
@@ -174,11 +177,11 @@ public class TestSOSAdapter {
 		*/
 		
 		// example parameters for 'http://v-swe.uni-muenster.de:8080/WeatherSOS/sos'
-		String offering = "HUMIDITY";
-		String observedProperty = "urn:ogc:def:property:OGC::RelativeHumidity";
-		String eventTime = "2011-01-01T00:00:00.000+0200/2011-01-06T14:00:00.000+0200";
-		String procedure = null;
-		String featureOfInterest = null;
+		final String offering = "HUMIDITY";
+		final String observedProperty = "urn:ogc:def:property:OGC::RelativeHumidity";
+		final String eventTime = "2011-01-01T00:00:00.000+0200/2011-01-06T14:00:00.000+0200";
+		final String procedure = null;
+		final String featureOfInterest = null;
 		
 		paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_VERSION_PARAMETER, SosUtil.SUPPORTED_VERSIONS[1]);
@@ -188,35 +191,38 @@ public class TestSOSAdapter {
         
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_OFFERING_PARAMETER, offering);
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
-        if (eventTime != null)
+        if (eventTime != null) {
         	paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER, eventTime);
-        if (procedure != null)
+        }
+        if (procedure != null) {
         	paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER, procedure);
-        if (featureOfInterest != null)
+        }
+        if (featureOfInterest != null) {
         	paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER, featureOfInterest);
+        }
 
 		LOGGER.info("Sent request: " + SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildGetObservationRequest(paramCon));
 
         // now use this ParameterContainer as an input for the 'doOperation' method of your SOSAdapter. What
         // you receive is an OperationResult.
-        OperationResult opResult = sosAdapter.doOperation(op, paramCon);
+        final OperationResult opResult = sosAdapter.doOperation(op, paramCon);
 
         LOGGER.info("Received response: " + new String(opResult.getIncomingResult()));
 
-        IFeatureStore featureStore = new SOSObservationStore();
+        final IFeatureStore featureStore = new SOSObservationStore();
 
-        OXFFeatureCollection oxfFeatureColl = featureStore.unmarshalFeatures(opResult);
+        final OXFFeatureCollection oxfFeatureColl = featureStore.unmarshalFeatures(opResult);
         
         LOGGER.info("Count of received observations: " + oxfFeatureColl.size());
         
     }
 
 	public OXFFeatureCollection testGetFeatureOfInterest() throws OXFException, ExceptionReport {
-		SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
+		final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
-		Operation op = new Operation("GetFeatureOfInterest", "http://GET_URL_not_used", url);
+		final Operation op = new Operation("GetFeatureOfInterest", TestSOSAdapter.IGNORE_GET_URL, url);
 
-		ParameterContainer paramCon = new ParameterContainer();
+		final ParameterContainer paramCon = new ParameterContainer();
 
 		paramCon.addParameterShell(ISOSRequestBuilder.GET_FOI_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
 		paramCon.addParameterShell(ISOSRequestBuilder.GET_FOI_VERSION_PARAMETER, SosUtil.SUPPORTED_VERSIONS[1]);
@@ -249,19 +255,19 @@ public class TestSOSAdapter {
 //		 "bruehlstrasse"
 		 });
 
-		OperationResult opResult = sosAdapter.doOperation(op, paramCon);
+		final OperationResult opResult = sosAdapter.doOperation(op, paramCon);
 
 
         // now use this ParameterContainer as an input for the 'doOperation' method of your SOSAdapter. What
         // you receive is an OperationResult.
         // OperationResult opResult = sosAdapter.doOperation(op, paramCon);
 
-		FeatureStore featureStore = new FeatureStore();
-		OXFFeatureCollection featureCollection = featureStore.unmarshalFeatures(opResult);
+		final FeatureStore featureStore = new FeatureStore();
+		final OXFFeatureCollection featureCollection = featureStore.unmarshalFeatures(opResult);
 
 		LOGGER.info("featureCollection.size:" + featureCollection.size());
-		for (Iterator iterator = featureCollection.iterator(); iterator.hasNext();) {
-			OXFFeature feature = (OXFFeature) iterator.next();
+		for (final Object element : featureCollection) {
+			final OXFFeature feature = (OXFFeature) element;
 			LOGGER.info("feature ID: " + feature.toString());
 			LOGGER.info("feature geometry: " + feature.getGeometry());
 		}
@@ -271,12 +277,12 @@ public class TestSOSAdapter {
 	}
 
 	public void testInsertObservation() throws OXFException, ExceptionReport {
-		SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
+		final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
-		Operation op = new Operation("InsertObservation", "http://GET_URL_not_used", url);
+		final Operation op = new Operation("InsertObservation", TestSOSAdapter.IGNORE_GET_URL, url);
 
 		// put all parameters you want to use into a ParameterContainer:
-		ParameterContainer paramCon = new ParameterContainer();
+		final ParameterContainer paramCon = new ParameterContainer();
 
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_SERVICE_PARAMETER, "SOS");
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_VERSION_PARAMETER, serviceVersion);
@@ -294,7 +300,7 @@ public class TestSOSAdapter {
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_POSITION_SRS, "4326");
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_NEW_FOI_DESC, "The Airport in Berlin Germany");
 
-		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildInsertObservation(paramCon));
+		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildInsertObservationRequest(paramCon));
 
 		// now use this ParameterContainer as an input for the 'doOperation' method of your SOSAdapter. What
 		// you receive is an OperationResult.
@@ -302,21 +308,21 @@ public class TestSOSAdapter {
 
 	}
 	public void testInsertCategoryObservation() throws OXFException, ExceptionReport {
-		SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
+		final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
-		Operation op = new Operation("InsertObservation", "http://GET_URL_not_used", url);
+		final Operation op = new Operation("InsertObservation", TestSOSAdapter.IGNORE_GET_URL, url);
 
-        String sosURL = url;
+        final String sosURL = url;
         // get the values from InsertObservation
-        String eventTime = "2009-02-26T23:44:15+00:00";
-        String foiParameter = "STATIONID";
-        String value = "ALL_OKAY";
+        final String eventTime = "2009-02-26T23:44:15+00:00";
+        final String foiParameter = "STATIONID";
+        final String value = "ALL_OKAY";
         // this method is only used to insert invalid data: each incoming message is stored
-        String procedure = "urn:ogc:object:feature:Sensor:human-sensor-web:reporter:" + 
+        final String procedure = "urn:ogc:object:feature:Sensor:human-sensor-web:reporter:" + 
         	"0815_23-42_005" + "_invaliddata";
 		
 		// put all parameters you want to use into a ParameterContainer
-		ParameterContainer paramCon = new ParameterContainer();
+		final ParameterContainer paramCon = new ParameterContainer();
 		paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE,ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY);
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_VERSION_PARAMETER,"1.0.0");
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_SERVICE_PARAMETER,"SOS");
@@ -333,16 +339,16 @@ public class TestSOSAdapter {
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER,value);
 		paramCon.addParameterShell(ISOSRequestBuilder.INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, "http://example.com/myCodespace");
 
-		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildInsertObservation(paramCon));
+		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildInsertObservationRequest(paramCon));
 	}
 	
 	public void testRegisterSensor() throws OXFException, ExceptionReport {
-		SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
+		final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
-		Operation op = new Operation("RegisterSensor", "http://GET_URL_not_used", url);
+		final Operation op = new Operation("RegisterSensor", TestSOSAdapter.IGNORE_GET_URL, url);
 
 		// put all parameters you want to use into a ParameterContainer:
-		ParameterContainer paramCon = new ParameterContainer();
+		final ParameterContainer paramCon = new ParameterContainer();
 
 		paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_SERVICE_PARAMETER, "SOS");
 		paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_VERSION_PARAMETER, serviceVersion);
@@ -356,9 +362,9 @@ public class TestSOSAdapter {
 		paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_UOM_PARAMETER, "mm");
 		paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE, ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE_MEASUREMENT);
 
-		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildRegisterSensor(paramCon));
+		LOGGER.info(SOSRequestBuilderFactory.generateRequestBuilder(serviceVersion).buildRegisterSensorRequest(paramCon));
 
-		OperationResult opResult = sosAdapter.doOperation(new Operation(SOSAdapter.REGISTER_SENSOR, url + "?", url), paramCon);
+		final OperationResult opResult = sosAdapter.doOperation(new Operation(SOSAdapter.REGISTER_SENSOR, url + "?", url), paramCon);
 
 
 

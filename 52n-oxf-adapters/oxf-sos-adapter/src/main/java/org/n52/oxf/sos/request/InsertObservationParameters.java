@@ -21,27 +21,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
-package org.n52.oxf.sos.request.observation;
-
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER;
-
-import org.n52.oxf.request.MultimapRequestParameters;
+package org.n52.oxf.sos.request;
 
 /**
- * Assembles all parameters needed for an InsertObservation request.
+ * Empty abstract super class for InsertObservation request parameter assemblies
  */
-public class InsertObservationParameters extends MultimapRequestParameters {
-    
-    private static final String REQUEST_PARAMETER = "request";
-	
-	public InsertObservationParameters(String assignedSensorId, ObservationParameters observationBuilder) throws IllegalArgumentException {
-	    addNonEmpty(REQUEST_PARAMETER, "InsertObservation");
-        addNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, assignedSensorId);
-		mergeWith(observationBuilder);
-	}
-
-    public boolean isValid() {
-        return true;
-    }
-	
-}
+public abstract class InsertObservationParameters extends SosRequestParameters {}

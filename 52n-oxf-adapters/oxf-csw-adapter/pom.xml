@@ -6,7 +6,7 @@
 		<version>2.0.0-alpha.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>oxf-csw-adapter</artifactId>
-	<name>OxFramework CSW Adapter</name>
+	<name>52North OxFramework CSW Adapter</name>
 	<description>Provides CSW Adapter implementation.</description>
 	<packaging>jar</packaging>
 	<dependencies>

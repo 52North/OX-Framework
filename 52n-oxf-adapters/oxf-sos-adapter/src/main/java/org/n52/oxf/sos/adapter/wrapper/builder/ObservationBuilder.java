@@ -28,9 +28,9 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.n52.oxf.sos.request.observation.ObservationParameters;
-import org.n52.oxf.sos.request.observation.ObservationParametersFactory;
-import org.n52.oxf.sos.request.observation.TextObservationParameters;
+import org.n52.oxf.sos.observation.ObservationParameters;
+import org.n52.oxf.sos.observation.ObservationParametersFactory;
+import org.n52.oxf.sos.observation.TextObservationParameters;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 

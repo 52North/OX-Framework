@@ -27,7 +27,6 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlValidationError;
 
 /**
@@ -48,8 +47,9 @@ import org.apache.xmlbeans.XmlValidationError;
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  */
-public class OfferingInSMLOutputsCase implements LaxValidationCase {
-	private static final Object QN_GML_ABSTRACT_METADATA = 
+public class OfferingInSMLOutputsCase extends AbstractLaxValidationCase {
+	
+	private static final QName QN_GML_ABSTRACT_METADATA = 
 			new QName("http://www.opengis.net/gml", "AbstractMetaData");
 	
 	private static final QName QN_GML_METADATA_PROPERTY = 
@@ -69,20 +69,13 @@ public class OfferingInSMLOutputsCase implements LaxValidationCase {
 		return instance;
 	}
 	
-	public boolean shouldPass(XmlValidationError xve) {
-		return false;
-	}
-
-	public boolean shouldPass(XmlError validationError) {
-		if (!(validationError instanceof XmlValidationError)) return false;
-		
-		XmlValidationError xve = (XmlValidationError) validationError;
-		QName offending = xve.getOffendingQName();
-		List expected = xve.getExpectedQNames();
-		QName field = xve.getFieldQName();
+	@Override
+	public boolean shouldPass(final XmlValidationError xve) {
+		final QName offending = xve.getOffendingQName();
+		final List<?> expected = xve.getExpectedQNames();
+		final QName field = xve.getFieldQName();
 		return offending != null && offending.equals(QN_SOS_1_0_OFFERING) && // correct substitution
 				expected != null && expected.contains(QN_GML_ABSTRACT_METADATA) && // correct super class
 				field != null && field.equals(QN_GML_METADATA_PROPERTY); // correct field
 	}
-
 }

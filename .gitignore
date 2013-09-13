@@ -6,3 +6,4 @@ META-INF
 *_IS_UNDEFINED*
 .classpath
 .project
+/52n-oxf-adapters/oxf-sos-adapter/src/test/java/org/n52/oxf/sos/adapter/wrapper/SOSWrapperTest.java

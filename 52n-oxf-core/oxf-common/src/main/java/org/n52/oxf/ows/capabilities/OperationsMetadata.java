@@ -62,7 +62,7 @@ public class OperationsMetadata {
 	 * 
 	 * @param operations
 	 */
-	public OperationsMetadata(Operation[] operations) {
+	public OperationsMetadata(final Operation[] operations) {
 		setOperations(operations);
 	}
 
@@ -73,8 +73,8 @@ public class OperationsMetadata {
 	 * @param parameters
 	 * @param constraints
 	 */
-	public OperationsMetadata(Operation[] operations, Parameter[] parameters,
-			String[] constraints) {
+	public OperationsMetadata(final Operation[] operations, final Parameter[] parameters,
+			final String[] constraints) {
 		setOperations(operations);
 		setParameters(parameters);
 		setConstraints(constraints);
@@ -88,7 +88,7 @@ public class OperationsMetadata {
 
 		res += "<Operations>";
 		if (operations != null) {
-			for (Operation operation : operations) {
+			for (final Operation operation : operations) {
 				res += operation.toXML();
 			}
 		}
@@ -96,7 +96,7 @@ public class OperationsMetadata {
 
 		res += "<Parameters>";
 		if (parameters != null) {
-			for (Parameter parameter : parameters) {
+			for (final Parameter parameter : parameters) {
 				res += parameter.toXML();
 			}
 		}
@@ -104,7 +104,7 @@ public class OperationsMetadata {
 
 		res += "<Constraints>";
 		if (constraints != null) {
-			for (String c : constraints) {
+			for (final String c : constraints) {
 				res += "<Constraint>";
 				res += c;
 				res += "<Constraint>";
@@ -134,7 +134,7 @@ public class OperationsMetadata {
 	 * @param constraints
 	 *            The constraints to set.
 	 */
-	protected void setConstraints(String[] constraints) {
+	protected void setConstraints(final String[] constraints) {
 		this.constraints = constraints;
 	}
 
@@ -143,8 +143,8 @@ public class OperationsMetadata {
 	 * @return the Operation with the specified operationName. Returns
 	 *         <code>null</code> if there isn't such an Operation.
 	 */
-	public Operation getOperationByName(String operationName) {
-		for (Operation op : operations) {
+	public Operation getOperationByName(final String operationName) {
+		for (final Operation op : operations) {
 			if (op != null && op.getName().equals(operationName)) {
 				return op;
 			}
@@ -163,7 +163,7 @@ public class OperationsMetadata {
 	 * @param operations
 	 *            The operations to set.
 	 */
-	protected void setOperations(Operation[] operations) {
+	protected void setOperations(final Operation[] operations) {
 		this.operations = operations;
 	}
 
@@ -173,7 +173,7 @@ public class OperationsMetadata {
 	 * @return Returns the parameters.
 	 */
 	public Parameter[] getParameters() {
-		return this.parameters;
+		return parameters;
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class OperationsMetadata {
 	 * @param parameters
 	 *            The parameters to set.
 	 */
-	protected void setParameters(Parameter[] parameters) {
+	protected void setParameters(final Parameter[] parameters) {
 		this.parameters = parameters;
 	}
 }

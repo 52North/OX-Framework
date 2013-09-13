@@ -34,7 +34,7 @@ import java.util.List;
  */
 public class MultiValue {
 
-    private List<String> values = new ArrayList<String>();
+    private final List<String> values = new ArrayList<String>();
 
     /**
      * @param value
@@ -46,7 +46,8 @@ public class MultiValue {
             value = "";
         }
         if (values.contains(value)) {
-            return false; // no duplicates
+        	// we don't add the same value twice
+            return false;
         }
         return values.add(value);
     }
@@ -56,7 +57,7 @@ public class MultiValue {
      *        the value to remove.
      * @return <code>true</code> if the list of values has been changed, <code>false</code> otherwise.
      */
-    public boolean removeValue(String value) {
+    public boolean removeValue(final String value) {
         return values.remove(value);
     }
 
@@ -79,7 +80,7 @@ public class MultiValue {
      *        the value to check.
      * @return <code>true</code> if the value is contained by this instance.
      */
-    public boolean contains(String value) {
+    public boolean contains(final String value) {
         return values.contains(value);
     }
 
@@ -97,5 +98,13 @@ public class MultiValue {
     public void removeAll() {
         values.clear();
     }
+
+	/**
+	 * @return <code>true</code>, if this instance is empty
+	 */
+	public boolean isEmpty()
+	{
+		return values.isEmpty();
+	}
     
 }

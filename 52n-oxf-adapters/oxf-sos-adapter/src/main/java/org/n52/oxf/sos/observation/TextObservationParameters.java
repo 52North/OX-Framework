@@ -22,7 +22,7 @@
  * visit the Free Software Foundation web page, http://www.fsf.org.
  */
 
-package org.n52.oxf.sos.request.observation;
+package org.n52.oxf.sos.observation;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import static org.n52.oxf.xml.XMLConstants.QNAME_OM_1_0_TEXT_OBSERVATION;
@@ -50,11 +50,12 @@ public class TextObservationParameters extends ObservationParameters {
      * @param observationValue
      *        the observation value to add.
      */
-    public void addObservationValue(String observationValue) {
+    public void addObservationValue(final String observationValue) {
         addParameterValue(INSERT_OBSERVATION_VALUE_PARAMETER, observationValue);
     }
 
-    public boolean isValid() {
-        return true;
+    @Override
+	public boolean isValid() {
+        return !isEmptyValue(INSERT_OBSERVATION_VALUE_PARAMETER);
     }
 }

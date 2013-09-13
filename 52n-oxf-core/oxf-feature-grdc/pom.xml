@@ -9,7 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>oxf-feature-grdc</artifactId>
 	<packaging>jar</packaging>
-	<name>GRDC schema binding</name>
+	<name>52North OxFramework GRDC schema binding</name>
 	<build>
 		<plugins>
 			<plugin>

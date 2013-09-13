@@ -31,7 +31,6 @@ import java.util.HashMap;
 import org.junit.Test;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterShell;
-import org.n52.oxf.sos.adapter.wrapper.SOSWrapper;
 import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationParameterBuilder_v100;
 
 /**
@@ -102,7 +101,7 @@ public class GetObservationParameterBuilder_v100Test {
 		HashMap<String, Object> hm;
 		try {
 			hm = (HashMap<String, Object>) gopb.getParameters();
-			assertNull(hm.get(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER));
+			assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER));
 			assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER));
 			assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER));
 			assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER));
@@ -128,7 +127,7 @@ public class GetObservationParameterBuilder_v100Test {
 			
 			hm = (HashMap<String, Object>) gopb.getParameters();
 			
-			String parOpt_01 = (String) hm.get(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER);
+			String parOpt_01 = (String) hm.get(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER);
 			ParameterShell parOpt_02_ps = (ParameterShell) (hm.get(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER));			
 			String[] parOpt_02_1_array = parOpt_02_ps.getSpecifiedTypedValueArray(String[].class);
 			String parOpt_02_1 = parOpt_02_1_array[0];

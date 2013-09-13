@@ -28,7 +28,7 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_PROC
 import java.util.HashMap;
 import java.util.Map;
 
-import org.n52.oxf.sos.request.observation.ObservationParameters;
+import org.n52.oxf.sos.observation.ObservationParameters;
 
 /**
  * This class describes a set of parameters, which is necessary to call
@@ -36,7 +36,7 @@ import org.n52.oxf.sos.request.observation.ObservationParameters;
  * 
  * @author Eric
  */
-public class InsertObservationParameterBuilder_v100 {
+public class InsertObservationParameters {
 	
 	private final Map<String, String> parameters;
 	
@@ -45,10 +45,10 @@ public class InsertObservationParameterBuilder_v100 {
 	 * 
 	 * @param assignedSensorId
 	 * @param observation
-	 * @deprecated Use {@link #InsertObservationParameterBuilder_v100(String, ObservationParameters)}
+	 * @deprecated Use {@link #InsertObservationParameters(String, ObservationParameters)}
 	 */
 	@Deprecated
-	public InsertObservationParameterBuilder_v100(final String assignedSensorId, final ObservationBuilder observationBuilder) throws IllegalArgumentException {
+	public InsertObservationParameters(final String assignedSensorId, final ObservationBuilder observationBuilder) throws IllegalArgumentException {
 		if (assignedSensorId == null || observationBuilder == null) {
 			throw new IllegalArgumentException("The parameters \"assignedSensorId\" and \"observationBuilder\" are mandatory. They cannot be left empty!");
 		}
@@ -62,7 +62,7 @@ public class InsertObservationParameterBuilder_v100 {
 	 * @param sensorURI
 	 * @param obsParameter
 	 */
-	public InsertObservationParameterBuilder_v100(final String assignedSensorId, final ObservationParameters obsParameter) {
+	public InsertObservationParameters(final String assignedSensorId, final ObservationParameters obsParameter) {
 		if (assignedSensorId == null || obsParameter == null) {
 			throw new IllegalArgumentException("The parameters \"assignedSensorId\" and \"obsParameter\" are mandatory. They cannot be left empty!");
 		}
@@ -72,9 +72,9 @@ public class InsertObservationParameterBuilder_v100 {
 
 	private Map<String, String> getParameterMapFrom(final ObservationParameters obsParameter)
 	{
-		if (!obsParameter.getParameterNames().isEmpty())
+		if (!obsParameter.isEmpty())
 		{
-			final HashMap<String,String> parameterMap = new HashMap<String, String>(obsParameter.getParameterNames().size());
+			final HashMap<String,String> parameterMap = new HashMap<String, String>();
 			for (final String key : obsParameter.getParameterNames())
 			{
 				if (!key.isEmpty())

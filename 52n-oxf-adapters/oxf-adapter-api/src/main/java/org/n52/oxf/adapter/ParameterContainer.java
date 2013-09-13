@@ -95,7 +95,7 @@ public class ParameterContainer {
 
     /**
      * Adds a new ParameterShell with a 'required' {@link Parameter} with name <code>parameterName</code> and
-     * a {@link StringValueDomain}omain containing only the specified <code>parameterValue</code>(s).
+     * a {@link StringValueDomain} containing only the specified <code>parameterValue</code>(s).
      */
     public void addParameterShell(final String parameterName, final String... parameterValue) throws OXFException {
         final Parameter parameter = new Parameter(parameterName, true, new StringValueDomain(parameterValue), parameterName);

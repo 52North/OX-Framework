@@ -24,12 +24,13 @@
 
 package org.n52.oxf.sos.request.v100;
 
-import org.n52.oxf.request.MultimapRequestParameters;
+import org.n52.oxf.sos.request.SosRequestParameters;
+
 
 /**
  * Assembles all parameters needed for a RegisterSensor request. This request is SOS 1.0.0 specific. 
  */
-public class RegisterSensorParameters extends MultimapRequestParameters {
+public class RegisterSensorParameters extends SosRequestParameters {
     
     private static final String REQUEST_PARAMETER = "request";
 
@@ -51,7 +52,7 @@ public class RegisterSensorParameters extends MultimapRequestParameters {
      * @throws IllegalArgumentException
      *         if passed arguments are <code>null</code> or empty.
      */
-    public RegisterSensorParameters(String sensorDescription, String observationTemplate) {
+    public RegisterSensorParameters(final String sensorDescription, final String observationTemplate) {
         addNonEmpty(REQUEST_PARAMETER, "RegisterSensor");
         addNonEmpty(REGISTER_SENSOR_ML_DOC_PARAMETER, sensorDescription);
         addNonEmpty(REGISTER_SENSOR_OBSERVATION_TEMPLATE, observationTemplate);
@@ -65,7 +66,7 @@ public class RegisterSensorParameters extends MultimapRequestParameters {
      * @throws IllegalArgumentException
      *         if passed arguments are <code>null</code> or empty.
      */
-    public void setSensorDescription(String sensorDescription) {
+    public void setSensorDescription(final String sensorDescription) {
         addNonEmpty(REGISTER_SENSOR_ML_DOC_PARAMETER, sensorDescription);
     }
 
@@ -77,13 +78,13 @@ public class RegisterSensorParameters extends MultimapRequestParameters {
      * @throws IllegalArgumentException
      *         if passed arguments are <code>null</code> or empty.
      */
-    public void setObservationTemplate(String observationTemplate) {
+    public void setObservationTemplate(final String observationTemplate) {
         addNonEmpty(REGISTER_SENSOR_OBSERVATION_TEMPLATE, observationTemplate);
     }
 
     public boolean isValid() {
-        boolean invalidSmlParameterValue = isEmptyValue(REGISTER_SENSOR_ML_DOC_PARAMETER);
-        boolean invalidTemplateValue = isEmptyValue(REGISTER_SENSOR_OBSERVATION_TEMPLATE);
+        final boolean invalidSmlParameterValue = isEmptyValue(REGISTER_SENSOR_ML_DOC_PARAMETER);
+        final boolean invalidTemplateValue = isEmptyValue(REGISTER_SENSOR_OBSERVATION_TEMPLATE);
         return ! (invalidSmlParameterValue || invalidTemplateValue);
     }
 

@@ -11,6 +11,8 @@ is better to use than the old soft-typed interfaces.
 Features:
 ---------
  * New 52n-oxf-conversion module
+ * sos-adapter: SOS 2.0 support for InsertObservation and InsertSensor (via RegisterSensor)
+ * 52n-oxf-xmlbeans: added DependenLaxValidationCase for handling interrelated Xml(Validation)Errors
  
 Changes:
 --------

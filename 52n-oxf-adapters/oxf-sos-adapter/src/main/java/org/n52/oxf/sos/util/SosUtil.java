@@ -36,12 +36,14 @@ public class SosUtil {
      */
     public static final String[] SUPPORTED_VERSIONS = { "1.0.0", "2.0.0" };
 
-    public static boolean isVersion100(String version) {
+    public static boolean isVersion100(final String version) {
         return SUPPORTED_VERSIONS[0].equals(version);
     }
 
-    public static boolean isVersion200(String version) {
+    public static boolean isVersion200(final String version) {
         return SUPPORTED_VERSIONS[1].equals(version);
     }
+    
+    private SosUtil() {}
 
 }

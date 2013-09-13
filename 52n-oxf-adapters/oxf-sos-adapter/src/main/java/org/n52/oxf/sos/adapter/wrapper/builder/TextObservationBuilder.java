@@ -25,8 +25,8 @@ package org.n52.oxf.sos.adapter.wrapper.builder;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
-import org.n52.oxf.sos.request.observation.ObservationParametersFactory;
-import org.n52.oxf.sos.request.observation.TextObservationParameters;
+import org.n52.oxf.sos.observation.ObservationParametersFactory;
+import org.n52.oxf.sos.observation.TextObservationParameters;
 import org.n52.oxf.xml.XMLConstants;
 
 /**

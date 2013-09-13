@@ -37,6 +37,7 @@ public final class XMLConstants {
 	public static final QName QNAME_GML_TIMEINSTANT = new QName(GML_NS_URI, "TimeInstant");
 	private static final String GML_3_2_NS_URI = "http://www.opengis.net/gml/3.2";
 	public static final QName QNAME_GML_3_2_TIMEINSTANT = new QName(GML_3_2_NS_URI, "TimeInstant");
+	public static final QName QNAME_GML_3_2_TIME_PERIOD = new QName(GML_3_2_NS_URI, "TimePeriod");
 
 	private static final String SA_NS_URI = "http://www.opengis.net/sampling/1.0";
 	public static final QName QNAME_SA_1_0_SAMPLING_POINT = new QName(SA_NS_URI, "SamplingPoint");
@@ -87,6 +88,22 @@ public final class XMLConstants {
 	
 	public static final String OGC_UNKNOWN_VALUE = "http://www.opengis.net/def/nil/OGC/0/unknown";
 	public static final String OGC_URI_START_CRS = "http://www.opengis.net/def/crs/EPSG/0/";
+	
+	private static final String SOS_2_0_NS_URI = "http://www.opengis.net/sos/2.0";
+	public static final QName QNAME_SOS_2_0_INSERTION_METADATA = new QName(SOS_2_0_NS_URI,"SosInsertionMetadata");
+	public static final QName QN_GML_3_2_ABSTRACT_FEATURE = new QName("http://www.opengis.net/gml/3.2", "AbstractFeature");
+	public static final QName QN_SF_2_0_SPATIAL_SAMPLING_FEATURE = new QName("http://www.opengis.net/samplingSpatial/2.0","SF_SpatialSamplingFeature");
+	public static final QName QN_OM_2_0_FEATURE_OF_INTEREST = new QName("http://www.opengis.net/om/2.0","featureOfInterest");
+	public static final String SWES_2_0_NS_URI = "http://www.opengis.net/swes/2.0";
+	public static final QName QN_SWES_2_0_INSERTION_METADATA = new QName(SWES_2_0_NS_URI, "InsertionMetadata");
+	public static final QName QN_SOS_2_0_SOS_INSERTION_METADATA = new QName("http://www.opengis.net/sos/2.0","SosInsertionMetadata");
+	public static final QName QN_SWES_2_0_METADATA = new QName(SWES_2_0_NS_URI,"metadata");
+	public static final QName QN_GML_ABSTRACT_FEATURE = 
+	new QName("http://www.opengis.net/gml", "_Feature");
+	public static final QName QN_SA_1_0_SAMPLING_POINT = 
+	new QName("http://www.opengis.net/sampling/1.0", "SamplingPoint");
+	public static final QName FEATURE_QN = new QName("http://www.opengis.net/gml", "_Feature");
+	public static final QName FEATURE_COLLECTION_QN = new QName("http://www.opengis.net/gml", "_FeatureCollection");
 	
 	private XMLConstants() {}
 }

@@ -31,9 +31,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.n52.oxf.sos.request.observation.MeasurementObservationParameters;
-import org.n52.oxf.sos.request.observation.ObservationParameters;
-import org.n52.oxf.sos.request.observation.TextObservationParameters;
+import org.n52.oxf.sos.observation.MeasurementObservationParameters;
+import org.n52.oxf.sos.observation.ObservationParameters;
+import org.n52.oxf.sos.observation.TextObservationParameters;
 
 
 /**
@@ -43,14 +43,14 @@ import org.n52.oxf.sos.request.observation.TextObservationParameters;
  * 
  * @author Eric
  */
-public class InsertObservationParameterBuilder_v100Test {
+public class InsertObservationParametersTest {
 	
 	/**
 	 * Checks the behaviour on valid constructor parameters.
 	 */
 	@Test
 	public void testValidConstructorParameters() {
-		new InsertObservationParameterBuilder_v100("", ObservationBuilder.createObservationForTypeText());
+		new InsertObservationParameters("", ObservationBuilder.createObservationForTypeText());
 	}
 	
 	/**
@@ -58,8 +58,8 @@ public class InsertObservationParameterBuilder_v100Test {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testInvalidConstructorParameters() {
-		new InsertObservationParameterBuilder_v100(null, new TextObservationParameters());
-		new InsertObservationParameterBuilder_v100(null, ObservationBuilder.createObservationForTypeText());
+		new InsertObservationParameters(null, new TextObservationParameters());
+		new InsertObservationParameters(null, ObservationBuilder.createObservationForTypeText());
 	}
 	
 	/**
@@ -68,7 +68,7 @@ public class InsertObservationParameterBuilder_v100Test {
 	@Test
 	public void testApplyingAndGettingMandatoryParameters() {
 		final ObservationBuilder observationBuilder = ObservationBuilder.createObservationForTypeText();
-		final InsertObservationParameterBuilder_v100 iospb = new InsertObservationParameterBuilder_v100("assignedSensorId", observationBuilder);
+		final InsertObservationParameters iospb = new InsertObservationParameters("assignedSensorId", observationBuilder);
 		
 		final HashMap<String, String> hm = (HashMap<String, String>) iospb.getParameters();
 		final String parMan_01 = hm.get(INSERT_OBSERVATION_PROCEDURE_PARAMETER);
@@ -93,7 +93,7 @@ public class InsertObservationParameterBuilder_v100Test {
 		observationBuilder.addObservedProperty(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
 		observationBuilder.addObservationValue(INSERT_OBSERVATION_VALUE_PARAMETER);
 		
-		final InsertObservationParameterBuilder_v100 iospb = new InsertObservationParameterBuilder_v100("assignedSensorId", observationBuilder);
+		final InsertObservationParameters iospb = new InsertObservationParameters("assignedSensorId", observationBuilder);
 		
 		final HashMap<String, String> hm = (HashMap<String, String>) iospb.getParameters();
 		final String parMan_01 = hm.get(INSERT_OBSERVATION_PROCEDURE_PARAMETER);
@@ -126,7 +126,7 @@ public class InsertObservationParameterBuilder_v100Test {
 		final String foiId = "my-feature-of-interest";
 		obsParameter.addFoiId(foiId);
 		final String sensorId = "my-sensor-id";
-		final InsertObservationParameterBuilder_v100 builder = new InsertObservationParameterBuilder_v100(sensorId, obsParameter);
+		final InsertObservationParameters builder = new InsertObservationParameters(sensorId, obsParameter);
 		final Map<String, String> builderParameters = builder.getParameters();
 		
 		assertThat(builderParameters, hasKey(INSERT_OBSERVATION_FOI_ID_PARAMETER));
