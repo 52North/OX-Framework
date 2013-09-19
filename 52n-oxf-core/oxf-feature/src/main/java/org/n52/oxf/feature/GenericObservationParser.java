@@ -24,6 +24,8 @@
 
 package org.n52.oxf.feature;
 
+import static org.n52.oxf.xmlbeans.tools.XmlUtil.getTextContentFromAnyNode;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,7 +75,6 @@ import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.impl.values.XmlStringImpl;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.feature.dataTypes.OXFMeasureType;
 import org.n52.oxf.feature.dataTypes.OXFPhenomenonPropertyType;
@@ -441,7 +442,7 @@ public class GenericObservationParser {
 				for (NamedValuePropertyType parameter : parameterArray) {
 					NamedValueType namedValue = parameter.getNamedValue();
 					if (namedValue.getName().getHref().equals("urn:ogc:def:identifier:OGC:uniqueID")) {
-						return ((XmlStringImpl)namedValue.getValue()).getStringValue();
+					    return getTextContentFromAnyNode(namedValue.getValue());
 					}
 				}
 			} catch (XmlException e) {
