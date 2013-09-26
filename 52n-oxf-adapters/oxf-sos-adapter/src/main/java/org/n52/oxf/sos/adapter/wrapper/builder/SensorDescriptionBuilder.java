@@ -474,7 +474,6 @@ public class SensorDescriptionBuilder {
 
 	private void addObservedBBOX()
 	{
-	    // TODO implement solution for moving sensors
 	    final DataComponentPropertyType observedBBoxField = addNewCapabilitiesElement("observedBBOX").addNewField();
 		observedBBoxField.setName("observedBBOX");
 		final AbstractDataRecordType aDRT = observedBBoxField.addNewAbstractDataRecord();
@@ -522,27 +521,31 @@ public class SensorDescriptionBuilder {
 	}
 	
 	private VectorType getLowerCornerOfObservedBBox() {
+		return createPositionVector(lcEastingUom, lcEastingValue, lcNorthingUom, lcNorthingValue);
+	}
+	
+	private VectorType getUpperCornerOfObservedBBox() {
+		return createPositionVector(ucEastingUom, ucEastingValue, ucNorthingUom, ucNorthingValue);
+	}
+
+	private VectorType createPositionVector(final String eastingUom, final double eastingCoordValue, final String northingUom, final double northingCoordinateValue)
+	{
 		final VectorType positionVector = VectorType.Factory.newInstance();
 		final Coordinate easting = positionVector.addNewCoordinate();
 		easting.setName("easting");
 		final Quantity eastingValue = easting.addNewQuantity();
 		eastingValue.setAxisID("x");
-		eastingValue.addNewUom().setCode(lcEastingUom);
-		eastingValue.setValue(lcEastingValue);
+		eastingValue.addNewUom().setCode(eastingUom);
+		eastingValue.setValue(eastingCoordValue);
 		
 		final Coordinate northing = positionVector.addNewCoordinate();
 		northing.setName("northing");
 		final Quantity northingValue = northing.addNewQuantity();
 		northingValue.setAxisID("y");
-		northingValue.addNewUom().setCode(lcNorthingUom);
-		northingValue.setValue(lcNorthingValue);
+		northingValue.addNewUom().setCode(northingUom);
+		northingValue.setValue(northingCoordinateValue);
 		
 		return positionVector;
-	}
-	
-	// TODO implement for moving sensors
-	private VectorType getUpperCornerOfObservedBBox() {
-		return getLowerCornerOfObservedBBox();
 	}
 	
 	private void addContact() {
