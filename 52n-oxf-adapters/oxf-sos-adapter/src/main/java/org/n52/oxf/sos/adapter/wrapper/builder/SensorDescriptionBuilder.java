@@ -140,7 +140,7 @@ public class SensorDescriptionBuilder {
 	private String id, individualName, organizationName, deliveryPoint, city,
 			postalCode, country, email;
 	// position data
-	private String positionName, referenceFrame, vectorId, eastingUom,
+	private String positionName, referenceFrame, observedBBOXreferenceFrame, vectorId, eastingUom,
 			northingUom, altitudeUom;
 	private double eastingValue, northingValue, altitudeValue;
 	// interface data
@@ -244,7 +244,8 @@ public class SensorDescriptionBuilder {
 	
 	public SensorDescriptionBuilder setCapabilityBbox(final String lcEastingUom, final double lcEastingValue,
 			final String lcNorthingUom, final double lcNorthingValue, final String ucEastingUom,
-			final double ucEastingValue, final String ucNorthingUom, final double ucNorthingValue) {
+			final double ucEastingValue, final String ucNorthingUom, final double ucNorthingValue,
+			final String referenceFrame) {
 		this.lcEastingUom = lcEastingUom; // lower corner
 		this.lcEastingValue = lcEastingValue;
 		this.lcNorthingUom = lcNorthingUom;
@@ -253,6 +254,7 @@ public class SensorDescriptionBuilder {
 		this.ucEastingValue = ucEastingValue;
 		this.ucNorthingUom = ucNorthingUom;
 		this.ucNorthingValue = ucNorthingValue;
+		observedBBOXreferenceFrame = referenceFrame;
 		return this;
 	}
 	
@@ -478,7 +480,7 @@ public class SensorDescriptionBuilder {
 		observedBBoxField.setName("observedBBOX");
 		final AbstractDataRecordType aDRT = observedBBoxField.addNewAbstractDataRecord();
 		final EnvelopeType envelope = (EnvelopeType) aDRT.substitute(SWE101_ENVELOPE, EnvelopeType.type);
-		envelope.setReferenceFrame(EPSG_CODE_PREFIX + referenceFrame);
+		envelope.setReferenceFrame(EPSG_CODE_PREFIX + observedBBOXreferenceFrame);
 		envelope.setDefinition(OGC_DISCOVERY_OBSERVED_BBOX_DEFINITION);
 		envelope.addNewLowerCorner().setVector(getLowerCornerOfObservedBBox());
 		envelope.addNewUpperCorner().setVector(getUpperCornerOfObservedBBox());		
