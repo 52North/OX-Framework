@@ -467,7 +467,6 @@ public class SensorDescriptionBuilder {
 	}
 	
 	private void addCapabilities() {
-		// TODO each one in own capabilities element: features, status, observed BBox
 		addStatus();
 	    addFeatureId();
 	    addObservedBBOX();
