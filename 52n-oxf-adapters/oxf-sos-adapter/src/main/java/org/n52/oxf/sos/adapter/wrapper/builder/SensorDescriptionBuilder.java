@@ -467,13 +467,12 @@ public class SensorDescriptionBuilder {
 	}
 	
 	private void addCapabilities() {
-		final Capabilities caps = system.addNewCapabilities();
-		DataRecordType dataRecordType;
-	    DataComponentPropertyType f;
-	    Boolean b;
-	    Text t;
-	    final AbstractDataRecordType adrt = caps.addNewAbstractDataRecord();
-	    dataRecordType = (DataRecordType) adrt.substitute(SWE101_DATARECORD, DataRecordType.type);
+		// TODO each one in own capabilities element: features, status, observed BBox
+		final String name = "name";
+		DataComponentPropertyType f;
+		Boolean b;
+		Text t;
+		final DataRecordType dataRecordType = addNewCapabilitiesElement(name);
 	    
 	    // Status of the Sensor (collecting data?)
 	    f =  dataRecordType.addNewField();
@@ -504,7 +503,19 @@ public class SensorDescriptionBuilder {
 		envelope.addNewLowerCorner().setVector(getLowerCornerOfObservedBBox());
 		envelope.addNewUpperCorner().setVector(getUpperCornerOfObservedBBox());
 	    
+	}
+
+	private DataRecordType addNewCapabilitiesElement(final String name)
+	{
+		final Capabilities caps = system.addNewCapabilities();
+		DataRecordType dataRecordType;
+	    final AbstractDataRecordType adrt = caps.addNewAbstractDataRecord();
+	    if (name != null && !name.isEmpty()) {
+	    	caps.setName(name);
+	    }
+	    dataRecordType = (DataRecordType) adrt.substitute(SWE101_DATARECORD, DataRecordType.type);
 	    caps.setAbstractDataRecord(dataRecordType);
+		return dataRecordType;
 	}
 	
 	private VectorType getLowerCornerOfObservedBBox() {
