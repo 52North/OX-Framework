@@ -468,41 +468,45 @@ public class SensorDescriptionBuilder {
 	
 	private void addCapabilities() {
 		// TODO each one in own capabilities element: features, status, observed BBox
-		final String name = "name";
-		DataComponentPropertyType f;
-		Boolean b;
-		Text t;
-		final DataRecordType dataRecordType = addNewCapabilitiesElement(name);
-	    
-	    // Status of the Sensor (collecting data?)
-	    f =  dataRecordType.addNewField();
-	    f.setName(statusName);
-	    b = f.addNewBoolean();
-	    b.setValue(isCollecting);
-	    
-	    // add foi id
-	    f = dataRecordType.addNewField();
-	    f.setName("FeatureOfInterestID");
-	    t = f.addNewText();
-	    t.setDefinition("FeatureOfInterest identifier");
-	    t.setValue(foiName);
-	    
-	    // add foi name
-	    f = dataRecordType.addNewField();
-	    f.setName("FeatureOfInterestName");
-	    t = f.addNewText();
-	    t.setValue(foiUri);
-	    
-	    // add observed boundingbox
+		addStatus();
+	    addFeatureId();
+	    addObservedBBOX();
+	}
+
+	private void addObservedBBOX()
+	{
 	    // TODO implement solution for moving sensors
-	    final DataComponentPropertyType observedBBoxField = dataRecordType.addNewField();
+	    final DataComponentPropertyType observedBBoxField = addNewCapabilitiesElement("observedBBOX").addNewField();
 		observedBBoxField.setName("observedBBOX");
 		final AbstractDataRecordType aDRT = observedBBoxField.addNewAbstractDataRecord();
 		final EnvelopeType envelope = (EnvelopeType) aDRT.substitute(SWE101_ENVELOPE, EnvelopeType.type);
 		envelope.setDefinition(OGC_DISCOVERY_OBSERVED_BBOX_DEFINITION);
 		envelope.addNewLowerCorner().setVector(getLowerCornerOfObservedBBox());
-		envelope.addNewUpperCorner().setVector(getUpperCornerOfObservedBBox());
+		envelope.addNewUpperCorner().setVector(getUpperCornerOfObservedBBox());		
+	}
+
+	private void addFeatureId()
+	{
+		DataComponentPropertyType field;
+		Text text;
+		field = addNewCapabilitiesElement("featuresOfInterest").addNewField();
+	    field.setName("featureOfInterestID");
+	    text = field.addNewText();
+	    text.setDefinition("http://www.opengis.net/def/featureOfInterest/identifier");
+	    text.setValue(foiUri);
+	}
+
+	private void addStatus()
+	{
+		DataComponentPropertyType field;
+		Boolean bool;
+		final DataRecordType dataRecordType = addNewCapabilitiesElement("");
 	    
+	    // Status of the Sensor (collecting data?)
+	    field =  dataRecordType.addNewField();
+	    field.setName(statusName);
+	    bool = field.addNewBoolean();
+	    bool.setValue(isCollecting);
 	}
 
 	private DataRecordType addNewCapabilitiesElement(final String name)
