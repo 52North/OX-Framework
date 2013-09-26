@@ -478,6 +478,7 @@ public class SensorDescriptionBuilder {
 		observedBBoxField.setName("observedBBOX");
 		final AbstractDataRecordType aDRT = observedBBoxField.addNewAbstractDataRecord();
 		final EnvelopeType envelope = (EnvelopeType) aDRT.substitute(SWE101_ENVELOPE, EnvelopeType.type);
+		envelope.setReferenceFrame(EPSG_CODE_PREFIX + referenceFrame);
 		envelope.setDefinition(OGC_DISCOVERY_OBSERVED_BBOX_DEFINITION);
 		envelope.addNewLowerCorner().setVector(getLowerCornerOfObservedBBox());
 		envelope.addNewUpperCorner().setVector(getUpperCornerOfObservedBBox());		
