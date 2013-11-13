@@ -80,7 +80,7 @@ import org.n52.oxf.xmlbeans.tools.XmlUtil;
  * describing information just add certain methods in this class. For now this
  * class implements the discovery profile.
  * 
- * @author Eric
+ * @author Eric Fiedler
  */
 public class SensorDescriptionBuilder {
 	
@@ -236,12 +236,31 @@ public class SensorDescriptionBuilder {
 		return this;
 	}
 	
+	/**
+	 * @param begin Should be a valid time string. One of
+	 * <ul><li>after</li>
+	 * 		<li>before</li>
+	 * 		<li>now</li>
+	 * 		<li>unknown</li>
+	 * 		<li>or any other value as described in ISO 19108</li></ul> 
+	 * @param end see <b>begin</b>
+	 */
+	// TODO ^^ is this correct for our code? Or only ISO 8601?
 	public SensorDescriptionBuilder setValidTime(final String begin, final String end) {
 		validTime[0] = begin;
 		validTime[1] = end;
 		return this;
 	}
 	
+	/**
+	 * @param validTime Should be a valid time string. One of
+	 * <ul><li>after</li>
+	 * 		<li>before</li>
+	 * 		<li>now</li>
+	 * 		<li>unknown</li>
+	 * 		<li>or any other values as described in ISO 19108</li></ul> 
+	 */
+	// TODO ^^ is this correct for our code? Or only ISO 8601?
 	public SensorDescriptionBuilder setValidTime(final String validTime) {
 		this.validTime[0] = validTime;
 		return this;
