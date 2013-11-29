@@ -486,9 +486,12 @@
 						<include>**/*.java</include>
 					</includes>
 					<excludes>
-						<exclude>**/src/**/NanoHTTPD.java</exclude>
+                        <!-- apache license -->
 						<exclude>**/src/**/XbeansXPathSaxon94.java</exclude>
 						<exclude>**/src/**/XbeansXQuerySaxon94.java</exclude>
+						<!-- BSD license -->
+						<exclude>**/src/**/NanoHTTPD.java</exclude>
+						<!-- Aduna BSD like license -->
 						<exclude>**/src/**/NcNameResolver.java</exclude>
 					</excludes>
 					<strictCheck>true</strictCheck>
