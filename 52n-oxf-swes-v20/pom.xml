@@ -13,15 +13,15 @@
 	<dependencies>
 		<!-- ### XML BINDING DEPENDENCIES ### -->
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>52n-oxf-ows-v110</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>52n-oxf-xmlbeans</artifactId>
 		</dependency>
 		<dependency>

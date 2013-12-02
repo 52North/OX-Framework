@@ -80,13 +80,12 @@ import org.n52.oxf.xmlbeans.tools.XmlUtil;
  * describing information just add certain methods in this class. For now this
  * class implements the discovery profile.
  * 
- * @author Eric
+ * @author Eric Fiedler
  */
 public class SensorDescriptionBuilder {
 	
-	/**
-	 * 
-	 */
+	private boolean shouldAddOfferingMetadataToOutputs = true;
+	
 	private static final String SWE_101_NS_URI = "http://www.opengis.net/swe/1.0.1";
 	public static final QName SWE101_DATARECORD = new QName(SWE_101_NS_URI, "DataRecord");
 	public static final QName SWE101_SIMPLE_DATA_RECORD = new QName(SWE_101_NS_URI, "SimpleDataRecord");
@@ -167,6 +166,11 @@ public class SensorDescriptionBuilder {
 		componentInline = new ArrayList<String[]>();
 	}
 	
+	public SensorDescriptionBuilder setAddOfferingMetadataToOutputs(final boolean yesOrNo) {
+		shouldAddOfferingMetadataToOutputs = yesOrNo;
+		return this;
+	}
+	
 	public SensorDescriptionBuilder addKeyword(final String keyword) {
 		keywords.add(keyword);
 		return this;
@@ -236,12 +240,31 @@ public class SensorDescriptionBuilder {
 		return this;
 	}
 	
+	/**
+	 * @param begin Should be a valid time string. One of
+	 * <ul><li>after</li>
+	 * 		<li>before</li>
+	 * 		<li>now</li>
+	 * 		<li>unknown</li>
+	 * 		<li>or any other value as described in ISO 19108</li></ul> 
+	 * @param end see <b>begin</b>
+	 */
+	// TODO ^^ is this correct for our code? Or only ISO 8601?
 	public SensorDescriptionBuilder setValidTime(final String begin, final String end) {
 		validTime[0] = begin;
 		validTime[1] = end;
 		return this;
 	}
 	
+	/**
+	 * @param validTime Should be a valid time string. One of
+	 * <ul><li>after</li>
+	 * 		<li>before</li>
+	 * 		<li>now</li>
+	 * 		<li>unknown</li>
+	 * 		<li>or any other values as described in ISO 19108</li></ul> 
+	 */
+	// TODO ^^ is this correct for our code? Or only ISO 8601?
 	public SensorDescriptionBuilder setValidTime(final String validTime) {
 		this.validTime[0] = validTime;
 		return this;
@@ -389,7 +412,10 @@ public class SensorDescriptionBuilder {
 		}
 		if (foiName != null && foiUri != null && lcEastingUom != null
 				&& lcNorthingUom != null) {
-			addCapabilities();
+			addObservedBBOX();
+		}
+		if (foiName != null && foiUri != null) {
+			addFeatureId();
 		}
 		if (collectingStatusSet) {
 			addStatus();
@@ -529,11 +555,6 @@ public class SensorDescriptionBuilder {
 			timePositionType.setStringValue(timePosition);
 		}
 		return timePositionType;
-	}
-
-	private void addCapabilities() {
-		addFeatureId();
-	    addObservedBBOX();
 	}
 
 	private void addObservedBBOX()
@@ -712,8 +733,10 @@ public class SensorDescriptionBuilder {
 			output.setName(outputValues[0]);
 			final Quantity quantity = output.addNewQuantity();
 			quantity.setDefinition(outputValues[1]);
-			addOfferingMetadata(quantity.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
 			quantity.addNewUom().setCode(outputValues[4]);
+			if (shouldAddOfferingMetadataToOutputs) {
+				addOfferingMetadata(quantity.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
+			}
 		}
 		
 		for (final String[] outputValues : outputsText) { // sos 1.0 52n implementation
@@ -721,7 +744,9 @@ public class SensorDescriptionBuilder {
 			output.setName(outputValues[0]);
 			final Text text = output.addNewText();
 			text.setDefinition(outputValues[1]);
-			addOfferingMetadata(text.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
+			if (shouldAddOfferingMetadataToOutputs) {
+				addOfferingMetadata(text.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
+			}
 		}
 		
 		for (final String[] outputValues : outputsBoolean) { // sos 1.0 52n implementation
@@ -729,7 +754,9 @@ public class SensorDescriptionBuilder {
 			output.setName(outputValues[0]);
 			final Boolean bool = output.addNewBoolean();
 			bool.setDefinition(outputValues[1]);
-			addOfferingMetadata(bool.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
+			if (shouldAddOfferingMetadataToOutputs ) {
+				addOfferingMetadata(bool.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
+			}
 		}
 		
 		for (final String[] outputValues : outputsCount) { // sos 1.0 52n implementation
@@ -737,7 +764,9 @@ public class SensorDescriptionBuilder {
 			output.setName(outputValues[0]);
 			final Count count = output.addNewCount();
 			count.setDefinition(outputValues[1]);
-			addOfferingMetadata(count.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
+			if (shouldAddOfferingMetadataToOutputs) {
+				addOfferingMetadata(count.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
+			}
 		}
 	}
 	

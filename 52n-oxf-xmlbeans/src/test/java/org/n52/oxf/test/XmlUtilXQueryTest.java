@@ -32,7 +32,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
 
-public class XQuerySaxon94Test {
+public class XmlUtilXQueryTest {
 
 	@Test
 	public void testXQuery() throws XmlException, IOException {
