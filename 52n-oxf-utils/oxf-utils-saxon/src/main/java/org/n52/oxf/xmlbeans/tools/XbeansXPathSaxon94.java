@@ -233,7 +233,7 @@ import org.apache.xmlbeans.impl.store.PathDelegate;
 import org.w3c.dom.Node;
 
 
-public class XbeansXPathSaxon94  implements PathDelegate.SelectPathInterface {
+public class XbeansXPathSaxon94 implements PathDelegate.SelectPathInterface {
 
 	private final Object[] namespaceMap;
 	private final String path;

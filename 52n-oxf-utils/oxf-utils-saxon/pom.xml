@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.n52.sensorweb</groupId>
+		<artifactId>52n-oxf-utils</artifactId>
+		<version>2.0.0-alpha.4-SNAPSHOT</version>
+	</parent>
+	<artifactId>oxf-utils-saxon</artifactId>
+	<name>52North OxFramework Utils - Saxon</name>
+	<packaging>jar</packaging>
+	<licenses>
+		<license>
+			<name>Apache License 2.0</name>
+			<url>http://www.spdx.org/licenses/Apache-2.0</url>
+		</license>
+	</licenses>
+	<dependencies>
+		<dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans-xpath</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>saxon</artifactId>
+                    <groupId>net.sf.saxon</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>org.apache.xmlbeans</artifactId>
+                    <groupId>xmlbeans</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>org.apache.xmlbeans</groupId>
+        	<artifactId>xmlbeans</artifactId>
+        </dependency>
+	</dependencies>
+	<description>Provides a Saxon 9.4 specific implementation.</description>
+</project>

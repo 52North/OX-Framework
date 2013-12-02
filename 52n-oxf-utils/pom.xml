@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.n52.sensorweb</groupId>
+    <artifactId>52n-oxf</artifactId>
+    <version>2.0.0-alpha.4-SNAPSHOT</version>
+  </parent>
+  <artifactId>52n-oxf-utils</artifactId>
+  <name>52North OxFramework Aggregated Util modules</name>
+  <description>Provides OxF Util implementations</description>
+  <packaging>pom</packaging>
+  <modules>
+    <module>oxf-utils-nanohttpd</module>
+    <module>oxf-utils-ncname-resolver</module>
+    <module>oxf-utils-saxon</module>
+  </modules>
+</project>
