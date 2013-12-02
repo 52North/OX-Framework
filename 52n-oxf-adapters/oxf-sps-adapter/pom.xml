@@ -13,15 +13,15 @@
 	<dependencies>
 		<!-- ### MODULE DEPENDENCIES ### -->
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-feature</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>52n-oxf-swes-v20</artifactId>
 		</dependency>
 		<dependency>
@@ -33,11 +33,11 @@
 			<artifactId>52n-xml-sps-v20</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-adapter-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>52n-oxf-xmlbeans</artifactId>
 		</dependency>
 	</dependencies>

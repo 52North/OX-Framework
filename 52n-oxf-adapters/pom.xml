@@ -20,7 +20,7 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-adapter-api</artifactId>
 				<version>${project.parent.version}</version>
 			</dependency>

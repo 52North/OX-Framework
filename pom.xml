@@ -47,78 +47,78 @@
 		<dependencies>
 			<!-- ### MODULE DEPENDENCIES ### -->
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-layer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-feature</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-feature-grdc</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-adapter-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-csw-adapter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-ses-adapter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-sos-adapter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<!-- fix JAX automatic binding -->
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-wcs-adapter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>52n-oxf-ows-v110</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>52n-oxf-sml-v101</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>52n-oxf-swes-v20</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>52n-oxf-xmlbeans</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>52n-oxf-conversion</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-                <groupId>org.n52.sensorweb</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>52n-oxf-utils-license-bsd</artifactId>
                 <version>${project.version}</version>
             </dependency>

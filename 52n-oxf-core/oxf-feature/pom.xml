@@ -12,11 +12,11 @@
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>52n-oxf-xmlbeans</artifactId>
 		</dependency>
 		<!-- ### XML BINDING DEPENDENCIES ### -->
@@ -57,7 +57,7 @@
 		</dependency>
 		<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-feature-grdc</artifactId>
 		</dependency>
 	</dependencies>

@@ -20,8 +20,3 @@
 		</license>
 	</licenses>
 </project>
-
-TODO:
-  - split into separate modules for each functionality
-    > NCname resolver
-    > NanoHTTPD
