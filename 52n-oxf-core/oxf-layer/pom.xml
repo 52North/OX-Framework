@@ -7,7 +7,7 @@
 		<version>2.0.0-alpha.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>oxf-layer</artifactId>
-	<name>52North OxFramework Utilities</name>
+	<name>52North OxFramework Layer Tools</name>
 	<description>Provides Layer Tools for the OxFramework</description>
 	<packaging>jar</packaging>
 	<dependencies>
