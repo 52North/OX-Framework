@@ -46,7 +46,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>oxf-utils-saxon</artifactId>
+			<artifactId>oxf-third-party-saxon</artifactId>
 		</dependency>
 	</dependencies>
 </project>

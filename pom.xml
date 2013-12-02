@@ -25,7 +25,7 @@
 		<module>52n-oxf-adapters</module>
 		<module>52n-oxf-xmlbeans</module>
 		<module>52n-oxf-conversion</module>
-		<module>52n-oxf-utils</module>
+		<module>52n-oxf-third-party</module>
 	</modules>
 
 	<scm>
@@ -117,24 +117,19 @@
 				<artifactId>52n-oxf-conversion</artifactId>
 				<version>${project.version}</version>
 			</dependency>
-			<dependency>
+            <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>52n-oxf-utils-license-bsd</artifactId>
+                <artifactId>oxf-third-party-nanohttpd</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>oxf-utils-nanohttpd</artifactId>
+                <artifactId>oxf-third-party-ncname-resolver</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>oxf-utils-ncname-resolver</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>oxf-utils-saxon</artifactId>
+                <artifactId>oxf-third-party-saxon</artifactId>
                 <version>${project.version}</version>
             </dependency>
 			<dependency>

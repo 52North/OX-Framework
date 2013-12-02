@@ -35,7 +35,7 @@
 		</dependency>
 		<dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>oxf-utils-nanohttpd</artifactId>
+            <artifactId>oxf-third-party-nanohttpd</artifactId>
         </dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
