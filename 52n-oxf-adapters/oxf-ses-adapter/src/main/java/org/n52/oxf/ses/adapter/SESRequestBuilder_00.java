@@ -186,48 +186,6 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 			String xmlMessage = getStringValueFor(NOTIFY_XML_MESSAGE, parameters);
 
             logger.debug("\n##############################################################\n##############################################################");
-            logger.debug("\n##############################################################\n##############################################################");
-            logger.debug("\n##############################################################\n##############################################################");
-            logger.debug("\n##############################################################\n##############################################################");
-            
-            for (String property : System.getenv().keySet()) {
-                logger.debug("[" + property + "] = " + System.getenv(property));
-            }
-
-            logger.debug("\n##############################################################\n##############################################################");
-            logger.debug("\n##############################################################\n##############################################################");
-            logger.debug("\n##############################################################\n##############################################################");
-            logger.debug("\n##############################################################\n##############################################################");
-            
-			
-			if (xmlMessage == null) {
-                throw new NullPointerException("xml message is null.");
-            }
-
-            logger.debug("\n##############################################################\n##############################################################");
-            
-			byte [] byteArray = {'a'}; 
-			InputStream inputStream = new ByteArrayInputStream(byteArray); 
-			InputStreamReader reader = new InputStreamReader(inputStream); 
-			String defaultEncoding = reader.getEncoding();
-			logger.debug("default encoding used: " + defaultEncoding);
-
-            logger.debug("\n##############################################################\n##############################################################");
-			
-			char[] headHex = Hex.encodeHex(copyOfRange(xmlMessage.getBytes(), 0, 100));
-			logger.debug("100 first bytes: {}", Arrays.toString(headHex));
-			
-			logger.debug("\n##############################################################\n##############################################################");
-            
-            headHex = Hex.encodeHex(copyOfRange(xmlMessage.getBytes(Charset.forName("utf-8")), 0, 100));
-            logger.debug("100 first bytes as utf-8: {}", Arrays.toString(headHex));
-            
-            logger.debug("\n##############################################################\n##############################################################");
-            
-            headHex = Hex.encodeHex(copyOfRange(xmlMessage.getBytes(Charset.forName("cp1252")), 0, 100));
-            logger.debug("100 first bytes as cp1252: {}", Arrays.toString(headHex));
-
-            logger.debug("\n##############################################################\n##############################################################");
 			
 			logger.debug("XmlMessage to set: {}", xmlMessage);
 
@@ -244,7 +202,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
             
             message.set(XmlObject.Factory.parse(xmlMessage));
 		} catch (XmlException e) {
-			logger.warn("Could not set <wsnt:Message> contents!", e);
+			logger.warn("Could not set <Message> contents!", e);
 		}
 
 		body.set(notifyDoc);
