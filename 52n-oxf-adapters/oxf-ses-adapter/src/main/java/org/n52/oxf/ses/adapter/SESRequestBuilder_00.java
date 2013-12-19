@@ -23,6 +23,7 @@
  */
 package org.n52.oxf.ses.adapter;
 
+import static java.util.Arrays.copyOfRange;
 import static org.n52.oxf.ses.adapter.SESRequestBuilder_00.SoapEnvelopeBuilder.aSesRequest;
 import static org.n52.oxf.ses.adapter.SESUtils.addNamespacesToEnvelope_000;
 import static org.n52.oxf.ses.adapter.SESUtils.SesNamespace.WSA;
@@ -34,10 +35,16 @@ import static org.n52.oxf.xmlbeans.tools.SoapUtil.addWsaAction;
 import static org.n52.oxf.xmlbeans.tools.SoapUtil.addWsaFrom;
 import static org.n52.oxf.xmlbeans.tools.SoapUtil.addWsaRecipientTo;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 
 import javax.xml.namespace.QName;
 
@@ -47,6 +54,7 @@ import net.opengis.ses.x00.DescribeSensorDocument.DescribeSensor;
 import net.opengis.ses.x00.GetCapabilitiesDocument;
 import net.opengis.ses.x00.GetCapabilitiesDocument.GetCapabilities;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -175,7 +183,66 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		Message message = notificationMessage.addNewMessage();
 
 		try {
-			message.set(XmlObject.Factory.parse(getStringValueFor(NOTIFY_XML_MESSAGE, parameters)));
+			String xmlMessage = getStringValueFor(NOTIFY_XML_MESSAGE, parameters);
+
+            logger.debug("\n##############################################################\n##############################################################");
+            logger.debug("\n##############################################################\n##############################################################");
+            logger.debug("\n##############################################################\n##############################################################");
+            logger.debug("\n##############################################################\n##############################################################");
+            
+            for (String property : System.getenv().keySet()) {
+                logger.debug("[" + property + "] = " + System.getenv(property));
+            }
+
+            logger.debug("\n##############################################################\n##############################################################");
+            logger.debug("\n##############################################################\n##############################################################");
+            logger.debug("\n##############################################################\n##############################################################");
+            logger.debug("\n##############################################################\n##############################################################");
+            
+			
+			if (xmlMessage == null) {
+                throw new NullPointerException("xml message is null.");
+            }
+
+            logger.debug("\n##############################################################\n##############################################################");
+            
+			byte [] byteArray = {'a'}; 
+			InputStream inputStream = new ByteArrayInputStream(byteArray); 
+			InputStreamReader reader = new InputStreamReader(inputStream); 
+			String defaultEncoding = reader.getEncoding();
+			logger.debug("default encoding used: " + defaultEncoding);
+
+            logger.debug("\n##############################################################\n##############################################################");
+			
+			char[] headHex = Hex.encodeHex(copyOfRange(xmlMessage.getBytes(), 0, 100));
+			logger.debug("100 first bytes: {}", Arrays.toString(headHex));
+			
+			logger.debug("\n##############################################################\n##############################################################");
+            
+            headHex = Hex.encodeHex(copyOfRange(xmlMessage.getBytes(Charset.forName("utf-8")), 0, 100));
+            logger.debug("100 first bytes as utf-8: {}", Arrays.toString(headHex));
+            
+            logger.debug("\n##############################################################\n##############################################################");
+            
+            headHex = Hex.encodeHex(copyOfRange(xmlMessage.getBytes(Charset.forName("cp1252")), 0, 100));
+            logger.debug("100 first bytes as cp1252: {}", Arrays.toString(headHex));
+
+            logger.debug("\n##############################################################\n##############################################################");
+			
+			logger.debug("XmlMessage to set: {}", xmlMessage);
+
+			logger.debug("\n##############################################################\n##############################################################");
+			
+			StringBuilder sb = new StringBuilder();
+			Scanner scanner = new Scanner(xmlMessage);
+			while(scanner.hasNext()) {
+			    sb.append(scanner.nextLine());
+			}
+			logger.debug("parse scanned xmlMessage: {}", XmlObject.Factory.parse(sb.toString())); 
+
+            logger.debug("\n##############################################################\n##############################################################");
+            
+            message.set(XmlObject.Factory.parse(xmlMessage));
 		} catch (XmlException e) {
 			logger.warn("Could not set <wsnt:Message> contents!", e);
 		}
