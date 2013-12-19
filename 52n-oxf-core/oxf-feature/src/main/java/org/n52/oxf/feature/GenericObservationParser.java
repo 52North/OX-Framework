@@ -49,9 +49,10 @@ import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
 import net.opengis.swe.x101.DataArrayDocument;
 import net.opengis.swe.x20.AbstractDataComponentType;
+import net.opengis.swe.x20.CategoryType;
 import net.opengis.swe.x20.CountType;
-import net.opengis.swe.x20.DataArrayPropertyType;
 import net.opengis.swe.x20.DataArrayType;
+import net.opengis.swe.x20.DataArrayType.ElementType;
 import net.opengis.swe.x20.DataRecordType.Field;
 import net.opengis.swe.x20.QuantityType;
 import net.opengis.swe.x20.TextEncodingType;
@@ -69,7 +70,6 @@ import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
 import net.opengis.waterml.x20.TVPMeasurementMetadataType;
 import net.opengis.waterml.x20.TVPMetadataType;
 
-import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -508,14 +508,17 @@ public class GenericObservationParser {
                                                                 List<String> types,
                                                                 List<String> names,
                                                                 XmlObject result) throws Exception {
-		SchemaType resultType = result.schemaType();
-        if (resultType == DataArrayType.type || resultType == DataArrayPropertyType.type) {
-            DataArrayPropertyType dataArray = DataArrayPropertyType.Factory.parse(result.newInputStream());
-	        AbstractDataComponentType dataComponent = dataArray.getDataArray1().getElementType().getAbstractDataComponent();
-
+	    
+        try {
+            InputStream stream = result.newInputStream();
+            net.opengis.swe.x20.DataArrayDocument dataArrayDoc = net.opengis.swe.x20.DataArrayDocument.Factory.parse(stream);
+            ElementType dataElement = dataArrayDoc.getDataArray1().getElementType();
+            AbstractDataComponentType data = dataElement.getAbstractDataComponent();
+            
+            
 	        // 1. in case of 'DataRecord':
-	        if (dataComponent instanceof net.opengis.swe.x20.DataRecordType) {
-	            net.opengis.swe.x20.DataRecordType dataRecord = (net.opengis.swe.x20.DataRecordType) dataComponent;
+	        if (data instanceof net.opengis.swe.x20.DataRecordType) {
+	            net.opengis.swe.x20.DataRecordType dataRecord = (net.opengis.swe.x20.DataRecordType) data;
 	           
 	            Field[] fields = dataRecord.getFieldArray();
 	                
@@ -543,15 +546,18 @@ public class GenericObservationParser {
 	                } else if (dataComponentType instanceof CountType) {
 	                	CountType count = (CountType) dataComponentType;
 	                	types.add("count");
-	                }
+	                } else if (dataComponentType instanceof CategoryType) {
+                        CategoryType count = (CategoryType) dataComponentType;
+                        types.add("category");
+                    }
 	                
 	                // ... TODO there are more possibilities...
 	            }
 	        }
-	        return dataArray.getDataArray1();
-		} else {
+	        return dataArrayDoc.getDataArray1();
+		} catch (XmlException e) {
 		    LOGGER.warn("No DataArray found to parse SweCommon fields: {}", result);
-			throw new OXFException("Expected DataArray@http://www.opengis.net/swe/2.0 or DataArrayPropertyType@http://www.opengis.net/swe/2.0 instead of " + resultType);
+			throw new OXFException("Expected DataArray@http://www.opengis.net/swe/2.0 or DataArrayPropertyType@http://www.opengis.net/swe/2.0 instead of " + result.schemaType());
 		}
     }
 
@@ -629,7 +635,8 @@ public class GenericObservationParser {
                         OXFFeature feature = new OXFFeature("anyID", oxf_measurementType);
 
                         OXFMeasureType resultValue = null;
-                        if (phenomenValue.equalsIgnoreCase("nodata")) {
+                        if (phenomenValue.equalsIgnoreCase("nodata")
+                                || phenomenValue.equalsIgnoreCase("NOT_SET")) {
                             resultValue = new OXFMeasureType(uomURN, Double.NaN);
                         }
                         else {
@@ -638,13 +645,8 @@ public class GenericObservationParser {
                         }
 
                         if (foi == null) { // if no foi is listed in encoded result
-                            Iterator<OXFFeature> iterator = fois.values().iterator();
-                            if (iterator.hasNext()) {
-                                foi = iterator.next();
-                            } else {
-                                // TODO change Exception type to checked Exception
-                                throw new RuntimeException("no corresponding foi found in encoded result.");
-                            }
+                            // TODO is feature always listed beforehand?
+                            foi = getFirstReferencedFoi(fois, foi);
                         }
                         oxf_measurementType.initializeFeature(feature,
                                                               new String[] {names.get(i)},
@@ -665,7 +667,11 @@ public class GenericObservationParser {
                         OXFFeature feature = new OXFFeature("anyID", oxf_categoryType);
 
                         OXFScopedName resultValue = new OXFScopedName("anyCode", phenomenValue);
-
+                        
+                        if (foi == null) { // if no foi is listed in encoded result
+                            // TODO is feature always listed beforehand?
+                            foi = getFirstReferencedFoi(fois, foi);
+                        }
                         oxf_categoryType.initializeFeature(feature, new String[] {names.get(i)}, "anyDescription", null,// featureOfInterestValue.getGeometry(),
                                                            TimeFactory.createTime(time),
                                                            procedure,
@@ -682,7 +688,11 @@ public class GenericObservationParser {
                         OXFFeature feature = new OXFFeature("anyID", oxf_TruthType);
 
                         Boolean resultValue = Boolean.parseBoolean(phenomenValue);
-
+                        
+                        if (foi == null) { // if no foi is listed in encoded result
+                            // TODO is feature always listed beforehand?
+                            foi = getFirstReferencedFoi(fois, foi);
+                        }
                         oxf_TruthType.initializeFeature(feature, new String[] {names.get(i)}, "anyDescription", null,// featureOfInterestValue.getGeometry(),
                                                            TimeFactory.createTime(time),
                                                            procedure,
@@ -701,6 +711,10 @@ public class GenericObservationParser {
 
                         Number resultValue = Integer.parseInt(phenomenValue);
 
+                        if (foi == null) { // if no foi is listed in encoded result
+                            // TODO is feature always listed beforehand?
+                            foi = getFirstReferencedFoi(fois, foi);
+                        }
                         oxf_CountType.initializeFeature(feature, new String[] {names.get(i)}, "anyDescription", null,// featureOfInterestValue.getGeometry(),
                                                            TimeFactory.createTime(time),
                                                            procedure,
@@ -718,6 +732,10 @@ public class GenericObservationParser {
 
                         ITime resultValue = TimeFactory.createTime(phenomenValue);
 
+                        if (foi == null) { // if no foi is listed in encoded result
+                            // TODO is feature always listed beforehand?
+                            foi = getFirstReferencedFoi(fois, foi);
+                        }
                         oxf_TimeType.initializeFeature(feature, new String[] {names.get(i)}, "anyDescription", null,// featureOfInterestValue.getGeometry(),
                                                            TimeFactory.createTime(time),
                                                            procedure,
@@ -729,6 +747,14 @@ public class GenericObservationParser {
                 }
             }
         }
+    }
+
+    private static OXFFeature getFirstReferencedFoi(Map<String, OXFFeature> fois, OXFFeature foi) {
+        Iterator<OXFFeature> iterator = fois.values().iterator();
+        if (iterator.hasNext()) {
+            return iterator.next();
+        } 
+        throw new RuntimeException("no corresponding foi found in encoded result.");
     }
 
 }
