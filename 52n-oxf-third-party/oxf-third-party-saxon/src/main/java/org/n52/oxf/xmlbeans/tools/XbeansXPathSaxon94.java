@@ -233,12 +233,12 @@ import org.apache.xmlbeans.impl.store.PathDelegate;
 import org.w3c.dom.Node;
 
 
-public class XbeansXPathSaxon94  implements PathDelegate.SelectPathInterface {
+public class XbeansXPathSaxon94 implements PathDelegate.SelectPathInterface {
 
-	private Object[] namespaceMap;
-	private String path;
-	private String contextVar;
-	private String defaultNS;
+	private final Object[] namespaceMap;
+	private final String path;
+	private final String contextVar;
+	private final String defaultNS;
 
 	/**
 	 * Construct given an XPath expression string.
@@ -247,9 +247,8 @@ public class XbeansXPathSaxon94  implements PathDelegate.SelectPathInterface {
 	 * @param namespaceMap a map of prefix/uri bindings for NS support
 	 * @param defaultNS the uri for the default element NS, if any
 	 */
-	@SuppressWarnings("rawtypes")
-	public XbeansXPathSaxon94(String path, String contextVar,
-			Map namespaceMap, String defaultNS)
+	public XbeansXPathSaxon94(final String path, final String contextVar,
+			final Map<?,?> namespaceMap, final String defaultNS)
 	{
 		this.path = path;
 		this.contextVar = contextVar;
@@ -281,46 +280,46 @@ public class XbeansXPathSaxon94  implements PathDelegate.SelectPathInterface {
 	 * @return The <code>List</code> of all items selected
 	 *         by this XPath expression.
 	 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List selectNodes(Object node)
+	@SuppressWarnings({"unchecked", "rawtypes" })
+	public List<?> selectNodes(final Object node)
 	{
 		try
 		{
-			Node contextNode = (Node)node;
-			XPathEvaluator xpe = new XPathEvaluator();
-			Configuration config = new Configuration();
+			final Node contextNode = (Node)node;
+			final XPathEvaluator xpe = new XPathEvaluator();
+			final Configuration config = new Configuration();
 			config.setDOMLevel(2);
 			config.setTreeModel(net.sf.saxon.event.Builder.STANDARD_TREE);
-			IndependentContext sc = new IndependentContext(config);
+			final IndependentContext sc = new IndependentContext(config);
 			// Declare ns bindings
-			if (defaultNS != null)
+			if (defaultNS != null) {
 				sc.setDefaultElementNamespace(defaultNS);
+			}
 
-			for (int i = 0; i < namespaceMap.length; i++)
-			{
-				Map.Entry entry = (Map.Entry) namespaceMap[i];
+			for (final Object element : namespaceMap) {
+				final Map.Entry entry = (Map.Entry) element;
 				sc.declareNamespace((String) entry.getKey(),
 						(String) entry.getValue());
 			}
 			xpe.setStaticContext(sc);
-			XPathVariable thisVar = xpe.declareVariable("", contextVar);
-			XPathExpression xpath = xpe.createExpression(path);
-			NodeInfo contextItem = 
+			final XPathVariable thisVar = xpe.declareVariable("", contextVar);
+			final XPathExpression xpath = xpe.createExpression(path);
+			final NodeInfo contextItem = 
 					//config.buildDocument(new DOMSource(contextNode));
 					config.unravel(new DOMSource(contextNode));
-			XPathDynamicContext dc = xpath.createDynamicContext(null);
+			final XPathDynamicContext dc = xpath.createDynamicContext(null);
 			dc.setContextItem(contextItem);
 			dc.setVariable(thisVar, contextItem);
 
-			List saxonNodes = xpath.evaluate(dc);
-			for (ListIterator it = saxonNodes.listIterator(); it.hasNext(); )
+			final List<?> saxonNodes = xpath.evaluate(dc);
+			for (final ListIterator it = saxonNodes.listIterator(); it.hasNext(); )
 			{
-				Object o = it.next();
+				final Object o = it.next();
 				if (o instanceof NodeInfo)
 				{
 					if (o instanceof NodeWrapper)
 					{
-						Node n = getUnderlyingNode((NodeWrapper)o);
+						final Node n = getUnderlyingNode((NodeWrapper)o);
 						it.set(n);
 					}
 					else
@@ -328,19 +327,20 @@ public class XbeansXPathSaxon94  implements PathDelegate.SelectPathInterface {
 						it.set(((NodeInfo)o).getStringValue());
 					}
 				}
-				else if (o instanceof Item)
-					it.set(Value.convertToJava((Item)o));
+				else if (o instanceof Item<?>) {
+					it.set(Value.convertToJava((Item<?>)o));
+				}
 			}
 			return saxonNodes;
 		}
-		catch (TransformerException e)
+		catch (final TransformerException e)
 		{
 			throw new RuntimeException(e);
 		}
 	}
 
-	@SuppressWarnings("rawtypes")
-	public List selectPath(Object node)
+	@Override
+	public List<?> selectPath(final Object node)
 	{
 		return selectNodes(node);
 	}
@@ -357,7 +357,7 @@ public class XbeansXPathSaxon94  implements PathDelegate.SelectPathInterface {
 	 * @param v The <code>VirtualNode</code>
 	 * @return The underlying node
 	 */
-	private static Node getUnderlyingNode(VirtualNode v)
+	private static Node getUnderlyingNode(final VirtualNode v)
 	{
 		Object o = v;
 		while (o instanceof VirtualNode)

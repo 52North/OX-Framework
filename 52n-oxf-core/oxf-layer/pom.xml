@@ -7,31 +7,31 @@
 		<version>2.0.0-alpha.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>oxf-layer</artifactId>
-	<name>52North OxFramework Utilities</name>
+	<name>52North OxFramework Layer Tools</name>
 	<description>Provides Layer Tools for the OxFramework</description>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-common</artifactId>
 			<exclusions>
 				<exclusion>
-					<artifactId>commons-httpclient</artifactId>
 					<groupId>commons-httpclient</groupId>
+					<artifactId>commons-httpclient</artifactId>
 				</exclusion>
 				<exclusion>
-					<artifactId>52n-xml-ows-v110</artifactId>
 					<groupId>org.n52.sensorweb</groupId>
+					<artifactId>52n-xml-ows-v110</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
 			<!-- TODO clean up dependency -->
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-adapter-api</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-feature</artifactId>
 		</dependency>
 		<!-- ### XML BINDING DEPENDENCIES ### -->

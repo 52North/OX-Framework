@@ -25,6 +25,7 @@
 		<module>52n-oxf-adapters</module>
 		<module>52n-oxf-xmlbeans</module>
 		<module>52n-oxf-conversion</module>
+		<module>52n-oxf-third-party</module>
 	</modules>
 
 	<scm>
@@ -46,76 +47,91 @@
 		<dependencies>
 			<!-- ### MODULE DEPENDENCIES ### -->
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-layer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-feature</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-feature-grdc</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-adapter-api</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-csw-adapter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-ses-adapter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-sos-adapter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<!-- fix JAX automatic binding -->
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>oxf-wcs-adapter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>52n-oxf-ows-v110</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>52n-oxf-sml-v101</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>52n-oxf-swes-v20</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>52n-oxf-xmlbeans</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.n52.sensorweb</groupId>
+				<groupId>${project.groupId}</groupId>
 				<artifactId>52n-oxf-conversion</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>oxf-third-party-nanohttpd</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>oxf-third-party-ncname-resolver</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>oxf-third-party-saxon</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 			<dependency>
 				<groupId>org.n52.sensorweb</groupId>
 				<artifactId>52n-ogc-schema</artifactId>
@@ -271,6 +287,11 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
+			<dependency>
+                <groupId>org.apache.xmlbeans</groupId>
+                <artifactId>xmlbeans</artifactId>
+                <version>2.6.0</version>
+            </dependency>
 			<dependency>
 				<groupId>net.sf.saxon</groupId>
 				<artifactId>Saxon-HE</artifactId>
@@ -486,9 +507,12 @@
 						<include>**/*.java</include>
 					</includes>
 					<excludes>
-						<exclude>**/src/**/NanoHTTPD.java</exclude>
+                        <!-- apache license -->
 						<exclude>**/src/**/XbeansXPathSaxon94.java</exclude>
 						<exclude>**/src/**/XbeansXQuerySaxon94.java</exclude>
+						<!-- BSD license -->
+						<exclude>**/src/**/NanoHTTPD.java</exclude>
+						<!-- Aduna BSD like license -->
 						<exclude>**/src/**/NcNameResolver.java</exclude>
 					</excludes>
 					<strictCheck>true</strictCheck>

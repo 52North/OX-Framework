@@ -12,7 +12,7 @@
 	<dependencies>
 		<!-- ### MODULE DEPENDENCIES ### -->
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-common</artifactId>
 			<exclusions>
 				<exclusion>
@@ -22,24 +22,24 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-adapter-api</artifactId>
 			<exclusions>
 				<exclusion>
+					<groupId>${project.groupId}</groupId>
 					<artifactId>oxf-layer</artifactId>
-					<groupId>org.n52.sensorweb</groupId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.n52.sensorweb</groupId>
 					<artifactId>52n-xml-sos-v20</artifactId>
-					<groupId>org.n52.sensorweb</groupId>
 				</exclusion>
 				<exclusion>
+					<groupId>org.n52.sensorweb</groupId>
 					<artifactId>52n-xml-sos-v100</artifactId>
-					<groupId>org.n52.sensorweb</groupId>
 				</exclusion>
 				<exclusion>
-					<artifactId>52n-xml-waterML-v20</artifactId>
 					<groupId>org.n52.sensorweb</groupId>
+					<artifactId>52n-xml-waterML-v20</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

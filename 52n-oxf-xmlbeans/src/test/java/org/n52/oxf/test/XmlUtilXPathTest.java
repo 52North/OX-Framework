@@ -32,7 +32,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
 
-public class XPathSaxon94Test {
+public class XmlUtilXPathTest {
 
 	@Test
 	public void testXpathCompilation() throws XmlException, IOException {

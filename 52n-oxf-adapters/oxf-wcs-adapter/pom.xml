@@ -13,15 +13,15 @@
 	<dependencies>
 		<!-- ### MODULE DEPENDENCIES ### -->
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>52n-xml-wcs-v11</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-adapter-api</artifactId>
 		</dependency>
 	</dependencies>
