@@ -21,8 +21,12 @@
       <directory>${project.basedir}</directory>
       <outputDirectory>/bin</outputDirectory>
       <includes>
-        <include>**/${project.build.directory}/*.jar</include>    
+        <include>**/target/*.jar</include>  
       </includes>
+      <excludes>
+        <exclude>**/*-sources.jar</exclude>
+        <exclude>**/*-tests.jar</exclude>
+      </excludes>
     </fileSet>
     <fileSet>
       <directory>${project.basedir}</directory>
@@ -30,6 +34,7 @@
       <useDefaultExcludes>true</useDefaultExcludes>
       <filtered>true</filtered>
       <includes>
+        <include>NOTICE*</include>
         <include>README*</include>
         <include>LICENSE*</include>
         <include>RELEASE_NOTES*</include>
