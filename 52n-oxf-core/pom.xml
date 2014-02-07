@@ -12,7 +12,6 @@
 	<modules>
 		<module>oxf-feature-grdc</module>
 		<module>oxf-feature</module>
-		<module>oxf-layer</module>
 		<module>oxf-common</module>
 	</modules>
 </project>
