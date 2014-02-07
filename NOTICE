@@ -13,7 +13,6 @@ This project includes:
   52North OxFramework CSW Adapter under GNU General Public License, v2.0
   52North OxFramework Features under GNU General Public License, v2.0
   52North OxFramework GRDC schema binding under GNU General Public License, v2.0
-  52North OxFramework Layer Tools under GNU General Public License, v2.0
   52North OxFramework OWS under GNU General Public License, v2.0
   52North OxFramework SensorML under GNU General Public License, v2.0
   52North OxFramework SES Adapter under GNU General Public License, v2.0
@@ -34,8 +33,6 @@ This project includes:
   HttpClient under Apache License
   HttpCore under Apache License
   isorelax under MIT license
-  jai_codec under Java Advanced Imaging Distribution License, http://download.java.net/media/jai/builds/release/1_1_3/LICENSE-jai.txt
-  jai_core under Java Advanced Imaging Distribution License, http://download.java.net/media/jai/builds/release/1_1_3/LICENSE-jai.txt
   JCL 1.1.1 implemented over SLF4J under MIT License
   jcommon under GNU Lesser General Public Licence
   jfreechart under GNU Lesser General Public Licence
@@ -52,10 +49,8 @@ This project includes:
   OGC Filter schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
   OGC Filter schema (spec. v1.1.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
   OGC Filter schema (spec. v2.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
-  OGC GML schema (spec. v2.1.2) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
   OGC GML schema (spec. v3.1.1) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
   OGC GML schema (spec. v3.2.1) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
-  OGC Keyhole Markup Language schema (spec. v2.2.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
   OGC O&M schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
   OGC O&M schema (spec. v2.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
   OGC OWS schema (spec. v1.0.0) under GNU GENERAL PUBLIC LICENSE Version 2, June 1991
