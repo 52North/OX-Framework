@@ -26,14 +26,6 @@
 			<artifactId>jts</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax.media</groupId>
-			<artifactId>jai_core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.media</groupId>
-			<artifactId>jai_codec</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>jfree</groupId>
 			<artifactId>jfreechart</artifactId>
 		</dependency>
