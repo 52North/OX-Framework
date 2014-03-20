@@ -27,58 +27,34 @@
  */
 package org.n52.oxf.xmlbeans.parser;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.n52.oxf.xmlbeans.parser.InsertionMetadataMissingCase.getInstance;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlValidationError;
-import org.n52.oxf.xml.XMLConstants;
+import org.junit.Test;
+
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- *
  */
-public class InsertionMetadataMissingCase extends AbstractDependentLaxValidationCase {
+public class InsertionMetadataMissingCaseTest {
 
-	private static InsertionMetadataMissingCase instance;
+	@Test
+	public void shouldReturnFalseIfReceivingNullValues() {
+		List<XmlError> lxe = null;
+		final XmlValidationError mockedXVE = mock(XmlValidationError.class);
 
-	@Override
-	public boolean shouldPass(final XmlError validationError,
-			final List<XmlError> allExceptionalCases)
-	{
-		if (allExceptionalCases == null || allExceptionalCases.isEmpty()) {
-			return false;
-		}
-		final XmlValidationError xve = (XmlValidationError) validationError;
-		if (isContextCorrect(xve)) {
-			// clone list
-			final ArrayList<XmlError> workingCopy = new ArrayList<XmlError>(allExceptionalCases);
-			// remove validation error
-			workingCopy.remove(validationError);
-			// check for potential cause
-			for (final XmlError xmlError : workingCopy) {
-				if (SosInsertionMetadataCase.getInstance().shouldPass(xmlError))
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+		assertThat(getInstance().shouldPass(mockedXVE, lxe), is(false));
 
-	private boolean isContextCorrect(final XmlValidationError xve)
-	{
-		return xve != null &&
-				xve.getOffendingQName() == null &&
-				xve.getFieldQName().equals(XMLConstants.QN_SWES_2_0_METADATA) &&
-				xve.getExpectedQNames().contains(XMLConstants.QN_SWES_2_0_INSERTION_METADATA);
-	}
+		lxe = new ArrayList<XmlError>();
+		assertThat(getInstance().shouldPass(mockedXVE, lxe), is(false));
 
-	public static InsertionMetadataMissingCase getInstance() {
-		if (instance == null) {
-			instance = new InsertionMetadataMissingCase();
-		}
-		return instance;
 	}
 
 }
