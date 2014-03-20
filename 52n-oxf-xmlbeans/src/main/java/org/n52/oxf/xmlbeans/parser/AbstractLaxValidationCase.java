@@ -40,6 +40,9 @@ public abstract class AbstractLaxValidationCase implements LaxValidationCase {
 	@Override
 	public boolean shouldPass(final XmlError validationError)
 	{
+		if (validationError == null) {
+			return false;
+		}
 		if (!(validationError instanceof XmlValidationError)) {
 			return false;
 		}
