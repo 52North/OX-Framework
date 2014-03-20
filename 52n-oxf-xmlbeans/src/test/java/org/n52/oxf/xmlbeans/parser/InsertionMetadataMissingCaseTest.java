@@ -27,33 +27,34 @@
  */
 package org.n52.oxf.xmlbeans.parser;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.n52.oxf.xmlbeans.parser.InsertionMetadataMissingCase.getInstance;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlValidationError;
+import org.junit.Test;
+
 
 /**
- * Provides an delegating implementation for {@link #shouldPass(XmlError)} &rarr; {@link #shouldPass(XmlValidationError)}.
- *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  */
-public abstract class AbstractLaxValidationCase implements LaxValidationCase {
+public class InsertionMetadataMissingCaseTest {
 
-	@Override
-	public boolean shouldPass(final XmlError validationError)
-	{
-		if (validationError == null) {
-			return false;
-		}
-		if (!(validationError instanceof XmlValidationError)) {
-			return false;
-		}
-		return shouldPass((XmlValidationError) validationError);
+	@Test
+	public void shouldReturnFalseIfReceivingNullValues() {
+		List<XmlError> lxe = null;
+		final XmlValidationError mockedXVE = mock(XmlValidationError.class);
+
+		assertThat(getInstance().shouldPass(mockedXVE, lxe), is(false));
+
+		lxe = new ArrayList<XmlError>();
+		assertThat(getInstance().shouldPass(mockedXVE, lxe), is(false));
+
 	}
-
-	/**
-	 * @deprecated see {@link LaxValidationCase#shouldPass(XmlValidationError)}
-	 */
-	@Override
-	@Deprecated
-	public abstract boolean shouldPass(XmlValidationError validationError);
 
 }

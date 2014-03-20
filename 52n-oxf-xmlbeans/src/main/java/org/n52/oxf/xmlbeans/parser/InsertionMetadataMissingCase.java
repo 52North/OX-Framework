@@ -46,7 +46,7 @@ public class InsertionMetadataMissingCase extends AbstractDependentLaxValidation
 	public boolean shouldPass(final XmlError validationError,
 			final List<XmlError> allExceptionalCases)
 	{
-		if (!(validationError instanceof XmlValidationError)) {
+		if (allExceptionalCases == null || allExceptionalCases.isEmpty()) {
 			return false;
 		}
 		final XmlValidationError xve = (XmlValidationError) validationError;
@@ -68,11 +68,12 @@ public class InsertionMetadataMissingCase extends AbstractDependentLaxValidation
 
 	private boolean isContextCorrect(final XmlValidationError xve)
 	{
-		return xve.getOffendingQName() == null &&
+		return xve != null &&
+				xve.getOffendingQName() == null &&
 				xve.getFieldQName().equals(XMLConstants.QN_SWES_2_0_METADATA) &&
 				xve.getExpectedQNames().contains(XMLConstants.QN_SWES_2_0_INSERTION_METADATA);
 	}
-	
+
 	public static InsertionMetadataMissingCase getInstance() {
 		if (instance == null) {
 			instance = new InsertionMetadataMissingCase();

@@ -27,33 +27,47 @@
  */
 package org.n52.oxf.xmlbeans.parser;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+
 import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlValidationError;
+import org.junit.Test;
 
-/**
- * Provides an delegating implementation for {@link #shouldPass(XmlError)} &rarr; {@link #shouldPass(XmlValidationError)}.
- *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- */
-public abstract class AbstractLaxValidationCase implements LaxValidationCase {
 
-	@Override
-	public boolean shouldPass(final XmlError validationError)
-	{
-		if (validationError == null) {
-			return false;
-		}
-		if (!(validationError instanceof XmlValidationError)) {
-			return false;
-		}
-		return shouldPass((XmlValidationError) validationError);
+public class AbstractLaxValidationCaseTest {
+
+	@Test
+	public void shouldReturnFalseIfReceivingNullValue() {
+		final XmlError ve = null;
+
+		assertThat(new LaxValidationCaseSeam().shouldPass(ve), is(false));
 	}
 
-	/**
-	 * @deprecated see {@link LaxValidationCase#shouldPass(XmlValidationError)}
-	 */
-	@Override
-	@Deprecated
-	public abstract boolean shouldPass(XmlValidationError validationError);
+	@Test
+	public void shouldReturnFalseIfReceivingUnknownType() {
+		final XmlError validationError = new MyType();
+
+		assertThat(new LaxValidationCaseSeam().shouldPass(validationError), is(false));
+	}
+
+	private class LaxValidationCaseSeam extends AbstractLaxValidationCase {
+
+		@Override
+		public boolean shouldPass(final XmlValidationError validationError) {
+			return true;
+		}
+
+	}
+
+	private class MyType extends XmlError {
+
+		private static final long serialVersionUID = 1L;
+
+		public MyType() {
+			super(mock(XmlError.class));
+		}
+	}
 
 }
