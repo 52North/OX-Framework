@@ -32,7 +32,7 @@ import org.apache.xmlbeans.XmlValidationError;
 
 /**
  * Provides an delegating implementation for {@link #shouldPass(XmlError)} &rarr; {@link #shouldPass(XmlValidationError)}.
- * 
+ *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  */
 public abstract class AbstractLaxValidationCase implements LaxValidationCase {
@@ -46,8 +46,11 @@ public abstract class AbstractLaxValidationCase implements LaxValidationCase {
 		return shouldPass((XmlValidationError) validationError);
 	}
 
+	/**
+	 * @deprecated see {@link LaxValidationCase#shouldPass(XmlValidationError)}
+	 */
 	@Override
 	@Deprecated
 	public abstract boolean shouldPass(XmlValidationError validationError);
-	
+
 }
