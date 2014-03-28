@@ -29,6 +29,8 @@ package org.n52.oxf.sos.observation;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
+import java.util.Arrays;
+
 import javax.xml.namespace.QName;
 
 import org.n52.oxf.request.MultiValueRequestParameters;
@@ -43,7 +45,7 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
     protected ObservationParameters(final QName type) {
         this.type = type;
     }
-    
+
     /**
      * @return <code>true</code> if at least all mandatory parameters are set.
      */
@@ -51,7 +53,7 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
 
     /**
      * Return the type of Observation.
-     * 
+     *
      * @return observation type.
      */
     public QName getType() {
@@ -63,7 +65,7 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
 
     public void addSamplingTime(final String samplingTime) {
     }
-    
+
     /**
      * SOS 2.0 specific
      * @param resultTime
@@ -71,7 +73,7 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
     public void addResultTime(final String resultTime) {
     	addNonEmpty(INSERT_OBSERVATION_RESULT_TIME, resultTime);
     }
-    
+
     /**
      * SOS 2.0 specific
      * @param phenomenonTime
@@ -79,11 +81,15 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
     public void addPhenomenonTime(final String phenomenonTime) {
     	addNonEmpty(INSERT_OBSERVATION_PHENOMENON_TIME, phenomenonTime);
     }
-    
+
+	public void addExtension(final String... anyXML) {
+		addNonEmpty(EXTENSION, Arrays.asList(anyXML));
+	}
+
     public void addFoiId(final String foiId) {
     	addNonEmpty(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);
     }
-    
+
     public void addNewFoiId(final String foiId) {
     	addNonEmpty(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER, foiId);
     }
@@ -108,11 +114,7 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
     	addNonEmpty(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
     }
 
-	/**
-	 * @param procedureId
-	 */
-	public void addProcedure(final String procedureId)
-	{
+	public void addProcedure(final String procedureId) {
 		addNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, procedureId);
 	}
 
