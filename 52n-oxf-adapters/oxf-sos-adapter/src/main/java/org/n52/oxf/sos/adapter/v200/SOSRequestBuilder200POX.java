@@ -65,6 +65,7 @@ import net.opengis.sos.x20.InsertObservationDocument;
 import net.opengis.sos.x20.InsertObservationType;
 import net.opengis.sos.x20.SosInsertionMetadataDocument;
 import net.opengis.sos.x20.SosInsertionMetadataType;
+import net.opengis.swe.x20.DataArrayPropertyType;
 import net.opengis.swes.x20.DeleteSensorDocument;
 import net.opengis.swes.x20.DeleteSensorType;
 import net.opengis.swes.x20.DescribeSensorDocument;
@@ -262,9 +263,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 	}
 
 	/**
-	 * <ul><li>TODO implement support for OM_SWEArrayObservation</li>
-	 * <li>TODO implement support for request extensions</li>
-	 * <li>TODO implement referencing of duplicate values: result/phenomenonTime; foi instance</ul>
+	 * <ul><li>TODO implement referencing of duplicate values: result/phenomenonTime; foi instance</li></ul>
 	 */
 	@Override
 	public String buildInsertObservationRequest(final ParameterContainer parameters) throws OXFException
@@ -359,7 +358,21 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 			xbInteger.setBigIntegerValue(new BigInteger(parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue().toString()));
 			xbObservation.setResult(xbInteger);
 		}
-		else { 
+		else if (xbObservation.getType().getHref().equals(OGC_OM_2_0_OM_SWE_ARRAY_OBSERVATION)) {
+			final String sweArrayString = (String) parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
+			try {
+				final DataArrayPropertyType xbSweArray = DataArrayPropertyType.Factory.parse(sweArrayString);
+				xbObservation.setResult(xbSweArray);
+			} catch (final XmlException xe) {
+				throw new OXFException(
+						new StringBuffer("Could not parse DataArrayPropertyType XML string: '")
+						.append(sweArrayString)
+						.append("'")
+						.toString(),
+						xe);
+			}
+		}
+		else {
 			final String errorMsg = String.format("Observation Type '%s' not supported.", xbObservation.getType().getHref());
 			LOGGER.error(errorMsg);
 			throw new OXFException(errorMsg);
