@@ -632,8 +632,8 @@ public class SOSRequestBuilder200POXTest {
 
 	private void addServiceAndVersion() throws OXFException
 	{
-		parameters.addParameterShell(REGISTER_SENSOR_SERVICE_PARAMETER, sosService);
-		parameters.addParameterShell(REGISTER_SENSOR_VERSION_PARAMETER, sosVersion);
+		parameters.addParameterShell(SERVICE, sosService);
+		parameters.addParameterShell(VERSION, sosVersion);
 	}
 
 	@Before

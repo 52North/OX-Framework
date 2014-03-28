@@ -457,8 +457,8 @@ public class SOSAdapter implements IServiceAdapter {
         final Operation operation = new Operation("GetObservation", "http://GET_URL_not_used", sosURL);
 
         final ParameterContainer container = new ParameterContainer();
-        container.addParameterShell(GET_OBSERVATION_SERVICE_PARAMETER, SosUtil.SERVICE_TYPE);
-        container.addParameterShell(GET_OBSERVATION_VERSION_PARAMETER, serviceVersion);
+        container.addParameterShell(SERVICE, SosUtil.SERVICE_TYPE);
+        container.addParameterShell(VERSION, serviceVersion);
         container.addParameterShell(GET_OBSERVATION_OFFERING_PARAMETER, offering);
         container.addParameterShell(GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER, "text/xml;subtype=\"om/1.0.0\"");
         container.addParameterShell(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);

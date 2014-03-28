@@ -27,8 +27,7 @@
  */
 package org.n52.oxf.sos.examples;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_CAPABILITIES_SERVICE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import static org.n52.oxf.sos.adapter.SOSAdapter.GET_CAPABILITIES;
 
 import org.junit.Before;
@@ -40,8 +39,9 @@ import org.n52.oxf.ows.capabilities.Operation;
 
 @Ignore // comment out to run demo class via JUnit
 public class GetCapabilitiesRequestExample extends SosAdapterRequestExample {
-    
-    @Before
+
+    @Override
+	@Before
     public void setUp() throws Exception {
         super.setUp();
     }
@@ -57,8 +57,8 @@ public class GetCapabilitiesRequestExample extends SosAdapterRequestExample {
 
     @Override
     protected ParameterContainer createParameterContainer() throws OXFException {
-        ParameterContainer parameters = new ParameterContainer();
-        parameters.addParameterShell(GET_CAPABILITIES_SERVICE_PARAMETER, "SOS");
+        final ParameterContainer parameters = new ParameterContainer();
+        parameters.addParameterShell(SERVICE, "SOS");
         parameters.addParameterShell(GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, "1.0.0");
         return parameters;
     }
