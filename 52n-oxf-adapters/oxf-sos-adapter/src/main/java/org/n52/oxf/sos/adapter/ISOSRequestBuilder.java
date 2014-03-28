@@ -32,17 +32,19 @@ import org.n52.oxf.adapter.ParameterContainer;
 
 /**
  * TODO Document fields and methods!
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Br&ouml;ring</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @author <a href="mailto:h.bredel@52north.org">Henning Bredel</a>
- * 
+ *
  */
 public interface ISOSRequestBuilder {
-	
+
 	String VERSION = "version";
-	
+
 	String SERVICE = "service";
+
+	String EXTENSION = "extension";
 	/**
 	 * Currently supported by SOS 2.0 request builder only.<br />
 	 * Specifies the communication binding uses by the SOS instances the builder will create requests for.
@@ -53,7 +55,7 @@ public interface ISOSRequestBuilder {
 	 * </ul>
 	 */
 	String BINDING = "binding";
-	
+
 	public enum Binding {
 		POX, KVP, SOAP, JSON;
 	}
@@ -133,8 +135,8 @@ public interface ISOSRequestBuilder {
 	String INSERT_OBSERVATION_NEW_FOI_NAME = "newFoiName";
 	String INSERT_OBSERVATION_NEW_FOI_DESC = "newFoiDesc";
 	/**
-	 * SOS 2.0 Optional: Defines the id of the optional parent feature of the 
-	 * feature of interest of an observation. If not specified for a "new" 
+	 * SOS 2.0 Optional: Defines the id of the optional parent feature of the
+	 * feature of interest of an observation. If not specified for a "new"
 	 * feature of interest "unknown" will be used.
 	 */
 	String INSERT_OBSERVATION_NEW_FOI_PARENT_FEATURE_ID = "parentFeatureId";
@@ -161,7 +163,7 @@ public interface ISOSRequestBuilder {
 	 */
 	String INSERT_OBSERVATION_TYPE_CATEGORY = "category";
 	/**
-	 * SOS 2.0 Mandatory: Defines the time when the observation <i>occurred</i>. 
+	 * SOS 2.0 Mandatory: Defines the time when the observation <i>occurred</i>.
 	 */
 	String INSERT_OBSERVATION_PHENOMENON_TIME = "phenomenonTime";
 	/**
@@ -198,7 +200,7 @@ public interface ISOSRequestBuilder {
 	String REGISTER_SENSOR_UOM_PARAMETER = "uom";
 	/**
 	 * Required for SOS 2.0 InsertSensor requests. This parameter specifies the
-	 * format of the procedure description in the InsertSensor request. 
+	 * format of the procedure description in the InsertSensor request.
 	 */
 	String REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER = "procedureDescriptionFormat";
 	/**
@@ -249,7 +251,7 @@ public interface ISOSRequestBuilder {
 	 * @throws OXFException
 	 */
 	String buildRegisterSensorRequest(ParameterContainer parameters) throws OXFException;
-	
+
 	/**
 	 * Mandatory parameter for SOS 2.0 DeleteSensor request
 	 */
@@ -258,9 +260,9 @@ public interface ISOSRequestBuilder {
 	/**
 	 * Builds a DeleteSensor request and returns it. Required for SOS 2.0 support.
 	 * @param parameters
-	 * 		The container needs to contain all mandatory parameters including 
+	 * 		The container needs to contain all mandatory parameters including
 	 * @return
-	 * @throws OXFException 
+	 * @throws OXFException
 	 */
 	String buildDeleteSensorRequest(ParameterContainer parameters) throws OXFException;
 }
