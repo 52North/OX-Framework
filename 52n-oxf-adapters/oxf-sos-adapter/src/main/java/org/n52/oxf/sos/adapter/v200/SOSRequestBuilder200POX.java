@@ -241,8 +241,8 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 		final DescribeSensorType descSensor = descSensorDoc.addNewDescribeSensor();
 
 		// set required elements:
-		descSensor.setService((String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_SENSOR_SERVICE_PARAMETER).getSpecifiedValue());
-		descSensor.setVersion((String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_SENSOR_VERSION_PARAMETER).getSpecifiedValue());
+		descSensor.setService((String) parameters.getParameterShellWithServiceSidedName(SERVICE).getSpecifiedValue());
+		descSensor.setVersion((String) parameters.getParameterShellWithServiceSidedName(VERSION).getSpecifiedValue());
 		processProcedure(descSensor, getShellForServerParameter(parameters, DESCRIBE_SENSOR_PROCEDURE_PARAMETER));
 		processProcedureDescriptionFormat(descSensor, getShellForServerParameter(parameters, DESCRIBE_SENSOR_PROCEDURE_DESCRIPTION_FORMAT));
 
