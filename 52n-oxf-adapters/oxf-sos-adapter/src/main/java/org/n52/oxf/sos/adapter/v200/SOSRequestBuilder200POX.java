@@ -369,6 +369,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 		}
 			}
 
+	// TODO re-check this! Why are we setting ProcedureDescriptionFormat if Procedure is not available
 	private void processProcedure(final DescribeSensorType xb_descSensor, final ParameterShell shell) {
 		if (shell == null) {
 			xb_descSensor.setProcedureDescriptionFormat("http://www.opengis.net/sensorml/1.0.1");
