@@ -109,6 +109,7 @@ public final class XMLConstants {
 	new QName("http://www.opengis.net/sampling/1.0", "SamplingPoint");
 	public static final QName FEATURE_QN = new QName("http://www.opengis.net/gml", "_Feature");
 	public static final QName FEATURE_COLLECTION_QN = new QName("http://www.opengis.net/gml", "_FeatureCollection");
+	public static final QName QNAME_OM_2_0_SWE_ARRAY_OBSERVATION = new QName(OM_2_0_NS_URI,"OM_SWEArrayObservation");
 
 	private XMLConstants() {}
 }

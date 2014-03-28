@@ -146,22 +146,23 @@ public interface ISOSRequestBuilder {
 	String INSERT_OBSERVATION_VALUE_PARAMETER = "value";
 	String INSERT_OBSERVATION_POSITION_SRS = "srsPosition";
 	String INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE = "catObsCodespace";
-	String INSERT_OBSERVATION_TYPE_TEXT = "text";
-	String INSERT_OBSERVATION_TYPE_MEASUREMENT = "measurement";
-	String INSERT_OBSERVATION_TYPE = "type";
 	String INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE = "resultUom";
 	String INSERT_OBSERVATION_NEW_FOI_POSITION_SRS = "insertObSRS";
 	String INSERT_OBSERVATION_PROCEDURE_PARAMETER = "procedure";
 	String INSERT_OBSERVATION_SENSOR_ID_PARAMETER = "sensorid";
-	String INSERT_OBSERVATION_TYPE_COUNT = "count";
-	String INSERT_OBSERVATION_TYPE_TRUTH = "truth";
-	String INSERT_OBSERVATION_TYPE_TEMPORAL = "temporal";
-	String INSERT_OBSERVATION_TYPE_GEOMETRY = "geometry";
-	String INSERT_OBSERVATION_TYPE_COMPLEX = "complex";
+	String INSERT_OBSERVATION_TYPE = "type";
 	/**
 	 * Supported by SOS 2.0 request builder only
 	 */
 	String INSERT_OBSERVATION_TYPE_CATEGORY = "category";
+	String INSERT_OBSERVATION_TYPE_COUNT = "count";
+	String INSERT_OBSERVATION_TYPE_COMPLEX = "complex";
+	String INSERT_OBSERVATION_TYPE_GEOMETRY = "geometry";
+	String INSERT_OBSERVATION_TYPE_MEASUREMENT = "measurement";
+	String INSERT_OBSERVATION_TYPE_SWE_ARRAY = "sweArray";
+	String INSERT_OBSERVATION_TYPE_TEXT = "text";
+	String INSERT_OBSERVATION_TYPE_TRUTH = "truth";
+	String INSERT_OBSERVATION_TYPE_TEMPORAL = "temporal";
 	/**
 	 * SOS 2.0 Mandatory: Defines the time when the observation <i>occurred</i>.
 	 */
