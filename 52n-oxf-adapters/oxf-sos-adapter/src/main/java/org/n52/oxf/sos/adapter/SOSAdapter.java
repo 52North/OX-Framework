@@ -69,7 +69,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * SOS-Adapter for the OX-Framework
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class SOSAdapter implements IServiceAdapter {
@@ -139,7 +139,7 @@ public class SOSAdapter implements IServiceAdapter {
      * By default the created instance will use a {@link SimpleHttpClient} for service communication. If
      * further features are needed the {@link SimpleHttpClient} can be decorated with further configuration
      * setups like a {@link GzipEnabledHttpClient} or a {@link ProxyAwareHttpClient}.
-     * 
+     *
      * @param serviceVersion
      *        the schema version for which this adapter instance shall be initialized.
      * @param requestBuilder
@@ -172,7 +172,7 @@ public class SOSAdapter implements IServiceAdapter {
      * Sets a custom {@link HttpClient} for service communication. A {@link SimpleHttpClient} can be decorated
      * to enable for example GZIP encoding (setting Accept-Encoding plus GZIP decompressing) or being aware of
      * proxies.
-     * 
+     *
      * @param httpClient
      *        a customly configured {@link HttpClient} the {@link SOSAdapter} shall use.
      * @see ProxyAwareHttpClient
@@ -184,19 +184,19 @@ public class SOSAdapter implements IServiceAdapter {
 
     /**
      * initializes the ServiceDescriptor by requesting the capabilities document of the SOS.
-     * 
+     *
      * @param url
      *        the base URL of the SOS
      * @param serviceVersion
      *        the schema version to which the service description shall be conform.
-     * 
+     *
      * @return the ServiceDescriptor based on the retrieved capabilities document
-     * 
+     *
      * @throws ExceptionReport
      *         if service side exception occurs
      * @throws OXFException
      *         if internal exception (in general parsing error or Capabilities doc is incorrect) occurs
-     * 
+     *
      */
     @Override
 	public ServiceDescriptor initService(final String url) throws ExceptionReport, OXFException {
@@ -209,22 +209,22 @@ public class SOSAdapter implements IServiceAdapter {
         final Operation operation = new Operation("GetCapabilities", baseUrlGet, baseUrlPost);
         return initService(doOperation(operation, paramContainer));
     }
-    
+
 	/**
 	 * initializes the ServiceDescriptor by requesting the capabilities document of the SOS using the binding specified.
-	 * 
+	 *
 	 * @param serviceEndpoint
 	 * @param binding
 	 * @return
-	 * @throws OXFException 
-	 * @throws ExceptionReport 
+	 * @throws OXFException
+	 * @throws ExceptionReport
 	 */
 	public ServiceDescriptor initService(final String serviceEndpoint,
 			final Binding binding) throws OXFException, ExceptionReport
 	{
 		final ParameterContainer paramContainer = new ParameterContainer();
         paramContainer.addParameterShell(GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, serviceVersion);
-        paramContainer.addParameterShell(GET_CAPABILITIES_SERVICE_PARAMETER, "SOS");
+        paramContainer.addParameterShell(SERVICE, "SOS");
         paramContainer.addParameterShell(BINDING, binding.name());
         final String baseUrlGet = serviceEndpoint + "?";
         final Operation operation = new Operation("GetCapabilities", baseUrlGet, serviceEndpoint);
@@ -261,7 +261,7 @@ public class SOSAdapter implements IServiceAdapter {
     }
 
     /**
-     * 
+     *
      * @param capsDoc
      * @return
      * @throws OXFException
@@ -275,21 +275,21 @@ public class SOSAdapter implements IServiceAdapter {
     }
 
     /**
-     * 
+     *
      * @param operation
      *        the operation which the adapter has to execute on the service. this operation includes also the
      *        parameter values.
-     * 
+     *
      * @param parameters
      *        Map which contains the parameters of the operation and the corresponding parameter values
-     * 
+     *
      * @throws ExceptionReport
      *         Report which contains the service sided exceptions
-     * 
+     *
      * @throws OXFException
      *         if the sending of the post message failed.<br>
      *         if the specified Operation is not supported.
-     * 
+     *
      * @return the result of the executed operation
      */
     @Override
@@ -340,7 +340,7 @@ public class SOSAdapter implements IServiceAdapter {
 
         /*
          *  TODO implement support for different bindings using other HTTP methods than POST!
-         * Ideas: binding information in parameters and some default values resulting in the same 
+         * Ideas: binding information in parameters and some default values resulting in the same
          * result like the current implementation
          */
 
@@ -392,7 +392,7 @@ public class SOSAdapter implements IServiceAdapter {
 					return true;
 				}
 				if (binding.equalsIgnoreCase(Binding.POX.name()) &&
-						( allowedValue.equalsIgnoreCase("application/xml") || 
+						( allowedValue.equalsIgnoreCase("application/xml") ||
 						allowedValue.equalsIgnoreCase("text/xml") ) ){
 					return true;
 				}
@@ -404,7 +404,7 @@ public class SOSAdapter implements IServiceAdapter {
 						allowedValue.equalsIgnoreCase("application/json")){
 					return true;
 				}
-				
+
 			}
 		}
 		return false;
@@ -501,7 +501,7 @@ public class SOSAdapter implements IServiceAdapter {
 
     /**
      * returns the ResourceOperationName
-     * 
+     *
      * @return The name of the service operation which returns the data to be added to a map view as a layer.
      */
     @Override
@@ -511,7 +511,7 @@ public class SOSAdapter implements IServiceAdapter {
 
     /**
      * returns the description of this Service Adapter
-     * 
+     *
      * @return String the description of the adapter
      */
     @Override
@@ -521,7 +521,7 @@ public class SOSAdapter implements IServiceAdapter {
 
     /**
      * returns the type of the service which is connectable by this ServiceAdapter
-     * 
+     *
      * @return String the type of service
      */
     @Override
@@ -531,7 +531,7 @@ public class SOSAdapter implements IServiceAdapter {
 
     /**
      * returns the supported versions of the service
-     * 
+     *
      * @return String[] the supported versions of the service which is connectable by this ServiceAdapter
      */
     @Override
