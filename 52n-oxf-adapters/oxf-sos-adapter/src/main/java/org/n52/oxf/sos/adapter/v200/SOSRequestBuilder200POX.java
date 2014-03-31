@@ -617,6 +617,9 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 		else if (observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
 			return OGC_OM_2_0_OM_COUNT_OBSERVATION;
 		}
+		else if (observationType.equals(INSERT_OBSERVATION_TYPE_SWE_ARRAY)) {
+			return OGC_OM_2_0_OM_SWE_ARRAY_OBSERVATION;
+		}
 		final String errorMsg = String.format("Observation Type '%s' not supported.", observationType);
 		LOGGER.error(errorMsg);
 		throw new OXFException(errorMsg);
