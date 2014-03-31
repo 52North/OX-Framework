@@ -25,42 +25,29 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
-package org.n52.oxf.sos.examples;
+package org.n52.oxf.sos.observation;
 
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
-import static org.n52.oxf.sos.adapter.SOSAdapter.GET_CAPABILITIES;
 
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.n52.oxf.OXFException;
-import org.n52.oxf.adapter.ParameterContainer;
-import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.xml.XMLConstants;
 
-@Ignore // comment out to run demo class via JUnit
-public class GetCapabilitiesRequestExample extends SosAdapterRequestExample {
+/**
+ * Assembles parameters for a SweArray observation.
+ */
+public class SweArrayObservationParameters extends ObservationParameters {
 
-    @Override
-	@Before
-    public void setUp() throws Exception {
-        super.setUp();
-    }
+	public SweArrayObservationParameters() {
+		super(XMLConstants.QNAME_OM_2_0_SWE_ARRAY_OBSERVATION);
+		addNonEmpty(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_SWE_ARRAY);
+	}
 
-    @Test
-    public void getCapabilities() {
-        performOperationParseResult(createGetCapabilitiesOperation());
-    }
+	@Override
+	public boolean isValid() {
+		return !isEmpty(INSERT_OBSERVATION_VALUE_PARAMETER);
+	}
 
-    private Operation createGetCapabilitiesOperation() {
-        return new Operation(GET_CAPABILITIES, getServiceGETUrl(), getServicePOSTUrl());
-    }
-
-    @Override
-    protected ParameterContainer createParameterContainer() throws OXFException {
-        final ParameterContainer parameters = new ParameterContainer();
-        parameters.addParameterShell(SERVICE, "SOS");
-        parameters.addParameterShell(GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, "1.0.0");
-        return parameters;
-    }
+	public void addObservationValue(final String sweArrayXmlString) {
+		addNonEmpty(INSERT_OBSERVATION_VALUE_PARAMETER, sweArrayXmlString);
+	}
 
 }

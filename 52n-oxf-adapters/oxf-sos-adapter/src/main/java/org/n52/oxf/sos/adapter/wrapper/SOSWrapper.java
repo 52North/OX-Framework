@@ -52,31 +52,31 @@ import org.n52.oxf.swes.request.DescribeSensorParameters;
 
 /**
  * SOSWrapper wraps all SOS operations implemented in SOSAdapter class.
- * 
+ *
  * @author Eric
  * @see SOSAdapter
  */
 public class SOSWrapper {
-    
+
     // XXX SOSWrapper is not capable of intercepting custom IRequestBuilder implementations yet!
 
 	// name of the service
 	private static final String SERVICE_TYPE = "SOS";
-	
+
 	// GetCapabilities specific description of the service
-	private final ServiceDescriptor serviceDescriptor; 
-	
+	private final ServiceDescriptor serviceDescriptor;
+
 	// Binding to use (SOS 2.0 specific)
 	private final Binding binding;
-	
+
     protected SOSWrapper(final ServiceDescriptor serviceDescriptor, final Binding binding) {
 		this.serviceDescriptor = serviceDescriptor;
 		this.binding = binding;
 	}
-	
+
 	/**
      * Performs a DescribeSensor request.
-     * 
+     *
      * @param parameters parameter assembler
      * @return Request result
      * @throws OXFException
@@ -85,14 +85,14 @@ public class SOSWrapper {
     public OperationResult doDescribeSensor(final DescribeSensorParameters parameters) throws OXFException, ExceptionReport {
         final SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
         if (checkOperationAvailability(DESCRIBE_SENSOR)) {
-            final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(DESCRIBE_SENSOR);    
+            final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(DESCRIBE_SENSOR);
             final ParameterContainer parameterContainer = createParameterContainerForDoDescribeSensor(parameters);
             return adapter.doOperation(operation, parameterContainer);
         } else {
             throw new OXFException("Operation: \"" + DESCRIBE_SENSOR + "\" not supported by the SOS!");
         }
     }
-	
+
     private ParameterContainer createParameterContainerWithCommonServiceParameters() throws OXFException {
         final ParameterContainer parameterContainer = new ParameterContainer();
 		parameterContainer.addParameterShell(SERVICE, SERVICE_TYPE);
@@ -102,7 +102,7 @@ public class SOSWrapper {
 		}
         return parameterContainer;
     }
-    
+
 	private ParameterContainer createParameterContainerForDoDescribeSensor(final DescribeSensorParameters parameters) throws OXFException, ExceptionReport {
 		final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		final String procedure = parameters.getSingleValue(DESCRIBE_SENSOR_PROCEDURE_PARAMETER);
@@ -111,10 +111,10 @@ public class SOSWrapper {
         parameterContainer.addParameterShell(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
 		return parameterContainer;
 	}
-	
+
 	/**
 	 * Requests observation(s).
-	 * 
+	 *
 	 * @param builder parameter assembler
 	 * @return Request result
 	 * @throws OXFException
@@ -132,7 +132,7 @@ public class SOSWrapper {
 			throw new OXFException("Operation: \"" + GET_OBSERVATION + "\" not supported by the SOS!");
 		}
 	}
-	
+
 	private ParameterContainer createParameterContainerForGetOservation(final Map <String, Object> parameters) throws OXFException, ExceptionReport {
 	    final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		// mandatory parameters from builder
@@ -163,10 +163,10 @@ public class SOSWrapper {
 		}
 		return parameterContainer;
 	}
-	
+
 	/**
      * Requests the registration of a sensor.
-     * 
+     *
      * @param parameters parameter assembler
      * @return Request result
      * @throws OXFException
@@ -183,10 +183,10 @@ public class SOSWrapper {
             throw new OXFException("Operation: \"" + REGISTER_SENSOR + "\" not supported by the SOS!");
         }
     }
-    
+
     /**
-	 * @throws OXFException 
-     * @throws ExceptionReport 
+	 * @throws OXFException
+     * @throws ExceptionReport
      * @see {@link #doRegisterSensor(RegisterSensorParameters)}
 	 */
 	public OperationResult doInsertSensor(final InsertSensorParameters insertSensorParameters) throws OXFException, ExceptionReport
@@ -201,7 +201,7 @@ public class SOSWrapper {
 			throw new OXFException("Operation: '" + INSERT_SENSOR + "' not supported by the SOS instance!");
 		}
 	}
-	
+
 	private ParameterContainer getParameterContainer(final InsertSensorParameters insertSensorParameters) throws OXFException
 	{
 		final ParameterContainer paramContainer = createParameterContainerWithCommonServiceParameters();
@@ -227,9 +227,9 @@ public class SOSWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sensorId
-	 * @throws ExceptionReport 
+	 * @throws ExceptionReport
 	 */
 	public OperationResult doDeleteSensor(final String sensorId) throws OXFException, ExceptionReport
 	{
@@ -245,7 +245,7 @@ public class SOSWrapper {
 			throw new OXFException("Operation: '" + DELETE_SENSOR + "' not supported by the SOS instance!");
 		}
 	}
-	
+
 	private boolean checkOperationAvailability(final String operationName)
 	{
 		return serviceDescriptor.getOperationsMetadata().getOperationByName(operationName) != null;
@@ -268,7 +268,7 @@ public class SOSWrapper {
 
 	/**
 	 * Requests the insertion of an observation.
-	 * 
+	 *
 	 * @param parameters parameter assembler
 	 * @return Request result
 	 * @throws OXFException
@@ -313,7 +313,7 @@ public class SOSWrapper {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_DESC, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_DESC));
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_POSITION));
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS));
-		} 
+		}
 		else {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_FOI_ID_PARAMETER));
 		}
@@ -331,6 +331,9 @@ public class SOSWrapper {
 		}
 		if (parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER));
+		}
+		if (parameters.getSingleValue(EXTENSION) != null) {
+			parameterContainer.addParameterShell(EXTENSION, parameters.getSingleValue(EXTENSION));
 		}
 	}
 
@@ -369,7 +372,7 @@ public class SOSWrapper {
 
 	/**
 	 * Requests an observation by its id.
-	 * 
+	 *
 	 * @param builder parameter assembler
 	 * @return Request result
 	 * @throws OXFException
@@ -405,10 +408,10 @@ public class SOSWrapper {
 		}
 		return parameterContainer;
 	}
-	
+
 	/**
 	 * Requests a feature of interest.
-	 * 
+	 *
 	 * @param builder parameter assembler
 	 * @return Request result
 	 * @throws OXFException
@@ -426,7 +429,7 @@ public class SOSWrapper {
 			throw new OXFException("Operation: \"" + GET_OBSERVATION + "\" not supported by the SOS!");
 		}
 	}
-	
+
 	private ParameterContainer createParameterContainerForGetFeatureOfInterest(final Map<String, String> parameters) throws OXFException, ExceptionReport {
 	    final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		// mandatory parameters from builder
@@ -444,8 +447,8 @@ public class SOSWrapper {
 
     /**
      * Return the GetCapabilities specific description of the service.
-     * 
-     * @return service description  
+     *
+     * @return service description
      */
     public ServiceDescriptor getServiceDescriptor() {
         return serviceDescriptor;

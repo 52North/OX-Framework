@@ -27,14 +27,7 @@
  */
 package org.n52.oxf.sos.examples;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_FOI_ID_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_PROCEDURE_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_SAMPLING_TIME;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_SERVICE_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_VERSION_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import static org.n52.oxf.sos.adapter.SOSAdapter.INSERT_OBSERVATION;
 
 import org.junit.Before;
@@ -45,15 +38,16 @@ import org.n52.oxf.ows.capabilities.Operation;
 
 //@Ignore // comment out to run demo class via JUnit
 public class InsertObservationRequestExample extends SosAdapterRequestExample {
-    
-    @Before
+
+    @Override
+	@Before
     public void setUp() throws Exception {
         super.setUp();
     }
 
     @Test
     public void describeSensor() {
-        // should return an exception when transactional interface is 
+        // should return an exception when transactional interface is
         // not supported of public
         performOperationParseResult(createInsertObservationOperation());
     }
@@ -64,9 +58,9 @@ public class InsertObservationRequestExample extends SosAdapterRequestExample {
 
     @Override
     protected ParameterContainer createParameterContainer() throws OXFException {
-        ParameterContainer parameters = new ParameterContainer();
-        parameters.addParameterShell(INSERT_OBSERVATION_SERVICE_PARAMETER, "SOS");
-        parameters.addParameterShell(INSERT_OBSERVATION_VERSION_PARAMETER, "1.0.0");
+        final ParameterContainer parameters = new ParameterContainer();
+        parameters.addParameterShell(SERVICE, "SOS");
+        parameters.addParameterShell(VERSION, "1.0.0");
         parameters.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, "urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-1");
         parameters.addParameterShell(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, "urn:ogc:def:phenomenon:OGC:1.0.30:waterspeed");
         parameters.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, "id_2001");
