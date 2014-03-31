@@ -110,6 +110,13 @@ public final class XMLConstants {
 	public static final QName FEATURE_QN = new QName("http://www.opengis.net/gml", "_Feature");
 	public static final QName FEATURE_COLLECTION_QN = new QName("http://www.opengis.net/gml", "_FeatureCollection");
 	public static final QName QNAME_OM_2_0_SWE_ARRAY_OBSERVATION = new QName(OM_2_0_NS_URI,"OM_SWEArrayObservation");
+	public static final String OGC_NS_SWE_20 = "http://www.opengis.net/swe/2.0";
+
+	public static final QName QN_SWE_2_0_DATA_RECORD = new QName(OGC_NS_SWE_20, "DataRecord");
+	public static final QName QN_SWE_2_0_TEXT_ENCODING = new QName(OGC_NS_SWE_20, "TextEncoding");
+	public static final QName QN_SWE_2_0_TIME = new QName(OGC_NS_SWE_20, "Time");
+	public static final QName QN_SWE_2_0_QUANTITY = new QName(OGC_NS_SWE_20, "Quantity");
+
 
 	private XMLConstants() {}
 }
