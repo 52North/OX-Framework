@@ -447,20 +447,19 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 	}
 
 	private ITime getITimeFromString(final String phenomenonTimeObj){
-		try {
-			// 1 try timeposition
-			return new TimePosition(phenomenonTimeObj);
+		if (phenomenonTimeObj == null || phenomenonTimeObj.isEmpty()) {
+			throw new NullPointerException();
 		}
-		catch (final Exception e1) {
-			try {
-				LOGGER.debug("Exception thrown: ",e1);
-				// 2 try timeperiod
+		try {
+			if (phenomenonTimeObj.indexOf("/") != -1) {
 				return new TimePeriod(phenomenonTimeObj);
 			}
-			catch(final Exception e2) {
-				LOGGER.debug("Exception thrown: ",e2);
-				return null;
-			}
+			return new TimePosition(phenomenonTimeObj);
+		} catch(final Exception e) {
+			LOGGER.debug(String.format("Could not create ITime from String '%s' Exception thrown: '%s'",
+					phenomenonTimeObj,
+					e.getMessage()),e);
+			return null;
 		}
 	}
 
