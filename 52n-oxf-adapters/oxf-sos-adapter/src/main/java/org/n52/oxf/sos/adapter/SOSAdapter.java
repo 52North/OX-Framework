@@ -382,6 +382,48 @@ public class SOSAdapter implements IServiceAdapter {
         }
     }
 
+    /**
+    *
+    * @param operation
+    *        the operation which the adapter has to execute on the service. this operation includes also the
+    *        parameter values.
+    *
+    * @param parameters
+    *        Map which contains the parameters of the operation and the corresponding parameter values
+    *
+    * @param connectionTimeout
+    * 		 The connectionTimeout to be used for this operation in millis.
+    * 		 A value < 1 will be ignored.
+    *
+    * @param readTimeout
+    * 		The readTimeout to be used for this operation in millis.
+    * 		A value < 1 will be ignored.
+    *
+    * @throws ExceptionReport
+    *         Report which contains the service sided exceptions
+    *
+    * @throws OXFException
+    *         if the sending of the post message failed.<br>
+    *         if the specified Operation is not supported.
+    *
+    * @return the result of the executed operation
+    */
+	public OperationResult doOperation(
+			final Operation operation,
+			final ParameterContainer parameters,
+			final int connectionTimeout,
+			final int readTimeout) throws ExceptionReport,
+           OXFException {
+	   if (connectionTimeout > 0 && readTimeout < 1) {
+		   httpClient = new SimpleHttpClient(connectionTimeout);
+	   }
+	   if (readTimeout > 0 && connectionTimeout > 1) {
+		   httpClient = new SimpleHttpClient(connectionTimeout,readTimeout);
+	   }
+	   return doOperation(operation, parameters);
+
+   }
+
 	private boolean isContraintForThisBinding(final String binding,
 			final Constraint constraint)
 	{

@@ -70,7 +70,7 @@ public class MultiValue {
     public Collection<String> getValues() {
         return Collections.unmodifiableCollection(values);
     }
-    
+
     /**
      * @return the amount of values.
      */
@@ -109,5 +109,10 @@ public class MultiValue {
 	{
 		return values.isEmpty();
 	}
-    
+
+	@Override
+	public String toString() {
+		return String.format("MultiValue [values=%s]", values);
+	}
+
 }
