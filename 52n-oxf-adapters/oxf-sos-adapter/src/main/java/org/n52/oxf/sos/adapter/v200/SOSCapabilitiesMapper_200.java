@@ -101,7 +101,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SOSCapabilitiesMapper_200 {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOSCapabilitiesMapper_200.class);
 
     public ServiceDescriptor mapCapabilities(final CapabilitiesDocument capabilitiesDoc) throws OXFException {
@@ -276,7 +276,7 @@ public class SOSCapabilitiesMapper_200 {
         try {
             final HttpClient client = new SimpleHttpClient();
             final String request = "http://sensorweb.demo.52north.org/52nSOSv3_200/sos?REQUEST=GetCapabilities&SERVICE=SOS";
-            
+
             final HttpResponse response = client.executeGet(request);
             final HttpEntity responseEntity = response.getEntity();
             final InputStream responseStream = responseEntity.getContent();
@@ -404,7 +404,7 @@ public class SOSCapabilitiesMapper_200 {
 
         return new SOSContents(oc_obsOffList);
     }
-    
+
     private IDiscreteValueDomain<ITime> getTemporalDomain(final ObservationOfferingType xb_obsOffering)
     {
     	// TemporalDomain:
@@ -510,7 +510,7 @@ public class SOSCapabilitiesMapper_200 {
         final String oc_fees = serviceIdentification.getFees();
         final String[] oc_accessConstraints = serviceIdentification.getAccessConstraintsArray();
         String oc_abstract = null;
-        if (oc_accessConstraints.length != 0) {
+        if (serviceIdentification.getAbstractArray() != null) {
             oc_abstract = serviceIdentification.getAbstractArray(0).getStringValue();
         }
         String[] oc_keywords = null;
