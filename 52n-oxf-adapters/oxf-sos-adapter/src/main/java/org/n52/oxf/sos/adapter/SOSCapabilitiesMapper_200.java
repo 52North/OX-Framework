@@ -283,7 +283,7 @@ public class SOSCapabilitiesMapper_200 {
         try {
             HttpClient client = new SimpleHttpClient();
             String request = "http://sensorweb.demo.52north.org/52nSOSv3_200/sos?REQUEST=GetCapabilities&SERVICE=SOS";
-            
+
             HttpResponse response = client.executeGet(request);
             HttpEntity responseEntity = response.getEntity();
             InputStream responseStream = responseEntity.getContent();
@@ -522,8 +522,9 @@ public class SOSCapabilitiesMapper_200 {
 
         String oc_fees = serviceIdentification.getFees();
         String[] oc_accessConstraints = serviceIdentification.getAccessConstraintsArray();
+
         String oc_abstract = null;
-        if (oc_accessConstraints.length != 0) {
+        if (serviceIdentification.getAbstractArray().length != 0) {
             oc_abstract = serviceIdentification.getAbstractArray(0).getStringValue();
         }
         String[] oc_keywords = null;
