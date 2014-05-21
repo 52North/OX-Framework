@@ -40,6 +40,7 @@ import net.opengis.gml.FeatureCollectionDocument2;
 import net.opengis.gml.FeaturePropertyType;
 import net.opengis.gml.x32.AbstractTimeObjectType;
 import net.opengis.gml.x32.CodeWithAuthorityType;
+import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.gml.x32.TimePositionType;
 import net.opengis.gml.x32.impl.MeasureTypeImpl;
 import net.opengis.gml.x32.impl.TimeInstantTypeImpl;
@@ -489,6 +490,11 @@ public class GenericObservationParser {
         	TimePositionType timePosition = ((TimeInstantTypeImpl) abstractTimeObject).getTimePosition();
         	time = TimeFactory.createTime(timePosition.getStringValue());
 		}
+        // take the end position if there is a time period
+        if (abstractTimeObject instanceof TimePeriodType) {
+        	TimePositionType endPosition = ((TimePeriodType) abstractTimeObject).getEndPosition();
+        	time = TimeFactory.createTime(endPosition.getStringValue());
+        }
         String urn = omObservation.getObservedProperty().getHref();
         String uom = result.getUom();
         OXFPhenomenonPropertyType phenPropType = new OXFPhenomenonPropertyType(urn, uom);
