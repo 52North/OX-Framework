@@ -49,34 +49,39 @@ import org.n52.oxf.sos.request.InsertObservationParameters;
 import org.n52.oxf.sos.request.v100.RegisterSensorParameters;
 import org.n52.oxf.sos.request.v200.InsertSensorParameters;
 import org.n52.oxf.swes.request.DescribeSensorParameters;
+import org.n52.oxf.util.web.SimpleHttpClient;
 
 /**
  * SOSWrapper wraps all SOS operations implemented in SOSAdapter class.
- * 
+ *
  * @author Eric
  * @see SOSAdapter
  */
 public class SOSWrapper {
-    
+
     // XXX SOSWrapper is not capable of intercepting custom IRequestBuilder implementations yet!
 
 	// name of the service
 	private static final String SERVICE_TYPE = "SOS";
-	
+
 	// GetCapabilities specific description of the service
-	private final ServiceDescriptor serviceDescriptor; 
-	
+	private final ServiceDescriptor serviceDescriptor;
+
 	// Binding to use (SOS 2.0 specific)
 	private final Binding binding;
-	
+
+	private int connectionTimeout = -1;
+
+	private int readTimeout = -1;
+
     protected SOSWrapper(final ServiceDescriptor serviceDescriptor, final Binding binding) {
 		this.serviceDescriptor = serviceDescriptor;
 		this.binding = binding;
 	}
-	
+
 	/**
      * Performs a DescribeSensor request.
-     * 
+     *
      * @param parameters parameter assembler
      * @return Request result
      * @throws OXFException
@@ -85,14 +90,14 @@ public class SOSWrapper {
     public OperationResult doDescribeSensor(final DescribeSensorParameters parameters) throws OXFException, ExceptionReport {
         final SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
         if (checkOperationAvailability(DESCRIBE_SENSOR)) {
-            final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(DESCRIBE_SENSOR);    
+            final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(DESCRIBE_SENSOR);
             final ParameterContainer parameterContainer = createParameterContainerForDoDescribeSensor(parameters);
-            return adapter.doOperation(operation, parameterContainer);
+            return adapter.doOperation(operation, parameterContainer, connectionTimeout, readTimeout);
         } else {
             throw new OXFException("Operation: \"" + DESCRIBE_SENSOR + "\" not supported by the SOS!");
         }
     }
-	
+
     private ParameterContainer createParameterContainerWithCommonServiceParameters() throws OXFException {
         final ParameterContainer parameterContainer = new ParameterContainer();
 		parameterContainer.addParameterShell(SERVICE, SERVICE_TYPE);
@@ -102,7 +107,7 @@ public class SOSWrapper {
 		}
         return parameterContainer;
     }
-    
+
 	private ParameterContainer createParameterContainerForDoDescribeSensor(final DescribeSensorParameters parameters) throws OXFException, ExceptionReport {
 		final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		final String procedure = parameters.getSingleValue(DESCRIBE_SENSOR_PROCEDURE_PARAMETER);
@@ -111,10 +116,10 @@ public class SOSWrapper {
         parameterContainer.addParameterShell(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
 		return parameterContainer;
 	}
-	
+
 	/**
 	 * Requests observation(s).
-	 * 
+	 *
 	 * @param builder parameter assembler
 	 * @return Request result
 	 * @throws OXFException
@@ -127,12 +132,12 @@ public class SOSWrapper {
 		if (checkOperationAvailability(GET_OBSERVATION)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(GET_OBSERVATION);
 			final ParameterContainer parameterContainer = createParameterContainerForGetOservation(builder.getParameters());
-			return adapter.doOperation(operation, parameterContainer);
+			return adapter.doOperation(operation, parameterContainer, connectionTimeout, readTimeout);
 		} else {
 			throw new OXFException("Operation: \"" + GET_OBSERVATION + "\" not supported by the SOS!");
 		}
 	}
-	
+
 	private ParameterContainer createParameterContainerForGetOservation(final Map <String, Object> parameters) throws OXFException, ExceptionReport {
 	    final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		// mandatory parameters from builder
@@ -163,10 +168,10 @@ public class SOSWrapper {
 		}
 		return parameterContainer;
 	}
-	
+
 	/**
      * Requests the registration of a sensor.
-     * 
+     *
      * @param parameters parameter assembler
      * @return Request result
      * @throws OXFException
@@ -178,32 +183,30 @@ public class SOSWrapper {
         if (checkOperationAvailability(REGISTER_SENSOR)) {
             final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(REGISTER_SENSOR);
             final ParameterContainer parameterContainer = createParameterContainerForRegisterSensor(parameters);
-            return adapter.doOperation(operation, parameterContainer);
+            return adapter.doOperation(operation, parameterContainer, connectionTimeout, readTimeout);
         } else {
             throw new OXFException("Operation: \"" + REGISTER_SENSOR + "\" not supported by the SOS!");
         }
     }
-    
+
     /**
-	 * @throws OXFException 
-     * @throws ExceptionReport 
+	 * @throws OXFException
+     * @throws ExceptionReport
      * @see {@link #doRegisterSensor(RegisterSensorParameters)}
 	 */
-	public OperationResult doInsertSensor(final InsertSensorParameters insertSensorParameters) throws OXFException, ExceptionReport
-	{
+	public OperationResult doInsertSensor(final InsertSensorParameters insertSensorParameters) throws OXFException, ExceptionReport	{
 		final SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
 		if (checkOperationAvailability(INSERT_SENSOR)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(INSERT_SENSOR);
 			final ParameterContainer parameterContainer = getParameterContainer(insertSensorParameters);
-			return adapter.doOperation(operation, parameterContainer);
+			return adapter.doOperation(operation, parameterContainer, connectionTimeout, readTimeout);
 		}
 		else {
 			throw new OXFException("Operation: '" + INSERT_SENSOR + "' not supported by the SOS instance!");
 		}
 	}
-	
-	private ParameterContainer getParameterContainer(final InsertSensorParameters insertSensorParameters) throws OXFException
-	{
+
+	private ParameterContainer getParameterContainer(final InsertSensorParameters insertSensorParameters) throws OXFException {
 		final ParameterContainer paramContainer = createParameterContainerWithCommonServiceParameters();
 		paramContainer.addParameterShell(
 				REGISTER_SENSOR_ML_DOC_PARAMETER,
@@ -227,12 +230,11 @@ public class SOSWrapper {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param sensorId
-	 * @throws ExceptionReport 
+	 * @throws ExceptionReport
 	 */
-	public OperationResult doDeleteSensor(final String sensorId) throws OXFException, ExceptionReport
-	{
+	public OperationResult doDeleteSensor(final String sensorId) throws OXFException, ExceptionReport {
 		final SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
 		if (checkOperationAvailability(DELETE_SENSOR)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(DELETE_SENSOR);
@@ -240,14 +242,13 @@ public class SOSWrapper {
 			pc.addParameterShell(ISOSRequestBuilder.SERVICE, "SOS");
 			pc.addParameterShell(ISOSRequestBuilder.VERSION, serviceDescriptor.getVersion());
 			pc.addParameterShell(ISOSRequestBuilder.DELETE_SENSOR_PROCEDURE, sensorId);
-			return adapter.doOperation(operation, pc);
+			return adapter.doOperation(operation, pc, connectionTimeout, readTimeout);
 		}else {
 			throw new OXFException("Operation: '" + DELETE_SENSOR + "' not supported by the SOS instance!");
 		}
 	}
-	
-	private boolean checkOperationAvailability(final String operationName)
-	{
+
+	private boolean checkOperationAvailability(final String operationName) {
 		return serviceDescriptor.getOperationsMetadata().getOperationByName(operationName) != null;
 	}
 
@@ -268,7 +269,7 @@ public class SOSWrapper {
 
 	/**
 	 * Requests the insertion of an observation.
-	 * 
+	 *
 	 * @param parameters parameter assembler
 	 * @return Request result
 	 * @throws OXFException
@@ -281,7 +282,7 @@ public class SOSWrapper {
 		if (checkOperationAvailability(INSERT_OBSERVATION)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(INSERT_OBSERVATION);
 			final ParameterContainer parameterContainer = createParameterContainerForInsertObservation(parameters);
-			return adapter.doOperation(operation, parameterContainer);
+			return adapter.doOperation(operation, parameterContainer, connectionTimeout, readTimeout);
 		} else {
 			throw new OXFException("Operation: \"" + INSERT_OBSERVATION + "\" not supported by the SOS!");
 		}
@@ -302,8 +303,7 @@ public class SOSWrapper {
 	}
 
 	private void addSos200Values(final org.n52.oxf.sos.request.v200.InsertObservationParameters parameters,
-			final ParameterContainer parameterContainer) throws OXFException
-	{
+			final ParameterContainer parameterContainer) throws OXFException {
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_TYPE, parameters.getSingleValue(INSERT_OBSERVATION_TYPE));
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_PROCEDURE_PARAMETER));
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER));
@@ -313,7 +313,7 @@ public class SOSWrapper {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_DESC, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_DESC));
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_POSITION));
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS));
-		} 
+		}
 		else {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_FOI_ID_PARAMETER));
 		}
@@ -332,11 +332,13 @@ public class SOSWrapper {
 		if (parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER));
 		}
+		if (parameters.getSingleValue(EXTENSION) != null) {
+			parameterContainer.addParameterShell(EXTENSION, parameters.getSingleValue(EXTENSION));
+		}
 	}
 
 	private void addSos100Values(final org.n52.oxf.sos.request.v100.InsertObservationParameters parameters,
-			final ParameterContainer parameterContainer) throws OXFException
-	{
+			final ParameterContainer parameterContainer) throws OXFException {
 		// mandatory parameters
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_PROCEDURE_PARAMETER));
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_TYPE, parameters.getSingleValue(INSERT_OBSERVATION_TYPE));
@@ -369,7 +371,7 @@ public class SOSWrapper {
 
 	/**
 	 * Requests an observation by its id.
-	 * 
+	 *
 	 * @param builder parameter assembler
 	 * @return Request result
 	 * @throws OXFException
@@ -382,7 +384,7 @@ public class SOSWrapper {
 		if (checkOperationAvailability(GET_OBSERVATION_BY_ID)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(GET_OBSERVATION_BY_ID);
 			final ParameterContainer parameterContainer = createParameterContainerForGetObservationById(builder.getParameters());
-			return adapter.doOperation(operation, parameterContainer);
+			return adapter.doOperation(operation, parameterContainer, connectionTimeout, readTimeout);
 		} else {
 			throw new OXFException("Operation: \"" + GET_OBSERVATION_BY_ID + "\" not supported by the SOS!");
 		}
@@ -405,10 +407,10 @@ public class SOSWrapper {
 		}
 		return parameterContainer;
 	}
-	
+
 	/**
 	 * Requests a feature of interest.
-	 * 
+	 *
 	 * @param builder parameter assembler
 	 * @return Request result
 	 * @throws OXFException
@@ -421,12 +423,12 @@ public class SOSWrapper {
 		if (checkOperationAvailability(GET_FEATURE_OF_INTEREST)) {
 			final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(GET_FEATURE_OF_INTEREST);
 			final ParameterContainer parameterContainer = createParameterContainerForGetFeatureOfInterest(builder.getParameters());
-			return adapter.doOperation(operation, parameterContainer);
+			return adapter.doOperation(operation, parameterContainer, connectionTimeout, readTimeout);
 		} else {
 			throw new OXFException("Operation: \"" + GET_OBSERVATION + "\" not supported by the SOS!");
 		}
 	}
-	
+
 	private ParameterContainer createParameterContainerForGetFeatureOfInterest(final Map<String, String> parameters) throws OXFException, ExceptionReport {
 	    final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
 		// mandatory parameters from builder
@@ -444,11 +446,41 @@ public class SOSWrapper {
 
     /**
      * Return the GetCapabilities specific description of the service.
-     * 
-     * @return service description  
+     *
+     * @return service description
      */
     public ServiceDescriptor getServiceDescriptor() {
         return serviceDescriptor;
     }
+
+	/**
+	 * @return the currently used connectionTimeout
+	 */
+	public int getConnectionTimeout() {
+		return connectionTimeout;
+	}
+
+	/**
+	 * @param connectionTimeout the new connectionTimeout to use in ms.
+	 * 				Values below will be ignored by {@link SimpleHttpClient}.
+	 */
+	public void setConnectionTimeOut(final int connectionTimeout) {
+		this.connectionTimeout = connectionTimeout;
+	}
+
+	/**
+	 * @return the currently used readTimeout aka. socketTimeout
+	 */
+	public int getReadTimeout() {
+		return readTimeout;
+	}
+
+	/**
+	 * @param readTimeout the new readTimeout aka. socketTimeout to use in ms.
+	 * 				Values below will be ignored by {@link SimpleHttpClient}.
+	 */
+	public void setReadTimeout(final int readTimeout) {
+		this.readTimeout  = readTimeout;
+	}
 
 }

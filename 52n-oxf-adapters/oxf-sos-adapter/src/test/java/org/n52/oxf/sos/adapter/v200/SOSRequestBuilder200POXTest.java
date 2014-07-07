@@ -72,16 +72,15 @@ import org.n52.oxf.valueDomains.time.TimePeriod;
 import org.n52.oxf.valueDomains.time.TimePosition;
 import org.n52.oxf.xml.XMLConstants;
 
+/**
+ * TODO add tests for the following features:
+ * <ul><li>InsertObservation with Extensions</li>
+ * <li>InsertObservation with OM_SWEArrayObservation</li></ul>
+ */
 public class SOSRequestBuilder200POXTest {
 
-	/**
-	 * 
-	 */
 	private static final String OBSERVATION_ID_2 = "observation-id-2";
 
-	/**
-	 * 
-	 */
 	private static final String OBSERVATION_ID_1 = "observation-id-1";
 
 	private static final String SENSOR_IDENTIFIER = "test-identifier";
@@ -91,11 +90,11 @@ public class SOSRequestBuilder200POXTest {
 	private static final String TEST_OBSERVABLE_PROPERTY_1 = "test-observable-property-1";
 
 	private SOSRequestBuilder_200 builder;
-	
+
 	private final String sosVersion = "2.0.0";
 	private final String sosService = "SOS";
 	private final String format = "test-format";
-	
+
 	/*
 	 * INSERT OBSERVATION VALUES
 	 */
@@ -108,7 +107,7 @@ public class SOSRequestBuilder200POXTest {
 	private ParameterContainer parameters;
 	private final ITime phenTime = new TimePosition("1001-11-22T13:37:13.370+00:00");
 	private final ITime resultTime = new TimePosition("2002-11-22T13:37:13.370+00:00");
-	
+
 	private final String newFoiName = "foiId-name";
 	private final String newFoiPositionString = "52.0 7.5";
 	private final String newFoiEpsgCode = "4326";
@@ -126,32 +125,32 @@ public class SOSRequestBuilder200POXTest {
 	private final ITimePosition phenTimePeriodEnd = (ITimePosition)resultTime;
 	private final TimePeriod phenTimePeriod = new TimePeriod(phenTimePeriodStart,phenTimePeriodEnd);
 
-	
+
 	/*
-	 * 
+	 *
 	 * 		INSERT / REGISTER SENSOR
-	 * 
+	 *
 	 */
-		@Test (expected=OXFException.class) public void 
+		@Test (expected=OXFException.class) public void
 	buildRegisterSensor_should_return_OXFException_if_parameters_is_null()
 			throws OXFException {
 		builder.buildRegisterSensorRequest(null);
 	}
-	
-	@Test public void 
+
+	@Test public void
 	buildRegisterSensor_should_set_service_and_version()
 			 throws OXFException, XmlException {
 		createParamConWithMandatoryInsertSensorValues();
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
 				TEST_OBSERVABLE_PROPERTY_1);
-		
+
 		final String registerSensor = builder.buildRegisterSensorRequest(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
-		
+
 		assertThat(insertSensorType.getVersion(),is(sosVersion));
 		assertThat(insertSensorType.getService(),is(sosService));
 	}
-	
+
 	@Test public void
 	buildRegisterSensor_should_add_observable_properties()
 			throws OXFException, XmlException {
@@ -162,10 +161,10 @@ public class SOSRequestBuilder200POXTest {
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
 				TEST_OBSERVABLE_PROPERTY_1,
 				TEST_OBSERVABLE_PROPERTY_2);
-		
+
 		String registerSensor = builder.buildRegisterSensorRequest(parameters);
 		InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
-		
+
 		assertThat(insertSensorType.getObservablePropertyArray().length, is(2));
 		assertThat(insertSensorType.getObservablePropertyArray(),hasItemInArray(TEST_OBSERVABLE_PROPERTY_1));
 		assertThat(insertSensorType.getObservablePropertyArray(),hasItemInArray(TEST_OBSERVABLE_PROPERTY_2));
@@ -175,37 +174,37 @@ public class SOSRequestBuilder200POXTest {
 		parameters.removeParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER);
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
 				TEST_OBSERVABLE_PROPERTY_1);
-		
+
 		registerSensor = builder.buildRegisterSensorRequest(parameters);
 		insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
-		
+
 		assertThat(insertSensorType.getObservablePropertyArray().length, is(1));
 		assertThat(insertSensorType.getObservablePropertyArray(),hasItemInArray(TEST_OBSERVABLE_PROPERTY_1));
 	}
-	
+
 	@Test public void
 	buildRegisterSensor_should_set_procedure_description_format()
 			throws XmlException, OXFException {
 		createParamConWithMandatoryInsertSensorValues();
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
 				TEST_OBSERVABLE_PROPERTY_1);
-		
+
 		final String registerSensor = builder.buildRegisterSensorRequest(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
-		
+
 		assertThat(insertSensorType.getProcedureDescriptionFormat(),is(format));
 	}
-	
+
 	@Test public void
 	buildRegisterSensor_should_set_procedure_description()
 			throws XmlException, OXFException {
 		createParamConWithMandatoryInsertSensorValues();
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
 				TEST_OBSERVABLE_PROPERTY_1);
-		
+
 		final String registerSensor = builder.buildRegisterSensorRequest(parameters);
 		final InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
-		
+
 		final String identifierFromRequestBuilder = SystemType.Factory.parse(
 				SensorMLDocument.Factory.parse(insertSensorType.getProcedureDescription().toString())
 						.getSensorML()
@@ -217,17 +216,17 @@ public class SOSRequestBuilder200POXTest {
 						.getIdentifierArray(0)
 						.getTerm()
 						.getValue();
-		
+
 		assertThat(identifierFromRequestBuilder,is(SENSOR_IDENTIFIER));
 	}
-	
+
 	@Test public void
 	buildRegisterSensor_should_throw_exception_if_receiving_invalid_procedure_description()
 			throws XmlException, OXFException {
 		createParamConWithMandatoryInsertSensorValues();
 		parameters.removeParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER);
 		parameters.addParameterShell(REGISTER_SENSOR_ML_DOC_PARAMETER, "INVALID");
-		
+
 		try {
 			builder.buildRegisterSensorRequest(parameters);
 		}
@@ -237,7 +236,7 @@ public class SOSRequestBuilder200POXTest {
 			assertThat(e.getMessage(),is("Error while parsing MANDATORY parameter 'procedure description'!"));
 		}
 	}
-	
+
 	@Test public void
 	buildRegisterSenosr_should_set_insertion_metadata()
 			throws OXFException, XmlException{
@@ -253,14 +252,14 @@ public class SOSRequestBuilder200POXTest {
 		parameters.addParameterShell(REGISTER_SENSOR_FEATURE_TYPE_PARAMETER, foiType1,foiType2);
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
 				TEST_OBSERVABLE_PROPERTY_1);
-		
+
 		String registerSensor = builder.buildRegisterSensorRequest(parameters);
 		InsertSensorType insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
-		
+
 		assertThat(insertSensorType.getMetadataArray().length,is(1));
-		
+
 		SosInsertionMetadataType insertionMetadata = SosInsertionMetadataDocument.Factory.parse(insertSensorType.getMetadataArray()[0].xmlText()).getSosInsertionMetadata();
-		
+
 		assertThat(insertionMetadata.getObservationTypeArray().length,is(2));
 		assertThat(insertionMetadata.getFeatureOfInterestTypeArray().length,is(2));
 		assertThat(insertionMetadata.getObservationTypeArray(),hasItemInArray(obsType1));
@@ -276,34 +275,34 @@ public class SOSRequestBuilder200POXTest {
 		parameters.addParameterShell(REGISTER_SENSOR_FEATURE_TYPE_PARAMETER, foiType1);
 		parameters.addParameterShell(REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
 				TEST_OBSERVABLE_PROPERTY_1);
-		
+
 		registerSensor = builder.buildRegisterSensorRequest(parameters);
 		insertSensorType = InsertSensorDocument.Factory.parse(registerSensor).getInsertSensor();
-		
+
 		assertThat(insertSensorType.getMetadataArray().length,is(1));
-		
+
 		insertionMetadata = SosInsertionMetadataDocument.Factory.parse(insertSensorType.getMetadataArray()[0].xmlText()).getSosInsertionMetadata();
-		
+
 		assertThat(insertionMetadata.getObservationTypeArray().length,is(1));
 		assertThat(insertionMetadata.getFeatureOfInterestTypeArray().length,is(1));
 		assertThat(insertionMetadata.getObservationTypeArray(),hasItemInArray(obsType1));
 		assertThat(insertionMetadata.getFeatureOfInterestTypeArray(),hasItemInArray(foiType1));
 	}
-	
+
 	/*
-	 * 
+	 *
 	 * 		GET OBSERVATION BY ID
-	 * 
+	 *
 	 */
 	@Test(expected=OXFException.class) public void
 	buildGetObservationByIdRequest_should_throw_OXFException_if_parameter_is_null()
 			throws OXFException {
 		builder.buildGetObservationByIDRequest(null);
 	}
-	
+
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
-	
+
 	@Test public void
 	buildGetObservatinByIdRequest_should_throw_OXFException_if_observation_id_is_missing()
 			throws OXFException {
@@ -312,60 +311,60 @@ public class SOSRequestBuilder200POXTest {
 		addServiceAndVersion();
 		builder.buildGetObservationByIDRequest(parameters);
 	}
-	
+
 	@Test public void
 	buildGetObservationById_should_add_single_and_multiple_observation_id()
 		throws OXFException, XmlException {
 		addServiceAndVersion();
 		parameters.addParameterShell(GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER, OBSERVATION_ID_1);
-		
+
 		String getObservationById = builder.buildGetObservationByIDRequest(parameters);
-		
+
 		GetObservationByIdType getObservationByIdType = GetObservationByIdDocument.Factory.parse(getObservationById).getGetObservationById();
-		
+
 		assertThat(getObservationByIdType.getService(), is(sosService));
 		assertThat(getObservationByIdType.getVersion(), is(sosVersion));
 		assertThat(getObservationByIdType.getObservationArray().length, is(1));
 		assertThat(getObservationByIdType.getObservationArray(0), is(OBSERVATION_ID_1));
-		
+
 		parameters.removeParameterShell(GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER);
 		parameters.addParameterShell(GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER, OBSERVATION_ID_1, OBSERVATION_ID_2);
-		
+
 		getObservationById = builder.buildGetObservationByIDRequest(parameters);
-		
+
 		getObservationByIdType = GetObservationByIdDocument.Factory.parse(getObservationById).getGetObservationById();
-		
+
 		assertThat(getObservationByIdType.getService(), is(sosService));
 		assertThat(getObservationByIdType.getVersion(), is(sosVersion));
 		assertThat(getObservationByIdType.getObservationArray().length, is(2));
 		assertThat(getObservationByIdType.getObservationArray(), hasItemInArray(OBSERVATION_ID_1));
 		assertThat(getObservationByIdType.getObservationArray(), hasItemInArray(OBSERVATION_ID_2));
 	}
-	
+
 	/*
-	 * 
+	 *
 	 * 		INSERT OBSERVATION
-	 * 
+	 *
 	 */
 	@Test(expected=OXFException.class) public void
 	buildInsertObservation_should_throw_OXFException_if_parameters_is_null()
 			throws OXFException {
 		builder.buildInsertObservationRequest(null);
 	}
-	
+
 	@Test public void
 	buildInsertObservation_should_set_service_and_version()
 			throws OXFException, XmlException {
 		addServiceAndVersion();
 		addObservationValues();
-		
+
 		final String insertObservation = builder.buildInsertObservationRequest(parameters);
 		final InsertObservationType insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
-		
+
 		assertThat(insertObservationType.getVersion(),is(sosVersion));
 		assertThat(insertObservationType.getService(),is(sosService));
 	}
-	
+
 	@Test public void
 	buildInsertObservation_should_add_offerings()
 			throws XmlException, OXFException {
@@ -378,10 +377,10 @@ public class SOSRequestBuilder200POXTest {
 		final String offering2 = "test-offering-2";
 		parameters.removeParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER);
 		parameters.addParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER,offering1,offering2);
-		
+
 		String insertObservation = builder.buildInsertObservationRequest(parameters);
 		InsertObservationType insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
-		
+
 		assertThat(insertObservationType.getOfferingArray().length, is(2));
 		assertThat(insertObservationType.getOfferingArray(),hasItemInArray(offering1));
 		assertThat(insertObservationType.getOfferingArray(),hasItemInArray(offering2));
@@ -393,27 +392,27 @@ public class SOSRequestBuilder200POXTest {
 		addObservationValues();
 		parameters.removeParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER);
 		parameters.addParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER,offering1);
-		
+
 		insertObservation = builder.buildInsertObservationRequest(parameters);
 		insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
-		
+
 		assertThat(insertObservationType.getOfferingArray().length, is(1));
 		assertThat(insertObservationType.getOfferingArray(),hasItemInArray(offering1));
 	}
-	
+
 	@Test public void
 	buildInsertObservation_should_add_single_measurement_with_foi_ref()
 			throws OXFException, XmlException {
 		addServiceAndVersion();
 		addObservationValues();
-		
+
 		final String insertObservation = builder.buildInsertObservationRequest(parameters);
 		final InsertObservationType insertObservationType = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation();
-		
+
 		assertThat(insertObservationType.getOfferingArray().length,is(1));
 		assertThat(insertObservationType.getOfferingArray(0),is(offering));
 		assertThat(insertObservationType.getObservationArray().length,is(1));
-		
+
 		final OMObservationType observation = insertObservationType.getObservationArray(0).getOMObservation();
 		assertThat(observation.getId(),not(isEmptyOrNullString()));
 		assertThat(observation.getType().getHref(),is("http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement"));
@@ -437,17 +436,17 @@ public class SOSRequestBuilder200POXTest {
 		addObservationValues();
 		parameters.removeParameterShell(INSERT_OBSERVATION_TYPE);
 		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, "INVALID");
-		
+
 		builder.buildInsertObservationRequest(parameters);
 	}
-	
+
 	@Test public void
 	buildInsertObservation_shoul_add_feature_instance()
 			throws OXFException, XmlException {
 		addServiceAndVersion();
 		addObservationValues();
 		addNewFoiValues();
-		
+
 		String insertObservation = builder.buildInsertObservationRequest(parameters);
 		SFSpatialSamplingFeatureType feature = SFSpatialSamplingFeatureDocument.Factory.parse(InsertObservationDocument.Factory.parse(insertObservation)
         		.getInsertObservation()
@@ -456,7 +455,7 @@ public class SOSRequestBuilder200POXTest {
         		.getFeatureOfInterest()
         		.xmlText())
         		.getSFSpatialSamplingFeature();
-		
+
 		assertThat(feature.getId(),not(isEmptyOrNullString()));
 		assertThat(feature.getIdentifier().getStringValue(),is(foiId));
 		assertThat(feature.getNameArray(0).getStringValue(),is(newFoiName));
@@ -479,7 +478,7 @@ public class SOSRequestBuilder200POXTest {
         		.getFeatureOfInterest()
         		.xmlText())
         		.getSFSpatialSamplingFeature();
-		
+
 		assertThat(feature.getSampledFeature().getHref(),is(OGC_UNKNOWN_VALUE));
 	}
 
@@ -491,42 +490,42 @@ public class SOSRequestBuilder200POXTest {
 		removeObservationTypeAndMeasurementResult();
 		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_CATEGORY);
 		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER,category);
-		
+
 		final String insertObservation = builder.buildInsertObservationRequest(parameters);
 		final OMObservationType observation = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation().getObservationArray(0).getOMObservation();
-		
+
 		assertThat(observation.getType().getHref(),is(OGC_OM_2_0_OM_CATEGORY_OBSERVATION));
-		
+
 		final ReferenceType result = ReferenceType.Factory.parse(observation.getResult().xmlText());
 		assertThat(result.getHref(),is(category));
 	}
-	
+
 	@Test public void
 	buildInsertObservation_should_add_single_truth_observation()
 			throws OXFException, XmlException{
 		addServiceAndVersion();
 		addObservationValues();
 		removeObservationTypeAndMeasurementResult();
-		
+
 		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_TRUTH);
 		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER,Boolean.toString(truth));
-		
+
 		String insertObservation = builder.buildInsertObservationRequest(parameters);
 		OMObservationType observation = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation().getObservationArray(0).getOMObservation();
-		
+
 		assertThat(observation.getType().getHref(),is(XMLConstants.OGC_OM_2_0_OM_TRUTH_OBSERVATION));
-		
+
 		XmlBoolean result = XmlBoolean.Factory.parse(observation.getResult().xmlText());
 		assertThat(result.getBooleanValue(),is(truth));
-		
+
 		parameters.removeParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER);
 		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER,"someStringNotTrue");
-		
+
 		insertObservation = builder.buildInsertObservationRequest(parameters);
 		observation = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation().getObservationArray(0).getOMObservation();
-		
+
 		assertThat(observation.getType().getHref(),is(XMLConstants.OGC_OM_2_0_OM_TRUTH_OBSERVATION));
-		
+
 		result = XmlBoolean.Factory.parse(observation.getResult().xmlText());
 		assertThat(result.getBooleanValue(),is(false));
 	}
@@ -539,16 +538,16 @@ public class SOSRequestBuilder200POXTest {
 		removeObservationTypeAndMeasurementResult();
 		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_TEXT);
 		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER,text);
-		
+
 		final String insertObservation = builder.buildInsertObservationRequest(parameters);
 		final OMObservationType observation = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation().getObservationArray(0).getOMObservation();
-		
+
 		assertThat(observation.getType().getHref(),is(OGC_OM_2_0_OM_TEXT_OBSERVATION));
-		
+
 		final XmlString result = XmlString.Factory.parse(observation.getResult().xmlText());
 		assertThat(result.getStringValue(),is(text));
 	}
-	
+
 	@Test public void
 	buildInsertObservation_should_add_single_count_observation()
 			throws OXFException, XmlException {
@@ -557,16 +556,16 @@ public class SOSRequestBuilder200POXTest {
 		removeObservationTypeAndMeasurementResult();
 		parameters.addParameterShell(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_COUNT);
 		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER,count );
-		
+
 		final String insertObservation = builder.buildInsertObservationRequest(parameters);
 		final OMObservationType observation = InsertObservationDocument.Factory.parse(insertObservation).getInsertObservation().getObservationArray(0).getOMObservation();
-		
+
 		assertThat(observation.getType().getHref(),is(OGC_OM_2_0_OM_COUNT_OBSERVATION));
-		
+
 		final XmlInteger result = XmlInteger.Factory.parse(observation.getResult().xmlText());
 		assertThat(result.getBigIntegerValue().intValue(),is(count));
 	}
-	
+
 	@Test public void
 	buildInsertObservation_should_add_single_measurement_with_timePeriod_as_phenomenonTime()
 			throws OXFException, XmlException {
@@ -574,7 +573,7 @@ public class SOSRequestBuilder200POXTest {
 		addObservationValues();
 		parameters.removeParameterShell(INSERT_OBSERVATION_PHENOMENON_TIME);
 		parameters.addParameterShell(INSERT_OBSERVATION_PHENOMENON_TIME,phenTimePeriod);
-		
+
 		final String insertObservation = builder.buildInsertObservationRequest(parameters);
 		final TimePeriodType phenomenonTime = (TimePeriodType)InsertObservationDocument.Factory.parse(insertObservation)
 				.getInsertObservation()
@@ -582,18 +581,18 @@ public class SOSRequestBuilder200POXTest {
 				.getOMObservation()
 				.getPhenomenonTime()
 				.getAbstractTimeObject();
-		
+
 		assertThat(phenomenonTime.getBeginPosition().getStringValue(),is(phenTimePeriodStart.toISO8601Format()));
 		assertThat(phenomenonTime.getEndPosition().getStringValue(),is(phenTimePeriodEnd.toISO8601Format()));
 	}
-	
+
 	private void removeObservationTypeAndMeasurementResult()
 	{
 		parameters.removeParameterShell(INSERT_OBSERVATION_TYPE);
 		parameters.removeParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE);
 		parameters.removeParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER);
 	}
-	
+
 	private void addNewFoiValues() throws OXFException
 	{
 		parameters.removeParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER);
@@ -603,7 +602,7 @@ public class SOSRequestBuilder200POXTest {
 		parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS,newFoiEpsgCode );
 		parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_PARENT_FEATURE_ID,newFoiParentFeatureId);
 	}
-	
+
 	private void addObservationValues() throws OXFException
 	{
 		parameters.addParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER, offering);
@@ -616,7 +615,7 @@ public class SOSRequestBuilder200POXTest {
 		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER, value);// result
 		parameters.addParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, uom);// uom
 	}
-	
+
 	private String createSensorDescription()
 	{
 		final SensorDescriptionBuilder builder = new SensorDescriptionBuilder();
@@ -633,10 +632,10 @@ public class SOSRequestBuilder200POXTest {
 
 	private void addServiceAndVersion() throws OXFException
 	{
-		parameters.addParameterShell(REGISTER_SENSOR_SERVICE_PARAMETER, sosService);
-		parameters.addParameterShell(REGISTER_SENSOR_VERSION_PARAMETER, sosVersion);
+		parameters.addParameterShell(SERVICE, sosService);
+		parameters.addParameterShell(VERSION, sosVersion);
 	}
-	
+
 	@Before
 	public void init() {
 		builder = new SOSRequestBuilder_200();
