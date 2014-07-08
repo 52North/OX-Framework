@@ -37,12 +37,14 @@ import net.opengis.ows.x11.ExceptionReportDocument;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.entity.ContentType;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.IServiceAdapter;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.ows.ExceptionReport;
@@ -62,7 +64,7 @@ import org.w3c.dom.Element;
 
 /**
  * SOS-Adapter for the OX-Framework
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class SOSAdapter implements IServiceAdapter {
@@ -122,7 +124,7 @@ public class SOSAdapter implements IServiceAdapter {
      * By default the created instance will use a {@link SimpleHttpClient} for service communication. If
      * further features are needed the {@link SimpleHttpClient} can be decorated with further configuration
      * setups like a {@link GzipEnabledHttpClient} or a {@link ProxyAwareHttpClient}.
-     * 
+     *
      * @param serviceVersion
      *        the schema version for which this adapter instance shall be initialized.
      * @param requestBuilder
@@ -155,7 +157,7 @@ public class SOSAdapter implements IServiceAdapter {
      * Sets a custom {@link HttpClient} for service communication. A {@link SimpleHttpClient} can be decorated
      * to enable for example GZIP encoding (setting Accept-Encoding plus GZIP decompressing) or being aware of
      * proxies.
-     * 
+     *
      * @param httpClient
      *        a customly configured {@link HttpClient} the {@link SOSAdapter} shall use.
      * @see ProxyAwareHttpClient
@@ -167,19 +169,19 @@ public class SOSAdapter implements IServiceAdapter {
 
     /**
      * initializes the ServiceDescriptor by requesting the capabilities document of the SOS.
-     * 
+     *
      * @param url
      *        the base URL of the SOS
      * @param serviceVersion
      *        the schema version to which the service description shall be conform.
-     * 
+     *
      * @return the ServiceDescriptor based on the retrieved capabilities document
-     * 
+     *
      * @throws ExceptionReport
      *         if service side exception occurs
      * @throws OXFException
      *         if internal exception (in general parsing error or Capabilities doc is incorrect) occurs
-     * 
+     *
      */
     @Override
 	public ServiceDescriptor initService(final String url) throws ExceptionReport, OXFException {
@@ -223,7 +225,7 @@ public class SOSAdapter implements IServiceAdapter {
     }
 
     /**
-     * 
+     *
      * @param capsDoc
      * @return
      * @throws OXFException
@@ -237,21 +239,21 @@ public class SOSAdapter implements IServiceAdapter {
     }
 
     /**
-     * 
+     *
      * @param operation
      *        the operation which the adapter has to execute on the service. this operation includes also the
      *        parameter values.
-     * 
+     *
      * @param parameters
      *        Map which contains the parameters of the operation and the corresponding parameter values
-     * 
+     *
      * @throws ExceptionReport
      *         Report which contains the service sided exceptions
-     * 
+     *
      * @throws OXFException
      *         if the sending of the post message failed.<br>
      *         if the specified Operation is not supported.
-     * 
+     *
      * @return the result of the executed operation
      */
     @Override
@@ -272,7 +274,12 @@ public class SOSAdapter implements IServiceAdapter {
                 uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
             }
 
-            final HttpResponse httpResponse = httpClient.executePost(uri.trim(), request, TEXT_XML);
+            ContentType mimetype = TEXT_XML;
+            if (parameters.containsParameterShellWithCommonName("mimetype")) {
+                mimetype = ContentType.create((String) parameters.getParameterShellWithCommonName("mimetype").getSpecifiedValue());
+            }
+
+            final HttpResponse httpResponse = httpClient.executePost(uri.trim(), request, mimetype);
             final HttpEntity responseEntity = httpResponse.getEntity();
             result = new OperationResult(responseEntity.getContent(), parameters, request);
 
@@ -399,7 +406,7 @@ public class SOSAdapter implements IServiceAdapter {
 
     /**
      * returns the ResourceOperationName
-     * 
+     *
      * @return The name of the service operation which returns the data to be added to a map view as a layer.
      */
     @Override
@@ -409,7 +416,7 @@ public class SOSAdapter implements IServiceAdapter {
 
     /**
      * returns the description of this Service Adapter
-     * 
+     *
      * @return String the description of the adapter
      */
     @Override
@@ -419,7 +426,7 @@ public class SOSAdapter implements IServiceAdapter {
 
     /**
      * returns the type of the service which is connectable by this ServiceAdapter
-     * 
+     *
      * @return String the type of service
      */
     @Override
@@ -429,7 +436,7 @@ public class SOSAdapter implements IServiceAdapter {
 
     /**
      * returns the supported versions of the service
-     * 
+     *
      * @return String[] the supported versions of the service which is connectable by this ServiceAdapter
      */
     @Override
