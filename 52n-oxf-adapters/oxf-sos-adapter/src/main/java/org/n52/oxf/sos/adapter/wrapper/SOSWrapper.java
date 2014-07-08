@@ -307,7 +307,7 @@ public class SOSWrapper {
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_TYPE, parameters.getSingleValue(INSERT_OBSERVATION_TYPE));
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_PROCEDURE_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_PROCEDURE_PARAMETER));
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER));
-		if(parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER) != null) {
+		if(parameters.contains(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_NAME, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_NAME));
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER));
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_DESC, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_DESC));
@@ -317,22 +317,22 @@ public class SOSWrapper {
 		else {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_FOI_ID_PARAMETER));
 		}
-		if (parameters.getSingleValue(INSERT_OBSERVATION_POSITION_SRS) != null) {
+		if (parameters.contains(INSERT_OBSERVATION_POSITION_SRS)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_POSITION_SRS, parameters.getSingleValue(INSERT_OBSERVATION_POSITION_SRS));
 		}
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_RESULT_TIME, parameters.getSingleValue(INSERT_OBSERVATION_RESULT_TIME));
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_PHENOMENON_TIME, parameters.getSingleValue(INSERT_OBSERVATION_PHENOMENON_TIME));
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_OFFERINGS_PARAMETER, parameters.getAllValues(INSERT_OBSERVATION_OFFERINGS_PARAMETER).toArray(new String[parameters.getAllValues(INSERT_OBSERVATION_OFFERINGS_PARAMETER).size()]));
-		if (parameters.getSingleValue(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE) != null) {
+		if (parameters.contains(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, parameters.getSingleValue(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE));
 		}
-		if (parameters.getSingleValue(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE) != null) {
+		if (parameters.contains(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, parameters.getSingleValue(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE));
 		}
-		if (parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
+		if (parameters.contains(INSERT_OBSERVATION_VALUE_PARAMETER)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER));
 		}
-		if (parameters.getSingleValue(EXTENSION) != null) {
+		if (parameters.contains(EXTENSION)) {
 			parameterContainer.addParameterShell(EXTENSION, parameters.getSingleValue(EXTENSION));
 		}
 	}
@@ -346,25 +346,25 @@ public class SOSWrapper {
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER));
 		parameterContainer.addParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_FOI_ID_PARAMETER));
 		// optional parameters
-		if (parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_NAME) != null) {
+		if (parameters.contains(INSERT_OBSERVATION_NEW_FOI_NAME)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_NAME, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_NAME));
 		}
-		if (parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_DESC) != null) {
+		if (parameters.contains(INSERT_OBSERVATION_NEW_FOI_DESC)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_DESC, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_DESC));
 		}
-		if (parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_POSITION) != null) {
+		if (parameters.contains(INSERT_OBSERVATION_NEW_FOI_POSITION)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION, parameters.getSingleValue(INSERT_OBSERVATION_NEW_FOI_POSITION));
 		}
-		if (parameters.getSingleValue(INSERT_OBSERVATION_POSITION_SRS) != null) {
+		if (parameters.contains(INSERT_OBSERVATION_POSITION_SRS)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_POSITION_SRS, parameters.getSingleValue(INSERT_OBSERVATION_POSITION_SRS));
 		}
-		if (parameters.getSingleValue(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE) != null) {
+		if (parameters.contains(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE, parameters.getSingleValue(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE));
 		}
-		if (parameters.getSingleValue(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE) != null) {
+		if (parameters.contains(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, parameters.getSingleValue(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE));
 		}
-		if (parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
+		if (parameters.contains(INSERT_OBSERVATION_VALUE_PARAMETER)) {
 			parameterContainer.addParameterShell(INSERT_OBSERVATION_VALUE_PARAMETER, parameters.getSingleValue(INSERT_OBSERVATION_VALUE_PARAMETER));
 		}
 	}
