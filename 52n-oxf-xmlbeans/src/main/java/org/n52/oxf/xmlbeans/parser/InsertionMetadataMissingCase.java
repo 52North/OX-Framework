@@ -70,6 +70,8 @@ public class InsertionMetadataMissingCase extends AbstractDependentLaxValidation
 	{
 		return xve != null &&
 				xve.getOffendingQName() == null &&
+				xve.getFieldQName() != null &&
+				xve.getExpectedQNames() != null &&
 				xve.getFieldQName().equals(XMLConstants.QN_SWES_2_0_METADATA) &&
 				xve.getExpectedQNames().contains(XMLConstants.QN_SWES_2_0_INSERTION_METADATA);
 	}
