@@ -47,10 +47,12 @@ import org.n52.oxf.xmlbeans.tools.XmlFileLoader;
 public class SOSObservationStoreTest {
 
     private static final String SOS_200_GETOBSERVATION_AGS_SOE_VALID = "/files/observationData/SOS_2.0.0_GetObservationResponse_ags_soe_valid.xml";
-    
+
+    private static final String SOS_200_GETOBSERVATION_HYPROFILE_WML20_VALID = "/files/observationData/SOS_2.0.0_GetObservationResponse_hyprofile_kiwis_valid.xml";
+
     @Test public void
     shouldParseValidAgsSoeResult()
-    throws Exception 
+    throws Exception
     {
         SOSObservationStore seam = new FeatureCollectionStoreSeam(SOS_200_GETOBSERVATION_AGS_SOE_VALID, "2.0.0");
         OXFFeatureCollection featureCollection = seam.unmarshalFeatures();
@@ -59,7 +61,19 @@ public class SOSObservationStoreTest {
         ObservationSeriesCollection seriesCollection = new ObservationSeriesCollection(featureCollection, fois, obsProps, false);
         assertThat(seriesCollection.getSortedTimeArray().length, is(23));
     }
-    
+
+    @Test public void
+    shouldParseValidHyProfileWML20Result()
+    throws Exception
+    {
+        SOSObservationStore seam = new FeatureCollectionStoreSeam(SOS_200_GETOBSERVATION_HYPROFILE_WML20_VALID, "2.0.0");
+        OXFFeatureCollection featureCollection = seam.unmarshalFeatures();
+        String[] fois = new String[] {"http://kiwis.kisters.de/stations/6731310"};
+        String[] obsProps = new String[] {"http://kiwis.kisters.de/parameters/Q"};
+        ObservationSeriesCollection seriesCollection = new ObservationSeriesCollection(featureCollection, fois, obsProps, false);
+        assertThat(seriesCollection.getSortedTimeArray().length, is(43));
+    }
+
     @Before
     public void setUp() throws Exception {
     }
