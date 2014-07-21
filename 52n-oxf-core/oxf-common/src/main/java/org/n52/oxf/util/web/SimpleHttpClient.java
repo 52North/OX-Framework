@@ -69,7 +69,7 @@ public class SimpleHttpClient implements HttpClient {
 
     /**
      * Creates an instance with a given connection timeout.
-     * 
+     *
      * @param connectionTimeout
      *        the connection timeout in milliseconds.
      */
@@ -79,7 +79,7 @@ public class SimpleHttpClient implements HttpClient {
 
     /**
      * Creates an instance with the given timeouts.
-     * 
+     *
      * @param connectionTimeout
      *        the connection timeout in milliseconds.
      * @param socketTimeout
@@ -143,13 +143,14 @@ public class SimpleHttpClient implements HttpClient {
     public HttpResponse executePost(String uri, XmlObject payloadToSend) throws HttpClientException {
         return executePost(uri, payloadToSend.xmlText(), ContentType.create("text/xml", Consts.UTF_8));
     }
-    
+
     public HttpResponse executePost(String uri, String payloadToSend) throws HttpClientException {
         return executePost(uri, payloadToSend, ContentType.create("text/xml", Consts.UTF_8));
     }
 
     public HttpResponse executePost(String uri, String payloadToSend, ContentType contentType) throws HttpClientException {
         StringEntity requestEntity = new StringEntity(payloadToSend, contentType);
+        LOGGER.trace("payload to send: {}", payloadToSend);
         return executePost(uri, requestEntity);
     }
 
