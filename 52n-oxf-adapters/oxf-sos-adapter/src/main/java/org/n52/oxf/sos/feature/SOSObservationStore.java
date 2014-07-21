@@ -53,18 +53,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SOSObservationStore extends OperationResultStore implements IFeatureStore {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSObservationStore.class);
 
     @Deprecated
     public SOSObservationStore() {
         // for backward compatibility .. TODO remove when deprecated contructor is going to be removed
     }
-    
+
     public SOSObservationStore(OperationResult operationResult) throws OXFException {
         super(operationResult);
     }
-    
+
     public OXFFeatureCollection unmarshalFeatures(OperationResult operationResult) throws OXFException {
         this.version = getVersion(operationResult);
         if (SosUtil.isVersion100(version)) {
@@ -73,7 +73,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
             return unmarshalFeatures();
         }
     }
-    
+
     public OXFFeatureCollection unmarshalFeatures() throws OXFException {
         if (SosUtil.isVersion100(version)) {
             return unmarshalFeatures100();
@@ -97,7 +97,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
             throw new OXFException("Could not parse OperationResult.", e);
         }
     }
-    
+
     private OXFFeatureCollection unmarshalFeatures100() throws OXFException {
         if (xmlObject == null) {
             // TODO remove when removing deprecated #unmarshalFeatures100()
@@ -124,7 +124,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
     private boolean isOM100ObservationCollectionDocument(XmlObject xmlObject) {
         return xmlObject.schemaType() == ObservationCollectionDocument.type;
     }
-    
+
 //    private OXFFeatureCollection unmarshalTvpMeasurementObservations(OXFFeatureCollection featureCollection) throws OXFException {
 //        if (xmlObject == null) {
 //            // TODO remove when removing deprecated #unmarshalFeatures100()
@@ -133,15 +133,15 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
 //        if (!isWaterML200TimeSeriesObservationDocument(xmlObject)) {
 //            throw new OXFException("Unknown result type.");
 //        }
-//        
+//
 //
 //        MeasurementTimeseriesDocument measurementDocument = (MeasurementTimeseriesDocument) xmlObject;
 //        MeasurementTimeseriesType timeseries = measurementDocument.getMeasurementTimeseries();
-//        
+//
 //        // TODO init common metadata to collection
-//        
+//
 //        // TODO initialize particular measurements
-//        
+//
 //        /*
 //         * private OXFFeatureCollection initializeFeature(OXFFeatureCollection featureCollection, ObservationData[] observationData) throws OXFException {
 //        for (ObservationData observation : observationData) {
@@ -151,7 +151,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
 //        return featureCollection;
 //    }
 //         */
-//        
+//
 //        try {
 //            return OXFObservationCollectionType.createFeatureCollection(timeseries.getId(), timeseries);
 //        } catch (OXFException e) {
@@ -179,7 +179,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
                 return featureCollection;
             }
         } else {
-            throw new OXFException("Unknown result type.");
+            throw new OXFException("Unknown result type: " + xmlObject.schemaType());
         }
     }
 
