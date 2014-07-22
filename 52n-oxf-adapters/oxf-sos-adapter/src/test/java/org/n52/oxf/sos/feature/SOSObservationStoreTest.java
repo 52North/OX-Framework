@@ -48,7 +48,9 @@ public class SOSObservationStoreTest {
 
     private static final String SOS_200_GETOBSERVATION_AGS_SOE_VALID = "/files/observationData/SOS_2.0.0_GetObservationResponse_ags_soe_valid.xml";
 
-    private static final String SOS_200_GETOBSERVATION_HYPROFILE_WML20_VALID = "/files/observationData/SOS_2.0.0_GetObservationResponse_hyprofile_kiwis_valid.xml";
+    private static final String SOS_200_GETOBSERVATION_HYPROFILE_WML20_VALID_1 = "/files/observationData/SOS_2.0.0_GetObservationResponse_hyprofile_kiwis_valid_1.xml";
+
+    private static final String SOS_200_GETOBSERVATION_HYPROFILE_WML20_VALID_2 = "/files/observationData/SOS_2.0.0_GetObservationResponse_hyprofile_kiwis_valid_2.xml";
 
     @Test public void
     shouldParseValidAgsSoeResult()
@@ -63,15 +65,27 @@ public class SOSObservationStoreTest {
     }
 
     @Test public void
-    shouldParseValidHyProfileWML20Result()
+    shouldParseValidHyProfileWML20Result_1()
     throws Exception
     {
-        SOSObservationStore seam = new FeatureCollectionStoreSeam(SOS_200_GETOBSERVATION_HYPROFILE_WML20_VALID, "2.0.0");
+        SOSObservationStore seam = new FeatureCollectionStoreSeam(SOS_200_GETOBSERVATION_HYPROFILE_WML20_VALID_1, "2.0.0");
         OXFFeatureCollection featureCollection = seam.unmarshalFeatures();
         String[] fois = new String[] {"http://kiwis.kisters.de/stations/6731310"};
         String[] obsProps = new String[] {"http://kiwis.kisters.de/parameters/Q"};
         ObservationSeriesCollection seriesCollection = new ObservationSeriesCollection(featureCollection, fois, obsProps, false);
         assertThat(seriesCollection.getSortedTimeArray().length, is(43));
+    }
+
+    @Test public void
+    shouldParseValidHyProfileWML20Result_2()
+    throws Exception
+    {
+        SOSObservationStore seam = new FeatureCollectionStoreSeam(SOS_200_GETOBSERVATION_HYPROFILE_WML20_VALID_2, "2.0.0");
+        OXFFeatureCollection featureCollection = seam.unmarshalFeatures();
+        String[] fois = new String[] {"http://localhost/stations/52040011"};
+        String[] obsProps = new String[] {"http://localhost/parameters/N"};
+        ObservationSeriesCollection seriesCollection = new ObservationSeriesCollection(featureCollection, fois, obsProps, false);
+        assertThat(seriesCollection.getSortedTimeArray().length, is(1));
     }
 
     @Before
