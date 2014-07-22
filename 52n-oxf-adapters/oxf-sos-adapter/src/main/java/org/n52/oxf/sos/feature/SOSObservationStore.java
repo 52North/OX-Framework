@@ -179,6 +179,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
                 return featureCollection;
             }
         } else {
+            LOGGER.error("Unexpected response: {}", xmlObject.xmlText());
             throw new OXFException("Unknown result type: " + xmlObject.schemaType());
         }
     }
