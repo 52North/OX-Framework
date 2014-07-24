@@ -30,14 +30,17 @@ package org.n52.oxf.valueDomains.time;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 /**
  * Represents a single timePosition. It is leaned on the WMS profile of ISO8601 spec. Any suggestions about
  * that profile are made in the decisions.html. <br>
  * Valid example time strings: <li>2005-11-01</li> <li>2005-11-01T12:30</li> <li>2005-11-01T12:30:20Z</li>
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor F&ouml;rster</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  */
@@ -63,10 +66,10 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 	private boolean isDateComplete = false;
 	private String timePos = "";
 	private ITimeResolution timeRes;
-	
+
 	/**
 	 * Constructs a {@link TimePosition} out of a ISO 8601 String. The string has at least to indicate the year.
-	 * 
+	 *
 	 * @param timePos a ISO 8601 compliant {@link String}
 	 * @throws IllegalArgumentException
 	 *         <ul>
@@ -101,7 +104,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 			throw new IllegalArgumentException("invalid timePosition!: " + timePos);
 		}
 	}
-	
+
 	private void initDate(String date) throws IllegalArgumentException {
 		int negativeOffset = 0;
 		if (date.equals("-")) {
@@ -419,7 +422,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 			 // remove internal decimal places if not required
 			 if(fullSec.endsWith(".0")){
 				 // replaceAll with .0 leads to problems
-				 // just build substring 
+				 // just build substring
 				 fullSec = fullSec.substring(0, fullSec.length()-2);
 				 // fullSec = fullSec.replaceAll(".0", "");
 				 end -=2;
@@ -509,34 +512,20 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 		 return false;
 	 }
 
-	 // TODO add timezone; Now this method does not care about any time zone issue
 	 public int compareTo(ITimePosition timePosP) {
-		 if (this.getYear() != timePosP.getYear()) {
-			 return (this.getYear() < timePosP.getYear()) ? -1 : 1;
-		 }
-		 if (this.getMonth() != timePosP.getMonth()) {
-			 return (this.getMonth() < timePosP.getMonth()) ? -1 : 1;
-		 }
-		 if (this.getDay() != timePosP.getDay()) {
-			 return (this.getDay() < timePosP.getDay()) ? -1 : 1;
-		 }
-		 if (this.getHour() != timePosP.getHour()) {
-			 return (this.getHour() < timePosP.getHour()) ? -1 : 1;
-		 }
-		 if (this.getMinute() != timePosP.getMinute()) {
-			 return (this.getMinute() < timePosP.getMinute()) ? -1 : 1;
-		 }
-		 if (this.getSecond() != timePosP.getSecond()) {
-			 return (this.getSecond() < timePosP.getSecond()) ? -1 : 1;
-		 }
 
-		 return 0;
+         DateTime thisTimePosition = DateTime.parse(this.toISO8601Format());
+         DateTime theOtherTimePosition = DateTime.parse(timePosP.toISO8601Format());
+
+		 return !thisTimePosition.isEqual(theOtherTimePosition)
+                     ? thisTimePosition.isBefore(theOtherTimePosition) ? -1 : 1
+                     : 0;
 	 }
 
 	 /**
 	  * a negative integer, zero, or a positive integer as the first argument is less than, equal to, or
 	  * greater than the second.
-	  * 
+	  *
 	  * @param o1
 	  * @param o2
 	  * @return
@@ -562,6 +551,11 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 	 }
 
 	 public Calendar getCalendar() {
+         DateTime dateTime = new DateTime();
+         dateTime.withDate((int)year, month - 1, day);
+         dateTime.withTime(hour, minute, (int) second, 0);
+         //dateTime.withZone(DateTimeZone.forTimeZone())
+
 		 return new GregorianCalendar((int) year, month - 1, day, hour, minute, (int) second);
 	 }
 
