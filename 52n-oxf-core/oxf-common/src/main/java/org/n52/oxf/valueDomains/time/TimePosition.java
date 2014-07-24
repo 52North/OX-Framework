@@ -32,7 +32,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.joda.time.DateTime;
+
 
 /**
  * Represents a single timePosition. It is leaned on the WMS profile of ISO8601 spec. Any suggestions about
@@ -41,6 +43,7 @@ import org.joda.time.DateTime;
  *
  * @author <a href="mailto:foerster@52north.org">Theodor F&ouml;rster</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+ * @author <a href="mailto:h.bredel@52north.org">Henning Bredel</a>
  */
 // TODO change timezone from String to numeric value holding the offset in something like milliseconds as long
 public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
@@ -514,9 +517,8 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 		 return false;
 	 }
 
-	 // TODO add timezone; Now this method does not care about any time zone issue
-	 @Override
-	public int compareTo(final ITimePosition timePosP) {
+
+	 public int compareTo(final ITimePosition timePosP) {
 
          DateTime thisTimePosition = DateTime.parse(this.toISO8601Format());
          DateTime theOtherTimePosition = DateTime.parse(timePosP.toISO8601Format());
@@ -557,10 +559,15 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 		 return compareTo(timePosP) > 0;
 	 }
 
+
 	 @Override
-	public Calendar getCalendar() {
-         DateTime dateTime = DateTime.parse(this.toISO8601Format());
-         return dateTime.toGregorianCalendar();
+	 public Calendar getCalendar() {
+         DateTime dateTime = new DateTime();
+         dateTime.withDate((int)year, month - 1, day);
+         dateTime.withTime(hour, minute, (int) second, 0);
+         //dateTime.withZone(DateTimeZone.forTimeZone())
+
+		 return new GregorianCalendar((int) year, month - 1, day, hour, minute, (int) second);
 	 }
 
 	 @Override
