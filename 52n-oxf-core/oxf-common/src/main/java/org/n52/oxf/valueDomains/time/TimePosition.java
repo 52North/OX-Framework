@@ -551,12 +551,8 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 	 }
 
 	 public Calendar getCalendar() {
-         DateTime dateTime = new DateTime();
-         dateTime.withDate((int)year, month - 1, day);
-         dateTime.withTime(hour, minute, (int) second, 0);
-         //dateTime.withZone(DateTimeZone.forTimeZone())
-
-		 return new GregorianCalendar((int) year, month - 1, day, hour, minute, (int) second);
+         DateTime dateTime = DateTime.parse(this.toISO8601Format());
+         return dateTime.toGregorianCalendar();
 	 }
 
 	 public String getTimezone(){
