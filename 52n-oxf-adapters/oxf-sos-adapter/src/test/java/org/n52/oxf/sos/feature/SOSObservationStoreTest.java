@@ -27,12 +27,14 @@
  */
 package org.n52.oxf.sos.feature;
 
+import java.io.IOException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.n52.oxf.ows.capabilities.Parameter.COMMON_NAME_VERSION;
 
 import java.io.InputStream;
+import org.apache.xmlbeans.XmlException;
 
 import org.apache.xmlbeans.XmlObject;
 import org.junit.Before;
@@ -43,8 +45,12 @@ import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.feature.sos.ObservationSeriesCollection;
 import org.n52.oxf.xmlbeans.tools.XmlFileLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SOSObservationStoreTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSObservationStoreTest.class);
 
     private static final String SOS_200_GETOBSERVATION_AGS_SOE_VALID = "/files/observationData/SOS_2.0.0_GetObservationResponse_ags_soe_valid.xml";
 
@@ -113,7 +119,12 @@ public class SOSObservationStoreTest {
     private static XmlObject getTestFile(String file) {
         try {
             return XmlFileLoader.loadXmlFileViaClassloader(file, SOSObservationStoreTest.class);
-        } catch (Exception e) {
+        } catch (XmlException e) {
+            LOGGER.error("Could not parse test file '{}'", file, e);
+            fail("Could not parse test file " + file);
+            return null;
+        } catch (IOException e) {
+            LOGGER.error("Could not load test file '{}'", file, e);
             fail("Could not load test file " + file);
             return null;
         }
