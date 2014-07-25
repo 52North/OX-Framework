@@ -27,10 +27,8 @@
  */
 package org.n52.oxf.valueDomains.time;
 
-import org.hamcrest.CoreMatchers;
 import static org.hamcrest.CoreMatchers.is;
 import org.joda.time.DateTime;
-import org.junit.Assert;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import org.n52.oxf.ows.capabilities.ITime;

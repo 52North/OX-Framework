@@ -506,17 +506,51 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 		 return ordinaryDate.toString();
 	 }
 
-	 @Override
-	 public boolean equals(final Object obj) {
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + (int) (this.year ^ (this.year >>> 32));
+        hash = 29 * hash + this.month;
+        hash = 29 * hash + this.day;
+        hash = 29 * hash + this.hour;
+        hash = 29 * hash + this.minute;
+        hash = 29 * hash + Float.floatToIntBits(this.second);
+        hash = 29 * hash + (this.timeZone != null ? this.timeZone.hashCode() : 0);
+        return hash;
+    }
 
-		 if (obj instanceof ITimePosition) {
-			 if (compareTo((ITimePosition) obj) == 0) {
-				 return true;
-			 }
-		 }
-		 return false;
-	 }
-
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TimePosition other = (TimePosition) obj;
+        if (this.year != other.year) {
+            return false;
+        }
+        if (this.month != other.month) {
+            return false;
+        }
+        if (this.day != other.day) {
+            return false;
+        }
+        if (this.hour != other.hour) {
+            return false;
+        }
+        if (this.minute != other.minute) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.second) != Float.floatToIntBits(other.second)) {
+            return false;
+        }
+        if ((this.timeZone == null) ? (other.timeZone != null) : !this.timeZone.equals(other.timeZone)) {
+            return false;
+        }
+        return true;
+    }
 
 	 public int compareTo(final ITimePosition timePosP) {
 
