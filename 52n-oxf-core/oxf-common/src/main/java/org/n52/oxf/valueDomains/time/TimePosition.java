@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.joda.time.DateTime;
 
 /**
  * Represents a single timePosition. It is leaned on the WMS profile of ISO8601 spec. Any suggestions about
@@ -516,26 +517,13 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 	 // TODO add timezone; Now this method does not care about any time zone issue
 	 @Override
 	public int compareTo(final ITimePosition timePosP) {
-		 if (getYear() != timePosP.getYear()) {
-			 return (getYear() < timePosP.getYear()) ? -1 : 1;
-		 }
-		 if (getMonth() != timePosP.getMonth()) {
-			 return (getMonth() < timePosP.getMonth()) ? -1 : 1;
-		 }
-		 if (getDay() != timePosP.getDay()) {
-			 return (getDay() < timePosP.getDay()) ? -1 : 1;
-		 }
-		 if (getHour() != timePosP.getHour()) {
-			 return (getHour() < timePosP.getHour()) ? -1 : 1;
-		 }
-		 if (getMinute() != timePosP.getMinute()) {
-			 return (getMinute() < timePosP.getMinute()) ? -1 : 1;
-		 }
-		 if (getSecond() != timePosP.getSecond()) {
-			 return (getSecond() < timePosP.getSecond()) ? -1 : 1;
-		 }
 
-		 return 0;
+         DateTime thisTimePosition = DateTime.parse(this.toISO8601Format());
+         DateTime theOtherTimePosition = DateTime.parse(timePosP.toISO8601Format());
+
+		 return !thisTimePosition.isEqual(theOtherTimePosition)
+                     ? thisTimePosition.isBefore(theOtherTimePosition) ? -1 : 1
+                     : 0;
 	 }
 
 	 /**
@@ -571,7 +559,8 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 
 	 @Override
 	public Calendar getCalendar() {
-		 return new GregorianCalendar((int) year, month - 1, day, hour, minute, (int) second);
+         DateTime dateTime = DateTime.parse(this.toISO8601Format());
+         return dateTime.toGregorianCalendar();
 	 }
 
 	 @Override
