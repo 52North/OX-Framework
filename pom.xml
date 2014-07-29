@@ -43,7 +43,7 @@
 
 	<properties>
 		<slf4j.version>1.7.5</slf4j.version>
-		<n52.xml.commons.version>1.1.5</n52.xml.commons.version>
+		<n52.xml.commons.version>1.1.6</n52.xml.commons.version>
 		<timestamp>${maven.build.timestamp}</timestamp>
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
@@ -51,7 +51,7 @@
 
 
 		<currentYear>2014</currentYear> <!-- manual setting -->
-		<!-- <maven.build.timestamp.format>yyyy</maven.build.timestamp.format> 
+		<!-- <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
 			<currentYearDynamic>${maven.build.timestamp}</currentYearDynamic> -->
 	</properties>
 
@@ -638,8 +638,8 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<!-- EXAMPLE CONFIG PROPERTIES FOLLOW. TO SEPARATE CONFIGURATION FROM 
-					PROJECT, COPY build-example.properties to ${user.home}/sensorwebclient-build-dev.properties 
+				<!-- EXAMPLE CONFIG PROPERTIES FOLLOW. TO SEPARATE CONFIGURATION FROM
+					PROJECT, COPY build-example.properties to ${user.home}/sensorwebclient-build-dev.properties
 					CUSTOMIZE PROPERTIES AND TRIGGER MAVEN BUILD WITH `mvn install -Penv-dev'. -->
 				<config.logger.fileappender.filepath>${user.home}/52n-logs/${project.artifactId}-${project.version}</config.logger.fileappender.filepath>
 				<config.logger.level>DEBUG</config.logger.level>
