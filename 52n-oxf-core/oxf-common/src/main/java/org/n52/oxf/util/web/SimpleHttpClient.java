@@ -35,6 +35,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import org.apache.http.Consts;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -158,12 +159,16 @@ public class SimpleHttpClient implements HttpClient {
         LOGGER.debug("executing POST method to '{}'.", uri);
         HttpPost post = new HttpPost(uri);
         post.setEntity(payloadToSend);
-        return executeMethod(post);
+        HttpResponse response = executeMethod(post);
+        logHeaderWhenTraceEnabled(response);
+        return response;
     }
 
     public HttpResponse executeMethod(HttpRequestBase method) throws HttpClientException {
         try {
-            return httpclient.execute(method);
+            HttpResponse response = httpclient.execute(method);
+            logHeaderWhenTraceEnabled(response);
+            return response;
         }
         catch (IOException e) {
             throw new HttpClientException("Could not execute request.", e);
@@ -176,6 +181,15 @@ public class SimpleHttpClient implements HttpClient {
 
     public void setSocketTimout(int timeout) {
         httpclient.getParams().setParameter(SO_TIMEOUT, timeout);
+    }
+
+    private void logHeaderWhenTraceEnabled(HttpResponse response) {
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("HTTP Response Header:");
+            for(Header header : response.getAllHeaders()) {
+                LOGGER.trace("Header '{}': '{}'", header.getName(), header.getValue());
+            }
+        }
     }
 
 }
