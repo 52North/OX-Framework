@@ -275,6 +275,7 @@ public interface ISOSRequestBuilder {
 	 */
 	String DELETE_SENSOR_PROCEDURE = "procedure";
 
+
 	/**
 	 * Builds a DeleteSensor request and returns it. Required for SOS 2.0 support.
 	 * @param parameters
