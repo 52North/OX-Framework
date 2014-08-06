@@ -52,6 +52,7 @@ public interface ISOSRequestBuilder {
     public static String GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER = "responseFormat";
     public static String GET_OBSERVATION_EVENT_TIME_PARAMETER = "eventTime"; // SOS 1.0
     public static String GET_OBSERVATION_TEMPORAL_FILTER_PARAMETER = "temporalFilter"; // SOS 2.0
+    public static String GET_OBSERVATION_RESULT_TIME_TEMPORAL_FILTER_PARAMETER = "resultTimeTemporalFilter"; 
     public static String GET_OBSERVATION_PROCEDURE_PARAMETER = "procedure";
     public static String GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER = "featureOfInterest";
     public static String GET_OBSERVATION_SPATIAL_FILTER_PARAMETER = "spatialFilter"; // SOS 2.0

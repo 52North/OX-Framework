@@ -132,13 +132,14 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         processResponseFormat(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER));
         processObservedProperty(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER));
         processTemporalFilter(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_TEMPORAL_FILTER_PARAMETER));
+        processResultTimeFilter(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_RESULT_TIME_TEMPORAL_FILTER_PARAMETER));
         processProcedure(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_PROCEDURE_PARAMETER));
         processFeatureOfInterest(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER));
         processSpatialFilter(xb_getObs, getShellForServerParameter(parameters, GET_OBSERVATION_SPATIAL_FILTER_PARAMETER));
         return xb_getObsDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
     
-    private ParameterShell getShellForServerParameter(ParameterContainer container, String name) {
+    protected ParameterShell getShellForServerParameter(ParameterContainer container, String name) {
         return container.getParameterShellWithServiceSidedName(name);
     }
 
@@ -150,7 +151,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         throw new NotImplementedException();
     }
 
-    private void processFeatureOfInterest(GetObservationType xb_getObs, ParameterShell shell) {
+    protected void processFeatureOfInterest(GetObservationType xb_getObs, ParameterShell shell) {
         if (shell == null) {
             return; // optional parameter
         }
@@ -248,6 +249,30 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         }
     }
     
+    private void processResultTimeFilter(GetObservationType xb_getObs, ParameterShell shell) {
+        if (shell == null) {
+            return; // optional parameter
+        }
+        
+        Object specifiedTime = shell.getSpecifiedValue();
+        if (specifiedTime instanceof ITimePosition) {
+            ITimePosition oc_timePosition = (ITimePosition) specifiedTime;
+            TimeInstantDocument timeInstanceDoc = TimeInstantDocument.Factory.newInstance();
+            TimeInstantType xb_timeInstant = timeInstanceDoc.addNewTimeInstant();
+            TEqualsDocument equalsDoc = TEqualsDocument.Factory.newInstance();
+            BinaryTemporalOpType equals = equalsDoc.addNewTEquals();
+            
+            TimePositionType xb_timePosition = xb_timeInstant.addNewTimePosition();
+            xb_timePosition.setStringValue(oc_timePosition.toISO8601Format());
+
+            xb_timeInstant.setId("_1");
+            equals.set(timeInstanceDoc);
+            equals.setValueReference("resultTime");
+            
+            TemporalFilter temporalFilter = xb_getObs.addNewTemporalFilter();
+            temporalFilter.set(equalsDoc);
+        }
+    }
     
     public String buildGetObservationByIDRequest(ParameterContainer parameters) throws OXFException {
         throw new NotImplementedException("SOS Specification 2.0 not officially supported by now.");
@@ -308,5 +333,5 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         // TODO implement
         throw new NotImplementedException();
     }	
-    
+
 }
