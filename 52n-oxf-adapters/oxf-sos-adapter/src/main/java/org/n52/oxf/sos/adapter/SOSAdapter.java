@@ -38,6 +38,8 @@ import net.opengis.ows.x11.ExceptionType;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.entity.ContentType;
+import static org.apache.http.entity.ContentType.TEXT_XML;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -344,12 +346,17 @@ public class SOSAdapter implements IServiceAdapter {
          * result like the current implementation
          */
 
+        ContentType mimetype = TEXT_XML;
+        if (parameters.containsParameterShellWithCommonName("mimetype")) {
+            mimetype = ContentType.create((String) parameters.getParameterShellWithCommonName("mimetype").getSpecifiedValue());
+        }
+
         try {
         	HttpResponse httpResponse = null;
         	if (isHttpGet) {
         		httpResponse = httpClient.executeGet(uri.trim());
         	} else {
-        		httpResponse = httpClient.executePost(uri.trim(), request, TEXT_XML);
+        		httpResponse = httpClient.executePost(uri.trim(), request, mimetype);
         	}
 			final HttpEntity responseEntity = httpResponse.getEntity();
             result = new OperationResult(responseEntity.getContent(), parameters, request);
