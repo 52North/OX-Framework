@@ -27,11 +27,14 @@
  */
 package org.n52.oxf.sos.adapter.wrapper;
 
+import static org.n52.oxf.request.MimetypeAwareRequestParameters.*;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import static org.n52.oxf.sos.adapter.SOSAdapter.*;
 
+import java.nio.charset.Charset;
 import java.util.Map;
 
+import org.apache.http.entity.ContentType;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
@@ -39,6 +42,7 @@ import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.request.MimetypeAwareRequestParameters;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder.Binding;
 import org.n52.oxf.sos.adapter.SOSAdapter;
@@ -105,7 +109,7 @@ public class SOSWrapper {
 		if (binding != null) {
 			parameterContainer.addParameterShell(BINDING, binding.name());
 		}
-        return parameterContainer;
+		return parameterContainer;
     }
 
 	private ParameterContainer createParameterContainerForDoDescribeSensor(final DescribeSensorParameters parameters) throws OXFException, ExceptionReport {
@@ -114,7 +118,19 @@ public class SOSWrapper {
         parameterContainer.addParameterShell(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, procedure);
 		final String outputFormat = parameters.getSingleValue(DESCRIBE_SENSOR_OUTPUT_FORMAT);
         parameterContainer.addParameterShell(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
+        processOptionalMimetypeParameter(parameters, parameterContainer);
 		return parameterContainer;
+	}
+
+	private void processOptionalMimetypeParameter(final MimetypeAwareRequestParameters parameters,
+			final ParameterContainer parameterContainer) throws OXFException {
+		if (parameters.isSetMimetype() && parameters.isValid()) {
+        	final String type = parameters.getSingleValue(MimetypeAwareRequestParameters.MIME_TYPE);
+			final String charSet = parameters.getSingleValue(MimetypeAwareRequestParameters.CHARSET);
+			final ContentType contentType = ContentType.create(type, Charset.forName(charSet));
+			parameterContainer.addParameterShell(MIMETYPE,contentType.getMimeType());
+			parameterContainer.addParameterShell(ENCODING, charSet);
+        }
 	}
 
 	/**
@@ -166,7 +182,23 @@ public class SOSWrapper {
 		if (parameters.get(GET_OBSERVATION_RESPONSE_MODE_PARAMETER) != null) {
 			parameterContainer.addParameterShell(GET_OBSERVATION_RESPONSE_MODE_PARAMETER, (String) parameters.get(GET_OBSERVATION_RESPONSE_MODE_PARAMETER));
 		}
+		processOptionalMimetypeParameter(parameters, parameterContainer);
 		return parameterContainer;
+	}
+
+	private void processOptionalMimetypeParameter(final Map<String, ?> parameters,
+			final ParameterContainer parameterContainer) throws OXFException {
+		if (parameters.get(MIME_TYPE) != null &&
+				parameters.get(CHARSET) != null) {
+			final String mimeType = (String) parameters.get(MIME_TYPE);
+			final String charSet = (String) parameters.get(CHARSET);
+			if (!mimeType.isEmpty() && !charSet.isEmpty()) {
+				final Charset charset = Charset.forName(charSet);
+				final ContentType contentType = ContentType.create(mimeType, charset);
+				parameterContainer.addParameterShell(MIMETYPE, contentType.getMimeType());
+				parameterContainer.addParameterShell(ENCODING, charSet);
+			}
+		}
 	}
 
 	/**
@@ -226,6 +258,7 @@ public class SOSWrapper {
 				REGISTER_SENSOR_FEATURE_TYPE_PARAMETER,
 				insertSensorParameters.getAllValues(InsertSensorParameters.FEATURE_OF_INTEREST_TYPES)
 				.toArray(new String[insertSensorParameters.getAllValues(InsertSensorParameters.FEATURE_OF_INTEREST_TYPES).size()]));
+		processOptionalMimetypeParameter(insertSensorParameters, paramContainer);
 		return paramContainer;
 	}
 
@@ -264,6 +297,7 @@ public class SOSWrapper {
             final String defaultResult = parameters.getSingleValue(REGISTER_SENSOR_DEFAULT_RESULT_VALUE);
 			parameterContainer.addParameterShell(REGISTER_SENSOR_DEFAULT_RESULT_VALUE, defaultResult);
 		}
+        processOptionalMimetypeParameter(parameters, parameterContainer);
 		return parameterContainer;
 	}
 
@@ -299,6 +333,7 @@ public class SOSWrapper {
 		else {
 			throw new OXFException(String.format("Subtype of %s: %s not supported by this implemenation.",InsertObservationParameters.class.getName(),parameters.getClass().getName()));
 		}
+		processOptionalMimetypeParameter(parameters, parameterContainer);
 		return parameterContainer;
 	}
 
@@ -405,6 +440,7 @@ public class SOSWrapper {
 		if (parameters.get(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER) != null) {
 			parameterContainer.addParameterShell(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER, parameters.get(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER));
 		}
+		processOptionalMimetypeParameter(parameters, parameterContainer);
 		return parameterContainer;
 	}
 
@@ -441,6 +477,7 @@ public class SOSWrapper {
 		if (parameters.get(GET_FOI_EVENT_TIME_PARAMETER) != null) {
 			parameterContainer.addParameterShell(GET_FOI_EVENT_TIME_PARAMETER, parameters.get(GET_FOI_EVENT_TIME_PARAMETER));
 		}
+		processOptionalMimetypeParameter(parameters, parameterContainer);
 		return parameterContainer;
 	}
 

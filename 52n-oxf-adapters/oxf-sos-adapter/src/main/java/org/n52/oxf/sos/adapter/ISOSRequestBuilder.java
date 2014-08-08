@@ -27,6 +27,7 @@
  */
 package org.n52.oxf.sos.adapter;
 
+import org.apache.http.entity.ContentType;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 
@@ -45,6 +46,22 @@ public interface ISOSRequestBuilder {
 	String SERVICE = "service";
 
 	String EXTENSION = "extension";
+
+	/**
+	 * The mimetype of the request content.
+	 *
+	 * @see ContentType
+	 * @see ISOSRequestBuilder#ENCODING
+	 */
+	String MIMETYPE = "mimetype";
+
+	/**
+	 * The encoding of the request content.
+	 * @see ContentType
+	 * @see ISOSRequestBuilder#MIMETYPE
+	 */
+	String ENCODING = "encoding";
+
 	/**
 	 * Currently supported by SOS 2.0 request builder only.<br />
 	 * Specifies the communication binding uses by the SOS instances the builder will create requests for.
