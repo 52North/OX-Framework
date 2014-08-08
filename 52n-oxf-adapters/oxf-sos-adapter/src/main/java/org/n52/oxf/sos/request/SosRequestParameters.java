@@ -27,17 +27,17 @@
  */
 package org.n52.oxf.sos.request;
 
-import org.n52.oxf.request.MultiValueRequestParameters;
+import org.n52.oxf.request.MimetypeAwareRequestParameters;
 
 /**
  * Super class for all SOS specific request parameter assemblies.
- * 
+ *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  */
-public abstract class SosRequestParameters extends MultiValueRequestParameters {
+public abstract class SosRequestParameters extends MimetypeAwareRequestParameters {
 
 	public SosRequestParameters() {
 		addNonEmpty(SERVICE_TYPE, "SOS");
 	}
-	
+
 }
