@@ -422,10 +422,10 @@ public class SOSAdapter implements IServiceAdapter {
 			final int readTimeout) throws ExceptionReport,
            OXFException {
 	   if (connectionTimeout > 0 && readTimeout < 1) {
-		   httpClient = new SimpleHttpClient(connectionTimeout);
+		   httpClient = new GzipEnabledHttpClient(new ProxyAwareHttpClient(new SimpleHttpClient(connectionTimeout)));
 	   }
 	   if (readTimeout > 0 && connectionTimeout > 1) {
-		   httpClient = new SimpleHttpClient(connectionTimeout,readTimeout);
+		   httpClient = new GzipEnabledHttpClient(new ProxyAwareHttpClient(new SimpleHttpClient(connectionTimeout,readTimeout)));
 	   }
 	   return doOperation(operation, parameters);
 
