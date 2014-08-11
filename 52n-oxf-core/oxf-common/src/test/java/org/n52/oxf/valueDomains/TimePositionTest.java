@@ -25,40 +25,40 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
-package org.n52.oxf.valueDomains.time;
+package org.n52.oxf.valueDomains;
 
 import org.hamcrest.CoreMatchers;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.oxf.valueDomains.time.TimePosition;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author Henning Bredel <h.bredel@52north.org>
  */
 public class TimePositionTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TimePositionTest.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(TimePositionTest.class);
 
     @Test
     public void testTimePositionBeforeDaylightSavingSwitch() {
-        String beforeSwitch = "2007-10-28T02:55:00.000+02:00";
-        String atSwitch = "2007-10-28T02:00:00.000+01:00";
-        String afterSwitch = "2007-10-28T02:05:00.000+01:00";
+        final String beforeSwitch = "2007-10-28T02:55:00.000+02:00";
+        final String atSwitch = "2007-10-28T02:00:00.000+01:00";
+        final String afterSwitch = "2007-10-28T02:05:00.000+01:00";
 
-        DateTime jodaBeforeSwitch = DateTime.parse(beforeSwitch);
-        DateTime jodaAtSwitch = DateTime.parse(atSwitch);
-        DateTime jodaAfterSwitch = DateTime.parse(afterSwitch);
+        final DateTime jodaBeforeSwitch = DateTime.parse(beforeSwitch);
+        final DateTime jodaAtSwitch = DateTime.parse(atSwitch);
+        final DateTime jodaAfterSwitch = DateTime.parse(afterSwitch);
 
         Assert.assertTrue(jodaBeforeSwitch.isBefore(jodaAtSwitch));
         Assert.assertTrue(jodaBeforeSwitch.isBefore(jodaAfterSwitch));
         Assert.assertTrue(jodaAtSwitch.isBefore(jodaAfterSwitch));
 
-        TimePosition oxfBeforeSwitch = new TimePosition(beforeSwitch);
-        TimePosition oxfAtSwitch = new TimePosition(atSwitch);
-        TimePosition oxfAfterSwitch = new TimePosition(afterSwitch);
+        final TimePosition oxfBeforeSwitch = new TimePosition(beforeSwitch);
+        final TimePosition oxfAtSwitch = new TimePosition(atSwitch);
+        final TimePosition oxfAfterSwitch = new TimePosition(afterSwitch);
 
 //        LOGGER.debug("JODA before: {}", jodaBeforeSwitch.toString());
 //        LOGGER.debug("OX-F before: {}", oxfBeforeSwitch.toString());
@@ -78,13 +78,13 @@ public class TimePositionTest {
 
     @Test public void testIfCalendarCompareDoesRespectTimezone() {
 
-        String timeBeforeDaylightSwitch = "2007-10-28T02:55:00.000+02:00";
-        String timeAtDaylightSwitch = "2007-10-28T02:00:00.000+01:00";
-        String timeAfterDaylightSwitch = "2007-10-28T02:05:00.000+01:00";
+        final String timeBeforeDaylightSwitch = "2007-10-28T02:55:00.000+02:00";
+        final String timeAtDaylightSwitch = "2007-10-28T02:00:00.000+01:00";
+        final String timeAfterDaylightSwitch = "2007-10-28T02:05:00.000+01:00";
 
-        TimePosition oxfTimeBeforeSwitch = new TimePosition(timeBeforeDaylightSwitch);
-        TimePosition oxfTimeAtSwitch = new TimePosition(timeAtDaylightSwitch);
-        TimePosition oxfTimeAfterSwitch = new TimePosition(timeAfterDaylightSwitch);
+        final TimePosition oxfTimeBeforeSwitch = new TimePosition(timeBeforeDaylightSwitch);
+        final TimePosition oxfTimeAtSwitch = new TimePosition(timeAtDaylightSwitch);
+        final TimePosition oxfTimeAfterSwitch = new TimePosition(timeAfterDaylightSwitch);
 
         Assert.assertTrue(oxfTimeBeforeSwitch.getCalendar().before(oxfTimeAtSwitch.getCalendar()));
         Assert.assertTrue(oxfTimeBeforeSwitch.getCalendar().before(oxfTimeAfterSwitch.getCalendar()));

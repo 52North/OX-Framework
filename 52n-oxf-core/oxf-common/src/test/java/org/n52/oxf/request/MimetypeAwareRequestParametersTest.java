@@ -25,19 +25,39 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
-package org.n52.oxf.sos.request;
+package org.n52.oxf.request;
 
-import org.n52.oxf.request.MimetypeAwareRequestParameters;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
-/**
- * Super class for all SOS specific request parameter assemblies.
- *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- */
-public abstract class SosRequestParameters extends MimetypeAwareRequestParameters {
+import java.nio.charset.Charset;
 
-	public SosRequestParameters() {
-		addNonEmpty(SERVICE_TYPE, "SOS");
+import org.junit.Test;
+
+public class MimetypeAwareRequestParametersTest {
+
+	@Test public void
+	shouldBeInvalidAfterCreate(){
+		assertThat(new MimetypeAwareRequestParametersSeam().isValid(), is(false));
 	}
 
+	@Test public void
+	isSetMimetypeShouldReturnTrueIfSet() {
+		final MimetypeAwareRequestParametersSeam parameters = new MimetypeAwareRequestParametersSeam();
+		parameters.setCharset(Charset.forName("UTF-8"));
+		parameters.setType("text/xml");
+		assertThat(parameters.isSetMimetype(), is(true));
+	}
+
+	@Test public void
+	isSetMimetypeShouldReturnFalseIfTypeOrCharsetIsMissing() {
+		MimetypeAwareRequestParametersSeam parameters = new MimetypeAwareRequestParametersSeam();
+		parameters.setCharset(Charset.forName("UTF-8"));
+		assertThat(parameters.isSetMimetype(), is(false));
+		parameters = new MimetypeAwareRequestParametersSeam();
+		parameters.setType("text/xml");
+		assertThat(parameters.isSetMimetype(), is(false));
+	}
+
+	private class MimetypeAwareRequestParametersSeam extends MimetypeAwareRequestParameters {}
 }

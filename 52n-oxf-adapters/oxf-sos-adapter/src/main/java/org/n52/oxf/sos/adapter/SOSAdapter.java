@@ -39,7 +39,6 @@ import net.opengis.ows.x11.ExceptionType;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ContentType;
-import static org.apache.http.entity.ContentType.TEXT_XML;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -346,10 +345,7 @@ public class SOSAdapter implements IServiceAdapter {
          * result like the current implementation
          */
 
-        ContentType mimetype = TEXT_XML;
-        if (parameters.containsParameterShellWithCommonName("mimetype")) {
-            mimetype = ContentType.create((String) parameters.getParameterShellWithCommonName("mimetype").getSpecifiedValue());
-        }
+        final ContentType mimetype = getMimetype(parameters);
 
         try {
         	HttpResponse httpResponse = null;
@@ -430,6 +426,22 @@ public class SOSAdapter implements IServiceAdapter {
 	   return doOperation(operation, parameters);
 
    }
+
+	private ContentType getMimetype(final ParameterContainer parameters) {
+		// with encoding ISO_8859_1
+		ContentType mimetype = TEXT_XML;
+        if (parameters.containsParameterShellWithCommonName(MIMETYPE)) {
+        	final String mimetypeParameter = (String) parameters.getParameterShellWithCommonName(MIMETYPE).getSpecifiedValue();
+			if (parameters.containsParameterShellWithCommonName(ENCODING)) {
+        		final String encodingParameter = (String) parameters.getParameterShellWithCommonName(ENCODING).getSpecifiedValue();
+				mimetype = ContentType.create(mimetypeParameter, encodingParameter);
+        	}
+        	else {
+        		mimetype = ContentType.create(mimetypeParameter);
+        	}
+        }
+		return mimetype;
+	}
 
 	private boolean isContraintForThisBinding(final String binding,
 			final Constraint constraint)

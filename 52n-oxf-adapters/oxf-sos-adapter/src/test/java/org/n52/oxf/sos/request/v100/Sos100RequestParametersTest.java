@@ -25,19 +25,23 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
-package org.n52.oxf.sos.request;
+package org.n52.oxf.sos.request.v100;
 
-import org.n52.oxf.request.MimetypeAwareRequestParameters;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+import static org.n52.oxf.request.MultiValueRequestParameters.*;
 
-/**
- * Super class for all SOS specific request parameter assemblies.
- *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- */
-public abstract class SosRequestParameters extends MimetypeAwareRequestParameters {
+import org.junit.Test;
 
-	public SosRequestParameters() {
-		addNonEmpty(SERVICE_TYPE, "SOS");
+public class Sos100RequestParametersTest {
+
+	@Test public void
+	shouldSetServiceVersionTo100()
+	{
+		assertThat(new ParametersSeam().getSingleValue(SERVICE_TYPE), is("SOS"));
+		assertThat(new ParametersSeam().getSingleValue(SERVICE_VERSION), is("1.0.0"));
 	}
+
+	private class ParametersSeam extends Sos100RequestParameters{}
 
 }

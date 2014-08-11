@@ -25,19 +25,19 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
-package org.n52.oxf.sos.request;
+package org.n52.oxf.sos.request.v100;
 
-import org.n52.oxf.request.MimetypeAwareRequestParameters;
+import org.n52.oxf.sos.request.SosRequestParameters;
 
 /**
- * Super class for all SOS specific request parameter assemblies.
+ * Super class for all SOS <b>1.0.0</b> specific request parameter assemblies.
  *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+ *
  */
-public abstract class SosRequestParameters extends MimetypeAwareRequestParameters {
+public abstract class Sos100RequestParameters extends SosRequestParameters {
 
-	public SosRequestParameters() {
-		addNonEmpty(SERVICE_TYPE, "SOS");
+	public Sos100RequestParameters() {
+		addNonEmpty(SERVICE_VERSION, "1.0.0");
 	}
-
 }
