@@ -37,7 +37,7 @@ import org.junit.Test;
 import org.n52.oxf.request.RequestParameters;
 
 public class DescribeSensorParametersTest {
-    
+
     private RequestParameters parameterAssembly;
 
     @Before
@@ -49,7 +49,7 @@ public class DescribeSensorParametersTest {
 	public void testValidConstructorParameters() {
 		new DescribeSensorParameters("sdf", "sdf");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void testInvalidConstructorParameters() {
 		new DescribeSensorParameters(null, null);
@@ -59,12 +59,12 @@ public class DescribeSensorParametersTest {
         new DescribeSensorParameters("", "sdf");
         new DescribeSensorParameters("sdf", "");
 	}
-	
+
 	@Test
 	public void testApplyingAndGettingMandatoryParameters() {
 		String parMan_01 = parameterAssembly.getSingleValue(PROCEDURE_PARAMETER);
 		String parMan_02 = parameterAssembly.getSingleValue(OUTPUT_FORMAT_PARAMETER);
-		
+
 		assertEquals("sensorId", parMan_01);
 		assertEquals(OUTPUT_FORMAT_SENSORML, parMan_02);
 	}
