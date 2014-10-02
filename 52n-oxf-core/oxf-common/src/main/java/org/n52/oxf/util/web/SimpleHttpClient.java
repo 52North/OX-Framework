@@ -87,7 +87,10 @@ public class SimpleHttpClient implements HttpClient {
      *        the socket timout in milliseconds.
      */
     public SimpleHttpClient(int connectionTimeout, int socketTimeout) {
-        ClientConnectionManager cm = getConnectionManager();
+        this(connectionTimeout, socketTimeout, null);
+    }
+
+    public SimpleHttpClient(int connectionTimeout, int socketTimeout, ClientConnectionManager cm) {
         this.httpclient = (cm == null) ? new DefaultHttpClient() : new DefaultHttpClient(cm);
         this.httpclient.getParams().setParameter(CONNECTION_TIMEOUT, connectionTimeout);
         this.httpclient.getParams().setParameter(SO_TIMEOUT, socketTimeout);
@@ -95,6 +98,7 @@ public class SimpleHttpClient implements HttpClient {
 
     /**
      * @return null by default
+     * @deprecated use appropriate constructor
      */
     public ClientConnectionManager getConnectionManager() {
         return null;
