@@ -27,10 +27,15 @@
  */
 package org.n52.oxf.valueDomains.time;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
 import org.junit.Assert;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import static org.n52.oxf.valueDomains.time.TimePosition.UTC_PATTERN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,9 +91,34 @@ public class TimePositionTest {
         TimePosition oxfTimeAtSwitch = new TimePosition(timeAtDaylightSwitch);
         TimePosition oxfTimeAfterSwitch = new TimePosition(timeAfterDaylightSwitch);
 
-        Assert.assertTrue(oxfTimeBeforeSwitch.getCalendar().before(oxfTimeAtSwitch.getCalendar()));
-        Assert.assertTrue(oxfTimeBeforeSwitch.getCalendar().before(oxfTimeAfterSwitch.getCalendar()));
-        Assert.assertTrue(oxfTimeAtSwitch.getCalendar().before(oxfTimeAfterSwitch.getCalendar()));
+        assertTrue(oxfTimeBeforeSwitch.getCalendar().before(oxfTimeAtSwitch.getCalendar()));
+        assertTrue(oxfTimeBeforeSwitch.getCalendar().before(oxfTimeAfterSwitch.getCalendar()));
+        assertTrue(oxfTimeAtSwitch.getCalendar().before(oxfTimeAfterSwitch.getCalendar()));
 
+    }
+
+    @Test public void testCreateITimeFromISO8601WithZuluOffset() {
+        TimePosition withoutOffset = new TimePosition("2014-03-30T02:05:20.000");
+        TimePosition withZulu = new TimePosition("2014-03-30T02:05:20.000Z");
+        withoutOffset.equals(withZulu);
+    }
+
+    @Test public void parseDateCorrectly() {
+        TimePosition withoutOffset = new TimePosition("2014-03-30T02:05:20.000");
+        Assert.assertThat(withoutOffset.getDay(), Matchers.is(30));
+        Assert.assertThat(withoutOffset.getMonth(), Matchers.is(03));
+        Assert.assertThat(withoutOffset.getYear(), Matchers.is(2014L));
+    }
+
+    @Test public void parseTimeCorrectly() {
+        TimePosition withoutOffset = new TimePosition("2014-03-30T02:05:20.000");
+        Assert.assertThat(withoutOffset.getHour(), Matchers.is(02));
+        Assert.assertThat(withoutOffset.getMinute(), Matchers.is(05));
+        Assert.assertThat((double)withoutOffset.getSecond(), Matchers.closeTo(20.0, 0.001));
+    }
+
+    @Test public void parseTimeZoneCorrectly() {
+        TimePosition withoutOffset = new TimePosition("2014-03-30T02:05:20.000");
+        Assert.assertThat(withoutOffset.getTimezone(), Matchers.is("Z"));
     }
 }
