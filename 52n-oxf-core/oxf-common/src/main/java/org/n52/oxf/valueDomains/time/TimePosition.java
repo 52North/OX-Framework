@@ -53,7 +53,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 	public static final String HOUR_PATTERN = "0*\\d?\\d";
 	public static final String MINUTE_PATTERN = "0*\\d?\\d";
 	public static final String SECOND_PATTERN = "0*\\d?\\d(.\\d)?\\d?\\d?";
-	public static final String UTC_PATTERN = "\\d+(Z|[+-]\\d\\d([:]?(\\d\\d))?)";
+	public static final String UTC_PATTERN = "\\d+(Z|[+-]\\d\\d([:]?(\\d\\d))?)?";
 
 	private long year;
 	private int month = NOT_SET;
