@@ -356,8 +356,9 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 		return second;
 	}
 
+     @Deprecated
 	 private String getTimeZone() {
-		 return timeZone;
+		 return getTimezone();
 	 }
 
 	 public ITimeResolution getTimeResolution() {
@@ -433,8 +434,8 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 			 return isoDate.toString();
 		 }
 
-		 if ( !this.timeZone.equals("Z")) {
-			 isoDate.append(timeZone);
+		 if ( !this.getTimeZone().equals("Z")) {
+			 isoDate.append(getTimeZone());
 		 }
 
 		 // Should not be reached.
@@ -510,7 +511,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
         hash = 29 * hash + this.hour;
         hash = 29 * hash + this.minute;
         hash = 29 * hash + Float.floatToIntBits(this.second);
-        hash = 29 * hash + (this.timeZone != null ? this.timeZone.hashCode() : 0);
+        hash = 29 * hash + (this.getTimeZone() != null ? this.getTimeZone().hashCode() : 0);
         return hash;
     }
 
@@ -541,7 +542,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
         if (Float.floatToIntBits(this.second) != Float.floatToIntBits(other.second)) {
             return false;
         }
-        if ((this.timeZone == null) ? (other.timeZone != null) : !this.timeZone.equals(other.timeZone)) {
+        if ((this.getTimeZone() == null) ? (other.getTimeZone() != null) : !this.getTimeZone().equals(other.getTimeZone())) {
             return false;
         }
         return true;
@@ -591,7 +592,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 	 }
 
 	 public String getTimezone(){
-		 return timeZone;
+		 return timeZone != null ? timeZone : "Z";
 	 }
 
 	 public void setTimezone(String timezone){
