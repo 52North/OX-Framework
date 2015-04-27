@@ -50,7 +50,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 
-		<currentYear>2014</currentYear> <!-- manual setting -->
+		<currentYear>2015</currentYear> <!-- manual setting -->
 		<!-- <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
 			<currentYearDynamic>${maven.build.timestamp}</currentYearDynamic> -->
 	</properties>
