@@ -198,11 +198,11 @@ public class SOSAdapter implements IServiceAdapter {
     public ServiceDescriptor initService(final OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
         try {
             if (SosUtil.isVersion100(serviceVersion)) {
-                final net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
+                final net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsAutoCloseStream());
                 return initService(capsDoc);
             }
             else if (SosUtil.isVersion200(serviceVersion)) {
-                final net.opengis.sos.x20.CapabilitiesDocument capsDoc = net.opengis.sos.x20.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
+                final net.opengis.sos.x20.CapabilitiesDocument capsDoc = net.opengis.sos.x20.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsAutoCloseStream());
                 return initService(capsDoc);
             }
             else {
@@ -293,7 +293,7 @@ public class SOSAdapter implements IServiceAdapter {
             // throw createExceptionReportException(exceptionReport, result);
             // }
             try {
-                final XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsStream());
+                final XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsAutoCloseStream());
                 if (result_xb.schemaType() == ExceptionReportDocument.type) {
                     throw parseExceptionReport_100(result);
                 }
@@ -383,7 +383,7 @@ public class SOSAdapter implements IServiceAdapter {
 
     private ExceptionReport parseExceptionReport_100(final OperationResult result) throws XmlException, IOException {
 
-        final ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsStream());
+        final ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsAutoCloseStream());
         final net.opengis.ows.x11.ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
 
         final String language = xb_execRepDoc.getExceptionReport().getLang();

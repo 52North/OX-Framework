@@ -52,11 +52,11 @@ import org.slf4j.LoggerFactory;
 
 @Ignore // comment out to run demo class via JUnit
 public class DescribeSensorRequestExample extends SosAdapterRequestExample {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DescribeSensorRequestExample.class);
 
     private static final String PROCEDURE_WASSERSTAND = "Wasserstand-Ledasperrwerk_Up_3880050";
-    
+
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -70,7 +70,7 @@ public class DescribeSensorRequestExample extends SosAdapterRequestExample {
     private Operation createDescribeSensorOperation() {
         return new Operation(DESCRIBE_SENSOR, getServiceGETUrl(), getServicePOSTUrl());
     }
-    
+
     @Override
     protected ParameterContainer createParameterContainer() throws OXFException {
         ParameterContainer parameters = new ParameterContainer();
@@ -86,12 +86,12 @@ public class DescribeSensorRequestExample extends SosAdapterRequestExample {
         try {
             SmlHelper smlHelper = new SmlHelper();
             OperationResult result = performOperation(createDescribeSensorOperation());
-            XmlObject xmlResponse = XmlObject.Factory.parse(result.getIncomingResultAsStream());
+            XmlObject xmlResponse = XmlObject.Factory.parse(result.getIncomingResultAsAutoCloseStream());
             SensorMLDocument smlDoc = smlHelper.getSmlFrom(xmlResponse);
-            
+
             String longName = smlHelper.getIdValueFrom("longName", smlHelper.getIdentification(smlDoc));
             LOGGER.info("longName: {}", longName);
-            
+
 //            SOSSensorStore store = new SOSSensorStore(result);
 //            OXFFeatureCollection featureCollection = store.unmarshalFeatures();
 //            for (OXFFeature oxfFeature : featureCollection.toSet()) {
@@ -99,7 +99,7 @@ public class DescribeSensorRequestExample extends SosAdapterRequestExample {
 //                LOGGER.info("oxfSensorTypePosition: {}", oxfFeature.getAttribute("oxfSensorTypePosition"));
 //                LOGGER.info("oxfSensorTypeId: {}", oxfFeature.getAttribute("oxfSensorTypeId"));
 //                LOGGER.info("description: {}", oxfFeature.getAttribute("description"));
-//                
+//
 //            }
         }
         catch (XmlException e) {
@@ -109,6 +109,6 @@ public class DescribeSensorRequestExample extends SosAdapterRequestExample {
             LOGGER.error("Could not read response.", e);
         }
     }
-    
+
 
 }

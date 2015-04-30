@@ -44,14 +44,14 @@ import org.slf4j.LoggerFactory;
 import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;
 
 public class SESServiceInstance {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(SESServiceInstance.class);
 	private boolean ready = false;
 	private URL host;
 	private Object availableMutex = new Object();
 	protected boolean serviceTested = false;
-	
-	
+
+
 	public SESServiceInstance(URL instance) {
 		this.host = instance;
 		logger.info("using ses host at {}", host);
@@ -81,17 +81,17 @@ public class SESServiceInstance {
 
 			private boolean requestCapabilities() {
 				SESAdapter adapter = new SESAdapter("0.0.0");
-		        
+
 		        Operation op = new Operation(SESAdapter.GET_CAPABILITIES, null, host.toExternalForm());
-		        
+
 		        ParameterContainer parameter = new ParameterContainer();
 		        try {
 					parameter.addParameterShell(ISESRequestBuilder.GET_CAPABILITIES_SES_URL, host.toExternalForm());
 			        OperationResult opResult = adapter.doOperation(op, parameter);
-			        
+
 			        if (opResult == null) return false;
-			        
-			        XmlObject response = XmlObject.Factory.parse(opResult.getIncomingResultAsStream());
+
+			        XmlObject response = XmlObject.Factory.parse(opResult.getIncomingResultAsAutoCloseStream());
 			        if (response instanceof EnvelopeDocument) {
 			        	if (((EnvelopeDocument) response).getEnvelope().getBody().xmlText().contains("Capabilities")) {
 			        		return true;
@@ -111,7 +111,7 @@ public class SESServiceInstance {
 			}
 		}).start();
 	}
-	
+
 	public void waitUntilAvailable() {
 		synchronized (availableMutex) {
 			while (!serviceTested) {
@@ -124,13 +124,13 @@ public class SESServiceInstance {
 			}
 			if (!ready) throw new IllegalStateException("Could not access the service at "+host);
 		}
-		logger.info("Service Ready!");		
+		logger.info("Service Ready!");
 	}
 
 	public URL getHost() {
 		return host;
 	}
-	
-	
+
+
 
 }

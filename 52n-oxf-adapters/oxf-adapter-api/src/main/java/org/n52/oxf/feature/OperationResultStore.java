@@ -40,7 +40,7 @@ import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 public abstract class OperationResultStore {
 
     protected XmlObject xmlObject;
-    
+
     protected String version;
 
     /**
@@ -53,7 +53,7 @@ public abstract class OperationResultStore {
 
     protected OperationResultStore(OperationResult operationResult) throws OXFException {
         try {
-            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsStream(), false);
+            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsAutoCloseStream(), false);
             this.version = getVersion(operationResult);
         }
         catch (XMLHandlingException e) {

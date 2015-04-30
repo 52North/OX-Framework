@@ -28,7 +28,7 @@
 /**********************************************************************************
  Copyright (C) 2007 by 52 North Initiative for Geospatial Open Source Software GmbH
 
- Contact: Andreas Wytzisk 
+ Contact: Andreas Wytzisk
  52 North Initiative for Geospatial Open Source Software GmbH
  Martin-Luther-King-Weg 24
  48155 Muenster, Germany
@@ -42,25 +42,29 @@
  WARRANTY OF MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  General Public License for more details.
 
- You should have received a copy of the GNU General Public License along with this 
- program (see gnu-gplv2.txt). If not, write to the Free Software Foundation, Inc., 
+ You should have received a copy of the GNU General Public License along with this
+ program (see gnu-gplv2.txt). If not, write to the Free Software Foundation, Inc.,
  59 Temple Place - Suite 330, Boston, MA 02111-1307, USA or visit the Free Software
  Foundation web page, http://www.fsf.org.
- 
+
  Created on: 22.06.2005
  *********************************************************************************/
 
 package org.n52.oxf.adapter;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+
+import org.apache.commons.io.input.AutoCloseInputStream;
+
 /**
  * Encapsulates the result of an Operation of a ServiceAdapter. It contains the inputStream and the request
  * the adapter had sent.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor F&ouml;rster</a>
  */
 public class OperationResult {
@@ -91,7 +95,7 @@ public class OperationResult {
 
     /**
      * reads the incomingStream and stores it in the {@link #incomingResult} byte array.
-     * 
+     *
      * @param incomingStream
      * @param bufferSize
      * @throws IOException
@@ -115,8 +119,18 @@ public class OperationResult {
         return incomingResult;
     }
 
+    /**
+     *
+     * @return
+     * @deprecated use OperationResult#getIncomingResultAsAutoCloseStream() instead
+     */
+    @Deprecated
     public ByteArrayInputStream getIncomingResultAsStream() {
         return new ByteArrayInputStream(incomingResult);
+    }
+
+    public InputStream getIncomingResultAsAutoCloseStream() {
+        return new AutoCloseInputStream(new ByteArrayInputStream(incomingResult));
     }
 
     public String getSendedRequest() {

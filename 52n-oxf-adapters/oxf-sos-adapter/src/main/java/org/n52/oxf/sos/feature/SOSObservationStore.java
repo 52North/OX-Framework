@@ -91,7 +91,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
     @Deprecated
     protected OXFFeatureCollection unmarshalFeatures100(OperationResult operationResult) throws OXFException {
         try {
-            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsStream());
+            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsAutoCloseStream());
             return unmarshalFeatures(operationResult);
         } catch (XMLHandlingException e) {
             throw new OXFException("Could not parse OperationResult.", e);

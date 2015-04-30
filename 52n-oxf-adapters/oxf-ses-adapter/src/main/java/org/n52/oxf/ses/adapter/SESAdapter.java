@@ -61,9 +61,9 @@ import org.w3.x2003.x05.soapEnvelope.Header;
 
 /**
  * SES-Adapter for the OX-Framework<br>
- * 
+ *
  * TODO implement missing operations<br>
- * 
+ *
  * Current state (could not be tested because of missing dp compliant instance):
  * <ul>
  * <li>GetCapabilities implemented</li>
@@ -71,7 +71,7 @@ import org.w3.x2003.x05.soapEnvelope.Header;
  * <li>Notify</li>
  * <li>RegisterPublisher</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:artur.osmanov@uni-muenster.de">Artur Osmanov</a>
  * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>
  */
@@ -121,7 +121,7 @@ public class SESAdapter implements IServiceAdapter {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param serviceVersion
 	 *        the schema version for which this adapter instance shall be initialized.
 	 */
@@ -150,7 +150,7 @@ public class SESAdapter implements IServiceAdapter {
 		try {
 			// free OWS Response from SOAP-Envelope
 
-			EnvelopeDocument envDoc = EnvelopeDocument.Factory.parse(opResult.getIncomingResultAsStream());
+			EnvelopeDocument envDoc = EnvelopeDocument.Factory.parse(opResult.getIncomingResultAsAutoCloseStream());
 
 			String owsResponse = envDoc.getEnvelope().getBody().xmlText();
 
@@ -177,7 +177,7 @@ public class SESAdapter implements IServiceAdapter {
 	public OperationResult doOperation(Operation operation, ParameterContainer parameterContainer) throws ExceptionReport,
 	OXFException {
 		if (operation == null) throw new IllegalStateException("Operation cannot be null!");
-		
+
 		ISESRequestBuilder requestBuilder = SESRequestBuilderFactory.generateRequestBuilder(this.serviceVersion);
 
 		String request;
@@ -231,7 +231,7 @@ public class SESAdapter implements IServiceAdapter {
 			HttpEntity responseEntity = httpResponse.getEntity();
 			if (httpResponse.getStatusLine().getStatusCode() != 204 && responseEntity.getContent() != null) {
 				return new OperationResult(responseEntity.getContent(), parameterContainer, request);
-			} 
+			}
 
 		}
 		catch (IOException e) {
@@ -323,7 +323,7 @@ public class SESAdapter implements IServiceAdapter {
 	/**
 	 * checks whether the response of the doOperation is an ExceptionReport. If it is, the report with the
 	 * contained OWSExceptions are parsed and a new ExceptionReport is created and will be returned.
-	 * 
+	 *
 	 * @throws ExceptionReport
 	 *         the exception report containing the service exceptions
 	 * @throws OXFException
@@ -332,7 +332,7 @@ public class SESAdapter implements IServiceAdapter {
 	 */
 	// TODO could be externalized because the same methods are use in the SOSAdapter => identify common
 	// ServiceAdapterTasks
-	
+
 	/*
 	 * Following methods removed as they never succeed (response is always SOAP-embedded)
 	 */

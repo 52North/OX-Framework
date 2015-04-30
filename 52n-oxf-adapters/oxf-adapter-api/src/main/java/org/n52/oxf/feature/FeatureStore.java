@@ -43,14 +43,14 @@ import org.slf4j.LoggerFactory;
  * Unmarshals features of interest received by SOS GetFeatureOfInterest operation.
  */
 public class FeatureStore extends OperationResultStore implements IFeatureStore {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(FeatureStore.class);
-    
+
     @Deprecated
     public FeatureStore() {
         // for backward compatibility .. TODO remove when deprecated contructor is going to be removed
     }
-    
+
     public FeatureStore(OperationResult operationResult) throws OXFException {
         super(operationResult);
     }
@@ -59,7 +59,7 @@ public class FeatureStore extends OperationResultStore implements IFeatureStore 
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Unmarshalling features from: {}\n", xmlObject.xmlText());
         }
-        
+
         if (isGmlFeatureCollectionDocument(xmlObject)) {
             FeatureCollectionDocument2 xb_featureCollDoc = (FeatureCollectionDocument2) xmlObject;
             return unmarshalAbstractCollectionType(xb_featureCollDoc.getFeatureCollection());
@@ -70,7 +70,7 @@ public class FeatureStore extends OperationResultStore implements IFeatureStore 
             coll.add(feature);
             return coll;
         }
-        
+
         // FIXME IMPLEMENT
         throw new RuntimeException(String.format("Unmarshalling of '%s' is not supported", xmlObject.schemaType()));
     }
@@ -88,15 +88,15 @@ public class FeatureStore extends OperationResultStore implements IFeatureStore 
 
         // 1. try to parse the feature data as a FeatureCollection:
         try {
-            FeatureCollectionDocument2 xb_featureCollDoc = FeatureCollectionDocument2.Factory.parse(opsRes.getIncomingResultAsStream());
+            FeatureCollectionDocument2 xb_featureCollDoc = FeatureCollectionDocument2.Factory.parse(opsRes.getIncomingResultAsAutoCloseStream());
             AbstractFeatureCollectionType xb_collection = xb_featureCollDoc.getFeatureCollection();
             return unmarshalAbstractCollectionType(xb_collection);
         }
-        
+
         // 2. try to parse the feature data as one single SamplingPoint:
         catch (org.apache.xmlbeans.XmlException xmlException) {
             try {
-                SamplingPointDocument xb_samplingPointDoc = SamplingPointDocument.Factory.parse(opsRes.getIncomingResultAsStream());
+                SamplingPointDocument xb_samplingPointDoc = SamplingPointDocument.Factory.parse(opsRes.getIncomingResultAsAutoCloseStream());
                 OXFFeature feature = OXFSamplingPointType.create(xb_samplingPointDoc);
                 OXFFeatureCollection coll = new OXFFeatureCollection("any_ID", null);
                 coll.add(feature);
