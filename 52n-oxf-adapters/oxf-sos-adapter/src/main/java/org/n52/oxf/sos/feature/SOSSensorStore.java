@@ -45,16 +45,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Unmarshalls a collection of OXFSensorTypes from an OperationResult, typically a 
+ * Unmarshalls a collection of OXFSensorTypes from an OperationResult, typically a
  * SensorMLDocument containing a collection of SensorML SystemTypes.
  */
 public class SOSSensorStore extends OperationResultStore implements IFeatureStore {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSSensorStore.class);
-    
+
     public static final String SENSOR_ML_FEATURE_ID = "sml_id";
     public static final String SENSOR_ML_FEATURE_COLLECTION_ID = "sml_id";
-    
+
     @Deprecated
     public SOSSensorStore() {
         // for backward compatibility .. TODO remove when deprecated contructor is going to be removed
@@ -68,7 +68,7 @@ public class SOSSensorStore extends OperationResultStore implements IFeatureStor
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Unmarshalling features from:\n" + xmlObject.xmlText());
         }
-        
+
         if (isSensorML101Document(xmlObject)) {
             OXFFeatureCollection oxf_featureCollection = createFeatureCollection();
             SensorMLDocument sensorMLDoc = (SensorMLDocument) xmlObject;
@@ -98,20 +98,20 @@ public class SOSSensorStore extends OperationResultStore implements IFeatureStor
     private OXFFeatureCollection createFeatureCollection() {
         return new OXFFeatureCollection(SENSOR_ML_FEATURE_COLLECTION_ID, new OXFSensorType());
     }
-    
+
     /**
      * @deprecated Use {@link SOSSensorStore#SOSSensorStore(OperationResult)} with {@link SOSSensorStore#unmarshalFeatures(OperationResult)}
      */
     public OXFFeatureCollection unmarshalFeatures(OperationResult operationResult) throws OXFException {
         try {
-            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsStream());
+            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsAutoCloseStream());
             this.version = getVersion(operationResult);
         } catch (XMLHandlingException e) {
             throw new OXFException("Could not parse OperationResult", e);
         }
         return unmarshalFeatures();
     }
-    
+
 
     public OXFFeatureCollection unmarshalFeaturesFromHistory(OperationResult opResult) throws OXFException {
         // TODO Auto-generated method stub

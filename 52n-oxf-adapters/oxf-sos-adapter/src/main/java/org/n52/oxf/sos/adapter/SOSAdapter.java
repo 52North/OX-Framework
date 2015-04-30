@@ -29,7 +29,18 @@ package org.n52.oxf.sos.adapter;
 
 import static java.lang.String.format;
 import static org.apache.http.entity.ContentType.TEXT_XML;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.BINDING;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.ENCODING;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OFFERING_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.MIMETYPE;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.SERVICE;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.VERSION;
 
 import java.io.IOException;
 
@@ -235,11 +246,11 @@ public class SOSAdapter implements IServiceAdapter {
     public ServiceDescriptor initService(final OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
         try {
             if (SosUtil.isVersion100(serviceVersion)) {
-                final net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
+                final net.opengis.sos.x10.CapabilitiesDocument capsDoc = net.opengis.sos.x10.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsAutoCloseStream());
                 return initService(capsDoc);
             }
             else if (SosUtil.isVersion200(serviceVersion)) {
-                final net.opengis.sos.x20.CapabilitiesDocument capsDoc = net.opengis.sos.x20.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
+                final net.opengis.sos.x20.CapabilitiesDocument capsDoc = net.opengis.sos.x20.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsAutoCloseStream());
                 return initService(capsDoc);
             }
             else {
@@ -367,7 +378,7 @@ public class SOSAdapter implements IServiceAdapter {
             // throw createExceptionReportException(exceptionReport, result);
             // }
             try {
-                final XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsStream());
+                final XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsAutoCloseStream());
                 if (result_xb.schemaType() == ExceptionReportDocument.type) {
                     throw parseOws110ExceptionReport(result);
                 }
@@ -539,10 +550,11 @@ public class SOSAdapter implements IServiceAdapter {
 
         return featureCollection;
     }
-
+    
     private ExceptionReport parseOws110ExceptionReport(final OperationResult result) throws IOException, XmlException {
-        final ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsStream());
-        final ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
+        final ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsAutoCloseStream());
+        final net.opengis.ows.x11.ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
+
 
         final String language = xb_execRepDoc.getExceptionReport().getLang();
         final String version = xb_execRepDoc.getExceptionReport().getVersion();

@@ -56,14 +56,14 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class CSWAdapter implements IServiceAdapter {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CSWAdapter.class);
 
     // required operations:
     public static final String GET_CAPABILITIES = "GetCapabilities";
     public static final String DESCRIBE_RECORD = "DescribeRecord";
     public static final String GET_RECORDS = "GetRecords";
-    
+
     // optional operations:
     public static final String GET_RECORD_BY_ID = "GetRecordById";
     public static final String HARVEST = "Harvest";
@@ -85,15 +85,15 @@ public class CSWAdapter implements IServiceAdapter {
      * the Versions of the services which are connectable by this ServiceAdapter.
      */
     public static final String[] SUPPORTED_VERSIONS = {"2.0.2"};
-    
+
     /**
      * The name of the service operation which returns the data to be added to a map view as a layer.
      */
     public static final String RESOURCE_OPERATION = "GetRecords";
 
     public static final String NAMESPACE = "http://www.opengis.net/cat/csw/2.0.2";
-    
-    
+
+
     private CSWRequestBuilder requestBuilder;
 
 
@@ -106,17 +106,17 @@ public class CSWAdapter implements IServiceAdapter {
 
     /**
      * initializes the ServiceDescriptor by requesting the capabilities document of the CSW.
-     * 
+     *
      * @param url
      *        the base URL of the CSW
-     * 
+     *
      * @return the ServiceDescriptor based on the retrieved capabilities document
-     * 
+     *
      * @throws ExceptionReport
      *         if service side exception occurs
      * @throws OXFException
      *         if internal exception (in general parsing error or Capabilities doc is incorrect) occurs
-     * 
+     *
      */
     public ServiceDescriptor initService(String url) throws ExceptionReport, OXFException {
         ParameterContainer paramContainer = new ParameterContainer();
@@ -129,7 +129,7 @@ public class CSWAdapter implements IServiceAdapter {
 
     public ServiceDescriptor initService(OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
         try {
-            net.opengis.cat.csw.x202.CapabilitiesDocument capsDoc = net.opengis.cat.csw.x202.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsStream());
+            net.opengis.cat.csw.x202.CapabilitiesDocument capsDoc = net.opengis.cat.csw.x202.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsAutoCloseStream());
             return initService(capsDoc);
         }
         catch (XmlException e) {
@@ -148,32 +148,32 @@ public class CSWAdapter implements IServiceAdapter {
     }
 
     /**
-     * 
+     *
      * @param operation
      *        the operation which the adapter has to execute on the service. this operation includes also the
      *        parameter values.
-     * 
+     *
      * @param parameters
      *        Map which contains the parameters of the operation and the corresponding parameter values
-     * 
+     *
      * @throws ExceptionReport
      *         Report which contains the service sided exceptions
-     * 
+     *
      * @throws OXFException
      *         if the sending of the post message failed.<br>
      *         if the specified Operation is not supported.
-     * 
+     *
      * @return the result of the executed operation
      */
     public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
             OXFException {
-        
+
         OperationResult result = null;
 
         String request = null;
 
         String httpMethod = "GET";
-        
+
         if (operation.getName().equals(GET_CAPABILITIES)) {
             request = requestBuilder.buildGetCapabilitiesRequest(parameters);
         }
@@ -190,7 +190,7 @@ public class CSWAdapter implements IServiceAdapter {
         else if (operation.getName().equals(GET_RECORD_BY_ID)) {
             request = requestBuilder.buildGetRecordByIdRequest(parameters);
         }
-        
+
         // Operation not supported
         else {
             throw new OXFException("The operation '" + operation.getName() + "' is not supported.");
@@ -204,21 +204,21 @@ public class CSWAdapter implements IServiceAdapter {
             // TODO pull httpClient to super class (make interface abstract)
             HttpClient httpClient = new ProxyAwareHttpClient(new SimpleHttpClient());
             DCP dcp = operation.getDcps()[0];
-            
+
             if (httpMethod.equals("POST")) {
                 String uri = dcp.getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
                 HttpResponse response = httpClient.executePost(uri, request, ContentType.TEXT_XML);
-                HttpEntity responseEntity = response.getEntity(); 
+                HttpEntity responseEntity = response.getEntity();
                 result = new OperationResult(responseEntity.getContent(), parameters, request);
             }
             else {
                 String baseURI = dcp.getHTTPGetRequestMethods().get(0).getOnlineResource().getHref();
                 String requestURI = baseURI + request;
                 HttpResponse response = httpClient.executeGet(requestURI);
-                HttpEntity responseEntity = response.getEntity(); 
+                HttpEntity responseEntity = response.getEntity();
                 result = new OperationResult(responseEntity.getContent(), parameters, request);
             }
-            
+
             try {
                 ExceptionReport execRep = parseExceptionReport(result);
 
@@ -234,7 +234,7 @@ public class CSWAdapter implements IServiceAdapter {
         }
         catch (HttpClientException e) {
             throw new OXFException("Could not send request.", e);
-            
+
         }
 
         return result;
@@ -243,12 +243,12 @@ public class CSWAdapter implements IServiceAdapter {
     /**
      * checks whether the response of the doOperation is an ExceptionReport. If it is, the report with the
      * contained OWSExceptions are parsed and a new ExceptionReport is created and will be returned.
-     * 
+     *
      * @throws ExceptionReport
      *         the exception report containing the service exceptions
      * @throws OXFException
      *         if an parsing error occurs
-     * @throws XmlException 
+     * @throws XmlException
      */
     private ExceptionReport parseExceptionReport(OperationResult result) throws XmlException {
 
@@ -280,7 +280,7 @@ public class CSWAdapter implements IServiceAdapter {
 
     /**
      * returns the ResourceOperationName
-     * 
+     *
      * @return The name of the service operation which returns the data to be added to a map view as a layer.
      */
     public String getResourceOperationName() {
@@ -289,7 +289,7 @@ public class CSWAdapter implements IServiceAdapter {
 
     /**
      * returns the description of this Service Adapter
-     * 
+     *
      * @return String the description of the adapter
      */
     public String getDescription() {
@@ -298,7 +298,7 @@ public class CSWAdapter implements IServiceAdapter {
 
     /**
      * returns the type of the service which is connectable by this ServiceAdapter
-     * 
+     *
      * @return String the type of service
      */
     public String getServiceType() {
@@ -307,7 +307,7 @@ public class CSWAdapter implements IServiceAdapter {
 
     /**
      * returns the supported versions of the service
-     * 
+     *
      * @return String[] the supported versions of the service which is connectable by this ServiceAdapter
      */
     public String[] getSupportedVersions() {

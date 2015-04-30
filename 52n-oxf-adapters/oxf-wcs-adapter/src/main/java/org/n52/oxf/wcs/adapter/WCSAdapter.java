@@ -63,7 +63,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class WCSAdapter implements IServiceAdapter {
@@ -137,15 +137,15 @@ public class WCSAdapter implements IServiceAdapter {
             ServiceProvider serviceProviderSection;
             Contents contentsSection;
             OperationsMetadata operationsMetadataSection;
-            
-            
+
+
             // VERSION 1.0.0:
-            
+
             try {
                 JAXBContext jc = JAXBContext.newInstance("org.n52.oxf.wcs.model.version100.wcsCapabilities:org.n52.oxf.adapter.wcs.model.version100.gml");
                 Unmarshaller u = jc.createUnmarshaller();
 
-                WCSCapabilitiesType wc = (WCSCapabilitiesType) ((JAXBElement) u.unmarshal(opResult_GetCapabilities.getIncomingResultAsStream())).getValue();
+                WCSCapabilitiesType wc = (WCSCapabilitiesType) ((JAXBElement) u.unmarshal(opResult_GetCapabilities.getIncomingResultAsAutoCloseStream())).getValue();
                 version = wc.getVersion();
 
                 serviceIdentificationSection = wcsCapsMapper.mapServiceIdentification(wc);
@@ -168,7 +168,7 @@ public class WCSAdapter implements IServiceAdapter {
                                                                         paramCon);
                 CoverageDescription cd = null;
                 try {
-                    cd = (CoverageDescription) u.unmarshal(opResult_DescribeCoverage.getIncomingResultAsStream());
+                    cd = (CoverageDescription) u.unmarshal(opResult_DescribeCoverage.getIncomingResultAsAutoCloseStream());
                 }
                 catch (Exception exc) {
                     // --> probably DescribeCoverage-operation not supported
@@ -192,7 +192,7 @@ public class WCSAdapter implements IServiceAdapter {
 //                LOGGER.info("Not convertible to version 1.0.0 --> trying 1.1.1");
 
                 try {
-                    CapabilitiesDocument capDoc = CapabilitiesDocument.Factory.parse(opResult_GetCapabilities.getIncomingResultAsStream());
+                    CapabilitiesDocument capDoc = CapabilitiesDocument.Factory.parse(opResult_GetCapabilities.getIncomingResultAsAutoCloseStream());
                     LOGGER.info("Capabilities succesfully read");
                     version = capDoc.getCapabilities().getVersion();
 
@@ -220,25 +220,25 @@ public class WCSAdapter implements IServiceAdapter {
                         paramCon.addParameterShell("COVERAGE", coverages[i]);
                         OperationResult opResult_DescribeCoverage = doOperation(new Operation("DescribeCoverage", dcps),
                                                                                 paramCon);
-                        
+
                         CoverageDescriptionsDocument desCovDoc;
 						try {
-							desCovDoc = CoverageDescriptionsDocument.Factory.parse(opResult_DescribeCoverage.getIncomingResultAsStream());
+							desCovDoc = CoverageDescriptionsDocument.Factory.parse(opResult_DescribeCoverage.getIncomingResultAsAutoCloseStream());
 						} catch (XmlException e) {
 							String error = new String(opResult_DescribeCoverage.getIncomingResult());
 							LOGGER.info(error);
 //							throw new OWSException(new String[]{error},error,null);
 							throw new OXFException(error,new Throwable("Access Denied"));
 						}
-                        
+
                         // CoverageDescriptionsDocument contains only ONE CoverageDescription
                         CoverageDescriptionType covDesType = desCovDoc.getCoverageDescriptions().getCoverageDescriptionArray(0);
-                        
+
                         coverageDescArray[i] = covDesType;
-                        
+
                         LOGGER.info("DescribeCoverage successfully read for coverage: " + coverages[i]);
                     }
-                    
+
                     try {
                         contentsSection = wcsCapsMapper.mapContents(coverageDescArray);
                         operationsMetadataSection = wcsCapsMapper.mapOperationsMetadata(capDoc, contentsSection);
