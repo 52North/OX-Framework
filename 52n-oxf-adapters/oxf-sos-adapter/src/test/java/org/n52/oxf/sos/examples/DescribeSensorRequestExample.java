@@ -57,6 +57,7 @@ public class DescribeSensorRequestExample extends SosAdapterRequestExample {
 
     private static final String PROCEDURE_WASSERSTAND = "Wasserstand-Ledasperrwerk_Up_3880050";
 
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -84,12 +85,14 @@ public class DescribeSensorRequestExample extends SosAdapterRequestExample {
     @Test
     public void parseSosSensorStoreFromSensorML() {
         try {
-            SmlHelper smlHelper = new SmlHelper();
-            OperationResult result = performOperation(createDescribeSensorOperation());
-            XmlObject xmlResponse = XmlObject.Factory.parse(result.getIncomingResultAsAutoCloseStream());
-            SensorMLDocument smlDoc = smlHelper.getSmlFrom(xmlResponse);
+
+            final SmlHelper smlHelper = new SmlHelper();
+            final OperationResult result = performOperation(createDescribeSensorOperation());
+            final XmlObject xmlResponse = XmlObject.Factory.parse(result.getIncomingResultAsAutoCloseStream());
+            final SensorMLDocument smlDoc = smlHelper.getSmlFrom(xmlResponse);
 
             String longName = smlHelper.getIdValueFrom("longName", smlHelper.getIdentification(smlDoc));
+
             LOGGER.info("longName: {}", longName);
 
 //            SOSSensorStore store = new SOSSensorStore(result);

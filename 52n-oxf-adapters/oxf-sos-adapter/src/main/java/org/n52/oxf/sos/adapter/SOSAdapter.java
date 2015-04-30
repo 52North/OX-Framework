@@ -29,7 +29,18 @@ package org.n52.oxf.sos.adapter;
 
 import static java.lang.String.format;
 import static org.apache.http.entity.ContentType.TEXT_XML;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.BINDING;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.ENCODING;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OFFERING_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.MIMETYPE;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.SERVICE;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.VERSION;
 
 import java.io.IOException;
 
@@ -386,10 +397,6 @@ public class SOSAdapter implements IServiceAdapter {
         return featureCollection;
     }
 
-    private ExceptionReport createExceptionReportException(final Element exceptionReport, final OperationResult result) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     private ExceptionReport parseExceptionReport_100(final OperationResult result) throws XmlException, IOException {
 
