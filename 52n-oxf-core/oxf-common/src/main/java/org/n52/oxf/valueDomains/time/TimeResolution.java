@@ -32,7 +32,11 @@ import java.util.regex.*;
 /**
  * Represents a TimeResolution as specified in ISO8601:2004. Inputs are validated against this pattern:
  * "P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+([.]\\d+)?S)?)?" <br>
- * Valid example time strings: <li>P2Y</li> <li>P1Y1M3DT6H2M8.5S</li>
+ * Valid example time strings:
+ * <ul>
+ * 	<li>P2Y</li>
+ * 	<li>P1Y1M3DT6H2M8.5S</li>
+ * </ul>
  * 
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster </a>
  */
@@ -52,7 +56,7 @@ public class TimeResolution implements ITimeResolution {
      * constructs a timeResolution. Validates against the pattern mentioned in the ISO8601:2004 spec (section
      * 4.4.4.2.1). This pattern is extended in order to support a number of days with more than 2 digits.
      * 
-     * @param res
+     * @param res a String that represents a ISO 8601 conform time resolution
      */
     public TimeResolution(String res) {
         if (res == null) {

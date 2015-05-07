@@ -41,6 +41,11 @@ public class BoundingBox2D extends BoundingBox {
 	/**
      * this constructor has all required attributes as its parameters.
      * 
+     * @param llx the x value of the lower left corner
+     * @param urx the x value of the upper right corner
+     * @param lly the y value of the lower left corner
+     * @param ury the y value of the upper right corner
+     * 
      * @throws IllegalArgumentException
      *         if the dimensions of lowerLeft and upperRight are not the same.
      */
@@ -51,8 +56,10 @@ public class BoundingBox2D extends BoundingBox {
     /**
      * this constructor has all attributes as its parameters.
      * @param crs a EPSG String for instance
-     * @param lowerLeft the lowerCorner
-     * @param upperRight the upperCorner
+     * @param llx the x value of the lower left corner
+     * @param urx the x value of the upper right corner
+     * @param lly the y value of the lower left corner
+     * @param ury the y value of the upper right corner
      * 
      * @throws IllegalArgumentException
      *         if the dimensions of lowerLeft and upperRight are not the same.

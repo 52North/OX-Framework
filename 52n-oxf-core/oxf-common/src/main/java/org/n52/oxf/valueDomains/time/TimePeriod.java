@@ -31,8 +31,11 @@ package org.n52.oxf.valueDomains.time;
  * Represents a TimePeriod specified in OGC WCS spec 1.0.0 and consists of the TimePositions start and end and
  * the TimeResolution resolution.
  *
- * Valid example time period strings: <li>1998-11-01/2005-11-02</li> <li>
- * 1998-11-01/2005-11-02/P1Y</li>
+ * Valid example time period strings: 
+ * <ul>
+ * 	<li>1998-11-01/2005-11-02</li>
+ * 	<li>1998-11-01/2005-11-02/P1Y</li>
+ * </ul>
  *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  */
@@ -44,7 +47,10 @@ public class TimePeriod implements ITimePeriod {
     private ITimeResolution resolution;
 
     /**
-     * constructs a TimePeriod without a resolution. The default resolution has to be set explicitly.
+     * Constructs a TimePeriod without a resolution. The default resolution has to be set explicitly.
+     * 
+     * @param begin a String representing the start
+     * @param end a String representing the end
      */
     public TimePeriod(final String begin, final String end) {
         start = new TimePosition(begin);
@@ -52,10 +58,9 @@ public class TimePeriod implements ITimePeriod {
     }
 
     /**
-     *
-     * @param currentStart
-     * @param currentEnd
-     * @param currentResolution
+     * @param currentStart the start of the period
+     * @param currentEnd the end of the period
+     * @param currentResolution the resolution of the period
      */
     public TimePeriod(final ITimePosition currentStart, final ITimePosition currentEnd, final ITimeResolution currentResolution) {
         start = currentStart;
@@ -64,8 +69,7 @@ public class TimePeriod implements ITimePeriod {
     }
 
     /**
-     *
-     * @param period
+     * @param period a String using ISO 8601 compliant pattern that represents an time period
      */
     public TimePeriod(final String period) {
         if (period == null) {
@@ -85,9 +89,8 @@ public class TimePeriod implements ITimePeriod {
     }
 
     /**
-     *
-     * @param currentStart
-     * @param currentEnd
+     * @param currentStart the start of the period
+     * @param currentEnd the end of the period
      */
     public TimePeriod(final ITimePosition currentStart, final ITimePosition currentEnd) {
         start = currentStart;
@@ -124,7 +127,13 @@ public class TimePeriod implements ITimePeriod {
     }
 
     /**
-     * Sets a default resolution iff the resolution has not been set yet in any other method.
+     * Sets a default resolution if the resolution has not been set yet in any other method.
+     * 
+     * @param resolution The resolution to set
+     * 
+     * @throws IllegalArgumentException if the String could not be parsed to an {@link TimeResolution}.
+     * 
+     * @see TimeResolution#TimeResolution(String)
      */
     public void setDefaultResolution(final String resolution) {
         if (this.resolution == null) {

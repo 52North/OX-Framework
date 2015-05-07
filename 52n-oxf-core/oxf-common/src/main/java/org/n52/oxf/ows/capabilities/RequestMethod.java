@@ -52,12 +52,11 @@ public abstract class RequestMethod {
     
     private Set<Constraint> owsConstraints;
 	
-	/**
-	 * this constructor has all attributes as its parameters.
-	 * @param onlineResource
-	 * @param type
-	 * @param constraints
+    /**
 	 * @deprecated Use {@link #RequestMethod(OnlineResource, Set)} using type {@link Constraint}.
+	 * 
+	 * @param onlineResouce the <b>required</b> online resource
+	 * @param constraints the <b>optional</b> constraints that are relevant for this request method.
 	 */
 	@Deprecated
 	public RequestMethod(final OnlineResource onlineResouce, final String[] constraints){
@@ -66,8 +65,8 @@ public abstract class RequestMethod {
 	}
 	
 	/**
-	 * @param onlineResource
-	 * @param constraints the constraints that are relevant for this request method.
+	 * @param onlineResource the <b>required</b> online resource
+	 * @param constraints the <b>optional</b> constraints that are relevant for this request method.
 	 */
 	public RequestMethod(final OnlineResource onlineResource, final Set<Constraint> constraints) {
 		setOnlineResource(onlineResource);
@@ -76,8 +75,7 @@ public abstract class RequestMethod {
 	
 	/**
 	 * this constructor has all required attributes as its parameters.
-	 * @param onlineResource
-	 * @param type
+	 * @param onlineResource the <b>required</b> online resource
 	 */
 	public RequestMethod(final OnlineResource onlineResource){
 		setOnlineResource(onlineResource);
@@ -90,6 +88,8 @@ public abstract class RequestMethod {
 	
     /**
      * @deprecated Use {@link #getOwsConstraints()} and type {@link Constraint} instead
+     * 
+     * @return the constrains as String[]
      */
     @Deprecated
 	public String[] getConstraints() {
@@ -112,8 +112,6 @@ public abstract class RequestMethod {
         this.onlineResource = onlineResource;
     }
     
-    // TODO Eike: add tests for new methods 
-
 	/**
 	 * @return an unmodifiable view of the constraints for this {@link RequestMethod} or an empty {@link Set} if not set.
 	 */

@@ -27,14 +27,16 @@
  */
 package org.n52.oxf.util;
 
-import java.net.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
+ * @deprecated
  * 
+ * TODO add new class and workflow to deprecated tag
  * 
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
  */
 @Deprecated
 public class ParameterMap {
@@ -45,10 +47,9 @@ public class ParameterMap {
     
     
     /**
-     * 
      * @param parameterString
-     *        should look like this: "param1=value1&param2=value2&...&paramN=valueN" <br>
-     *        but also an empty 'value' is allowed (e.g.: "param1=&param2=value2&...") 
+     *        should look like this: "param1=value1&amp;param2=value2&amp;...&amp;paramN=valueN" <br>
+     *        but also an empty 'value' is allowed (e.g.: "param1=&amp;param2=value2&amp;...") 
      */
     public ParameterMap(String paramString) {
         paramMap = new HashMap<String, String>();
@@ -71,11 +72,6 @@ public class ParameterMap {
         }
     }
     
-    /**
-     * 
-     * @param caseInsensitiveName
-     * @return
-     */
     public String getParameterValue(String caseInsensitiveName) {
         if (this.paramMap != null && caseInsensitiveName != null) {
             
@@ -90,27 +86,4 @@ public class ParameterMap {
         return null;
     }
     
-
-    /**
-     * test it...
-     * @param args
-     * @throws MalformedURLException 
-     */
-    public static void main(String[] args) throws MalformedURLException {
-        URL requestURL = new URL("http://server.uni-muenster.de:8080/service?SERVICE=WMS&LAYERS=SOS-WeatherSA-FOIs&EXCEPTIONS=application/vnd.ogc.se_xml&FORMAT=image/png&HEIGHT=432&TRANSPARENT=TRUE&REQUEST=GetMap&BBOX=16.53,-34.42,32.4,-22.27&WIDTH=565&STYLES=&SRS=EPSG:4326&VERSION=1.1.1 ");
-        
-        String paramString = requestURL.getQuery();
-        
-        System.out.println(paramString.matches(PARAMETER_PATTERN));
-        
-        if(paramString.matches(PARAMETER_PATTERN)) {
-            String[] paramParts = paramString.split("&");
-            
-            for(String paramPart : paramParts){
-                System.out.println(paramPart);
-            }
-        }
-        
-        System.out.println("value of parameter STYLES = " + new ParameterMap(paramString).getParameterValue("STYLES"));
-    }
 }

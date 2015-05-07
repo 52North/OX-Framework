@@ -39,11 +39,6 @@ public class DCP {
     
     private List<RequestMethod> requestMethods;
 	
-    /**
-     * 
-     * @param httpGet
-     * @param httpPost
-     */
     public DCP(GetRequestMethod httpGet, PostRequestMethod httpPost){
         requestMethods = new ArrayList<RequestMethod>();
         
@@ -51,10 +46,6 @@ public class DCP {
         addHTTPPost(httpPost);
     }
 	
-    /**
-     * 
-     * @param methods
-     */
     public DCP(List<RequestMethod> methods){
         requestMethods = methods;
     }
@@ -75,9 +66,6 @@ public class DCP {
 		return res;
 	}
 	
-    /**
-     * @return Returns a list of all HTTPGetRequestMethods.
-     */
     public List<GetRequestMethod> getHTTPGetRequestMethods() {
         List<GetRequestMethod> getRequestMethods = new ArrayList<GetRequestMethod>();
         
@@ -90,16 +78,10 @@ public class DCP {
         return getRequestMethods;
     }
     
-    /**
-     * @param get The hTTPGet to set.
-     */
     protected void addHTTPGet(GetRequestMethod getMethod) {
         this.requestMethods.add(getMethod);
     }
 
-    /**
-     * @return Returns a list of all HTTPPostRequestMethods.
-     */
     public List<PostRequestMethod> getHTTPPostRequestMethods() {
         List<PostRequestMethod> postRequestMethods = new ArrayList<PostRequestMethod>();
         
@@ -112,9 +94,6 @@ public class DCP {
         return postRequestMethods;
     }
     
-    /**
-     * @param post The hTTPPost to set.
-     */
     protected void addHTTPPost(PostRequestMethod postMethod) {
         this.requestMethods.add(postMethod);
     }

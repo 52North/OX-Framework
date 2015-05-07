@@ -29,8 +29,6 @@ package org.n52.oxf.ows.capabilities;
 
 import java.util.Locale;
 
-import org.n52.oxf.OXFException;
-
 /**
  * This holds metadata about data provided by the service.
  * 
@@ -74,26 +72,21 @@ public class Dataset extends Description {
     private String fees;
 
     /**
-     * is compliant to iso 639
+     * is compliant to ISO 639
      * 
      * optional
      */
     private Locale[] language;
 
     /**
-     * only a String represenation of the point of contact element.
+     * only a String representation of the point of contact element.
      * 
      * optional
      */
     private String pointOfContactString;
 
-    /**
+    /*
      * this constructor has all REQUIRED attributes as its parameters. The other attributes will stay null.
-     * 
-     * @param title
-     * @param identifier
-     * @param boundingBoxes
-     * @throws OXFException
      */
     public Dataset(String title, String identifier, IBoundingBox[] boundingBoxes) {
         super(title);
@@ -101,19 +94,6 @@ public class Dataset extends Description {
         setBoundingBoxes(boundingBoxes);
     }
 
-    /**
-     * this constructor has ALL attributes of the class as its parameters.
-     * 
-     * @param title
-     * @param identifier
-     * @param boundingBoxes
-     * @param outputFormats
-     * @param availableCRSs
-     * @param fees
-     * @param language
-     * @param pointOfContactString
-     * @throws OXFException
-     */
     public Dataset(String title,
                    String identifier,
                    IBoundingBox[] boundingBoxes,
@@ -209,7 +189,7 @@ public class Dataset extends Description {
     }
 
     /**
-     * @param boundingBoxes
+     * @param boundingBoxes the bounding box to set
      * @throws IllegalArgumentException
      *         if the boundingBoxes[] is empty.
      */
@@ -235,10 +215,9 @@ public class Dataset extends Description {
     }
 
     /**
-     * @param identifier
-     * @throws OXFException
-     *         if the identifier is empty.
+     * @param identifier  the identifier to set
      * @throws IllegalArgumentException
+     *         if the identifier is empty.
      */
     protected void setIdentifier(String identifier) throws IllegalArgumentException {
         if (identifier != null && !identifier.equals("")) {

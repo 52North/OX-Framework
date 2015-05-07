@@ -62,14 +62,8 @@ public class Parameter {
      */
     public static final String COMMON_NAME_FORMAT = "FORMAT";
 
-    /**
-     * 
-     */
     public static final String COMMON_NAME_STYLE = "STYLE";
 
-    /**
-     * 
-     */
     public static final String COMMON_NAME_VERSION = "VERSION";
 
     /**
@@ -79,7 +73,7 @@ public class Parameter {
 
     /**
      * type of associated specifiedValue: java.lang.String <br>
-     * the name or id of the dataset (--> dataset means layer, coverage or something like that).
+     * the name or id of the dataset (&rarr; dataset means layer, coverage or something like that).
      */
     public static final String COMMON_NAME_RESOURCE_ID = "RESOURCE_ID";
 
@@ -119,12 +113,17 @@ public class Parameter {
      * this constructor has all attributes as its parameters. Constructs a Parameter with a given
      * serviceSidedName and the indication, if the Parameter is required.
      * 
-     * @param serviceSidedName
-     *        the serviceSidedName of the parameter
+     * @param name
+     *        the name of the parameter
      * @param required
      *        indicates if a ParameterContainer is required.
      * @param valueDomain
      *        holds all possible values.
+     * @param commonName
+	 *            the "commonName" is used internally by the OX-framework to
+	 *            address this parameter.<br>
+	 *            ATTENTION: if the parameter has no corresponding commonName
+	 *            please set it on <code>null</code>.
      */
     public Parameter(String name, boolean required, IValueDomain valueDomain, String commonName) {
         setServiceSidedName(name);
@@ -163,17 +162,10 @@ public class Parameter {
         return res;
     }
 
-    /**
-     * @return Returns the serviceSidedName of the parameter.
-     */
     public String getServiceSidedName() {
         return serviceSidedName;
     }
 
-    /**
-     * @param serviceSidedName
-     *        The serviceSidedName to set.
-     */
     protected void setServiceSidedName(String name) throws IllegalArgumentException {
         if ( !name.equals("")) {
             this.serviceSidedName = name;
@@ -206,7 +198,7 @@ public class Parameter {
     /**
      * indicates if a parameter has to be part of a certain operation.
      * 
-     * @return Returns the required.
+     * @return <code>true</code>, if this parameter has to be part of a certain operation.
      */
     public boolean isRequired() {
         return required;
@@ -214,7 +206,7 @@ public class Parameter {
 
     /**
      * @param required
-     *        has to be set, if the parameter is required in the Operation. false is standard!.
+     *        has to be set, if the parameter is required in the Operation. <code>false</code> is standard!.
      */
     protected void setRequired(boolean required) {
         this.required = required;
@@ -235,7 +227,7 @@ public class Parameter {
      * @param valueDomain
      *        The valueDomain to set.
      */
-    protected void setValueDomain(IValueDomain valueDomain) {
+    protected void setValueDomain(IValueDomain<?> valueDomain) {
         this.valueDomain = valueDomain;
     }
 }

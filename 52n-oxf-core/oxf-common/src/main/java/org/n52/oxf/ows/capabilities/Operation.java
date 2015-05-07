@@ -88,8 +88,9 @@ public class Operation {
      * specified httpGetHref and httpPostHref. The constraints and parameters attributes will stay
      * <code>null</code>.
      * 
-     * @param name
-     * @param dcps
+     * @param name name of the operation
+     * @param httpGetHref the URL to be used for HTTP GET
+     * @param httpPostHref the URL to be used for HTTP POST
      */
     public Operation(final String name, final String httpGetHref, final String httpPostHref) {
         setName(name);
@@ -159,39 +160,22 @@ public class Operation {
 				Arrays.toString(dcps));
 	}
 
-    /**
-     * @return Returns the constraints.
-     */
     public String[] getConstraints() {
         return constraints;
     }
 
-    /**
-     * @param constraints
-     *        The constraints to set.
-     */
     protected void setConstraints(final String[] constraints) {
         this.constraints = constraints;
     }
 
-    /**
-     * @return Returns the dcps.
-     */
     public DCP[] getDcps() {
         return dcps;
     }
 
-    /**
-     * @param dcps
-     *        The dcps to set.
-     */
     protected void setDcps(final DCP[] dcps) {
         this.dcps = dcps;
     }
 
-    /**
-     * @return Returns the name.
-     */
     public String getName() {
         return name;
     }
@@ -203,11 +187,11 @@ public class Operation {
      *            if name is empty.
      */
     protected void setName(final String name) throws IllegalArgumentException {
-        if ( !name.equals("")) {
-            this.name = name;
+        if (name == null || name.isEmpty()) {
+        	throw new IllegalArgumentException("The parameter 'name' is null or empty.");
         }
         else {
-            throw new IllegalArgumentException("The parameter 'name' is illegal.");
+        	this.name = name;
         }
     }
 

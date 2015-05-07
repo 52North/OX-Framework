@@ -80,16 +80,6 @@ public class Address {
 	 */
 	private String[] electronicMailAddresses;
 
-	
-	/**
-	 * this constructor has all attributes of the class as its parameters.
-	 * @param city
-	 * @param administrativeArea
-	 * @param postalCode
-	 * @param country
-	 * @param deliveryPoints
-	 * @param electronicMailAddresses
-	 */
 	public Address(String city, String administrativeArea, String postalCode,
 			String country, String[] deliveryPoint,
 			String[] electronicMailAddress) {
@@ -101,7 +91,6 @@ public class Address {
 		setElectronicMailAddresses(electronicMailAddress);
 	}
 
-	
 	/**
 	 * @return a XML representation of this Address. 
 	 */

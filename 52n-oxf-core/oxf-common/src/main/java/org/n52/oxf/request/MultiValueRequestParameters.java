@@ -196,10 +196,11 @@ public abstract class MultiValueRequestParameters implements RequestParameters {
         }
         return hasChanged;
     }
+    
     /**
      * Checks if value of the given parameter is empty.
      * 
-     * @param parameterName
+     * @param parameter
      *        the parameter name.
      * @return <code>true</code> if parameter value is <code>null</code> or empty, <code>false</code>
      *         otherwise.

@@ -39,7 +39,12 @@ import org.joda.time.DateTime;
 /**
  * Represents a single timePosition. It is leaned on the WMS profile of ISO8601 spec. Any suggestions about
  * that profile are made in the decisions.html. <br>
- * Valid example time strings: <li>2005-11-01</li> <li>2005-11-01T12:30</li> <li>2005-11-01T12:30:20Z</li>
+ * Valid example time strings:
+ * <ul>
+ * 	<li>2005-11-01</li>
+ * 	<li>2005-11-01T12:30</li>
+ * 	<li>2005-11-01T12:30:20Z</li>
+ * </ul>
  *
  * @author <a href="mailto:foerster@52north.org">Theodor F&ouml;rster</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
@@ -70,7 +75,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 
 	/**
 	 * Constructs a {@link TimePosition} out of a ISO 8601 String. The string has at least to indicate the year.
-	 *
+	 * 
 	 * @param timePos a ISO 8601 compliant {@link String}
 	 * @throws IllegalArgumentException
 	 *         <ul>
@@ -127,11 +132,12 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 		}
 	}
 
-	/**
+	/*
 	 * Initializes the time (hours, minutes, seconds) after checking whether the date actually allows a time
 	 * meaning that a following time is only possible after a date that matches the scheme year-month-day.
 	 * Therefore initDate(String date) has to be called first otherwise this method will return an
 	 * IllegalArgumentException.
+	 * 
 	 */
 	private void initTime(final String time) throws IllegalArgumentException {
 		if ( !isDateComplete) {
@@ -360,252 +366,236 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 		return second;
 	}
 
-	 private String getTimeZone() {
-		 return timeZone;
-	 }
+	private String getTimeZone() {
+		return timeZone;
+	}
 
-	 public ITimeResolution getTimeResolution() {
-		 return timeRes;
-	 }
+	public ITimeResolution getTimeResolution() {
+		return timeRes;
+	}
 
-	 @Override
+	@Override
 	public String toISO8601Format() {
-		 final StringBuffer isoDate = new StringBuffer();
-		 isoDate.append(Long.toString(getYear()));
-		 if (getMonth() != NOT_SET) {
-			 isoDate.append("-");
-			 if (getMonth() < 10) {
-				 isoDate.append("0");
-			 }
-			 isoDate.append(getMonth());
-		 }
-		 else {
-			 return isoDate.toString();
-		 }
-		 if (getDay() != NOT_SET) {
-			 isoDate.append("-");
-			 if (getDay() < 10) {
-				 isoDate.append("0");
-			 }
-			 isoDate.append(getDay());
-		 }
-		 else {
-			 return isoDate.toString();
-		 }
-		 if (getHour() != NOT_SET) {
-			 isoDate.append("T");
-			 if (getHour() < 10) {
-				 isoDate.append("0");
-			 }
-			 isoDate.append(getHour());
-		 }
-		 else {
-			 return isoDate.toString();
-		 }
-		 if (getMinute() != NOT_SET) {
-			 isoDate.append(":");
-			 if (getMinute() < 10) {
-				 isoDate.append("0");
-			 }
-			 isoDate.append(getMinute());
-		 }
-		 else {
-			 isoDate.toString();
-		 }
-		 if (getSecond() != NOT_SET) {
-			 isoDate.append(":");
-			 if (getSecond() < 10) {
-				 isoDate.append("0");
-			 }
-			 // isoDate.append(new Double(this.getSecond()).intValue());
-			 String fullSec = new Double(getSecond()).toString();
-			 //3 internal decimal places allowed
-			 int end = fullSec.indexOf(".")+4;
-			 if(end > fullSec.length()){
-				 end = fullSec.length();
-			 }
-			 // remove internal decimal places if not required
-			 if(fullSec.endsWith(".0")){
-				 // replaceAll with .0 leads to problems
-				 // just build substring
-				 fullSec = fullSec.substring(0, fullSec.length()-2);
-				 // fullSec = fullSec.replaceAll(".0", "");
-				 end -=2;
-			 }
-			 isoDate.append(fullSec.substring(0,end));
-		 }
-		 else {
-			 return isoDate.toString();
-		 }
+		final StringBuffer isoDate = new StringBuffer();
+		isoDate.append(Long.toString(getYear()));
+		if (getMonth() != NOT_SET) {
+			isoDate.append("-");
+			if (getMonth() < 10) {
+				isoDate.append("0");
+			}
+			isoDate.append(getMonth());
+		}
+		else {
+			return isoDate.toString();
+		}
+		if (getDay() != NOT_SET) {
+			isoDate.append("-");
+			if (getDay() < 10) {
+				isoDate.append("0");
+			}
+			isoDate.append(getDay());
+		}
+		else {
+			return isoDate.toString();
+		}
+		if (getHour() != NOT_SET) {
+			isoDate.append("T");
+			if (getHour() < 10) {
+				isoDate.append("0");
+			}
+			isoDate.append(getHour());
+		}
+		else {
+			return isoDate.toString();
+		}
+		if (getMinute() != NOT_SET) {
+			isoDate.append(":");
+			if (getMinute() < 10) {
+				isoDate.append("0");
+			}
+			isoDate.append(getMinute());
+		}
+		else {
+			isoDate.toString();
+		}
+		if (getSecond() != NOT_SET) {
+			isoDate.append(":");
+			if (getSecond() < 10) {
+				isoDate.append("0");
+			}
+			// isoDate.append(new Double(this.getSecond()).intValue());
+			String fullSec = new Double(getSecond()).toString();
+			//3 internal decimal places allowed
+			int end = fullSec.indexOf(".")+4;
+			if(end > fullSec.length()){
+				end = fullSec.length();
+			}
+			// remove internal decimal places if not required
+			if(fullSec.endsWith(".0")){
+				// replaceAll with .0 leads to problems
+				// just build substring
+				fullSec = fullSec.substring(0, fullSec.length()-2);
+				// fullSec = fullSec.replaceAll(".0", "");
+				end -=2;
+			}
+			isoDate.append(fullSec.substring(0,end));
+		}
+		else {
+			return isoDate.toString();
+		}
 
-		 if ( !timeZone.equals("Z")) {
-			 isoDate.append(timeZone);
-		 }
+		if ( !timeZone.equals("Z")) {
+			isoDate.append(timeZone);
+		}
 
-		 // Should not be reached.
-		 return isoDate.toString();
-	 }
+		// Should not be reached.
+		return isoDate.toString();
+	}
 
-	 /**
-	  * @return a String representation of this TimePosition object of the form: e.g.: 16.6.2006 14:53:12
-	  */
-	 @Override
-	 public String toString() {
-		 final StringBuffer ordinaryDate = new StringBuffer();
+	/**
+	 * @return a String representation of this TimePosition object of the form: e.g.: 16.6.2006 14:53:12
+	 */
+	@Override
+	public String toString() {
+		final StringBuffer ordinaryDate = new StringBuffer();
 
-		 if (getDay() != NOT_SET) {
-			 ordinaryDate.append(getDay());
-			 ordinaryDate.append(".");
-		 }
-		 else {
-			 ordinaryDate.append("?");
-		 }
-		 if (getMonth() != NOT_SET) {
-			 ordinaryDate.append(getMonth());
-			 ordinaryDate.append(".");
-		 }
-		 else {
-			 ordinaryDate.append("?");
-		 }
-		 if (getYear() != NOT_SET) {
-			 ordinaryDate.append(getYear());
-			 ordinaryDate.append(" ");
-		 }
-		 else {
-			 ordinaryDate.append("?");
-		 }
+		if (getDay() != NOT_SET) {
+			ordinaryDate.append(getDay());
+			ordinaryDate.append(".");
+		}
+		else {
+			ordinaryDate.append("?");
+		}
+		if (getMonth() != NOT_SET) {
+			ordinaryDate.append(getMonth());
+			ordinaryDate.append(".");
+		}
+		else {
+			ordinaryDate.append("?");
+		}
+		if (getYear() != NOT_SET) {
+			ordinaryDate.append(getYear());
+			ordinaryDate.append(" ");
+		}
+		else {
+			ordinaryDate.append("?");
+		}
 
-		 if (getHour() != NOT_SET) {
-			 ordinaryDate.append(getHour());
-			 ordinaryDate.append(":");
-		 }
-		 else {
-			 ordinaryDate.append("?");
-		 }
-		 if (getMinute() != NOT_SET) {
-			 if (getMinute() < 10) {
-				 ordinaryDate.append("0");
-			 }
-			 ordinaryDate.append(getMinute());
-			 ordinaryDate.append(":");
-		 }
-		 else {
-			 ordinaryDate.append("?");
-		 }
-		 if (getSecond() != NOT_SET) {
-			 ordinaryDate.append(getSecond());
-		 }
-		 else {
-			 ordinaryDate.append("?");
-		 }
+		if (getHour() != NOT_SET) {
+			ordinaryDate.append(getHour());
+			ordinaryDate.append(":");
+		}
+		else {
+			ordinaryDate.append("?");
+		}
+		if (getMinute() != NOT_SET) {
+			if (getMinute() < 10) {
+				ordinaryDate.append("0");
+			}
+			ordinaryDate.append(getMinute());
+			ordinaryDate.append(":");
+		}
+		else {
+			ordinaryDate.append("?");
+		}
+		if (getSecond() != NOT_SET) {
+			ordinaryDate.append(getSecond());
+		}
+		else {
+			ordinaryDate.append("?");
+		}
 
-		 if ( !getTimeZone().equals("Z")) {
-			 ordinaryDate.append(getTimeZone());
-		 }
+		if ( !getTimeZone().equals("Z")) {
+			ordinaryDate.append(getTimeZone());
+		}
 
-		 return ordinaryDate.toString();
-	 }
+		return ordinaryDate.toString();
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + (int) (this.year ^ (this.year >>> 32));
-        hash = 29 * hash + this.month;
-        hash = 29 * hash + this.day;
-        hash = 29 * hash + this.hour;
-        hash = 29 * hash + this.minute;
-        hash = 29 * hash + Float.floatToIntBits(this.second);
-        hash = 29 * hash + (this.timeZone != null ? this.timeZone.hashCode() : 0);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 29 * hash + (int) (this.year ^ (this.year >>> 32));
+		hash = 29 * hash + this.month;
+		hash = 29 * hash + this.day;
+		hash = 29 * hash + this.hour;
+		hash = 29 * hash + this.minute;
+		hash = 29 * hash + Float.floatToIntBits(this.second);
+		hash = 29 * hash + (this.timeZone != null ? this.timeZone.hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final TimePosition other = (TimePosition) obj;
-        if (this.year != other.year) {
-            return false;
-        }
-        if (this.month != other.month) {
-            return false;
-        }
-        if (this.day != other.day) {
-            return false;
-        }
-        if (this.hour != other.hour) {
-            return false;
-        }
-        if (this.minute != other.minute) {
-            return false;
-        }
-        if (Float.floatToIntBits(this.second) != Float.floatToIntBits(other.second)) {
-            return false;
-        }
-        if ((this.timeZone == null) ? (other.timeZone != null) : !this.timeZone.equals(other.timeZone)) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final TimePosition other = (TimePosition) obj;
+		if (this.year != other.year) {
+			return false;
+		}
+		if (this.month != other.month) {
+			return false;
+		}
+		if (this.day != other.day) {
+			return false;
+		}
+		if (this.hour != other.hour) {
+			return false;
+		}
+		if (this.minute != other.minute) {
+			return false;
+		}
+		if (Float.floatToIntBits(this.second) != Float.floatToIntBits(other.second)) {
+			return false;
+		}
+		if ((this.timeZone == null) ? (other.timeZone != null) : !this.timeZone.equals(other.timeZone)) {
+			return false;
+		}
+		return true;
+	}
 
-	 public int compareTo(final ITimePosition timePosP) {
+	public int compareTo(final ITimePosition timePosP) {
 
-         DateTime thisTimePosition = DateTime.parse(this.toISO8601Format());
-         DateTime theOtherTimePosition = DateTime.parse(timePosP.toISO8601Format());
+		DateTime thisTimePosition = DateTime.parse(this.toISO8601Format());
+		DateTime theOtherTimePosition = DateTime.parse(timePosP.toISO8601Format());
 
-		 return !thisTimePosition.isEqual(theOtherTimePosition)
-                     ? thisTimePosition.isBefore(theOtherTimePosition) ? -1 : 1
-                     : 0;
-	 }
+		return !thisTimePosition.isEqual(theOtherTimePosition)
+				? thisTimePosition.isBefore(theOtherTimePosition) ? -1 : 1
+						: 0;
+	}
 
-	 /**
-	  * a negative integer, zero, or a positive integer as the first argument is less than, equal to, or
-	  * greater than the second.
-	  *
-	  * @param o1
-	  * @param o2
-	  * @return
-	  */
-	 @Override
+	@Override
 	public int compare(final ITimePosition o1, final ITimePosition o2) {
-		 return o1.compareTo(o2);
-	 }
+		return o1.compareTo(o2);
+	}
 
-	 /**
-	  * @return whether this TimePosition represents a time before the time represented by the specified
-	  *         TimePosition object. This method is equivalent to: compareTo(when) < 0
-	  */
-	 @Override
+	@Override
 	public boolean before(final ITimePosition timePosP) {
-		 return compareTo(timePosP) < 0;
-	 }
+		return compareTo(timePosP) < 0;
+	}
 
-	 /**
-	  * @return whether this TimePosition represents a time after the time represented by the specified
-	  *         TimePosition object. This method is equivalent to: compareTo(when) > 0
-	  */
-	 @Override
+	@Override
 	public boolean after(final ITimePosition timePosP) {
-		 return compareTo(timePosP) > 0;
-	 }
+		return compareTo(timePosP) > 0;
+	}
 
 
-	 @Override
-	 public Calendar getCalendar() {
-         DateTime dateTime = DateTime.parse(this.toISO8601Format());
-         return dateTime.toGregorianCalendar();
-	 }
+	@Override
+	public Calendar getCalendar() {
+		DateTime dateTime = DateTime.parse(this.toISO8601Format());
+		return dateTime.toGregorianCalendar();
+	}
 
-	 @Override
+	@Override
 	public String getTimezone(){
-		 return timeZone;
-	 }
+		return timeZone;
+	}
 
-	 public void setTimezone(final String timezone){
-		 timeZone = timezone;
-	 }
+	public void setTimezone(final String timezone){
+		timeZone = timezone;
+	}
 }

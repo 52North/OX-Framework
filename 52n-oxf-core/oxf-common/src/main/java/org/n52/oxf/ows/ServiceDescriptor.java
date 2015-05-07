@@ -27,8 +27,10 @@
  */
 package org.n52.oxf.ows;
 
-import org.n52.oxf.*;
-import org.n52.oxf.ows.capabilities.*;
+import org.n52.oxf.ows.capabilities.Contents;
+import org.n52.oxf.ows.capabilities.OperationsMetadata;
+import org.n52.oxf.ows.capabilities.ServiceIdentification;
+import org.n52.oxf.ows.capabilities.ServiceProvider;
 
 /**
  * This class provides access to all the serviceMetadata which is described in the OWS Common spec (04-016r5h)
@@ -81,17 +83,6 @@ public class ServiceDescriptor {
      */
     private String version;
 
-    /**
-     * this constructor has all required attributes of the class as its parameters.
-     * 
-     * @param url
-     * @param version
-     * @param si
-     * @param sp
-     * @param om
-     * @param c
-     * @throws OXFException
-     */
     public ServiceDescriptor(String version,
                              ServiceIdentification si,
                              ServiceProvider sp,
@@ -104,18 +95,6 @@ public class ServiceDescriptor {
         setContents(c);
     }
 
-    /**
-     * this constructor has all attributes of the class as its parameters.
-     * 
-     * @param url
-     * @param version
-     * @param si
-     * @param sp
-     * @param om
-     * @param c
-     * @param updateSequence
-     * @throws OXFException
-     */
     public ServiceDescriptor(String url,
                              String version,
                              ServiceIdentification si,
@@ -145,24 +124,14 @@ public class ServiceDescriptor {
         return res;
     }
 
-    /**
-     * @return Returns the updateSequence.
-     */
     public String getUpdateSequence() {
         return updateSequence;
     }
 
-    /**
-     * @param updateSequence
-     *        The updateSequence to set.
-     */
     protected void setUpdateSequence(String updateSequence) {
         this.updateSequence = updateSequence;
     }
 
-    /**
-     * @return Returns the version.
-     */
     public String getVersion() {
         return version;
     }
@@ -181,61 +150,34 @@ public class ServiceDescriptor {
         this.version = version;
     }
 
-    /**
-     * @return Returns the operationsMetadata.
-     */
     public OperationsMetadata getOperationsMetadata() {
         return operationsMetadata;
     }
 
-    /**
-     * @param operationsMetadata
-     *        The operationsMetadata to set.
-     */
     protected void setOperationsMetadata(OperationsMetadata operationsMetadata) {
         this.operationsMetadata = operationsMetadata;
     }
 
-    /**
-     * @return Returns the serviceIdentification.
-     */
     public ServiceIdentification getServiceIdentification() {
         return serviceIdentification;
     }
 
-    /**
-     * @param serviceIdentification
-     *        The serviceIdentification to set.
-     */
     protected void setServiceIdentification(ServiceIdentification serviceIdentification) {
         this.serviceIdentification = serviceIdentification;
     }
 
-    /**
-     * @return Returns the serviceProvider.
-     */
     public ServiceProvider getServiceProvider() {
         return serviceProvider;
     }
 
-    /**
-     * @param serviceProvider
-     *        The serviceProvider to set.
-     */
     protected void setServiceProvider(ServiceProvider serviceProvider) {
         this.serviceProvider = serviceProvider;
     }
 
-    /**
-     * @param contents
-     */
     protected void setContents(Contents contents) {
         this.contents = contents;
     }
 
-    /**
-     * @return Returns the contents.
-     */
     public Contents getContents() {
         return contents;
     }

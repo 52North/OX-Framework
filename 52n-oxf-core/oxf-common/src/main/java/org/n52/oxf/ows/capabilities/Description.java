@@ -27,7 +27,6 @@
  */
 package org.n52.oxf.ows.capabilities;
 
-import org.n52.oxf.OXFException;
 
 /**
  * According to the OWS Common this holds some general parameters, which are needed by ServiceIdentification
@@ -66,8 +65,7 @@ public abstract class Description {
      * this constructor has all required attributes as its parameters. The other attributes will be set on
      * default values.
      * 
-     * @param title
-     * @throws OXFException
+     * @param title the title to set
      */
     public Description(String title) {
         setTitle(title);
@@ -79,8 +77,9 @@ public abstract class Description {
      * this constructor has all required attributes as its parameters. The other attributes will be set on
      * default values.
      * 
-     * @param title
-     * @throws OXFException
+     * @param title the title to set
+     * @param abstractDescription the abstract description to set
+     * @param keywords the keywords array to set
      */
     public Description(String title, String abstractDescription, String[] keywords) {
         setTitle(title);
@@ -91,52 +90,35 @@ public abstract class Description {
     /**
      * sets the title.
      * 
-     * @param title
+     * @param title the title to set
      * @throws IllegalArgumentException
      *         if the title is empty.
      */
     protected void setTitle(String title) throws IllegalArgumentException {
-        if (title != null && !title.equals("")) {
+        if (title != null && !title.isEmpty()) {
             this.title = title;
         }
         else {
-            throw new IllegalArgumentException("The parameter 'title' is illegal.");
+            throw new IllegalArgumentException("The parameter 'title' is null or empty.");
         }
     }
 
-    /**
-     * 
-     * @param abstractDescription
-     */
     protected void setAbstractDescription(String abstractDescription) {
         this.abstractDescription = abstractDescription;
     }
 
-    /**
-     * 
-     * @param keywords
-     */
     protected void setKeywords(String[] keywords) {
         this.keywords = keywords;
     }
 
-    /**
-     * @return Returns the abstractDescription.
-     */
     public String getAbstractDescription() {
         return abstractDescription;
     }
 
-    /**
-     * @return Returns the keywords.
-     */
     public String[] getKeywords() {
         return keywords;
     }
 
-    /**
-     * @return Returns the title.
-     */
     public String getTitle() {
         return title;
     }
