@@ -32,7 +32,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import org.joda.time.DateTime;
+
 
 /**
  * Represents a single timePosition. It is leaned on the WMS profile of ISO8601 spec. Any suggestions about
@@ -41,6 +43,7 @@ import org.joda.time.DateTime;
  *
  * @author <a href="mailto:foerster@52north.org">Theodor F&ouml;rster</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+ * @author <a href="mailto:h.bredel@52north.org">Henning Bredel</a>
  */
 // TODO change timezone from String to numeric value holding the offset in something like milliseconds as long
 public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
@@ -51,7 +54,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 	public static final String HOUR_PATTERN = "0*\\d?\\d";
 	public static final String MINUTE_PATTERN = "0*\\d?\\d";
 	public static final String SECOND_PATTERN = "0*\\d?\\d(.\\d)?\\d?\\d?";
-	public static final String UTC_PATTERN = "\\d+(Z|[+-]\\d\\d([:]?(\\d\\d))?)";
+	public static final String UTC_PATTERN = "\\d+(Z|[+-]\\d\\d([:]?(\\d\\d))?)?";
 
 	private long year;
 	private int month = NOT_SET;
@@ -503,20 +506,53 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 		 return ordinaryDate.toString();
 	 }
 
-	 @Override
-	 public boolean equals(final Object obj) {
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + (int) (this.year ^ (this.year >>> 32));
+        hash = 29 * hash + this.month;
+        hash = 29 * hash + this.day;
+        hash = 29 * hash + this.hour;
+        hash = 29 * hash + this.minute;
+        hash = 29 * hash + Float.floatToIntBits(this.second);
+        hash = 29 * hash + (this.timeZone != null ? this.timeZone.hashCode() : 0);
+        return hash;
+    }
 
-		 if (obj instanceof ITimePosition) {
-			 if (compareTo((ITimePosition) obj) == 0) {
-				 return true;
-			 }
-		 }
-		 return false;
-	 }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TimePosition other = (TimePosition) obj;
+        if (this.year != other.year) {
+            return false;
+        }
+        if (this.month != other.month) {
+            return false;
+        }
+        if (this.day != other.day) {
+            return false;
+        }
+        if (this.hour != other.hour) {
+            return false;
+        }
+        if (this.minute != other.minute) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.second) != Float.floatToIntBits(other.second)) {
+            return false;
+        }
+        if ((this.timeZone == null) ? (other.timeZone != null) : !this.timeZone.equals(other.timeZone)) {
+            return false;
+        }
+        return true;
+    }
 
-	 // TODO add timezone; Now this method does not care about any time zone issue
-	 @Override
-	public int compareTo(final ITimePosition timePosP) {
+	 public int compareTo(final ITimePosition timePosP) {
 
          DateTime thisTimePosition = DateTime.parse(this.toISO8601Format());
          DateTime theOtherTimePosition = DateTime.parse(timePosP.toISO8601Format());
@@ -557,8 +593,9 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 		 return compareTo(timePosP) > 0;
 	 }
 
+
 	 @Override
-	public Calendar getCalendar() {
+	 public Calendar getCalendar() {
          DateTime dateTime = DateTime.parse(this.toISO8601Format());
          return dateTime.toGregorianCalendar();
 	 }

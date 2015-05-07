@@ -100,6 +100,7 @@ public interface ISOSRequestBuilder {
 	String GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER = "observedProperty";
 	String GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER = "responseFormat";
 	String GET_OBSERVATION_EVENT_TIME_PARAMETER = "eventTime"; // SOS 1.0
+	String GET_OBSERVATION_RESULT_TIME_TEMPORAL_FILTER_PARAMETER = "resultTimeTemporalFilter"; // SOS 2.0
 	String GET_OBSERVATION_TEMPORAL_FILTER_PARAMETER = "temporalFilter"; // SOS 2.0
 	String GET_OBSERVATION_PROCEDURE_PARAMETER = "procedure";
 	String GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER = "featureOfInterest";
@@ -274,6 +275,7 @@ public interface ISOSRequestBuilder {
 	 * Mandatory parameter for SOS 2.0 DeleteSensor request
 	 */
 	String DELETE_SENSOR_PROCEDURE = "procedure";
+
 
 	/**
 	 * Builds a DeleteSensor request and returns it. Required for SOS 2.0 support.
