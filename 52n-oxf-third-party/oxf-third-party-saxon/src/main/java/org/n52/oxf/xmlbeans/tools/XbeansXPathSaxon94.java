@@ -260,16 +260,16 @@ public class XbeansXPathSaxon94 implements PathDelegate.SelectPathInterface {
 	 * Select all nodes that are selectable by this XPath
 	 * expression. If multiple nodes match, multiple nodes
 	 * will be returned.
-	 * <p/>
-	 * <p/>
+	 * <br>
+	 * <p>
 	 * <b>NOTE:</b> In most cases, nodes will be returned
 	 * in document-order, as defined by the XML Canonicalization
 	 * specification.  The exception occurs when using XPath
 	 * expressions involving the <code>union</code> operator
 	 * (denoted with the pipe '|' character).
 	 * </p>
-	 * <p/>
-	 * <p/>
+	 * <br>
+	 * <p>
 	 * <b>NOTE:</b> Param node must be a DOM node which will be used
 	 * during the xpath execution and iteration through the results. 
 	 * A call of node.dispose() must be done after reading all results.

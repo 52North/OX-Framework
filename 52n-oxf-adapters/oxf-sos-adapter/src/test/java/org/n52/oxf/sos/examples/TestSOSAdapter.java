@@ -54,9 +54,6 @@ import org.slf4j.LoggerFactory;
  */
 public class TestSOSAdapter {
 
-    /**
-	 *
-	 */
 	private static final String IGNORE_GET_URL = "http://GET_URL_not_used";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TestSOSAdapter.class);
@@ -110,7 +107,7 @@ public class TestSOSAdapter {
 
 	/**
 	 * This method shows you how you may use the SOSAdapter in your application. It shows how to connect to
-	 * and access the SOS and to unmarshall the returned O&M data into OXFFeature objects:
+	 * and access the SOS and to unmarshall the returned O&amp;M data into OXFFeature objects:
 	 *
 	 * <pre>
 	 * SOSAdapter sosAdapter = new SOSAdapter();
@@ -157,6 +154,9 @@ public class TestSOSAdapter {
 	 *         + ((OXFFeature) featureCollection.toList().get(0).getAttribute(&quot;featureOfInterest&quot;)).getGeometry());
 	 *
 	 * </pre>
+	 * 
+	 * @throws OXFException in case of problems in the OX-Framework.
+	 * @throws ExceptionReport in case of problems in communication with OWS service.
 	 *
 	 */
 	@SuppressWarnings("unused")
