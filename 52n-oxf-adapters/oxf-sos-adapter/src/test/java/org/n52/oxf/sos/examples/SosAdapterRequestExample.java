@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012-2014 52°North Initiative for Geospatial Open Source
+ * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -49,15 +49,15 @@ import org.slf4j.LoggerFactory;
 
 
 public abstract class SosAdapterRequestExample {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SosAdapterRequestExample.class);
-    
+
     private static final XmlOptions XML_OPTIONS = new XmlOptions().setSavePrettyPrint().setSaveInner().setSaveOuter();
 
     private static final String REPORT_SEPARATOR_LINE = "################################\n";
 
     private static final String SOS_BY_GET_URL = "http://sensorweb.demo.52north.org:80/PegelOnlineSOSv2.1/sos";
-    
+
     private static final String SOS_BY_POST_URL = "http://sensorweb.demo.52north.org:80/PegelOnlineSOSv2.1/sos";
 
     protected SOSAdapter adapter;
@@ -66,20 +66,20 @@ public abstract class SosAdapterRequestExample {
     public void setUp() throws Exception {
         adapter = new SOSAdapter("1.0.0");
     }
-    
+
     public String getServiceGETUrl() {
         return SOS_BY_GET_URL;
     }
-    
+
     public String getServicePOSTUrl() {
         return SOS_BY_POST_URL;
     }
-    
+
     protected void performOperationParseResult(Operation operation){
         OperationResult operationResult = performOperation(operation);
-        parseResponse(operationResult.getIncomingResultAsStream());
+        parseResponse(operationResult.getIncomingResultAsAutoCloseStream());
     }
-    
+
     protected OperationResult performOperation(Operation operation) {
         try {
             ParameterContainer parameters = createParameterContainer();
@@ -95,12 +95,12 @@ public abstract class SosAdapterRequestExample {
         }
         throw new RuntimeException();
     }
-    
+
     protected abstract ParameterContainer createParameterContainer() throws OXFException;
 
     protected void parseResponse(InputStream responseStream) {
         // alternatively, parse stream with other parsers (e.g. stax)
-        XmlObject xml = parseResponseWithXmlBeans(responseStream); 
+        XmlObject xml = parseResponseWithXmlBeans(responseStream);
         LOGGER.info(xml.xmlText(XML_OPTIONS));
     }
 

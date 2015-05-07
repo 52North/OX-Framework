@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012-2014 52°North Initiative for Geospatial Open Source
+ * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -27,17 +27,17 @@
  */
 package org.n52.oxf.sos.request;
 
-import org.n52.oxf.request.MultiValueRequestParameters;
+import org.n52.oxf.request.MimetypeAwareRequestParameters;
 
 /**
  * Super class for all SOS specific request parameter assemblies.
- * 
+ *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  */
-public abstract class SosRequestParameters extends MultiValueRequestParameters {
+public abstract class SosRequestParameters extends MimetypeAwareRequestParameters {
 
 	public SosRequestParameters() {
 		addNonEmpty(SERVICE_TYPE, "SOS");
 	}
-	
+
 }

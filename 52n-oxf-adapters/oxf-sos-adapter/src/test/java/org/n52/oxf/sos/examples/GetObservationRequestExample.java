@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012-2014 52°North Initiative for Geospatial Open Source
+ * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -28,13 +28,7 @@
 package org.n52.oxf.sos.examples;
 
 import static org.n52.oxf.ows.capabilities.Parameter.COMMON_NAME_TIME;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OFFERING_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_PROCEDURE_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_VERSION_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import static org.n52.oxf.sos.adapter.SOSAdapter.GET_OBSERVATION;
 
 import java.text.SimpleDateFormat;
@@ -54,8 +48,9 @@ import org.n52.oxf.valueDomains.time.TimePeriod;
 
 @Ignore // comment out to run demo class via JUnit
 public class GetObservationRequestExample extends SosAdapterRequestExample {
-    
-    @Before
+
+    @Override
+	@Before
     public void setUp() throws Exception {
         super.setUp();
 
@@ -74,9 +69,9 @@ public class GetObservationRequestExample extends SosAdapterRequestExample {
 
     @Override
     protected ParameterContainer createParameterContainer() throws OXFException {
-        ParameterContainer parameters = new ParameterContainer();
-        parameters.addParameterShell(GET_OBSERVATION_SERVICE_PARAMETER, "SOS");
-        parameters.addParameterShell(GET_OBSERVATION_VERSION_PARAMETER, "1.0.0");
+        final ParameterContainer parameters = new ParameterContainer();
+        parameters.addParameterShell(SERVICE, "SOS");
+        parameters.addParameterShell(VERSION, "1.0.0");
         parameters.addParameterShell(GET_OBSERVATION_OFFERING_PARAMETER, "WASSERTEMPERATUR_ROHDATEN");
         parameters.addParameterShell(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, "Wassertemperatur");
         parameters.addParameterShell(GET_OBSERVATION_PROCEDURE_PARAMETER, "Wassertemperatur-Stoer-Sperrwerk_Bp_5970040");
@@ -84,25 +79,25 @@ public class GetObservationRequestExample extends SosAdapterRequestExample {
         parameters.addParameterShell(createTimeConstraintParameter());
         return parameters;
     }
-    
+
     private ParameterShell createTimeConstraintParameter() throws OXFException {
-        ITime last24Hours = createLast24HoursInterval();
-        Parameter timeConstraint = createTimeParameterFor(last24Hours);
+        final ITime last24Hours = createLast24HoursInterval();
+        final Parameter timeConstraint = createTimeParameterFor(last24Hours);
         return new ParameterShell(timeConstraint, last24Hours);
     }
 
-    private Parameter createTimeParameterFor(ITime timeValue) {
-        TemporalValueDomain domain = new TemporalValueDomain(timeValue);
+    private Parameter createTimeParameterFor(final ITime timeValue) {
+        final TemporalValueDomain domain = new TemporalValueDomain(timeValue);
         return new Parameter(GET_OBSERVATION_EVENT_TIME_PARAMETER, true, domain, COMMON_NAME_TIME);
     }
-    
+
     private ITime createLast24HoursInterval() {
-        SimpleDateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-        long nowInMillis = System.currentTimeMillis();
-        long aDayInMillis = 1 * 24 * 60 * 60 * 1000;
-        long lastWeekInMillis = nowInMillis - aDayInMillis;
-        String now = iso8601.format(new Date(nowInMillis));
-        String lastWeek = iso8601.format(new Date(lastWeekInMillis));
+        final SimpleDateFormat iso8601 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        final long nowInMillis = System.currentTimeMillis();
+        final long aDayInMillis = 1 * 24 * 60 * 60 * 1000;
+        final long lastWeekInMillis = nowInMillis - aDayInMillis;
+        final String now = iso8601.format(new Date(nowInMillis));
+        final String lastWeek = iso8601.format(new Date(lastWeekInMillis));
         return new TimePeriod(lastWeek, now);
     }
 

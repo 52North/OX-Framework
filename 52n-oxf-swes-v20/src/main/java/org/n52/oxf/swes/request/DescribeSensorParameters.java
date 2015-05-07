@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012-2014 52°North Initiative for Geospatial Open Source
+ * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -27,26 +27,26 @@
  */
 package org.n52.oxf.swes.request;
 
-import org.n52.oxf.request.MultiValueRequestParameters;
+import org.n52.oxf.request.MimetypeAwareRequestParameters;
 
 
 /**
- * Assembles all parameters needed for a DescribeSensor request. 
+ * Assembles all parameters needed for a DescribeSensor request.
  */
-public class DescribeSensorParameters extends MultiValueRequestParameters {
+public class DescribeSensorParameters extends MimetypeAwareRequestParameters {
 
     private final String REQUEST_PARAMETER = "request";
-    
+
     static final String PROCEDURE_PARAMETER = "procedure";
-    
+
     static final String OUTPUT_FORMAT_PARAMETER = "outputFormat";
-    
+
     static final String OUTPUT_FORMAT_SENSORML = "text/xml;subtype=\"sensorML/1.0.1\"";
 
     /**
      * Creates DescribeSensor request parameters. It uses {@link #OUTPUT_FORMAT_SENSORML} for
      * the required OutputFormat parameter by default.
-     * 
+     *
      * @param procedure
      *        the procedure which sensor description shall requested.
      */
@@ -56,7 +56,7 @@ public class DescribeSensorParameters extends MultiValueRequestParameters {
 
     /**
      * Creates DescribeSensor request parameters.
-     * 
+     *
      * @param procedure
      *        the procedure which sensor description shall requested.
      * @param outputFormat
@@ -68,7 +68,8 @@ public class DescribeSensorParameters extends MultiValueRequestParameters {
         addNonEmpty(OUTPUT_FORMAT_PARAMETER, outputFormat);
     }
 
-    public boolean isValid() {
+    @Override
+	public boolean isValid() {
         final boolean invalidProcedureValue = isEmptyValue(PROCEDURE_PARAMETER);
         final boolean invalidOutputFormatValue = isEmptyValue(OUTPUT_FORMAT_PARAMETER);
         return ! (invalidProcedureValue || invalidOutputFormatValue);

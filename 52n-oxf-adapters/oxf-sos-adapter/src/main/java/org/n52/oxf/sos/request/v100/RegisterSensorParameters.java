@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012-2014 52°North Initiative for Geospatial Open Source
+ * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -27,27 +27,26 @@
  */
 package org.n52.oxf.sos.request.v100;
 
-import org.n52.oxf.sos.request.SosRequestParameters;
 
 
 /**
- * Assembles all parameters needed for a RegisterSensor request. This request is SOS 1.0.0 specific. 
+ * Assembles all parameters needed for a RegisterSensor request. This request is SOS 1.0.0 specific.
  */
-public class RegisterSensorParameters extends SosRequestParameters {
-    
+public class RegisterSensorParameters extends Sos100RequestParameters {
+
     private static final String REQUEST_PARAMETER = "request";
 
     static final String REGISTER_SENSOR_ML_DOC_PARAMETER = "sensorMLDoc";
-    
+
     static final String REGISTER_SENSOR_OBSERVATION_TEMPLATE = "observationTemplate";
-    
+
     static final String REGISTER_SENSOR_OBSERVATION_TYPE_CATEGORY = "category";
-    
+
     static final String REGISTER_SENSOR_OBSERVATION_TYPE = "type";
 
     /**
      * Creates RegisterSensor parameters.
-     * 
+     *
      * @param sensorDescription
      *        the sensor's description document.
      * @param observationTemplate
@@ -63,7 +62,7 @@ public class RegisterSensorParameters extends SosRequestParameters {
 
     /**
      * Overrides required sensorDescription parameter.
-     * 
+     *
      * @param sensorDescription
      *        the new sensorDescription.
      * @throws IllegalArgumentException
@@ -75,7 +74,7 @@ public class RegisterSensorParameters extends SosRequestParameters {
 
     /**
      * Overrides required observationTemplate parameter.
-     * 
+     *
      * @param observationTemplate
      *        the new observationTemplate.
      * @throws IllegalArgumentException

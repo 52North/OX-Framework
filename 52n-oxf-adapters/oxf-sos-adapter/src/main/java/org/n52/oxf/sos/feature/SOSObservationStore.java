@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012-2014 52°North Initiative for Geospatial Open Source
+ * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -33,10 +33,6 @@ import net.opengis.om.x20.OMObservationType;
 import net.opengis.sos.x20.GetObservationResponseDocument;
 import net.opengis.sos.x20.GetObservationResponseType;
 import net.opengis.sos.x20.GetObservationResponseType.ObservationData;
-import net.opengis.waterml.x20.DefaultTVPMeasurementMetadataDocument;
-import net.opengis.waterml.x20.MeasurementTimeseriesDocument;
-import net.opengis.waterml.x20.MeasurementTimeseriesType;
-import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -53,18 +49,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SOSObservationStore extends OperationResultStore implements IFeatureStore {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSObservationStore.class);
 
     @Deprecated
     public SOSObservationStore() {
         // for backward compatibility .. TODO remove when deprecated contructor is going to be removed
     }
-    
+
     public SOSObservationStore(OperationResult operationResult) throws OXFException {
         super(operationResult);
     }
-    
+
     public OXFFeatureCollection unmarshalFeatures(OperationResult operationResult) throws OXFException {
         this.version = getVersion(operationResult);
         if (SosUtil.isVersion100(version)) {
@@ -73,7 +69,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
             return unmarshalFeatures();
         }
     }
-    
+
     public OXFFeatureCollection unmarshalFeatures() throws OXFException {
         if (SosUtil.isVersion100(version)) {
             return unmarshalFeatures100();
@@ -91,13 +87,13 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
     @Deprecated
     protected OXFFeatureCollection unmarshalFeatures100(OperationResult operationResult) throws OXFException {
         try {
-            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsStream());
+            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsAutoCloseStream());
             return unmarshalFeatures(operationResult);
         } catch (XMLHandlingException e) {
             throw new OXFException("Could not parse OperationResult.", e);
         }
     }
-    
+
     private OXFFeatureCollection unmarshalFeatures100() throws OXFException {
         if (xmlObject == null) {
             // TODO remove when removing deprecated #unmarshalFeatures100()
@@ -124,7 +120,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
     private boolean isOM100ObservationCollectionDocument(XmlObject xmlObject) {
         return xmlObject.schemaType() == ObservationCollectionDocument.type;
     }
-    
+
 //    private OXFFeatureCollection unmarshalTvpMeasurementObservations(OXFFeatureCollection featureCollection) throws OXFException {
 //        if (xmlObject == null) {
 //            // TODO remove when removing deprecated #unmarshalFeatures100()
@@ -133,15 +129,15 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
 //        if (!isWaterML200TimeSeriesObservationDocument(xmlObject)) {
 //            throw new OXFException("Unknown result type.");
 //        }
-//        
+//
 //
 //        MeasurementTimeseriesDocument measurementDocument = (MeasurementTimeseriesDocument) xmlObject;
 //        MeasurementTimeseriesType timeseries = measurementDocument.getMeasurementTimeseries();
-//        
+//
 //        // TODO init common metadata to collection
-//        
+//
 //        // TODO initialize particular measurements
-//        
+//
 //        /*
 //         * private OXFFeatureCollection initializeFeature(OXFFeatureCollection featureCollection, ObservationData[] observationData) throws OXFException {
 //        for (ObservationData observation : observationData) {
@@ -151,7 +147,7 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
 //        return featureCollection;
 //    }
 //         */
-//        
+//
 //        try {
 //            return OXFObservationCollectionType.createFeatureCollection(timeseries.getId(), timeseries);
 //        } catch (OXFException e) {
@@ -179,7 +175,8 @@ public class SOSObservationStore extends OperationResultStore implements IFeatur
                 return featureCollection;
             }
         } else {
-            throw new OXFException("Unknown result type.");
+            LOGGER.error("Unexpected response: {}", xmlObject.xmlText());
+            throw new OXFException("Unknown result type: " + xmlObject.schemaType());
         }
     }
 

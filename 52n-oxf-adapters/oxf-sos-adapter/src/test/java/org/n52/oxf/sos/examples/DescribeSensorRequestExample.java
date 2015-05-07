@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012-2014 52°North Initiative for Geospatial Open Source
+ * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -27,10 +27,7 @@
  */
 package org.n52.oxf.sos.examples;
 
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.DESCRIBE_SENSOR_OUTPUT_FORMAT;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.DESCRIBE_SENSOR_PROCEDURE_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.DESCRIBE_SENSOR_SERVICE_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.DESCRIBE_SENSOR_VERSION_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import static org.n52.oxf.sos.adapter.SOSAdapter.DESCRIBE_SENSOR;
 
 import java.io.IOException;
@@ -52,11 +49,12 @@ import org.slf4j.LoggerFactory;
 
 @Ignore // comment out to run demo class via JUnit
 public class DescribeSensorRequestExample extends SosAdapterRequestExample {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DescribeSensorRequestExample.class);
 
     private static final String PROCEDURE_WASSERSTAND = "Wasserstand-Ledasperrwerk_Up_3880050";
-    
+
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();
@@ -70,12 +68,12 @@ public class DescribeSensorRequestExample extends SosAdapterRequestExample {
     private Operation createDescribeSensorOperation() {
         return new Operation(DESCRIBE_SENSOR, getServiceGETUrl(), getServicePOSTUrl());
     }
-    
+
     @Override
     protected ParameterContainer createParameterContainer() throws OXFException {
-        ParameterContainer parameters = new ParameterContainer();
-        parameters.addParameterShell(DESCRIBE_SENSOR_SERVICE_PARAMETER, "SOS");
-        parameters.addParameterShell(DESCRIBE_SENSOR_VERSION_PARAMETER, "1.0.0");
+        final ParameterContainer parameters = new ParameterContainer();
+        parameters.addParameterShell(SERVICE, "SOS");
+        parameters.addParameterShell(VERSION, "1.0.0");
         parameters.addParameterShell(DESCRIBE_SENSOR_OUTPUT_FORMAT, "text/xml;subtype=\"sensorML/1.0.1\"");
         parameters.addParameterShell(DESCRIBE_SENSOR_PROCEDURE_PARAMETER, PROCEDURE_WASSERSTAND);
         return parameters;
@@ -84,14 +82,16 @@ public class DescribeSensorRequestExample extends SosAdapterRequestExample {
     @Test
     public void parseSosSensorStoreFromSensorML() {
         try {
-            SmlHelper smlHelper = new SmlHelper();
-            OperationResult result = performOperation(createDescribeSensorOperation());
-            XmlObject xmlResponse = XmlObject.Factory.parse(result.getIncomingResultAsStream());
-            SensorMLDocument smlDoc = smlHelper.getSmlFrom(xmlResponse);
-            
-            String longName = smlHelper.getIdValueFrom("longName", smlHelper.getIdentification(smlDoc));
+
+            final SmlHelper smlHelper = new SmlHelper();
+            final OperationResult result = performOperation(createDescribeSensorOperation());
+            final XmlObject xmlResponse = XmlObject.Factory.parse(result.getIncomingResultAsAutoCloseStream());
+            final SensorMLDocument smlDoc = smlHelper.getSmlFrom(xmlResponse);
+
+            final String longName = smlHelper.getIdValueFrom("longName", smlHelper.getIdentification(smlDoc));
+
             LOGGER.info("longName: {}", longName);
-            
+
 //            SOSSensorStore store = new SOSSensorStore(result);
 //            OXFFeatureCollection featureCollection = store.unmarshalFeatures();
 //            for (OXFFeature oxfFeature : featureCollection.toSet()) {
@@ -99,16 +99,16 @@ public class DescribeSensorRequestExample extends SosAdapterRequestExample {
 //                LOGGER.info("oxfSensorTypePosition: {}", oxfFeature.getAttribute("oxfSensorTypePosition"));
 //                LOGGER.info("oxfSensorTypeId: {}", oxfFeature.getAttribute("oxfSensorTypeId"));
 //                LOGGER.info("description: {}", oxfFeature.getAttribute("description"));
-//                
+//
 //            }
         }
-        catch (XmlException e) {
+        catch (final XmlException e) {
             LOGGER.error("Could not parse XML.", e);
         }
-        catch (IOException e) {
+        catch (final IOException e) {
             LOGGER.error("Could not read response.", e);
         }
     }
-    
+
 
 }

@@ -50,8 +50,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 
-		<currentYear>2014</currentYear> <!-- manual setting -->
-		<!-- <maven.build.timestamp.format>yyyy</maven.build.timestamp.format> 
+		<currentYear>2015</currentYear> <!-- manual setting -->
+		<!-- <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
 			<currentYearDynamic>${maven.build.timestamp}</currentYearDynamic> -->
 	</properties>
 
@@ -283,6 +283,11 @@
 			</dependency>
 			<!-- ### EXTERNAL DEPENDENCIES ### -->
 			<dependency>
+				<groupId>com.google.guava</groupId>
+				<artifactId>guava</artifactId>
+				<version>12.0</version>
+			</dependency>
+			<dependency>
 				<groupId>org.apache.xmlbeans</groupId>
 				<artifactId>xmlbeans-xpath</artifactId>
 				<version>2.6.0</version>
@@ -325,6 +330,11 @@
 				<artifactId>jts</artifactId>
 				<version>1.11</version>
 			</dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+            </dependency>
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
@@ -338,13 +348,14 @@
 			</dependency>
 			<dependency>
 				<groupId>jfree</groupId>
-				<artifactId>jcommon</artifactId>
-				<version>1.0.0</version>
-			</dependency>
-			<dependency>
-				<groupId>jfree</groupId>
 				<artifactId>jfreechart</artifactId>
 				<version>1.0.0</version>
+				<exclusions>
+					<exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>isorelax</groupId>
@@ -355,6 +366,11 @@
 				<groupId>joda-time</groupId>
 				<artifactId>joda-time</artifactId>
 				<version>2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-all</artifactId>
+				<version>1.9.5</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -399,6 +415,11 @@
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
 			<version>1.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -627,8 +648,8 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<!-- EXAMPLE CONFIG PROPERTIES FOLLOW. TO SEPARATE CONFIGURATION FROM 
-					PROJECT, COPY build-example.properties to ${user.home}/sensorwebclient-build-dev.properties 
+				<!-- EXAMPLE CONFIG PROPERTIES FOLLOW. TO SEPARATE CONFIGURATION FROM
+					PROJECT, COPY build-example.properties to ${user.home}/sensorwebclient-build-dev.properties
 					CUSTOMIZE PROPERTIES AND TRIGGER MAVEN BUILD WITH `mvn install -Penv-dev'. -->
 				<config.logger.fileappender.filepath>${user.home}/52n-logs/${project.artifactId}-${project.version}</config.logger.fileappender.filepath>
 				<config.logger.level>DEBUG</config.logger.level>

@@ -1,5 +1,5 @@
 /**
- * ﻿Copyright (C) 2012-2014 52°North Initiative for Geospatial Open Source
+ * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -40,7 +40,7 @@ import org.n52.oxf.xmlbeans.parser.XMLHandlingException;
 public abstract class OperationResultStore {
 
     protected XmlObject xmlObject;
-    
+
     protected String version;
 
     /**
@@ -53,7 +53,7 @@ public abstract class OperationResultStore {
 
     protected OperationResultStore(OperationResult operationResult) throws OXFException {
         try {
-            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsStream(), false);
+            this.xmlObject = XMLBeansParser.parse(operationResult.getIncomingResultAsAutoCloseStream(), false);
             this.version = getVersion(operationResult);
         }
         catch (XMLHandlingException e) {
