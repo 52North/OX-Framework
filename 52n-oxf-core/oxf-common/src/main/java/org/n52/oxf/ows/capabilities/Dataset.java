@@ -189,7 +189,7 @@ public class Dataset extends Description {
     }
 
     /**
-     * @param boundingBoxes the bounding box to set
+     * @param boundingBox the bounding box to set
      * @throws IllegalArgumentException
      *         if the boundingBoxes[] is empty.
      */

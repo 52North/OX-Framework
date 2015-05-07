@@ -32,7 +32,7 @@ package org.n52.oxf.ows.capabilities;
  * WebService. This class contains all important information to access an OWS.
  * 
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>>
+ * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class OperationsMetadata {
 

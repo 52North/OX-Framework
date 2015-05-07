@@ -46,7 +46,7 @@ public interface HttpClient {
      *        the target to send the GET request to.
      * @param parameters
      *        the request/query parameters.
-     * @return the http response returned by the target.
+     * @return the HTTP response returned by the target.
      * @throws HttpClientException
      *         if sending the request fails.
      */
@@ -62,7 +62,7 @@ public interface HttpClient {
      *        the target to send the POST request to.
      * @param payloadToSend
      *        the POST payload as XML encoded as UTF-8.
-     * @return the http response returned by the target.
+     * @return the HTTP response returned by the target.
      * @throws HttpClientException
      *         if sending the request fails.
      */
@@ -78,7 +78,7 @@ public interface HttpClient {
      *        the target to send the POST request to.
      * @param payloadToSend
      *        the POST payload as XML encoded as UTF-8.
-     * @return the http response returned by the target.
+     * @return the HTTP response returned by the target.
      * @throws HttpClientException
      *         if sending the request fails.
      */
@@ -93,7 +93,7 @@ public interface HttpClient {
      *        the POST payload as XML.
      * @param contentType
      *        the content-type of the payload.
-     * @return the http responsey returned by the target.
+     * @return the HTTP response returned by the target.
      * @throws HttpClientException
      *         if sending the request fails.
      */
@@ -108,7 +108,7 @@ public interface HttpClient {
      *        the target to send the POST request to.
      * @param payloadToSend
      *        a more generic way to send arbitrary content.
-     * @return the http response returned by the target.
+     * @return the HTTP response returned by the target.
      * @throws HttpClientException
      *         if sending the request fails.
      */
@@ -116,8 +116,10 @@ public interface HttpClient {
 
     /**
      * @param method
-     * @return the http response returned by the target.
+     * 		  the HTTP method to execute.
+     * @return the HTTP response returned by the target.
      * @throws HttpClientException
+     * 		   if sending the request fails
      */
     public HttpResponse executeMethod(HttpRequestBase method) throws HttpClientException;
 

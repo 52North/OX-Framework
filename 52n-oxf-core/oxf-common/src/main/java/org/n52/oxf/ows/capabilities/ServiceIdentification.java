@@ -158,7 +158,7 @@ public class ServiceIdentification extends Description {
     /**
      * sets the version for this service
      * 
-     * @param version
+     * @param version the version to set
      * @throws IllegalArgumentException
      *         if version.length == 0 or version[0].equals("").
      */

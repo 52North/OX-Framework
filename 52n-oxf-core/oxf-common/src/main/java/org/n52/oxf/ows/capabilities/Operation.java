@@ -218,7 +218,7 @@ public class Operation {
      * This returns a Map, which contains the parameterNames (= serviceSidedNames) as Keys and the
      * Parameters itself as values.
      * 
-     * @return
+     * @return a parameter name &rarr; parameter map.
      */
     public Map<String, Parameter> getParametersAsMap() {
         if (parameters == null) {
@@ -244,9 +244,8 @@ public class Operation {
     }
 
     /**
-     * 
-     * @param serviceSidedName
-     * @param datasetID
+     * @param serviceSidedName the service side parametername 
+     * @param datasetID the dataset id
      * @return the DatasetParameter with the specified serviceSidedName (ignore case!) and the specified
      *         datasetID.
      */
@@ -264,10 +263,6 @@ public class Operation {
         return null;
     }
 
-    /**
-     * 
-     * @param param
-     */
     public void addParameter(final Parameter param) {
         parameters.add(param);
     }

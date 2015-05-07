@@ -30,7 +30,7 @@ package org.n52.oxf.ows.capabilities;
 /**
  * This class can be seen as a special container. It is used by the class {@link Parameter}
  * to lay down the domain of values which can be associated with the Parameter.<br>
- * A central point of this class is the {@linkplain #containsVaue(T t)} method which can be used by the
+ * A central point of this class is the {@linkplain IValueDomain#containsValue(Object)} method which can be used by the
  * client to proof whether a value is contained by the domain or not.
  * 
  * Some remarks on implementing this interface: Please do not allow empty constructors, because empty constructors

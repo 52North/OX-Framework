@@ -96,7 +96,7 @@ public class JavaHelper {
     /**
      * Transforms a hexadecimal to a Color object. <br>
      * <br>
-     * e.g.: '#FF6600' &arr; orange
+     * e.g.: '#FF6600' &rarr; orange
      * 
      * @param hexString
      *        7 character hex-string; something like "#FF6600"
@@ -145,7 +145,9 @@ public class JavaHelper {
     }
     
     /**
-     * @return a normalized String for use in a file path, i.e. all [\,/,:,*,?,",&lt;,&gt;] characters are
+     * @param toNormalize String to normalize.
+     * 
+     * @return Returns a normalized String for use in a file path, i.e. all [\,/,:,*,?,",&lt;,&gt;] characters are
      *         replaced by '_'.
      */
     public static String normalize(String toNormalize) {

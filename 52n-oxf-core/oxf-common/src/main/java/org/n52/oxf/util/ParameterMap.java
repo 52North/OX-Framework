@@ -51,11 +51,11 @@ public class ParameterMap {
      *        should look like this: "param1=value1&amp;param2=value2&amp;...&amp;paramN=valueN" <br>
      *        but also an empty 'value' is allowed (e.g.: "param1=&amp;param2=value2&amp;...") 
      */
-    public ParameterMap(String paramString) {
+    public ParameterMap(String parameterString) {
         paramMap = new HashMap<String, String>();
         
-        if(paramString.matches(PARAMETER_PATTERN)) {
-            String[] paramParts = paramString.split("&");
+        if(parameterString.matches(PARAMETER_PATTERN)) {
+            String[] paramParts = parameterString.split("&");
             
             for(String paramPart : paramParts){
                 String[] paramAndValue = paramPart.split("=");
@@ -68,7 +68,7 @@ public class ParameterMap {
             }
         }
         else{
-            throw new IllegalArgumentException("paramString does not match the pattern, received: " + paramString);
+            throw new IllegalArgumentException("paramString does not match the pattern, received: " + parameterString);
         }
     }
     

@@ -139,7 +139,7 @@ public class ServiceDescriptor {
     /**
      * sets the version of the GetCapabilities operation response.
      * 
-     * @param version
+     * @param version the version to set
      * @throws IllegalArgumentException
      *         if version.equals("").
      */
