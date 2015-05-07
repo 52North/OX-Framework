@@ -102,7 +102,9 @@ public class HttpBinding {
     }
     
     /**
-     * @param resource an extension string for a base http binding.
+     * @param resource an extension string for a base HTTP binding.
+     * 
+     * @return a {@link HTTPDocument} with the given resource
      */
     public HTTPDocument getHttpInfo(String resource) {
         HTTPDocument httpDocument = HTTPDocument.Factory.newInstance();
