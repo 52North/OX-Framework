@@ -25,64 +25,33 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
-package org.n52.oxf.conversion.gml32.geometry;
+package org.n52.oxf.sos.adapter.v100;
 
-/**
- * Class representing altitudes with limits.
- */
-public class AltitudeLimits {
+import net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification;
+import net.opengis.sos.x10.CapabilitiesDocument;
+import net.opengis.sos.x10.CapabilitiesDocument.Capabilities;
+import net.opengis.sos.x10.ContentsDocument.Contents;
 
-	/**
-	 * Enumeration defining the common altitude reference definitions (derived from AIXM 5.1)
-	 */
-	public static enum AltitudeReferences {SFC, STD, FL, MSL, W84 }
+import org.junit.Test;
+import org.n52.oxf.OXFException;
+
+
+public class SOSCapabilitiesMapper_100Test {
 	
-	private AltitudeReferences lowerLimitReference;
-	private AltitudeReferences upperLimitReference;
-	private double lowerLimit;
-	private double upperLimit;
-	private String lowerLimitUom;
-	private String upperLimitUom;
+	private static final String SOS_VERSION = "1.0.0";
 
-	
-	public AltitudeLimits(double lowerLimit2,
-			AltitudeReferences lowerReference, double upperLimit2,
-			AltitudeReferences upperReference) {
-		this.lowerLimit = lowerLimit2;
-		this.upperLimit = upperLimit2;
-		this.lowerLimitReference = lowerReference;
-		this.upperLimitReference = upperReference;
+	@Test
+	public void shouldNotThrowNPEWhileReceivingMissingContentsSection() throws OXFException {
+		CapabilitiesDocument capabilitiesDoc = CapabilitiesDocument.Factory.newInstance();
+		Capabilities capabilities = capabilitiesDoc.addNewCapabilities();
+		ServiceIdentification serviceIdentification = capabilities.addNewServiceIdentification();
+		serviceIdentification.addNewTitle().setStringValue("test-title");
+		serviceIdentification.addNewServiceType().setStringValue("test-service-type");
+		serviceIdentification.addNewAbstract();
+		serviceIdentification.addNewServiceTypeVersion().setStringValue(SOS_VERSION);
+		capabilities.setVersion(SOS_VERSION);
+		capabilities.addNewOperationsMetadata();
+		new SOSCapabilitiesMapper_100().mapCapabilities(capabilitiesDoc);
 	}
 
-
-	public AltitudeReferences getLowerLimitReference() {
-		return lowerLimitReference;
-	}
-
-
-	public AltitudeReferences getUpperLimitReference() {
-		return upperLimitReference;
-	}
-
-
-	public double getLowerLimit() {
-		return lowerLimit;
-	}
-
-
-	public double getUpperLimit() {
-		return upperLimit;
-	}
-
-
-	public String getLowerLimitUom() {
-		return lowerLimitUom;
-	}
-
-
-	public String getUpperLimitUom() {
-		return upperLimitUom;
-	}
-	
-	
 }
