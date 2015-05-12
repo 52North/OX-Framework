@@ -65,13 +65,6 @@ public class ServiceContact {
 	 */
 	private Contact contactInfo;
 
-	
-	/**
-	 * @param individualName
-	 * @param organisationName
-	 * @param positionName
-	 * @param contactInfo
-	 */
 	public ServiceContact(String individualName, String organisationName,
 			String positionName, Contact contactInfo) {
 		this.individualName = individualName;
@@ -80,7 +73,6 @@ public class ServiceContact {
 		this.contactInfo = contactInfo;
 	}
 
-	
 	/**
 	 * @return a XML representation of this ServiceContact. 
 	 */
@@ -95,7 +87,6 @@ public class ServiceContact {
 		res += "</ServiceContact>";
 		return res;
 	}
-	
 	
 	public Contact getContactInfo() {
 		return contactInfo;

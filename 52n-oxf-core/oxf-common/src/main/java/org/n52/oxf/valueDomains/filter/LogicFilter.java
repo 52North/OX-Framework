@@ -114,7 +114,7 @@ public class LogicFilter implements IFilter {
 
     
     /**
-     * creates a string representation of the logical filter (without <ogc:Filter> begin and end-tag!) 
+     * creates a string representation of the logical filter (without &lt;ogc:Filter&gt; begin and end-tag!) 
      * in xml-format
      * 
      * @return logical filter as xml-string

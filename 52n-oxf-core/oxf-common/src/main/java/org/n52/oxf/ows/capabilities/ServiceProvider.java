@@ -27,7 +27,6 @@
  */
 package org.n52.oxf.ows.capabilities;
 
-import org.n52.oxf.OXFException;
 
 /**
  * This describes the provider of the service. please mind, that the contact
@@ -43,7 +42,7 @@ public class ServiceProvider {
 	 * <br>
 	 * One (mandatory) value for providerName is required. <br>
 	 * <br>
-	 * Example value for providerName: "Institute for Geoinformatics"
+	 * Example value for providerName: "52&deg;North"
 	 */
 	private String providerName;
 
@@ -70,7 +69,7 @@ public class ServiceProvider {
 	 *            Unique identifier for service provider organization.
 	 * @param serviceContact
 	 *            Information for contacting service provider.
-	 * @throws OXFException
+	 * @throws IllegalArgumentException
 	 *             if parameters are not correct.
 	 */
 	public ServiceProvider(String providerName, ServiceContact serviceContact)
@@ -79,14 +78,6 @@ public class ServiceProvider {
 		setServiceContact(serviceContact);
 	}
 
-	/**
-	 * this constructor has all attributes of the class as its parameters.
-	 * 
-	 * @param providerName
-	 * @param serviceContact
-	 * @param providerSite
-	 * @throws OXFException
-	 */
 	public ServiceProvider(String providerName, ServiceContact serviceContact,
 			OnlineResource providerSite)   {
 		setProviderName(providerName);
@@ -110,9 +101,6 @@ public class ServiceProvider {
 	}
 	
 	
-	/**
-	 * @return Returns the providerName.
-	 */
 	public String getProviderName() {
 		return providerName;
 	}
@@ -121,42 +109,28 @@ public class ServiceProvider {
 	 * @param providerName
 	 *            The providerName to set.
 	 * @throws IllegalArgumentException
-	 *             if providerName.equals("").
+	 *             if providerName is null or empty.
 	 */
 	protected void setProviderName(String providerName) throws IllegalArgumentException {
-		if (providerName.equals("")) {
-			throw new IllegalArgumentException("The parameter 'providerName' is illegal.");
+		if (providerName == null || providerName.isEmpty()) {
+			throw new IllegalArgumentException("The parameter 'providerName' is null or empty.");
 		} else {
 			this.providerName = providerName;
 		}
 	}
 
-	/**
-	 * @return Returns the providerSite.
-	 */
 	public OnlineResource getProviderSite() {
 		return providerSite;
 	}
 
-	/**
-	 * @param providerSite
-	 *            The providerSite to set.
-	 */
 	protected void setProviderSite(OnlineResource providerSite) {
 		this.providerSite = providerSite;
 	}
 
-	/**
-	 * @return Returns the serviceContactString.
-	 */
 	public ServiceContact getServiceContact() {
 		return serviceContact;
 	}
 
-	/**
-	 * @param serviceContactString
-	 *            The serviceContactString to set.
-	 */
 	protected void setServiceContact(ServiceContact serviceContact) {
 		this.serviceContact = serviceContact;
 	}

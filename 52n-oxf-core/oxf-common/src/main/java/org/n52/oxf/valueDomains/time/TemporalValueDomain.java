@@ -63,7 +63,7 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
     /**
      * adds an ITime object to the timeList.
      * 
-     * @param time
+     * @param time the {@linkplain ITime} to add
      */
     public void add(ITime time) {
         timeList.add(time);

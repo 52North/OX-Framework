@@ -27,31 +27,21 @@
  */
 package org.n52.oxf.ows.capabilities;
 
+import org.n52.oxf.valueDomains.spatial.BoundingBox;
+
 /**
  * 
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * @see the implementing class: org.n52.oxf.valueDomains.spatial.BoundingBox
+ * @see BoundingBox
  */
 public interface IBoundingBox  extends IValueDomain<IBoundingBox> {
     
-    /**
-     * @return Returns the cRS.
-     */
     public String getCRS();
 
-    /**
-     * @return Returns the lowerCorner.
-     */
     public double[] getLowerCorner();
 
-    /**
-     * @return Returns the upperCorner.
-     */
     public double[] getUpperCorner();
     
-    /**
-     * @return Returns the dimensions.
-     */
     public int getDimensions();
 
 }

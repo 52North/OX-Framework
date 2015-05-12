@@ -45,7 +45,7 @@ import org.n52.oxf.request.RequestParameters;
  * <br>
  * The <a href="http://www.opengeospatial.org/standards/common">OWS specification</a> says:<br>
  * <br>
- * <blockquote cite="OGC 06-121r9"> The normal response to the GetCapabilities operation is a service metadata
+ * <blockquote>OGC 06-121r9: The normal response to the GetCapabilities operation is a service metadata
  * document that is returned to the requesting client. This service metadata document primarily contains
  * metadata about the specific server abilities (such as about the specific data and formats available from
  * that server). This service metadata also makes an OWS server partially self-describing, supporting late

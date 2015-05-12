@@ -52,12 +52,11 @@ public abstract class RequestMethod {
     
     private Set<Constraint> owsConstraints;
 	
-	/**
-	 * this constructor has all attributes as its parameters.
-	 * @param onlineResource
-	 * @param type
-	 * @param constraints
+    /**
 	 * @deprecated Use {@link #RequestMethod(OnlineResource, Set)} using type {@link Constraint}.
+	 * 
+	 * @param onlineResouce the <b>required</b> online resource
+	 * @param constraints the <b>optional</b> constraints that are relevant for this request method.
 	 */
 	@Deprecated
 	public RequestMethod(final OnlineResource onlineResouce, final String[] constraints){
@@ -66,8 +65,8 @@ public abstract class RequestMethod {
 	}
 	
 	/**
-	 * @param onlineResource
-	 * @param constraints the constraints that are relevant for this request method.
+	 * @param onlineResource the <b>required</b> online resource
+	 * @param constraints the <b>optional</b> constraints that are relevant for this request method.
 	 */
 	public RequestMethod(final OnlineResource onlineResource, final Set<Constraint> constraints) {
 		setOnlineResource(onlineResource);
@@ -76,8 +75,7 @@ public abstract class RequestMethod {
 	
 	/**
 	 * this constructor has all required attributes as its parameters.
-	 * @param onlineResource
-	 * @param type
+	 * @param onlineResource the <b>required</b> online resource
 	 */
 	public RequestMethod(final OnlineResource onlineResource){
 		setOnlineResource(onlineResource);
@@ -90,6 +88,8 @@ public abstract class RequestMethod {
 	
     /**
      * @deprecated Use {@link #getOwsConstraints()} and type {@link Constraint} instead
+     * 
+     * @return the constrains as String[]
      */
     @Deprecated
 	public String[] getConstraints() {
@@ -98,6 +98,8 @@ public abstract class RequestMethod {
     
     /**
      * @deprecated Use {@link #setOwsConstraints(Set)} and type {@link Constraint} instead.
+     * 
+     * @param constraints a String[] containing constraints to set
      */
     @Deprecated
     protected void setConstraints(final String[] constraints) {
@@ -112,8 +114,6 @@ public abstract class RequestMethod {
         this.onlineResource = onlineResource;
     }
     
-    // TODO Eike: add tests for new methods 
-
 	/**
 	 * @return an unmodifiable view of the constraints for this {@link RequestMethod} or an empty {@link Set} if not set.
 	 */
@@ -127,22 +127,22 @@ public abstract class RequestMethod {
 
 	/**
 	 * Adds a single constraint to the set of constraints.
-	 * @param constraint
+	 * @param owsConstraint the constraint to add
 	 * @return <tt>true</tt>, if the constraint is added. <tt>false</tt>, if adding failed or constraint already contained.
 	 */
-	public boolean addOwsConstraint(final Constraint constraint) {
-		if (constraint == null) {
+	public boolean addOwsConstraint(final Constraint owsConstraint) {
+		if (owsConstraint == null) {
 			return false;
 		}
 		if (owsConstraints == null) {
 			owsConstraints = new HashSet<Constraint>();
 		}
-		return owsConstraints.add(constraint);
+		return owsConstraints.add(owsConstraint);
 	}
 	
 	/**
 	 * Replaces the constraints set with the given one if it's not null.
-	 * @param owsConstraints
+	 * @param owsConstraints the constrains to set
 	 * @return <tt>true</tt>, if owsConstraints is set, else <tt>false</tt>.
 	 */
 	public boolean setOwsConstraints(final Set<Constraint> owsConstraints)

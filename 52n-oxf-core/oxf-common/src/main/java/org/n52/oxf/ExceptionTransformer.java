@@ -38,6 +38,12 @@ public class ExceptionTransformer {
     /**
      * transforms the specified Exception into an HTML representation and returns it as a String.
      * 
+     * @param e The Exception to transform
+     * @param debugMode <code>true</code> to activate the transformation into HTML, <code>false</code>
+     * 			will print "Sorry, a server error occured!"
+     * 
+     * @return HTML code representing the exception
+     * 
      */
     public static String transformExceptionToHTML(Exception e, boolean debugMode) {
         String res = "";
@@ -47,7 +53,7 @@ public class ExceptionTransformer {
             res += transformHelper(e);
         }
         else {
-            res += "<br>Sorry, a server error occured!</br>";
+            res += "<b>Sorry, a server error occured!</b>";
         }
         
         return res;

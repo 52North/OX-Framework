@@ -39,7 +39,7 @@ public interface ResponseHandler {
      * 
      * @param response
      *        response's content as stream.
-     * @param httpResponseCode
+     * @param httpStatusCode
      *        the HTTP status code.
      */
     public void onSuccess(InputStream response, int httpStatusCode);
@@ -47,7 +47,10 @@ public interface ResponseHandler {
     /**
      * Called when no response could be received. When this method is called, any low-level exceptions (e.g.
      * {@link IOException} {@link TimeoutException}, etc.) should already have been handled and logged
-     * appropriatly. Use this method to trigger higher-level error messaging.
+     * appropriately. Use this method to trigger higher-level error messaging.
+     * 
+     * @param reason
+     * 		  a higher-level error message
      */
     public void onFailure(String reason);
 

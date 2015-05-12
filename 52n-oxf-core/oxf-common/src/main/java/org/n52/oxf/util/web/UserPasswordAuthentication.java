@@ -32,12 +32,6 @@ public class UserPasswordAuthentication {
 	private final String username;
 	private final String password;
 
-	/**
-	 * Constructor setting user name and password. 
-	 * 
-	 * @param user
-	 * @param pass
-	 */
 	public UserPasswordAuthentication(String user, String pass) {
 	      username = user;
 	      password = pass;

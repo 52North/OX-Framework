@@ -82,9 +82,9 @@ public class Contents {
 
     /**
      * 
-     * @param identifier
+     * @param identifier a Dataset identifier
      * @return the dataset with the specified identifier/name or <code>null</code> if there is no dataset
-     *         with teh specified identifier/name.
+     *         with the specified identifier/name.
      */
     public Dataset getDataIdentification(String identifier) {
         for (Dataset data : dataIdentificationList) {

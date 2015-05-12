@@ -42,7 +42,7 @@ public interface RequestParameters {
     /**
      * Checks if the assembly is empty at all. 
      * 
-     * @return <code>true</code> if there are no key-value pairs available,<br/>
+     * @return <code>true</code> if there are no key-value pairs available,<br>
      *		<code>false</code> if the assembly contains at least one key-value pair.
      */
     boolean isEmpty();
@@ -53,7 +53,7 @@ public interface RequestParameters {
      * @param parameter
      * 		  the parameter key to check.
      * @return <code>true</code> if the passed parameter has zero associated values
-     * 					or is not present in the assembly,<br/>
+     * 					or is not present in the assembly,<br>
      * 		   <code>false</code> if the parameter is has one or more associated values.
      */
     boolean isEmpty(String parameter);
@@ -63,7 +63,7 @@ public interface RequestParameters {
      * 
      * @param parameter
      *        the parameter key to check.
-     * @return <code>true</code> if the passed parameter has one or more associated value(s),<br/>
+     * @return <code>true</code> if the passed parameter has one or more associated value(s),<br>
      *         <code>false</code> if parameter is not present.
      */
     boolean contains(String parameter);
@@ -75,7 +75,7 @@ public interface RequestParameters {
      * 
      * @param parameter
      *        the parameter key to check.
-     * @return <code>true</code> if there is exact one value associated with the given parameter,<br/>
+     * @return <code>true</code> if there is exact one value associated with the given parameter,<br>
      *         <code>false</code> if there are more than one parameter value, or the parameter is not present.
      * @throws NullPointerException
      *         may be thrown if no entry for the given parameter can be found.
@@ -89,7 +89,7 @@ public interface RequestParameters {
      * 
      * @param parameter
      *        the parameter key to check.
-     * @return <code>true</code> if more than one value is associated with the given parameter,<br />
+     * @return <code>true</code> if more than one value is associated with the given parameter,<br>
      *         <code>false</code> if there is only one parameter value, or the parameter is not present.
      * @throws NullPointerException
      *         may be thrown if no entry for the given parameter can be found.
@@ -109,7 +109,7 @@ public interface RequestParameters {
      * @param parameter
      *        the parameter key to check.
      * @return the first parameter value associated to the given parameter.
-     * @see {@link #contains(String)} to ensure if the parameter is contained by this assembly.
+     * @see #contains(String)
      */
     String getSingleValue(String parameter);
 
@@ -134,7 +134,7 @@ public interface RequestParameters {
      * 
      * @param parameters
      *        the parameter assembly to merge with.
-     * @return <code>true</code> if the assembly has changed,<br /><code>false</code> otherwise.
+     * @return <code>true</code> if the assembly has changed,<br><code>false</code> otherwise.
      */
     boolean mergeWith(RequestParameters parameters);
 
@@ -155,21 +155,21 @@ public interface RequestParameters {
 
     /**
      * Adds a bulk of parameter values (from a particular codelist) to the given parameter. If you want to
-     * remove a particular parameter value use {@link #remove(String, String)}.<br>
+     * remove a particular parameter value use {@link #remove(String)}.<br>
      * <br>
      * <b>Note:</b> <code>null</code> values are stored as empty Strings.
      * 
      * @param parameter
      *        the parameter key.
      * @param values
-     *        the {@linString Enum#toString()} values to associate with the parameter.
+     *        the {@link Enum#toString()} values to associate with the parameter.
      * @return <code>true</code> if the assembly has changed (size has increased).
      */
     boolean addParameterEnumValues(String parameter, Enum< ? >... values);
 
     /**
      * Adds a bulk of parameter values to the given parameter. If you want to remove a particular parameter
-     * value use {@link #remove(String, String)}.<br>
+     * value use {@link #remove(String)}.<br>
      * <br>
      * <b>Note:</b> <code>null</code> values are stored as empty Strings.
      * 
@@ -183,7 +183,7 @@ public interface RequestParameters {
 
     /**
      * Adds a bulk of parameter values to the given parameter. If you want to remove a particular parameter
-     * value use {@link #remove(String, String)}.<br>
+     * value use {@link #remove(String)}.<br>
      * <br>
      * <b>Note:</b> <code>null</code> values are stored as empty Strings.
      * 

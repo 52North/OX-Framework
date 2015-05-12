@@ -40,8 +40,12 @@ public class BoundingBox3D extends BoundingBox {
 	
 	/**
      * this constructor has all required attributes as its parameters.
-     * @param lowerLeft the lowerCorner
-     * @param upperRight the upperCorner
+     * @param llx x-coordinate of the lowerCorner
+     * @param lly y-coordinate of the lowerCorner
+     * @param llz z-coordinate of the lowerCorner
+     * @param urx x-coordinate of the upperCorner
+     * @param ury y-coordinate of the upperCorner
+     * @param urz z-coordinate of the upperCorner
      * @throws OXFException if the dimensions of lowerLeft and upperRight are not the same.
      */
 	public BoundingBox3D(double llx, double lly, double llz, double urx, double ury, double urz) throws OXFException{

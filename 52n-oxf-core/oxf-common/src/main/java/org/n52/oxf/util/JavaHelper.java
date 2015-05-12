@@ -38,17 +38,28 @@ public class JavaHelper {
 
     /**
      * transforms the oArray to a String[]
+     * 
+     * @param oArray the Object[] that should be converted to String[] via Object[n].toString()
+     * 
+     * @return a new String[] containing Object[].length String objects.
      */
     public static String[] toStringArray(Object[] oArray) {
         String[] sArray = new String[oArray.length];
         for (int i = 0; i < oArray.length; i++) {
-            sArray[i] = (String) oArray[i];
+            sArray[i] = oArray[i].toString();
         }
         return sArray;
     }
 
     /**
-     * adds the elements of the fromArray to the toArray.
+     * Adds the elements of the fromArray to the toArray.
+     * 
+     * @param toArray the array to add to
+     * @param fromArray the array to add
+     * 
+     * @return Returns a new array containing the all elements from both arrays. 
+     * First, the elements of <code>toArray</code> and than the elements
+     * of <code>fromArray</code>.
      */
     public static byte[] addArrayElements(byte[] toArray, byte[] fromArray) {
 
@@ -62,7 +73,14 @@ public class JavaHelper {
     }
     
     /**
-     * adds the elements of the fromArray to the toArray.
+     * Adds the elements of the fromArray to the toArray.
+     * 
+     * @param toArray the array to add to
+     * @param fromArray the array to add
+     * 
+     * @return Returns a new array containing the all elements from both arrays. 
+     * First, the elements of <code>toArray</code> and than the elements
+     * of <code>fromArray</code>.
      */
     public static String[] addArrayElements(String[] toArray, String[] fromArray) {
 
@@ -76,13 +94,13 @@ public class JavaHelper {
     }
 
     /**
-     * transforms a hexadecimal to a Color object. <br>
+     * Transforms a hexadecimal to a Color object. <br>
      * <br>
-     * e.g.: '#FF6600' --> orange
+     * e.g.: '#FF6600' &rarr; orange
      * 
      * @param hexString
      *        7 character hex-string; something like "#FF6600"
-     * @return
+     * @return The Color object represented by the hexString given.
      */
     public static Color transformToColor(String hexString) {
         int red = Integer.parseInt(hexString.substring(1, 3), 16);
@@ -92,7 +110,15 @@ public class JavaHelper {
     }
 
     /**
-     * genreates a random file name with the specified parent path, midPart and postFix.
+     * Generates a random file name with the specified parent path, midPart and postFix.
+     * 
+     * @param parentPath the directory path
+     * @param midPart this part will be used as filename part after a generated random part
+     * @param postfix a postfix that will be added after midPart using "."
+     * 
+     * @return a new File
+     * 
+     * @see System#currentTimeMillis()
      */
     public static File genRndFile(String parentPath, String midPart, String postfix) {
         String rndPart = "" + System.currentTimeMillis();
@@ -101,7 +127,13 @@ public class JavaHelper {
     }
 
     /**
-     * genreates a file name with the specified parent path, midPart and postFix.
+     * Generates a file name with the specified parent path, midPart and postFix.
+     * 
+     * @param parentPath the directory path
+     * @param midPart this part will be used as filename
+     * @param postfix a postfix that will be added after midPart using "."
+     * 
+     * @return a new File
      */
     public static File genFile(String parentPath, String midPart, String postfix) {
         // make path dir if not existing:
@@ -113,7 +145,9 @@ public class JavaHelper {
     }
     
     /**
-     * @return a normalized String for use in a file path, i.e. all [\,/,:,*,?,",<,>] characters are
+     * @param toNormalize String to normalize.
+     * 
+     * @return Returns a normalized String for use in a file path, i.e. all [\,/,:,*,?,",&lt;,&gt;] characters are
      *         replaced by '_'.
      */
     public static String normalize(String toNormalize) {
@@ -123,8 +157,9 @@ public class JavaHelper {
     /**
      * deletes all files in the specified directory which are older than olderThanTimeMillis.
      * 
-     * @param dirToClean
-     * @param olderThanTimeMillis
+     * @param dirToClean the directory to clean
+     * @param olderThanTimeMillis the timestamp that will be compared with {@link File#lastModified()}
+     * 			of each file in the given folder. Older files will be deleted.
      */
     public static void cleanUpDir(String dirToClean, int olderThanTimeMillis) {
         File path = new File(dirToClean);
@@ -140,9 +175,10 @@ public class JavaHelper {
      * deletes all files in the specified directory which are older than olderThanTimeMillis and have the
      * defined postFix.
      * 
-     * @param dirToClean
-     * @param olderThanTimeMillis
-     * @param postFix
+     * @param dirToClean the directory to clean
+     * @param olderThanTimeMillis the timestamp that will be compared with {@link File#lastModified()}
+     * 			of each file in the given folder. Older files will be deleted.
+     * @param postFix Only files ending with <code>postfix</code> will be deleted
      */
     public static void cleanUpDir(String dirToClean, int olderThanTimeMillis, String postFix) {
         File path = new File(dirToClean);
@@ -160,11 +196,4 @@ public class JavaHelper {
         }
     }
 
-    /*
-     * test
-     */
-    public static void main(String[] args) {
-
-        System.out.println(transformToColor("#FF6600").toString());
-    }
 }

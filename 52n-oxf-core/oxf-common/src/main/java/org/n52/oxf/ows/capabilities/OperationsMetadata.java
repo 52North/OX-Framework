@@ -32,7 +32,7 @@ package org.n52.oxf.ows.capabilities;
  * WebService. This class contains all important information to access an OWS.
  * 
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>>
+ * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class OperationsMetadata {
 
@@ -54,29 +54,17 @@ public class OperationsMetadata {
 	private Parameter[] parameters;
 
 	/**
-	 * Constraint on valid domain of a nonparameter quantity that applies to
+	 * Constraint on valid domain of a non-parameter quantity that applies to
 	 * this server.<br>
 	 * <br>
 	 * Zero or more (optional)
 	 */
 	private String[] constraints;
 
-	/**
-	 * this constructor has all required attributes as its parameters.
-	 * 
-	 * @param operations
-	 */
 	public OperationsMetadata(final Operation[] operations) {
 		setOperations(operations);
 	}
 
-	/**
-	 * this constructor has all attributes of the class as its parameters.
-	 * 
-	 * @param operations
-	 * @param parameters
-	 * @param constraints
-	 */
 	public OperationsMetadata(final Operation[] operations, final Parameter[] parameters,
 			final String[] constraints) {
 		setOperations(operations);
@@ -143,7 +131,7 @@ public class OperationsMetadata {
 	}
 
 	/**
-	 * @param operationName
+	 * @param operationName a name of an operation
 	 * @return the Operation with the specified operationName. Returns
 	 *         <code>null</code> if there isn't such an Operation.
 	 */
@@ -156,17 +144,10 @@ public class OperationsMetadata {
 		return null;
 	}
 
-	/**
-	 * @return Returns the operations.
-	 */
 	public Operation[] getOperations() {
 		return operations;
 	}
 
-	/**
-	 * @param operations
-	 *            The operations to set.
-	 */
 	protected void setOperations(final Operation[] operations) {
 		this.operations = operations;
 	}

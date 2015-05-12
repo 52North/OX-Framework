@@ -129,12 +129,12 @@ public class IOHelper {
 
     /**
      * 
-     * @param filename
-     * @param msg
-     * @param append
+     * @param filename the file to write to
+     * @param msg the message to write or append to file
+     * @param append replace file or append to file
      *        if <code>true</code>, then bytes will be written to the end of the file rather than the
      *        beginning
-     * @throws IOException
+     * @throws IOException thrown if writing to file is not possible.
      */
     public static void saveFile(String filename, String msg, boolean append) throws IOException {
         FileWriter writer = new FileWriter(new File(filename), append);
@@ -195,7 +195,7 @@ public class IOHelper {
         out.close();
     }
 
-    /**
+    /*
      * helper-method for compressFilesToZip
      */
     private static File[] removeDoubleFiles(File[] files) {

@@ -50,8 +50,6 @@ public class IntegerDiscreteValueDomain implements IDiscreteValueDomain<Integer>
      */
     String description = "The DiscreteIntegerValueDomain contains the possible Integer-values.";
     
-    /**
-     */
     public IntegerDiscreteValueDomain(Integer possibleValue) {
         this.possibleValues = new ArrayList<Integer>();
         possibleValues.add(possibleValue);
@@ -80,38 +78,18 @@ public class IntegerDiscreteValueDomain implements IDiscreteValueDomain<Integer>
         possibleValues.add(i);
     }
     
-    /**
-     * @return ArrayList with possible (discrete) Integer-values
-     */
     public List<Integer> getPossibleValues() {
         return possibleValues;
     }
     
-    /**
-     * gives a description of this ValueDomain
-     * 
-     * @return String with description
-     */
     public String getDomainDescription() {      
         return description;
     }
     
-    /**
-     * test, whether a Integer-value is contained in this valueDomain
-     * 
-     * @param n
-     *            the value which has to be tested
-     * @return true, if n is contained
-     */
     public boolean containsValue(Integer n) {
         return possibleValues.contains(n);
     }
     
-    /**
-     * creates an XML-String of the ValueDomain
-     * 
-     * @return XML-String of this ValueDomain
-     */
     public String toXML() {
         
         String res = "<IntegerDiscreteValueDomain>";

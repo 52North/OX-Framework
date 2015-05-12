@@ -66,31 +66,14 @@ public class IntegerRangeValueDomain implements IRangeValueDomain<Integer> {
 		this.max = max;
 	}
 
-     /**
-     * gives a description of this ValueDomain
-     * 
-     * @return String with description
-     */
 	public String getDomainDescription() {		
 		return description;
 	}
 
-      /**
-     * test, whether a double value is contained in this valueDomain
-     * 
-     * @param obj
-     *            the value which has to be tested (double in this case)
-     * @return true, if value is contained
-     */
     public boolean containsValue(Integer i) {
         return min <= i  &&  max >= i;
     }
 
-    /**
-     * creates an XML-String of the ValueDomain
-     * 
-     * @return XML-String of this ValueDomain
-     */
     public String toXML() {
         
         String res = "<IntegerRangeValueDomain>";

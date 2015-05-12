@@ -33,15 +33,17 @@ import java.text.SimpleDateFormat;
 import org.n52.oxf.ows.capabilities.*;
 
 /**
- * Creates an appropriate ITime object, (--> TimePeriod or TimePosition)
+ * Creates an appropriate ITime object.
+ * 
+ * @see TimePeriod
+ * @see TimePosition
  */
 public class TimeFactory {
 
     public static DateFormat ISO8601LocalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
     /**
-     * 
-     * @param timeString
+     * @param timeString a String representing a {@link TimePeriod} or {@link TimePosition} or <code>now</code>
      * @return an appropriate ITime object depending on the timeString that may be "now" for the most recent
      *         available data, a TimePosition (e.g. "2005-08-04") or "min/max(/res)" to create a TimePeriod.
      * 

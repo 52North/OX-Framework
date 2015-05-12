@@ -27,7 +27,6 @@
  */
 package org.n52.oxf.ows.capabilities;
 
-import org.n52.oxf.OXFException;
 
 /**
  * You can use this class "DatasetParameter" to associate a Parameter with a
@@ -37,14 +36,11 @@ import org.n52.oxf.OXFException;
  */
 public class DatasetParameter extends Parameter {
 
-	/**
-	 * 
-	 */
 	private Dataset dataID;
 
 	/**
-	 * @param serviceSidedName
-	 *            the serviceSidedName of the parameter
+	 * @param name
+	 *            the name of the parameter
 	 * @param required
 	 *            indicates if a ParameterContainer is required.
 	 * @param valueDomain
@@ -55,7 +51,7 @@ public class DatasetParameter extends Parameter {
 	 *            ATTENTION: if the parameter has no corresponding commonName
 	 *            please set it on <code>null</code>.
 	 * @param dataID
-	 * @throws OXFException
+	 * 			  the dataset
 	 */
 	public DatasetParameter(String name, boolean required,
 			IValueDomain valueDomain, Dataset dataID,

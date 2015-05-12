@@ -28,14 +28,15 @@
 package org.n52.oxf.ows.capabilities;
 
 /**
- * This class can be seen as a special container. It is used by the class <a href=Parameter.html>Parameter</a>
+ * This class can be seen as a special container. It is used by the class {@link Parameter}
  * to lay down the domain of values which can be associated with the Parameter.<br>
- * A central point of this class is the <code>containsVaue(T t)</code> method which can be used by the
+ * A central point of this class is the {@linkplain IValueDomain#containsValue(Object)} method which can be used by the
  * client to proof whether a value is contained by the domain or not.
  * 
- * Some remarks on implementing this interface: Please don�t allow empty constructors. Because empty constructors
- * dont make sense for the framework.
- * @author <a href="mailto:broering@52north.org">Arne Broering</a>
+ * Some remarks on implementing this interface: Please do not allow empty constructors, because empty constructors
+ * do not make sense for the framework.
+ * 
+ * @author <a href="mailto:broering@52north.org">Arne Br&ouml;ring</a>
  * @param <T>
  *        T is the type of the values that are contained in and can be added to this IValueDomain.
  * @see <a href=IRangeValueDomain.html>IRangeValueDomain</a>
@@ -44,7 +45,9 @@ package org.n52.oxf.ows.capabilities;
 public interface IValueDomain<T> {
 
     /**
-     * @return if the value t is part of this value domain.
+     * @param t the value to check
+     * 
+     * @return <code>true</code>,if the value t is part of this value domain.
      */
     public boolean containsValue(T t);
 
@@ -63,5 +66,6 @@ public interface IValueDomain<T> {
 //     */
 //    public Class<T> getValueClass();
     
+    // TODO What is this method used for? Most implementing classes to nonsense with it.
     public T produceValue(String... stringArray);
 }

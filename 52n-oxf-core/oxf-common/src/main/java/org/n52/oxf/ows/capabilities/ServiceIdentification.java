@@ -27,7 +27,6 @@
  */
 package org.n52.oxf.ows.capabilities;
 
-import org.n52.oxf.OXFException;
 
 /**
  * 
@@ -89,7 +88,7 @@ public class ServiceIdentification extends Description {
      *        service type name normally used for machine-to-machine communication.
      * @param serviceTypeVersion
      *        version(s) of the service type supported by the server. <br>
-     * @throws OXFException
+     * @throws IllegalArgumentException
      *         if parameters are not correct.
      */
     public ServiceIdentification(String title, String serviceType, String[] serviceTypeVersion) {
@@ -100,18 +99,6 @@ public class ServiceIdentification extends Description {
         setAccessConstraints(new String[] {"NONE"});
     }
 
-    /**
-     * his constructor has all attributes of the class as its parameters.
-     * 
-     * @param title
-     * @param serviceType
-     * @param serviceTypeVersion
-     * @param fees
-     * @param accessConstraints
-     * @param abstractDescription
-     * @param keywords
-     * @throws OXFException
-     */
     public ServiceIdentification(String title,
                                  String serviceType,
                                  String[] serviceTypeVersion,
@@ -156,23 +143,14 @@ public class ServiceIdentification extends Description {
         return res;
     }
 
-    /**
-     * @return Returns the accessConstraints.
-     */
     public String[] getAccessConstraints() {
         return accessConstraints;
     }
 
-    /**
-     * @return Returns the fees.
-     */
     public String getFees() {
         return fees;
     }
 
-    /**
-     * @return Returns the serviceTypeVersion.
-     */
     public String[] getServiceTypeVersion() {
         return serviceTypeVersion;
     }
@@ -180,7 +158,7 @@ public class ServiceIdentification extends Description {
     /**
      * sets the version for this service
      * 
-     * @param version
+     * @param version the version to set
      * @throws IllegalArgumentException
      *         if version.length == 0 or version[0].equals("").
      */
@@ -193,11 +171,6 @@ public class ServiceIdentification extends Description {
         }
     }
 
-    /**
-     * sets the fees for this service.
-     * 
-     * @param fees
-     */
     protected void setFees(String fees) {
         this.fees = fees;
     }
@@ -210,9 +183,6 @@ public class ServiceIdentification extends Description {
         accessConstraints = constraints;
     }
 
-    /**
-     * @return Returns the serviceType.
-     */
     public String getServiceType() {
         return serviceType;
     }
@@ -221,11 +191,11 @@ public class ServiceIdentification extends Description {
      * @param serviceType
      *        The serviceType to set.
      * @throws IllegalArgumentException
-     *         if serviceType == null or serviceType.equals("").
+     *         if serviceType == null or empty.
      */
     protected void setServiceType(String serviceType) throws IllegalArgumentException {
-        if (serviceType == null || serviceType.equals("")) {
-            throw new IllegalArgumentException("The parameter 'serviceType' is illegal.");
+        if (serviceType == null || serviceType.isEmpty()) {
+            throw new IllegalArgumentException("The parameter 'serviceType' is null or empty.");
         }
         else {
             this.serviceType = serviceType;

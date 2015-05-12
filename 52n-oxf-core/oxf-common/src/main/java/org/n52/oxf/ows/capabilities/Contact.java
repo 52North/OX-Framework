@@ -79,16 +79,6 @@ public class Contact {
 	 */
 	private OnlineResource onlineResource;
 
-    
-	/**
-	 * this constructor has all attributes of the class as its parameters.
-	 * @param telephone
-	 * @param fax
-	 * @param hoursOfService
-	 * @param contactInstructions
-	 * @param address
-	 * @param onlineResource
-	 */
 	public Contact(String[] telephone, String[] fax, String hoursOfService,
 			String contactInstructions, Address address,
 			OnlineResource onlineResource) {

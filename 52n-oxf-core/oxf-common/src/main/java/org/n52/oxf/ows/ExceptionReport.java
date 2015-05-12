@@ -37,7 +37,9 @@ import java.util.*;
  */
 public class ExceptionReport extends Exception {
 
-    private String version;
+	private static final long serialVersionUID = 1L;
+
+	private String version;
 
     private String language;
 
@@ -50,32 +52,14 @@ public class ExceptionReport extends Exception {
         exceptions = new ArrayList<OWSException>();
     }
 
-    /**
-     * @return Returns the exceptions.
-     */
     public Iterator<OWSException> getExceptionsIterator() {
         return exceptions.iterator();
     }
 
-    /**
-     * @param exceptions
-     *        The exceptions to set.
-     */
     public void addException(OWSException exception) {
-        this.exceptions.add(exception);
+        exceptions.add(exception);
     }
 
-    /**
-     * prints all contained Exceptions to the System.err stream.
-     */
-    @Override
-    public void printStackTrace() {
-        printStackTrace(System.err);
-    }
-
-    /**
-     * 
-     */
     @Override
     public void printStackTrace(PrintStream s) {
         s.println("- OGC Web Service returned exception:");
@@ -100,40 +84,22 @@ public class ExceptionReport extends Exception {
         return res;
     }
     
-    /**
-     * 
-     * @return the number of exceptions contained in this ExceptionReport.
-     */
     public int countExceptions() {
         return exceptions.size();
     }
 
-    /**
-     * @return Returns the language.
-     */
     public String getLanguage() {
         return language;
     }
 
-    /**
-     * @param language
-     *        The language to set.
-     */
     public void setLanguage(String language) {
         this.language = language;
     }
 
-    /**
-     * @return Returns the version.
-     */
     public String getVersion() {
         return version;
     }
 
-    /**
-     * @param version
-     *        The version to set.
-     */
     public void setVersion(String version) {
         this.version = version;
     }

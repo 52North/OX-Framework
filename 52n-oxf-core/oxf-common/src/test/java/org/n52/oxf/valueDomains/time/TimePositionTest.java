@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Henning Bredel <h.bredel@52north.org>
+ * @author <a href="mailto:h.bredel@52north.org">Henning Bredel</a>
  */
 public class TimePositionTest {
 
