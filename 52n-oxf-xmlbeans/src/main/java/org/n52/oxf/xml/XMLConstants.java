@@ -115,6 +115,9 @@ public final class XMLConstants {
 	public static final QName QN_SWE_2_0_DATA_RECORD = new QName(OGC_NS_SWE_20, "DataRecord");
 	public static final QName QN_SWE_2_0_TEXT_ENCODING = new QName(OGC_NS_SWE_20, "TextEncoding");
 	public static final QName QN_SWE_2_0_TIME = new QName(OGC_NS_SWE_20, "Time");
+	public static final QName QN_SWE_2_0_TEXT = new QName(OGC_NS_SWE_20, "Text");
+	public static final QName QN_SWE_2_0_COUNT = new QName(OGC_NS_SWE_20, "Count");
+	public static final QName QN_SWE_2_0_BOOLEAN = new QName(OGC_NS_SWE_20, "Boolean");
 	public static final QName QN_SWE_2_0_QUANTITY = new QName(OGC_NS_SWE_20, "Quantity");
 
 
