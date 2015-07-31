@@ -292,14 +292,16 @@ public class SOSAdapter implements IServiceAdapter {
             // Element exceptionReport = root;
             // throw createExceptionReportException(exceptionReport, result);
             // }
-            try {
-                final XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsAutoCloseStream());
-                if (result_xb.schemaType() == ExceptionReportDocument.type) {
-                    throw parseExceptionReport_100(result);
-                }
-            }
-            catch (final XmlException e) {
-                throw new OXFException("Could not parse response to XML.", e);
+            if (checkContentTypForXml(responseEntity)) {
+	            try {
+	                final XmlObject result_xb = XmlObject.Factory.parse(result.getIncomingResultAsAutoCloseStream());
+	                if (result_xb.schemaType() == ExceptionReportDocument.type) {
+	                    throw parseExceptionReport_100(result);
+	                }
+	            }
+	            catch (final XmlException e) {
+	                throw new OXFException("Could not parse response to XML.", e);
+	            }
             }
             return result;
         }
@@ -311,7 +313,15 @@ public class SOSAdapter implements IServiceAdapter {
         }
     }
 
-    private String buildRequest(final Operation operation, final ParameterContainer parameters) throws OXFException {
+    protected boolean checkContentTypForXml(HttpEntity responseEntity) {
+		if (responseEntity.getContentType() != null) {
+			String value = responseEntity.getContentType().getValue();
+			return value.startsWith("application/xml") || value.startsWith("text/xml") || value.startsWith("application/soap+xml");
+		}
+		return false;
+	}
+
+	private String buildRequest(final Operation operation, final ParameterContainer parameters) throws OXFException {
         if (operation.getName().equals(GET_CAPABILITIES)) {
             return requestBuilder.buildGetCapabilitiesRequest(parameters);
         }
