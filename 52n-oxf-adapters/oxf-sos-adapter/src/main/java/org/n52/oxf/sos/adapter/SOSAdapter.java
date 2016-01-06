@@ -318,7 +318,7 @@ public class SOSAdapter implements IServiceAdapter {
 			String value = responseEntity.getContentType().getValue();
 			return value.startsWith("application/xml") || value.startsWith("text/xml") || value.startsWith("application/soap+xml");
 		}
-		return false;
+		return true;
 	}
 
 	private String buildRequest(final Operation operation, final ParameterContainer parameters) throws OXFException {
