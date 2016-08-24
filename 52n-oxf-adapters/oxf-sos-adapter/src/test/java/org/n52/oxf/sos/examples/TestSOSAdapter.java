@@ -25,7 +25,7 @@
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
  * PARTICULAR PURPOSE. See the GNU General Public License for more details.
  */
-package org.n52.oxf.sos.adapter;
+package org.n52.oxf.sos.examples;
 
 import java.util.Iterator;
 
@@ -39,6 +39,9 @@ import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
+import org.n52.oxf.sos.adapter.SOSAdapter;
+import org.n52.oxf.sos.adapter.SOSRequestBuilderFactory;
 import org.n52.oxf.sos.capabilities.ObservationOffering;
 import org.n52.oxf.sos.feature.SOSObservationStore;
 import org.n52.oxf.sos.util.SosUtil;
