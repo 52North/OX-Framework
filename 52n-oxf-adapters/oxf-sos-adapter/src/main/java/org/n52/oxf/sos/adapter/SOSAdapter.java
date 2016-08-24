@@ -29,22 +29,16 @@ package org.n52.oxf.sos.adapter;
 
 import static java.lang.String.format;
 import static org.apache.http.entity.ContentType.TEXT_XML;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.BINDING;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.ENCODING;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_OFFERING_PARAMETER;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.MIMETYPE;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.SERVICE;
-import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.VERSION;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_SERVICE_PARAMETER;
+import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.GET_OBSERVATION_VERSION_PARAMETER;
 
 import java.io.IOException;
-
-import net.opengis.ows.x11.ExceptionReportDocument;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -55,7 +49,6 @@ import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.IServiceAdapter;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
-import org.n52.oxf.adapter.ParameterShell;
 import org.n52.oxf.feature.IFeatureStore;
 import org.n52.oxf.feature.OXFFeatureCollection;
 import org.n52.oxf.ows.ExceptionReport;
@@ -71,7 +64,8 @@ import org.n52.oxf.util.web.ProxyAwareHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Element;
+
+import net.opengis.ows.x11.ExceptionReportDocument;
 
 /**
  * SOS-Adapter for the OX-Framework
