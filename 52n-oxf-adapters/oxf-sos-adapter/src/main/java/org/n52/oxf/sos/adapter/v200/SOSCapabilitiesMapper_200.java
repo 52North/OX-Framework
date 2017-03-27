@@ -33,35 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import net.opengis.fes.x20.ComparisonOperatorType;
-import net.opengis.fes.x20.ComparisonOperatorsType;
-import net.opengis.fes.x20.FilterCapabilitiesDocument.FilterCapabilities;
-import net.opengis.fes.x20.ScalarCapabilitiesType;
-import net.opengis.fes.x20.SpatialCapabilitiesType;
-import net.opengis.fes.x20.TemporalCapabilitiesType;
-import net.opengis.gml.x32.CodeType;
-import net.opengis.gml.x32.EnvelopeDocument;
-import net.opengis.gml.x32.EnvelopeType;
-import net.opengis.gml.x32.TimePeriodType;
-import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
-import net.opengis.ows.x11.ContactType;
-import net.opengis.ows.x11.DCPDocument;
-import net.opengis.ows.x11.DomainType;
-import net.opengis.ows.x11.LanguageStringType;
-import net.opengis.ows.x11.OperationDocument;
-import net.opengis.ows.x11.RequestMethodType;
-import net.opengis.ows.x11.ResponsiblePartySubsetType;
-import net.opengis.ows.x11.ValueType;
-import net.opengis.sos.x20.CapabilitiesDocument;
-import net.opengis.sos.x20.CapabilitiesType;
-import net.opengis.sos.x20.CapabilitiesType.Contents;
-import net.opengis.sos.x20.ContentsType;
-import net.opengis.sos.x20.ObservationOfferingDocument;
-import net.opengis.sos.x20.ObservationOfferingType;
-import net.opengis.sos.x20.ObservationOfferingType.ResultTime;
-import net.opengis.swes.x20.AbstractContentsType.Offering;
-import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -71,7 +42,6 @@ import org.n52.oxf.ows.Constraint;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Contact;
 import org.n52.oxf.ows.capabilities.DCP;
-import org.n52.oxf.ows.capabilities.DatasetParameter;
 import org.n52.oxf.ows.capabilities.GetRequestMethod;
 import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.ows.capabilities.IDiscreteValueDomain;
@@ -100,6 +70,34 @@ import org.n52.oxf.valueDomains.time.TimePeriod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.opengis.fes.x20.ComparisonOperatorType;
+import net.opengis.fes.x20.ComparisonOperatorsType;
+import net.opengis.fes.x20.FilterCapabilitiesDocument.FilterCapabilities;
+import net.opengis.fes.x20.ScalarCapabilitiesType;
+import net.opengis.fes.x20.SpatialCapabilitiesType;
+import net.opengis.fes.x20.TemporalCapabilitiesType;
+import net.opengis.gml.x32.CodeType;
+import net.opengis.gml.x32.EnvelopeDocument;
+import net.opengis.gml.x32.EnvelopeType;
+import net.opengis.gml.x32.TimePeriodType;
+import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
+import net.opengis.ows.x11.DCPDocument;
+import net.opengis.ows.x11.DomainType;
+import net.opengis.ows.x11.LanguageStringType;
+import net.opengis.ows.x11.OperationDocument;
+import net.opengis.ows.x11.RequestMethodType;
+import net.opengis.ows.x11.ResponsiblePartySubsetType;
+import net.opengis.ows.x11.ValueType;
+import net.opengis.sos.x20.CapabilitiesDocument;
+import net.opengis.sos.x20.CapabilitiesType;
+import net.opengis.sos.x20.CapabilitiesType.Contents;
+import net.opengis.sos.x20.ContentsType;
+import net.opengis.sos.x20.ObservationOfferingDocument;
+import net.opengis.sos.x20.ObservationOfferingType;
+import net.opengis.sos.x20.ObservationOfferingType.ResultTime;
+import net.opengis.swes.x20.AbstractContentsType.Offering;
+import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
+
 public class SOSCapabilitiesMapper_200 {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOSCapabilitiesMapper_200.class);
@@ -124,61 +122,61 @@ public class SOSCapabilitiesMapper_200 {
         return serviceDesc;
     }
 
-    private void addDatasetParameterFromContentsSection(final OperationsMetadata operationsMetadata, final SOSContents contents) {
-        final Operation getObservationOp = operationsMetadata.getOperationByName("GetObservation");
-
-        for (int i = 0; i < contents.getDataIdentificationCount(); i++) {
-            final ObservationOffering obsOff = contents.getDataIdentification(i);
-
-            //
-            // --- id:
-            //
-            final StringValueDomain idDomain = new StringValueDomain(obsOff.getIdentifier());
-            final DatasetParameter idParam = new DatasetParameter("id",
-                                                            false,
-                                                            idDomain,
-                                                            obsOff,
-                                                            Parameter.COMMON_NAME_RESOURCE_ID);
-            getObservationOp.addParameter(idParam);
-
-            //
-            // --- bbox:
-            //
-            final IBoundingBox[] bboxDomain = obsOff.getBoundingBoxes();
-            for (final IBoundingBox bbox : bboxDomain) {
-                final DatasetParameter bboxParam = new DatasetParameter("bbox",
-                                                                  false,
-                                                                  bbox,
-                                                                  obsOff,
-                                                                  Parameter.COMMON_NAME_BBOX);
-                getObservationOp.addParameter(bboxParam);
-            }
-
-            //
-            // --- srs:
-            //
-            if (obsOff.getAvailableCRSs() != null) {
-                final StringValueDomain srsDomain = new StringValueDomain(obsOff.getAvailableCRSs());
-                final DatasetParameter srsParam = new DatasetParameter("srs",
-                                                                 false,
-                                                                 srsDomain,
-                                                                 obsOff,
-                                                                 Parameter.COMMON_NAME_SRS);
-                getObservationOp.addParameter(srsParam);
-            }
-
-            //
-            // --- time:
-            //
-            final IDiscreteValueDomain<ITime> temporalDomain = obsOff.getTemporalDomain();
-            final DatasetParameter eventTimeParam = new DatasetParameter("eventTime",
-                                                                   false,
-                                                                   temporalDomain,
-                                                                   obsOff,
-                                                                   Parameter.COMMON_NAME_TIME);
-            getObservationOp.addParameter(eventTimeParam);
-        }
-    }
+//    private void addDatasetParameterFromContentsSection(final OperationsMetadata operationsMetadata, final SOSContents contents) {
+//        final Operation getObservationOp = operationsMetadata.getOperationByName("GetObservation");
+//
+//        for (int i = 0; i < contents.getDataIdentificationCount(); i++) {
+//            final ObservationOffering obsOff = contents.getDataIdentification(i);
+//
+//            //
+//            // --- id:
+//            //
+//            final StringValueDomain idDomain = new StringValueDomain(obsOff.getIdentifier());
+//            final DatasetParameter idParam = new DatasetParameter("id",
+//                                                            false,
+//                                                            idDomain,
+//                                                            obsOff,
+//                                                            Parameter.COMMON_NAME_RESOURCE_ID);
+//            getObservationOp.addParameter(idParam);
+//
+//            //
+//            // --- bbox:
+//            //
+//            final IBoundingBox[] bboxDomain = obsOff.getBoundingBoxes();
+//            for (final IBoundingBox bbox : bboxDomain) {
+//                final DatasetParameter bboxParam = new DatasetParameter("bbox",
+//                                                                  false,
+//                                                                  bbox,
+//                                                                  obsOff,
+//                                                                  Parameter.COMMON_NAME_BBOX);
+//                getObservationOp.addParameter(bboxParam);
+//            }
+//
+//            //
+//            // --- srs:
+//            //
+//            if (obsOff.getAvailableCRSs() != null) {
+//                final StringValueDomain srsDomain = new StringValueDomain(obsOff.getAvailableCRSs());
+//                final DatasetParameter srsParam = new DatasetParameter("srs",
+//                                                                 false,
+//                                                                 srsDomain,
+//                                                                 obsOff,
+//                                                                 Parameter.COMMON_NAME_SRS);
+//                getObservationOp.addParameter(srsParam);
+//            }
+//
+//            //
+//            // --- time:
+//            //
+//            final IDiscreteValueDomain<ITime> temporalDomain = obsOff.getTemporalDomain();
+//            final DatasetParameter eventTimeParam = new DatasetParameter("eventTime",
+//                                                                   false,
+//                                                                   temporalDomain,
+//                                                                   obsOff,
+//                                                                   Parameter.COMMON_NAME_TIME);
+//            getObservationOp.addParameter(eventTimeParam);
+//        }
+//    }
 
     private OperationsMetadata mapOperationsMetadata(final CapabilitiesType capabilities) {
 
@@ -298,6 +296,9 @@ public class SOSCapabilitiesMapper_200 {
 
     private SOSContents mapContents(final CapabilitiesDocument capabilitiesDoc) throws OXFException {
         final CapabilitiesType capabilities = capabilitiesDoc.getCapabilities();
+        if (!capabilities.isSetContents()) {
+            return new SOSContents();
+        }
         final Contents xb_contents = capabilities.getContents();
         final ContentsType contentsType = xb_contents.getContents();
         final String[] observablePropertys = contentsType.getObservablePropertyArray();
@@ -341,13 +342,13 @@ public class SOSCapabilitiesMapper_200 {
                 if (oc_crs != null) {
                     oc_availabaleCRSs = new String[] {oc_crs};
                 }
-//                else {
-                    // TODO Think about throwing an exception because of one missing attribute because this
-                    // situation can occur often when a new offering is set up and no data is available. Set
-                    // it null and then it's okay! (ehjuerrens@52north.org)
-                    // throw new
-                    // NullPointerException("SRS not specified in the Capabilities' 'gml:Envelope'-tag.");
-//                }
+                //                else {
+                // TODO Think about throwing an exception because of one missing attribute because this
+                // situation can occur often when a new offering is set up and no data is available. Set
+                // it null and then it's okay! (ehjuerrens@52north.org)
+                // throw new
+                // NullPointerException("SRS not specified in the Capabilities' 'gml:Envelope'-tag.");
+                //                }
 
                 // BoundingBox:
                 oc_bbox = new IBoundingBox[1];
@@ -382,26 +383,25 @@ public class SOSCapabilitiesMapper_200 {
             final String oc_abstractDescription = null;
 
             final ObservationOffering oc_obsOff = new ObservationOffering(getTitle(xb_obsOffering),
-                                                                    xb_obsOffering.getIdentifier(),
-                                                                    oc_bbox,
-                                                                    (String[]) ArrayUtils.addAll(responseFormats,xb_obsOffering.getResponseFormatArray()),
-                                                                    oc_availabaleCRSs,
-                                                                    capabilities.getServiceIdentification().getFees(),
-                                                                    oc_language,
-                                                                    oc_pointOfContact,
-                                                                    getTemporalDomain(xb_obsOffering),
-                                                                    oc_abstractDescription,
-                                                                    oc_keywords,
-                                                                    new String[] {xb_obsOffering.getProcedure()},
-                                                                    oc_relatedFeatures,
-                                                                    (String[]) ArrayUtils.addAll(xb_obsOffering.getObservablePropertyArray(),observablePropertys),
-                                                                    null, // not supported in SOS 2.0
-                                                                    xb_obsOffering.getResponseFormatArray(),
-                                                                    getFilterDomain(capabilities));
+                    xb_obsOffering.getIdentifier(),
+                    oc_bbox,
+                    (String[]) ArrayUtils.addAll(responseFormats,xb_obsOffering.getResponseFormatArray()),
+                    oc_availabaleCRSs,
+                    capabilities.getServiceIdentification().getFees(),
+                    oc_language,
+                    oc_pointOfContact,
+                    getTemporalDomain(xb_obsOffering),
+                    oc_abstractDescription,
+                    oc_keywords,
+                    new String[] {xb_obsOffering.getProcedure()},
+                    oc_relatedFeatures,
+                    (String[]) ArrayUtils.addAll(xb_obsOffering.getObservablePropertyArray(),observablePropertys),
+                    null, // not supported in SOS 2.0
+                    xb_obsOffering.getResponseFormatArray(),
+                    getFilterDomain(capabilities));
 
             oc_obsOffList.add(oc_obsOff);
         }
-
         return new SOSContents(oc_obsOffList);
     }
 
@@ -549,7 +549,8 @@ public class SOSCapabilitiesMapper_200 {
         final String individualName = contact.getIndividualName();
         final String organisationName = null;
         final String positionName = contact.getPositionName();
-        final ContactType contactInfo = contact.getContactInfo(); // TODO parse info
+        // TODO parse info
+        // final ContactType contactInfo = contact.getContactInfo();
         final Contact info = new Contact(null, null, null, null, null, null);
         final ServiceContact serviceContact = new ServiceContact(individualName, organisationName, positionName, info);
 
