@@ -1,3 +1,6 @@
+- Develop: [![Build Status](https://travis-ci.org/52North/OX-Framework.svg?branch=develop)](https://travis-ci.org/52North/OX-Framework)
+- Master:  [![Build Status](https://travis-ci.org/52North/OX-Framework.svg?branch=master)](https://travis-ci.org/52North/OX-Framework)
+
 # 52°North OX-Framework
 The OX-Framework (OWS Access Framework) is a generic software framework which addresses 
 the needs of application developers who want to access OGC Web Services, and in particular Sensor 
