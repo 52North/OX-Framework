@@ -28,6 +28,7 @@
 package org.n52.oxf.sos.request;
 
 import org.n52.oxf.request.MimetypeAwareRequestParameters;
+import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 
 /**
  * Super class for all SOS specific request parameter assemblies.
@@ -36,8 +37,21 @@ import org.n52.oxf.request.MimetypeAwareRequestParameters;
  */
 public abstract class SosRequestParameters extends MimetypeAwareRequestParameters {
 
-	public SosRequestParameters() {
-		addNonEmpty(SERVICE_TYPE, "SOS");
-	}
+    public SosRequestParameters() {
+        addNonEmpty(SERVICE_TYPE, "SOS");
+    }
+
+    public SosRequestParameters setAuthtoken(final String authtoken) {
+        addNonEmpty(ISOSRequestBuilder.AUTH_TOKEN, authtoken);
+        return this;
+    }
+
+    public Boolean isSetAuthtoken() {
+        return isSingleValue(ISOSRequestBuilder.AUTH_TOKEN);
+    }
+
+    public String getAuthToken() {
+        return getSingleValue(ISOSRequestBuilder.AUTH_TOKEN);
+    }
 
 }
