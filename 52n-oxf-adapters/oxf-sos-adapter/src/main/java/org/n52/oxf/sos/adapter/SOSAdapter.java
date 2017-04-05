@@ -48,6 +48,7 @@ import net.opengis.ows.x11.ExceptionReportDocument;
 import net.opengis.ows.x11.ExceptionType;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.entity.ContentType;
 import org.apache.xmlbeans.XmlException;
@@ -71,6 +72,7 @@ import org.n52.oxf.sos.adapter.v100.SOSCapabilitiesMapper_100;
 import org.n52.oxf.sos.adapter.v200.SOSCapabilitiesMapper_200;
 import org.n52.oxf.sos.feature.SOSObservationStore;
 import org.n52.oxf.sos.util.SosUtil;
+import org.n52.oxf.util.web.AuthTokenAwareHttpClient;
 import org.n52.oxf.util.web.GzipEnabledHttpClient;
 import org.n52.oxf.util.web.HttpClient;
 import org.n52.oxf.util.web.HttpClientException;
@@ -142,7 +144,8 @@ public class SOSAdapter implements IServiceAdapter {
      */
     public SOSAdapter(final String serviceVersion, final HttpClient httpclient) {
         this(serviceVersion, (ISOSRequestBuilder) null);
-        httpClient = httpclient; // override simple client
+        // override simple client
+        httpClient = httpclient;
     }
 
     /**
@@ -211,7 +214,7 @@ public class SOSAdapter implements IServiceAdapter {
      *
      */
     @Override
-	public ServiceDescriptor initService(final String url) throws ExceptionReport, OXFException {
+    public ServiceDescriptor initService(final String url) throws ExceptionReport, OXFException {
         final ParameterContainer paramContainer = new ParameterContainer();
         paramContainer.addParameterShell("acceptVersions", serviceVersion);
         paramContainer.addParameterShell("service", "SOS");
@@ -222,26 +225,26 @@ public class SOSAdapter implements IServiceAdapter {
         return initService(doOperation(operation, paramContainer));
     }
 
-	/**
-	 * initializes the ServiceDescriptor by requesting the capabilities document of the SOS using the binding specified.
-	 *
-	 * @param serviceEndpoint
-	 * @param binding
-	 * @return
-	 * @throws OXFException
-	 * @throws ExceptionReport
-	 */
-	public ServiceDescriptor initService(final String serviceEndpoint,
-			final Binding binding) throws OXFException, ExceptionReport
-	{
-		final ParameterContainer paramContainer = new ParameterContainer();
+    /**
+     * initializes the ServiceDescriptor by requesting the capabilities document of the SOS using the binding specified.
+     *
+     * @param serviceEndpoint
+     * @param binding
+     * @return
+     * @throws OXFException
+     * @throws ExceptionReport
+     */
+    public ServiceDescriptor initService(final String serviceEndpoint,
+            final Binding binding) throws OXFException, ExceptionReport
+    {
+        final ParameterContainer paramContainer = new ParameterContainer();
         paramContainer.addParameterShell(GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, serviceVersion);
         paramContainer.addParameterShell(SERVICE, "SOS");
         paramContainer.addParameterShell(BINDING, binding.name());
         final String baseUrlGet = serviceEndpoint + "?";
         final Operation operation = new Operation("GetCapabilities", baseUrlGet, serviceEndpoint);
         return initService(doOperation(operation, paramContainer));
-	}
+    }
 
     public ServiceDescriptor initService(final OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
         try {
@@ -305,49 +308,49 @@ public class SOSAdapter implements IServiceAdapter {
      * @return the result of the executed operation
      */
     @Override
-	public OperationResult doOperation(final Operation operation, final ParameterContainer parameters) throws ExceptionReport,
-            OXFException {
+    public OperationResult doOperation(final Operation operation, final ParameterContainer parameters) 
+            throws ExceptionReport, OXFException {
 
         OperationResult result = null;
 
         final String request = buildRequest(operation, parameters);
 
         if (operation.getDcps().length == 0) {
-        	throw new IllegalStateException("No DCP links available to send request to.");
+            throw new IllegalStateException("No DCP links available to send request to.");
         }
 
         String uri = null;
         boolean isHttpGet = false;
         // try to get binding specific uri
         if (serviceVersion.equals("2.0.0") && parameters.containsParameterShellWithCommonName(BINDING)) {
-        	final String binding = (String) parameters.getParameterShellWithCommonName(BINDING).getSpecifiedValue();
-        	uriFind:
-        	for (final DCP dcp : operation.getDcps()) {
-        		if (binding.equals(Binding.KVP.name())) {
-        			for (final GetRequestMethod getMethod : dcp.getHTTPGetRequestMethods()) {
-        				for (final Constraint constraint : getMethod.getOwsConstraints()) {
-        					if (isContraintForThisBinding(binding, constraint)) {
-        						uri = getMethod.getOnlineResource().getHref();
-        						isHttpGet = true;
-        						break uriFind;
-        					}
-						}
-					}
-				}
-        		else if (binding.equals(Binding.POX.name()) || binding.equals(Binding.SOAP.name())) {
-        			for (final PostRequestMethod postMethod : dcp.getHTTPPostRequestMethods()) {
-        				for (final Constraint constraint : postMethod.getOwsConstraints()) {
-        					if (isContraintForThisBinding(binding, constraint)) {
-        						uri = postMethod.getOnlineResource().getHref();
-        						break uriFind;
-        					}
-						}
-					}
-        		}
-			}
+            final String binding = (String) parameters.getParameterShellWithCommonName(BINDING).getSpecifiedValue();
+            uriFind:
+            for (final DCP dcp : operation.getDcps()) {
+                if (binding.equals(Binding.KVP.name())) {
+                    for (final GetRequestMethod getMethod : dcp.getHTTPGetRequestMethods()) {
+                        for (final Constraint constraint : getMethod.getOwsConstraints()) {
+                            if (isContraintForThisBinding(binding, constraint)) {
+                                uri = getMethod.getOnlineResource().getHref();
+                                isHttpGet = true;
+                                break uriFind;
+                            }
+                        }
+                    }
+                }
+                else if (binding.equals(Binding.POX.name()) || binding.equals(Binding.SOAP.name())) {
+                    for (final PostRequestMethod postMethod : dcp.getHTTPPostRequestMethods()) {
+                        for (final Constraint constraint : postMethod.getOwsConstraints()) {
+                            if (isContraintForThisBinding(binding, constraint)) {
+                                uri = postMethod.getOnlineResource().getHref();
+                                break uriFind;
+                            }
+                        }
+                    }
+                }
+            }
         }
         if (uri == null && operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0) {
-        	uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
+            uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
         }
 
         /*
@@ -357,15 +360,22 @@ public class SOSAdapter implements IServiceAdapter {
          */
 
         final ContentType mimetype = getMimetype(parameters);
+        
+        HttpClient myHttpClient = httpClient;
+        
+        if(isSetAuthtoken(parameters)) {
+            myHttpClient = new AuthTokenAwareHttpClient(httpClient, (String)parameters.getParameterShellWithCommonName(ISOSRequestBuilder.AUTH_TOKEN)
+                    .getSpecifiedValue());
+        }
 
         try {
-        	HttpResponse httpResponse = null;
-        	if (isHttpGet) {
-        		httpResponse = httpClient.executeGet(uri.trim());
-        	} else {
-        		httpResponse = httpClient.executePost(uri.trim(), request, mimetype);
-        	}
-			final HttpEntity responseEntity = httpResponse.getEntity();
+            HttpResponse httpResponse = null;
+            if (isHttpGet) {
+                httpResponse = myHttpClient.executeGet(uri.trim());
+            } else {
+                httpResponse = myHttpClient.executePost(uri.trim(), request, mimetype);
+            }
+            final HttpEntity responseEntity = httpResponse.getEntity();
             result = new OperationResult(responseEntity.getContent(), parameters, request);
 
             // TODO make us independent from XmlObject
@@ -396,6 +406,13 @@ public class SOSAdapter implements IServiceAdapter {
         }
     }
 
+    private boolean isSetAuthtoken(final ParameterContainer parameters) {
+        return parameters.containsParameterShellWithCommonName(ISOSRequestBuilder.AUTH_TOKEN) &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.AUTH_TOKEN) != null &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.AUTH_TOKEN).getSpecifiedValue().getClass().isAssignableFrom(String.class) &&
+                !((String)parameters.getParameterShellWithCommonName(ISOSRequestBuilder.AUTH_TOKEN).getSpecifiedValue()).isEmpty();
+    }
+
     /**
     *
     * @param operation
@@ -406,12 +423,12 @@ public class SOSAdapter implements IServiceAdapter {
     *        Map which contains the parameters of the operation and the corresponding parameter values
     *
     * @param connectionTimeout
-    * 		 The connectionTimeout to be used for this operation in millis.
-    * 		 A value < 1 will be ignored.
+    *          The connectionTimeout to be used for this operation in millis.
+    *          A value < 1 will be ignored.
     *
     * @param readTimeout
-    * 		The readTimeout to be used for this operation in millis.
-    * 		A value < 1 will be ignored.
+    *         The readTimeout to be used for this operation in millis.
+    *         A value < 1 will be ignored.
     *
     * @throws ExceptionReport
     *         Report which contains the service sided exceptions
@@ -422,67 +439,67 @@ public class SOSAdapter implements IServiceAdapter {
     *
     * @return the result of the executed operation
     */
-	public OperationResult doOperation(
-			final Operation operation,
-			final ParameterContainer parameters,
-			final int connectionTimeout,
-			final int readTimeout) throws ExceptionReport,
+    public OperationResult doOperation(
+            final Operation operation,
+            final ParameterContainer parameters,
+            final int connectionTimeout,
+            final int readTimeout) throws ExceptionReport,
            OXFException {
-	   if (connectionTimeout > 0 && readTimeout < 1) {
-		   httpClient = new GzipEnabledHttpClient(new ProxyAwareHttpClient(new SimpleHttpClient(connectionTimeout)));
-	   }
-	   if (readTimeout > 0 && connectionTimeout > 1) {
-		   httpClient = new GzipEnabledHttpClient(new ProxyAwareHttpClient(new SimpleHttpClient(connectionTimeout,readTimeout)));
-	   }
-	   return doOperation(operation, parameters);
+       if (connectionTimeout > 0 && readTimeout < 1) {
+           httpClient = new GzipEnabledHttpClient(new ProxyAwareHttpClient(new SimpleHttpClient(connectionTimeout)));
+       }
+       if (readTimeout > 0 && connectionTimeout > 1) {
+           httpClient = new GzipEnabledHttpClient(new ProxyAwareHttpClient(new SimpleHttpClient(connectionTimeout, readTimeout)));
+       }
+       return doOperation(operation, parameters);
 
    }
 
-	private ContentType getMimetype(final ParameterContainer parameters) {
-		// with encoding ISO_8859_1
-		ContentType mimetype = TEXT_XML;
+    private ContentType getMimetype(final ParameterContainer parameters) {
+        // with encoding ISO_8859_1
+        ContentType mimetype = TEXT_XML;
         if (parameters.containsParameterShellWithCommonName(MIMETYPE)) {
-        	final String mimetypeParameter = (String) parameters.getParameterShellWithCommonName(MIMETYPE).getSpecifiedValue();
-			if (parameters.containsParameterShellWithCommonName(ENCODING)) {
-        		final String encodingParameter = (String) parameters.getParameterShellWithCommonName(ENCODING).getSpecifiedValue();
-				mimetype = ContentType.create(mimetypeParameter, encodingParameter);
-        	}
-        	else {
-        		mimetype = ContentType.create(mimetypeParameter);
-        	}
+            final String mimetypeParameter = (String) parameters.getParameterShellWithCommonName(MIMETYPE).getSpecifiedValue();
+            if (parameters.containsParameterShellWithCommonName(ENCODING)) {
+                final String encodingParameter = (String) parameters.getParameterShellWithCommonName(ENCODING).getSpecifiedValue();
+                mimetype = ContentType.create(mimetypeParameter, encodingParameter);
+            }
+            else {
+                mimetype = ContentType.create(mimetypeParameter);
+            }
         }
-		return mimetype;
-	}
+        return mimetype;
+    }
 
-	private boolean isContraintForThisBinding(final String binding,
-			final Constraint constraint)
-	{
-		if (constraint.getName().equals("Content-Type")) {
-			for (final String allowedValue : constraint.getAllowedValues()) {
-				if (binding.equalsIgnoreCase(Binding.KVP.name()) &&
-						allowedValue.equalsIgnoreCase("application/x-kvp")){
-					return true;
-				}
-				if (binding.equalsIgnoreCase(Binding.POX.name()) &&
-						( allowedValue.equalsIgnoreCase("application/xml") ||
-						allowedValue.equalsIgnoreCase("text/xml") ) ){
-					return true;
-				}
-				if (binding.equalsIgnoreCase(Binding.SOAP.name()) &&
-						allowedValue.equalsIgnoreCase("application/soap+xml")){
-					return true;
-				}
-				if (binding.equalsIgnoreCase(Binding.JSON.name()) &&
-						allowedValue.equalsIgnoreCase("application/json")){
-					return true;
-				}
+    private boolean isContraintForThisBinding(final String binding,
+            final Constraint constraint)
+    {
+        if (constraint.getName().equals("Content-Type")) {
+            for (final String allowedValue : constraint.getAllowedValues()) {
+                if (binding.equalsIgnoreCase(Binding.KVP.name()) &&
+                        allowedValue.equalsIgnoreCase("application/x-kvp")){
+                    return true;
+                }
+                if (binding.equalsIgnoreCase(Binding.POX.name()) &&
+                        ( allowedValue.equalsIgnoreCase("application/xml") ||
+                        allowedValue.equalsIgnoreCase("text/xml") ) ){
+                    return true;
+                }
+                if (binding.equalsIgnoreCase(Binding.SOAP.name()) &&
+                        allowedValue.equalsIgnoreCase("application/soap+xml")){
+                    return true;
+                }
+                if (binding.equalsIgnoreCase(Binding.JSON.name()) &&
+                        allowedValue.equalsIgnoreCase("application/json")){
+                    return true;
+                }
 
-			}
-		}
-		return false;
-	}
+            }
+        }
+        return false;
+    }
 
-	private String buildRequest(final Operation operation, final ParameterContainer parameters) throws OXFException {
+    private String buildRequest(final Operation operation, final ParameterContainer parameters) throws OXFException {
         if (operation.getName().equals(GET_CAPABILITIES)) {
             return requestBuilder.buildGetCapabilitiesRequest(parameters);
         }
@@ -499,14 +516,14 @@ public class SOSAdapter implements IServiceAdapter {
             return requestBuilder.buildInsertObservationRequest(parameters);
         }
         else if (operation.getName().equals(REGISTER_SENSOR) ||
-        		operation.getName().equals(INSERT_SENSOR)) {
+                operation.getName().equals(INSERT_SENSOR)) {
             return requestBuilder.buildRegisterSensorRequest(parameters);
         }
         else if (operation.getName().equals(GET_OBSERVATION_BY_ID)) {
             return requestBuilder.buildGetObservationByIDRequest(parameters);
         }
         else if (operation.getName().equals(DELETE_SENSOR)) {
-        	return requestBuilder.buildDeleteSensorRequest(parameters);
+            return requestBuilder.buildDeleteSensorRequest(parameters);
         }
         else {
             throw new OXFException(format("Operation '%s' not supported.", operation.getName()));
@@ -578,7 +595,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @return The name of the service operation which returns the data to be added to a map view as a layer.
      */
     @Override
-	public String getResourceOperationName() {
+    public String getResourceOperationName() {
         return RESOURCE_OPERATION;
     }
 
@@ -588,7 +605,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @return String the description of the adapter
      */
     @Override
-	public String getDescription() {
+    public String getDescription() {
         return DESCRIPTION;
     }
 
@@ -598,7 +615,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @return String the type of service
      */
     @Override
-	public String getServiceType() {
+    public String getServiceType() {
         return SosUtil.SERVICE_TYPE;
     }
 
@@ -608,7 +625,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @return String[] the supported versions of the service which is connectable by this ServiceAdapter
      */
     @Override
-	public String[] getSupportedVersions() {
+    public String[] getSupportedVersions() {
         return SosUtil.SUPPORTED_VERSIONS;
     }
 
