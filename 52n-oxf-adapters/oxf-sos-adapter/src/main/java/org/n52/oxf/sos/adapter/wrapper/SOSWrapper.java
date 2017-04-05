@@ -79,6 +79,8 @@ public class SOSWrapper {
 
     private int readTimeout = -1;
 
+    private String authtoken;
+
     protected SOSWrapper(final ServiceDescriptor serviceDescriptor, final Binding binding) {
         this.serviceDescriptor = serviceDescriptor;
         this.binding = binding;
@@ -260,6 +262,9 @@ public class SOSWrapper {
                 insertSensorParameters.getAllValues(InsertSensorParameters.FEATURE_OF_INTEREST_TYPES)
                 .toArray(new String[insertSensorParameters.getAllValues(InsertSensorParameters.FEATURE_OF_INTEREST_TYPES).size()]));
         processOptionalMimetypeParameter(insertSensorParameters, paramContainer);
+        if (authtoken != null && !authtoken.isEmpty() && !insertSensorParameters.isSetAuthtoken()) {
+            insertSensorParameters.setAuthtoken(authtoken);
+        }
         if (insertSensorParameters.isSetAuthtoken()) {
             addAuthtokenParameter(insertSensorParameters, paramContainer);
         }
@@ -306,6 +311,12 @@ public class SOSWrapper {
             final String defaultResult = parameters.getSingleValue(REGISTER_SENSOR_DEFAULT_RESULT_VALUE);
             parameterContainer.addParameterShell(REGISTER_SENSOR_DEFAULT_RESULT_VALUE, defaultResult);
         }
+        if (authtoken != null && !authtoken.isEmpty() && !parameters.isSetAuthtoken()) {
+            parameters.setAuthtoken(authtoken);
+        }
+        if (parameters.isSetAuthtoken()) {
+            addAuthtokenParameter(parameters, parameterContainer);
+        }
         processOptionalMimetypeParameter(parameters, parameterContainer);
         return parameterContainer;
     }
@@ -324,6 +335,9 @@ public class SOSWrapper {
         // if there are operations defined
         if (checkOperationAvailability(INSERT_OBSERVATION)) {
             final Operation operation = serviceDescriptor.getOperationsMetadata().getOperationByName(INSERT_OBSERVATION);
+            if (authtoken != null && !authtoken.isEmpty() && !parameters.isSetAuthtoken()) {
+                parameters.setAuthtoken(authtoken);
+            }
             final ParameterContainer parameterContainer = createParameterContainerForInsertObservation(parameters);
             return adapter.doOperation(operation, parameterContainer, connectionTimeout, readTimeout);
         } else {
@@ -343,6 +357,9 @@ public class SOSWrapper {
             throw new OXFException(String.format("Subtype of %s: %s not supported by this implemenation.",InsertObservationParameters.class.getName(),parameters.getClass().getName()));
         }
         processOptionalMimetypeParameter(parameters, parameterContainer);
+        if (authtoken != null && !authtoken.isEmpty() && !parameters.isSetAuthtoken()) {
+            parameters.setAuthtoken(authtoken);
+        }
         if (parameters.isSetAuthtoken()) {
             addAuthtokenParameter(parameters, parameterContainer);
         }
@@ -539,4 +556,14 @@ public class SOSWrapper {
         this.readTimeout  = readTimeout;
     }
 
+    /**
+     * The authtoken can be used when the SOS transactional security is enabled
+     * and secured with an token.
+     * @param authtoken the authtoken to use
+     * @return this {@link SOSWrapper} instance
+     */
+    public SOSWrapper setAuthtoken(final String authtoken) {
+        this.authtoken = authtoken;
+        return this;
+    }
 }
