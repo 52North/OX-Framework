@@ -590,6 +590,11 @@ public class SOSWrapper {
         return this;
     }
 
+    /**
+     * Used for http basic auth: storing the host requiring the credentials in the following format
+     *
+     * @param basicAuthHost <code>scheme://target.host:targetport</code>, e.g. <code>https://www.example.com:443</code>
+     */
     public SOSWrapper setBasicAuthHost(String basicAuthHost) {
         if (basicAuthHost == null || basicAuthHost.isEmpty()) {
             throw new IllegalArgumentException("basicAuthHost MUST not be null or empty!");
