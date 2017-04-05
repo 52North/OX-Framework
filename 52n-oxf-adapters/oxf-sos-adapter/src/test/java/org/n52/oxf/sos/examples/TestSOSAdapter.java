@@ -389,7 +389,10 @@ public class TestSOSAdapter {
         paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE, "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement");
         paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_FEATURE_TYPE_PARAMETER,"http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint");
         
-        paramCon.addParameterShell(ISOSRequestBuilder.AUTH_TOKEN, "oxf-test-token");
+//        paramCon.addParameterShell(ISOSRequestBuilder.AUTH_TOKEN, "oxf-test-token");
+        paramCon.addParameterShell(ISOSRequestBuilder.BASIC_AUTH_HOST, "http://localhost:81");
+        paramCon.addParameterShell(ISOSRequestBuilder.BASIC_AUTH_PASSWORD, "test");
+        paramCon.addParameterShell(ISOSRequestBuilder.BASIC_AUTH_USER, "test");
 
         sosAdapter.doOperation(new Operation(SOSAdapter.INSERT_SENSOR, TestSOSAdapter.IGNORE_GET_URL, url), paramCon);
     }

@@ -49,7 +49,9 @@ import net.opengis.ows.x11.ExceptionType;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -73,9 +75,11 @@ import org.n52.oxf.sos.adapter.v200.SOSCapabilitiesMapper_200;
 import org.n52.oxf.sos.feature.SOSObservationStore;
 import org.n52.oxf.sos.util.SosUtil;
 import org.n52.oxf.util.web.AuthTokenAwareHttpClient;
+import org.n52.oxf.util.web.BasicAuthenticationHttpClient;
 import org.n52.oxf.util.web.GzipEnabledHttpClient;
 import org.n52.oxf.util.web.HttpClient;
 import org.n52.oxf.util.web.HttpClientException;
+import org.n52.oxf.util.web.PreemptiveBasicAuthenticationHttpClient;
 import org.n52.oxf.util.web.ProxyAwareHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
@@ -367,6 +371,14 @@ public class SOSAdapter implements IServiceAdapter {
             myHttpClient = new AuthTokenAwareHttpClient(httpClient, (String)parameters.getParameterShellWithCommonName(ISOSRequestBuilder.AUTH_TOKEN)
                     .getSpecifiedValue());
         }
+        if (isSetBasicAuth(parameters)) {
+            myHttpClient = new BasicAuthenticationHttpClient(myHttpClient);
+            ((BasicAuthenticationHttpClient)myHttpClient).provideAuthentication(
+                    createHttpHost((String)parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_HOST).getSpecifiedValue()),
+                    (String)parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_USER).getSpecifiedValue(),
+                     (String)parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_PASSWORD).getSpecifiedValue()
+                     );
+        }
 
         try {
             HttpResponse httpResponse = null;
@@ -374,6 +386,9 @@ public class SOSAdapter implements IServiceAdapter {
                 httpResponse = myHttpClient.executeGet(uri.trim());
             } else {
                 httpResponse = myHttpClient.executePost(uri.trim(), request, mimetype);
+            }
+            if (isSetBasicAuth(parameters) && httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_UNAUTHORIZED) {
+                throw new OXFException("Basic Auth Credentials are not valid! Response: \"" + httpResponse.getStatusLine().toString() + "\".");
             }
             final HttpEntity responseEntity = httpResponse.getEntity();
             result = new OperationResult(responseEntity.getContent(), parameters, request);
@@ -404,6 +419,29 @@ public class SOSAdapter implements IServiceAdapter {
         catch (final IOException e) {
             throw new OXFException("Could not create OperationResult.", e);
         }
+    }
+
+    private HttpHost createHttpHost(final String hostString) {
+        // scheme://hostname:port
+        // String hostname, int port, String scheme
+        return new HttpHost(hostString.substring(hostString.indexOf("//")+2,hostString.lastIndexOf(":")),
+                Integer.parseInt(hostString.substring(hostString.lastIndexOf(":")+1)),
+                hostString.substring(0, hostString.indexOf(":")));
+    }
+
+    private boolean isSetBasicAuth(ParameterContainer parameters) {
+        return parameters.containsParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_USER) &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_USER) != null &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_USER).getSpecifiedValue().getClass().isAssignableFrom(String.class) &&
+                !((String)parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_USER).getSpecifiedValue()).isEmpty() &&
+                parameters.containsParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_PASSWORD) &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_PASSWORD) != null &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_PASSWORD).getSpecifiedValue().getClass().isAssignableFrom(String.class) &&
+                !((String)parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_PASSWORD).getSpecifiedValue()).isEmpty() &&
+                parameters.containsParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_HOST) &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_HOST) != null &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_HOST).getSpecifiedValue().getClass().isAssignableFrom(String.class) &&
+                !((String)parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BASIC_AUTH_HOST).getSpecifiedValue()).isEmpty();
     }
 
     private boolean isSetAuthtoken(final ParameterContainer parameters) {

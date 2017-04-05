@@ -81,6 +81,12 @@ public class SOSWrapper {
 
     private String authtoken;
 
+    private String basicAuthHost;
+
+    private String basicAuthUser;
+
+    private String basicAuthPassword;
+
     protected SOSWrapper(final ServiceDescriptor serviceDescriptor, final Binding binding) {
         this.serviceDescriptor = serviceDescriptor;
         this.binding = binding;
@@ -122,6 +128,7 @@ public class SOSWrapper {
         final String outputFormat = parameters.getSingleValue(DESCRIBE_SENSOR_OUTPUT_FORMAT);
         parameterContainer.addParameterShell(DESCRIBE_SENSOR_OUTPUT_FORMAT, outputFormat);
         processOptionalMimetypeParameter(parameters, parameterContainer);
+        processOptionalBasicAuthParameter(parameterContainer);
         return parameterContainer;
     }
 
@@ -186,6 +193,7 @@ public class SOSWrapper {
             parameterContainer.addParameterShell(GET_OBSERVATION_RESPONSE_MODE_PARAMETER, (String) parameters.get(GET_OBSERVATION_RESPONSE_MODE_PARAMETER));
         }
         processOptionalMimetypeParameter(parameters, parameterContainer);
+        processOptionalBasicAuthParameter(parameterContainer);
         return parameterContainer;
     }
 
@@ -242,33 +250,34 @@ public class SOSWrapper {
     }
 
     private ParameterContainer createParameterContainerForInsertSensor(final InsertSensorParameters insertSensorParameters) throws OXFException {
-        final ParameterContainer paramContainer = createParameterContainerWithCommonServiceParameters();
-        paramContainer.addParameterShell(
+        final ParameterContainer parameterContainer = createParameterContainerWithCommonServiceParameters();
+        parameterContainer.addParameterShell(
                 REGISTER_SENSOR_ML_DOC_PARAMETER,
                 insertSensorParameters.getSingleValue(InsertSensorParameters.PROCEDURE_DESCRIPTION));
-        paramContainer.addParameterShell(
+        parameterContainer.addParameterShell(
                 REGISTER_SENSOR_PROCEDURE_DESCRIPTION_FORMAT_PARAMETER,
                 insertSensorParameters.getSingleValue(InsertSensorParameters.PROCEDURE_DESCRIPTION_FORMAT));
-        paramContainer.addParameterShell(
+        parameterContainer.addParameterShell(
                 REGISTER_SENSOR_OBSERVED_PROPERTY_PARAMETER,
                 insertSensorParameters.getAllValues(InsertSensorParameters.OBSERVABLE_PROPERTIES)
                 .toArray(new String[insertSensorParameters.getAllValues(InsertSensorParameters.OBSERVABLE_PROPERTIES).size()]));
-        paramContainer.addParameterShell(
+        parameterContainer.addParameterShell(
                 REGISTER_SENSOR_OBSERVATION_TYPE,
                 insertSensorParameters.getAllValues(InsertSensorParameters.OBSERVATION_TYPES)
                 .toArray(new String[insertSensorParameters.getAllValues(InsertSensorParameters.OBSERVATION_TYPES).size()]));
-        paramContainer.addParameterShell(
+        parameterContainer.addParameterShell(
                 REGISTER_SENSOR_FEATURE_TYPE_PARAMETER,
                 insertSensorParameters.getAllValues(InsertSensorParameters.FEATURE_OF_INTEREST_TYPES)
                 .toArray(new String[insertSensorParameters.getAllValues(InsertSensorParameters.FEATURE_OF_INTEREST_TYPES).size()]));
-        processOptionalMimetypeParameter(insertSensorParameters, paramContainer);
         if (authtoken != null && !authtoken.isEmpty() && !insertSensorParameters.isSetAuthtoken()) {
             insertSensorParameters.setAuthtoken(authtoken);
         }
         if (insertSensorParameters.isSetAuthtoken()) {
-            addAuthtokenParameter(insertSensorParameters, paramContainer);
+            addAuthtokenParameter(insertSensorParameters, parameterContainer);
         }
-        return paramContainer;
+        processOptionalMimetypeParameter(insertSensorParameters, parameterContainer);
+        processOptionalBasicAuthParameter(parameterContainer);
+        return parameterContainer;
     }
 
     public OperationResult doDeleteSensor(final String sensorId) throws OXFException, ExceptionReport {
@@ -318,6 +327,7 @@ public class SOSWrapper {
             addAuthtokenParameter(parameters, parameterContainer);
         }
         processOptionalMimetypeParameter(parameters, parameterContainer);
+        processOptionalBasicAuthParameter(parameterContainer);
         return parameterContainer;
     }
 
@@ -356,13 +366,14 @@ public class SOSWrapper {
         else {
             throw new OXFException(String.format("Subtype of %s: %s not supported by this implemenation.",InsertObservationParameters.class.getName(),parameters.getClass().getName()));
         }
-        processOptionalMimetypeParameter(parameters, parameterContainer);
         if (authtoken != null && !authtoken.isEmpty() && !parameters.isSetAuthtoken()) {
             parameters.setAuthtoken(authtoken);
         }
         if (parameters.isSetAuthtoken()) {
             addAuthtokenParameter(parameters, parameterContainer);
         }
+        processOptionalMimetypeParameter(parameters, parameterContainer);
+        processOptionalBasicAuthParameter(parameterContainer);
         return parameterContainer;
     }
 
@@ -477,6 +488,7 @@ public class SOSWrapper {
             parameterContainer.addParameterShell(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER, parameters.get(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER));
         }
         processOptionalMimetypeParameter(parameters, parameterContainer);
+        processOptionalBasicAuthParameter(parameterContainer);
         return parameterContainer;
     }
 
@@ -514,7 +526,18 @@ public class SOSWrapper {
             parameterContainer.addParameterShell(GET_FOI_EVENT_TIME_PARAMETER, parameters.get(GET_FOI_EVENT_TIME_PARAMETER));
         }
         processOptionalMimetypeParameter(parameters, parameterContainer);
+        processOptionalBasicAuthParameter(parameterContainer);
         return parameterContainer;
+    }
+
+    private void processOptionalBasicAuthParameter(ParameterContainer parameterContainer) throws OXFException {
+        if (basicAuthHost != null && !basicAuthHost.isEmpty() &&
+                basicAuthUser != null && !basicAuthUser.isEmpty() &&
+                basicAuthPassword != null && !basicAuthPassword.isEmpty()) {
+            parameterContainer.addParameterShell(ISOSRequestBuilder.BASIC_AUTH_HOST, basicAuthHost);
+            parameterContainer.addParameterShell(ISOSRequestBuilder.BASIC_AUTH_USER, basicAuthUser);
+            parameterContainer.addParameterShell(ISOSRequestBuilder.BASIC_AUTH_PASSWORD, basicAuthPassword);
+        }
     }
 
     /**
@@ -564,6 +587,30 @@ public class SOSWrapper {
      */
     public SOSWrapper setAuthtoken(final String authtoken) {
         this.authtoken = authtoken;
+        return this;
+    }
+
+    public SOSWrapper setBasicAuthHost(String basicAuthHost) {
+        if (basicAuthHost == null || basicAuthHost.isEmpty()) {
+            throw new IllegalArgumentException("basicAuthHost MUST not be null or empty!");
+        }
+        this.basicAuthHost = basicAuthHost;
+        return this;
+    }
+
+    public SOSWrapper setBasicAuthUser(String basicAuthUser) {
+        if (basicAuthUser == null || basicAuthUser.isEmpty()) {
+            throw new IllegalArgumentException("basicAuthUser MUST not be null or empty!");
+        }
+        this.basicAuthUser = basicAuthUser;
+        return this;
+    }
+
+    public SOSWrapper setBasicAuthPassword(String basicAuthPassword) {
+        if (basicAuthPassword == null || basicAuthPassword.isEmpty()) {
+            throw new IllegalArgumentException("basicAuthPassword MUST not be null or empty!");
+        }
+        this.basicAuthPassword = basicAuthPassword;
         return this;
     }
 }

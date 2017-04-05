@@ -283,6 +283,22 @@ public interface ISOSRequestBuilder {
      */
     String DELETE_SENSOR_PROCEDURE = "procedure";
 
+    /**
+     * Used for http basic auth: storing the username
+     */
+    String BASIC_AUTH_USER = "basic_auth_user";
+
+    /**
+     * Used for http basic auth: storing the password
+     */
+    String BASIC_AUTH_PASSWORD = "basic_auth_password";
+
+    /**
+     * Used for http basic auth: storing the host requiring the credentials in the following format
+     *
+     * <code>scheme://target.host:targetport</code>, e.g. <code>https://www.example.com:443</code>
+     */
+    String BASIC_AUTH_HOST = "basic_auth_host";
 
     /**
      * Builds a DeleteSensor request and returns it. Required for SOS 2.0 support.
