@@ -27,19 +27,27 @@
  */
 package org.n52.oxf.sos.request;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.n52.oxf.request.MultiValueRequestParameters.SERVICE_TYPE;
-
+import org.hamcrest.core.Is;
+import org.junit.Assert;
 import org.junit.Test;
+import org.n52.oxf.request.MultiValueRequestParameters;
 
 public class SosRequestParametersTest {
 
-	@Test public void
-	shouldSetServiceTypeToSOS()
-	{
-		assertThat(new ParametersSeam().getSingleValue(SERVICE_TYPE), is("SOS"));
-	}
-	
-	private class ParametersSeam extends SosRequestParameters{}
+    @Test
+    public void shouldSetServiceTypeToSOS() {
+        Assert.assertThat(new ParametersSeam().getSingleValue(MultiValueRequestParameters.SERVICE_TYPE), Is.is("SOS"));
+    }
+
+    @Test
+    public void shouldSetAuthToken() {
+        SosRequestParameters params = new ParametersSeam();
+        final String authtoken = "test-auth-token";
+        params.setAuthtoken(authtoken);
+
+        Assert.assertThat(params.isSetAuthtoken(), Is.is(true));
+        Assert.assertThat(params.getAuthToken(), Is.is(authtoken));
+    }
+
+    private class ParametersSeam extends SosRequestParameters {}
 }

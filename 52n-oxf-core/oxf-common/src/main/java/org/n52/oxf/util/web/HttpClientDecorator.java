@@ -76,10 +76,7 @@ public abstract class HttpClientDecorator implements HttpClient {
         return httpclient.executeMethod(method);
     }
 
-	public ClientConnectionManager getConnectionManager() {
-		return null;
-	}
-
-    
-    
+    public ClientConnectionManager getConnectionManager() {
+        return null;
+    }
 }
