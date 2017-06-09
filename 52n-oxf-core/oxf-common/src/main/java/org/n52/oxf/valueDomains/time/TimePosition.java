@@ -444,11 +444,10 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 			return isoDate.toString();
 		}
 
-		if ( !timeZone.equals("Z")) {
+		if (timeZone != null && !timeZone.equals("Z")) {
 			isoDate.append(timeZone);
 		}
 
-		// Should not be reached.
 		return isoDate.toString();
 	}
 

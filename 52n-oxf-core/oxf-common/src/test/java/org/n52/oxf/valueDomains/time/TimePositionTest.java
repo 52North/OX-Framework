@@ -27,15 +27,14 @@
  */
 package org.n52.oxf.valueDomains.time;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.google.common.collect.Maps;
+import java.util.Map;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import static org.n52.oxf.valueDomains.time.TimePosition.UTC_PATTERN;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,5 +119,17 @@ public class TimePositionTest {
     @Test public void parseTimeZoneCorrectly() {
         TimePosition withoutOffset = new TimePosition("2014-03-30T02:05:20.000");
         Assert.assertThat(withoutOffset.getTimezone(), Matchers.is("Z"));
+    }
+
+    @Test public void createIsoDateWithTimezoneNull() {
+        Map<String, String> testCases = Maps.newHashMap();
+        testCases.put("2014-03-30T02:05:20.000", "2014-03-30T02:05:20");
+        testCases.put("2014-03-30T02:05:20.000Z", "2014-03-30T02:05:20");
+        for (String key : testCases.keySet()) {
+            TimePosition time = new TimePosition(key);
+            time.setTimezone(null);
+            String isoString = time.toISO8601Format();
+        Assert.assertThat(isoString, Matchers.is(testCases.get(key)));
+        }
     }
 }
