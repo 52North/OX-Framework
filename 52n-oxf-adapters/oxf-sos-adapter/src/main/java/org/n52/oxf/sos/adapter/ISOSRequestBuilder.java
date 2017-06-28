@@ -1,5 +1,5 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -44,6 +44,11 @@ public interface ISOSRequestBuilder {
     String VERSION = "version";
 
     String SERVICE = "service";
+
+    /**
+     * OGC O&M 2.0 parameter
+     */
+    String OM_PARAMETER = "om_parameter";
 
     String EXTENSION = "extension";
 

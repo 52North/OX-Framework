@@ -1,5 +1,5 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -43,12 +43,9 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.SERVICE;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.VERSION;
 
 import java.io.IOException;
-
-import net.opengis.ows.x11.ExceptionReportDocument;
-import net.opengis.ows.x11.ExceptionType;
+import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -79,18 +76,23 @@ import org.n52.oxf.util.web.BasicAuthenticationHttpClient;
 import org.n52.oxf.util.web.GzipEnabledHttpClient;
 import org.n52.oxf.util.web.HttpClient;
 import org.n52.oxf.util.web.HttpClientException;
-import org.n52.oxf.util.web.PreemptiveBasicAuthenticationHttpClient;
 import org.n52.oxf.util.web.ProxyAwareHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.opengis.ows.x11.ExceptionReportDocument;
+import net.opengis.ows.x11.ExceptionType;
+
 /**
  * SOS-Adapter for the OX-Framework
  *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
+ * @author <a href="mailto:e.h.juerens@52north.org">Eike Hinderk J&uumlrrens</a>
  */
 public class SOSAdapter implements IServiceAdapter {
+
+    private static final String DEFAULT_BINDING = "POX";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSAdapter.class);
 
@@ -146,10 +148,10 @@ public class SOSAdapter implements IServiceAdapter {
      * @param httpclient
      *        the (decorated) {@link HttpClient} to use for service connections.
      */
-    public SOSAdapter(final String serviceVersion, final HttpClient httpclient) {
+    public SOSAdapter(final String serviceVersion, final HttpClient httpClient) {
         this(serviceVersion, (ISOSRequestBuilder) null);
         // override simple client
-        httpClient = httpclient;
+        this.httpClient = httpClient;
     }
 
     /**
@@ -244,7 +246,7 @@ public class SOSAdapter implements IServiceAdapter {
         final ParameterContainer paramContainer = new ParameterContainer();
         paramContainer.addParameterShell(GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, serviceVersion);
         paramContainer.addParameterShell(SERVICE, "SOS");
-        paramContainer.addParameterShell(BINDING, binding.name());
+        paramContainer.addParameterShell(BINDING, binding != null? binding.name() : DEFAULT_BINDING);
         final String baseUrlGet = serviceEndpoint + "?";
         final Operation operation = new Operation("GetCapabilities", baseUrlGet, serviceEndpoint);
         return initService(doOperation(operation, paramContainer));
@@ -355,6 +357,10 @@ public class SOSAdapter implements IServiceAdapter {
         }
         if (uri == null && operation.getDcps()[0].getHTTPPostRequestMethods().size() > 0) {
             uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
+        }
+
+        if (uri == null) {
+            throw new OXFException("Could not determine service endpoint for operation from capabilities!");
         }
 
         /*
