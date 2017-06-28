@@ -270,41 +270,44 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         return null;
     }
 
-    public boolean equals(Object obj) {
-    	if (obj == null) {
-    		return false;
-    	}
-    	if (obj == this) {
-    		return true;
-    	}
-    	if (!(obj instanceof BoundingBox)) {
-    		return false;
-    	} else {
-
-    		BoundingBox bbox = (BoundingBox) obj;
-    		if (this.getCRS() != bbox.getCRS()) {
-    			return false;
-    		}
-
-    		if (this.getDimensions() != bbox.getDimensions()) {
-    			return false;
-    		}
-
-    		for (int i = 0; i < getLowerCorner().length; i++) {
-    			if (getLowerCorner()[i] != bbox.getLowerCorner()[i]) {
-    				return false;
-    			}
-    		}
-
-    		for (int i = 0; i < getUpperCorner().length; i++) {
-    			if (getUpperCorner()[i] != bbox.getUpperCorner()[i]) {
-    				return false;
-    			}
-    		}
-
-    		return true;
-    	}
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Arrays.hashCode(this.lowerCorner);
+        hash = 89 * hash + Arrays.hashCode(this.upperCorner);
+        hash = 89 * hash + (this.crs != null ? this.crs.hashCode() : 0);
+        hash = 89 * hash + this.dimensions;
+        return hash;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final BoundingBox other = (BoundingBox) obj;
+        if (this.dimensions != other.dimensions) {
+            return false;
+        }
+        if ((this.crs == null) ? (other.crs != null) : !this.crs.equals(other.crs)) {
+            return false;
+        }
+        if (!Arrays.equals(this.lowerCorner, other.lowerCorner)) {
+            return false;
+        }
+        if (!Arrays.equals(this.upperCorner, other.upperCorner)) {
+            return false;
+        }
+        return true;
+    }
+
+    
 
     /**
      * difference in x direction, i.e. {lower,upper}Corner[0]

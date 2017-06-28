@@ -71,7 +71,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 
 	private boolean isDateComplete = false;
 	private String timePos = "";
-	private ITimeResolution timeRes;
+	/*private ITimeResolution timeRes;*/
 
 	/**
 	 * Constructs a {@link TimePosition} out of a ISO 8601 String. The string has at least to indicate the year.
@@ -370,8 +370,12 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 		return timeZone;
 	}
 
+    /**
+     * @deprecated Returned value was always null because it could never been set.
+     *  Will be remove in next major version.
+     */
 	public ITimeResolution getTimeResolution() {
-		return timeRes;
+		return /*timeRes*/null;
 	}
 
 	@Override

@@ -29,6 +29,7 @@ package org.n52.oxf.util;
 
 import java.awt.Color;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -134,12 +135,18 @@ public class JavaHelper {
      * @param postfix a postfix that will be added after midPart using "."
      *
      * @return a new File
+     *
+     * @throws IOException when the directory for the file could not be generated.
      */
-    public static File genFile(String parentPath, String midPart, String postfix) {
+    public static File genFile(String parentPath, String midPart, String postfix) throws IOException {
         // make path dir if not existing:
         File dir = new File(parentPath);
-        if ( !dir.exists()) {
-            dir.mkdir();
+        if (!dir.exists()) {
+            if (!dir.mkdir()) {
+                throw new IOException("Could not create directory '" +
+                        parentPath +
+                        "'.");
+            }
         }
         return new File(parentPath, normalize(midPart) + "." + postfix);
     }
@@ -160,13 +167,19 @@ public class JavaHelper {
      * @param dirToClean the directory to clean
      * @param olderThanTimeMillis the timestamp that will be compared with {@link File#lastModified()}
      * 			of each file in the given folder. Older files will be deleted.
+     *
+     * @throws IOException when a file in the given directory could not be deleted.
      */
-    public static void cleanUpDir(String dirToClean, int olderThanTimeMillis) {
+    public static void cleanUpDir(String dirToClean, int olderThanTimeMillis) throws IOException {
         File path = new File(dirToClean);
 
         for (File file : path.listFiles()) {
             if (file.lastModified() < System.currentTimeMillis() - olderThanTimeMillis) {
-                file.delete();
+                if (!file.delete()) {
+                    throw new IOException("Could not delete file '" +
+                            file.getAbsolutePath() +
+                            "'.");
+                }
             }
         }
     }
@@ -179,8 +192,10 @@ public class JavaHelper {
      * @param olderThanTimeMillis the timestamp that will be compared with {@link File#lastModified()}
      * 			of each file in the given folder. Older files will be deleted.
      * @param postFix Only files ending with <code>postfix</code> will be deleted
+     *
+     * @throws IOException when a file in the given directory could not be deleted.
      */
-    public static void cleanUpDir(String dirToClean, int olderThanTimeMillis, String postFix) {
+    public static void cleanUpDir(String dirToClean, int olderThanTimeMillis, String postFix) throws IOException {
         File path = new File(dirToClean);
 
         for (File file : path.listFiles()) {
@@ -189,7 +204,11 @@ public class JavaHelper {
             if (name.length() > 4) {
                 if (name.substring(name.length() - 4).equalsIgnoreCase("." + postFix)) {
                     if (file.lastModified() < System.currentTimeMillis() - olderThanTimeMillis) {
-                        file.delete();
+                        if (!file.delete()) {
+                            throw new IOException("Could not delete file '" +
+                                    file.getAbsolutePath() +
+                                    "'.");
+                        }
                     }
                 }
             }

@@ -112,6 +112,15 @@ public class TimePeriod implements ITimePeriod {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + (this.start != null ? this.start.hashCode() : 0);
+        hash = 97 * hash + (this.end != null ? this.end.hashCode() : 0);
+        hash = 97 * hash + (this.resolution != null ? this.resolution.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
 	public ITimePosition getStart() {
         return start;
     }
