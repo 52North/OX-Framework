@@ -40,26 +40,25 @@ import org.n52.oxf.sos.observation.ObservationParameters;
 public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertObservationParameters {
     
     private final ObservationParameters observation;
-	
-	public InsertObservationParameters(
-			final ObservationParameters observationParameters,
-			final Collection<String> offerings)
-			throws IllegalArgumentException
-	{
-        if (observationParameters == null || 
-        		observationParameters.isEmpty() || 
-        		!observationParameters.isValid()) {
-        	throw new IllegalArgumentException(
-        			"Parameter 'ObservationParameters' is required and may not be null or empty!");
+
+    public InsertObservationParameters(
+            final ObservationParameters observationParameters,
+            final Collection<String> offerings)
+            throws IllegalArgumentException {
+        if (observationParameters == null ||
+                observationParameters.isEmpty() ||
+                !observationParameters.isValid()) {
+            throw new IllegalArgumentException(
+                    "Parameter 'ObservationParameters' is required and may not be null or empty!");
         }
-        addNonEmpty(INSERT_OBSERVATION_OFFERINGS_PARAMETER,offerings);
-		mergeWith(observationParameters);
-		observation = observationParameters;
-	}
+        addNonEmpty(INSERT_OBSERVATION_OFFERINGS_PARAMETER, offerings);
+        mergeWith(observationParameters);
+        observation = observationParameters;
+    }
 
     public boolean isValid() {
         return !isEmptyValue(INSERT_OBSERVATION_OFFERINGS_PARAMETER) && 
-        		observation.isValid();
+                observation.isValid();
     }
-	
+
 }
