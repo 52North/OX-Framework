@@ -32,5 +32,17 @@
 			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-xml-sampling-v100</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${groupId}</groupId>
+			<artifactId>52n-xml-xlink-v110</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>52n-xml-sweCommon-v101</artifactId>
+		</dependency>
 	</dependencies>
 </project>

@@ -24,26 +24,22 @@
 			<artifactId>52n-oxf-xmlbeans</artifactId>
 		</dependency>
 		<!-- ### XML BINDING DEPENDENCIES ### -->
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-sos-v100</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-sos-v20</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-waterML-v20</artifactId>
-		</dependency>
 		<!-- ### EXTERNAL DEPENDENCIES ### -->
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-		</dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>52n-xml-sampling-v100</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>52n-xml-gml-v311</artifactId>
         </dependency>
 	</dependencies>
 </project>
