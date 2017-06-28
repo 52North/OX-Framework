@@ -32,7 +32,7 @@ package org.n52.oxf.ses.adapter;
  * @version 20.07.2009
  */
 public class SESRequestBuilderFactory {
-	
+
     public static ISESRequestBuilder generateRequestBuilder(String serviceVersion) {
 
         if (serviceVersion.equals(SESAdapter.SUPPORTED_VERSIONS[0])) {

@@ -42,21 +42,21 @@ public class OxfServiceIdentification {
     public OxfServiceIdentification(ServiceIdentification serviceIdentification) {
         this.serviceIdentification = serviceIdentification;
     }
-    
+
     public void setServiceIdentification(ServiceIdentification serviceIdentification) {
         this.serviceIdentification = serviceIdentification;
     }
-    
+
     public ServiceIdentification getServiceIdentification() {
         return serviceIdentification;
     }
-    
+
     public ServiceIdentificationDocument getServiceIdentificationAsDocument() {
         ServiceIdentificationDocument document = ServiceIdentificationDocument.Factory.newInstance();
         document.setServiceIdentification(this.serviceIdentification);
         return document;
     }
-    
+
 
 //    public void setKeywords(String[] keywords) {
 //        this.serviceIdentification.setKeywordsArray(keywords);
@@ -84,6 +84,6 @@ public class OxfServiceIdentification {
     public void setAccessConstraints(String[] accessConstraints) {
         this.serviceIdentification.setAccessConstraintsArray(accessConstraints);
     }
-    
-    
+
+
 }

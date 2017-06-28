@@ -31,10 +31,10 @@ import org.n52.oxf.ows.capabilities.*;
 
 
 /**
- * 
- * 
+ *
+ *
  * @author <a href="mailto:staschc@uni-muenster.de">Christoph Stasch</a>
- * 
+ *
  */
 public class DoubleRangeValueDomain implements IRangeValueDomain<Double> {
 
@@ -55,7 +55,7 @@ public class DoubleRangeValueDomain implements IRangeValueDomain<Double> {
 
     /**
      * Constructor with min and max value
-     * 
+     *
      * @param min
      *        minvalue of the value range
      * @param max
@@ -68,7 +68,7 @@ public class DoubleRangeValueDomain implements IRangeValueDomain<Double> {
 
     /**
      * gives a description of this ValueDomain
-     * 
+     *
      * @return String with description
      */
     public String getDomainDescription() {
@@ -77,7 +77,7 @@ public class DoubleRangeValueDomain implements IRangeValueDomain<Double> {
 
     /**
      * tests whether a double value is contained in this valueDomain
-     * 
+     *
      * @param d
      *        the value which has to be tested
      * @return true, if value is contained
@@ -88,16 +88,16 @@ public class DoubleRangeValueDomain implements IRangeValueDomain<Double> {
 
     /**
      * creates an XML-String of the ValueDomain
-     * 
+     *
      * @return XML-String of this ValueDomain
      */
     public String toXML() {
 
         String res = "<DoubleRangeValueDomain>";
-        
+
         res += "<min><xsd:double>" + min + "</xsd:double></min>";
         res += "<max><xsd:double>" + max + "</xsd:double></max>";
-        
+
         res += "</DoubleRangeValueDomain>";
 
         return res;

@@ -30,25 +30,25 @@ package org.n52.oxf.sos.request.v200;
 import java.util.Collection;
 
 /**
- * Assembles all parameters needed for a InsertSensor request. This request is SOS 2.0.0 specific. 
+ * Assembles all parameters needed for a InsertSensor request. This request is SOS 2.0.0 specific.
  */
 public class InsertSensorParameters extends Sos200RequestParameters {
-    
+
     public static final String PROCEDURE_DESCRIPTION = "procedureDescription";
-    
+
     public static final String PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat";
-    
+
     public static final String OBSERVABLE_PROPERTIES = "observableProperties";
-    
+
     public static final String FEATURE_OF_INTEREST_TYPES = "featureOfInterestTypes";
-    
+
     public static final String DEFAULT_DESCRIPTION_FORMAT = "http://www.opengis.net/sensorML/1.0.1";
 
     public static final String OBSERVATION_TYPES = "observationTypes";
 
     /**
      * Creates InsertSensor parameters.
-     * 
+     *
      * @param procedureDescriptionXml
      *        the procedure's description document.
      * @param procedureDescriptionFormat
@@ -71,10 +71,10 @@ public class InsertSensorParameters extends Sos200RequestParameters {
     	addNonEmpty(FEATURE_OF_INTEREST_TYPES,featureOfInterestTypes);
     	addNonEmpty(OBSERVATION_TYPES, observationTypes);
     }
-    
+
     public boolean isValid() {
-        return ! (isEmptyValue(PROCEDURE_DESCRIPTION) || 
+        return ! (isEmptyValue(PROCEDURE_DESCRIPTION) ||
         		isEmptyValue(PROCEDURE_DESCRIPTION_FORMAT) ||
         		isEmptyValue(OBSERVABLE_PROPERTIES));
-    }    
+    }
 }

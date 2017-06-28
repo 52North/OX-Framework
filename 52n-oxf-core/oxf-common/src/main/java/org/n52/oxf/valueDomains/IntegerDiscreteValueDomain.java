@@ -33,8 +33,8 @@ import org.n52.oxf.ows.capabilities.*;
 
 
 /**
- * 
- * 
+ *
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  *
  */
@@ -44,17 +44,17 @@ public class IntegerDiscreteValueDomain implements IDiscreteValueDomain<Integer>
      * List with possible values (if this value domain has discrete values
      */
     List<Integer> possibleValues = null;
-    
+
     /**
      * description of the valueDomain
      */
     String description = "The DiscreteIntegerValueDomain contains the possible Integer-values.";
-    
+
     public IntegerDiscreteValueDomain(Integer possibleValue) {
         this.possibleValues = new ArrayList<Integer>();
         possibleValues.add(possibleValue);
     }
-    
+
     /**
      * @param possibleValues
      *            ArrayList with discrete Integer-Values
@@ -62,7 +62,7 @@ public class IntegerDiscreteValueDomain implements IDiscreteValueDomain<Integer>
     public IntegerDiscreteValueDomain(List<Integer> possibleValues) {
         this.possibleValues = possibleValues;
     }
-    
+
     /**
      * @param possibleValues
      *            ArrayList with discrete Integer-Values
@@ -70,28 +70,28 @@ public class IntegerDiscreteValueDomain implements IDiscreteValueDomain<Integer>
     public IntegerDiscreteValueDomain(Integer[] possibleValues) {
         this.possibleValues = new ArrayList<Integer>(Arrays.asList(possibleValues));
     }
-    
+
     /**
      * @param i Integer to be added to this IntegerValueDomain.
      */
     public void add(Integer i){
         possibleValues.add(i);
     }
-    
+
     public List<Integer> getPossibleValues() {
         return possibleValues;
     }
-    
-    public String getDomainDescription() {      
+
+    public String getDomainDescription() {
         return description;
     }
-    
+
     public boolean containsValue(Integer n) {
         return possibleValues.contains(n);
     }
-    
+
     public String toXML() {
-        
+
         String res = "<IntegerDiscreteValueDomain>";
         for(Integer c : possibleValues ){
             res += "<xsd:unsignedLong>"
@@ -99,10 +99,10 @@ public class IntegerDiscreteValueDomain implements IDiscreteValueDomain<Integer>
                 + "</xsd:unsignedLong>";
         }
         res += "</IntegerDiscreteValueDomain>";
-        
+
         return res;
     }
-    
+
 //    public Class<Integer> getValueType() {
 //        return Integer.class;
 //    }

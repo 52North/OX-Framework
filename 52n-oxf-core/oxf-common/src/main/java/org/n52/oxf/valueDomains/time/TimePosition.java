@@ -75,7 +75,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 
 	/**
 	 * Constructs a {@link TimePosition} out of a ISO 8601 String. The string has at least to indicate the year.
-	 * 
+	 *
 	 * @param timePos a ISO 8601 compliant {@link String}
 	 * @throws IllegalArgumentException
 	 *         <ul>
@@ -137,7 +137,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 	 * meaning that a following time is only possible after a date that matches the scheme year-month-day.
 	 * Therefore initDate(String date) has to be called first otherwise this method will return an
 	 * IllegalArgumentException.
-	 * 
+	 *
 	 */
 	private void initTime(final String time) throws IllegalArgumentException {
 		if ( !isDateComplete) {

@@ -31,7 +31,7 @@ package org.n52.oxf.ows.capabilities;
  * Description of person(s) and organizations.<br>
  * <br>
  * This class refers to CI_ResponsibleParty of ISO 19115.
- * 
+ *
  * @author ISO 19115 and <a href="www.opengeospatial.org">OGC</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
@@ -74,20 +74,20 @@ public class ServiceContact {
 	}
 
 	/**
-	 * @return a XML representation of this ServiceContact. 
+	 * @return a XML representation of this ServiceContact.
 	 */
 	public String toXML(){
 		String res = "<ServiceContact"
 			+ " individualName=\""	+ individualName + "\""
 			+ " organisationName=\""+ organisationName + "\""
 			+ " positionName=\""	+ positionName + "\">";
-		
+
 		if(contactInfo != null) res += contactInfo.toXML();
-		
+
 		res += "</ServiceContact>";
 		return res;
 	}
-	
+
 	public Contact getContactInfo() {
 		return contactInfo;
 	}

@@ -32,15 +32,15 @@ import static java.lang.String.format;
 import org.n52.oxf.sps.v100.SpsAdapterV100;
 
 public class SpsAdapterFactory {
-    
+
     private static final String VERSION_100 = "1.0.0";
-    
+
     private static final String VERSION_200 = "2.0.0";
-    
+
     private SpsAdapterFactory() {
         // do not instantiate static factory
     }
-    
+
     public static SpsAdapter createAdapter(final String serviceUrl, final String version) throws MissingAdapterImplementationException {
         if (serviceUrl == null) {
             throw new IllegalArgumentException("Service URL must not be null.");

@@ -44,7 +44,7 @@ public class SubscriptionConstraints {
 			.getLogger(SubscriptionConstraints.class);
 
 	public static final String ALL_FILTER = "<wsnt:MessageContent Dialect=\"http://www.w3.org/TR/1999/REC-xpath-19991116\">*</wsnt:MessageContent>";
-	
+
 	protected String consumer;
 	private XmlObject document;
 	protected String filter;
@@ -52,17 +52,17 @@ public class SubscriptionConstraints {
 
 	/**
 	 * Creates a {@link SubscriptionConstraints} instance with no filter defined.
-	 * A filter can be set using {@link SubscriptionConstraints#setFilter(String)} or 
+	 * A filter can be set using {@link SubscriptionConstraints#setFilter(String)} or
 	 * with the constructor {@link SubscriptionConstraints#SubscriptionConstraints(String, String)}.
-	 * 
+	 *
 	 * If no filter is set, a SubscribeForAll Filter will be used.
-	 * 
+	 *
 	 * @param consumer the consumer URI
 	 */
 	public SubscriptionConstraints(String consumer) {
 		this.consumer = consumer;
 	}
-	
+
 	/**
 	 * @param consumer the consumer URI
 	 * @param filterAsString see {@link SubscriptionConstraints#setFilter(String)} for details.
@@ -88,7 +88,7 @@ public class SubscriptionConstraints {
 		this.document = XmlObject.Factory.parse(
 				sb.toString().replace("${consumer}", this.consumer).
 				replace("${filter_xml}", (this.filter == null) ? ALL_FILTER : this.filter));
-		
+
 		return this.document;
 	}
 
@@ -99,15 +99,15 @@ public class SubscriptionConstraints {
 	/**
 	 * The Filter compliant to the WS-N spec. In particular, it must be of
 	 * following syntax:
-	 * 
+	 *
 	 * <wsnt:MessageContent Dialect="{dialectAsString}" xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">{any}</wsnt:MessageContent>
-	 * 
+	 *
 	 * @param f
 	 */
 	public void setFilter(String f) {
 		this.filter = f;
 	}
-	
+
 	public static class XPathSubscription extends SubscriptionConstraints {
 
 		public XPathSubscription(String consumer, String xpath) {
@@ -115,14 +115,14 @@ public class SubscriptionConstraints {
 			this.filter = "<wsnt:MessageContent Dialect=\"http://www.w3.org/TR/1999/REC-xpath-19991116\">"
 					+xpath+"</wsnt:MessageContent>";
 		}
-		
+
 	}
 
 	public static class DynamicFilterSubscription extends SubscriptionConstraints {
 
 		public DynamicFilterSubscription(String consumer) {
 			super(consumer);
-			
+
 			StringBuilder sb = new StringBuilder();
 			InputStream in = getClass().getResourceAsStream("dynamic_subscribe.xml");
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));

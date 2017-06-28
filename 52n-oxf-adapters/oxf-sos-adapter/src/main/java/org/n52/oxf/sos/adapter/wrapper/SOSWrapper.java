@@ -284,7 +284,7 @@ public class SOSWrapper {
         return doDeleteSensor(sensorId, null);
     }
 
-    public OperationResult doDeleteSensor(final String sensorId, final String authtoken) throws OXFException, 
+    public OperationResult doDeleteSensor(final String sensorId, final String authtoken) throws OXFException,
             ExceptionReport {
         final SOSAdapter adapter = new SOSAdapter(serviceDescriptor.getVersion());
         if (checkOperationAvailability(DELETE_SENSOR)) {

@@ -836,7 +836,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 			spatialFilter.set(equalsDoc);
 		}
 	}
-	
+
 	private void processResultTimeFilter(GetObservationType xb_getObs, ParameterShell shell) {
 		if (shell == null) {
 			return; // optional parameter

@@ -43,13 +43,13 @@ import org.n52.oxf.ows.Constraint;
 
 @SuppressWarnings("deprecation")
 public class RequestMethodTest {
-	
+
 	@Test public void
 	shouldReturnFalseIfAddNullAsConstraint()
 	{
 		assertThat(new RequestMethodSeam(null).addOwsConstraint(null),is(false));
 	}
-	
+
 	@Test public void
 	shouldReturnTrueIfAddingNotNullConstraint()
 	{
@@ -58,22 +58,22 @@ public class RequestMethodTest {
 		assertThat(seam.addOwsConstraint(c1), is(true));
 		assertThat(seam.getOwsConstraints(),hasItem(c1));
 	}
-	
+
 	@Test public void
 	shouldReturnFalseIfAddingNullSetAsOwsConstraints()
 	{
 		assertThat(new RequestMethodSeam(null).setOwsConstraints(null),is(false));
 	}
-	
+
 	@Test public void
-	shouldReturnTrueIfSettingOwsConstrainsWithEmptySet() 
+	shouldReturnTrueIfSettingOwsConstrainsWithEmptySet()
 	{
 		final Set<Constraint> empty = Collections.emptySet();
 		final RequestMethodSeam seam = new RequestMethodSeam(null);
 		assertThat(seam.setOwsConstraints(empty),is(true));
 		assertThat(seam.getOwsConstraints(), is(emptyCollectionOf(Constraint.class)));
 	}
-	
+
 	@Test public void
 	shouldReturnTrueIfSettingOwsConstraintsWithValues()
 	{
@@ -89,7 +89,7 @@ public class RequestMethodTest {
 		assertThat(seam.getOwsConstraints(), is(hasItem(c1)));
 		assertThat(seam.getOwsConstraints(), is(hasItem(c2)));
 	}
-	
+
 	@Test public void
 	shouldReturnEmptySetIfOwsConstraintsIsNotSet()
 	{
@@ -97,11 +97,11 @@ public class RequestMethodTest {
 		assertThat(seam.getOwsConstraints(), is(emptyCollectionOf(Constraint.class)));
 		assertThat(seam.getConstraints(), is(nullValue(String[].class)));
 		assertThat(seam.getOnlineResource(),is(nullValue(OnlineResource.class)));
-		
+
 		seam = new RequestMethodSeam(null, null);
 		assertThat(seam.getOwsConstraints(), is(emptyCollectionOf(Constraint.class)));
 	}
-	
+
 	@Test public void
 	shouldReturnOwsConstraints()
 	{
@@ -116,12 +116,12 @@ public class RequestMethodTest {
 		assertThat(seam.getOwsConstraints(), is(hasItem(c2)));
 	}
 
-		
+
 	private class RequestMethodSeam extends RequestMethod {
 		public RequestMethodSeam(final OnlineResource onlineResource) {
 			super(onlineResource);
 		}
-		
+
 		public RequestMethodSeam(final OnlineResource onlineResource, final Set<Constraint> constraints) {
 			super(onlineResource, constraints);
 		}

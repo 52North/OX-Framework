@@ -44,7 +44,7 @@ public class DescribeSensorParametersTest {
 		parameterAssembly = new DescribeSensorParameters(SENSOR_ID, OUTPUT_FORMAT_SENSORML);
 	}
 
-	@Test public void 
+	@Test public void
 	shouldThrowIllegalArgumentExceptionsForInvalidConstructorParameters()
 	{
 		boolean case1 = false, case2 = false,case3 = false,
@@ -104,12 +104,12 @@ public class DescribeSensorParametersTest {
 		assertEquals(SENSOR_ID, procedure);
 		assertEquals(OUTPUT_FORMAT_SENSORML, outputFormat);
 		assertThat(parameterAssembly.isValid(),is(true));
-		
+
 		parameterAssembly = new DescribeSensorParameters(SENSOR_ID);
-		
+
 		procedure = parameterAssembly.getSingleValue(PROCEDURE_PARAMETER);
 		outputFormat = parameterAssembly.getSingleValue(OUTPUT_FORMAT_PARAMETER);
-		
+
 		assertEquals(SENSOR_ID, procedure);
 		assertEquals(OUTPUT_FORMAT_SENSORML, outputFormat);
 		assertThat(parameterAssembly.isValid(),is(true));

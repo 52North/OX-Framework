@@ -70,7 +70,7 @@ import com.vividsolutions.jts.geom.Point;
  * Wrapper class for the SensorML System type.
  */
 public class OXFSensorType extends OXFAbstractFeatureType {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(OXFSensorType.class);
 
     public static final String POSITION = "oxfSensorTypePosition";
@@ -107,7 +107,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
                                                                                                                  "elevation"}));
 
     /**
-	 * 
+	 *
 	 */
     public OXFSensorType() {
         super();
@@ -117,7 +117,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.n52.oxf.feature.OXFAbstractFeatureType#generateAttributeDescriptors()
      */
     @Override
@@ -187,7 +187,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
     }
 
     /**
-     * 
+     *
      * @param sensorMlDoc
      * @return
      * @throws OXFException
@@ -210,7 +210,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
     }
 
     /**
-     * 
+     *
      * @param xbSensor
      * @return
      * @throws OXFException
@@ -240,7 +240,7 @@ public class OXFSensorType extends OXFAbstractFeatureType {
     }
 
     /**
-     * 
+     *
      * @param feature
      * @param xb_sensor
      * @throws OXFException

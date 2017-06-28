@@ -39,7 +39,7 @@ public class XmlFileLoader {
 
     /**
      * Reads a SOAP XML file and parses its body into an {@link XmlObject}.
-     * 
+     *
      * @param file
      *        file name of the file to parse
      * @param nodeName
@@ -60,7 +60,7 @@ public class XmlFileLoader {
      * Loads XML files which can be found via the <code>clazz</code>'s {@link ClassLoader}. If not found the
      * {@link FileContentLoader}'s {@link ClassLoader} is asked to load the file. If file could not be found
      * an exception is thrown.
-     * 
+     *
      * @param filePath
      *        the path to the file to be loaded.
      * @param clazz

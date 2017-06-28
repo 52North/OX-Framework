@@ -34,7 +34,7 @@ import org.apache.xmlbeans.XmlValidationError;
 
 /**
  * Provides default implementation for {@link #shouldPass(XmlError)} (<tt>return false;</tt>).
- * 
+ *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  */
 public abstract class AbstractDependentLaxValidationCase extends AbstractLaxValidationCase implements DependentLaxValidationCase {

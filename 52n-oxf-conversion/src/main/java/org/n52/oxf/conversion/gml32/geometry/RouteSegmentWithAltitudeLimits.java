@@ -55,6 +55,6 @@ public class RouteSegmentWithAltitudeLimits implements GeometryCollectionWithAlt
 	public double getWidth() {
 		return width;
 	}
-	
+
 
 }

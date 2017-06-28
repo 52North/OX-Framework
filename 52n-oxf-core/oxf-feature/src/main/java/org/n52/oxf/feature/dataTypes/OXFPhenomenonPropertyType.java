@@ -36,49 +36,49 @@ public class OXFPhenomenonPropertyType {
 
     private String urn;
     private String uom;
-    
+
     /**
-     * 
+     *
      */
     public OXFPhenomenonPropertyType(String urn) {
         this.urn = urn;
     }
 
     /**
-     * 
+     *
      */
     public OXFPhenomenonPropertyType(String urn, String uom) {
         this.urn = urn;
         this.uom = uom;
     }
-    
+
     public String getURN() {
         return urn;
     }
-    
+
     public String getUOM() {
         return uom;
     }
-    
+
     /**
-     * 
+     *
      */
     @Override
     public boolean equals(Object o) {
         OXFPhenomenonPropertyType ppt = (OXFPhenomenonPropertyType)o;
-        
+
         if (this.getUOM() == null && ppt.getUOM() != null){
         	return false;
         }
-        
+
         if (this.getUOM() != null && ppt.getUOM() == null){
         	return false;
         }
-        
+
         if (this.getUOM() == null && ppt.getUOM() == null){
         	return this.getURN().equals(ppt.getURN());
         }
-        
+
         if (this.getURN().equals(ppt.getURN()) && this.getUOM().equals(ppt.getUOM()) ) {
             return true;
         }

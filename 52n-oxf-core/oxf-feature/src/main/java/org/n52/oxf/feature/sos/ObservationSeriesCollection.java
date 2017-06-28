@@ -63,12 +63,12 @@ public class ObservationSeriesCollection {
     private Comparable[] minimumValues;
 
     private String[] observedPropertyArray;
-    
+
     public ObservationSeriesCollection(OXFFeatureCollection observationCollection,
                                    Set<OXFFeature> featuresSet,
                                    String[] observedProperties,
                                    boolean onlyCompleteTuples) {
-        
+
         String[] featureIDArray = new String[featuresSet.size()];
         Iterator iter = featuresSet.iterator();
         int i = 0;
@@ -76,7 +76,7 @@ public class ObservationSeriesCollection {
             featureIDArray[i] = ((OXFFeature) iter.next()).getID();
             i++;
         }
-        
+
         observedPropertyArray = observedProperties;
 
         timeSet = new HashSet<ITimePosition>();
@@ -87,15 +87,15 @@ public class ObservationSeriesCollection {
     }
 
     /**
-     * 
+     *
      */
     public ObservationSeriesCollection(OXFFeatureCollection observationCollection,
                                    String[] featureIDArray,
                                    String[] observedProperties,
                                    boolean onlyCompleteTuples) {
-        
+
         observedPropertyArray = observedProperties;
-        
+
         timeSet = new HashSet<ITimePosition>();
         featureMap = findObservedValueTuples4FOI(observationCollection,
                                                  featureIDArray,
@@ -118,9 +118,9 @@ public class ObservationSeriesCollection {
                                                  procedureNames,
                                                  onlyCompleteTuples);
     }
-    
+
     /**
-     * 
+     *
      * @param indexOfObservedProperty
      * @return
      */
@@ -135,9 +135,9 @@ public class ObservationSeriesCollection {
         }
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @param indexOfObservedProperty
      * @return
      */
@@ -153,11 +153,11 @@ public class ObservationSeriesCollection {
         }
         return null;
     }
-    
+
     /**
      * Gibt s�mtliche <code>ObservedValueTuple</code> zur�ck. D.h. alle <code>ObservedValueTuple</code>
      * f�r s�mtliche FOI-Zeitpunkt-Kombinationen.
-     * 
+     *
      * @return
      */
     public List<ObservedValueTuple> getAllTuples() {
@@ -174,7 +174,7 @@ public class ObservationSeriesCollection {
     /**
      * gibt zu dem spezifizierten OXFFeature s�mtliche observedValueTuples zur�ck, und zwar sortiert zu den
      * zugeh�rigen Mess-Zeitpunkten in einer Map.
-     * 
+     *
      * @param feature
      * @return
      */
@@ -185,7 +185,7 @@ public class ObservationSeriesCollection {
     /**
      * gibt zu der spezifizierten OXFFeature-ID s�mtliche observedValueTuples zur�ck, und zwar sortiert zu den
      * zugeh�rigen Mess-Zeitpunkten in einer Map.
-     * 
+     *
      * @param feature-ID
      * @return
      */
@@ -197,7 +197,7 @@ public class ObservationSeriesCollection {
      * Gibt f�r ein spezifiziertes FOI und einen bestimmten Zeitpunkt das Ph�nomen-Werte-Tupel zur�ck. <br>
      * Entspricht der Funktion: <br>
      * f(featureID, timePos) = phenTuple = (X1, X2, ... Xn) | mit Xi := beobachteter Ph�nomenwert.
-     * 
+     *
      * @param feature
      * @param timePos
      * @return
@@ -219,7 +219,7 @@ public class ObservationSeriesCollection {
     /**
      * gibt s�mtliche Zeitpunkte in einem Array zur�ck, f�r die bei mindestens einem FOI Messwerte f�r jedes
      * Ph�nomen vorliegen.
-     * 
+     *
      * @return
      */
     public ITimePosition[] getSortedTimeArray() {
@@ -239,7 +239,7 @@ public class ObservationSeriesCollection {
      * <br>!! Falls (onlyCompleteTuples == true): Finden sich f�r ein FOI bei einem bestimmten Zeitpunkt
      * nicht f�r jedes Ph�nomen Messwerte, so wird das unvollst�ndig besetzte <code>ObservedValueTuple</code>
      * nicht ins Resultat mit aufgenommen!
-     * 
+     *
      * @param observationCollection
      * @param featureSet
      * @param observedPropertyNames
@@ -287,7 +287,7 @@ public class ObservationSeriesCollection {
                         OXFPhenomenonPropertyType observedProperty = (OXFPhenomenonPropertyType) observation.getAttribute(OBSERVED_PROPERTY);
 
                         String procedure = (String)observation.getAttribute(PROCEDURE);
-                        
+
                         //
                         // setze den Wert an der richtigen Tupel-Position:
                         //
@@ -371,8 +371,8 @@ public class ObservationSeriesCollection {
 
         return resultMap;
     }
-    
-    
+
+
     /**
      * �bergeben wird eine <code>observationCollection</code>, die observations f�r n Ph�nomene enth�lt.
      * Die Namen dieser Ph�nomene werden in dem Parameter <code>observedPropertyNames</code> angegeben. Dann
@@ -383,7 +383,7 @@ public class ObservationSeriesCollection {
      * <br>!! Falls (onlyCompleteTuples == true): Finden sich f�r ein FOI bei einem bestimmten Zeitpunkt
      * nicht f�r jedes Ph�nomen Messwerte, so wird das unvollst�ndig besetzte <code>ObservedValueTuple</code>
      * nicht ins Resultat mit aufgenommen!
-     * 
+     *
      * @param observationCollection
      * @param featureSet
      * @param observedPropertyNames
@@ -431,12 +431,12 @@ public class ObservationSeriesCollection {
                         OXFPhenomenonPropertyType observedProperty = (OXFPhenomenonPropertyType) observation.getAttribute(OXFAbstractObservationType.OBSERVED_PROPERTY);
 
                         String procedure = (String)observation.getAttribute(OXFAbstractObservationType.PROCEDURE);
-                        
+
                         //
                         // setze den Wert an der richtigen Tupel-Position:
                         //
                         for (int i = 0; i < observedPropertyNames.length; i++) {
-                            if (observedProperty.getURN().equals(observedPropertyNames[i])) { 
+                            if (observedProperty.getURN().equals(observedPropertyNames[i])) {
                                 if (procedure.equals(procedureNames[i])){
                                     tuple.setValue(i, result);
                                 }

@@ -33,9 +33,9 @@ import org.n52.oxf.ows.capabilities.Contents;
 import org.n52.oxf.ows.capabilities.Dataset;
 
 /**
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class SOSContents extends Contents {
 
@@ -60,7 +60,7 @@ public class SOSContents extends Contents {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public ObservationOffering getDataIdentification(final int i) {
@@ -68,7 +68,7 @@ public class SOSContents extends Contents {
     }
 
     /**
-     * 
+     *
      * @param identifier
      * @return the <code>ObservationOffering</code> with the specified identifier/name or <code>null</code> if
      *         there is no dataset with the specified identifier/name.

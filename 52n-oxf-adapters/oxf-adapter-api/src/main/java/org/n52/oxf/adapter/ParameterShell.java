@@ -37,13 +37,13 @@ import org.slf4j.LoggerFactory;
 /**
  * This class associates a <a href=Parameter.html>Parameter</a> with one or multiple values dependend on the
  * used constructor.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class ParameterShell {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParameterShell.class);
-    
+
     private final Parameter parameter;
 
     private Object[] specifiedValueArray = null;
@@ -106,14 +106,14 @@ public class ParameterShell {
     public Object[] getSpecifiedValueArray() {
         return getSpecifiedTypedValueArray(Object[].class);
     }
-    
+
     public <T> T[] getSpecifiedTypedValueArray(final Class<T[]> clazz) {
         return Arrays.copyOf(specifiedValueArray, specifiedValueArray.length, clazz);
     }
 
     /**
      * sets the specifiedValue attribute (single-mode).
-     * 
+     *
      * @param specifiedValue
      *        must be an element of the valueDomain of the parameter.
      * @throws OXFException
@@ -137,7 +137,7 @@ public class ParameterShell {
     /**
      * sets the specifiedValueArray attribute (multiple-mode). The specifiedValue attribute (single-mode) will
      * be set on <code>null</code>.
-     * 
+     *
      * @param specifiedValueArray
      *        multiple values which are all elements of the valueDomain of the parameter.
      * @throws OXFException

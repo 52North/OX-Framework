@@ -35,7 +35,7 @@ import org.vast.unit.*;
  * Units of Measure: http://unitsofmeasure.org
  */
 public class UCUMTools {
-	
+
 
 	private static UnitParser parser;
 
@@ -51,7 +51,7 @@ public class UCUMTools {
 		return convert(sourceUnit, sourceUnit.getCompatibleSIUnit(), value);
 
 	}
-	
+
 	/**
 	 * Converts the number to the target unit
 	 */
@@ -79,15 +79,15 @@ public class UCUMTools {
 		//build units
 		Unit u1 = parser.getUnit(unitString1);
 		Unit u2 = parser.getUnit(unitString2);
-		
+
 		if (u1 == null || u2 == null) {
 			//error: unit not found
 			return false;
 		}
-		
+
 		return u1.isCompatible(u2);
 	}
-	
+
 
 	/**
 	 * Returns the compatible SI unit.
@@ -95,19 +95,19 @@ public class UCUMTools {
 	public static Unit getBaseUnit(String unitString) {
 		return parser.getUnit(unitString).getCompatibleSIUnit();
 	}
-	
+
 
 	public static class UnitConversionFailedException extends Exception {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
 		public UnitConversionFailedException(String string) {
 			super(string);
 		}
-		
+
 	}
 
 

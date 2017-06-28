@@ -30,18 +30,18 @@ package org.n52.oxf.ows.capabilities;
 import org.n52.oxf.valueDomains.spatial.BoundingBox;
 
 /**
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  * @see BoundingBox
  */
 public interface IBoundingBox  extends IValueDomain<IBoundingBox> {
-    
+
     public String getCRS();
 
     public double[] getLowerCorner();
 
     public double[] getUpperCorner();
-    
+
     public int getDimensions();
 
 }

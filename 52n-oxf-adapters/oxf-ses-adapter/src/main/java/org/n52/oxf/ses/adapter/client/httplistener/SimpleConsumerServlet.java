@@ -45,14 +45,14 @@ import org.n52.oxf.ses.adapter.client.httplistener.HttpListener;
 /**
  * Specify the use of this servlet
  * if you use the client within a servlet 2.x container (jetty, tomcat, etc).
- * 
+ *
  * @author matthes rieke
  *
  */
 public class SimpleConsumerServlet extends HttpServlet implements IWSNConsumer {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final List<CallbackOnAvailableListener> _callbackOnAvailableList = new ArrayList<CallbackOnAvailableListener>();
@@ -60,20 +60,20 @@ public class SimpleConsumerServlet extends HttpServlet implements IWSNConsumer {
 	private static final List<SimpleConsumerServlet> _instances = new ArrayList<SimpleConsumerServlet>();
 	private HttpListener listener;
 	private String hostString;
-	
+
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		this.hostString = getInitParameter("hostUrlAndPort");
 		callOnAvailableListeners();
 	}
-	
+
 	private void callOnAvailableListeners() {
 		for (CallbackOnAvailableListener l : _callbackOnAvailableList) {
 			l.onConsumerServletAvailable(this);
 		}
 		synchronized (MUTEX) {
-			_instances.add(this);			
+			_instances.add(this);
 		}
 	}
 
@@ -84,17 +84,17 @@ public class SimpleConsumerServlet extends HttpServlet implements IWSNConsumer {
 			finalizeResponse(resp);
 			return;
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 	    Scanner scanner = new Scanner(req.getInputStream());
 	    while (scanner.hasNextLine()) {
 	    	sb.append(scanner.nextLine());
 	    }
-		
+
 		scanner.close();
-		
+
 		this.listener.processRequest(sb.toString(), req.getRequestURI(), req.getMethod(), null);
-		
+
 		finalizeResponse(resp);
 	}
 
@@ -130,25 +130,25 @@ public class SimpleConsumerServlet extends HttpServlet implements IWSNConsumer {
 
 	public static void registerCallbackOnAvailable(CallbackOnAvailableListener l) {
 		_callbackOnAvailableList.add(l);
-		
+
 		synchronized (MUTEX) {
 			if (!_instances.isEmpty()) {
 				for (SimpleConsumerServlet s : _instances) {
 					l.onConsumerServletAvailable(s);
 				}
-			}	
+			}
 		}
 	}
-	
+
 	/**
 	 * A callback listener which is informed when the servlet is available.
-	 * 
+	 *
 	 * @author matthes rieke
 	 *
 	 */
 	public static interface CallbackOnAvailableListener {
-		
+
 		public void onConsumerServletAvailable(SimpleConsumerServlet servlet);
-		
+
 	}
 }

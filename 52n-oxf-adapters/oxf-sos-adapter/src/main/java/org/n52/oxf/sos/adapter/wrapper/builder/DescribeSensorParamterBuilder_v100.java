@@ -37,7 +37,7 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 /**
  * This class describes a set of parameters, which is necessary to call
  * doDescribeSensor([...]) from SOSWrapper.
- * 
+ *
  * @author Eric
  * @deprecated use {@link DescribeSensorParameters}
  */
@@ -47,12 +47,12 @@ public class DescribeSensorParamterBuilder_v100 {
 	// only SensorML is supported at the moment
 	public static final String OUTPUT_FORMAT_SENSORML = "text/xml;subtype=\"sensorML/1.0.1\"";
 	// public static final String OUTPUT_FORMAT_TML = "text/xml;subtype=\"TML/1.0\"";
-	
+
 	private Map<String, String> parameters = new HashMap<String, String>();
-	
+
 	/**
 	 * Assembles mandatory parameters from method parameter list.
-	 * 
+	 *
 	 * @param sensorId
 	 * @param outputFormat
 	 */

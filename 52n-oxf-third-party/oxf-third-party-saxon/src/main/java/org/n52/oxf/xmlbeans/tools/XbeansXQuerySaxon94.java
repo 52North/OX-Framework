@@ -202,11 +202,11 @@
    limitations under the License.
 
 
- * 
+ *
  * This file has been derived from XmlBeans 2.6.0 source distribution
  * to enable support for Saxon-HE 9.4 XPath features.
  * Original class: org.apache.xmlbeans.impl.xpath.saxon.XBeansXPath
- * 
+ *
  */
 
 package org.n52.oxf.xmlbeans.tools;
@@ -231,6 +231,8 @@ import net.sf.saxon.query.XQueryExpression;
 import org.apache.xmlbeans.XmlRuntimeException;
 import org.apache.xmlbeans.XmlTokenSource;
 import org.apache.xmlbeans.impl.store.QueryDelegate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class XbeansXQuerySaxon94
 implements QueryDelegate.QueryInterface
@@ -238,6 +240,9 @@ implements QueryDelegate.QueryInterface
 	private XQueryExpression xquery;
 	private String contextVar;
 	private Configuration config;
+
+	@SuppressWarnings("unused")
+	private static final Logger LOG = LoggerFactory.getLogger(XbeansXPathSaxon94.class);
 
 	/**
 	 * Construct given an XQuery expression string.
@@ -276,7 +281,7 @@ implements QueryDelegate.QueryInterface
 		try
 		{
 			Node contextNode = (Node)node;
-			NodeInfo contextItem = 
+			NodeInfo contextItem =
 					config.buildDocument(new DOMSource(contextNode));
 			//config.unravel(new DOMSource(contextNode));
 			DynamicQueryContext dc = new DynamicQueryContext(config);

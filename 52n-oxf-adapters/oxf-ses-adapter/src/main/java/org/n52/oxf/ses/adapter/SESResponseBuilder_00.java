@@ -46,7 +46,7 @@ import org.w3.x2003.x05.soapEnvelope.Header;
 public class SESResponseBuilder_00 implements ISESResponseBuilder {
 
     public String buildNotifyResponseRequest(ParameterContainer parameter) {
-        
+
         EnvelopeDocument envDoc = EnvelopeDocument.Factory.newInstance();
         Envelope env = envDoc.addNewEnvelope();
         Header header = env.addNewHeader();
@@ -59,14 +59,14 @@ public class SESResponseBuilder_00 implements ISESResponseBuilder {
         String msgID = parameter.getParameterShellWithCommonName(ISESResponseBuilder.NOTIFY_SOAP_ENVELOPE_HEADER_FROM)==null?
                 UUID.randomUUID().toString():
                     (String) parameter.getParameterShellWithCommonName(ISESResponseBuilder.NOTIFY_SOAP_ENVELOPE_HEADER_MESSAGE_ID).getSpecifiedValue();
-        String action = "http://docs.oasis-open.org/wsn/bw-2/NotificationConsumer/NotifyResponse";       
-        
-        
-        
+        String action = "http://docs.oasis-open.org/wsn/bw-2/NotificationConsumer/NotifyResponse";
+
+
+
         SESUtils.addNamespacesToEnvelope_000(env);
-        
+
         /*
-         * Header 
+         * Header
          * <soap:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
          *      <wsa:To>
          *              <wsa:Address>http://www.w3.org/2005/08/addressing/role/anonymous</wsa:Address>
@@ -84,21 +84,21 @@ public class SESResponseBuilder_00 implements ISESResponseBuilder {
         cur.beginElement(new QName("http://www.w3.org/2005/08/addressing","To","wsa"));
         cur.insertElementWithText(new QName("http://www.w3.org/2005/08/addressing","Adress","wsa"), to);
         cur.toNextToken();
-        
+
         cur.beginElement(new QName("http://www.w3.org/2005/08/addressing","From","wsa"));
         cur.insertElementWithText(new QName("http://www.w3.org/2005/08/addressing","Adress","wsa"), from);
         cur.toNextToken();
-        
+
         cur.insertElementWithText(new QName("http://www.w3.org/2005/08/addressing","MessageID","wsa"), msgID);
-       
+
         cur.beginElement(new QName("http://www.w3.org/2005/08/addressing","RelatesTo","wsa"));
         cur.insertAttributeWithValue("Relationshiptype","wsa:Reply");
         cur.insertChars(relatesTo);
         cur.toNextToken();
-        
+
         cur.insertElementWithText(new QName("http://www.w3.org/2005/08/addressing","Action","wsa"), action);
         cur.dispose();
-        
+
         /*
          *  Body
          * <soap:Body xmlns:wsnt="http://docs.oasis-open.org/wsn/b-2">
@@ -109,7 +109,7 @@ public class SESResponseBuilder_00 implements ISESResponseBuilder {
         cur.toFirstContentToken();
         cur.beginElement(new QName("http://docs.oasis-open.org/wsn/b-2","NotifyResponse","wsnt"));
         cur.dispose();
-        
+
         return envDoc.toString();
     }
 

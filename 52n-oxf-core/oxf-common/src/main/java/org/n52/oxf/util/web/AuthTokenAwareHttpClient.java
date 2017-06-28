@@ -38,7 +38,7 @@ import org.apache.http.protocol.HttpContext;
 
 /**
  * This {@link HttpClientDecorator} adds an authtoken to each request in the {@link HttpHeader}.AUTHORIZATION.
- * 
+ *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  */

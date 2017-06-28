@@ -51,10 +51,10 @@ public class XmlUtilToStringTest {
 	public void testStripText() {
 		LineStringType ls = createLineString();
 		String xml = XmlUtil.stripText(ls.getPosList());
-		
+
 		Assert.assertTrue("Result not as expected!", xml.equals("52 7 53 8"));
 	}
-	
+
 	private LineStringType createLineString() {
 		LineStringDocument lsd = LineStringDocument.Factory.newInstance();
 		LineStringType ls = lsd.addNewLineString();
@@ -64,5 +64,5 @@ public class XmlUtilToStringTest {
 		pl.setSrsName("urn:ogc:def:crs:EPSG::4326");
 		return ls;
 	}
-	
+
 }

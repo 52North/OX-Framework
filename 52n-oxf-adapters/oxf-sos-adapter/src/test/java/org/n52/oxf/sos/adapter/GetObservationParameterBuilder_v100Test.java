@@ -42,7 +42,7 @@ import org.n52.oxf.sos.adapter.wrapper.builder.GetObservationParameterBuilder_v1
  * 		- legal and illegal constructor parameters
  * 		- applying and getting mandatory parameters
  * 		- applying and getting optional parameters
- * 
+ *
  * @author Eric
  */
 public class GetObservationParameterBuilder_v100Test {
@@ -54,7 +54,7 @@ public class GetObservationParameterBuilder_v100Test {
 	public void testValidConstructorParameters() {
 		new GetObservationParameterBuilder_v100("", "", "");
 	}
-	
+
 	/**
 	 * Checks the behaviour on invalid constructor parameters.
 	 */
@@ -63,12 +63,12 @@ public class GetObservationParameterBuilder_v100Test {
 		new GetObservationParameterBuilder_v100(null, null, null);
 		new GetObservationParameterBuilder_v100("", null, null);
 		new GetObservationParameterBuilder_v100(null, "", null);
-		new GetObservationParameterBuilder_v100(null, null, "");	
+		new GetObservationParameterBuilder_v100(null, null, "");
 		new GetObservationParameterBuilder_v100("", "", null);
 		new GetObservationParameterBuilder_v100("", null, "");
 		new GetObservationParameterBuilder_v100(null, "", "");
 	}
-	
+
 	/**
 	 * Checks, whether the mandatory parameters were applied correctly.
 	 */
@@ -76,7 +76,7 @@ public class GetObservationParameterBuilder_v100Test {
 	public void testApplyingAndGettingMandatoryParameters() {
 		GetObservationParameterBuilder_v100 dspb = new GetObservationParameterBuilder_v100
 				("offering", "observedProperty", "responseFormat");
-		
+
 		HashMap<String, Object> hm;
 		try {
 			hm = (HashMap<String, Object>) dspb.getParameters();
@@ -85,7 +85,7 @@ public class GetObservationParameterBuilder_v100Test {
 			String[] parMan_02_array = parMan_02_ps.getSpecifiedTypedValueArray(String[].class);
 			String parMan_02 = parMan_02_array[0];
 			String parMan_03 = (String) hm.get(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER);
-			
+
 			assertEquals("offering", parMan_01);
 			assertEquals("observedProperty", parMan_02);
 			assertEquals("responseFormat", parMan_03);
@@ -93,7 +93,7 @@ public class GetObservationParameterBuilder_v100Test {
 			System.out.println("Error while retrieving parameters!");
 		}
 	}
-	
+
 	/**
 	 * Checks, whether the optional parameters were applied correctly.
 	 */
@@ -101,7 +101,7 @@ public class GetObservationParameterBuilder_v100Test {
 	public void testApplyingAndGettingOptionalParameters() {
 		GetObservationParameterBuilder_v100 gopb = new GetObservationParameterBuilder_v100
 				("offering", "observedProperty1", "responseFormat");
-		
+
 		HashMap<String, Object> hm;
 		try {
 			hm = (HashMap<String, Object>) gopb.getParameters();
@@ -112,7 +112,7 @@ public class GetObservationParameterBuilder_v100Test {
 			assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_RESULT_PARAMETER));
 			assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER));
 			assertNull(hm.get(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER));
-			
+
 			gopb.addSrsName("srsNameOld");
 			gopb.addSrsName("srsName");
 			gopb.addEventTime("eventTime1");
@@ -128,11 +128,11 @@ public class GetObservationParameterBuilder_v100Test {
 			gopb.addResultModel("resultModel");
 			gopb.addResponseMode("responseModeOld");
 			gopb.addResponseMode("responseMode");
-			
+
 			hm = (HashMap<String, Object>) gopb.getParameters();
-			
+
 			String parOpt_01 = (String) hm.get(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER);
-			ParameterShell parOpt_02_ps = (ParameterShell) (hm.get(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER));			
+			ParameterShell parOpt_02_ps = (ParameterShell) (hm.get(ISOSRequestBuilder.GET_OBSERVATION_EVENT_TIME_PARAMETER));
 			String[] parOpt_02_1_array = parOpt_02_ps.getSpecifiedTypedValueArray(String[].class);
 			String parOpt_02_1 = parOpt_02_1_array[0];
 			String parOpt_02_2 = parOpt_02_1_array[1];
@@ -143,12 +143,12 @@ public class GetObservationParameterBuilder_v100Test {
 			ParameterShell parOpt_04_ps = (ParameterShell) (hm.get(ISOSRequestBuilder.GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER));
 			String[] parOpt_04_array = parOpt_04_ps.getSpecifiedTypedValueArray(String[].class);
 			String parOpt_04_1 = parOpt_04_array[0];
-			String parOpt_04_2 = parOpt_04_array[1];	
+			String parOpt_04_2 = parOpt_04_array[1];
 			String parOpt_05 = (String) hm.get(ISOSRequestBuilder.GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER);
 			String parOpt_06 = (String) hm.get(ISOSRequestBuilder.GET_OBSERVATION_RESULT_PARAMETER);
 			String parOpt_07 = (String) hm.get(ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER);
 			String parOpt_08 = (String) hm.get(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER);
-			
+
 			assertEquals("srsName", parOpt_01);
 			assertEquals("eventTime1", parOpt_02_1);
 			assertEquals("eventTime2", parOpt_02_2);

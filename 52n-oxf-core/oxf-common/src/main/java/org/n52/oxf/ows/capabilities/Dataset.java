@@ -31,7 +31,7 @@ import java.util.Locale;
 
 /**
  * This holds metadata about data provided by the service.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering </a>
  */
@@ -39,7 +39,7 @@ public class Dataset extends Description {
 
     /**
      * for example the name of the dataset.
-     * 
+     *
      * required
      */
     private String identifier;
@@ -61,7 +61,7 @@ public class Dataset extends Description {
 
     /**
      * holds all possible time values for this dataset.
-     * 
+     *
      * optional
      */
     private IDiscreteValueDomain<ITime> temporalDomain;
@@ -73,14 +73,14 @@ public class Dataset extends Description {
 
     /**
      * is compliant to ISO 639
-     * 
+     *
      * optional
      */
     private Locale[] language;
 
     /**
      * only a String representation of the point of contact element.
-     * 
+     *
      * optional
      */
     private String pointOfContactString;

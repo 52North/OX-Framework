@@ -33,9 +33,9 @@ import org.n52.oxf.request.Request;
 import org.n52.oxf.sps.SpsAdapter;
 
 public class SpsAdapterV100 extends SpsAdapter {
-    
-    private String serviceUrl;
-    
+
+    private final String serviceUrl;
+
     public SpsAdapterV100(String serviceUrl) {
         this.serviceUrl = serviceUrl;
     }
@@ -51,7 +51,6 @@ public class SpsAdapterV100 extends SpsAdapter {
 
     public void send(Request request) {
         request.sendViaGet(serviceUrl, httpClient);
-//        httpClient.executeGet(serviceUrl, request.getRequestParameters()); ??? 
     }
 
 }

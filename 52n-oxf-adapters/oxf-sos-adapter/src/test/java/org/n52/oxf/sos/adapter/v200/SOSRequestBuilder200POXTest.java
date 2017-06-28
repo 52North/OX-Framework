@@ -483,7 +483,7 @@ public class SOSRequestBuilder200POXTest {
 
         assertThat(feature.getSampledFeature().getHref(),is(OGC_UNKNOWN_VALUE));
     }
-    
+
     @Test public void
     buildInsertObservation_should_add_feature_instance_with_correct_SRS_name() throws OXFException, XmlException {
         addServiceAndVersion();

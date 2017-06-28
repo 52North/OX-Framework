@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Simple HTTP client (based on NanoHTTPD) to receive
  * WS-N notifications.
- * 
+ *
  * @author matthes rieke
  *
  */
@@ -49,12 +49,12 @@ public class SimpleWSNConsumer extends NanoHTTPD implements IWSNConsumer {
 
 	private HttpListener listener;
 	private URL publicURL;
-	
+
 	public SimpleWSNConsumer(int port, String publicUrl) throws IOException, InterruptedException {
 		this(port, publicUrl, new File("."), null);
 	}
-	
-	
+
+
 	public SimpleWSNConsumer(int port, String publicUrl, File wwwroot, HttpListener l) throws IOException, InterruptedException {
 		super(port, wwwroot);
 		this.listener = l;
@@ -64,16 +64,16 @@ public class SimpleWSNConsumer extends NanoHTTPD implements IWSNConsumer {
 	@Override
 	protected Response serve(String uri, String method, Properties header, Properties parms, Properties files) {
 		String data = parms.getProperty(POST_BODY);
-		
+
 		if (data == null) {
 			data = parseURLEncoded(parms);
 		}
-		
+
 		String resp = null;
 		if (data != null && !data.isEmpty() && this.listener != null) {
-			resp = this.listener.processRequest(data, uri, method, header);	
+			resp = this.listener.processRequest(data, uri, method, header);
 		}
-		
+
 		if (resp == null || resp.isEmpty()) {
 			return new NanoHTTPD.Response(HTTP_NOCONTENT, null, resp);
 		} else {
@@ -101,13 +101,13 @@ public class SimpleWSNConsumer extends NanoHTTPD implements IWSNConsumer {
 		return this.publicURL;
 	}
 
-	
+
 	public static void main(String[] args) {
 		final Logger logger = LoggerFactory.getLogger(SimpleWSNConsumer.class);
 		try {
 			SimpleWSNConsumer sc = new SimpleWSNConsumer(8082, "http://localhost:8082");
 			sc.setListener(new HttpListener() {
-				
+
 				@Override
 				public String processRequest(String request, String uri, String method,
 						Properties header) {
@@ -115,7 +115,7 @@ public class SimpleWSNConsumer extends NanoHTTPD implements IWSNConsumer {
 						logger.info("Received reqeust for {}:", uri);
 						logger.info(request);
 					}
-					
+
 					return null;
 				}
 			});
@@ -124,8 +124,8 @@ public class SimpleWSNConsumer extends NanoHTTPD implements IWSNConsumer {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		while (true);
 	}
-	
+
 }

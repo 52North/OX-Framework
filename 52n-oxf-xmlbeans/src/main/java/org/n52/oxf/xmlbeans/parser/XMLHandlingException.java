@@ -35,7 +35,7 @@ import org.apache.xmlbeans.XmlError;
 /**
  * @author Jan Torben Heuer <jan.heuer@uni-muenster.de>
  * @author matthes rieke <m.rieke@52north.org>
- * 
+ *
  */
 public class XMLHandlingException extends Exception {
 
@@ -80,14 +80,14 @@ public class XMLHandlingException extends Exception {
 		}
 		this.message = sb.toString();
 	}
-	
+
 	public XMLHandlingException(XmlError err) {
 		super(err.getMessage());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Throwable#getMessage()
 	 */
 	@Override

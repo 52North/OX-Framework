@@ -30,7 +30,7 @@ package org.n52.oxf.ows.capabilities;
 /**
  * This class builds the foundation to inspect the possible operations of the
  * WebService. This class contains all important information to access an OWS.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
@@ -112,7 +112,7 @@ public class OperationsMetadata {
 	/**
 	 * Representation of possible Constraints. These constraints will be
 	 * inherited by all underlying operations.
-	 * 
+	 *
 	 * @return a String representation of the constraints.
 	 */
 	public String[] getConstraints() {
@@ -122,7 +122,7 @@ public class OperationsMetadata {
 	/**
 	 * Representation of possible Constraints. These constraints will be
 	 * inherited by all underlying operations.
-	 * 
+	 *
 	 * @param constraints
 	 *            The constraints to set.
 	 */
@@ -154,7 +154,7 @@ public class OperationsMetadata {
 
 	/**
 	 * This parameters are inherited by ALL operations. (ie. parameter version)
-	 * 
+	 *
 	 * @return Returns the parameters.
 	 */
 	public Parameter[] getParameters() {
@@ -163,7 +163,7 @@ public class OperationsMetadata {
 
 	/**
 	 * This parameters are inherited by ALL operations
-	 * 
+	 *
 	 * @param parameters
 	 *            The parameters to set.
 	 */

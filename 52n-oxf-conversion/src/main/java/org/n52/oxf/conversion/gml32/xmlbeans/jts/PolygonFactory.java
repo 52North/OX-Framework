@@ -52,7 +52,7 @@ import static org.n52.oxf.conversion.gml32.xmlbeans.jts.GMLGeometryFactory.creat
 /**
  * Outsource of {@link Polygon}-related methods,
  * closely linked with {@link GMLGeometryFactory}.
- * 
+ *
  * @author matthes rieke
  *
  */
@@ -61,7 +61,7 @@ public class PolygonFactory {
 	/**
 	 * Creates a polygon with one exterior and 0..*
 	 * interior holes.
-	 * 
+	 *
 	 * @param exterior the exterior ring
 	 * @param interiors the holes
 	 * @param srs as defined in srsName
@@ -88,9 +88,9 @@ public class PolygonFactory {
 		if (!(abstractPatch instanceof PolygonPatchType)) {
 			throw new UnsupportedOperationException("Currently, only PolygonPatch is supported.");
 		}
-		
+
 		PolygonPatchType patch = (PolygonPatchType) abstractPatch;
-		
+
 		if (!patch.isSetExterior()) throw new IllegalStateException("No exterior found in the Polygon patch.");
 
 		Polygon polygon = createPolygon(patch.getExterior(), patch.getInteriorArray(), srs);
@@ -104,7 +104,7 @@ public class PolygonFactory {
 
 		return new GeometryWithInterpolation(polygon, interpol);
 	}
-	
+
 	public static Geometry createPolygon(BoundingShapeType boundedBy) {
 		if (boundedBy.isSetEnvelope()) {
 			return createPolygon(boundedBy.getEnvelope());
@@ -114,16 +114,16 @@ public class PolygonFactory {
 
 	public static Geometry createPolygon(PolygonType polygon) {
 		LinearRing ext = createRing(polygon.getExterior().getAbstractRing(), polygon.getSrsName());
-		
+
 		List<LinearRing> innerRings = new ArrayList<LinearRing>(polygon.getInteriorArray().length);
 		for (AbstractRingPropertyType innerRing : polygon.getInteriorArray()) {
 			innerRings.add(createRing(innerRing.getAbstractRing(), polygon.getSrsName()));
 		}
-		
+
 		GeometryFactory gf = new GeometryFactory();
 		return gf.createPolygon(ext, innerRings.toArray(new LinearRing[]{}));
 	}
-	
+
 	public static Geometry createPolygon(EnvelopeType envelope) {
 		String srs = envelope.getSrsName();
 		if (envelope.isSetLowerCorner() && envelope.isSetUpperCorner()) {
@@ -137,7 +137,7 @@ public class PolygonFactory {
 			});
 			return gf.createPolygon(lr, null);
 		}
-		
+
 		if (envelope.isSetCoordinates()) {
 			Coordinate[] coords = createCoordinatesFromCoordinates(envelope.getCoordinates(),
 					envelope.getSrsName());
@@ -145,11 +145,11 @@ public class PolygonFactory {
 			LinearRing lr = gf.createLinearRing(coords);
 			return gf.createPolygon(lr, null);
 		}
-		
+
 		if (envelope.getPosArray().length > 0) {
 
 		}
 		throw new UnsupportedOperationException("Currently only gml:Coordinates and gml:posList are supported.");
 	}
-	
+
 }

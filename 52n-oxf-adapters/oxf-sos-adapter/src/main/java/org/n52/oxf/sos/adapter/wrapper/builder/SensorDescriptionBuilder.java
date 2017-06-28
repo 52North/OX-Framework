@@ -83,13 +83,13 @@ import org.n52.oxf.xmlbeans.tools.XmlUtil;
  * which will be directly passed to the request. To add further sensor
  * describing information just add certain methods in this class. For now this
  * class implements the discovery profile.
- * 
+ *
  * @author Eric Fiedler
  */
 public class SensorDescriptionBuilder {
-	
+
 	private boolean shouldAddOfferingMetadataToOutputs = true;
-	
+
 	private static final String SWE_101_NS_URI = "http://www.opengis.net/swe/1.0.1";
 	public static final QName SWE101_DATARECORD = new QName(SWE_101_NS_URI, "DataRecord");
 	public static final QName SWE101_SIMPLE_DATA_RECORD = new QName(SWE_101_NS_URI, "SimpleDataRecord");
@@ -99,7 +99,7 @@ public class SensorDescriptionBuilder {
 	public static final QName SWE101_ENVELOPE = new QName (SWE_101_NS_URI,"Envelope");
 	public static final QName SWE10_ID = new QName("http://www.opengis.net/sos/1.0", "id");
 	public static final QName SWE10_NAME = new QName("http://www.opengis.net/sos/1.0", "name");
-	
+
 	public static final String UNIQUE_ID_NAME = "uniqueID";
 	public static final String UNIQUE_ID_DEF = "urn:ogc:def:identifier:OGC:1.0:uniqueID";
 	public static final String LONG_NAME_NAME = "longName";
@@ -120,12 +120,12 @@ public class SensorDescriptionBuilder {
 	public static final String OGC_DISCOVERY_OBSERVED_BBOX_DEFINITION = "urn:ogc:def:property:OGC:1.0:observedBBOX";
 	public static final String COLLECTING_STATUS_DEF = "urn:ogc:def:classifier:OGC:1.0:collectingStatus";
 	public static final String COLLECTION_STATUS_NAME = "collectingStatus";
-	
+
 	public static final String SOS_OBSERVATION_TYPE_TEXT = "TEXT";
-	
+
 	private SystemDocument sysDoc;
 	private SystemType system;
-	
+
 	private final String[] validTime;
 	private final List<String> keywords;
 	private final List<String[]> identifier, classifier; // {name, definition, value}
@@ -169,17 +169,17 @@ public class SensorDescriptionBuilder {
 		componentXlink = new ArrayList<String[]>();
 		componentInline = new ArrayList<String[]>();
 	}
-	
+
 	public SensorDescriptionBuilder setAddOfferingMetadataToOutputs(final boolean yesOrNo) {
 		shouldAddOfferingMetadataToOutputs = yesOrNo;
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder addKeyword(final String keyword) {
 		keywords.add(keyword);
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder addIdentifier(final String name, final String definition, final String value) {
 		if (entryExists(definition, identifier)) {
 			removeEntry(definition, identifier);
@@ -219,7 +219,7 @@ public class SensorDescriptionBuilder {
 		addIdentifier(PARENT_SYSTEM_UNIQUE_ID_NAME, PARENT_SYSTEM_UNIQUE_ID_DEF, value);
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder addClassifier(final String name, final String definition, final String value) {
 		if (entryExists(definition, classifier)) {
 			removeEntry(definition, classifier);
@@ -227,7 +227,7 @@ public class SensorDescriptionBuilder {
 		classifier.add(new String[]{name, definition, value});
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder setClassifierIntendedApplication(final String value) {
 		if (entryExists(INTENDED_APPLICATION_DEF, classifier)) {
 			removeEntry(INTENDED_APPLICATION_DEF, classifier);
@@ -235,7 +235,7 @@ public class SensorDescriptionBuilder {
 		addClassifier(INTENDED_APPLICATION_NAME, INTENDED_APPLICATION_DEF, value);
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder setClassifierSensorType(final String value) {
 		if (entryExists(SENSOR_TYPE_DEF, classifier)) {
 			removeEntry(SENSOR_TYPE_DEF, classifier);
@@ -243,14 +243,14 @@ public class SensorDescriptionBuilder {
 		addClassifier(SENSOR_TYPE_NAME, SENSOR_TYPE_DEF, value);
 		return this;
 	}
-	
+
 	/**
 	 * @param begin Should be a valid time string. One of
 	 * <ul><li>after</li>
 	 * 		<li>before</li>
 	 * 		<li>now</li>
 	 * 		<li>unknown</li>
-	 * 		<li>or any other value as described in ISO 19108</li></ul> 
+	 * 		<li>or any other value as described in ISO 19108</li></ul>
 	 * @param end see <b>begin</b>
 	 */
 	// TODO ^^ is this correct for our code? Or only ISO 8601?
@@ -259,28 +259,28 @@ public class SensorDescriptionBuilder {
 		validTime[1] = end;
 		return this;
 	}
-	
+
 	/**
 	 * @param validTime Should be a valid time string. One of
 	 * <ul><li>after</li>
 	 * 		<li>before</li>
 	 * 		<li>now</li>
 	 * 		<li>unknown</li>
-	 * 		<li>or any other values as described in ISO 19108</li></ul> 
+	 * 		<li>or any other values as described in ISO 19108</li></ul>
 	 */
 	// TODO ^^ is this correct for our code? Or only ISO 8601?
 	public SensorDescriptionBuilder setValidTime(final String validTime) {
 		this.validTime[0] = validTime;
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder setCapabilityCollectingStatus(final String statusName, final boolean isCollecting) {
 		this.statusName = statusName;
 		this.isCollecting = isCollecting;
 		collectingStatusSet = true;
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder setCapabilityBbox(final String lcEastingUom, final double lcEastingValue,
 			final String lcNorthingUom, final double lcNorthingValue, final String ucEastingUom,
 			final double ucEastingValue, final String ucNorthingUom, final double ucNorthingValue,
@@ -296,13 +296,13 @@ public class SensorDescriptionBuilder {
 		observedBBOXreferenceFrame = referenceFrame;
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder addFeatureOfInterest(final String foiName, final String foiUri) {
 		this.foiName = foiName;
 		this.foiUri = foiUri;
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder setContact(final String id, final String individualName,
 			final String organizationName, final String deliveryPoint, final String city,
 			final String postalCode, final String country, final String email) {
@@ -333,7 +333,7 @@ public class SensorDescriptionBuilder {
 		altitudeValue = altiValue;
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder setInterface(final String iName, final String serviceUrl, final String serviceType,
 			final String sensorId) {
 		this.iName = iName;
@@ -342,27 +342,27 @@ public class SensorDescriptionBuilder {
 		this.sensorId = sensorId;
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder addInput(final String name, final String definition) {
 		inputs.add(new String[] { name, definition });
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder addOutputMeasurement(final String name, final String definition, final String offeringUri, final String offeringName, final String uom) {
 		outputsMeasurement.add(new String[] { name, definition, offeringUri, offeringName, uom});
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder addOutputText(final String name, final String definition, final String offeringUri, final String offeringName) {
 		outputsText.add(new String[] { name, definition, offeringUri, offeringName});
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder addOutputBoolean(final String name, final String definition, final String offeringUri, final String offeringName) {
 		outputsBoolean.add(new String[] { name, definition, offeringUri, offeringName});
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder addOutputCount(final String name, final String definition, final String offeringUri, final String offeringName) {
 		outputsCount.add(new String[] { name, definition, offeringUri, offeringName});
 		return this;
@@ -372,12 +372,12 @@ public class SensorDescriptionBuilder {
 		componentXlink.add(new String[] { name, url });
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder addComponentInline(final String name, final String description) {
 		componentInline.add(new String[] { name, description });
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder addCapability(final String capabilityName,
 			final String fieldName,
 			final String fieldDefinition,
@@ -389,7 +389,7 @@ public class SensorDescriptionBuilder {
 		capabilities.put(capabilityName,new String[]{fieldName,fieldDefinition,value});
 		return this;
 	}
-	
+
 	public SensorDescriptionBuilder setDescription(final String description)
 	{
 		this.description = description;
@@ -467,7 +467,7 @@ public class SensorDescriptionBuilder {
 		}
 		return exists;
 	}
-	
+
 	private void removeEntry(final String definition, final List<String[]> identifiers) {
 		for (final String[] id : identifiers) {
 			if (id[1].equals(definition)) {
@@ -476,7 +476,7 @@ public class SensorDescriptionBuilder {
 			}
 		}
 	}
-	
+
 	private void addGenericCapabilites()
 	{
 		for (final Entry<String, String[]> capability : capabilities.entrySet()) {
@@ -492,7 +492,7 @@ public class SensorDescriptionBuilder {
 			xbCapabilities.setAbstractDataRecord(recordType);
 		}
 	}
-	
+
 	private void addDescription()
 	{
 		system.addNewDescription().setStringValue(description);
@@ -504,10 +504,10 @@ public class SensorDescriptionBuilder {
 			keywordList.addKeyword(keyword);
 		}
 	}
-	
+
 	private void addIdentifier() {
 		final IdentifierList identifierList = system.addNewIdentification().addNewIdentifierList();
-		
+
 		Identifier forId;
 		Term forTerm;
 		for (final String[] id : identifier) {
@@ -518,7 +518,7 @@ public class SensorDescriptionBuilder {
 			forTerm.setValue(id[2]);
 		}
 	}
-	
+
 	private void addClassifier() {
 		final ClassifierList classifierList = system.addNewClassification().addNewClassifierList();
 
@@ -532,7 +532,7 @@ public class SensorDescriptionBuilder {
 			forTerm.setValue(classifier[2]);
 		}
 	}
-	
+
 	private void addValidTime() {
 		// valid for one point in time
 		if (validTime[0] != null && !validTime[0].isEmpty() && validTime[1] == null) {
@@ -545,12 +545,12 @@ public class SensorDescriptionBuilder {
 			period.setEndPosition(getTimePosition(validTime[1]));
 		}
 	}
-	
+
 	private TimePositionType getTimePosition(final String timePosition)
 	{
 		final TimePositionType timePositionType = TimePositionType.Factory.newInstance();
-		if (timePosition.equals("after") || 
-				timePosition.equals("before") || 
+		if (timePosition.equals("after") ||
+				timePosition.equals("before") ||
 				timePosition.equals("now") ||
 				timePosition.equals("unknown")) {
 			timePositionType.setIndeterminatePosition(TimeIndeterminateValueType.Enum.forString(timePosition));
@@ -570,7 +570,7 @@ public class SensorDescriptionBuilder {
 		envelope.setReferenceFrame(EPSG_CODE_PREFIX + observedBBOXreferenceFrame);
 		envelope.setDefinition(OGC_DISCOVERY_OBSERVED_BBOX_DEFINITION);
 		envelope.addNewLowerCorner().setVector(getLowerCornerOfObservedBBox());
-		envelope.addNewUpperCorner().setVector(getUpperCornerOfObservedBBox());		
+		envelope.addNewUpperCorner().setVector(getUpperCornerOfObservedBBox());
 	}
 
 	private void addFeatureId()
@@ -589,7 +589,7 @@ public class SensorDescriptionBuilder {
 		DataComponentPropertyType field;
 		Boolean bool;
 		final DataRecordType dataRecordType = addNewCapabilitiesElement(COLLECTION_STATUS_NAME);
-	    
+
 	    // Status of the Sensor (collecting data?)
 	    field =  dataRecordType.addNewField();
 	    field.setName(statusName);
@@ -610,11 +610,11 @@ public class SensorDescriptionBuilder {
 	    caps.setAbstractDataRecord(dataRecordType);
 		return dataRecordType;
 	}
-	
+
 	private VectorType getLowerCornerOfObservedBBox() {
 		return createPositionVector(lcEastingUom, lcEastingValue, lcNorthingUom, lcNorthingValue);
 	}
-	
+
 	private VectorType getUpperCornerOfObservedBBox() {
 		return createPositionVector(ucEastingUom, ucEastingValue, ucNorthingUom, ucNorthingValue);
 	}
@@ -628,17 +628,17 @@ public class SensorDescriptionBuilder {
 		eastingValue.setAxisID("x");
 		eastingValue.addNewUom().setCode(eastingUom);
 		eastingValue.setValue(eastingCoordValue);
-		
+
 		final Coordinate northing = positionVector.addNewCoordinate();
 		northing.setName("northing");
 		final Quantity northingValue = northing.addNewQuantity();
 		northingValue.setAxisID("y");
 		northingValue.addNewUom().setCode(northingUom);
 		northingValue.setValue(northingCoordinateValue);
-		
+
 		return positionVector;
 	}
-	
+
 	private void addContact() {
 		final ResponsibleParty respParty = system.addNewContact().addNewResponsibleParty();
 		respParty.setId(id);
@@ -651,18 +651,18 @@ public class SensorDescriptionBuilder {
 		address.setCountry(country);
 		address.setElectronicMailAddress(email);
 	}
-	
+
 	private void addPosition() {
 		final Position p = system.addNewPosition();
 		p.setName(positionName);
-		
+
 	    PositionType pT;
 	    pT = p.addNewPosition();
-	    pT.setReferenceFrame(EPSG_CODE_PREFIX + referenceFrame);	    
-	    
+	    pT.setReferenceFrame(EPSG_CODE_PREFIX + referenceFrame);
+
 	    final VectorType vT = pT.addNewLocation().addNewVector();
 	    vT.setId(vectorId);
-	    
+
 	    // Easting
 	    final Coordinate easting = vT.addNewCoordinate();
 	    easting.setName("easting");
@@ -682,7 +682,7 @@ public class SensorDescriptionBuilder {
 	    northQuantity.setValue(northingValue);
 
 	    // OPTIONAL: Altitude (depends on CRS)
-	    if (altitudeUom != null) 
+	    if (altitudeUom != null)
 	    {
 	    	final Coordinate altitude = vT.addNewCoordinate();
 	    	altitude.setName("altitude");
@@ -693,31 +693,31 @@ public class SensorDescriptionBuilder {
 	    	altiQuantity.setValue(altitudeValue);
 	    }
 	}
-	
+
 	private void addInterface() {
 		final Interface  interFace = system.addNewInterfaces().addNewInterfaceList().addNewInterface();
 		interFace.setName(iName);
 		final AbstractDataRecordType interfaceDataRecord = interFace
 				.addNewInterfaceDefinition().addNewServiceLayer()
 				.addNewAbstractDataRecord();
-		
+
 		final DataRecordType interfaceDr = (DataRecordType) interfaceDataRecord
 				.substitute(SWE101_DATARECORD, DataRecordType.type);
 		interfaceDr.setDefinition(SERVICE_INTERFACE);
-		
+
 		final DataComponentPropertyType serviceUrlField = interfaceDr.addNewField();
 		serviceUrlField.setName(SERVICE_URL);
 		serviceUrlField.addNewText().setValue(serviceUrl);
-		
+
 		final DataComponentPropertyType serviceTypeField = interfaceDr.addNewField();
 		serviceTypeField.setName(SERVICE_TYPE);
 		serviceTypeField.addNewText().setValue(serviceType);
-		
+
 		final DataComponentPropertyType serviceSpecificSensorIdField = interfaceDr.addNewField();
 		serviceSpecificSensorIdField.setName(SERVICE_SPECIFIC_SENSOR_ID);
 		serviceSpecificSensorIdField.addNewText().setValue(sensorId);
 	}
-	
+
 	private void addInputs() {
 		final InputList inputList = system.addNewInputs().addNewInputList();
 		IoComponentPropertyType input;
@@ -742,7 +742,7 @@ public class SensorDescriptionBuilder {
 				addOfferingMetadata(quantity.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
 			}
 		}
-		
+
 		for (final String[] outputValues : outputsText) { // sos 1.0 52n implementation
 			output = outputList.addNewOutput();
 			output.setName(outputValues[0]);
@@ -752,7 +752,7 @@ public class SensorDescriptionBuilder {
 				addOfferingMetadata(text.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
 			}
 		}
-		
+
 		for (final String[] outputValues : outputsBoolean) { // sos 1.0 52n implementation
 			output = outputList.addNewOutput();
 			output.setName(outputValues[0]);
@@ -762,7 +762,7 @@ public class SensorDescriptionBuilder {
 				addOfferingMetadata(bool.addNewMetaDataProperty(), outputValues[2], outputValues[3]);
 			}
 		}
-		
+
 		for (final String[] outputValues : outputsCount) { // sos 1.0 52n implementation
 			output = outputList.addNewOutput();
 			output.setName(outputValues[0]);
@@ -773,7 +773,7 @@ public class SensorDescriptionBuilder {
 			}
 		}
 	}
-	
+
 	private void addOfferingMetadata(final MetaDataPropertyType addNewMetaDataProperty, final String uri, final String name) {
 		final XmlCursor c = addNewMetaDataProperty.newCursor();
 		c.toNextToken();
@@ -782,7 +782,7 @@ public class SensorDescriptionBuilder {
 		c.insertElementWithText(SWE10_NAME, name);
 		c.dispose();
 	}
-	
+
 	/*
 	 * TODO add inline description setting
 	 */
@@ -795,7 +795,7 @@ public class SensorDescriptionBuilder {
 			comp.setName(compValues[0]);
 			comp.setHref(compValues[1]);
 		}
-		
+
 		// add inline components
 		for (final String[] compValues : componentInline) {
 			comp = compList.addNewComponent();

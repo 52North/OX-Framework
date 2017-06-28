@@ -36,25 +36,25 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class OXFCountObservationType extends OXFAbstractObservationType {
 
     public static final String RESULT = "result";
-    
+
     /**
-     * 
+     *
      */
     public OXFCountObservationType() {
         super();
 
-        
+
         typeName = "OXFCountObservationType";
         featureAttributeDescriptors = generateAttributeDescriptors();
     }
 
     /**
-     * 
+     *
      */
     protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
@@ -72,7 +72,7 @@ public class OXFCountObservationType extends OXFAbstractObservationType {
     }
 
     /**
-     * 
+     *
      * @param feature
      * @param nameValue
      * @param descriptionValue

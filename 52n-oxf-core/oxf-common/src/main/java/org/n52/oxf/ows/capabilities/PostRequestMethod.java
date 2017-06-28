@@ -42,9 +42,9 @@ public class PostRequestMethod extends RequestMethod {
      */
     public String toXML(){
         String res = "<RequestMethod type=\"HTTP_GET\"\">";
-        
+
         if(getOnlineResource() != null) res += getOnlineResource().toXML();
-        
+
         if(getConstraints() != null){
             for(String c : getConstraints()){
                 res += "<Constraint>";
@@ -52,9 +52,9 @@ public class PostRequestMethod extends RequestMethod {
                 res += "</Constraint>";
             }
         }
-        
+
         res += "</RequestMethod>";
-        
+
         return res;
     }
 }

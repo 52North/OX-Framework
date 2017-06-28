@@ -79,7 +79,7 @@ public class NanoHTTPD
 			.getLogger(NanoHTTPD.class);
 
 	private boolean stopped;
-	
+
 	// ==================================================
 	// API parts
 	// ==================================================
@@ -156,12 +156,12 @@ public class NanoHTTPD
 		{
 			this.status = status;
 			this.mimeType = mimeType;
-			
+
 			if (txt == null || txt.isEmpty()) {
 				this.data = null;
 				return;
 			}
-			
+
 			try
 			{
 				this.data = new ByteArrayInputStream( txt.getBytes("UTF-8"));
@@ -234,7 +234,7 @@ public class NanoHTTPD
 	/**
 	 * Starts a HTTP server to given port.<p>
 	 * Throws an IOException if the socket is already in use
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
 	public NanoHTTPD( int port, File wwwroot ) throws IOException, InterruptedException
 	{
@@ -259,7 +259,7 @@ public class NanoHTTPD
 								}
 							}
 						}
-							
+
 					}
 					catch ( IOException ioe ) {
 						logger.warn(ioe.getMessage(), ioe);
@@ -1127,7 +1127,7 @@ public class NanoHTTPD
 	private static int theBufferSize = 16 * 1024;
 
 	// Change this if you want to log to somewhere else than stdout
-	protected static PrintStream myOut = System.out; 
+	protected static PrintStream myOut = System.out;
 
 	/**
 	 * GMT date formatter

@@ -32,7 +32,7 @@ import org.n52.oxf.sos.adapter.v200.SOSRequestBuilder_200;
 import org.n52.oxf.sos.util.SosUtil;
 
 public class SOSRequestBuilderFactory {
-    
+
     public static ISOSRequestBuilder generateRequestBuilder(final String serviceVersion) {
 
         if (SosUtil.isVersion100(serviceVersion)) {
@@ -45,7 +45,7 @@ public class SOSRequestBuilderFactory {
             throw new IllegalArgumentException("Service version '" + serviceVersion + "' not supported.");
         }
     }
- 
+
     private SOSRequestBuilderFactory() {};
-    
+
 }

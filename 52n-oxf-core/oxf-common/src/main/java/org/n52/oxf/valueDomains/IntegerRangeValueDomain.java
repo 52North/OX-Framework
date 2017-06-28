@@ -32,29 +32,29 @@ import org.n52.oxf.ows.capabilities.*;
 
 
 /**
- * 
- * 
+ *
+ *
  * @author <a href="mailto:staschc@uni-muenster.de">Christoph Stasch</a>
  *
  */
 public class IntegerRangeValueDomain implements IRangeValueDomain<Integer> {
-	
+
     /**
      * minimum.
      */
 	Integer min = null;
-	
+
     /**
      * maximum.
      */
     Integer max = null;
-    
+
     /**
      * description of the valueDomain
      */
     String description = "The IntegerRangeValueDomain contains a min and max value of a range of integer values.";
-    
-    
+
+
     /**
      * @param min
      *            minvalue of the value range
@@ -66,7 +66,7 @@ public class IntegerRangeValueDomain implements IRangeValueDomain<Integer> {
 		this.max = max;
 	}
 
-	public String getDomainDescription() {		
+	public String getDomainDescription() {
 		return description;
 	}
 
@@ -75,9 +75,9 @@ public class IntegerRangeValueDomain implements IRangeValueDomain<Integer> {
     }
 
     public String toXML() {
-        
+
         String res = "<IntegerRangeValueDomain>";
-        
+
         res += "<min><xsd:unsignedLong>" + min + "</xsd:unsignedLong></min>";
         res += "<max><xsd:unsignedLong>" + max + "</xsd:unsignedLong></max>";
 
@@ -96,7 +96,7 @@ public class IntegerRangeValueDomain implements IRangeValueDomain<Integer> {
     public Integer getMinValue() {
         return min;
     }
-    
+
     public Integer produceValue(String... stringArray){
         return Integer.parseInt(stringArray[0]);
     }

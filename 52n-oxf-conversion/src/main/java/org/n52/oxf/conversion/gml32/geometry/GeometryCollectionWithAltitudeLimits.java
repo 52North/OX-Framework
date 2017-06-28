@@ -32,14 +32,14 @@ import java.util.Collection;
 /**
  * Interface providing access to 2.5D geometries (having a
  * horizontal extent and a altitude range).
- * 
+ *
  * @author matthes rieke
  *
  */
 public interface GeometryCollectionWithAltitudeLimits {
-	
+
 	public Collection<GeometryWithInterpolation> getGeometries();
-	
+
 	public AltitudeLimits getAltitudeLimits();
 
 }

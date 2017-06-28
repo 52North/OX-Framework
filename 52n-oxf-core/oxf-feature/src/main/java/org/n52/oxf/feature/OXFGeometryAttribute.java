@@ -36,8 +36,8 @@ import com.vividsolutions.jts.geom.Geometry;
 public class OXFGeometryAttribute extends OXFFeatureAttributeDescriptor {
 
     /**
-     * 
-     * @param <geomClazz> 
+     *
+     * @param <geomClazz>
      * @param name
      * @param dataType
      * @param objectClass
@@ -47,7 +47,7 @@ public class OXFGeometryAttribute extends OXFFeatureAttributeDescriptor {
     }
 
     /**
-     * 
+     *
      * @param <geomClazz>
      * @param name
      * @param dataType

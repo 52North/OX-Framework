@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
  * <b>This class is test only yet!</b>
  */
 public class GetCapabilitiesRequest extends Request {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(GetCapabilitiesRequest.class);
 
     private RequestParameters parameters;
@@ -52,7 +52,7 @@ public class GetCapabilitiesRequest extends Request {
         super(new GetCapabilitiesXmlBeansBuilder(), new XmlObjectResponseHandler());
         this.parameters = parameters.getStandardParameters();
     }
-    
+
     @Override
     public void sendViaGet(String serviceUrl, HttpClient httpClient) {
         try {
@@ -69,7 +69,7 @@ public class GetCapabilitiesRequest extends Request {
             responseHandler.onFailure(e.getMessage());
         }
     }
-    
+
     @Override
     public void sendViaPost(String serviceUrl, HttpClient httpClient) {
         // TODO implement
@@ -78,5 +78,5 @@ public class GetCapabilitiesRequest extends Request {
     private InputStream getResponseStreamFrom(HttpResponse response) throws IOException {
         return response.getEntity() != null ? response.getEntity().getContent() : null;
     }
-    
+
 }

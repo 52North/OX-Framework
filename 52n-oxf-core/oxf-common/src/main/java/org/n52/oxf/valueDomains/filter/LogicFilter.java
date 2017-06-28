@@ -32,24 +32,24 @@ import java.util.ArrayList;
 /**
  * Class represents a logical filter which is conform to OGC Filter
  * Encoding Specification 1.1.0
- * 
+ *
  * @author <a href="mailto:staschc@52north.org">Christoph Stasch</a>
  *
  */
 public class LogicFilter implements IFilter {
-    
+
     /** First Filter of the LogicFilter*/
     private IFilter leftFilter;
-    
+
     /** Second and following Filters of the LogicFilter (only for AND and OR Filters)*/
     private ArrayList<IFilter> rightFilters;
-    
+
     /**Type of LogicFilter (one of the filter types of this class. e.g. NOT)*/
     private String filterType;
-    
+
     /**
      * Constructor with filterType as parameter
-     * 
+     *
      * @param filterType
      *              one of the three logical filter types
      */
@@ -60,8 +60,8 @@ public class LogicFilter implements IFilter {
     /**
      * Constructor with all parameters, should be used as constructor for
      * AND and OR filters
-     * 
-     * @param filterType 
+     *
+     * @param filterType
      *          type of this LogicFilter (AND or OR)
      * @param leftFilter
      *          firstFilter of the LogicFilter
@@ -73,29 +73,29 @@ public class LogicFilter implements IFilter {
         this.leftFilter = leftFilter;
         this.rightFilters = rightFilters;
     }
-    
+
     /**
      * Constructor only useable for NOT Filters
-     * 
-     * @param filterType 
+     *
+     * @param filterType
      *              logical filtertype (only NOT!!)
-     * @param leftFilter 
+     * @param leftFilter
      *              Filter which should be applied of a NOT Filter
      */
     public LogicFilter(String filterType, IFilter leftFilter) {
         this.filterType=IFilter.NOT;
         this.leftFilter=leftFilter;
     }
-    
+
     /**
      * returns the type of this logical filter
-     * 
+     *
      * @return the type of this logical filter (e.g. NOT)
      */
     public String getFilterType() {
         return filterType;
     }
-    
+
     /**
      *
      * @return the first filter of this LogicFilter
@@ -103,7 +103,7 @@ public class LogicFilter implements IFilter {
     public IFilter getLeftFilter() {
         return this.leftFilter;
     }
-    
+
     /**
     *
     * @return the second filter and following filters of this LogicFilter as ArrayList
@@ -112,27 +112,27 @@ public class LogicFilter implements IFilter {
         return this.rightFilters;
     }
 
-    
+
     /**
-     * creates a string representation of the logical filter (without &lt;ogc:Filter&gt; begin and end-tag!) 
+     * creates a string representation of the logical filter (without &lt;ogc:Filter&gt; begin and end-tag!)
      * in xml-format
-     * 
+     *
      * @return logical filter as xml-string
      */
     public String toXML() {
-       
-        String result = "<"+filterType+">"; 
+
+        String result = "<"+filterType+">";
         result += this.leftFilter.toXML();
-        
+
         //Adding second and following Filters to xml string
         if (!this.filterType.equals(IFilter.NOT)) {
         for (IFilter f: rightFilters){
         result += f.toXML();
         }
         }
-        
-        result += "</"+filterType+">"; 
-    
+
+        result += "</"+filterType+">";
+
         return result;
     }
 

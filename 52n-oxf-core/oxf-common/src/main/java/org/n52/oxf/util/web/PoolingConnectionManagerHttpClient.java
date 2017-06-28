@@ -51,15 +51,15 @@ public class PoolingConnectionManagerHttpClient extends SimpleHttpClient {
 		schemeRegistry.register(
 				new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
 	}
-	
+
 	public PoolingConnectionManagerHttpClient() {
 		super();
 	}
-	
+
 	public PoolingConnectionManagerHttpClient(int connectionTimeout) {
 		super(connectionTimeout);
 	}
-	
+
 
 	/*
 	 * XXX this cannot get called as it is overriding the superclass
@@ -82,6 +82,6 @@ public class PoolingConnectionManagerHttpClient extends SimpleHttpClient {
 	}
 
 
-	
+
 
 }

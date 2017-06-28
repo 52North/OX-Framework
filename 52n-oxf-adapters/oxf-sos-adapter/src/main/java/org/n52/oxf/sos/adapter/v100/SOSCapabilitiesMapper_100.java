@@ -87,7 +87,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SOSCapabilitiesMapper_100 {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSCapabilitiesMapper_100.class);
 
     public ServiceDescriptor mapCapabilities(final CapabilitiesDocument capabilitiesDoc) throws OXFException {
@@ -112,7 +112,7 @@ public class SOSCapabilitiesMapper_100 {
      * takes selected informations from the SOSContents (e.g. the contents-section of the capabilities
      * document) and builds DatasetParameters from it. These DatasetParameters will be added to the
      * OperationsMetadata object.
-     * 
+     *
      * @param operationsMetadata
      * @param contents
      */
@@ -176,7 +176,7 @@ public class SOSCapabilitiesMapper_100 {
      * this method goes through the supported operations declared in the OperationsMetadata-section of the
      * SOS-Capabilities and maps the provided informations to the OXF internal capabilities-model (e.g. the
      * class org.n52.oxf.ows.capabilities.OperationsMetadata)
-     * 
+     *
      * @param xbOpMetadata
      * @return
      */
@@ -244,15 +244,15 @@ public class SOSCapabilitiesMapper_100 {
                     //
 
                     final AllowedValues xbAllowedValues = xbParameter.getAllowedValues();
-                    
+
                     if (xbAllowedValues != null) {
                         final ValueType[] xbValues = xbAllowedValues.getValueArray();
-    
+
                         final StringValueDomain ocValues = new StringValueDomain();
                         for (final ValueType xbValue : xbValues) {
                             ocValues.addPossibleValue(xbValue.getStringValue());
                         }
-    
+
                         final Parameter ocParameter = new Parameter(parameterName, true, ocValues, null);
                         ocParameters.add(ocParameter);
                     }
@@ -271,14 +271,14 @@ public class SOSCapabilitiesMapper_100 {
     private SOSContents mapContents(final CapabilitiesDocument capabilitiesDoc) throws OXFException {
         final ContentsDocument.Contents xbContents = capabilitiesDoc.getCapabilities().getContents();
 
-        if (xbContents == null || 
-        		xbContents.getObservationOfferingList() == null || 
-        		xbContents.getObservationOfferingList().sizeOfObservationOfferingArray() == 0) {
+        if (xbContents == null ||
+        	    xbContents.getObservationOfferingList() == null ||
+                xbContents.getObservationOfferingList().sizeOfObservationOfferingArray() == 0) {
         	return new SOSContents(Collections.<ObservationOffering>emptyList());
         }
         final ContentsDocument.Contents.ObservationOfferingList xbObsOfferingList = xbContents.getObservationOfferingList();
-        
-        
+
+
 
         final ObservationOfferingType[] xbObsOfferings = xbObsOfferingList.getObservationOfferingArray();
         final ArrayList<ObservationOffering> ocObsOffList = new ArrayList<ObservationOffering>();
@@ -355,8 +355,8 @@ public class SOSCapabilitiesMapper_100 {
 	{
 		final FilterValueDomain filterDomain = new FilterValueDomain();
 		final FilterCapabilities filterCaps = capabilitiesDoc.getCapabilities().getFilterCapabilities();
-		if (filterCaps != null && 
-				filterCaps.getScalarCapabilities() != null && 
+		if (filterCaps != null &&
+				filterCaps.getScalarCapabilities() != null &&
 				filterCaps.getScalarCapabilities().getComparisonOperators()!= null){
 			final ComparisonOperatorType.Enum[] xbCompOpsArray = filterCaps.getScalarCapabilities().getComparisonOperators().getComparisonOperatorArray();
 			for (final ComparisonOperatorType.Enum compOp : xbCompOpsArray) {
@@ -417,7 +417,7 @@ public class SOSCapabilitiesMapper_100 {
 		        ocLowerCornerList[j] = (Double) xbLowerCornerList.get(j);
 		    }
 		}
-		
+
 		if (ocUpperCornerList.length == 0) {
 		    LOGGER.warn("Evelope contains invalid upper corner: {}.", envelope.xmlText());
 		    ocUpperCornerList = new double[] {0.0, 0.0};
@@ -426,7 +426,7 @@ public class SOSCapabilitiesMapper_100 {
 		        ocUpperCornerList[j] = (Double) xbUpperCornerList.get(j);
 		    }
 		}
-		
+
 
 		final IBoundingBox[] ocBbox = new IBoundingBox[1];
 		ocBbox[0] = new BoundingBox(ocCrs, ocLowerCornerList, ocUpperCornerList);
@@ -438,7 +438,7 @@ public class SOSCapabilitiesMapper_100 {
 		// TemporalDomain:
 		final List<ITime> ocTimeList = new ArrayList<ITime>();
 		if (xbObsOffering.getTime() != null && xbObsOffering.getTime().getTimeGeometricPrimitive() != null) {
-		  
+
 		    final XmlObject xo = xbObsOffering.getTime().getTimeGeometricPrimitive().newCursor().getObject();
 		    final SchemaType schemaType = xo.schemaType();
 		    if (schemaType.getJavaClass().isAssignableFrom(TimeInstantType.class)) {
@@ -528,7 +528,7 @@ public class SOSCapabilitiesMapper_100 {
 	}
 
     /**
-     * 
+     *
      * @param capsDoc
      * @return
      */
@@ -563,7 +563,7 @@ public class SOSCapabilitiesMapper_100 {
     }
 
     /**
-     * 
+     *
      * @param capsDoc
      * @return
      */
@@ -572,7 +572,7 @@ public class SOSCapabilitiesMapper_100 {
     }
 
     /**
-     * 
+     *
      * @param capsDoc
      * @return
      */

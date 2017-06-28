@@ -87,7 +87,7 @@ import org.n52.oxf.wcs.model.TimePositionType;
 
 /**
  * This class supplies methods to map the WCS-capabilities to the OWS-common-capabilities.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class WCSCapabilitiesMapper {
@@ -131,10 +131,10 @@ public class WCSCapabilitiesMapper {
 
     /**
      * Supports WCS 1.0.0:
-     * 
+     *
      * uses the CoverageOfferingDescription returned by the DescribeCoverage-Operation to produce a
      * Content-object.
-     * 
+     *
      * @param w
      * @return
      * @throws OXFException
@@ -241,7 +241,7 @@ public class WCSCapabilitiesMapper {
                     outputFormats.add(formatString);
                 }
             }
-            
+
             String[] outputFormatsArray = new String[outputFormats.size()];
             outputFormats.toArray(outputFormatsArray);
 
@@ -294,13 +294,13 @@ public class WCSCapabilitiesMapper {
 
     /**
      * Supports WCS 1.1.1:
-     * 
+     *
      * Parses Capabilities Contents section.
      */
     public Contents mapContents(CoverageDescriptionType[] xb_covDesTypeArray) {
-        
+
         ArrayList<Dataset> dataIdentificationList = new ArrayList<Dataset>();
-        
+
         for (CoverageDescriptionType xb_covDesType : xb_covDesTypeArray) {
             String[] availableCRSsArray = xb_covDesType.getSupportedCRSArray();
             String[] outputFormatsArray = xb_covDesType.getSupportedFormatArray();
@@ -331,7 +331,7 @@ public class WCSCapabilitiesMapper {
             }
 
             // parse Grid CRS configuration:
-            
+
             GridCrsType xb_gridCrs = xb_covDesType.getDomain().getSpatialDomain().getGridCRS();
 
             String gridBaseCRS = null;
@@ -339,7 +339,7 @@ public class WCSCapabilitiesMapper {
             String gridCS = null;
             double[] gridOrigin = null;
             double[] gridOffsets = null;
-            
+
             if (xb_gridCrs != null) {
                 gridBaseCRS = xb_gridCrs.getGridBaseCRS();
                 gridCS = xb_gridCrs.getGridCS();
@@ -349,16 +349,16 @@ public class WCSCapabilitiesMapper {
                 for (int i = 0; i < 2; i++) {
                     gridOrigin[i] = new Double(xb_gridCrs.getGridOrigin().get(i).toString());
                 }
-                
+
                 gridOffsets = new double[2];
                 for (int i = 0; i < 2; i++) {
                     gridOffsets[i] = new Double(xb_gridCrs.getGridOffsets().get(i).toString());
                 }
             }
-            
+
             // parse Image CRS configuration:
-            
-            
+
+
             // parse RPC link: (OWS-5 specific)
             String rpcLink = null;
             XmlCursor cursor = xb_covDesType.getDomain().getSpatialDomain().newCursor();
@@ -366,7 +366,7 @@ public class WCSCapabilitiesMapper {
             if (isTransformationAvailable) {
                 rpcLink = cursor.getAttributeText(new QName("http://www.w3.org/1999/xlink", "href"));
             }
-            
+
             CoverageDataset dataID = new CoverageDataset(title,
                                                          identifier,
                                                          bBoxes.toArray(new BoundingBox[0]),
@@ -389,10 +389,10 @@ public class WCSCapabilitiesMapper {
 
         return new Contents(dataIdentificationList);
     }
-    
+
     /**
      * Supports WCS 1.1.1:
-     * 
+     *
      * Parses Capabilities Contents section.
      */
     public Contents mapContents(CoverageDescriptionsDocument desCovDoc) {
@@ -404,9 +404,9 @@ public class WCSCapabilitiesMapper {
 
     /**
      * Supports WCS 1.0.0
-     * 
+     *
      * uses the WCSCapabilitiesType returned by the GetCapabilities-Operation to produce a Content-object.
-     * 
+     *
      * @param wc
      * @return
      * @throws OXFException

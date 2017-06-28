@@ -31,13 +31,13 @@ package org.n52.oxf.ows.capabilities;
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  */
 public interface ITime {
-    
+
     static final int NOT_SET = -1;
-    
+
     String toISO8601Format();
-    
+
     /**
-     * 
+     *
      * @return a String representation of this ITime object.
      */
     String toString();

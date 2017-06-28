@@ -41,23 +41,23 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class demonstrates how to use the CSWAdapter. You might use it as an example for your own code.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 
 /*
  * These tests require network access and rely on external services to be available.
  * This is why this test is set to be ignored by JUnit runs (@Ignore annotation).
- * 
+ *
  * To enable this test it is necessary to uncomment the @Ignore annotation bolow.
  */
 @Ignore // uncomment if you want to run tests
 public class CSWAdapterTest {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CSWAdapterTest.class);
-    
-    
+
+
     //private final String url = "http://laits.gmu.edu:8099/csw/CSW_Service";
     //private final String url = "http://uddi.csiss.gmu.edu:1090/GEOSSCSW202/discovery";
     //private final String url = "http://laits.gmu.edu:8099/LAITSCSW2/discovery"; //only working with post request
@@ -71,7 +71,7 @@ public class CSWAdapterTest {
 
         try {
             CSWAdapter adapter = new CSWAdapter();
-    
+
             ParameterContainer paramCon = new ParameterContainer();
             paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER,
                                        CSWAdapter.SUPPORTED_VERSIONS[0]);
@@ -80,13 +80,13 @@ public class CSWAdapterTest {
             paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_SECTIONS_PARAMETER, "ALL");
             paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_ACCEPT_FORMATS_PARAMETER,
                                        "application/xml");
-    
+
             OperationResult opResult = adapter.doOperation(new Operation("GetCapabilities",
                                                                          url + "?",
                                                                          url), paramCon);
-    
+
            LOGGER.info(new String(opResult.getIncomingResult()));
-            
+
         } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage());
             fail();
@@ -97,12 +97,12 @@ public class CSWAdapterTest {
     public void testGetRecordById() throws OXFException, ExceptionReport {
         try {
             CSWAdapter adapter = new CSWAdapter();
-    
+
             String recordID = "glues:pik:metadata:dataset:noco2-echo-g-sresa1-annualcropyieldincreases";
             String elementSetName = "full";
             String outputSchema= "http://www.isotc211.org/2005/gmd";
-            
-            
+
+
             ParameterContainer paramCon = new ParameterContainer();
             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_REQUEST,
                                        CSWAdapter.GET_RECORD_BY_ID);
@@ -116,11 +116,11 @@ public class CSWAdapterTest {
                                        elementSetName);
             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_OUTPUT_SCHEMA,
                                        outputSchema);
-            
+
             OperationResult opResult = adapter.doOperation(new Operation(CSWAdapter.GET_RECORD_BY_ID,
                     url + "?",
                     url), paramCon);
-    
+
             LOGGER.info(new String(opResult.getIncomingResult()));
         } catch (Exception e) {
             LOGGER.error(e.getLocalizedMessage());
@@ -128,7 +128,7 @@ public class CSWAdapterTest {
             fail();
         }
     }
-    
+
     @Test
     public void testDescribeRecord() throws OXFException, ExceptionReport {
         CSWAdapter adapter = new CSWAdapter();
@@ -144,7 +144,7 @@ public class CSWAdapterTest {
 //                                   "csw:Record,rim:Service,rim:Organization");
         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_TYPE_NAME_PARAMETER,
        "laits:DataGranule,laits:WCSCoverage,laits:WMSLayer, laits:SV_OperationMetadata,laits:SV_Parameter");
-        
+
         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER,
                                    "XMLSCHEMA");
         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_NAME_SPACE_PARAMETER,
@@ -173,18 +173,18 @@ public class CSWAdapterTest {
 //         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_TYPE_NAME_PARAMETER,
 //                                    "csw:Record,rim:Service,rim:Organization");
 
-         
+
          paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_OUTPUT_SCHEMA_FORMAT,"http://www.opengis.net/cat/csw");
          String typeNames[] = {"Service","Organization"};
-         
-         
+
+
          // FIXME this parameter is missing
          //paramCon.addParameterShell(CSWRequestBuilder.GET_RECORDS_TYPE_NAME_PARAMETER,typeNames);
-         
-         
+
+
          paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER,
                                     "XMLSCHEMA");
-       
+
          OperationResult opResult = adapter.doOperation(new Operation("GetRecords",
                                                                       url + "?",
                                                                       url), paramCon);

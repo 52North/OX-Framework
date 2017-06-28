@@ -33,8 +33,13 @@ import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.swes.exception.InvalidRequestException;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SwesXmlHelper {
+
+    @SuppressWarnings("unused")
+    private static final Logger LOG = LoggerFactory.getLogger(SwesXmlHelper.class);
 
     /**
      * @param request the request to validate

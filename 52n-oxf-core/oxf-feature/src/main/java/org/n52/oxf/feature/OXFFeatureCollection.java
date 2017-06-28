@@ -41,7 +41,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeature> {
 
@@ -58,7 +58,7 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
     }
 
     /**
-     * 
+     *
      * @param worldX
      * @param worldY
      * @return
@@ -68,7 +68,7 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
     }
 
     /**
-     * 
+     *
      * @param worldX
      * @param worldY
      * @return
@@ -141,7 +141,7 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
 
     /**
      * Creates a {@link Feature} array and populates it.
-     * 
+     *
      * @throws OutOfMemoryError
      *         if the feature collection is too large to fit into memory.
      */
@@ -167,7 +167,7 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
     }
 
     /**
-     * 
+     *
      * @param fArray
      */
     public void add(OXFFeature[] fArray) {
@@ -176,7 +176,7 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
     }
 
     /**
-     * 
+     *
      * @param fCollection
      */
     public void add(Collection<OXFFeature> fCollection) {
@@ -184,7 +184,7 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
     }
 
     /**
-     * 
+     *
      * @param f
      */
     public void add(OXFFeature f) {
@@ -207,16 +207,16 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
 
     public String produceDescription() {
         String res = "";
-        
+
         for (OXFFeature feature : features) {
             res += feature.produceDescription() + "\n";
         }
-        
+
         return res;
     }
-    
+
     /*
-     * 
+     *
      */
     public static void main(String[] args) {
         OXFFeatureCollection featureColl = new OXFFeatureCollection("", null);

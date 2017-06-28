@@ -31,7 +31,7 @@ package org.n52.oxf.ows.capabilities;
 /**
  * This describes the provider of the service. please mind, that the contact
  * representation is only a String.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
@@ -64,7 +64,7 @@ public class ServiceProvider {
 	 * Constructor which has got the 'required' attributes for the
 	 * ServiceProvider-Section as its parameters. The optional attribute
 	 * providerSite will stay null.
-	 * 
+	 *
 	 * @param providerName
 	 *            Unique identifier for service provider organization.
 	 * @param serviceContact
@@ -85,22 +85,22 @@ public class ServiceProvider {
 		setProviderSite(providerSite);
 	}
 
-	
+
 	/**
-	 * @return a XML representation of this ServiceProvider-section. 
+	 * @return a XML representation of this ServiceProvider-section.
 	 */
 	public String toXML(){
 		String res = "<ServiceProvider providerName=\"" + providerName + "\">";
-		
+
 		if(serviceContact != null) res += serviceContact.toXML();
-		
+
 		if(providerSite != null) res += providerSite.toXML();
-		
+
 		res += "</ServiceProvider>";
 		return res;
 	}
-	
-	
+
+
 	public String getProviderName() {
 		return providerName;
 	}

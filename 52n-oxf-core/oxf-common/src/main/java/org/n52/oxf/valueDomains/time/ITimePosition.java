@@ -33,9 +33,9 @@ import org.n52.oxf.ows.capabilities.*;
 
 /**
  * Specifies a position of time by defining year, month, day, hour, minute and second.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public interface ITimePosition extends ITime, Comparable<ITimePosition>, Comparator<ITimePosition> {
 
@@ -55,7 +55,7 @@ public interface ITimePosition extends ITime, Comparable<ITimePosition>, Compara
 
 	/**
 	 * @param timePos the timeposition to check against
-	 * 
+	 *
 	 * @return whether this TimePosition represents a time before the time represented by the specified
 	 *         TimePosition object. This method is equivalent to: compareTo(when) &lt; 0
 	 */
@@ -63,7 +63,7 @@ public interface ITimePosition extends ITime, Comparable<ITimePosition>, Compara
 
 	/**
 	 * @param timePos the timeposition to check against
-	 * 
+	 *
 	 * @return whether this TimePosition represents a time after the time represented by the specified
 	 *         TimePosition object. This method is equivalent to: compareTo(when) &gt; 0
 	 */

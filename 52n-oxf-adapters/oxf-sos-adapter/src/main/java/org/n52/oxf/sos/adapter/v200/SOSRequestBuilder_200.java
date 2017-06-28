@@ -40,23 +40,23 @@ import org.slf4j.LoggerFactory;
  * <li>SOAP &rarr; XML</li>
  * <li>KVP &rarr; query String</li>
  * </ul>
- * 
+ *
  * TODO: add java doc for each public method including mandatory and optional parameters like {@link SOSRequestBuilder_100}.
- * 
+ *
  * TODO: implement binding specific request creation
  *  using new to be implemented request builder hierarchy. This current implementation reflects the default implementation: POX
  * TODO: SOAP
- * TODO: KVP 
+ * TODO: KVP
  * TODO: REST?
  */
 public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
-	
+
 	private final SOSRequestBuilder200POX poxBuilder = new SOSRequestBuilder200POX();
-	
+
 	private final SOSRequestBuilder200KVP kvpBuilder = new SOSRequestBuilder200KVP();
-	
+
 	private final SOSRequestBuilder200SOAP soapBuilder = new SOSRequestBuilder200SOAP();
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(SOSRequestBuilder_200.class);
 
     @Override
@@ -76,7 +76,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     	}
     	throw new OXFException(String.format("Building GetObservation request not supported via binding '%s'!",binding.toString()));
     }
-    
+
     @Override
 	public String buildGetObservationByIDRequest(final ParameterContainer parameters) throws OXFException {
     	final Binding binding = getBinding(parameters);
@@ -94,7 +94,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
     	}
     	throw new OXFException(String.format("Building DescribeSensor request not supported via binding '%s'!",binding.toString()));
     }
-    
+
     @Override
 	public String buildGetFeatureOfInterestRequest(final ParameterContainer parameters) throws OXFException {
     	final Binding binding = getBinding(parameters);
@@ -161,7 +161,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 
 	private boolean isBindingParameterSpecified(final ParameterContainer parameters)
 	{
-		return parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING) != null && 
+		return parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING) != null &&
 				parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).hasSingleSpecifiedValue() &&
 				parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).getSpecifiedValue() instanceof String;
 	}

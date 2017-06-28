@@ -86,7 +86,7 @@ public class GMLGeometryFactory {
 	 * on the {@link GeometryFactoryConfiguration} settings and the
 	 * geometries itself. Every geometry is treated separately
 	 * and interpolation is applied when prerequisites are met.
-	 * 
+	 *
 	 * @param geometries the list of geometries with an abstract interpolation
 	 * method defined.
 	 */
@@ -102,7 +102,7 @@ public class GMLGeometryFactory {
 	 */
 	public static void checkAndApplyInterpolation(GeometryWithInterpolation geometry) {
 		if (GeometryFactoryConfiguration.isUserInternalInterpolation()) {
-			geometry.setGeometry(interpolateGeometry(geometry.getGeometry(), geometry.getInterpolation()));		
+			geometry.setGeometry(interpolateGeometry(geometry.getGeometry(), geometry.getInterpolation()));
 		}
 	}
 
@@ -129,11 +129,11 @@ public class GMLGeometryFactory {
 		for (GeometryWithInterpolation geom : geometryList) {
 			return geom.getGeometry();
 		}
-		
+
 		/*
 		 * TODO implement actual aggregation
 		 */
-		
+
 		return null;
 	}
 
@@ -152,7 +152,7 @@ public class GMLGeometryFactory {
 			CoordinatesType coordinates, String srs) {
 		String coordinateSeparator;
 		if (coordinates.isSetCs()) {
-			coordinateSeparator = coordinates.getCs().trim();	
+			coordinateSeparator = coordinates.getCs().trim();
 		} else {
 			coordinateSeparator = " ";
 		}
@@ -182,10 +182,10 @@ public class GMLGeometryFactory {
 			int dim, String srs) {
 		AxisOrder order = SRSUtils.resolveAxisOrder(srs);
 		Coordinate[] resultCoordinates = new Coordinate[coordList.size() / dim];
-		
+
 		int index = 0;
 		while (index+dim-1 < coordList.size()) {
-			
+
 			if (dim == 2) {
 				resultCoordinates[index/dim] = createCoordinate(Double.parseDouble(coordList.get(index).toString()),
 						Double.parseDouble(coordList.get(index+1).toString()), order);
@@ -196,10 +196,10 @@ public class GMLGeometryFactory {
 			}
 			index += dim;
 		}
-		
+
 		return resultCoordinates;
 	}
-	
+
 	protected static Coordinate createCoordinatesFromPosition(
 			DirectPositionType position, String srs) {
 		int dim;
@@ -265,7 +265,7 @@ public class GMLGeometryFactory {
 			interpol = CurveInterpolationType.GEODESIC;
 		}
 
-		return new GeometryWithInterpolation(geom, interpol.equals(CurveInterpolationType.GEODESIC) ? 
+		return new GeometryWithInterpolation(geom, interpol.equals(CurveInterpolationType.GEODESIC) ?
 				GeometryWithInterpolation.GEODESIC : GeometryWithInterpolation.LINEAR);
 	}
 
@@ -286,7 +286,7 @@ public class GMLGeometryFactory {
 
 	public static Geometry createLineString(LineStringType ls) {
 		GeometryFactory gf = new GeometryFactory();
-		
+
 		Coordinate[] coords = null;
 		if (ls.isSetCoordinates()) {
 			coords = createCoordinatesFromCoordinates(ls.getCoordinates(), ls.getSrsName());
@@ -317,14 +317,14 @@ public class GMLGeometryFactory {
 	 */
 	public static GeometryWithInterpolation createRectangle(RectangleType patch, String srs) {
 		LinearRing geom = createRing(patch.getExterior().getAbstractRing(), srs);
-		
+
 		String interpol;
 		if (patch.isSetInterpolation()) {
 			interpol = patch.getInterpolation().toString();
 		} else {
 			interpol = GeometryWithInterpolation.LINEAR;
 		}
-		
+
 		return new GeometryWithInterpolation(geom, interpol);
 	}
 
@@ -379,7 +379,7 @@ public class GMLGeometryFactory {
 				return interpolateRhumbLine(geom);
 			} else {
 				return interpolateGreatCircle(geom);
-			}	
+			}
 		}
 		return geom;
 	}
@@ -405,7 +405,7 @@ public class GMLGeometryFactory {
 	/**
 	 * Main method for parsing a geometry from an xml-fragment.
 	 * This method delegates to the private concrete parsing methods.
-	 * 
+	 *
 	 * @param geomElement the geometry xml object
 	 * @return a {@link Geometry} as a JTS representation.
 	 * @throws ParseException if the geometry could not be parsed.

@@ -41,7 +41,7 @@ import org.n52.oxf.valueDomains.time.TemporalValueDomain;
 /**
  * Holds all the <code>ParameterShell</code>s of an AbstractServiceLayer that should be used in an operation
  * execution.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class ParameterContainer {
@@ -54,10 +54,10 @@ public class ParameterContainer {
     public boolean removeParameterShell(final ParameterShell parameterShell) {
         return parameterShells.remove(parameterShell);
     }
-    
+
     /**
      * @param parameterName a CommonName or ServiceSidedName of a parameter.
-     * @return <tt>true</tt> if the container contained a shell identified by 
+     * @return <tt>true</tt> if the container contained a shell identified by
      * 		   <tt>parameterName</tt> (ignoring case) and the according shell is successfully
      * 			removed.
      */
@@ -82,13 +82,13 @@ public class ParameterContainer {
     		}
 		}
 		return found?returnValue:false;
-    	
+
     }
 
 	private boolean isParameterNameEqual(final String parameterName,
 			final ParameterShell shell)
 	{
-		return shell.getParameter().getCommonName().equalsIgnoreCase(parameterName) || 
+		return shell.getParameter().getCommonName().equalsIgnoreCase(parameterName) ||
 				shell.getParameter().getServiceSidedName().equalsIgnoreCase(parameterName);
 	}
 
@@ -107,7 +107,7 @@ public class ParameterContainer {
 
     /**
      * Adds a new ParameterShell with a 'required' {@link Parameter} with name <code>parameterName</code> and
-     * a {@link TemporalValueDomain} containing only the specified <code>parameterValue</code>(s). 
+     * a {@link TemporalValueDomain} containing only the specified <code>parameterValue</code>(s).
      */
     public void addParameterShell(final String parameterName, final ITime... parameterValue) throws OXFException {
         final Parameter parameter = new Parameter(parameterName, true, new TemporalValueDomain(parameterValue), parameterName);
@@ -196,7 +196,7 @@ public class ParameterContainer {
 
     /**
      * searches the ParameterShell whose Parameter has the commonName and sets the newValue to this Parameter.
-     * 
+     *
      * @param commonName
      * @param newValue
      * @throws OXFException
@@ -217,7 +217,7 @@ public class ParameterContainer {
     /**
      * searches the ParameterShell whose Parameter has the commonName and sets the newValues to this
      * Parameter.
-     * 
+     *
      * @param commonName
      * @param newValues
      * @throws OXFException
@@ -240,7 +240,7 @@ public class ParameterContainer {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public String toString() {

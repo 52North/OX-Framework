@@ -37,13 +37,13 @@ public class XmlObjectResponseHandler implements ResponseHandler {
     @Override
     public void onSuccess(InputStream response, int httpStatusCode) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void onFailure(String reason) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

@@ -37,16 +37,16 @@ import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 /**
  * This class describes a set of parameters, which is necessary to call
  * doGetObservationById([...]) from SOSWrapper.
- * 
+ *
  * @author Eric
  */
 public class GetObservationByIdParameterBuilder_v100 {
-	
+
 	private final Map<String, String> parameters = new HashMap<String, String>();
-	
+
 	/**
 	 * Assembles mandatory parameters from method parameter list.
-	 * 
+	 *
 	 * @param observationId
 	 * @param responseFormat
 	 */
@@ -64,10 +64,10 @@ public class GetObservationByIdParameterBuilder_v100 {
 	public Map<String, String> getParameters() {
 		return parameters;
 	}
-	
+
 	/**
 	 * Adds or replaces the optional parameter "srsName".
-	 * 
+	 *
 	 * @param srsName
 	 * @return parameter builder
 	 */
@@ -78,10 +78,10 @@ public class GetObservationByIdParameterBuilder_v100 {
 		parameters.put(ISOSRequestBuilder.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER, srsName);
 		return this;
 	}
-	
+
 	/**
 	 * Adds or replaces the optional parameter "resultModel".
-	 * 
+	 *
 	 * @param resultModel
 	 * @return parameter builder
 	 */
@@ -92,10 +92,10 @@ public class GetObservationByIdParameterBuilder_v100 {
 		parameters.put(GET_OBSERVATION_BY_ID_RESULT_MODEL_PARAMETER, resultModel);
 		return this;
 	}
-	
+
 	/**
 	 * Adds or replaces the optional parameter "responseMode".
-	 * 
+	 *
 	 * @param responseMode
 	 * @return parameter builder
 	 */
@@ -106,5 +106,5 @@ public class GetObservationByIdParameterBuilder_v100 {
 		parameters.put(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER, responseMode);
 		return this;
 	}
-	
+
 }

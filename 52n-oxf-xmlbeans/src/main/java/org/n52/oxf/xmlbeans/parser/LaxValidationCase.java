@@ -33,19 +33,19 @@ import org.apache.xmlbeans.XmlValidationError;
 /**
  * Interface for providing exceptional cases
  * in XML validation (e.g. substitution groups).
- * 
+ *
  * @author <a href="mailto:m.rieke@52north.org">Matthes Rieke</a>
  *
  */
 public interface LaxValidationCase {
-	
+
 	/**
 	 * @param validationError the validation error
 	 * @return true, if this lax case embodies an exceptional
 	 * validation case on the given error
 	 */
 	boolean shouldPass(XmlError validationError);
-	
+
 	/**
 	 * @deprecated no longer called, due to the fact that errors can also be XmlError (the supertype).
 	 * 	Use {@link #shouldPass(XmlError)} instead and cast if needed.
@@ -54,5 +54,5 @@ public interface LaxValidationCase {
 	 */
 	@Deprecated
 	boolean shouldPass(XmlValidationError validationError);
-	
+
 }

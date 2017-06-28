@@ -39,7 +39,7 @@ public class XmlUtilXQueryTest {
 
 	@Test
 	public void testXQuery() throws XmlException, IOException {
-	    String namespaceDeclaration = 
+	    String namespaceDeclaration =
 	            "declare namespace muse-wsa='http://ws.apache.org/muse/addressing';"+
 	            		"declare namespace wsa='http://www.w3.org/2005/08/addressing'; ";
 
@@ -48,7 +48,7 @@ public class XmlUtilXQueryTest {
 	            "return " +
 	                "for $z in $e/muse-wsa:ResourceId " +
 	                "return $z";
-		
+
 		XmlObject xo = readObject();
 		xo = XmlUtil.execQuery(namespaceDeclaration + queryExpression, xo)[0];
 		String inner = XmlUtil.stripText(XmlObject.Factory.parse(xo.getDomNode().getFirstChild().getFirstChild()));
@@ -58,5 +58,5 @@ public class XmlUtilXQueryTest {
 	private XmlObject readObject() throws XmlException, IOException {
 		return XmlObject.Factory.parse(getClass().getResourceAsStream("XPathSaxon94Text.xml"));
 	}
-	
+
 }

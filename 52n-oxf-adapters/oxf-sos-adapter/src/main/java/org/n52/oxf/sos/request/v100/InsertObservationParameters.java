@@ -35,10 +35,10 @@ import org.n52.oxf.sos.observation.ObservationParameters;
  * Assembles all parameters needed for an InsertObservation request.
  */
 public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertObservationParameters {
-    
+
     private static final String REQUEST_PARAMETER = "request";
 	private final ObservationParameters observationParameters;
-	
+
 	public InsertObservationParameters(final ObservationParameters observationParameters) throws IllegalArgumentException {
 	    addNonEmpty(REQUEST_PARAMETER, "InsertObservation");
         if (observationParameters == null || observationParameters.isEmpty() || !observationParameters.isValid()) {
@@ -52,5 +52,5 @@ public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertO
         return !isEmptyValue(INSERT_OBSERVATION_PROCEDURE_PARAMETER) &&
         		observationParameters.isValid();
     }
-	
+
 }

@@ -52,9 +52,9 @@ import org.slf4j.LoggerFactory;
  * Test case for substitution group and the qualification of those using
  * {@link XmlUtil#qualifySubstitutionGroup(org.apache.xmlbeans.XmlObject, javax.xml.namespace.QName, org.apache.xmlbeans.SchemaType)}
  * .
- * 
+ *
  * @author matthes rieke
- * 
+ *
  */
 public class SubstitutionGroupTest {
 
@@ -82,7 +82,7 @@ public class SubstitutionGroupTest {
 
         FeaturePropertyType member = collection.addNewFeatureMember();
         member.setFeature(sampling);
-        
+
         // results in invalid xml markup
         logger.info("\nINVALID collection: \n \n{}\n", collectionDoc.xmlText(options));
 
@@ -97,18 +97,18 @@ public class SubstitutionGroupTest {
             SamplingFeatureType sampling = samplingDoc.addNewSamplingFeature();
             sampling.addNewDescription().setStringValue("testDescription");
 
-            
+
             FeaturePropertyDocument featureMemberDoc = FeaturePropertyDocument.Factory.newInstance();
             FeaturePropertyType member = featureMemberDoc.addNewFeatureProperty();
 //            FeaturePropertyType member = collection.addNewFeatureMember();
             member.setFeature(sampling);
-            
+
             collection.addNewFeatureMember().set(featureMemberDoc);
-            
+
             SchemaType type = SamplingFeatureDocument.type;
             XmlObject substitute = member.getFeature().substitute(type.getDocumentElementName(), sampling.schemaType());
             logger.info("substituted element: {}", substitute.xmlText(options));
-            
+
             // results in invalid xml markup
             logger.info("\nINVALID collection: \n \n{}\n", collectionDoc.xmlText(options));
 
@@ -118,7 +118,7 @@ public class SubstitutionGroupTest {
             fail();
         }
     }
-    
+
     @Test
     public void testAddingExtensionMemberWithQualifyingFromXmlBeansTools() {
         logger.info("SUBSTITUTION VIA XmlUtil");

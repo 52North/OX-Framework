@@ -28,7 +28,7 @@
 package org.n52.oxf.ows.capabilities;
 
 /**
- * 
+ *
  * This class refers to CI_OnlineResource of ISO 19115 and to the XLink Recommendation.
  * (ie. http://www.w3.org/TR/2001/REC-xlink-20010627/)
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
@@ -36,43 +36,43 @@ package org.n52.oxf.ows.capabilities;
  *
  */
 public class OnlineResource {
-    
+
 	public static String TYPE_EXTENDED	= "extended";
 	public static String TYPE_SIMPLE	= "simple";
 	public static String TYPE_RESOURCE	= "resource";
 	public static String TYPE_LOCATOR	= "locator";
 	public static String TYPE_ARC		= "arc";
 	public static String TYPE_TITLE		= "title";
-	
+
     /**
      * The allowed values for 'type' are: extended, simple, resource, locator, arc, title.
      * Standard is 'simple'. This should be ok. So please be careful in changing this attribute.
      */
     private String type;
-    
+
     private String href;
-    
+
     private String role;
-    
+
     private String arcrole;
-    
+
     private String show;
-    
+
     private String actuate;
-    
+
     private String title;
-    
-    
+
+
     public OnlineResource(String href){
         setType("simple");
         setHref(href);
     }
-	
+
 	public OnlineResource(String type, String href){
 		setType(type);
 		setHref(href);
 	}
-	
+
 	public OnlineResource(String type, String href, String role, String arcrole, String show, String actuate, String title){
 		setType(type);
 		setHref(href);
@@ -82,9 +82,9 @@ public class OnlineResource {
 		setActuate(actuate);
 		setTitle(title);
 	}
-	
+
 	/**
-	 * @return a XML representation of this OnlineResource. 
+	 * @return a XML representation of this OnlineResource.
 	 */
 	public String toXML(){
 		String res = "<OnlineResource"
@@ -95,22 +95,22 @@ public class OnlineResource {
 				+ " show=\""	+ show + "\""
 				+ " actuate=\"" + actuate + "\""
 				+ " title=\""	+ title + "\"/>";
-		
+
 		return res;
 	}
-	
+
     public String getActuate() {
         return actuate;
     }
-    
+
     protected void setActuate(String actuate) {
         this.actuate = actuate;
     }
-    
+
     public String getArcrole() {
         return arcrole;
     }
-    
+
 	protected void setArcrole(String arcrole) {
         this.arcrole = arcrole;
     }
@@ -122,7 +122,7 @@ public class OnlineResource {
 	protected void setHref(String href) {
         this.href = href;
     }
-	
+
     public String getRole() {
         return role;
     }
@@ -134,26 +134,26 @@ public class OnlineResource {
     public String getShow() {
         return show;
     }
-    
+
 	protected void setShow(String show) {
         this.show = show;
     }
-	
+
     public String getTitle() {
         return title;
     }
-    
+
 	protected void setTitle(String title) {
         this.title = title;
     }
-	
+
     public String getType() {
         return type;
     }
 
     /**
-     * 
-     * @param type the parameter must be compliant to the recommendation. There are only some allowed. 
+     *
+     * @param type the parameter must be compliant to the recommendation. There are only some allowed.
      * Standard is simple. This should be ok. So please be careful in changing this attribute.
      */
 	protected void setType(String type) {

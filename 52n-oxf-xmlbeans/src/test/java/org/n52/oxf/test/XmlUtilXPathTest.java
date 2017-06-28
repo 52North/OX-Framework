@@ -40,7 +40,7 @@ public class XmlUtilXPathTest {
 	@Test
 	public void testXpathCompilation() throws XmlException, IOException {
 		String xpath = "declare namespace muse-wsa='http://ws.apache.org/muse/addressing'; //muse-wsa:ResourceId";
-		
+
 		XmlObject xo = readObject();
 		xo = XmlUtil.selectPath(xpath, xo)[0];
 		String inner = XmlUtil.stripText(xo);
@@ -50,5 +50,5 @@ public class XmlUtilXPathTest {
 	private XmlObject readObject() throws XmlException, IOException {
 		return XmlObject.Factory.parse(getClass().getResourceAsStream("XPathSaxon94Text.xml"));
 	}
-	
+
 }

@@ -36,9 +36,9 @@ import org.n52.oxf.ows.capabilities.ITime;
 /**
  * This class is a ValueDomain for ITime objects. These objects could be instances of TimePosition or
  * TimePeriod.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
 
@@ -51,18 +51,18 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
         this.timeList = new ArrayList<ITime>();
         add(time);
     }
-    
+
     public TemporalValueDomain(List<ITime> timeList) {
         this.timeList = timeList;
     }
-    
+
     public TemporalValueDomain(ITime[] possibleValues){
         this.timeList = new ArrayList<ITime>(java.util.Arrays.asList(possibleValues));
     }
 
     /**
      * adds an ITime object to the timeList.
-     * 
+     *
      * @param time the {@linkplain ITime} to add
      */
     public void add(ITime time) {
@@ -72,14 +72,14 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
     /**
      * adds an ITime object to the timeList. This object will be generated from the timeString which has to
      * bee ISO8601 compliant.
-     * 
+     *
      * @param timeString
      *        ISO8601 compliant timeString.
      */
     public void add(String timeString) {
         timeList.add(TimeFactory.createTime(timeString));
     }
-    
+
     public boolean isEmpty(){
         return timeList.isEmpty();
     }
@@ -94,7 +94,7 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
     /**
      * proofs whether the overgiven ITime object is contained in this TemporalValueDomain. (It also proofs if
      * time is contained in TimePeriods which are contained in this TemporalValueDomain.
-     * 
+     *
      */
     //TODO: sind hier wirklich auch TimePeriods als Eingabe sinnvoll? oder nur TimePositions?
     public boolean containsValue(ITime time) {
@@ -122,7 +122,7 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
                 if (timePeriod1.contains(timePeriod2)) {
                     return true;
                 }
-            } 
+            }
             else if (t.equals(time)) {
                 return true;
             }

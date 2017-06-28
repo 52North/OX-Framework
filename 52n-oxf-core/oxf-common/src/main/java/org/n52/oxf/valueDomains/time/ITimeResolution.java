@@ -31,20 +31,20 @@ import org.n52.oxf.ows.capabilities.*;
 
 /**
  * Specifies a resolution for time by defining
- * year, month, day, hours, minutes and seconds. 
+ * year, month, day, hours, minutes and seconds.
  */
 public interface ITimeResolution extends ITime {
-    
+
     long getYears();
-    
+
     int getMonths();
-    
+
     int getDays();
-    
+
     int getHours();
 
     int getMinutes();
-    
+
     float getSeconds();
 
 }

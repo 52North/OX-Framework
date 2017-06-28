@@ -36,7 +36,7 @@ public interface ResponseHandler {
     /**
      * Called when a response was received successfully. Content and HTTP status code is passed for further
      * processing.
-     * 
+     *
      * @param response
      *        response's content as stream.
      * @param httpStatusCode
@@ -48,7 +48,7 @@ public interface ResponseHandler {
      * Called when no response could be received. When this method is called, any low-level exceptions (e.g.
      * {@link IOException} {@link TimeoutException}, etc.) should already have been handled and logged
      * appropriately. Use this method to trigger higher-level error messaging.
-     * 
+     *
      * @param reason
      * 		  a higher-level error message
      */

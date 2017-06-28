@@ -36,7 +36,7 @@ import org.n52.oxf.sos.observation.ObservationParametersFactory;
 import org.n52.oxf.xml.XMLConstants;
 
 /**
- * 
+ *
  * @deprecated use {@link ObservationParametersFactory} or {@link CountObservationParameters}
  */
 @Deprecated
@@ -49,7 +49,7 @@ public class CountObservationBuilder extends ObservationBuilder {
 		type = XMLConstants.QNAME_OM_1_0_COUNT_OBSERVATION;
 		parameters.put(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_COUNT);
 	}
-	
+
 	public void addObservationValue(int observationValue) {
 		if (parameters.get(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
 			parameters.remove(INSERT_OBSERVATION_VALUE_PARAMETER);

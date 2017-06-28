@@ -48,7 +48,7 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * Some little helper methods for IO-handling.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Br&ouml;ring</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @author <a href="mailto:h.bredel@52north.org">Henning Bredel</a>
@@ -128,7 +128,7 @@ public class IOHelper {
     }
 
     /**
-     * 
+     *
      * @param filename the file to write to
      * @param msg the message to write or append to file
      * @param append replace file or append to file

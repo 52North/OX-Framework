@@ -38,7 +38,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SRSUtils {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(SRSUtils.class);
 	public static final String DEFAULT_SRS = "urn:ogc:def:crs:EPSG::4326";
 	private static Map<String, AxisOrder> mapping;
@@ -51,7 +51,7 @@ public class SRSUtils {
 			logger.warn(e.getMessage(), e);
 		}
 	}
-	
+
 	public static AxisOrder resolveAxisOrder(String srsName) {
 		return srsName != null ? mapping.get(srsName) : mapping.get(DEFAULT_SRS);
 	}
@@ -59,11 +59,11 @@ public class SRSUtils {
 	private static void loadMappings() throws IOException {
 		InputStream is = SRSUtils.class.getResourceAsStream("axisOrder.mapping");
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		
+
 		while (br.ready()) {
 			addMapping(br.readLine());
 		}
-		
+
 		br.close();
 	}
 

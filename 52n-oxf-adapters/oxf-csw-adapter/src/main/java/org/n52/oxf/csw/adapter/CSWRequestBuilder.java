@@ -52,7 +52,7 @@ import org.n52.oxf.xmlbeans.tools.XmlUtil;
 
 /**
  * contains attributes and methods to encode operation requests as Strings in xml-format
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class CSWRequestBuilder {
@@ -85,7 +85,7 @@ public class CSWRequestBuilder {
     public static final String GET_RECORDS_MAX_RECORDS = "maxRecords";
     public static final String GET_RECORDS_START_POSITION = "startPosition";
     public static final String GET_RECORDS_OUTPUT_FORMAT_PARAMETER = "outputFormat";
-    
+
     public static final String GET_RECORD_BY_ID_REQUEST = "request";
     public static final String GET_RECORD_BY_ID_SERVICE = "service";
     public static final String GET_RECORD_BY_ID_VERSION = "version";
@@ -100,7 +100,7 @@ public class CSWRequestBuilder {
      * For the ParameterContainer 'parameters' are the ParameterShells with the following serviceSidedNames
      * required:
      * <li>service</li>
-     * 
+     *
      * <br>
      * <br>
      * The following are optional: The following are optional:
@@ -108,10 +108,10 @@ public class CSWRequestBuilder {
      * <li>acceptVersions</li>
      * <li>sections</li>
      * <li>acceptFormats</li>
-     * 
+     *
      * @param parameters
      *        the parameters of the request
-     * 
+     *
      * @return CapabilitiesRequest in xml-Format as String
      */
     public String buildGetCapabilitiesRequest(ParameterContainer parameters) {
@@ -184,98 +184,98 @@ public class CSWRequestBuilder {
 
         String schemaLangParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER).getSpecifiedValue();
         queryString += DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER + "=" + schemaLangParam + "&";
-//        
+//
 //        String typeNameParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_TYPE_NAME_PARAMETER).getSpecifiedValue();
 //        queryString += DESCRIBE_RECORD_TYPE_NAME_PARAMETER + "=" + typeNameParam + "&";
-        
+
         String nameSpaceParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_NAME_SPACE_PARAMETER).getSpecifiedValue();
         queryString += DESCRIBE_RECORD_NAME_SPACE_PARAMETER + "=" + nameSpaceParam + "&";
-        
+
         return queryString;
     }
-    
+
     public String buildDescribeRecordRequestPost(ParameterContainer parameters) {
-       
+
         DescribeRecordDocument describeRecordDocument = DescribeRecordDocument.Factory.newInstance();
-        
+
         DescribeRecordType describeRecordType =  describeRecordDocument.addNewDescribeRecord();
 
         String versionParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_VERSION_PARAMETER).getSpecifiedValue();
         describeRecordType.setVersion(versionParam);
-        
+
         String formatsParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_OUTPUT_FORMAT_PARAMETER).getSpecifiedValue();
         describeRecordType.setOutputFormat(formatsParam);
-        
+
         String schemaLangParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER).getSpecifiedValue();
         describeRecordType.setSchemaLanguage(schemaLangParam);
-        
+
         String serviceParam = (String) parameters.getParameterShellWithServiceSidedName(DESCRIBE_RECORD_SERVICE_PARAMETER).getSpecifiedValue();
         describeRecordType.setService(serviceParam);
-        
+
         return describeRecordDocument.xmlText(XmlUtil.PRETTYPRINT);
     }
-    
+
     public String buildGetRecordsRequest(ParameterContainer parameters) throws OXFException {
-        
+
         GetRecordsDocument xb_getRecordsDocument = GetRecordsDocument.Factory.newInstance();
         GetRecordsType xb_getRecords = xb_getRecordsDocument.addNewGetRecords();
-        
+
         xb_getRecords.setService(CSWAdapter.SERVICE_TYPE);
         xb_getRecords.setVersion(CSWAdapter.SUPPORTED_VERSIONS[0]);
-        
-        
+
+
         ParameterShell maxRecords = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_MAX_RECORDS);
         if (maxRecords != null) {
             xb_getRecords.setMaxRecords( BigInteger.valueOf((Integer) maxRecords.getSpecifiedValue()));
         }
-        
+
         ParameterShell startPosition = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_START_POSITION);
         if (startPosition != null) {
             xb_getRecords.setStartPosition( BigInteger.valueOf((Integer) startPosition.getSpecifiedValue()));
         }
-        
+
         ParameterShell formatsParam = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_OUTPUT_FORMAT_PARAMETER);
         if (formatsParam != null) {
             xb_getRecords.setOutputFormat( (String) formatsParam.getSpecifiedValue());
         }
-        
+
         ParameterShell outputSchemaParam = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_OUTPUT_SCHEMA_FORMAT);
         if (outputSchemaParam != null) {
             xb_getRecords.setOutputSchema( (String) outputSchemaParam.getSpecifiedValue());
         }
-        
+
         ParameterShell resultTypeParam = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_RESULT_TYPE);
         if (resultTypeParam != null) {
-            
+
             String resultTypeString = (String) resultTypeParam.getSpecifiedValue();
-            if (resultTypeString.equals("results")) {            
+            if (resultTypeString.equals("results")) {
                 xb_getRecords.setResultType( ResultType.RESULTS );
             }
             else {
                 throw new OXFException("Specified value '" + resultTypeString + "' for parameter '" + GET_RECORDS_RESULT_TYPE + "' is not yet supported.");
             }
         }
-        
+
         //
         // constructing a Query:
-        
+
         QueryType xb_query = QueryType.Factory.newInstance();
-        
+
         ParameterShell typeNamesParam = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_QUERY_TYPE_NAMES_PARAMETER);
         if (typeNamesParam != null) {
-            
+
             List typeNameList = new ArrayList();
-            
+
             if (((String) typeNamesParam.getSpecifiedValue()).equals("csw:Record")) {
                 typeNameList.add(new QName(CSWAdapter.NAMESPACE, "Record"));
             }
             else {
                 throw new OXFException("typeNames not yet supported.");
             }
-            
+
             xb_query.setTypeNames(typeNameList);
         }
-        
+
         ParameterShell elementSetNameParam = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_ELEMENT_SET_NAME_FORMAT);
         if (elementSetNameParam != null) {
             if (xb_query == null) {
@@ -283,25 +283,25 @@ public class CSWRequestBuilder {
             }
             xb_query.addNewElementSetName().setStringValue((String) elementSetNameParam.getSpecifiedValue());
         }
-        
+
         // adding the Query and setting correct type:
-        
+
         AbstractQueryType abstractQuery = xb_getRecords.addNewAbstractQuery();
         abstractQuery.set(xb_query);
         XmlUtil.qualifySubstitutionGroup(xb_getRecords.getAbstractQuery(),
                 QueryDocument.type.getDocumentElementName(),
                 QueryType.type);
-        
+
         Map suggestedPrefixes = new HashMap();
         suggestedPrefixes.put(CSWAdapter.NAMESPACE, "csw");
-        
+
         XmlOptions xmlOptions = new XmlOptions();
         xmlOptions.setSaveSuggestedPrefixes(suggestedPrefixes);
         xmlOptions.setSavePrettyPrint();
-        
+
         return xb_getRecordsDocument.xmlText(xmlOptions);
     }
-    
+
     public String buildGetRecordByIdRequest(ParameterContainer parameters) {
         String queryString = "";
 
@@ -333,13 +333,13 @@ public class CSWRequestBuilder {
             String outputFormat = (String) outputFormatParam.getSpecifiedValue();
             queryString += GET_RECORD_BY_ID_OUTPUT_FORMAT + "=" + outputFormat + "&";
         }
-        
+
         ParameterShell outputSchemaParam = parameters.getParameterShellWithServiceSidedName(GET_RECORD_BY_ID_OUTPUT_SCHEMA);
         if (outputSchemaParam != null) {
             String outputSchema = (String) outputSchemaParam.getSpecifiedValue();
             queryString += GET_RECORD_BY_ID_OUTPUT_SCHEMA + "=" + outputSchema + "&";
         }
-        
+
         return queryString;
     }
 }

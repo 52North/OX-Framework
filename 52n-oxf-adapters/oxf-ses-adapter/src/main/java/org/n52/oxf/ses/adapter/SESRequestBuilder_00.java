@@ -102,13 +102,13 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 	@Deprecated
 	private static final String SOAP_ACTION_DESTROY_REQUEST = "http://docs.oasis-open.org/wsrf/rlw-2/ImmediateResourceTermination/DestroyRequest";
 	private static final String SOAP_ACTION_UNSUBSCRIBE_REQUEST = "http://docs.oasis-open.org/wsn/bw-2/SubscriptionManager/UnsubscribeRequest";
-	
+
 	private static final String SOAP_ACTION_SUBSCRIBE_REQUEST = "http://docs.oasis-open.org/wsn/bw-2/NotificationProducer/SubscribeRequest";
 
 	private static final String SOAP_ACTION_NOTIFY_REQUEST = "http://docs.oasis-open.org/wsn/bw-2/NotificationConsumer/Notify";
 	private static final String SOAP_ACTION_REGISTER_PUBLISHER_REQUEST = "http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherRequest";
 	private static final String SOAP_ACTION_DESTROY_REGISTRATION_REQUEST = "http://docs.oasis-open.org/wsn/brw-2/PublisherRegistrationManager/DestroyRegistrationRequest";
-	
+
 	private static final String W3C_ADDRESSING_ROLE_ANONYMOUS = "http://www.w3.org/2005/08/addressing/role/anonymous";
 
 	private static final String N52_SES_RESOURCE_ID_NAMESPACE = "http://ws.apache.org/muse/addressing";
@@ -145,7 +145,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		ParameterShell value = parameters.getParameterShellWithCommonName(commonName);
 		return value == null ? null : (String) value.getSpecifiedValue();
 	}
-	
+
 	private String[] getArrayValueFor(String commonName, ParameterContainer parameters) {
 		ParameterShell value = parameters.getParameterShellWithCommonName(commonName);
 		if (value != null && value.getSpecifiedTypedValueArray(String[].class) != null) {
@@ -168,7 +168,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		NotifyDocument notifyDoc = NotifyDocument.Factory.newInstance();
 		Notify notify = notifyDoc.addNewNotify();
 		NotificationMessageHolderType notificationMessage = notify.addNewNotificationMessage();
-		
+
 		String topicString = getStringValueFor(NOTIFY_TOPIC, parameters);
 		if (topicString != null) {
 			TopicExpressionType topic = notificationMessage.addNewTopic();
@@ -246,20 +246,20 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 
 		RegisterPublisherDocument registerPublisherDoc = RegisterPublisherDocument.Factory.newInstance();
 		RegisterPublisher registerPublisher = registerPublisherDoc.addNewRegisterPublisher();
-		
+
 		try {
 			registerPublisher.set(SensorMLDocument.Factory.parse(getStringValueFor(REGISTER_PUBLISHER_SENSORML, parameters)));
 		} catch (XmlException e) {
 			logger.warn("Could not parse SensorML!", e);
 		}
-		
+
 		TopicExpressionType topic = registerPublisher.addNewTopic();
 
 		fillTopic(topic, getStringValueFor(REGISTER_PUBLISHER_TOPIC, parameters),
 				getStringValueFor(REGISTER_PUBLISHER_TOPIC_DIALECT, parameters));
-		
+
 		registerPublisher.setDemand(false);
-		
+
 		String itTime = getStringValueFor(REGISTER_PUBLISHER_LIFETIME_DURATION, parameters);
 		if (itTime != null)
 			registerPublisher.setInitialTerminationTime(createTerminationTime(itTime));
@@ -268,14 +268,14 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 
 		return request.xmlText(new XmlOptions().setSavePrettyPrint());
 	}
-	
+
 	private Calendar createTerminationTime(String stringTime) {
 		DateTime date = new DateTime(stringTime);
 		DateTime now = new DateTime();
 		if (date.isAfter(now)) {
 			return date.toCalendar(Locale.getDefault());
 		}
-		
+
 		/*
 		 * default to one month from now
 		 */
@@ -308,7 +308,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		cur.toNextToken();
 
 		cur.insertElementWithText(WSN_BR.createQNameFor("Demand"), "false");
-		
+
 		// following elements not allowed
 //		String lifeTimeDuration = getStringValueFor(REGISTER_PUBLISHER_LIFETIME_DURATION, parameters); // change to InitialTerminationTime
 //		cur.insertElementWithText(WSRF_RL.createQNameFor("RequestedLifetimeDuration"), lifeTimeDuration);
@@ -322,23 +322,23 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 	}
 
 	/**
-	 * Reads a recipient parameter from given the given {@link ParameterContainer}. If no value was 
+	 * Reads a recipient parameter from given the given {@link ParameterContainer}. If no value was
 	 * set for the asked parameter {@value #W3C_ADDRESSING_ROLE_ANONYMOUS} is returned.
-	 * 
+	 *
 	 * @param whichAddress the address value to find.
 	 * @param parameters where the address was set.
 	 * @return the set address, or {@value #W3C_ADDRESSING_ROLE_ANONYMOUS} if parameter was not set.
 	 */
 	String getFromAddress(String whichAddress, ParameterContainer parameters) {
-		return getStringValueFor(whichAddress, parameters) != null 
-				? getStringValueFor(whichAddress, parameters) 
+		return getStringValueFor(whichAddress, parameters) != null
+				? getStringValueFor(whichAddress, parameters)
 						: W3C_ADDRESSING_ROLE_ANONYMOUS;
 	}
 
 	public String buildSubscribeRequest(ParameterContainer parameters) {
 		String consumer = getStringValueFor(SUBSCRIBE_CONSUMER_REFERENCE_ADDRESS, parameters);
 		if (consumer == null) throw new IllegalArgumentException("No consumer endpoint provided.");
-		
+
 		String recipient = getStringValueFor(SUBSCRIBE_SES_URL, parameters);
 		EnvelopeDocument request = aSesRequest()
 				.addSoapAction(SOAP_ACTION_SUBSCRIBE_REQUEST)
@@ -348,32 +348,32 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 				.build();
 
 		XmlObject body = request.getEnvelope().getBody();
-	
+
 		SubscribeDocument subscribeDoc = SubscribeDocument.Factory.newInstance();
 		Subscribe subscribe = subscribeDoc.addNewSubscribe();
 		EndpointReferenceType consumerReference = subscribe.addNewConsumerReference();
 		consumerReference.addNewAddress().setStringValue(consumer);
-		
+
 		FilterType filter = subscribe.addNewFilter();
 		try {
 			createFilter(filter, parameters);
 		} catch (XmlException e) {
 			logger.warn("Could not create Filter element!", e);
 		}
-		
+
 		String itTime = getStringValueFor(SUBSCRIBE_INITIAL_TERMINATION_TIME, parameters);
 		if (itTime != null)
 			subscribe.setInitialTerminationTime(createTerminationTime(itTime));
-		
+
 		body.set(subscribeDoc);
-		
+
 		return request.xmlText(new XmlOptions().setSavePrettyPrint());
 	}
-	
+
 	private void createFilter(FilterType filterContainer, ParameterContainer parameters) throws XmlException {
 		List<XmlObject> contentFilters = createContentFilters(parameters);
 		String topicFilterText = getStringValueFor(SUBSCRIBE_FILTER_TOPIC, parameters);
-		
+
 		if (topicFilterText != null) {
 			TopicExpressionDocument topicExpressionDoc = TopicExpressionDocument.Factory.newInstance();
 			TopicExpressionType topicExpression = topicExpressionDoc.addNewTopicExpression();
@@ -381,10 +381,10 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 					getStringValueFor(SUBSCRIBE_FILTER_TOPIC_DIALECT, parameters));
 			contentFilters.add(topicExpressionDoc);
 		}
-		
+
 		XmlCursor filterContainerCursor = filterContainer.newCursor();
 		filterContainerCursor.toFirstContentToken();
-		
+
 		for (XmlObject filter : contentFilters) {
 			XmlCursor cur = filter.newCursor();
 			cur.toFirstContentToken();
@@ -395,10 +395,10 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 
 	private List<XmlObject> createContentFilters(ParameterContainer parameters) throws XmlException {
 		List<XmlObject> result = new ArrayList<XmlObject>();
-		
+
 		String singleContentFilter = getStringValueFor(SUBSCRIBE_FILTER_MESSAGE_CONTENT, parameters);
 		String[] contentFilterList = getArrayValueFor(SUBSCRIBE_FILTER_MESSAGE_CONTENT, parameters);
-		
+
 		if (contentFilterList != null) {
 			String[] dialectList = getArrayValueFor(SUBSCRIBE_FILTER_MESSAGE_CONTENT_DIALECT, parameters);
 			if (dialectList.length == contentFilterList.length) {
@@ -407,7 +407,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 					result.add(createContentFilter(dialectList[index].toString(),
 							o.toString()));
 					index++;
-				}				
+				}
 			}
 		}
 		else if (singleContentFilter != null) {
@@ -417,7 +417,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		else {
 			result.add(createContentFilter(DEFAULT_FILTER_XPATH_DIALECT, "*"));
 		}
-		
+
 		return result;
 	}
 
@@ -427,10 +427,10 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		MessageContentDocument mcd = MessageContentDocument.Factory.newInstance();
 		QueryExpressionType messageContentObject = mcd.addNewMessageContent();
 		messageContentObject.setDialect(dialect);
-		
+
 		XmlCursor cur = messageContentObject.newCursor();
 		cur.toFirstContentToken();
-		
+
 		boolean success = false;
 		try {
 			XmlObject filterObject = XmlObject.Factory.parse(singleContentFilter);
@@ -441,15 +441,15 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 			filterCur.dispose();
 			success = true;
 		} catch (XmlException e) {
-			
+
 		}
-		
+
 		if (!success) {
 			cur.insertChars(singleContentFilter);
 		}
-		
-		cur.dispose();	
-		
+
+		cur.dispose();
+
 		return mcd;
 	}
 
@@ -496,7 +496,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 
 		String messageContentFilter = getStringValueFor(SUBSCRIBE_FILTER_MESSAGE_CONTENT, parameters);
 		String toReplace = request.xmlText();
-		return messageContentFilter != null 
+		return messageContentFilter != null
 				? toReplace.replaceAll("@MSG_CONT_FILTER@", messageContentFilter)
 						: toReplace;
 	}
@@ -586,7 +586,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 
 		return request.xmlText();
 	}
-	
+
 
 	@Override
 	public String buildDestroyRegistrationRequest(
@@ -602,14 +602,14 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		Header soapHeader = request.getEnvelope().getHeader();
 		XmlCursor headerXmlCursor = soapHeader.newCursor();
 		headerXmlCursor.toLastChild();
-		
+
 		String resourceId = getStringValueFor(DESTROY_REGISTRATION_REFERENCE, parameters);
 		if (resourceId != null) {
 			headerXmlCursor.beginElement(new QName(N52_SES_RESOURCE_ID_NAMESPACE, "ResourceId", "muse-wsa"));
 			headerXmlCursor.insertAttributeWithValue(WSA.createQNameFor("IsReferenceParameter"), "true");
 			headerXmlCursor.insertChars(resourceId);
 		}
-		headerXmlCursor.dispose();		
+		headerXmlCursor.dispose();
 
 		XmlObject body = request.getEnvelope().getBody();
 
@@ -619,7 +619,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 
 		return request.xmlText(new XmlOptions().setSavePrettyPrint());
 	}
-	
+
 	public String buildUnsubscribeRequest(ParameterContainer parameters){
 
 		EnvelopeDocument request = aSesRequest()
@@ -632,7 +632,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		Header soapHeader = request.getEnvelope().getHeader();
 		XmlCursor headerXmlCursor = soapHeader.newCursor();
 		headerXmlCursor.toLastChild();
-		
+
 		String resourceId = getStringValueFor(UNSUBSCRIBE_REFERENCE, parameters);
 		if (resourceId != null) {
 			headerXmlCursor.beginElement(new QName(N52_SES_RESOURCE_ID_NAMESPACE, "ResourceId", "muse-wsa"));
@@ -652,7 +652,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 				}
 			}
 		}
-		headerXmlCursor.dispose();		
+		headerXmlCursor.dispose();
 
 
 		XmlObject body = request.getEnvelope().getBody();
@@ -664,7 +664,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		return request.xmlText(new XmlOptions().setSavePrettyPrint());
 	}
 
-	
+
 	protected static class SoapEnvelopeBuilder {
 
 		EnvelopeDocument envelope = null;
@@ -678,7 +678,7 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		}
 
 		private SoapEnvelopeBuilder(XmlObject body) {
-			envelope = body == null 
+			envelope = body == null
 					? createNewEnvelopeWithAnEmptyBody()
 							: SoapUtil.wrapToSoapEnvelope(body);
 					addNamespacesToEnvelope_000(envelope.getEnvelope());
@@ -716,5 +716,5 @@ public class SESRequestBuilder_00 implements ISESRequestBuilder{
 		}
 	}
 
-	
+
 }

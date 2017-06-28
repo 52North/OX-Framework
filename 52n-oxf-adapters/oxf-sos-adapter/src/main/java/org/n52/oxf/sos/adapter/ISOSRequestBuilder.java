@@ -81,9 +81,9 @@ public interface ISOSRequestBuilder {
     public enum Binding {
         POX, KVP, SOAP, JSON;
     }
-    
-    
-    /** 
+
+
+    /**
      * The 52N SOS implementation supports securing transactional operations using a so called auth token.
      * The token MUST be set in the <code>Authorization</code> HTTP header.
      */

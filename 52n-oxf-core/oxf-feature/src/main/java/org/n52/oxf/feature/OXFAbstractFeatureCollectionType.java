@@ -35,10 +35,10 @@ import net.opengis.gml.FeaturePropertyType;
 import org.n52.oxf.OXFException;
 
 public class OXFAbstractFeatureCollectionType extends OXFAbstractFeatureType {
-    
+
     public OXFAbstractFeatureCollectionType() {
         super();
-        
+
         typeName = "OXFAbstractFeatureCollectionType";
         featureAttributeDescriptors = generateAttributeDescriptors();
     }
@@ -59,7 +59,7 @@ public class OXFAbstractFeatureCollectionType extends OXFAbstractFeatureType {
     }
 
     /**
-     * 
+     *
      */
     public void initializeFeature(OXFFeatureCollection featureCollection,
                                   AbstractFeatureCollectionType xb_featureCollection) throws OXFException {

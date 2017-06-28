@@ -34,15 +34,15 @@ import org.n52.oxf.xml.XMLConstants;
  * Allow substitutions of gml:AbstractFeature.
  * This lax validation lets pass every child, hence
  * it checks not _if_ this is a valid substitution.
- * 
+ *
  * @author matthes rieke <m.rieke@52north.org>
  */
 public class GMLAbstractFeatureCase extends AbstractLaxValidationCase {
 
 	private static GMLAbstractFeatureCase instance = null;
-	
+
 	private GMLAbstractFeatureCase() {}
-	
+
 	public static GMLAbstractFeatureCase getInstance() {
 		if (instance == null) {
 			instance = new GMLAbstractFeatureCase();

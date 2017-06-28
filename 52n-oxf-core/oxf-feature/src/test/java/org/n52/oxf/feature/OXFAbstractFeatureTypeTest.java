@@ -56,7 +56,7 @@ import org.n52.oxf.xmlbeans.tools.XmlUtil;
 public class OXFAbstractFeatureTypeTest {
 
     private static final String OBSERVATION_COLLECTION_WITH_GML_METADATA_PROPERTY_ARRAY = "/files/observationData/SOS_1.0.0_ObservationCollection_with_gmlMetadataPropertyArray.xml";
-    
+
     private ObservationCollectionDocument observationCollectionDoc;
 
     @Before
@@ -74,7 +74,7 @@ public class OXFAbstractFeatureTypeTest {
             fail("Could not read file: " + fileToLoad);
         }
     }
-    
+
     @Test public void
     shouldExpectFileAsValid()
     {

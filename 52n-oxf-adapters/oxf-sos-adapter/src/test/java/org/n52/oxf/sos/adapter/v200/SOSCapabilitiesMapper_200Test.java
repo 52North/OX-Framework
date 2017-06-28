@@ -57,7 +57,7 @@ public class SOSCapabilitiesMapper_200Test {
         inputStream = getClass().getResourceAsStream(SOS_CAPABILITIES_WITHOUT_CONTENTS_SECTION);
         capabilitiesDocWithoutContentsSection = CapabilitiesDocument.Factory.parse(inputStream);
     }
-    
+
     @Test
     public void shouldMapServiceVersion() throws OXFException {
         ServiceDescriptor serviceDescriptor = mapper.mapCapabilities(capabilitiesDocument);
@@ -68,7 +68,7 @@ public class SOSCapabilitiesMapper_200Test {
     @Test
     public void shouldIgnoreMissingContentsSection() throws OXFException {
         ServiceDescriptor serviceDescriptor = mapper.mapCapabilities(capabilitiesDocWithoutContentsSection);
-        
+
         Assert.assertThat(serviceDescriptor.getContents(), IsInstanceOf.instanceOf(SOSContents.class));
         Assert.assertThat(serviceDescriptor.getContents().getDataIdentificationCount(), Is.is(0));
         Assert.assertThat(serviceDescriptor.getOperationsMetadata(), IsNull.nullValue());

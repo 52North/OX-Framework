@@ -41,6 +41,6 @@ public class Sos200RequestParametersTest {
 		assertThat(new ParametersSeam().getSingleValue(SERVICE_TYPE), is("SOS"));
 		assertThat(new ParametersSeam().getSingleValue(SERVICE_VERSION), is("2.0.0"));
 	}
-	
+
 	private class ParametersSeam extends Sos200RequestParameters{}
 }

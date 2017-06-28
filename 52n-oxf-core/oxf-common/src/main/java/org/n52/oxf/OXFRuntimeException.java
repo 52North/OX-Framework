@@ -32,9 +32,9 @@ package org.n52.oxf;
  * <br>
  * A method is not required to declare in its throws clause any subclasses of OXFRuntimeException that might
  * be thrown during the execution of the method but not caught.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class OXFRuntimeException extends RuntimeException {
 
@@ -47,7 +47,7 @@ public class OXFRuntimeException extends RuntimeException {
 
     /**
      * Constructs a new OXFRuntimeException with the specified reason.
-     * 
+     *
      * @param reason
      *        the reason of the exception.
      */
@@ -57,7 +57,7 @@ public class OXFRuntimeException extends RuntimeException {
 
     /**
      * Constructs a new OXFRuntimeException with the specified cause.
-     * 
+     *
      * @param cause
      *        the cause which is saved for later retrieval by the Throwable.getCause() method. A null value is
      *        permitted, and indicates that the cause is nonexistent or unknown.
@@ -68,10 +68,10 @@ public class OXFRuntimeException extends RuntimeException {
 
     /**
      * Constructs a new OXFRuntimeException with the specified reason and cause.
-     * 
+     *
      * @param reason
      *        the reason of the exception.
-     * 
+     *
      * @param cause
      *        the cause which is saved for later retrieval by the Throwable.getCause() method. A null value is
      *        permitted, and indicates that the cause is nonexistent or unknown.

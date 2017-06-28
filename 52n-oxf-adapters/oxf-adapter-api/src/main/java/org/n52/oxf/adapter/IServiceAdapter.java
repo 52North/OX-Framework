@@ -35,19 +35,19 @@ import org.n52.oxf.ows.capabilities.*;
  * Specifies the methods which should be implemented by every extended OGC Web
  * Service Adapter. The methods are so generic that they could be used by
  * various applications to access the specific OGC Web Service.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering </a>
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster </a>
  */
 public interface IServiceAdapter {
-	
+
 	/**
 	 * initializes the ServiceDescriptor by requesting the capabilities document
 	 * of the OWS.
-	 * 
+	 *
 	 * @param serviceURL
 	 *            the base URL of the Service
-	 *            
+	 *
 	 * @return the ServiceDescriptor based on the retrieved capabilities
 	 *         document
 	 * @throws ExceptionReport
@@ -60,11 +60,11 @@ public interface IServiceAdapter {
 	/**
 	 * executes the OWS operation with the specified operationName of the OWS
 	 * which is identified by the given serviceURL.
-	 * 
+	 *
 	 * @param operation
 	 *            the operation which the adapter has to execute on the service.
 	 *            this operation includes also the parameter values.
-	 *            
+	 *
 	 * @param parameterContainer
 	 *            contains all ParameterShells for the Operation.
 	 * @throws ExceptionReport

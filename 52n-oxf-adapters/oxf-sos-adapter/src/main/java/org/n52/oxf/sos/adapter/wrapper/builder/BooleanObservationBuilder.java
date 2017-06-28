@@ -48,7 +48,7 @@ public class BooleanObservationBuilder extends ObservationBuilder {
 		type = XMLConstants.QNAME_OM_1_0_TRUTH_OBSERVATION;
 		parameters.put(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_TRUTH);
 	}
-	
+
 	public void addObservationValue(boolean observationValue) {
 		if (parameters.get(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
 			parameters.remove(INSERT_OBSERVATION_VALUE_PARAMETER);

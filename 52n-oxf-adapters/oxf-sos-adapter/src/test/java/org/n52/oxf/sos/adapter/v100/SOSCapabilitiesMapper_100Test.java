@@ -37,7 +37,7 @@ import org.n52.oxf.OXFException;
 
 
 public class SOSCapabilitiesMapper_100Test {
-	
+
 	private static final String SOS_VERSION = "1.0.0";
 
 	@Test

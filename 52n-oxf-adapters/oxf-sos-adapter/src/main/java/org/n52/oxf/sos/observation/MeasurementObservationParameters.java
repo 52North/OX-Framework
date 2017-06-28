@@ -50,7 +50,7 @@ public class MeasurementObservationParameters extends ObservationParameters {
 
     /**
      * Adds or replaces the (current) observation value.
-     * 
+     *
      * @param observationValue
      *        the observation value to add
      */
@@ -60,7 +60,7 @@ public class MeasurementObservationParameters extends ObservationParameters {
 
     /**
      * Adds or replaces the (current) unit of measure.
-     * 
+     *
      * @param uom
      *        the unit of measure to add.
      */
@@ -70,7 +70,7 @@ public class MeasurementObservationParameters extends ObservationParameters {
 
     @Override
 	public boolean isValid() {
-        return !isEmpty(INSERT_OBSERVATION_VALUE_PARAMETER) && 
+        return !isEmpty(INSERT_OBSERVATION_VALUE_PARAMETER) &&
         		!isEmpty(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE);
     }
 

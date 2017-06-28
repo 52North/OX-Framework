@@ -35,7 +35,7 @@ public class OXFScopedName implements IObservationResult {
 
     private String codeSpace;
     private String value;
-    
+
     public OXFScopedName(String codeSpace, String value) {
         super();
         this.codeSpace = codeSpace;

@@ -31,7 +31,7 @@ package org.n52.oxf.valueDomains.time;
  * Represents a TimePeriod specified in OGC WCS spec 1.0.0 and consists of the TimePositions start and end and
  * the TimeResolution resolution.
  *
- * Valid example time period strings: 
+ * Valid example time period strings:
  * <ul>
  * 	<li>1998-11-01/2005-11-02</li>
  * 	<li>1998-11-01/2005-11-02/P1Y</li>
@@ -48,7 +48,7 @@ public class TimePeriod implements ITimePeriod {
 
     /**
      * Constructs a TimePeriod without a resolution. The default resolution has to be set explicitly.
-     * 
+     *
      * @param begin a String representing the start
      * @param end a String representing the end
      */
@@ -128,11 +128,11 @@ public class TimePeriod implements ITimePeriod {
 
     /**
      * Sets a default resolution if the resolution has not been set yet in any other method.
-     * 
+     *
      * @param resolution The resolution to set
-     * 
+     *
      * @throws IllegalArgumentException if the String could not be parsed to an {@link TimeResolution}.
-     * 
+     *
      * @see TimeResolution#TimeResolution(String)
      */
     public void setDefaultResolution(final String resolution) {

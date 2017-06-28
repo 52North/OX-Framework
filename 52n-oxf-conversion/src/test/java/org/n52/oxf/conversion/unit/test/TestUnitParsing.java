@@ -43,12 +43,12 @@ public class TestUnitParsing {
 		Unit unit = ucom.getUnit("m");
 		Assert.assertTrue("Could not get unit", unit != null);
 	}
-	
+
 	@Test
 	public void testConversion() throws UnitConversionFailedException {
 		double value = 10000d;
 		NumberWithUOM result = UCUMTools.convert("mm", "m", value);
 		Assert.assertTrue("Unexpected conversion result.", result.getValue() == 10);
 	}
-	
+
 }

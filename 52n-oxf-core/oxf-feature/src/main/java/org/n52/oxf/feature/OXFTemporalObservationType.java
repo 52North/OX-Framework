@@ -36,19 +36,19 @@ import com.vividsolutions.jts.geom.Geometry;
 
 public class OXFTemporalObservationType extends OXFAbstractObservationType {
 
-	
+
     public static final String RESULT = "result";
-    
+
     public OXFTemporalObservationType(){
     	super();
 
         typeName = "OXFTemporalObservationType";
         featureAttributeDescriptors = generateAttributeDescriptors();
     }
-    
+
 
     /**
-     * 
+     *
      */
     @Override
     protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
@@ -67,7 +67,7 @@ public class OXFTemporalObservationType extends OXFAbstractObservationType {
     }
 
     /**
-     * 
+     *
      * @param feature
      * @param nameValue
      * @param descriptionValue

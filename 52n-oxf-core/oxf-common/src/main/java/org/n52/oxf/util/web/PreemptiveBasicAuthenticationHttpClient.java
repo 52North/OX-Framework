@@ -53,37 +53,37 @@ public class PreemptiveBasicAuthenticationHttpClient extends BasicAuthentication
 	protected HttpRequestInterceptor getAuthenticationIntercepter() {
 		return new PreemptiveBasicAuthenticationInterceptor();
 	}
-	
-	
+
+
 	private final class PreemptiveBasicAuthenticationInterceptor implements HttpRequestInterceptor {
 
 		public void process(HttpRequest request, HttpContext context)
 				throws HttpException, IOException {
 			HttpHost targetHost = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
-			
+
 			UserPasswordAuthentication creds;
 			synchronized (this) {
-				creds = credentials.get(targetHost);	
+				creds = credentials.get(targetHost);
 			}
-			
+
 			if (creds != null) {
 				UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(creds.getUsername(),
 						creds.getPassword());
 				AuthScope scope = new AuthScope(targetHost);
-				
+
 				getHttpClientToDecorate().getCredentialsProvider().setCredentials(scope, credentials);
-				
+
 				AuthCache cache = new BasicAuthCache();
 				cache.put(targetHost, new BasicScheme());
-				
+
 				context.setAttribute(ClientContext.AUTH_CACHE, cache);
-				
+
 				BasicCredentialsProvider credProvider = new BasicCredentialsProvider();
 				credProvider.setCredentials(scope, credentials);
-				context.setAttribute(ClientContext.CREDS_PROVIDER, credProvider);	
+				context.setAttribute(ClientContext.CREDS_PROVIDER, credProvider);
 			}
 		}
-		
+
 	}
-	
+
 }

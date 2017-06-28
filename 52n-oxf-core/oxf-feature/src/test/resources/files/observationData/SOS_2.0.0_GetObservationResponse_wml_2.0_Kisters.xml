@@ -5,7 +5,7 @@
 	xmlns:sos="http://www.opengis.net/sos/2.0" xmlns:sa="http://www.opengis.net/sampling/2.0"
 	xmlns:sams="http://www.opengis.net/samplingSpatial/2.0" xmlns:wsa="http://www.w3.org/2005/08/addressing"
 	xmlns:xlink="http://www.w3.org/1999/xlink"
-	xsi:schemaLocation="http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sos.xsd 
+	xsi:schemaLocation="http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sos.xsd
 	http://www.opengis.net/waterml/2.0 http://schemas.opengis.net/waterml/2.0/waterml2.xsd">
 	<sos:observationData>
 		<om:OM_Observation gml:id="Ki.OM_Obs.1">

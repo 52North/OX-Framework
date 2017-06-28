@@ -25,10 +25,10 @@
           </sams:shape>
         </sams:SF_SpatialSamplingFeature>
       </om:featureOfInterest>
-      <!-- 
+      <!--
         invalid xsi:type<->element constellation!!
         swe:DataArrayType has to be sweArrayPropertyType
-        
+
         Test checks for a workaround
        -->
       <om:result xsi:type="swe:DataArrayType">

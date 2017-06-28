@@ -37,7 +37,7 @@ import org.n52.oxf.xml.XMLConstants;
  * Assembles parameters for a Boolean observation.
  */
 public class BooleanObservationParameters extends ObservationParameters {
-    
+
     /**
      * Creates truth observations of type {@link XMLConstants#QNAME_OM_1_0_TRUTH_OBSERVATION}. Adds
      * {@link ISOSRequestBuilder#INSERT_OBSERVATION_TYPE_TRUTH} as its type description to the parameter list.
@@ -49,7 +49,7 @@ public class BooleanObservationParameters extends ObservationParameters {
 
     /**
      * Adds or replaces the (current) observation value.
-     * 
+     *
      * @param observationValue
      *        the observation value to add.
      */

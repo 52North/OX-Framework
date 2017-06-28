@@ -34,7 +34,7 @@ import org.n52.oxf.ows.capabilities.*;
 
 /**
  * Creates an appropriate ITime object.
- * 
+ *
  * @see TimePeriod
  * @see TimePosition
  */
@@ -46,7 +46,7 @@ public class TimeFactory {
      * @param timeString a String representing a {@link TimePeriod} or {@link TimePosition} or <code>now</code>
      * @return an appropriate ITime object depending on the timeString that may be "now" for the most recent
      *         available data, a TimePosition (e.g. "2005-08-04") or "min/max(/res)" to create a TimePeriod.
-     * 
+     *
      * @throws IllegalArgumentException
      *         if timeString is not in correct format.
      */

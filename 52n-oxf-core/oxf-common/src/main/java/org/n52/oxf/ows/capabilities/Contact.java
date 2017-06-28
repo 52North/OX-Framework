@@ -31,7 +31,7 @@ package org.n52.oxf.ows.capabilities;
  * Information which is needed to contact the responsible organization/person.
  * <br>
  * This class refers to CI_Contact of ISO 19115.
- * 
+ *
  * @author ISO 19115 and <a href="www.opengeospatial.org">OGC</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering </a>
  */
@@ -89,15 +89,15 @@ public class Contact {
 		setAddress(address);
 		setOnlineResource(onlineResource);
 	}
-	
+
 	/**
-	 * @return a XML representation of this Contact. 
+	 * @return a XML representation of this Contact.
 	 */
 	public String toXML(){
 		String res = "<Contact"
 			+ " hoursOfService=\""+ hoursOfService + "\""
 			+ " contactInstructions=\""	+ contactInstructions + "\">";
-		
+
 		if(fax != telephone) {
 			for(String s : telephone){
 				res += "<Telephone>";
@@ -105,7 +105,7 @@ public class Contact {
 				res += "</Telephone>";
 			}
 		}
-		
+
 		if(fax != null) {
 			for(String s : fax){
 				res += "<Fax>";
@@ -113,19 +113,19 @@ public class Contact {
 				res += "</Fax>";
 			}
 		}
-		
+
         if(address != null) {
             res += address.toXML();
         }
-        
+
         if(onlineResource != null) {
 			res += onlineResource.toXML();
         }
-		
+
 		res += "</Contact>";
 		return res;
 	}
-	
+
 
 	public Address getAddress() {
 		return address;

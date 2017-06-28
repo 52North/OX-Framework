@@ -46,16 +46,16 @@ import org.n52.oxf.xml.XMLConstants;
 public class SASamplingPointCase extends AbstractLaxValidationCase {
 
 	private static SASamplingPointCase instance = null;
-	
+
 	private SASamplingPointCase() {}
-	
+
 	public static SASamplingPointCase getInstance() {
 		if (instance == null) {
 			instance = new SASamplingPointCase();
 		}
 		return instance;
 	}
-	
+
 	@Override
 	public boolean shouldPass(final XmlValidationError xve) {
 		final QName offending = xve.getOffendingQName();

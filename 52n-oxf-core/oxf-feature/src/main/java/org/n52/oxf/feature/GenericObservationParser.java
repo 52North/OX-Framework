@@ -90,15 +90,15 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class GenericObservationParser {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(GenericObservationParser.class);
-	
+
     /**
      * supports O&M 1.0
-     * 
+     *
      * @param featureCollection
      *        the values contained in the generic observation will be added to this collection.
      * @param xb_genericObs
@@ -111,21 +111,21 @@ public class GenericObservationParser {
                 LOGGER.debug("No observation to parse.");
                 return;
             }
-            
+
             //
             // parsing the procedure:
             //
             String procedure = xb_genericObs.getProcedure().getHref();
-    
+
             //
             // parsing the featureOfInterest:
             //
             Map<String, OXFFeature> fois = new HashMap<String, OXFFeature>();
             FeaturePropertyType xb_foiProp = xb_genericObs.getFeatureOfInterest();
-    
+
             XmlCursor c = xb_foiProp.newCursor();
             boolean isFeatureColl = c.toChild(new QName("http://www.opengis.net/gml", "FeatureCollection"));
-    
+
             if (isFeatureColl) {
                 FeatureCollectionDocument2 xb_featureColl = FeatureCollectionDocument2.Factory.parse(c.getDomNode());
 
@@ -144,22 +144,22 @@ public class GenericObservationParser {
             List<String> definitions = new ArrayList<String>();
             List<String> types = new ArrayList<String>();
             List<String> names = new ArrayList<String>();
-            
+
             XmlCursor cursor = xb_genericObs.getResult().newCursor();
             net.opengis.swe.x101.DataArrayDocument dataArray = parseFieldsForSWECommon101(uoms, definitions, types, names, cursor);
-            
+
             // TODO Spec-Too-Flexible-Problem --> 3 encoding types are possible:
             net.opengis.swe.x101.TextBlockDocument.TextBlock xb_textBlock = dataArray.getDataArray1().getEncoding().getTextBlock();
-    
+
             String decimalSeparator = xb_textBlock.getDecimalSeparator();
             String token = xb_textBlock.getTokenSeparator();
             String block = xb_textBlock.getBlockSeparator();
             String resultText = dataArray.getDataArray1().getValues().getDomNode().getFirstChild().getNodeValue();
             parseTextBlock(features, resultText, decimalSeparator, token, block, definitions, types, names, fois, uoms, procedure);
-            
+
         } catch (Exception e) {
             throw new OXFException("Could not parse omObservationType.", e);
-        }                                      
+        }
     }
 
     private static net.opengis.swe.x101.DataArrayDocument parseFieldsForSWECommon101(Map<String, String> uomMap,
@@ -171,7 +171,7 @@ public class GenericObservationParser {
         net.opengis.swe.x101.DataArrayDocument dataArray = DataArrayDocument.Factory.parse(cResult.getDomNode());
 
         net.opengis.swe.x101.AbstractDataRecordType dataRecord = dataArray.getDataArray1().getElementType().getAbstractDataRecord();
-        
+
         // 1. in case of 'SimpleDataRecord':
         if (dataRecord instanceof net.opengis.swe.x101.SimpleDataRecordType) {
         	net.opengis.swe.x101.SimpleDataRecordType xb_simpleDataRecord = (net.opengis.swe.x101.SimpleDataRecordType) dataRecord;
@@ -194,7 +194,7 @@ public class GenericObservationParser {
                     String quantityURN = anyScalar.getQuantity().getDefinition();
                     definitionList.add(quantityURN);
                     typeList.add("quantity");
-   
+
                     String uomURN = anyScalar.getQuantity().getUom().getHref();
                     uomMap.put(quantityURN, uomURN);
                 }
@@ -213,7 +213,7 @@ public class GenericObservationParser {
                 // ... TODO there are more possibilities...
             }
         }
-        
+
         // 2. in case of 'DataRecord':
         else if (dataRecord instanceof net.opengis.swe.x101.DataRecordType) {
         	net.opengis.swe.x101.DataRecordType xb_dataRecord = (net.opengis.swe.x101.DataRecordType) dataRecord;
@@ -236,7 +236,7 @@ public class GenericObservationParser {
                     String quantityURN = field.getQuantity().getDefinition();
                     definitionList.add(quantityURN);
                     typeList.add("quantity");
-   
+
                     String uomURN = field.getQuantity().getUom().getCode();
                     uomMap.put(quantityURN, uomURN);
                 }
@@ -260,19 +260,19 @@ public class GenericObservationParser {
         }
         return dataArray;
     }
-    
+
     /*
     public static void addElementsFromTimeSeries(
 			OXFFeatureCollection featureCollection,
 			MeasurementTimeseriesType xb_timeseriesObsType) throws OXFException {
-        
+
         featureCollection.
-    	
+
         if (xb_timeseriesObsType.getProcedure() == null) {
             LOGGER.debug("No timeseries to parse.");
             return;
         }
-        
+
     	// procedure
     	String procedure = xb_timeseriesObsType.getProcedure().getTitle();
 
@@ -292,13 +292,13 @@ public class GenericObservationParser {
 		} catch (XmlException e) {
 			throw new OXFException(e);
 		}
-    	
+
     	OXFSamplingPointType pointType = new OXFSamplingPointType();
     	OXFFeature foi = new OXFFeature(foiID, pointType);
-    	
+
     	// phenomenonURN
     	String phenomenonURN = xb_timeseriesObsType.getObservedProperty().getTitle();
-    	
+
     	// result
     	XmlCursor cResult = xb_timeseriesObsType.getResult().newCursor();
     	cResult.toFirstChild();
@@ -312,12 +312,12 @@ public class GenericObservationParser {
 				for (Point point : pointArray) {
 			    	OXFMeasurementType oxf_measurementType = new OXFMeasurementType();
 			        OXFFeature feature = new OXFFeature("anyID", oxf_measurementType);
-			        
+
 					TimeValuePairType timeValuePair = point.getTimeValuePair();
-					
+
 					String timeString = timeValuePair.getTime().getStringValue();
 					OXFMeasureType resultValue = new OXFMeasureType(uomURN, timeValuePair.getValue());
-					
+
 			        oxf_measurementType.initializeFeature(feature,
 			                new String[] {phenomenonURN},
 			                "anyDescription",
@@ -327,11 +327,11 @@ public class GenericObservationParser {
 			                new OXFPhenomenonPropertyType(phenomenonURN, uomURN),
 			                foi,
 			                resultValue);
-			        
+
 			        featureCollection.add(feature);
 				}
 			}
-			
+
 		} catch (XmlException e) {
 			throw new OXFException(e);
 		}
@@ -341,17 +341,17 @@ public class GenericObservationParser {
     public static void addElementsFromGenericObservation(OXFFeatureCollection features, OMObservationType omObservation) throws OXFException {
         try {
             Map<String, OXFFeature> fois = new HashMap<String, OXFFeature>();
-            
+
             // TODO check common attributes
-            
+
             // TODO check if feature is embedded
-            
+
             // TODO check which type
-            
+
             String featureOfInterest = null;
             String procedure = getProcedureID(omObservation);
             XmlObject result = omObservation.getResult();
-            
+
             if (isEmbeddedSFSpatialSamplingFeature(omObservation)) {
 //                Node domNode = XmlUtil.getDomNode(omObservation.getFeatureOfInterest(), "SF_SpatialSamplingFeature");
 //                XmlObject featureObject = XMLBeansParser.parse(domNode);
@@ -376,22 +376,22 @@ public class GenericObservationParser {
             if (result instanceof MeasureTypeImpl) {
                 features.add(createMeasureTypeFeature(omObservation, procedure));
 			} else if (isWaterML200TimeSeriesObservationDocument(result)) {
-			    
+
 		        XmlObject xml = XmlUtil.getXmlAnyNodeFrom(result, "MeasurementTimeseries");
 			    MeasurementTimeseriesDocument measurementDocument = (MeasurementTimeseriesDocument) xml;
 		        MeasurementTimeseriesType timeseries = measurementDocument.getMeasurementTimeseries();
-		        
+
 
 	            String observedPropertyId = omObservation.getObservedProperty().getHref();
 	            String observedPropertyLabel = omObservation.getObservedProperty().getTitle();
-		        
+
 		        for (TVPDefaultMetadataPropertyType pointMetadata : timeseries.getDefaultPointMetadataArray()) {
 		            TVPMetadataType tvpMetadata = pointMetadata.getDefaultTVPMetadata();
                     if (!isTVPMeasurementMetadata(tvpMetadata)) {
                         String format = "Type is not supported for parsing: %s";
                         throw new OXFException(String.format(format, pointMetadata.schemaType()));
                     }
-                    
+
                     TVPMeasurementMetadataType metadata = TVPMeasurementMetadataType.class.cast(tvpMetadata);
                     String defaultUom = metadata.getUom().getCode();
 	                for (Point measurement : timeseries.getPointArray()) {
@@ -400,19 +400,19 @@ public class GenericObservationParser {
 	                    MeasureType value = tvp.getValue();
                         String uom = value.getUom() != null ? value.getUom() : defaultUom;
                         ITime samplingTime = getSamplingTime(tvp);
-                        
+
                         OXFMeasureType resultValue = new OXFMeasureType(uom, value.getDoubleValue());
                         OXFPhenomenonPropertyType phenPropType = new OXFPhenomenonPropertyType(observedPropertyId, observedPropertyLabel);
                         OXFMeasurementType measurementType = new OXFMeasurementType();
 	                    OXFFeature tvpFeature = new OXFFeature(featureOfInterest, measurementType);
-	                    
+
 	                    measurementType.initializeFeature(tvpFeature, null, "any_description", null, samplingTime, procedure, phenPropType, tvpFeature, resultValue);
                         features.add(tvpFeature);
                     }
 		        }
-		        
-		        
-		        
+
+
+
 			} else {
 				Map<String, String> uoms = new HashMap<String, String>();
 	            List<String> definitions = new ArrayList<String>();
@@ -479,7 +479,7 @@ public class GenericObservationParser {
         XmlObject xml = XmlUtil.getXmlAnyNodeFrom(xmlObject, "MeasurementTimeseries");
         return xml != null && xml.schemaType() == MeasurementTimeseriesDocument.type;
     }
-    
+
     private static OXFFeature createMeasureTypeFeature(OMObservationType omObservation, String procedure) {
     	MeasureTypeImpl result = (MeasureTypeImpl) omObservation.getResult();
     	OXFMeasurementType oxf_measurementType = new OXFMeasurementType();
@@ -494,7 +494,7 @@ public class GenericObservationParser {
         String uom = result.getUom();
         OXFPhenomenonPropertyType phenPropType = new OXFPhenomenonPropertyType(urn, uom);
         OXFMeasureType resultValue = new OXFMeasureType(uom, result.getDoubleValue());
-    	
+
         oxf_measurementType.initializeFeature(feature,
                                               null,
                                               "anyDescription",
@@ -520,9 +520,9 @@ public class GenericObservationParser {
 	        // 1. in case of 'DataRecord':
 	        if (dataComponent instanceof net.opengis.swe.x20.DataRecordType) {
 	            net.opengis.swe.x20.DataRecordType dataRecord = (net.opengis.swe.x20.DataRecordType) dataComponent;
-	           
+
 	            Field[] fields = dataRecord.getFieldArray();
-	                
+
 	            for (Field field : fields) {
 	                if (field.getName() != null){
 	                    names.add(field.getName());
@@ -548,7 +548,7 @@ public class GenericObservationParser {
 	                	CountType count = (CountType) dataComponentType;
 	                	types.add("count");
 	                }
-	                
+
 	                // ... TODO there are more possibilities...
 	            }
 	        }
@@ -574,7 +574,7 @@ public class GenericObservationParser {
 	}
 
 	/**
-     * 
+     *
      * @param featureCollection
      *        the collection where the single observed values shall be added to.
      * @param result
@@ -607,19 +607,19 @@ public class GenericObservationParser {
                 //
                 for (int i = 0; i < definitions.size(); i++) {
 
-                    if (definitions.get(i).equals("urn:ogc:data:time:iso8601") 
+                    if (definitions.get(i).equals("urn:ogc:data:time:iso8601")
                     		|| definitions.get(i).equals("urn:ogc:property:time:iso8601")
-                            || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/SamplingTime") 
+                            || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/SamplingTime")
                             || definitions.get(i).equals("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian")
                             || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/PhenomenonTime")
                             || definitions.get(i).equals("phenomenonTime")) {
                         // do nothing
                     }
-                    
+
                     //else if(nameList.get(i).equalsIgnoreCase("SamplingTime")) {
                     //  //dn -> DLR time urn
                     //}
-                    else if (definitions.get(i).equals("urn:ogc:data:feature") 
+                    else if (definitions.get(i).equals("urn:ogc:data:feature")
                             || definitions.get(i).equals("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest")) {
                         String foiID = tokens[i];
                         foi = fois.get(foiID);
@@ -693,7 +693,7 @@ public class GenericObservationParser {
                                                            new OXFPhenomenonPropertyType(phenomenonURN),
                                                            foi,
                                                            resultValue);
-                        
+
                         featureCollection.add(feature);
                     }
                     else if (types.get(i).equals("count")) {

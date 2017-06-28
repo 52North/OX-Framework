@@ -202,7 +202,7 @@
    limitations under the License.
 
 
- * 
+ *
  * This file has been derived from XmlBeans 2.6.0 source distribution
  * to enable support for Saxon-HE 9.4 XPath features.
  * Original class: org.apache.xmlbeans.impl.xpath.saxon.XBeansXPath
@@ -271,7 +271,7 @@ public class XbeansXPathSaxon94 implements PathDelegate.SelectPathInterface {
 	 * <br>
 	 * <p>
 	 * <b>NOTE:</b> Param node must be a DOM node which will be used
-	 * during the xpath execution and iteration through the results. 
+	 * during the xpath execution and iteration through the results.
 	 * A call of node.dispose() must be done after reading all results.
 	 * </p>
 	 *
@@ -304,7 +304,7 @@ public class XbeansXPathSaxon94 implements PathDelegate.SelectPathInterface {
 			xpe.setStaticContext(sc);
 			final XPathVariable thisVar = xpe.declareVariable("", contextVar);
 			final XPathExpression xpath = xpe.createExpression(path);
-			final NodeInfo contextItem = 
+			final NodeInfo contextItem =
 					//config.buildDocument(new DOMSource(contextNode));
 					config.unravel(new DOMSource(contextNode));
 			final XPathDynamicContext dc = xpath.createDynamicContext(null);
@@ -346,8 +346,8 @@ public class XbeansXPathSaxon94 implements PathDelegate.SelectPathInterface {
 	}
 
 	/**
-	 * According to the Saxon javadoc: 
-	 * <code>getUnderlyingNode</code> in <code>NodeWrapper</code> implements 
+	 * According to the Saxon javadoc:
+	 * <code>getUnderlyingNode</code> in <code>NodeWrapper</code> implements
 	 * the method specified in the interface <code>VirtualNode</code>, and
 	 * the specification of the latter says that it may return another
 	 * <code>VirtualNode</code>, and you may have to drill down through

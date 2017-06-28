@@ -40,14 +40,14 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class WCSRequestBuilder {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(WCSRequestBuilder.class);
 
     /**
-     * 
+     *
      * @param operation
      * @param parameterContainer
      * @return
@@ -85,7 +85,7 @@ public class WCSRequestBuilder {
     }
 
     /**
-     * 
+     *
      * @param operation
      * @param parameterContainer
      * @return
@@ -121,10 +121,10 @@ public class WCSRequestBuilder {
             else {
                 throw new OXFException("Usupported WCS version: '" + versionStr + "'");
             }
-            
+
             if (coverage.hasMultipleSpecifiedValues()) {
                 String[] specifiedValues = (String[]) coverage.getSpecifiedValueArray();
-                
+
                 requestStringGET += specifiedValues[0];
                 for (int i = 1; i < specifiedValues.length; i++) {
                     requestStringGET += "," + specifiedValues[i];
@@ -139,7 +139,7 @@ public class WCSRequestBuilder {
     }
 
     /**
-     * 
+     *
      * @param operation
      * @param parameterContainer
      * @return
@@ -259,7 +259,7 @@ public class WCSRequestBuilder {
 
         // Replace ' ' character with '%20' character:
         requestStringGET = requestStringGET.replace(" ", "%20");
-        
+
         return requestStringGET;
     }
 

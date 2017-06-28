@@ -31,7 +31,7 @@ package org.n52.oxf.ows.capabilities;
 /**
  * You can use this class "DatasetParameter" to associate a Parameter with a
  * specific dataset (that means a Dataset).
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class DatasetParameter extends Parameter {

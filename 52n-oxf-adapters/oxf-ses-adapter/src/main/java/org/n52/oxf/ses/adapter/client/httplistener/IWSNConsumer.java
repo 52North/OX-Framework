@@ -33,7 +33,7 @@ import org.n52.oxf.ses.adapter.client.httplistener.HttpListener;
 
 /**
  * Interface for a WS-N consumer.
- * 
+ *
  * @author matthes rieke
  *
  */
@@ -48,7 +48,7 @@ public interface IWSNConsumer {
 	 * use to free resources
 	 */
 	public void stop();
-	
+
 	/**
 	 * @return if available, return the publicly known URL of the consumer
 	 */

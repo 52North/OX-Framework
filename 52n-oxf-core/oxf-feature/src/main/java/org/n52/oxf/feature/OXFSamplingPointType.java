@@ -47,7 +47,7 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
     public static final String POSITION = "position";
 
     /**
-     * 
+     *
      */
     public OXFSamplingPointType() {
         super();
@@ -56,7 +56,7 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
         featureAttributeDescriptors = generateAttributeDescriptors();
     }
 
-    
+
     public static OXFFeature create(SamplingPointDocument xb_saPointDoc) {
 
         SamplingPointType xb_samplingPoint = xb_saPointDoc.getSamplingPoint();
@@ -75,7 +75,7 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
     }
 
     /**
-     * 
+     *
      * @param doc
      * @return
      */
@@ -90,7 +90,7 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
                                                                                    1,
                                                                                    "");
         attributeDescriptors.add(position);
-        
+
         // TODO support for other attributes of SamplingPoint (e.g. sampledFeature)
 
         return attributeDescriptors;
@@ -123,7 +123,7 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
 			} catch (Exception e) {
 				// no Exception -> 2D Point
 			}
-            
+
 
             if (coordsList.size() > 2) {
                 z = (Double) coordsList.get(2);
@@ -139,7 +139,7 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
         if (feature.getGeometry() == null) {
             throw new IllegalArgumentException("The geometry attribute could not be initialized.");
         }
-        
+
     }
 
 }

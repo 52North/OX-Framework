@@ -34,7 +34,7 @@ import org.n52.oxf.ows.capabilities.*;
 public class SpatialDomain implements IDiscreteValueDomain<IBoundingBox> {
 
     private List<IBoundingBox> bboxList;
-    
+
     public SpatialDomain() {
         super();
         // TODO Auto-generated constructor stub

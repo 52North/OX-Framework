@@ -34,9 +34,9 @@ import org.n52.oxf.ows.capabilities.*;
 /**
  * ValueDomain for OGC Filter Implementation Specification 1.1.0 conform filters, containsValue()-method
  * checks only the FilterType!
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
 
@@ -63,12 +63,12 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
     /**
      * checks if a filter (exactly: only the filterType) is contained in the possible filters (or exactly:
      * filterTypes)
-     * 
+     *
      * @param filter
      *        the filter which should be checked
-     * 
+     *
      * @return true, if the filter is contained
-     * 
+     *
      */
     public boolean containsValue(IFilter filter) {
         boolean isContained = false;
@@ -117,7 +117,7 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
     }
 
     /**
-     * 
+     *
      * @return domain description
      */
     public String getDomainDescription() {
@@ -125,7 +125,7 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
     }
 
     /**
-     * 
+     *
      * @return xml-string of this valueDomain
      */
     public String toXML() {
@@ -142,10 +142,10 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
 
     /**
      * help method for containsValue method, check if filters are contained in possibleValues
-     * 
+     *
      * @param filters
      *        filters which should be checked
-     * 
+     *
      * @return true if all filters are contained in possibleValues
      */
     private boolean containsValueList(ArrayList<IFilter> filters) {

@@ -37,13 +37,13 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.request.RequestParameters;
 
 public abstract class HttpClientDecorator implements HttpClient {
-    
+
     private HttpClient httpclient;
-    
+
     public HttpClientDecorator(HttpClient toDecorate) {
         this.httpclient = toDecorate;
     }
-    
+
     public DefaultHttpClient getHttpClientToDecorate() {
         return httpclient.getHttpClientToDecorate();
     }
@@ -59,7 +59,7 @@ public abstract class HttpClientDecorator implements HttpClient {
     public HttpResponse executePost(String uri, XmlObject payloadToSend) throws HttpClientException {
         return httpclient.executePost(uri, payloadToSend);
     }
-    
+
     public HttpResponse executePost(String uri, String payloadToSend) throws HttpClientException {
         return httpclient.executePost(uri, payloadToSend);
     }

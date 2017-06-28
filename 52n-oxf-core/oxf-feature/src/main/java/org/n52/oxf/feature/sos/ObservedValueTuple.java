@@ -30,13 +30,13 @@ package org.n52.oxf.feature.sos;
 import org.n52.oxf.ows.capabilities.ITime;
 
 /**
- * Associates a tuple of observedProperties with a time (-position or -period). 
- * 
+ * Associates a tuple of observedProperties with a time (-position or -period).
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  *
  */
 public class ObservedValueTuple {
-    
+
     private Object[] values;
     private String[] phenNames;
     private ITime time;
@@ -66,7 +66,7 @@ public class ObservedValueTuple {
     public ITime getTime() {
         return time;
     }
-    
+
     public String toString() {
         String res = "";
         for (Object value : values) {

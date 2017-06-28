@@ -37,16 +37,16 @@ import org.n52.oxf.sos.observation.ObservationParameters;
 /**
  * This class describes a set of parameters, which is necessary to call
  * doInsertObservation([...]) from SOSWrapper.
- * 
+ *
  * @author Eric
  */
 public class InsertObservationParameters {
-	
+
 	private final Map<String, String> parameters;
-	
+
 	/**
 	 * Assembles mandatory parameters from method parameter list.
-	 * 
+	 *
 	 * @param assignedSensorId
 	 * @param observation
 	 * @deprecated Use {@link #InsertObservationParameters(String, ObservationParameters)}
@@ -62,7 +62,7 @@ public class InsertObservationParameters {
 
 	/**
 	 * Assembles mandatory parameters from method parameter list.
-	 * 
+	 *
 	 * @param sensorURI
 	 * @param obsParameter
 	 */
@@ -112,5 +112,5 @@ public class InsertObservationParameters {
 	public Map<String, String> getParameters() {
 		return parameters;
 	}
-	
+
 }

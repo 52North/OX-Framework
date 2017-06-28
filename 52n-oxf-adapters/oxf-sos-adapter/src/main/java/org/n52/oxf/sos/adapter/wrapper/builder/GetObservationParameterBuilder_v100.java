@@ -43,19 +43,19 @@ import org.n52.oxf.valueDomains.StringValueDomain;
 /**
  * This class describes a set of parameters, which is necessary to call
  * doGetObservation([...]) from SOSWrapper.
- * 
+ *
  * @author Eric
  */
 public class GetObservationParameterBuilder_v100 {
-	
+
 	private final Map<String, Object> parameters = new HashMap<String, Object>();
 	private final List<String> eventTimeList = new ArrayList<String>();
 	private final List<String> procedureList = new ArrayList<String>();
 	private final List<String> observedPropertyList = new ArrayList<String>();
-	
+
 	/**
 	 * Assembles mandatory parameters from method parameter list.
-	 * 
+	 *
 	 * @param offering
 	 * @param observedProperty
 	 * @param responseFormat
@@ -71,7 +71,7 @@ public class GetObservationParameterBuilder_v100 {
 
 	/**
 	 * @return set of parameters
-	 * @throws OXFException 
+	 * @throws OXFException
 	 */
 	public Map<String, Object> getParameters() throws OXFException {
 		// preparing multiple occurrence of observed property parameter for SOSWrapper
@@ -91,14 +91,14 @@ public class GetObservationParameterBuilder_v100 {
 			final String[] procedures = procedureList.toArray(new String[procedureList.size()]);
 			final Parameter procedureParameter = new Parameter(GET_OBSERVATION_PROCEDURE_PARAMETER, true, new StringValueDomain(procedures), GET_OBSERVATION_PROCEDURE_PARAMETER);
 			final ParameterShell proceduresPs = new ParameterShell(procedureParameter, procedures);
-			parameters.put(GET_OBSERVATION_PROCEDURE_PARAMETER, proceduresPs);	
+			parameters.put(GET_OBSERVATION_PROCEDURE_PARAMETER, proceduresPs);
 		}
 		return parameters;
 	}
 
 	/**
 	 * Adds or replaces the optional parameter "srsName".
-	 * 
+	 *
 	 * @param srsName
 	 * @return parameter builder
 	 */
@@ -109,10 +109,10 @@ public class GetObservationParameterBuilder_v100 {
 		parameters.put(ISOSRequestBuilder.GET_OBSERVATION_SRS_NAME_PARAMETER, srsName);
 		return this;
 	}
-	
+
 	/**
 	 * Adds the optional parameter "eventTime", which can occur many times.
-	 * 
+	 *
 	 * @param eventTime
 	 * @return parameter builder
 	 */
@@ -120,10 +120,10 @@ public class GetObservationParameterBuilder_v100 {
 		eventTimeList.add(eventTime);
 		return this;
 	}
-	
+
 	/**
 	 * Adds the optional parameter "procedure", which can occur many times.
-	 * 
+	 *
 	 * @param procedure
 	 * @return parameter builder
 	 */
@@ -131,10 +131,10 @@ public class GetObservationParameterBuilder_v100 {
 		procedureList.add(procedure);
 		return this;
 	}
-	
+
 	/**
 	 * Extends the list of observed properties.
-	 * 
+	 *
 	 * @param observedProperty
 	 * @return parameter builder
 	 */
@@ -142,10 +142,10 @@ public class GetObservationParameterBuilder_v100 {
 		observedPropertyList.add(observedProperty);
 		return this;
 	}
-	
+
 	/**
 	 * Adds or replaces the optional parameter "featureOfInterest".
-	 * 
+	 *
 	 * @param featureOfInterest
 	 * @return parameter builder
 	 */
@@ -156,10 +156,10 @@ public class GetObservationParameterBuilder_v100 {
 		parameters.put(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER, featureOfInterest);
 		return this;
 	}
-	
+
 	/**
 	 * Adds or replaces the optional parameter "result".
-	 * 
+	 *
 	 * @param result
 	 * @return parameter builder
 	 */
@@ -170,10 +170,10 @@ public class GetObservationParameterBuilder_v100 {
 		parameters.put(GET_OBSERVATION_RESULT_PARAMETER, result);
 		return this;
 	}
-	
+
 	/**
 	 * Adds the or replaces optional parameter "resultModel".
-	 * 
+	 *
 	 * @param resultModel
 	 * @return parameter builder
 	 */
@@ -184,10 +184,10 @@ public class GetObservationParameterBuilder_v100 {
 		parameters.put(GET_OBSERVATION_RESULT_MODEL_PARAMETER, resultModel);
 		return this;
 	}
-	
+
 	/**
 	 * Adds or replaces the optional parameter "responseMode".
-	 * 
+	 *
 	 * @param responseMode
 	 * @return parameter builder
 	 */

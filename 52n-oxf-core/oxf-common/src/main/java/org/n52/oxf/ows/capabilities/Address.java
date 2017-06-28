@@ -32,7 +32,7 @@ package org.n52.oxf.ows.capabilities;
  * Information about the physical or electonical address of the organization or individual.
  * <br>
  * This class refers to CI_Address of ISO 19115.
- * 
+ *
  * @author ISO 19115 and <a href="www.opengeospatial.org">OGC</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering </a>
  */
@@ -92,7 +92,7 @@ public class Address {
 	}
 
 	/**
-	 * @return a XML representation of this Address. 
+	 * @return a XML representation of this Address.
 	 */
 	public String toXML(){
 		String res = "<Address"
@@ -100,7 +100,7 @@ public class Address {
 			+ " administrativeArea=\""+ administrativeArea + "\""
 			+ " postalCode=\""+ postalCode + "\""
 			+ " country=\""+ country + "\">";
-		
+
 		if(deliveryPoints != null){
 			for(String s : deliveryPoints){
 				res += "<DeliveryPoint>";
@@ -108,7 +108,7 @@ public class Address {
 				res += "</DeliveryPoint>";
 			}
 		}
-		
+
 		if(electronicMailAddresses != null){
 			for(String s : electronicMailAddresses){
 				res += "<ElectronicMailAddress>";
@@ -116,12 +116,12 @@ public class Address {
 				res += "</ElectronicMailAddress>";
 			}
 		}
-		
+
 		res += "</Address>";
 		return res;
 	}
-	
-	
+
+
 	public String getAdministrativeArea() {
 		return administrativeArea;
 	}

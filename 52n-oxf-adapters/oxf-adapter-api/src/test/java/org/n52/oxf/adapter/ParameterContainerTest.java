@@ -39,7 +39,7 @@ import org.n52.oxf.OXFException;
  *
  */
 public class ParameterContainerTest {
-	
+
 	@Test public void
 	removeParameterShell_by_parameterName_should_return_true_if_shell_is_contained_and_removed()
 			 throws OXFException {
@@ -48,19 +48,19 @@ public class ParameterContainerTest {
 		final String parameterName = "parameterName";
 		container.addParameterShell(parameterName, parameterValue);
 		container.addParameterShell(parameterName.toUpperCase(), parameterValue);
-		boolean isShellContained = container.containsParameterShellWithCommonName(parameterName) || 
+		boolean isShellContained = container.containsParameterShellWithCommonName(parameterName) ||
 				container.containsParameterShellWithServiceSidedName(parameterName);
-		
+
 		assertThat(isShellContained,is(TRUE));
 		final boolean isShellRemoved = container.removeParameterShell(parameterName);
-		
-		isShellContained = container.containsParameterShellWithCommonName(parameterName) || 
+
+		isShellContained = container.containsParameterShellWithCommonName(parameterName) ||
 				container.containsParameterShellWithServiceSidedName(parameterName);
-		
+
 		assertThat(isShellContained,is(FALSE));
 		assertThat(isShellRemoved, is(TRUE));
 	}
-	
+
 	@Test public void
 	removeParameterShell_by_parameterName_should_return_false_if_shell_is_NOT_contained()
 			 throws OXFException {

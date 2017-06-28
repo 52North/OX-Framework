@@ -41,7 +41,7 @@ import org.w3c.dom.Node;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class OXFObservationCollectionType extends OXFAbstractFeatureType {
 
@@ -71,12 +71,12 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
 		type.initializeFeature(featureCollection, obsCollection);
 		return featureCollection;
     }
-    
+
     /**
      * supports O&M 1.0
      */
     private void initializeFeature(OXFFeatureCollection featureCollection, ObservationCollectionType observationCollection) throws OXFException {
-        
+
         super.initializeFeature(featureCollection, observationCollection);
         ObservationPropertyType[] memberArray = observationCollection.getMemberArray();
         for (int i = 0; i < memberArray.length; i++) {
@@ -96,10 +96,10 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
             }
         }
     }
-    
+
     /**
      * supports WaterML 2.0.0
-     * @throws OXFException 
+     * @throws OXFException
      */
     private static OXFFeatureCollection createFeatureCollection(String id, MeasurementTimeseriesType timeseriesObservation) throws OXFException {
     	OXFObservationCollectionType type = new OXFObservationCollectionType();
@@ -109,10 +109,10 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
 	}
 
     private void addMember(OXFFeatureCollection featureCollection, XmlObject xb_memberDocument) throws OXFException {
-        
+
         // this feature shall be initialized and added to collection:
         OXFFeature feature = null;
-        
+
         // TODO Spec-Too-Flexible-Problem --> various Observation-Types are possible:
         // TODO create factory method to get FeatureInitializer via XmlObject.schemaType()
 
@@ -152,12 +152,12 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
             net.opengis.om.x10.ObservationType xb_genericObs = xb_observationDoc.getObservation();
             GenericObservationParser.addElementsFromGenericObservation(featureCollection, xb_genericObs);
         }
-        
+
         else {
             throw new IllegalArgumentException("The FeatureType '" + xb_memberDocument.schemaType()
                     + "' of the ObservationCollections member element is not supported.");
         }
-        
+
         //
         // add the observation (feature) if it is not null:
         //
@@ -166,5 +166,5 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
         }
     }
 
- 
+
 }

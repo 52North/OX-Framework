@@ -36,9 +36,9 @@ public enum OwsExceptionCode {
     INVALID_UPDATE_SEQUENCE("InvalidUpdateSequence"),
     OPTION_NOT_SUPPORTED("OptionNotSupported"),
     NO_APPLICABLE_CODE("NoApplicableCode");
-    
+
     private String exceptionCode;
-    
+
     private OwsExceptionCode(String exceptionCode) {
         this.exceptionCode = exceptionCode;
     }
@@ -47,5 +47,5 @@ public enum OwsExceptionCode {
         return exceptionCode;
     }
 
-    
+
 }

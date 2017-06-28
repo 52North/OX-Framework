@@ -53,7 +53,7 @@ public class SosInsertionMetadataCase extends AbstractLaxValidationCase {
 		final QName offending = xve.getOffendingQName();
 		final List<?> expected = xve.getExpectedQNames();
 		final QName field = xve.getFieldQName();
-		if (offending != null && 
+		if (offending != null &&
 				offending.equals(XMLConstants.QN_SOS_2_0_SOS_INSERTION_METADATA) &&
 				field.equals(XMLConstants.QN_SWES_2_0_METADATA) &&
 				expected.contains(XMLConstants.QN_SWES_2_0_INSERTION_METADATA))

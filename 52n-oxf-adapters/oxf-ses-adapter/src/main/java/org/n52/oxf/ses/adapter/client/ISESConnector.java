@@ -36,35 +36,35 @@ import org.apache.xmlbeans.XmlObject;
  * Interface for provision of alternative connector implementations.
  * Use {@link SESClient#setConnectorImplementation(Class)} with a class
  * implementing this interface.
- * 
+ *
  * All implementing classes must provide the default constructor with
  * no parameters.
- * 
+ *
  * @author matthes rieke
  *
  */
 public interface ISESConnector {
 
-	
+
 	public SESResponse sendHttpPostRequest(String request, String action) throws Exception;
-	
+
 	public SESResponse sendHttpGetRequest(URI uri) throws Exception;
-	
+
 	public void setHost(URL h);
-	
+
 	public void initialize();
-	
+
 	public void setAddSoap(boolean b);
 
 	public URL getHost();
-	
-	
+
+
 	public static class SESResponse {
-		
+
 		private int statusCode;
 		private XmlObject responseBody;
-		
-		
+
+
 		public SESResponse(int statusCode, XmlObject responseBody) {
 			this.statusCode = statusCode;
 			this.responseBody = responseBody;
@@ -79,8 +79,8 @@ public interface ISESConnector {
 		public XmlObject getResponseBody() {
 			return this.responseBody;
 		}
-		
-		
+
+
 	}
 
 

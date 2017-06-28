@@ -35,28 +35,28 @@ import org.n52.oxf.ows.capabilities.*;
 public class StringValueDomain implements IDiscreteValueDomain<String> {
 
 	List<String> possibleValues;
-	
+
     public StringValueDomain(){
         possibleValues = new ArrayList<String>();
     }
-    
+
 	public StringValueDomain(String possibleValue){
 		possibleValues = new ArrayList<String>();
 		possibleValues.add(possibleValue);
 	}
-	
+
 	public StringValueDomain(List<String> possibleValues) {
 		this.possibleValues = possibleValues;
 	}
-	
+
 	public StringValueDomain(String[] possibleValues){
 		this.possibleValues = new ArrayList<String>(Arrays.asList(possibleValues));
 	}
-	
+
 	public void addPossibleValue(String possibleValue){
 		possibleValues.add(possibleValue);
 	}
-	
+
 	/**
 	 * checks if this StringValueDomain contains the parameter string. The case
 	 * of the string will be ignored.
@@ -82,15 +82,15 @@ public class StringValueDomain implements IDiscreteValueDomain<String> {
 
 	public String toXML() {
 		String res = "<StringValueDomain>";
-		
+
 		for(String s : possibleValues){
 			res += "<PossibleValue>";
 			res += s;
 			res += "</PossibleValue>";
 		}
-		
+
 		res += "</StringValueDomain>";
-		
+
 		return res;
 	}
 
@@ -104,5 +104,5 @@ public class StringValueDomain implements IDiscreteValueDomain<String> {
     public String produceValue(String... stringArray) {
         return stringArray[0];
     }
-	
+
 }

@@ -35,7 +35,7 @@ public class OXFMeasureType implements IObservationResult {
 
     private String uomIdentifier;
     private double value;
-    
+
     public OXFMeasureType(String uomIdentifier, double value) {
         super();
         this.uomIdentifier = uomIdentifier;

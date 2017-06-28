@@ -36,12 +36,12 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class demonstrates how to use the WCSAdapter. You might use it as an example for your own code.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class TestWCSAdapter {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TestWCSAdapter.class);
 
     private final String url = "http://ogcdemo.pcigeomatics.com:8181/swe/wcs";

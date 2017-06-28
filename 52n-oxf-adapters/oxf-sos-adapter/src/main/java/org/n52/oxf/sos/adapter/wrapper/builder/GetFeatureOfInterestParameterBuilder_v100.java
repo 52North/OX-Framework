@@ -37,16 +37,16 @@ import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 /**
  * This class describes a set of parameters, which is necessary to call
  * doGetFeatureOfInterst([...]) from SOSWrapper.
- * 
+ *
  * @author Eric
  */
 public class GetFeatureOfInterestParameterBuilder_v100 {
-	
+
 	private final Map<String, String> parameters = new HashMap<String, String>();
 
 	/**
 	 * Assembles mandatory parameters from method parameter list.
-	 * 
+	 *
 	 * @param identification
 	 * @param identificationType
 	 * @see ISOSRequestBuilder
@@ -65,17 +65,17 @@ public class GetFeatureOfInterestParameterBuilder_v100 {
 			parameters.put(GET_FOI_LOCATION_PARAMETER, identification);
 		}
 	}
-	
+
 	/**
 	 * @return set of parameters
 	 */
 	public Map<String, String> getParameters() {
 		return parameters;
 	}
-	
+
 	/**
 	 * Adds or replaces the optional parameter "eventTime".
-	 * 
+	 *
 	 * @param eventTime
 	 * @return parameter builder
 	 */
@@ -86,5 +86,5 @@ public class GetFeatureOfInterestParameterBuilder_v100 {
 		parameters.put(GET_FOI_EVENT_TIME_PARAMETER, eventTime);
 		return this;
 	}
-	
+
 }

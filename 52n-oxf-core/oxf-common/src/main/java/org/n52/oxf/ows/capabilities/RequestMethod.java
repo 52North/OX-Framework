@@ -39,22 +39,22 @@ import org.n52.oxf.ows.Constraint;
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  */
 public abstract class RequestMethod {
-    
+
 	/**
 	 * required
 	 */
 	private OnlineResource onlineResource;
-	
+
 	/**
 	 * optional
 	 */
     private String[] constraints;
-    
+
     private Set<Constraint> owsConstraints;
-	
+
     /**
 	 * @deprecated Use {@link #RequestMethod(OnlineResource, Set)} using type {@link Constraint}.
-	 * 
+	 *
 	 * @param onlineResouce the <b>required</b> online resource
 	 * @param constraints the <b>optional</b> constraints that are relevant for this request method.
 	 */
@@ -63,7 +63,7 @@ public abstract class RequestMethod {
 		setOnlineResource(onlineResouce);
 		setConstraints(constraints);
 	}
-	
+
 	/**
 	 * @param onlineResource the <b>required</b> online resource
 	 * @param constraints the <b>optional</b> constraints that are relevant for this request method.
@@ -72,7 +72,7 @@ public abstract class RequestMethod {
 		setOnlineResource(onlineResource);
 		setOwsConstraints(constraints);
 	}
-	
+
 	/**
 	 * this constructor has all required attributes as its parameters.
 	 * @param onlineResource the <b>required</b> online resource
@@ -80,25 +80,25 @@ public abstract class RequestMethod {
 	public RequestMethod(final OnlineResource onlineResource){
 		setOnlineResource(onlineResource);
 	}
-	
+
     /**
      * @return a XML representation.
      */
     public abstract String toXML();
-	
+
     /**
      * @deprecated Use {@link #getOwsConstraints()} and type {@link Constraint} instead
-     * 
+     *
      * @return the constrains as String[]
      */
     @Deprecated
 	public String[] getConstraints() {
         return constraints;
     }
-    
+
     /**
      * @deprecated Use {@link #setOwsConstraints(Set)} and type {@link Constraint} instead.
-     * 
+     *
      * @param constraints a String[] containing constraints to set
      */
     @Deprecated
@@ -109,11 +109,11 @@ public abstract class RequestMethod {
     public OnlineResource getOnlineResource() {
         return onlineResource;
     }
-    
+
     protected void setOnlineResource(final OnlineResource onlineResource) {
         this.onlineResource = onlineResource;
     }
-    
+
 	/**
 	 * @return an unmodifiable view of the constraints for this {@link RequestMethod} or an empty {@link Set} if not set.
 	 */
@@ -139,7 +139,7 @@ public abstract class RequestMethod {
 		}
 		return owsConstraints.add(owsConstraint);
 	}
-	
+
 	/**
 	 * Replaces the constraints set with the given one if it's not null.
 	 * @param owsConstraints the constrains to set
@@ -162,5 +162,5 @@ public abstract class RequestMethod {
 				Arrays.toString(constraints),
 				owsConstraints);
 	}
-	
+
 }

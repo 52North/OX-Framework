@@ -44,5 +44,5 @@ public class UserPasswordAuthentication {
 	public String getPassword() {
 		return password;
 	}
-	
+
 }

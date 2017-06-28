@@ -47,7 +47,7 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
     public static final String GEOMETRY = "geometry";
 
     /**
-     * 
+     *
      */
     public OXFSamplingSurfaceType() {
         super();
@@ -56,7 +56,7 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
         featureAttributeDescriptors = generateAttributeDescriptors();
     }
 
-    
+
     public static OXFFeature create(SamplingSurfaceDocument xb_saSurfaceDoc) {
 
         SamplingSurfaceType xb_samplingSurface = xb_saSurfaceDoc.getSamplingSurface();
@@ -75,7 +75,7 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
     }
 
     /**
-     * 
+     *
      * @param doc
      * @return
      */
@@ -90,7 +90,7 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
                                                                                    1,
                                                                                    "");
         attributeDescriptors.add(position);
-        
+
         // TODO support for other attributes of SamplingSurface (e.g. sampledFeature)
 
         return attributeDescriptors;
@@ -116,14 +116,14 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
             PolygonType xb_polygon = (PolygonType)surface;
 
             // TODO: create polygon
-            
+
 //            LinearRing linearRing = new LinearRing(points, factory);
-//            
+//
 //            CoordType[] xb_coordinateArray = ((LinearRingType)xb_polygon.getExterior().getRing()).getCoordArray();
 //            for (int i = 0; i < xb_coordinateArray.length; i++) {
-//				
+//
 //			}
-//            
+//
 //            DirectPositionType xb_pos = xb_point.getPos();
 //
 //            List coordsList = xb_pos.getListValue();
@@ -136,7 +136,7 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
 //			} catch (Exception e) {
 //				// no Exception -> 2D Point
 //			}
-//            
+//
 //
 //            if (coordsList.size() > 2) {
 //                z = (Double) coordsList.get(2);
@@ -152,6 +152,6 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
         if (feature.getGeometry() == null) {
             throw new IllegalArgumentException("The geometry attribute could not be initialized.");
         }
-        
+
     }
 }

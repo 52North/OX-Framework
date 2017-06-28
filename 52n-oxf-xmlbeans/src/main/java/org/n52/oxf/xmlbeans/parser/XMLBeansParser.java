@@ -50,12 +50,12 @@ import org.w3c.dom.Node;
  * Use this class when validating XML contents.
  * Several static methods are provided to parse XML
  * from {@link String} or {@link InputStream}.
- * 
- * 
+ *
+ *
  * @author Jan Torben Heuer <jan.heuer@uni-muenster.de>
  * @author Matthes Rieke <m.rieke@52north.org>
  * @author Carsten Hollmann <c.hollmann@52north.org>
- * 
+ *
  */
 public class XMLBeansParser {
 
@@ -79,13 +79,13 @@ public class XMLBeansParser {
 	/**
 	 * Register a new {@link LaxValidationCase} which should
 	 * let pass corresponding "invalid" documents.
-	 * 
+	 *
 	 * @param lvc a new lax case
 	 */
 	public static void registerLaxValidationCase(final LaxValidationCase lvc) {
 		laxValidationCases.add(lvc);
 	}
-	
+
 	/**
 	 * Returns the list of currently registered {@link LaxValidationCase}s
 	 * @return a List<LaxValidationCase> containing the currently registered {@link LaxValidationCase}s
@@ -98,7 +98,7 @@ public class XMLBeansParser {
 	 * Reads the given source. The source may be only the xml-document or
 	 * contain an application/x-www-form-url encoded string. In this case, the
 	 * request must have the form <em>request=</em>
-	 * 
+	 *
 	 * @param source The xml source.
 	 * @return The parsed xbeans XmlObject
 	 * @throws XMLHandlingException thrown if the XML is incorrect
@@ -112,7 +112,7 @@ public class XMLBeansParser {
 	 * Reads the given source. The source may be only the xml-document or
 	 * contain an application/x-www-form-url encoded string. In this case, the
 	 * request must have the form <em>request=</em>
-	 * 
+	 *
 	 * @param source The xml source.
 	 * @param validate Validate the source?
 	 * @return The parsed xbeans XmlObject
@@ -125,7 +125,7 @@ public class XMLBeansParser {
 		} catch (final XmlException e) {
 			throw new XMLHandlingException("Cannot parse xml: "+e.getMessage(), e);
 		}
-		
+
 		if (validate) {
 			validateOnParse(doc);
 		}
@@ -160,7 +160,7 @@ public class XMLBeansParser {
 		} catch (final IOException e) {
 			throw new XMLHandlingException("Cannot read the document: Transmission interrupted!", e);
 		}
-		
+
 		if (validate) {
 			validateOnParse(doc);
 		}
@@ -172,7 +172,7 @@ public class XMLBeansParser {
 			throws XMLHandlingException {
 		final BufferedReader b = new BufferedReader(new InputStreamReader(resourceAsStream));
 
-		final StringWriter w = new StringWriter();			
+		final StringWriter w = new StringWriter();
 		try {
 			while(b.ready()) {
 				w.write(b.readLine());
@@ -192,7 +192,7 @@ public class XMLBeansParser {
 	 * Reads the given source. The source may be only the xml-document or
 	 * contain an application/x-www-form-url encoded string. In this case, the
 	 * request must have the form <em>request=</em>
-	 * 
+	 *
 	 * @param xmlnode The xml source.
 	 * @return The parsed xbeans XmlObject
 	 * @throws XMLHandlingException thrown if the XML is incorrect
@@ -206,7 +206,7 @@ public class XMLBeansParser {
 	 * Reads the given source. The source may be only the xml-document or
 	 * contain an application/x-www-form-url encoded string. In this case, the
 	 * request must have the form <em>request=</em>
-	 * 
+	 *
 	 * @param xmlnode The xml source.
 	 * @param validate Validate the source?
 	 * @return The parsed xbeans XmlObject
@@ -238,7 +238,7 @@ public class XMLBeansParser {
 		final String errorString = createErrorMessage(validate(doc));
 		if (errorString.length() > 0) {
 			throw new XMLHandlingException(errorString);
-		}		
+		}
 	}
 
 	private static String createErrorMessage(final Collection<XmlError> errors) {
@@ -246,7 +246,7 @@ public class XMLBeansParser {
 		for (final XmlError xmlError : errors) {
 			errorBuilder.append(xmlError.getMessage()).append(";");
 		}
-		
+
 		if (!errors.isEmpty()) {
 			errorBuilder.deleteCharAt(errorBuilder.length() - 1);
 		}
@@ -256,7 +256,7 @@ public class XMLBeansParser {
 	/**
 	 * Validates an xml doc. If the validation fails, the exception contains a
 	 * detailed list of errors.
-	 * 
+	 *
 	 * @param doc the document to validate
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
@@ -264,7 +264,7 @@ public class XMLBeansParser {
 		if (!validationGlobally) {
 			return;
 		}
-		
+
 		final List<XmlError> validationErrors = new ArrayList<XmlError>();
 		final XmlOptions validationOptions = new XmlOptions();
 		validationOptions.setErrorListener(validationErrors);
@@ -280,7 +280,7 @@ public class XMLBeansParser {
 	/**
 	 * Validates an xml doc. If the validation fails, the exception contains a
 	 * detailed list of errors.
-	 * 
+	 *
 	 * @param doc the document to validate
 	 * @throws XMLHandlingException thrown if the XML is incorrect
 	 */
@@ -289,7 +289,7 @@ public class XMLBeansParser {
 		if (!validationGlobally) {
 			return validationErrors;
 		}
-		
+
 		// Create an XmlOptions instance and set the error listener.
 		final List<XmlError> allValidationErrors = new ArrayList<XmlError>();
 		final XmlOptions validationOptions = new XmlOptions();
@@ -316,7 +316,7 @@ public class XMLBeansParser {
             validationErrors.addAll(allValidationErrors);
             return;
         }
-	    
+
 	    for (final XmlError validationError : allValidationErrors) {
 	    	boolean shouldPass = false;
 			for (final LaxValidationCase lvc : laxValidationCases) {

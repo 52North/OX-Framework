@@ -47,5 +47,5 @@ public interface IRangeValueDomain<T> extends IValueDomain<T> {
 	 *         (e.g. BoundingBox: <code>public double[] getMinValue() </code>)
 	 */
 	public Object getMinValue();
-	
+
 }

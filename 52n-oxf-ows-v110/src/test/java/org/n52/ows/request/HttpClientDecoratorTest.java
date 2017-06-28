@@ -40,9 +40,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class HttpClientDecoratorTest {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpClientDecoratorTest.class);
-    
+
 //    @Test // sending requests is non JUnit testing
     public void testGetCapabilities() throws Exception {
         HttpClient proxyAwareClient = new ProxyAwareHttpClient(new SimpleHttpClient());
@@ -54,10 +54,10 @@ public class HttpClientDecoratorTest {
         HttpResponse httpResponse = httpclient.executeGet(baseUri, parameters);
         HttpEntity responseEntity = httpResponse.getEntity();
         XmlObject capabilities = XmlObject.Factory.parse(responseEntity.getContent());
-        
+
         LOGGER.debug(capabilities.xmlText(new XmlOptions().setSavePrettyPrint()));
     }
-    
+
     @Test
     public void testNothing() {
     	//do nothing to not break the build.

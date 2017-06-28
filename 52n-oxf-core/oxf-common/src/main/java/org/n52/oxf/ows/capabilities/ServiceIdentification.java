@@ -29,12 +29,12 @@ package org.n52.oxf.ows.capabilities;
 
 
 /**
- * 
+ *
  * ServiceIdentification describes the specific service.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster </a>
  * @author <a href="mailto:broering@52north.org">Arne Broering </a>
- * 
+ *
  */
 public class ServiceIdentification extends Description {
 
@@ -81,7 +81,7 @@ public class ServiceIdentification extends Description {
      * sets the accessConstraints variable on initialization to "NONE" (as specified by OWS COMMON). <br>
      * sets the fees variable on initialization to "NONE" (as specified by OWS COMMON). <br>
      * <br>
-     * 
+     *
      * @param title
      *        the title of the service.
      * @param serviceType
@@ -106,9 +106,9 @@ public class ServiceIdentification extends Description {
                                  String[] accessConstraints,
                                  String abstractDescription,
                                  String[] keywords) {
-        
+
         super(title, abstractDescription, keywords);
-        
+
         setServiceType(serviceType);
         setServiceTypeVersion(serviceTypeVersion);
         setFees(fees);
@@ -157,7 +157,7 @@ public class ServiceIdentification extends Description {
 
     /**
      * sets the version for this service
-     * 
+     *
      * @param version the version to set
      * @throws IllegalArgumentException
      *         if version.length == 0 or version[0].equals("").

@@ -36,7 +36,7 @@ import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.valueDomains.filter.FilterValueDomain;
 
 /**
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  *
  */
@@ -73,13 +73,13 @@ public class ObservationOffering extends Dataset {
     private String[] responseModes;
 
     /**
-     * 
+     *
      */
     private FilterValueDomain result;
-    
+
     /**
      * this constructor has all REQUIRED attributes as its parameters. The other attributes will stay null.
-     * 
+     *
      * @param title
      * @param identifier
      * @param boundingBoxes
@@ -94,7 +94,7 @@ public class ObservationOffering extends Dataset {
                                String[] foiIDs,
                                String[] observedProperties) {
         super(title, identifier, boundingBoxes);
-        
+
         setProcedures(procedures);
         setFeatureOfInterest(foiIDs);
         setObservedProperties(observedProperties);
@@ -102,7 +102,7 @@ public class ObservationOffering extends Dataset {
 
     /**
      * this constructor has ALL attributes of the class as its parameters.
-     * 
+     *
      * @param title
      * @param identifier
      * @param boundingBoxes
@@ -156,7 +156,7 @@ public class ObservationOffering extends Dataset {
         setResponseModes(responseModes);
         setResult(result);
     }
-    
+
     public String[] getFeatureOfInterest() {
         return foiIDs;
     }

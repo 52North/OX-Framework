@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Default implementation of {@link ISESConnector}.
  * This one uses Apache's HttpClient library.
- * 
+ *
  * @author matthes rieke
  *
  */
@@ -106,7 +106,7 @@ public class SESConnectorImpl implements ISESConnector {
 		String str;
 		if (this.addSoap) {
 			String thisPre = SOAP_PRE.replace("${ses_host}", req.getURI().toString()).replace("${soap_action}", action);
-			str = XML_PRE +System.getProperty("line.separator")+ 
+			str = XML_PRE +System.getProperty("line.separator")+
 			thisPre + request + SOAP_POST;
 		} else {
 			str = XML_PRE +System.getProperty("line.separator")+ request;
@@ -140,7 +140,7 @@ public class SESConnectorImpl implements ISESConnector {
 				} catch (XmlException e) {
 					logger.warn(e.getMessage(), e);
 				}
-				instream.close();	
+				instream.close();
 			}
 
 			return new SESResponse(response.getStatusLine().getStatusCode(), xo);

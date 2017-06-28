@@ -51,12 +51,12 @@ public class GetCapabilitiesParametersTest {
 
     private GetCapabilitiesParameters requestParameters;
 
-    @Before public void 
+    @Before public void
     setUp()
     {
         requestParameters = new GetCapabilitiesParameters("SPS");
     }
-    
+
     @Test public void
     shouldHaveNonNullParameterCollections()
     {
@@ -88,7 +88,7 @@ public class GetCapabilitiesParametersTest {
         assertThat(iterator.next(), is("42"));
         assertThat(iterator.next(), is("17"));
     }
-    
+
     @Test public void
     shouldHoldSectionsAsStandardParameters()
     {
@@ -97,7 +97,7 @@ public class GetCapabilitiesParametersTest {
         assertThat(values.contains(CONTENTS.toString()), is(true));
         assertThat(values.contains(OPERATION_METADATA.toString()), is(true));
     }
-    
+
     @Test public void
     shouldHoldAcceptFormatsAsStandardParameters()
     {
@@ -107,7 +107,7 @@ public class GetCapabilitiesParametersTest {
         assertThat(iterator.next(), is("text/xml"));
         assertThat(iterator.next(), is("application/json"));
     }
-    
+
     @Test public void
     shouldAcceptAnyNonStandardParameter()
     {
@@ -116,7 +116,7 @@ public class GetCapabilitiesParametersTest {
         Iterator<String> iterator = values.iterator();
         assertThat(iterator.next(), is("bar"));
     }
-    
+
     private Collection<String> getValuesForStandardParameter(Enum< ? > parameter) {
         RequestParameters parameters = requestParameters.getStandardParameters();
         return getCollectionFor(parameter.name(), parameters);
@@ -126,11 +126,11 @@ public class GetCapabilitiesParametersTest {
         RequestParameters parameters = requestParameters.getNonStandardParameters();
         return getCollectionFor(parameter, parameters);
     }
-    
+
 
     private Collection<String> getCollectionFor(String parameter, RequestParameters parameters) {
         return (Collection<String>) parameters.getAllValues(parameter);
-        
+
     }
 
     @Test public void

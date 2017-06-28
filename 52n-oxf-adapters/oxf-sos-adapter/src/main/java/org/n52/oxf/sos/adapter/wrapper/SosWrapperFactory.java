@@ -37,7 +37,7 @@ public class SosWrapperFactory {
 
 	/**
 	 * Creates a SOSWrapper instance by initiating a GetCapabilities request.
-	 * 
+	 *
 	 * @param serviceEndpoint Location of the SOS service.
 	 * @param serviceVersion specification version.
 	 * @return Instance of a SOSWrapper for a certain SOS service.
@@ -50,13 +50,13 @@ public class SosWrapperFactory {
 
 	/**
 	 * Creates a SOSWrapper instance by initiating a GetCapabilities request.
-	 * 
+	 *
 	 * @param serviceEndpoint Location of the SOS service.
 	 * @param serviceVersion specification version.
 	 * @param binding binding protocol used by this service instance.
 	 * @return Instance of a SOSWrapper for a certain SOS service.
-	 * @throws OXFException 
-	 * @throws ExceptionReport 
+	 * @throws OXFException
+	 * @throws ExceptionReport
 	 */
 	public static SOSWrapper newInstance(final String serviceEndpoint,
 			final String serviceVersion,
@@ -68,13 +68,13 @@ public class SosWrapperFactory {
 
 	/**
 	 * Requests and returns the SOS capability description.
-	 * 
+	 *
 	 * @param serviceEndpoint Location of the SOS service.
 	 * @param serviceVersion specification version.
 	 * @param binding
 	 * @return ServiceDescriptor filled with data resulting from the GetCapabilities request.
-	 * @throws OXFException 
-	 * @throws ExceptionReport 
+	 * @throws OXFException
+	 * @throws ExceptionReport
 	 */
 	private static ServiceDescriptor doGetCapabilities(final String serviceEndpoint,
 			final String serviceVersion,
@@ -83,7 +83,7 @@ public class SosWrapperFactory {
 		final SOSAdapter adapter = new SOSAdapter(serviceVersion);
 		return adapter.initService(serviceEndpoint,binding);
 	}
-	
+
 	/**
 	 * Creates a SOSWrapper instance from given ServiceDescriptor
 	 * @param capabilities

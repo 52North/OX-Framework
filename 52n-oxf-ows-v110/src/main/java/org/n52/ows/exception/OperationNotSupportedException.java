@@ -33,7 +33,7 @@ package org.n52.ows.exception;
 public class OperationNotSupportedException extends OwsException {
 
     private static final long serialVersionUID = 507996059086269700L;
-    
+
     /**
      * @param locator Name of operation not supported
      */

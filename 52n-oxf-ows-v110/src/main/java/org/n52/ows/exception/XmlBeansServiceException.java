@@ -33,7 +33,7 @@ import net.opengis.ows.x11.ExceptionType;
 
 /**
  * Provides static construction of service exception containing either an OwsException and a complete
- * OwsExceptionReport. 
+ * OwsExceptionReport.
  */
 public class XmlBeansServiceException {
 

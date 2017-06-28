@@ -71,7 +71,7 @@ package org.n52.oxf.sos.adapter;
 //    public static void oneTimeSetUp() {
 //		File f;
 //		try {
-// 			// FIXME Next line is not platform independent and loading the file like this should be changed 
+// 			// FIXME Next line is not platform independent and loading the file like this should be changed
 //			f = new File(new File(".").getCanonicalPath() + "\\src\\test\\resources\\sos1_capabilities_sample.xml");
 //			sw = MySosWrapperSeam.createFromCapabilitiesFile(f, "1.0.0");
 //		} catch (IOException e) {
@@ -85,37 +85,37 @@ package org.n52.oxf.sos.adapter;
 //	        fail("Cannot read capabilities file!");
 //		}
 //    }
-//	
+//
 //	@Test
 //	public void testDoDescribeSensorMethods() {
-//		
+//
 //		try {
 //			DescribeSensorParamterBuilder_v100 dspb = new DescribeSensorParamterBuilder_v100("sensorId", DescribeSensorParamterBuilder_v100.OUTPUT_FORMAT_SENSORML);
 //			OperationsMetadata om = sw.getServiceDescriptor().getOperationsMetadata();
 //			Map<String, String> parameters = dspb.getParameters();
-//			
+//
 //			// method: isDescribeSensorDefined(...)
 //			assertTrue(sw.isDescribeSensorDefined(om));
-//			
+//
 //			// method: createParameterContainerForDoDescribeSensor(...)
 //			ParameterContainer pc = sw.createParameterContainerForDoDescribeSensor(parameters);
 //			String service = (String) pc.getParameterShellWithServiceSidedName(DESCRIBE_SENSOR_SERVICE_PARAMETER).getSpecifiedValue();
 //			String version = (String) pc.getParameterShellWithServiceSidedName(DESCRIBE_SENSOR_VERSION_PARAMETER).getSpecifiedValue();
 //			String procedure = (String) pc.getParameterShellWithServiceSidedName(PROCEDURE_PARAMETER).getSpecifiedValue();
 //			String output = (String) pc.getParameterShellWithServiceSidedName(OUTPUT_FORMAT_PARAMETER).getSpecifiedValue();
-//			
+//
 //			assertEquals("SOS", service);
 //			assertEquals("1.0.0", version);
 //			assertEquals("sensorId", procedure);
 //			assertEquals(DescribeSensorParamterBuilder_v100.OUTPUT_FORMAT_SENSORML, output);
-//			
+//
 //		} catch (ExceptionReport e) {
 //			e.printStackTrace();
 //		} catch (OXFException e) {
 //			e.printStackTrace();
 //		}
 //	}
-//	
+//
 //	@Test
 //	public void testDoGetObservationMethods() {
 //
@@ -130,57 +130,57 @@ package org.n52.oxf.sos.adapter;
 //			gopb.addResponseMode("responseMode");
 //			OperationsMetadata om = sw.getServiceDescriptor().getOperationsMetadata();
 //			Map<String, Object> parameters = gopb.getParameters();
-//			
+//
 //			// method: isGetObservationDefined(...)
 //			assertTrue(sw.isGetObservationDefined(om));
-//			
+//
 //			// method: createParameterContainerForGetObservation(...)
 //			ParameterContainer pc = sw.createParameterContainerForGetOservation(parameters);
 //			String service = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_SERVICE_PARAMETER).getSpecifiedValue();
 //			String version = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_VERSION_PARAMETER).getSpecifiedValue();
-//			String offering = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_OFFERING_PARAMETER).getSpecifiedValue();			
-//			
+//			String offering = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_OFFERING_PARAMETER).getSpecifiedValue();
+//
 //			ParameterShell observedPropertyPs = (ParameterShell) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_OBSERVED_PROPERTY_PARAMETER);
 //			String[] observedPropertyArray = observedPropertyPs.getSpecifiedTypedValueArray(String[].class);
 //			String observedProperty = observedPropertyArray[0];
-//			
+//
 //			String responseFormat = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER).getSpecifiedValue();
 //			String srs = (String) pc.getParameterShellWithServiceSidedName(SOSWrapper.GET_OBSERVATION_SRS_NAME_PARAMETER).getSpecifiedValue();
-//			
+//
 //			ParameterShell eventTimePs = (ParameterShell) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_EVENT_TIME_PARAMETER);
 //			String[] eventTimeArray = eventTimePs.getSpecifiedTypedValueArray(String[].class);
 //			String eventTime = eventTimeArray[0];
-//			
+//
 //			ParameterShell procedurePs = (ParameterShell) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_PROCEDURE_PARAMETER);
 //			String[] procedureArray = procedurePs.getSpecifiedTypedValueArray(String[].class);
 //			String procedure = procedureArray[0];
-//			
+//
 //			String foi = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_FEATURE_OF_INTEREST_PARAMETER).getSpecifiedValue();
 //			String result = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESULT_PARAMETER).getSpecifiedValue();
 //			String resultModel = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESULT_MODEL_PARAMETER).getSpecifiedValue();
 //			String responseMode = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESPONSE_MODE_PARAMETER).getSpecifiedValue();
-//			
+//
 //			assertEquals("SOS", service);
 //			assertEquals("1.0.0", version);
 //			assertEquals("offering", offering);
 //			assertEquals("observedProperty", observedProperty);
 //			assertEquals("responseFormat", responseFormat);
 //			assertEquals("srsName", srs);
-//			
+//
 //			assertEquals("eventTime", eventTime);
 //			assertEquals("procedure", procedure);
 //			assertEquals("featureOfInterest", foi);
 //			assertEquals("result", result);
 //			assertEquals("resultModel", resultModel);
 //			assertEquals("responseMode", responseMode);
-//			
+//
 //		} catch (ExceptionReport e) {
 //			e.printStackTrace();
 //		} catch (OXFException e) {
 //			e.printStackTrace();
 //		}
 //	}
-//	
+//
 //	// @Test TODO activate
 ////	public void testDoRegisterSensorMethods() {
 ////
@@ -190,41 +190,41 @@ package org.n52.oxf.sos.adapter;
 ////			sensorDescription.setObservedProperty("observedProperty");
 ////			sensorDescription.setUnitOfMeasurement("uom");
 ////			String sensorML = sensorDescription.generateSensorDescription();
-////			
+////
 ////			ObservationTemplateBuilder templateBuilder = ObservationTemplateBuilder.createObservationTemplateBuilderForTypeCategory("codeSpace");
 ////			String obsTemp = templateBuilder.generateObservationTemplate();
-////			
+////
 ////			RegisterSensorParameterBuilder_v100 rspb = new RegisterSensorParameterBuilder_v100(sensorML, obsTemp);
-////			
+////
 ////			OperationsMetadata om = sw.getServiceDescriptor().getOperationsMetadata();
 ////			Map<String, String> parameters = rspb.getParameters();
-////			
+////
 ////			// method: isRegisterSensorDefined(...)
 ////			assertTrue(sw.isGetObservationDefined(om));
-////			
+////
 ////			// method: createParameterContainerForRegisterSensor(...)
 ////			ParameterContainer pc = sw.createParameterContainerForRegisterSensor(parameters);
 ////			String service = (String) pc.getParameterShellWithServiceSidedName(REGISTER_SENSOR_SERVICE_PARAMETER).getSpecifiedValue();
 ////			String version = (String) pc.getParameterShellWithServiceSidedName(REGISTER_SENSOR_VERSION_PARAMETER).getSpecifiedValue();
-////			String sensorDescripiton = (String) pc.getParameterShellWithServiceSidedName(REGISTER_SENSOR_ML_DOC_PARAMETER).getSpecifiedValue();			
+////			String sensorDescripiton = (String) pc.getParameterShellWithServiceSidedName(REGISTER_SENSOR_ML_DOC_PARAMETER).getSpecifiedValue();
 ////			String observationTemplate = (String) pc.getParameterShellWithServiceSidedName(REGISTER_SENSOR_OBSERVATION_TEMPLATE).getSpecifiedValue();
-////			
+////
 ////			assertEquals("SOS", service);
 ////			assertEquals("1.0.0", version);
 ////			assertEquals(parameters.get(REGISTER_SENSOR_ML_DOC_PARAMETER), sensorDescripiton);
 ////			assertEquals(parameters.get(REGISTER_SENSOR_OBSERVATION_TEMPLATE), observationTemplate);
-////			
+////
 ////		} catch (ExceptionReport e) {
 ////			e.printStackTrace();
 ////		} catch (OXFException e) {
 ////			e.printStackTrace();
 ////		}
 ////	}
-//	
+//
 //	@Test
 //	public void testDoInsertObservation() {
 //
-//		try {			
+//		try {
 //			CategoryObservationBuilder categoryObservation = ObservationParameters.createObservationForTypeCategory();
 //			categoryObservation.addFoiDescription("foiDescription");
 //			categoryObservation.addFoiId("foiId");
@@ -235,15 +235,15 @@ package org.n52.oxf.sos.adapter;
 //			categoryObservation.addSamplingTime("samplingTime");
 //			categoryObservation.addSrsPosition("srsPosition");
 //			categoryObservation.addResultCodespace("resultCodespace");
-//			
+//
 //			InsertObservationParameters iopb = new InsertObservationParameters("sensorId", categoryObservation);
-//			
+//
 //			OperationsMetadata om = sw.getServiceDescriptor().getOperationsMetadata();
 //			Map<String, String> parameters = iopb.getParameters();
-//			
+//
 //			// method: isInsertObservationDefined(...)
 //			assertTrue(sw.isGetObservationDefined(om));
-//			
+//
 //			// method: createParameterContainerForInsertObservation(...)
 //			ParameterContainer pc = sw.createParameterContainerForInsertObservation(parameters);
 //			String service = (String) pc.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_SERVICE_PARAMETER).getSpecifiedValue();
@@ -257,7 +257,7 @@ package org.n52.oxf.sos.adapter;
 //			String samplingTime = (String) pc.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
 //			String srsPosition = (String) pc.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_POSITION_SRS).getSpecifiedValue();
 //			String resultCodespace = (String) pc.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_CATEGORY_OBSERVATION_RESULT_CODESPACE).getSpecifiedValue();
-//			
+//
 //			assertEquals("SOS", service);
 //			assertEquals("1.0.0", version);
 //			assertEquals("foiDescription", foiDescription);
@@ -269,14 +269,14 @@ package org.n52.oxf.sos.adapter;
 //			assertEquals("samplingTime", samplingTime);
 //			assertEquals("srsPosition", srsPosition);
 //			assertEquals("resultCodespace", resultCodespace);
-//			
+//
 //		} catch (ExceptionReport e) {
 //			e.printStackTrace();
 //		} catch (OXFException e) {
 //			e.printStackTrace();
 //		}
 //	}
-//	
+//
 //	@Test
 //	public void testDoGetObservationByIdMethods() {
 //
@@ -286,11 +286,11 @@ package org.n52.oxf.sos.adapter;
 //			gobipb.addResponseMode("responseMode");
 //			gobipb.addResultModel("resultModel");
 //			OperationsMetadata om = sw.getServiceDescriptor().getOperationsMetadata();
-//			
+//
 //			// method: isGetObservationByIdDefined(...)
 //			assertTrue(sw.isGetObservationByIdDefined(om));
 //			Map<String, String> parameters = gobipb.getParameters();
-//						
+//
 //			// method: createParameterContainerForGetObservationById(...)
 //			ParameterContainer pc = sw.createParameterContainerForGetObservationById(parameters);
 //			String service = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_SERVICE_PARAMETER).getSpecifiedValue();
@@ -300,7 +300,7 @@ package org.n52.oxf.sos.adapter;
 //			String srsName = (String) pc.getParameterShellWithServiceSidedName(SOSWrapper.GET_OBSERVATION_BY_ID_SRS_NAME_PARAMETER).getSpecifiedValue();
 //			String responseMode = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER).getSpecifiedValue();
 //			String resultModel = (String) pc.getParameterShellWithServiceSidedName(GET_OBSERVATION_RESULT_MODEL_PARAMETER).getSpecifiedValue();
-//			
+//
 //			assertEquals("SOS", service);
 //			assertEquals("1.0.0", version);
 //			assertEquals("observationId", observationId);
@@ -308,14 +308,14 @@ package org.n52.oxf.sos.adapter;
 //			assertEquals("srsName", srsName);
 //			assertEquals("responseMode", responseMode);
 //			assertEquals("resultModel", resultModel);
-//			
+//
 //		} catch (ExceptionReport e) {
 //			e.printStackTrace();
 //		} catch (OXFException e) {
 //			e.printStackTrace();
 //		}
 //	}
-//	
+//
 //	@Test
 //	public void testDoGetFeatureOfInterestMethods() {
 //
@@ -323,11 +323,11 @@ package org.n52.oxf.sos.adapter;
 //			GetFeatureOfInterestParameterBuilder_v100 gfoipb = new GetFeatureOfInterestParameterBuilder_v100("identification", GET_FOI_ID_PARAMETER);
 //			gfoipb.addEventTime("eventTime");
 //			OperationsMetadata om = sw.getServiceDescriptor().getOperationsMetadata();
-//			
+//
 //			// method: isGetFeatureOfInterestDefined(...)
 //			assertTrue(sw.isGetFeatureOfInterestDefined(om));
 //			Map<String, String> parameters = gfoipb.getParameters();
-//			
+//
 //			// method: createParameterContainerForGetFeatureOfInterest(...)
 //			ParameterContainer pc = sw.createParameterContainerForGetFeatureOfInterest(parameters);
 //			String service = (String) pc.getParameterShellWithServiceSidedName(GET_FOI_SERVICE_PARAMETER).getSpecifiedValue();
@@ -339,19 +339,19 @@ package org.n52.oxf.sos.adapter;
 //				identification = (String) pc.getParameterShellWithServiceSidedName(GET_FOI_LOCATION_PARAMETER).getSpecifiedValue();
 //			}
 //			String eventTime = (String) pc.getParameterShellWithServiceSidedName(GET_FOI_EVENT_TIME_PARAMETER).getSpecifiedValue();
-//			
+//
 //			assertEquals("SOS", service);
 //			assertEquals("1.0.0", version);
 //			assertEquals("identification", identification);
 //			assertEquals("eventTime", eventTime);
-//			
+//
 //		} catch (ExceptionReport e) {
 //			e.printStackTrace();
 //		} catch (OXFException e) {
 //			e.printStackTrace();
 //		}
 //	}
-//	
+//
 //	private static class MySosWrapperSeam extends SOSWrapper {
 //
 //		protected MySosWrapperSeam(String serviceBaseUrl, ServiceDescriptor capabilities) {
@@ -360,7 +360,7 @@ package org.n52.oxf.sos.adapter;
 //
 //		public static MySosWrapperSeam createFromCapabilitiesFile(File capsFile, String acceptVersion) throws ExceptionReport, OXFException, FileNotFoundException, IOException {
 //			SOSAdapter adapter = new SOSAdapter(acceptVersion);
-//			
+//
 //			InputStream is = new FileInputStream(capsFile);
 //			long length = capsFile.length();
 //			if (length > Integer.MAX_VALUE) {
@@ -374,7 +374,7 @@ package org.n52.oxf.sos.adapter;
 //		        offset += read;
 //		    }
 //		    is.close();
-//			
+//
 //			ServiceDescriptor capabilities;
 //			try {
 //	            if (SosUtil.isVersion100(acceptVersion)) {

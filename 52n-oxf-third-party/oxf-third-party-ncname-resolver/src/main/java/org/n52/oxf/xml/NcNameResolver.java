@@ -1,5 +1,8 @@
 package org.n52.oxf.xml;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Copyright Aduna (http://www.aduna-software.com/) (c) 1997-2006.<br />
  * Licensed under the Aduna BSD-style license.<br />
@@ -8,6 +11,9 @@ package org.n52.oxf.xml;
  * <li><a href="http://www.openrdf.org/doc/sesame2/api/index.html?info/aduna/xml/XMLUtil.html">Source2</a></li></ol>
  */
 public class NcNameResolver {
+
+    @SuppressWarnings("UnusedAssignment")
+    private static final Logger LOG = LoggerFactory.getLogger(NcNameResolver.class);
 
 	/**
 	 * Checks whether the supplied String is an NCName (Namespace Classified
@@ -45,7 +51,7 @@ public class NcNameResolver {
 	}
 
 	public static final boolean isNCNameChar(char c) {
-		return 
+		return
 				_isAsciiBaseChar(c) ||
 				_isAsciiDigit(c) ||
 				c == '.' || c == '-' || c == '_' ||
@@ -430,7 +436,7 @@ public class NcNameResolver {
 
     /**
      * Replaces all invalid characters with an '_' to make it a valid NCName.
-     * 
+     *
      * @param nonNcName an invalid ncName.
      * @return a valid ncName
      * @see http://www.w3.org/TR/2004/REC-xmlschema-2-20041028/datatypes.html#NCName

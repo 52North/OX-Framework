@@ -90,7 +90,7 @@ public class GMLTimeParser {
 		}
 		throw new UnsupportedOperationException("Currently, only TimeInstants are allowed inside gml:begin and gml:end");
 	}
-	
 
-	
+
+
 }

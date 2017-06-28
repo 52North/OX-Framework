@@ -36,8 +36,8 @@ public class ResourceIdInstance {
 		this.namespace = namespace;
 		this.element = element;
 	}
-	
-	
+
+
 	public String getNamespace() {
 		return namespace;
 	}
@@ -54,5 +54,5 @@ public class ResourceIdInstance {
 		sb.append(this.element);
 		return sb.toString();
 	}
-	
+
 }

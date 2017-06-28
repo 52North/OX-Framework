@@ -30,8 +30,8 @@ package org.n52.oxf.valueDomains.filter;
 /**
  * Class represents a comparison filter which is conform to OGC Filter Encoding
  * Specification 1.1.0
- * 
- * 
+ *
+ *
  */
 public class ComparisonFilter implements IFilter {
 
@@ -82,7 +82,7 @@ public class ComparisonFilter implements IFilter {
 	/**
 	 * creates a string representation of this filter in xml-format.<br>
 	 * Example A:
-	 * 
+	 *
 	 * <pre>
 	 *    &lt;Filter&gt;
 	 *       &lt;PropertyIsLessThan&gt;
@@ -91,7 +91,7 @@ public class ComparisonFilter implements IFilter {
 	 *       &lt;/PropertyIsLessThan&gt;
 	 *    &lt;/Filter&gt;
 	 * </pre>
-	 * 
+	 *
 	 * @return string representation of this filter in xml-Format
 	 */
 	public String toXML() {

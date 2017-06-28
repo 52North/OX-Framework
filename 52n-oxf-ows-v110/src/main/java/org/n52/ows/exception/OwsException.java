@@ -31,9 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class OwsException extends Exception {
-    
+
     private static final long serialVersionUID = 3899044347528650839L;
-    
+
     public static final int BAD_REQUEST = 400;
     public static final int FORBIDDEN = 403;
     public static final int GONE = 410;
@@ -72,7 +72,7 @@ public abstract class OwsException extends Exception {
     public String getLocator() {
         return this.locator;
     }
-    
+
     public boolean isSetLocator() {
         return locator != null;
     }

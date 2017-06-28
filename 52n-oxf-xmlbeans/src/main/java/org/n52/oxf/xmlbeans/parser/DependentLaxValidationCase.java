@@ -34,12 +34,12 @@ import org.apache.xmlbeans.XmlError;
 /**
  * Interface for providing exceptional cases in XML validation (e.g. substitution
  * groups) which are cause by other exceptional cases.
- *  
+ *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  */
 public interface DependentLaxValidationCase extends LaxValidationCase {
-	
+
 	/**
 	 * @param validationError the validation error to check
 	 * @param allExceptionalCases all validation errors in the current document incl. the one that is currently checked!

@@ -29,17 +29,17 @@ package org.n52.oxf.conversion.gml32.xmlbeans.jts;
 
 
 /**
- * General configuration class. Here, things like when to 
+ * General configuration class. Here, things like when to
  * apply interpolations (length thresholds) are configured.
  */
 public class GeometryFactoryConfiguration {
 
 	private static boolean userInternalInterpolation;
-	
+
 	static {
 		userInternalInterpolation = true;
 	}
-	
+
 	public static boolean isUserInternalInterpolation() {
 		return userInternalInterpolation;
 	}
@@ -48,6 +48,6 @@ public class GeometryFactoryConfiguration {
 			boolean inte) {
 		userInternalInterpolation = inte;
 	}
-	
-	
+
+
 }

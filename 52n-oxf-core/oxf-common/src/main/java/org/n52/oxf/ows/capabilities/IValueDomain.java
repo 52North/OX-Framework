@@ -32,10 +32,10 @@ package org.n52.oxf.ows.capabilities;
  * to lay down the domain of values which can be associated with the Parameter.<br>
  * A central point of this class is the {@linkplain IValueDomain#containsValue(Object)} method which can be used by the
  * client to proof whether a value is contained by the domain or not.
- * 
+ *
  * Some remarks on implementing this interface: Please do not allow empty constructors, because empty constructors
  * do not make sense for the framework.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Br&ouml;ring</a>
  * @param <T>
  *        T is the type of the values that are contained in and can be added to this IValueDomain.
@@ -46,7 +46,7 @@ public interface IValueDomain<T> {
 
     /**
      * @param t the value to check
-     * 
+     *
      * @return <code>true</code>,if the value t is part of this value domain.
      */
     public boolean containsValue(T t);
@@ -60,12 +60,12 @@ public interface IValueDomain<T> {
      * @return a XML representation of this ValueDomain.
      */
     public String toXML();
-    
+
 //    /**
 //     * @return the type of values which can be added to this IValueDomain.
 //     */
 //    public Class<T> getValueClass();
-    
+
     // TODO What is this method used for? Most implementing classes to nonsense with it.
     public T produceValue(String... stringArray);
 }

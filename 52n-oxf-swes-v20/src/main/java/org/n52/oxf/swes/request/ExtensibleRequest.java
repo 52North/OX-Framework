@@ -32,7 +32,7 @@ import org.apache.xmlbeans.XmlObject;
 public interface ExtensibleRequest {
 
     public boolean isSupportingExtensions();
-    
+
     /**
      * @return an Array of extension parameters (is of length 0 when no extension were given).
      */

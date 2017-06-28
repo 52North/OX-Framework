@@ -35,7 +35,7 @@ import java.util.List;
  * elements. dataIdentifications are something like FeatureTypes (WFS) or Layers (WMS) or Coverages (WCS).
  * This container can be empty or null, if the service has no data (i.e. WebNotificationService,
  * WebAlertService, SensorPlaningService).
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering </a>
  */
@@ -81,7 +81,7 @@ public class Contents {
     }
 
     /**
-     * 
+     *
      * @param identifier a Dataset identifier
      * @return the dataset with the specified identifier/name or <code>null</code> if there is no dataset
      *         with the specified identifier/name.
@@ -99,13 +99,13 @@ public class Contents {
     public int getDataIdentificationCount() {
         return dataIdentificationList.size();
     }
-    
+
     public String[] getDataIdentificationIDArray() {
         String[] idArray = new String[dataIdentificationList.size()];
-        
+
         for (int i=0; i<dataIdentificationList.size(); i++)
             idArray[i] = dataIdentificationList.get(i).getIdentifier();
-        
+
         return idArray;
     }
 

@@ -31,7 +31,7 @@ package org.n52.oxf.ows.capabilities;
  * This class is used by each Operation and is utilized to describe one possible parameter of the operation.<br>
  * If you need to associate the Parameter with a specific dataset (or resource) please use the sub-class <a
  * href=DatasetParameter.html>DatasetParameter</a>.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
@@ -112,7 +112,7 @@ public class Parameter {
     /**
      * this constructor has all attributes as its parameters. Constructs a Parameter with a given
      * serviceSidedName and the indication, if the Parameter is required.
-     * 
+     *
      * @param name
      *        the name of the parameter
      * @param required
@@ -197,7 +197,7 @@ public class Parameter {
 
     /**
      * indicates if a parameter has to be part of a certain operation.
-     * 
+     *
      * @return <code>true</code>, if this parameter has to be part of a certain operation.
      */
     public boolean isRequired() {
@@ -214,7 +214,7 @@ public class Parameter {
 
     /**
      * IValueDomain describes the allowed values of a parameter.
-     * 
+     *
      * @return Returns the valueDomain.
      */
     public IValueDomain getValueDomain() {
@@ -223,7 +223,7 @@ public class Parameter {
 
     /**
      * IValueDomain describes the allowed values of a parameter.
-     * 
+     *
      * @param valueDomain
      *        The valueDomain to set.
      */

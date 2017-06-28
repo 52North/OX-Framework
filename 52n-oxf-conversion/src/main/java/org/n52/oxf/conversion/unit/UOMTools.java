@@ -39,17 +39,17 @@ import org.n52.oxf.conversion.unit.ucum.UCUMTools.UnitConversionFailedException;
  * Unit Conversion helper class.
  */
 public class UOMTools {
-	
+
 	public static final String METER_UOM = "m";
 	private static Map<String, CustomUnitConverter> customUnitConverters;
-	
+
 	static {
 		customUnitConverters = new HashMap<String, CustomUnitConverter>();
 		customUnitConverters.put("FL", new FlightLevelUnitConverter());
 		customUnitConverters.put("FT", new ProprietaryAIXMFeetUnitConverter());
 	}
 
-	
+
 	public static double convertToTargetUnit(double doubleValue, String sourceUom,
 			String targetUom) {
 		if (customUnitConverters.containsKey(sourceUom)) {
@@ -60,14 +60,14 @@ public class UOMTools {
 				return preProcessed.getValue();
 			}
 		}
-		
+
 		try {
 			return UCUMTools.convert(sourceUom, targetUom, doubleValue).getValue();
 		} catch (UnitConversionFailedException e) {
 			return doubleValue;
 		}
 	}
-	
+
 	public static double convertToBaseUnit(double doubleValue, String sourceUom) {
 		String target;
 		if (customUnitConverters.containsKey(sourceUom)) {
@@ -78,7 +78,7 @@ public class UOMTools {
 		}
 		return convertToTargetUnit(doubleValue, sourceUom, target);
 	}
-	
+
 	public static void addCustomUnitConverter(CustomUnitConverter c) {
 		customUnitConverters.put(c.getUnitString(), c);
 	}

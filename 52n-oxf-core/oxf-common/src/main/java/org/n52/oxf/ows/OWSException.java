@@ -33,12 +33,12 @@ import java.io.PrintStream;
  * Represents an Exception occuring while service side execution.
  * <br>
  * use either one of the provided exception codes or define your own ones.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class OWSException extends Exception {
-	
+
 	private static final long serialVersionUID = 1L;
 	public static final String OPERATION_NOT_SUPPORTED = "OperationNotSupported";
     public static final String MISSING_PARAMETER_VALUE = "MissingParameterValue";
@@ -46,7 +46,7 @@ public class OWSException extends Exception {
     public static final String VERSION_NEGOTIATION_FOUND = "VersionNegotiationFound";
     public static final String INVALID_UPDATE_SEQUENCE = "InvalidUpdateSequence";
     public static final String NO_APPLICABLE_CODE = "NoApplicableCode";
-    
+
     private String[] exceptionTexts;
     private String sentRequest;
     private String exceptionCode;
@@ -58,7 +58,7 @@ public class OWSException extends Exception {
 		this.exceptionTexts = exceptionTexts;
         this.sentRequest = sentRequest;
 	}
-    
+
     public OWSException(String[] exceptionTexts, String exceptionCode, String sentRequest, String locator) {
         super(exceptionCode);
         this.exceptionCode = exceptionCode;
@@ -66,23 +66,23 @@ public class OWSException extends Exception {
         this.sentRequest = sentRequest;
         this.locator = locator;
     }
-    
+
     @Override
     public void printStackTrace(PrintStream s) {
         s.println("");
         s.println("Exception: " + exceptionCode);
         s.println("Locator: " + locator);
-        
+
         for(String excTxt : exceptionTexts) {
             s.println("Exception text: " + excTxt);
         }
-        
+
         s.println("Sent request was:");
         s.println(sentRequest);
-        
+
         super.printStackTrace(s);
     }
-    
+
     /**
      * @return a HTML representation of this OWSException
      */
@@ -90,27 +90,27 @@ public class OWSException extends Exception {
         String res = "";
         res += "<b>Exception:</b> " + exceptionCode + "<br>";
         res += "<b>Locator:</b> " + locator + "<br>";
-        
+
         for(String excTxt : exceptionTexts) {
             res += "<b>Exception text:</b> " + excTxt + "<br>";
         }
-        
+
         res += "<b>Sendt request was:</b>" + "<br>";
         res += "<code>" + replaceTagBrackets(sentRequest) + "</code>";
-        
+
         return res;
     }
-    
+
     /**
      * Replaces the '&lt;' and '&gt;' characters in a String through '&amp;lt;' and '&amp;gt;'.
      */
     private String replaceTagBrackets (String xmlString) {
         String res = xmlString.replaceAll("<", "&lt;");
         res = res.replaceAll(">", "&gt;");
-        
+
         return res;
     }
-    
+
 	public String getExceptionCode() {
 		return exceptionCode;
 	}
@@ -125,7 +125,7 @@ public class OWSException extends Exception {
 
     /**
 	 * Indicates in which part the exception occurred. This is optional!
-	 * 
+	 *
 	 * @return Returns the locator.
 	 */
 	public String getLocator() {
@@ -134,7 +134,7 @@ public class OWSException extends Exception {
 
 	/**
 	 * Indicates in which part the exception occurred. This is optional!
-	 * 
+	 *
 	 * @param locator The locator to set.
 	 */
 	public void setLocator(String locator) {

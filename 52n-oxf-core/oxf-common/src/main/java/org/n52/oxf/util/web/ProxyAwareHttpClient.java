@@ -39,7 +39,7 @@ public class ProxyAwareHttpClient extends HttpClientDecorator {
     /**
      * Decorates the given {@link HttpClient} to be proxy aware. This decorated instance will use the standard
      * JRE proxy selector to obtain proxy information.
-     * 
+     *
      * @param httpclient
      *        the {@link HttpClient} to decorate with proxy awareness.
      * @see ProxySelectorRoutePlanner

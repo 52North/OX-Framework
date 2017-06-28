@@ -33,7 +33,7 @@ public class SosUtil {
      * The Type of the service which is connectable by this ServiceAdapter
      */
     public static final String SERVICE_TYPE = "SOS";
-    
+
     /**
      * the Versions of the services which are connectable by this ServiceAdapter.
      * Array contains: [1.0.0, 2.0.0]
@@ -47,7 +47,7 @@ public class SosUtil {
     public static boolean isVersion200(final String version) {
         return SUPPORTED_VERSIONS[1].equals(version);
     }
-    
+
     private SosUtil() {}
 
 }

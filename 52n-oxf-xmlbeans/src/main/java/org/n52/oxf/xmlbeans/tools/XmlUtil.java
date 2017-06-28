@@ -54,10 +54,10 @@ import org.w3c.dom.NodeList;
 /**
  * This class provides helper methods and best practices for regularly occurring issues with XMLBeans
  * handling.
- * 
+ *
  * @author matthes rieke <m.rieke@52north.org>
  * @author Jan Torben Heuer <jan.heuer@uni-muenster.de>
- * 
+ *
  */
 public class XmlUtil {
 
@@ -91,7 +91,7 @@ public class XmlUtil {
 	 * Mechanism to find an xml element by its name in a given {@link XmlObject}.
 	 * <br><br>
 	 * XMLBeans has no accessor for type #any, that is why this method can be used to get #any content as {@link Node}.
-	 * 
+	 *
 	 * @param xmlobj
 	 *        the xml object which contains the &lt;name&gt; element.
 	 * @param name
@@ -133,7 +133,7 @@ public class XmlUtil {
 	/**
 	 * Extracts an element from an xml doc. This is only useful for abstract or choice types. It is done via
 	 * reflection
-	 * 
+	 *
 	 * @param doc
 	 *        The xml element
 	 * @param element
@@ -205,7 +205,7 @@ public class XmlUtil {
 
 	/**
 	 * Writes a document with the given {@link PrintWriter}
-	 * 
+	 *
 	 * @param doc
 	 *        the document to write
 	 * @param out
@@ -219,7 +219,7 @@ public class XmlUtil {
 
 	/**
 	 * Writes a document with the given {@link PrintWriter}
-	 * 
+	 *
 	 * @param doc
 	 *        the document to write
 	 * @param out
@@ -241,10 +241,10 @@ public class XmlUtil {
 
 	/**
 	 * Builds an org.w3c.dom.Node from a {@link XmlObject}.
-	 * 
+	 *
 	 * @param input
 	 *        the event document
-	 * 
+	 *
 	 * @return a org.w3c.dom.Node representation
 	 */
 	public static Node getDomNode(XmlObject input) throws XMLHandlingException {
@@ -279,13 +279,13 @@ public class XmlUtil {
 	 * low-level {@link XmlCursor} manipulation to qualify the substitution group. Note
 	 * that if the latter is the case the resulting document is disconnected and should
 	 * no longer be manipulated. Thus, use it as a final step after all markup is included.
-	 * 
+	 *
 	 * If newType is null, this method will skip {@link XmlObject#substitute(QName, SchemaType)}
 	 * and directly use {@link XmlCursor}. This can be used, if you are sure that the substitute
 	 * is not in the list of (pre-compiled) valid substitutions (this is the case if a schema
 	 * uses another schema's type as a base for elements. E.g. om:Observation uses gml:_Feature
 	 * as the base type).
-	 * 
+	 *
 	 * @param xobj
 	 * 		the abstract element
 	 * @param newInstance
@@ -316,7 +316,7 @@ public class XmlUtil {
 
 	/**
 	 * Strips out the text of an xml-element and returns as a String.
-	 * 
+	 *
 	 * @param elems
 	 *        array of elements
 	 * @return the string value of the first element
@@ -342,17 +342,17 @@ public class XmlUtil {
 				child = children.item(i);
 				if (child.getNodeType() == Node.TEXT_NODE) {
 					sb.append(toString(child).trim());
-				}			
+				}
 			}
 			return sb.toString();
 		}
 		return null;
 	}
-	
+
 	/**
 	 * This method allows XPath 2.0 expressions with XmlBeans 2.4.0+
 	 * It uses a wrapper to access Saxon-HE 9.4.0.6
-	 * 
+	 *
 	 * @param path the XPath expression
 	 * @param xo the Xmlobject
 	 * @return the resulting XmlObject array
@@ -360,11 +360,11 @@ public class XmlUtil {
 	public static XmlObject[] selectPath(String path, XmlObject xo) {
 		return selectPath(path, xo, new XmlOptions());
 	}
-	
+
 	/**
 	 * This method allows XPath 2.0 expressions with XmlBeans 2.4.0+
 	 * It uses a wrapper to access Saxon-HE 9.4.0.6
-	 * 
+	 *
 	 * @param path the XPath expression
 	 * @param xo the Xmlobject
 	 * @param opts XmlOptions
@@ -374,11 +374,11 @@ public class XmlUtil {
 		opts.put(Path.PATH_DELEGATE_INTERFACE, "org.n52.oxf.xmlbeans.tools.XbeansXPathSaxon94");
 		return xo.selectPath(path, opts);
 	}
-	
+
 	/**
 	 * This method allows XQuery expressions with XmlBeans 2.4.0+
 	 * It uses a wrapper to access Saxon-HE 9.4.0.6
-	 * 
+	 *
 	 * @param path the XQuery expression
 	 * @param xo the Xmlobject
 	 * @return the resulting XmlObject array
@@ -386,11 +386,11 @@ public class XmlUtil {
 	public static XmlObject[] execQuery(String path, XmlObject xo) {
 		return execQuery(path, xo, new XmlOptions());
 	}
-	
+
 	/**
 	 * This method allows XQuery expressions with XmlBeans 2.4.0+
 	 * It uses a wrapper to access Saxon-HE 9.4.0.6
-	 * 
+	 *
 	 * @param path the XQuery expression
 	 * @param xo the Xmlobject
 	 * @param opts XmlOptions
@@ -400,7 +400,7 @@ public class XmlUtil {
 		opts.put(Query.QUERY_DELEGATE_INTERFACE, "org.n52.oxf.xmlbeans.tools.XbeansXQuerySaxon94");
 		return xo.execQuery(path, opts);
 	}
-	
+
 
 	public static QName getElementType(XmlObject xml) {
 		return xml == null ? null : xml.schemaType().getDocumentElementName();
@@ -426,7 +426,7 @@ public class XmlUtil {
 
 	/**
 	 * Transform this {@link Node} into a {@link String} representation.
-	 * 
+	 *
 	 * @param xml
 	 *        the xml Node
 	 * @return a String representation of the given xml Node

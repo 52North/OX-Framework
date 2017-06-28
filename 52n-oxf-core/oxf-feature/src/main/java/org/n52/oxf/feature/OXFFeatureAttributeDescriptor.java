@@ -36,7 +36,7 @@ public class OXFFeatureAttributeDescriptor /*implements org.opengis.feature.Feat
     protected int minOccurrences = 0;
     protected int maxOccurrences = Integer.MAX_VALUE;
     protected String documentation = "";
-    
+
 
     public class Attribute { // TODO integrate inner class
         private String name;
@@ -64,9 +64,9 @@ public class OXFFeatureAttributeDescriptor /*implements org.opengis.feature.Feat
         }
 
     }
-    
+
     /**
-     * 
+     *
      * @param name
      * @param dataType
      * @param objectClass
@@ -78,7 +78,7 @@ public class OXFFeatureAttributeDescriptor /*implements org.opengis.feature.Feat
     }
 
     /**
-     * 
+     *
      * @param name
      * @param dataType
      * @param objectClass
@@ -171,6 +171,6 @@ public class OXFFeatureAttributeDescriptor /*implements org.opengis.feature.Feat
     public int getSize() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
-    
-    
+
+
 }

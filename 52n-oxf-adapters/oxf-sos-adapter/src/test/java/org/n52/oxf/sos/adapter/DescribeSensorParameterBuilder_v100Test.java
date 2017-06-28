@@ -38,7 +38,7 @@ import org.n52.oxf.sos.adapter.wrapper.builder.DescribeSensorParamterBuilder_v10
  * Test of correctness for:
  * 		- legal and illegal constructor parameters
  * 		- applying and getting parameters
- * 
+ *
  * @author Eric
  */
 public class DescribeSensorParameterBuilder_v100Test {
@@ -50,7 +50,7 @@ public class DescribeSensorParameterBuilder_v100Test {
 	public void testValidConstructorParameters() {
 		new DescribeSensorParamterBuilder_v100("", "");
 	}
-	
+
 	/**
 	 * Checks the behaviour on invalid constructor parameters.
 	 */
@@ -60,7 +60,7 @@ public class DescribeSensorParameterBuilder_v100Test {
 		new DescribeSensorParamterBuilder_v100("", null);
 		new DescribeSensorParamterBuilder_v100(null, "");
 	}
-	
+
 	/**
 	 * Checks, whether the mandatory parameters were applied correctly.
 	 */
@@ -68,11 +68,11 @@ public class DescribeSensorParameterBuilder_v100Test {
 	public void testApplyingAndGettingMandatoryParameters() {
 		DescribeSensorParamterBuilder_v100 dspb = new DescribeSensorParamterBuilder_v100
 				("sensorId", DescribeSensorParamterBuilder_v100.OUTPUT_FORMAT_SENSORML);
-		
+
 		HashMap<String, String> hm = (HashMap<String, String>) dspb.getParameters();
 		String parMan_01 = hm.get(ISOSRequestBuilder.DESCRIBE_SENSOR_PROCEDURE_PARAMETER);
 		String parMan_02 = hm.get(ISOSRequestBuilder.DESCRIBE_SENSOR_OUTPUT_FORMAT);
-		
+
 		assertEquals("sensorId", parMan_01);
 		assertEquals(DescribeSensorParamterBuilder_v100.OUTPUT_FORMAT_SENSORML, parMan_02);
 	}

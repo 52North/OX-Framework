@@ -38,13 +38,13 @@ import org.n52.oxf.xml.XMLConstants;
 
 /**
  * MeasurementObservationParameters assembles parameters, which are necessary to describe a measurement.
- * 
+ *
  * @author Eric
  * @deprecated use {@link ObservationParametersFactory} or {@link MeasurementObservationParameters}
  */
 @Deprecated
 public class MeasurementBuilder extends ObservationBuilder {
-			
+
 		/**
 		 * Type specific constructor for measurements. It adds the type as parameter to the list.
 		 */
@@ -52,10 +52,10 @@ public class MeasurementBuilder extends ObservationBuilder {
 			type = XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION;
 			parameters.put(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_MEASUREMENT);
 		}
-		
+
 		/**
 		 * Adds or replaces the value for the parameter "uom" to the parameter list.
-		 * 
+		 *
 		 * @param uom
 		 */
 		public void addUom(String uom) {
@@ -64,7 +64,7 @@ public class MeasurementBuilder extends ObservationBuilder {
 			}
 			parameters.put(INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE, uom);
 		}
-		
+
 		public void addObservationValue(String observationValue) {
 			if (parameters.get(INSERT_OBSERVATION_VALUE_PARAMETER) != null) {
 				parameters.remove(INSERT_OBSERVATION_VALUE_PARAMETER);

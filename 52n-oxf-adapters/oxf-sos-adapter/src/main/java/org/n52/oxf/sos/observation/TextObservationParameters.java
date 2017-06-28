@@ -49,7 +49,7 @@ public class TextObservationParameters extends ObservationParameters {
 
     /**
      * Adds or replaces the (current) observation value.
-     * 
+     *
      * @param observationValue
      *        the observation value to add.
      */

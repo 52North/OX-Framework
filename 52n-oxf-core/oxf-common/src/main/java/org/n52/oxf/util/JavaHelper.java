@@ -32,15 +32,15 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class JavaHelper {
 
     /**
      * transforms the oArray to a String[]
-     * 
+     *
      * @param oArray the Object[] that should be converted to String[] via Object[n].toString()
-     * 
+     *
      * @return a new String[] containing Object[].length String objects.
      */
     public static String[] toStringArray(Object[] oArray) {
@@ -53,11 +53,11 @@ public class JavaHelper {
 
     /**
      * Adds the elements of the fromArray to the toArray.
-     * 
+     *
      * @param toArray the array to add to
      * @param fromArray the array to add
-     * 
-     * @return Returns a new array containing the all elements from both arrays. 
+     *
+     * @return Returns a new array containing the all elements from both arrays.
      * First, the elements of <code>toArray</code> and than the elements
      * of <code>fromArray</code>.
      */
@@ -71,14 +71,14 @@ public class JavaHelper {
 
         return newToArray;
     }
-    
+
     /**
      * Adds the elements of the fromArray to the toArray.
-     * 
+     *
      * @param toArray the array to add to
      * @param fromArray the array to add
-     * 
-     * @return Returns a new array containing the all elements from both arrays. 
+     *
+     * @return Returns a new array containing the all elements from both arrays.
      * First, the elements of <code>toArray</code> and than the elements
      * of <code>fromArray</code>.
      */
@@ -97,7 +97,7 @@ public class JavaHelper {
      * Transforms a hexadecimal to a Color object. <br>
      * <br>
      * e.g.: '#FF6600' &rarr; orange
-     * 
+     *
      * @param hexString
      *        7 character hex-string; something like "#FF6600"
      * @return The Color object represented by the hexString given.
@@ -111,13 +111,13 @@ public class JavaHelper {
 
     /**
      * Generates a random file name with the specified parent path, midPart and postFix.
-     * 
+     *
      * @param parentPath the directory path
      * @param midPart this part will be used as filename part after a generated random part
      * @param postfix a postfix that will be added after midPart using "."
-     * 
+     *
      * @return a new File
-     * 
+     *
      * @see System#currentTimeMillis()
      */
     public static File genRndFile(String parentPath, String midPart, String postfix) {
@@ -128,11 +128,11 @@ public class JavaHelper {
 
     /**
      * Generates a file name with the specified parent path, midPart and postFix.
-     * 
+     *
      * @param parentPath the directory path
      * @param midPart this part will be used as filename
      * @param postfix a postfix that will be added after midPart using "."
-     * 
+     *
      * @return a new File
      */
     public static File genFile(String parentPath, String midPart, String postfix) {
@@ -143,10 +143,10 @@ public class JavaHelper {
         }
         return new File(parentPath, normalize(midPart) + "." + postfix);
     }
-    
+
     /**
      * @param toNormalize String to normalize.
-     * 
+     *
      * @return Returns a normalized String for use in a file path, i.e. all [\,/,:,*,?,",&lt;,&gt;] characters are
      *         replaced by '_'.
      */
@@ -156,7 +156,7 @@ public class JavaHelper {
 
     /**
      * deletes all files in the specified directory which are older than olderThanTimeMillis.
-     * 
+     *
      * @param dirToClean the directory to clean
      * @param olderThanTimeMillis the timestamp that will be compared with {@link File#lastModified()}
      * 			of each file in the given folder. Older files will be deleted.
@@ -174,7 +174,7 @@ public class JavaHelper {
     /**
      * deletes all files in the specified directory which are older than olderThanTimeMillis and have the
      * defined postFix.
-     * 
+     *
      * @param dirToClean the directory to clean
      * @param olderThanTimeMillis the timestamp that will be compared with {@link File#lastModified()}
      * 			of each file in the given folder. Older files will be deleted.

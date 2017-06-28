@@ -37,7 +37,7 @@ import org.junit.rules.ExpectedException;
 public class ConstraintTest {
 
 	@Rule public ExpectedException thrown = ExpectedException.none();
-	
+
 	@Test public void
 	shouldThrowIllegalArgumentExcpetionIfMissingMandatoryParameters()
 	{
@@ -45,7 +45,7 @@ public class ConstraintTest {
 		thrown.expectMessage("Mandatory parameters not set. Required are the 'name' and a minimum of one 'allowedValue'!");
 		new Constraint(null, (String[])null);
 	}
-	
+
 	@Test public void
 	shouldThrowIllegalArgumentExcpetionIfMissingName()
 	{
@@ -53,7 +53,7 @@ public class ConstraintTest {
 		thrown.expectMessage("Mandatory parameters not set. Required are the 'name' and a minimum of one 'allowedValue'!");
 		new Constraint(null, "value");
 	}
-	
+
 	@Test public void
 	shouldThrowIllegalArgumentExcpetionIfMissingAllowedValues()
 	{
@@ -61,7 +61,7 @@ public class ConstraintTest {
 		thrown.expectMessage("Mandatory parameters not set. Required are the 'name' and a minimum of one 'allowedValue'!");
 		new Constraint("name", (String[])null);
 	}
-	
+
 	@Test public void
 	shouldThrowIllegalArgumentExcpetionIfGettingEmptyAllowedValues()
 	{
@@ -69,7 +69,7 @@ public class ConstraintTest {
 		thrown.expectMessage("Mandatory parameters not set. Required are the 'name' and a minimum of one 'allowedValue'!");
 		new Constraint("name", new String[0]);
 	}
-	
+
 	@Test public void
 	shouldSetName()
 	{
@@ -77,7 +77,7 @@ public class ConstraintTest {
 		final Constraint constraint = new Constraint(name,new String[1]);
 		assertThat(constraint.getName(), is(name));
 	}
-	
+
 	@Test public void
 	shouldSetAllowedValues()
 	{
@@ -91,7 +91,7 @@ public class ConstraintTest {
 		assertThat(constraint.getAllowedValues(),hasItem(aV1));
 		assertThat(constraint.getAllowedValues(),hasItem(aV2));
 	}
-	
+
 	@Test public void
 	hashCodeTest()
 	{
@@ -103,7 +103,7 @@ public class ConstraintTest {
 		assertThat(constraint.hashCode(),is(not(anotherConstraint.hashCode())));
 		assertThat(sameConstraint.hashCode(),is(not(anotherConstraint.hashCode())));
 	}
-	
+
 	@Test public void
 	equalsTest()
 	{
@@ -118,5 +118,5 @@ public class ConstraintTest {
 		assertThat(constraint.equals(anotherConstraint), is(false));
 		assertThat(constraint.equals(withOtherNameButSameValues), is(false));
 	}
-	
+
 }

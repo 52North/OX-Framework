@@ -34,12 +34,12 @@ import org.n52.oxf.ows.capabilities.*;
 
 
 public class ObjectValueDomain implements IDiscreteValueDomain<Object> {
-  
+
     private List<Object> possibleValues;
-    
+
     private final String DOMAIN_DESCRIPTION="Generic ValueDomain for objects of type Object";
-    
-    
+
+
     public ObjectValueDomain(List<Object> possibleValues) {
         this.possibleValues = possibleValues;
     }
@@ -58,7 +58,7 @@ public class ObjectValueDomain implements IDiscreteValueDomain<Object> {
     }
 
     /**
-     * 
+     *
      * @return domain description
      */
     public String getDomainDescription() {
@@ -66,7 +66,7 @@ public class ObjectValueDomain implements IDiscreteValueDomain<Object> {
     }
 
     /**
-     * 
+     *
      * @return xml-string of this valueDomain
      */
     public String toXML() {
@@ -76,7 +76,7 @@ public class ObjectValueDomain implements IDiscreteValueDomain<Object> {
         }
         return result;
     }
-    
+
 
     public Object produceValue(String... stringArray) {
         // TODO Auto-generated method stub

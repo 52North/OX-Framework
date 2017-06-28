@@ -156,7 +156,7 @@ public class CSWCapabilitiesMapper_202 {
 //                    oc_parameters.add(oc_parameter);
 //                }
 //            }
-            
+
             Parameter[] parametersArray = new Parameter[oc_parameters.size()];
             oc_parameters.toArray(parametersArray);
 

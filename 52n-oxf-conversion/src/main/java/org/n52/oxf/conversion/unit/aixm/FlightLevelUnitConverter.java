@@ -34,7 +34,7 @@ import org.n52.oxf.conversion.unit.NumberWithUOM;
 public class FlightLevelUnitConverter implements CustomUnitConverter {
 
 	private static final String RESULT_UOM = "[ft_i]";
-	
+
 	@Override
 	public NumberWithUOM convert(double doubleValue) {
 		/*

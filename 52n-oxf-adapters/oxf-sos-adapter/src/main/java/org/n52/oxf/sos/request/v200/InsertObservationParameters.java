@@ -34,11 +34,11 @@ import java.util.Collection;
 import org.n52.oxf.sos.observation.ObservationParameters;
 
 /**
- * Assembles all parameters needed for an InsertObservation request according to 
+ * Assembles all parameters needed for an InsertObservation request according to
  * SOS 2.0.0 specification version.
  */
 public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertObservationParameters {
-    
+
     private final ObservationParameters observation;
 
     public InsertObservationParameters(
@@ -57,7 +57,7 @@ public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertO
     }
 
     public boolean isValid() {
-        return !isEmptyValue(INSERT_OBSERVATION_OFFERINGS_PARAMETER) && 
+        return !isEmptyValue(INSERT_OBSERVATION_OFFERINGS_PARAMETER) &&
                 observation.isValid();
     }
 

@@ -36,7 +36,7 @@ import java.util.List;
  * Implementation of OWS 1.1.0 Constraint supporting name attribute and allowedValues element
  */
 public class Constraint {
-	
+
 	private final String name;
 	private final List<String> allowedValues;
 

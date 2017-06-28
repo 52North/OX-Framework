@@ -57,7 +57,7 @@ public interface HttpClient {
      * <strong>Callees are responsible for ensuring that the contents are actually
      * encoded as UTF-8</strong>. If not UTF-8, use {@link #executePost(String, String, ContentType)}
      * instead.
-     * 
+     *
      * @param uri
      *        the target to send the POST request to.
      * @param payloadToSend
@@ -73,7 +73,7 @@ public interface HttpClient {
      * <strong>Callees are responsible for ensuring that the contents are actually
      * encoded as UTF-8</strong>. If not UTF-8, use {@link #executePost(String, String, ContentType)}
      * instead.
-     * 
+     *
      * @param uri
      *        the target to send the POST request to.
      * @param payloadToSend
@@ -83,10 +83,10 @@ public interface HttpClient {
      *         if sending the request fails.
      */
     public HttpResponse executePost(String uri, String payloadToSend) throws HttpClientException;
-    
+
     /**
      * Sends the given payload (marked to be of a specific content-type) to the determined URI.
-     * 
+     *
      * @param uri
      *        the target to send the POST request to.
      * @param payloadToSend
@@ -103,7 +103,7 @@ public interface HttpClient {
      * Sends the given payload to the determined URI. Refer to the <a
      * href="http://hc.apache.org/httpcomponents-core-ga/httpcore/apidocs/index.html">HTTP components docs</a>
      * to get more information which entity types are possible.
-     * 
+     *
      * @param uri
      *        the target to send the POST request to.
      * @param payloadToSend

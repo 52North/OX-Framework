@@ -36,64 +36,64 @@ import java.util.List;
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class DCP {
-    
+
     private List<RequestMethod> requestMethods;
-	
+
     public DCP(GetRequestMethod httpGet, PostRequestMethod httpPost){
         requestMethods = new ArrayList<RequestMethod>();
-        
+
         addHTTPGet(httpGet);
         addHTTPPost(httpPost);
     }
-	
+
     public DCP(List<RequestMethod> methods){
         requestMethods = methods;
     }
-    
+
 	/**
-	 * @return a XML representation of this DCP. 
+	 * @return a XML representation of this DCP.
 	 */
 	public String toXML(){
 		String res = "<DCP>";
-		
+
 		if(requestMethods != null) {
             for (RequestMethod method : requestMethods) {
                 method.toXML();
             }
         }
 		res += "</DCP>";
-		
+
 		return res;
 	}
-	
+
     public List<GetRequestMethod> getHTTPGetRequestMethods() {
         List<GetRequestMethod> getRequestMethods = new ArrayList<GetRequestMethod>();
-        
+
         for (RequestMethod method : requestMethods) {
             if(method instanceof GetRequestMethod){
                 getRequestMethods.add((GetRequestMethod)method);
             }
         }
-        
+
         return getRequestMethods;
     }
-    
+
     protected void addHTTPGet(GetRequestMethod getMethod) {
         this.requestMethods.add(getMethod);
     }
 
     public List<PostRequestMethod> getHTTPPostRequestMethods() {
         List<PostRequestMethod> postRequestMethods = new ArrayList<PostRequestMethod>();
-        
+
         for (RequestMethod method : requestMethods) {
             if(method instanceof PostRequestMethod){
                 postRequestMethods.add((PostRequestMethod)method);
             }
         }
-        
+
         return postRequestMethods;
     }
-    
+
     protected void addHTTPPost(PostRequestMethod postMethod) {
         this.requestMethods.add(postMethod);
     }
@@ -102,5 +102,5 @@ public class DCP {
 	public String toString() {
 		return String.format("DCP [requestMethods=%s]", requestMethods);
 	}
-    
+
 }

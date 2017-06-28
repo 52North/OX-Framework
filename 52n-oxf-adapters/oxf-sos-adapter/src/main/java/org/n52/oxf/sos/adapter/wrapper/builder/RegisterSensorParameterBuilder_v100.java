@@ -37,19 +37,19 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 /**
  * This class describes a set of parameters, which is necessary to call
  * doRegisterSensor([...]) from SOSWrapper.
- * 
+ *
  * @author Eric
  * @deprecated use {@link InsertSensorParameters}
  */
 @Deprecated
 public class RegisterSensorParameterBuilder_v100 {
-	
+
 	private Map<String, String> parameters = new HashMap<String, String>();
-	
+
 	/**
 	 * Assembles mandatory parameters from method parameter list.
-	 * 
-	 * @param sensorDescription 
+	 *
+	 * @param sensorDescription
 	 * @throws IllegalArgumentException
 	 */
 	public RegisterSensorParameterBuilder_v100(String sensorDescription, String observationTemplate) throws IllegalArgumentException {

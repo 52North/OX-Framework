@@ -35,21 +35,21 @@ import java.util.*;
  * This class can be used to collect several occuring Throwables(/Exceptions). After collecting the throwable,
  * you may use the overriden <code>printStackTrace</code>-methods to print a cumulated stack trace of all
  * ocuured exceptions/throwables.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class OXFThrowableCollection extends OXFException {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private ArrayList<Throwable> throwables;
 
-    
+
     public OXFThrowableCollection() {
         throwables = new ArrayList<Throwable>();
     }
-    
+
     public OXFThrowableCollection(String reason) {
         super(reason);
 
@@ -63,12 +63,12 @@ public class OXFThrowableCollection extends OXFException {
     public boolean isEmpty(){
         return throwables.isEmpty();
     }
-    
+
     public Iterator<Throwable> getThrowablesIterator() {
         return throwables.iterator();
     }
 
-    
+
     @Override
     public void printStackTrace() {
         printStackTrace(System.err);

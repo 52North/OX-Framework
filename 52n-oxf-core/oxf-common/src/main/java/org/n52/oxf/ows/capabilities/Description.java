@@ -31,10 +31,10 @@ package org.n52.oxf.ows.capabilities;
 /**
  * According to the OWS Common this holds some general parameters, which are needed by ServiceIdentification
  * and Dataset.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster </a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public abstract class Description {
 
@@ -64,7 +64,7 @@ public abstract class Description {
     /**
      * this constructor has all required attributes as its parameters. The other attributes will be set on
      * default values.
-     * 
+     *
      * @param title the title to set
      */
     public Description(String title) {
@@ -76,7 +76,7 @@ public abstract class Description {
     /**
      * this constructor has all required attributes as its parameters. The other attributes will be set on
      * default values.
-     * 
+     *
      * @param title the title to set
      * @param abstractDescription the abstract description to set
      * @param keywords the keywords array to set
@@ -89,7 +89,7 @@ public abstract class Description {
 
     /**
      * sets the title.
-     * 
+     *
      * @param title the title to set
      * @throws IllegalArgumentException
      *         if the title is empty.

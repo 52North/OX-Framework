@@ -36,20 +36,20 @@ import org.n52.oxf.ows.capabilities.IDiscreteValueDomain;
 import org.n52.oxf.ows.capabilities.ITime;
 
 public class CoverageDataset extends Dataset {
-	
+
     // new in Version 1.1.1 of WCS
-    
+
     private String gridBaseCRS;
     private String gridType;
     private double[] gridOrigin;
     private double[] gridOffset;
     private String gridCS;
-	
+
     private String rpcLink;
-	
+
     /**
      * this constructor has ALL attributes of the class as its parameters.(Also WCS 1.1.1)
-     * 
+     *
      * @param title
      * @param identifier
      * @param boundingBoxes
@@ -85,7 +85,7 @@ public class CoverageDataset extends Dataset {
         setGridCS(gridCS);
         this.rpcLink = rpcLink;
     }
-    
+
     	public String getGridBaseCRS() {
     		return gridBaseCRS;
     	}
@@ -125,7 +125,7 @@ public class CoverageDataset extends Dataset {
     	protected void setGridCS(String gridCS) {
     		this.gridCS = gridCS;
     	}
-    	
+
     	public String getRpcLink () {
     	    return rpcLink;
     	}

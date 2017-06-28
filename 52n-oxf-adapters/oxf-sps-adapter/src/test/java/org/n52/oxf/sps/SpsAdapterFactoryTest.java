@@ -35,26 +35,26 @@ import org.junit.Test;
 
 public class SpsAdapterFactoryTest {
 
-    @Test(expected = IllegalArgumentException.class) public void 
-    shouldThrowExceptionWhenPassedServiceUrlIsNull() 
+    @Test(expected = IllegalArgumentException.class) public void
+    shouldThrowExceptionWhenPassedServiceUrlIsNull()
     throws Exception {
         createAdapter(null, null);
     }
-    
-    @Test(expected = IllegalArgumentException.class) public void 
-    shouldThrowExceptionWhenPassedVersionIsNull() 
+
+    @Test(expected = IllegalArgumentException.class) public void
+    shouldThrowExceptionWhenPassedVersionIsNull()
     throws Exception {
         createAdapter("http://fake.url", null);
     }
-    
-    @Test(expected = MissingAdapterImplementationException.class) public void 
-    shouldThrowExceptionWhenPassedVersionMatchesNoAdapterImplementation() 
+
+    @Test(expected = MissingAdapterImplementationException.class) public void
+    shouldThrowExceptionWhenPassedVersionMatchesNoAdapterImplementation()
     throws Exception {
         createAdapter("http://fake.url", "42");
     }
 
-    @Test public void 
-    shouldCreateSpsAdapterWithVersion100() 
+    @Test public void
+    shouldCreateSpsAdapterWithVersion100()
     {
         final String version = "1.0.0";
         try {
@@ -64,7 +64,7 @@ public class SpsAdapterFactoryTest {
             fail("SpsAdapter with " + version + " could not be created");
         }
     }
-    
+
 }
 
 

@@ -314,7 +314,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @return the result of the executed operation
      */
     @Override
-    public OperationResult doOperation(final Operation operation, final ParameterContainer parameters) 
+    public OperationResult doOperation(final Operation operation, final ParameterContainer parameters)
             throws ExceptionReport, OXFException {
 
         OperationResult result = null;
@@ -370,9 +370,9 @@ public class SOSAdapter implements IServiceAdapter {
          */
 
         final ContentType mimetype = getMimetype(parameters);
-        
+
         HttpClient myHttpClient = httpClient;
-        
+
         if(isSetAuthtoken(parameters)) {
             myHttpClient = new AuthTokenAwareHttpClient(httpClient, (String)parameters.getParameterShellWithCommonName(ISOSRequestBuilder.AUTH_TOKEN)
                     .getSpecifiedValue());
@@ -611,7 +611,7 @@ public class SOSAdapter implements IServiceAdapter {
 
         return featureCollection;
     }
-    
+
     private ExceptionReport parseOws110ExceptionReport(final OperationResult result) throws IOException, XmlException {
         final ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsAutoCloseStream());
         final net.opengis.ows.x11.ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();

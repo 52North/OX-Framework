@@ -31,7 +31,7 @@ import org.n52.oxf.sos.request.SosRequestParameters;
 
 /**
  * Super class for all SOS <b>2.0.0</b> specific request parameter assemblies.
- * 
+ *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  */

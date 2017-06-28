@@ -36,7 +36,7 @@ public class AltitudeLimits {
 	 * Enumeration defining the common altitude reference definitions (derived from AIXM 5.1)
 	 */
 	public static enum AltitudeReferences {SFC, STD, FL, MSL, W84 }
-	
+
 	private AltitudeReferences lowerLimitReference;
 	private AltitudeReferences upperLimitReference;
 	private double lowerLimit;
@@ -44,7 +44,7 @@ public class AltitudeLimits {
 	private String lowerLimitUom;
 	private String upperLimitUom;
 
-	
+
 	public AltitudeLimits(double lowerLimit2,
 			AltitudeReferences lowerReference, double upperLimit2,
 			AltitudeReferences upperReference) {
@@ -83,6 +83,6 @@ public class AltitudeLimits {
 	public String getUpperLimitUom() {
 		return upperLimitUom;
 	}
-	
-	
+
+
 }

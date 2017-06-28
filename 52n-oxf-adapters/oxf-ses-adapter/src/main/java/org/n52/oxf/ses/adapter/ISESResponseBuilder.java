@@ -36,15 +36,15 @@ import org.n52.oxf.adapter.ParameterShell;
  * @deprecated where should this be used?!
  */
 public interface ISESResponseBuilder {
-    
+
     public static final String NOTIFY_SOAP_ENVELOPE_HEADER_TO = "notifySoapEnvHeaderTo";
-    
+
     public static final String NOTIFY_SOAP_ENVELOPE_HEADER_FROM = "notifySoapEnvHeaderFrom";
-    
+
     public static final String NOTIFY_SOAP_ENVELOPE_HEADER_RELATES_TO = "notifySoapEnvHeaderRelatesTo";
-    
+
     public static final String NOTIFY_SOAP_ENVELOPE_HEADER_MESSAGE_ID = "notifySoapEnvHeaderMsgId";
-    
+
     /**
      * Builds the NotifyResponse<br>
      * If the {@link ParameterContainer} does not contain a {@link ParameterShell} with the common name of {@link ISESResponseBuilder#NOTIFY_SOAP_ENVELOPE_HEADER_MESSAGE_ID}

@@ -29,53 +29,53 @@ package org.n52.ows.service;
 
 
 public class OxfServiceIdentificationBuilder {
-    
+
     private String[] titles;
-    
+
     private String[] abstracts;
-    
+
     private String[] keywords;
 
     private String serviceType;
-    
+
     private String[] serviceTypeVersion;
-    
+
     private String[] profiles;
-    
+
     private String fees;
-    
+
     private String[] accessConstraints;
-    
+
     public OxfServiceIdentificationBuilder(String serviceType, String... serviceTypeVersion) {
         this.serviceType = serviceType;
         this.serviceTypeVersion = serviceTypeVersion;
     }
-    
+
     public OxfServiceIdentificationBuilder addTitles(String... titles) {
         this.titles = titles;
         return this;
     }
-    
+
     public OxfServiceIdentificationBuilder addAbstracts(String... abstracts) {
         this.abstracts = abstracts;
         return this;
     }
-    
+
     public OxfServiceIdentificationBuilder addKeywords(String... keywords) {
         this.keywords = keywords;
         return this;
     }
-    
+
     public OxfServiceIdentificationBuilder addProfiles(String... profiles) {
         this.profiles = profiles;
         return this;
     }
-    
+
     public OxfServiceIdentificationBuilder addFees(String fees) {
         this.fees = fees;
         return this;
     }
-    
+
     public OxfServiceIdentificationBuilder addAccessConstraints(String... accessConstraints) {
         this.accessConstraints = accessConstraints;
         return this;
@@ -124,5 +124,5 @@ public class OxfServiceIdentificationBuilder {
     public String[] getAccessConstraints() {
         return accessConstraints;
     }
-    
+
 }

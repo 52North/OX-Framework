@@ -31,23 +31,23 @@ import org.n52.oxf.ows.ExceptionReport;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class ExceptionTransformer {
 
     /**
      * transforms the specified Exception into an HTML representation and returns it as a String.
-     * 
+     *
      * @param e The Exception to transform
      * @param debugMode <code>true</code> to activate the transformation into HTML, <code>false</code>
      * 			will print "Sorry, a server error occured!"
-     * 
+     *
      * @return HTML code representing the exception
-     * 
+     *
      */
     public static String transformExceptionToHTML(Exception e, boolean debugMode) {
         String res = "";
-        
+
         if (debugMode) {
             res += "<h2>Service-sided exception occured:</h2>";
             res += transformHelper(e);
@@ -55,27 +55,27 @@ public class ExceptionTransformer {
         else {
             res += "<b>Sorry, a server error occured!</b>";
         }
-        
+
         return res;
     }
 
     private static String transformHelper(Throwable t) {
         String res = "<b>" + t.getClass().getName() + "</b>";
-        
+
         if (t.getLocalizedMessage() != null) {
             res += " - " + t.getLocalizedMessage();
         }
-        
+
         // case: Exception occured on SOS-side:
         if (t instanceof ExceptionReport) {
             res += "<blockquote>";
-            
+
             ExceptionReport excReport = (ExceptionReport) t;
             res += excReport.toHtmlString();
-            
+
             res += "</blockquote>";
         }
-        
+
         // case: Exception occured on Facade-side
         else {
             res += "<blockquote>";

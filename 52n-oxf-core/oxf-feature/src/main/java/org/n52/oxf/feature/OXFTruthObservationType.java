@@ -36,14 +36,14 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class OXFTruthObservationType extends OXFAbstractObservationType {
 
     public static final String RESULT = "result";
-    
+
     /**
-     * 
+     *
      */
     public OXFTruthObservationType() {
         super();
@@ -69,7 +69,7 @@ public class OXFTruthObservationType extends OXFAbstractObservationType {
     }
 
     /**
-     * 
+     *
      * @param feature
      * @param nameValue
      * @param descriptionValue

@@ -34,10 +34,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ *
  * This class holds the values to invoke a service operation. One Operation will be generated for each
  * operation of a OWS (i.e. GetMap)
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
@@ -87,7 +87,7 @@ public class Operation {
      * convenience constructor. Creates an Operation with the specified name and sets one DCP with the
      * specified httpGetHref and httpPostHref. The constraints and parameters attributes will stay
      * <code>null</code>.
-     * 
+     *
      * @param name name of the operation
      * @param httpGetHref the URL to be used for HTTP GET
      * @param httpPostHref the URL to be used for HTTP POST
@@ -145,7 +145,7 @@ public class Operation {
     	if (parameters != null) {
     		params = "[";
     		for (final Parameter param : parameters) {
-                params += "ServiceSidedName: " 	+ param.getServiceSidedName() 
+                params += "ServiceSidedName: " 	+ param.getServiceSidedName()
                 		+ "  CommonName: "		+ param.getCommonName()
                 		+ "  ValueDomain-class: "
                 					+ param.getValueDomain().getClass() + "\n";
@@ -217,7 +217,7 @@ public class Operation {
     /**
      * This returns a Map, which contains the parameterNames (= serviceSidedNames) as Keys and the
      * Parameters itself as values.
-     * 
+     *
      * @return a parameter name &rarr; parameter map.
      */
     public Map<String, Parameter> getParametersAsMap() {
@@ -244,7 +244,7 @@ public class Operation {
     }
 
     /**
-     * @param serviceSidedName the service side parametername 
+     * @param serviceSidedName the service side parametername
      * @param datasetID the dataset id
      * @return the DatasetParameter with the specified serviceSidedName (ignore case!) and the specified
      *         datasetID.

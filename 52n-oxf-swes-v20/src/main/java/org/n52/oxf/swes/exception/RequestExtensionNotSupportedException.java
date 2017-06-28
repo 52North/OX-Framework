@@ -30,7 +30,7 @@ package org.n52.oxf.swes.exception;
 import org.n52.ows.exception.OwsException;
 
 /**
- * One or more of the extensions used in the operation request are unknown to or not supported by the service. 
+ * One or more of the extensions used in the operation request are unknown to or not supported by the service.
  * <br><br>
  * <b>Note:</b> A service shall add the complete unsupported request extension into the ExtensionText property of the
  * Exception. In the XML encoding, use CDATA to surround markup. If the encoded extension itself contains the

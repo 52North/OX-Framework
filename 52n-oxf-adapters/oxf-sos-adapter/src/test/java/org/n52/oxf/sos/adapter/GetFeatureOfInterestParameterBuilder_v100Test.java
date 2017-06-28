@@ -39,7 +39,7 @@ import org.n52.oxf.sos.adapter.wrapper.builder.GetFeatureOfInterestParameterBuil
  * 		- legal and illegal constructor parameters
  * 		- applying and getting mandatory parameters
  * 		- applying and getting optional parameters
- * 
+ *
  * @author Eric
  */
 public class GetFeatureOfInterestParameterBuilder_v100Test {
@@ -52,7 +52,7 @@ public class GetFeatureOfInterestParameterBuilder_v100Test {
 		new GetFeatureOfInterestParameterBuilder_v100("", ISOSRequestBuilder.GET_FOI_ID_PARAMETER);
 		new GetFeatureOfInterestParameterBuilder_v100("", ISOSRequestBuilder.GET_FOI_LOCATION_PARAMETER);
 	}
-	
+
 	/**
 	 * Checks the behaviour on invalid constructor parameters.
 	 */
@@ -63,7 +63,7 @@ public class GetFeatureOfInterestParameterBuilder_v100Test {
 		new GetFeatureOfInterestParameterBuilder_v100(null, "");
 		new GetFeatureOfInterestParameterBuilder_v100("", "");
 	}
-	
+
 	/**
 	 * Checks, whether the mandatory parameters were applied correctly.
 	 */
@@ -71,13 +71,13 @@ public class GetFeatureOfInterestParameterBuilder_v100Test {
 	public void testApplyingAndGettingMandatoryParameters() {
 		GetFeatureOfInterestParameterBuilder_v100 gfpb = new GetFeatureOfInterestParameterBuilder_v100
 				("identification", ISOSRequestBuilder.GET_FOI_ID_PARAMETER);
-		
+
 		HashMap<String, String> hm = (HashMap<String, String>) gfpb.getParameters();
 		String parMan_01 = hm.get(ISOSRequestBuilder.GET_FOI_ID_PARAMETER);
-		
+
 		assertEquals("identification", parMan_01);
 	}
-	
+
 	/**
 	 * Checks, whether the optional parameters were applied correctly.
 	 */
@@ -85,16 +85,16 @@ public class GetFeatureOfInterestParameterBuilder_v100Test {
 	public void testApplyingAndGettingOptionalParameters() {
 		GetFeatureOfInterestParameterBuilder_v100 gfpb = new GetFeatureOfInterestParameterBuilder_v100
 				("identification", ISOSRequestBuilder.GET_FOI_ID_PARAMETER);
-		
+
 		HashMap<String, String> hm = (HashMap<String, String>) gfpb.getParameters();
-		
+
 		assertNull(hm.get(ISOSRequestBuilder.GET_FOI_EVENT_TIME_PARAMETER));
-		
+
 		gfpb.addEventTime("eventTimeOld");
 		gfpb.addEventTime("eventTime");
-		
+
 		String parOpt_01 = hm.get(ISOSRequestBuilder.GET_FOI_EVENT_TIME_PARAMETER);
-		
+
 		assertEquals("eventTime", parOpt_01);
 	}
 

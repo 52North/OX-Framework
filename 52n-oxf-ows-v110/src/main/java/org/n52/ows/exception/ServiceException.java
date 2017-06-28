@@ -47,41 +47,41 @@ public class ServiceException {
     public static ServiceException createFromOwsException(OwsException owsException) {
         return new ServiceException(owsException);
     }
-    
+
     private ServiceException(OwsException owsException) {
         exceptionDocument = ExceptionReportDocument.Factory.newInstance();
         ExceptionReport report = exceptionDocument.addNewExceptionReport();
         ExceptionType exceptionType = report.addNewException();
         setExceptionContent(owsException, exceptionType);
     }
-    
+
     public void setVersion(String version) {
         ExceptionReport exceptionReport = exceptionDocument.getExceptionReport();
         exceptionReport.setVersion(version);
     }
-    
+
     public void setLanguage(String language) {
         ExceptionReport exceptionReport = exceptionDocument.getExceptionReport();
         exceptionReport.setLang(language);
     }
-    
+
     public ExceptionReportDocument getExceptionReport() {
         return exceptionDocument;
     }
-    
+
     private ExceptionReportDocument createExceptionReport(OwsExceptionReport owsExceptionReport) {
         ExceptionReportDocument reportDocument = ExceptionReportDocument.Factory.newInstance();
         ExceptionReport report = reportDocument.addNewExceptionReport();
         setOwsExceptions(report, owsExceptionReport);
         return reportDocument;
     }
-    
+
     private void setOwsExceptions(ExceptionReport report, OwsExceptionReport owsExceptionReport) {
         for (OwsException owsException : owsExceptionReport.getOwsExceptionsArray()) {
             setExceptionContent(owsException, report.addNewException());
         }
     }
-    
+
     private void setExceptionContent(OwsException owsException, ExceptionType exceptionType) {
         if (owsException.isSetLocator()) {
             exceptionType.setLocator(owsException.getLocator());
@@ -89,7 +89,7 @@ public class ServiceException {
         exceptionType.setExceptionCode(owsException.getExceptionCode());
         exceptionType.setExceptionTextArray(owsException.getExceptionTextsAsArray());
     }
-    
+
     public boolean containsExceptions() {
         ExceptionType[] exceptionArray = exceptionDocument.getExceptionReport().getExceptionArray();
         return exceptionArray != null && exceptionArray.length > 0;

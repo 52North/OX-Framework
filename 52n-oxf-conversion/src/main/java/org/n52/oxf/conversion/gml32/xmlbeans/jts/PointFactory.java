@@ -43,7 +43,7 @@ import static org.n52.oxf.conversion.gml32.xmlbeans.jts.GMLGeometryFactory.creat
 /**
  * Outsource of {@link Point}-related methods, closely
  * linked to {@link GMLGeometryFactory}.
- * 
+ *
  * @author matthes rieke
  *
  */
@@ -57,7 +57,7 @@ public class PointFactory {
 		} else {
 			dim = list.size();
 		}
-		
+
 		if (dim == 2) {
 			return new GeometryFactory().createPoint(createCoordinate(Double.parseDouble(list.get(0).toString()),
 					Double.parseDouble(list.get(1).toString()),
@@ -69,7 +69,7 @@ public class PointFactory {
 					Double.parseDouble(list.get(2).toString()),
 					SRSUtils.resolveAxisOrder(srs != null ? srs : pos.getSrsName())));
 		}
-		
+
 		throw new IllegalStateException("Point must have dimension 2 or 3.");
 	}
 
@@ -79,5 +79,5 @@ public class PointFactory {
 		}
 		return null;
 	}
-	
+
 }

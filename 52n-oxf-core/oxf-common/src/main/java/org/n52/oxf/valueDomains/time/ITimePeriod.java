@@ -34,14 +34,14 @@ import org.n52.oxf.ows.capabilities.*;
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  */
 public interface ITimePeriod extends ITime {
-    
+
     ITimePosition getStart();
-    
+
     ITimePosition getEnd();
-    
+
     ITimeResolution getResolution();
-    
+
     boolean contains(ITimePeriod timePeriod);
-    
+
     boolean contains(ITimePosition timePos);
 }

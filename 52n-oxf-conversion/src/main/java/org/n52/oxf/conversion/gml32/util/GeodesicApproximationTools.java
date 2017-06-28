@@ -34,11 +34,11 @@ import com.vividsolutions.jts.geom.LineString;
 
 /**
  * Helper class provides geodesic approximation methods.
- * 
+ *
  * E.g. approximate a Great Circle to a LineString representation (the
  * algorithm uses the intermediate point calculation documented at
  * {@link http://williams.best.vwh.net/avform.htm#Intermediate}).
- * 
+ *
  * @author matthes rieke
  *
  */
@@ -47,7 +47,7 @@ public class GeodesicApproximationTools {
 	/**
 	 * Approximates a Great Circle on the earth using start
 	 * and end coordinates and the estimate target segment length
-	 * 
+	 *
 	 * @return a JTS LineString
 	 */
 	public static LineString approximateGreatCircle(Coordinate start, Coordinate end, double segmentLength) {
@@ -57,7 +57,7 @@ public class GeodesicApproximationTools {
 	/**
 	 * Approximates a Great Circle on the earth using start
 	 * and end coordinates and the number of segments per half of the target circle.
-	 * 
+	 *
 	 * @return a JTS LineString
 	 */
 	public static LineString approximateGreatCircle(int segmentsPerHalf, Coordinate start, Coordinate end) {
@@ -70,54 +70,54 @@ public class GeodesicApproximationTools {
 	/**
 	 * Approximates a Rhumbline on the earth using start
 	 * and end coordinates and the estimate target segment length
-	 * 
+	 *
 	 * @return a JTS LineString
 	 */
 	public static LineString approximateRhumbline(Coordinate start, Coordinate end, double segmentLength) {
 		return approximateRhumbline((int) Math.ceil((start.distance(end) / (segmentLength*2))), start, end);
 	}
-	
+
 	/**
 	 * Approximates a Rhumbline on the earth using start
 	 * and end coordinates and the number of segments per half of the target circle.
-	 * 
+	 *
 	 * @return a JTS LineString
 	 */
 	public static LineString approximateRhumbline(int segmentsPerHalf, Coordinate start, Coordinate end) {
 		if (segmentsPerHalf == 0) return new GeometryFactory().createLineString(new Coordinate[] {start, end});
-		
+
 		Coordinate[] result = new Coordinate[segmentsPerHalf * 2 +1];
 		result[0] = start;
 		result[result.length-1] = end;
 		return new GeometryFactory().createLineString(approximateRhumbline(result, 0, result.length-1));
 	}
-	
+
 	private static Coordinate[] approximateGreatCircle(Coordinate[] result, int subListStart, int subListEnd) {
 		Coordinate midPoint = intermediatePointGreatCircle(result[subListStart], result[subListEnd], 0.5);
 		int targetIndex = (subListEnd+subListStart)/2;
-		
+
 		if (result[targetIndex] == null) {
 			result[targetIndex] = midPoint;
 			approximateGreatCircle(result, subListStart, targetIndex);
 			approximateGreatCircle(result, targetIndex, subListEnd);
 		}
-		
+
 		return result;
 	}
-	
+
 	private static Coordinate[] approximateRhumbline(Coordinate[] result, int subListStart, int subListEnd) {
 		Coordinate midPoint = intermediatePointRhumbline(result[subListStart], result[subListEnd]);
 		int targetIndex = (subListEnd+subListStart)/2;
-		
+
 		if (result[targetIndex] == null) {
 			result[targetIndex] = midPoint;
 			approximateRhumbline(result, subListStart, targetIndex);
 			approximateRhumbline(result, targetIndex, subListEnd);
 		}
-		
+
 		return result;
 	}
-	
+
 	private static Coordinate intermediatePointGreatCircle(Coordinate start, Coordinate end, double fraction) {
 		double lat1 = radTodeg(start.y);
 		double lon1 = radTodeg(start.x);
@@ -145,10 +145,10 @@ public class GeodesicApproximationTools {
 	private static Coordinate intermediatePointRhumbline(Coordinate start, Coordinate end) {
 		return new Coordinate((start.x+end.x)/2,(start.y+end.y)/2);
 	}
-	
+
 	private static double radTodeg(double n) {
 		return n * Math.PI/180;
 	}
-	
+
 
 }

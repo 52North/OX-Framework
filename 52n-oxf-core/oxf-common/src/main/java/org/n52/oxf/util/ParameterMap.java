@@ -33,30 +33,30 @@ import java.util.Map;
 
 /**
  * @deprecated
- * 
+ *
  * TODO add new class and workflow to deprecated tag
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 @Deprecated
 public class ParameterMap {
-    
+
     Map<String, String> paramMap;
 
     public static String PARAMETER_PATTERN = "([^=&]+=[^=&]*&?)+";
-    
-    
+
+
     /**
      * @param parameterString
      *        should look like this: "param1=value1&amp;param2=value2&amp;...&amp;paramN=valueN" <br>
-     *        but also an empty 'value' is allowed (e.g.: "param1=&amp;param2=value2&amp;...") 
+     *        but also an empty 'value' is allowed (e.g.: "param1=&amp;param2=value2&amp;...")
      */
     public ParameterMap(String parameterString) {
         paramMap = new HashMap<String, String>();
-        
+
         if(parameterString.matches(PARAMETER_PATTERN)) {
             String[] paramParts = parameterString.split("&");
-            
+
             for(String paramPart : paramParts){
                 String[] paramAndValue = paramPart.split("=");
                 if (paramAndValue.length > 1) {
@@ -71,10 +71,10 @@ public class ParameterMap {
             throw new IllegalArgumentException("paramString does not match the pattern, received: " + parameterString);
         }
     }
-    
+
     public String getParameterValue(String caseInsensitiveName) {
         if (this.paramMap != null && caseInsensitiveName != null) {
-            
+
             Iterator<?> keyIterator = paramMap.keySet().iterator();
             while(keyIterator.hasNext()){
                 String key = (String)keyIterator.next();
@@ -85,5 +85,5 @@ public class ParameterMap {
         }
         return null;
     }
-    
+
 }

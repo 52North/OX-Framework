@@ -148,7 +148,7 @@ public class TestSOSAdapter {
      *         + ((OXFFeature) featureCollection.toList().get(0).getAttribute(&quot;featureOfInterest&quot;)).getGeometry());
      *
      * </pre>
-     * 
+     *
      * @throws OXFException in case of problems in the OX-Framework.
      * @throws ExceptionReport in case of problems in communication with OWS service.
      *
@@ -365,7 +365,7 @@ public class TestSOSAdapter {
 
         final OperationResult opResult = sosAdapter.doOperation(new Operation(SOSAdapter.REGISTER_SENSOR, url + "?", url), paramCon);
     }
-    
+
     public void testInsertSensor() throws OXFException, ExceptionReport, IOException, URISyntaxException {
             final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
@@ -388,7 +388,7 @@ public class TestSOSAdapter {
         paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_UOM_PARAMETER, "mm");
         paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE, "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement");
         paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_FEATURE_TYPE_PARAMETER,"http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint");
-        
+
 //        paramCon.addParameterShell(ISOSRequestBuilder.AUTH_TOKEN, "oxf-test-token");
         paramCon.addParameterShell(ISOSRequestBuilder.BASIC_AUTH_HOST, "http://localhost:81");
         paramCon.addParameterShell(ISOSRequestBuilder.BASIC_AUTH_PASSWORD, "test");

@@ -36,15 +36,15 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This represents a standard BoundingBox. Does not any operations like zoom etc..
- * 
+ *
  * @see BoundingBox2D
  * @see BoundingBox3D
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox> {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(BoundingBox.class);
 
     public static final String ERROR_INPUT_COORDINATES = "input coordinates have a different dimension";
@@ -63,12 +63,12 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     protected double[] upperCorner;
 
     protected String crs;
-    
+
     protected int dimensions;
 
     /**
      * this constructor has all required attributes as its parameters.
-     * 
+     *
      * @param lowerLeft
      *        the lowerCorner
      * @param upperRight
@@ -79,10 +79,10 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     public BoundingBox(double[] lowerLeft, double[] upperRight) {
         this(null, lowerLeft, upperRight);
     }
-    
+
     /**
      * this constructor has all attributes as its parameters.
-     * 
+     *
      * @param crs
      *        a EPSG String for instance
      * @param lowerLeft
@@ -112,7 +112,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         if (lowerLeft == null ||  upperRight == null) {
             throw new NullPointerException("Bounds must not be null!");
         }
-        
+
         if (lowerLeft.length == 0 || upperRight.length == 0) {
             StringBuilder sb = new StringBuilder();
             sb.append("Boundingbox must be at least one-dimensional:");
@@ -126,9 +126,9 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
             setLowerCorner(resettedCorner);
             setUpperCorner(resettedCorner);
         }
-        
+
         if (lowerLeft.length != upperRight.length) {
-            throw new IllegalStateException(ERROR_NUM_OF_COORINDATE_DIFFER + 
+            throw new IllegalStateException(ERROR_NUM_OF_COORINDATE_DIFFER +
                     ": uR: " + (upperRight!=null?upperRight.length:"NULL") +
                     "; lL: " + (lowerLeft!=null?lowerLeft.length:"NULL"));
         }
@@ -216,7 +216,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
 
     /**
      * checks if the parameter bBox is contained in (or equal to) this BoundingBox.
-     * 
+     *
      * @param bBox the {@linkplain IBoundingBox} to check
      */
     public boolean containsValue(IBoundingBox bBox) {
@@ -241,7 +241,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     }
 
     /**
-     * 
+     *
      * @return a KeyValuePair-representation of this BBOX in the standard OGC form: <br>
      *         if it's a 2D BBOX: "minx,miny,maxx,maxy"<br>
      *         if it's a 3D BBOX: "minx,miny,maxx,maxy,minz,maxz"<br>
@@ -305,28 +305,28 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     		return true;
     	}
     }
-    
+
     /**
      * difference in x direction, i.e. {lower,upper}Corner[0]
-     * 
+     *
      * @return the difference in x direction.
      */
     public double getWidth() {
         return upperCorner[0] - lowerCorner[0];
     }
-    
+
     /**
      * difference in y direction, i.e. {lower,upper}Corner[1]
-     * 
+     *
      * @return difference in y direction
      */
     public double getHeight() {
         return upperCorner[1] - lowerCorner[1];
     }
-    
+
     /**
      * difference in z direction, i.e. {lower,upper}Corner[2]
-     * 
+     *
      * @return difference in z direction
      */
     public double getDepth() {

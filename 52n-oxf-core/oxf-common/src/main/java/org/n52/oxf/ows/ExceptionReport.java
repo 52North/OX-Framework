@@ -32,7 +32,7 @@ import java.util.*;
 
 /**
  * Encapsulates Exceptions which occur on service side processing.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  */
 public class ExceptionReport extends Exception {
@@ -80,10 +80,10 @@ public class ExceptionReport extends Exception {
         for (OWSException e : exceptions) {
             res += e.toHtmlString();
         }
-        
+
         return res;
     }
-    
+
     public int countExceptions() {
         return exceptions.size();
     }

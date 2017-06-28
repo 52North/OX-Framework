@@ -44,7 +44,7 @@ import org.n52.oxf.xml.XMLConstants;
  *
  */
 public class SFSpatialSamplingFeatureCase extends AbstractLaxValidationCase {
-	
+
 	private static SFSpatialSamplingFeatureCase instance;
 
 	@Override
@@ -53,7 +53,7 @@ public class SFSpatialSamplingFeatureCase extends AbstractLaxValidationCase {
 		final QName offending = xve.getOffendingQName();
 		final List<?> expected = xve.getExpectedQNames();
 		final QName field = xve.getFieldQName();
-		if (offending != null && 
+		if (offending != null &&
 				offending.equals(XMLConstants.QN_SF_2_0_SPATIAL_SAMPLING_FEATURE) &&
 				field.equals(XMLConstants.QN_OM_2_0_FEATURE_OF_INTEREST) &&
 				expected.contains(XMLConstants.QN_GML_3_2_ABSTRACT_FEATURE))
