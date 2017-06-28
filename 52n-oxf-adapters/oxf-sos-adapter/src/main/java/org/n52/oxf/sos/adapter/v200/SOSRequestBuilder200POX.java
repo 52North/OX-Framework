@@ -533,7 +533,14 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
 			final PointType xbGmlPoint = xbGmlPointDoc.addNewPoint();
 			xbGmlPoint.setId("ssf_point");
 			final DirectPositionType pos = xbGmlPoint.addNewPos();
-			pos.setSrsName(OGC_URI_START_CRS + (String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS).getSpecifiedValue());
+			String newFoiSRS = (String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS).getSpecifiedValue();
+			String foiSRS = OGC_URI_START_CRS;
+			if (newFoiSRS != null && !newFoiSRS.isEmpty() && newFoiSRS.contains(OGC_URI_START_CRS)) {
+			    foiSRS = newFoiSRS;
+			} else {
+			    foiSRS = OGC_URI_START_CRS.concat(newFoiSRS);
+			}
+			pos.setSrsName(foiSRS);
 			pos.setStringValue((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_NEW_FOI_POSITION).getSpecifiedValue());
 			// add position
 			xbSpatialSamplingFeature.addNewShape().set(xbGmlPointDoc);
