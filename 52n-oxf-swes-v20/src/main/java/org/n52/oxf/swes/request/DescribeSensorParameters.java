@@ -35,7 +35,7 @@ import org.n52.oxf.request.MimetypeAwareRequestParameters;
  */
 public class DescribeSensorParameters extends MimetypeAwareRequestParameters {
 
-    private final String REQUEST_PARAMETER = "request";
+    static final String REQUEST_PARAMETER = "request";
 
     static final String PROCEDURE_PARAMETER = "procedure";
 
