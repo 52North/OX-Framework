@@ -31,23 +31,22 @@ import java.util.*;
 
 import org.n52.oxf.ows.capabilities.*;
 
-
-
 public class ObjectValueDomain implements IDiscreteValueDomain<Object> {
 
-    private List<Object> possibleValues;
+    private final List<Object> possibleValues;
 
-    private final String DOMAIN_DESCRIPTION="Generic ValueDomain for objects of type Object";
-
+    private final static String DOMAIN_DESCRIPTION = "Generic ValueDomain for objects of type Object";
 
     public ObjectValueDomain(List<Object> possibleValues) {
         this.possibleValues = possibleValues;
     }
 
+    @Override
     public List<Object> getPossibleValues() {
         return this.possibleValues;
     }
 
+    @Override
     public boolean containsValue(Object object) {
         for (Object o : possibleValues) {
             if (o.equals(this)) {
@@ -61,6 +60,7 @@ public class ObjectValueDomain implements IDiscreteValueDomain<Object> {
      *
      * @return domain description
      */
+    @Override
     public String getDomainDescription() {
         return DOMAIN_DESCRIPTION;
     }
@@ -69,15 +69,16 @@ public class ObjectValueDomain implements IDiscreteValueDomain<Object> {
      *
      * @return xml-string of this valueDomain
      */
+    @Override
     public String toXML() {
-        String result="";
-        for (int i=0; i<this.possibleValues.size();++i) {
-            result += this.possibleValues.get(i).toString();
+        StringBuilder sb = new StringBuilder();
+        for (int i=0; i < possibleValues.size(); ++i) {
+            sb.append(possibleValues.get(i).toString());
         }
-        return result;
+        return sb.toString();
     }
 
-
+    @Override
     public Object produceValue(String... stringArray) {
         // TODO Auto-generated method stub
         return null;

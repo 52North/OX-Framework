@@ -82,12 +82,12 @@ public class Contact {
 	public Contact(String[] telephone, String[] fax, String hoursOfService,
 			String contactInstructions, Address address,
 			OnlineResource onlineResource) {
-		setTelephone(telephone);
-		setFax(fax);
-		setHoursOfService(hoursOfService);
-		setContactInstructions(contactInstructions);
-		setAddress(address);
-		setOnlineResource(onlineResource);
+		this.telephone = telephone;
+		this.fax = fax;
+		this.hoursOfService = hoursOfService;
+		this.contactInstructions = contactInstructions;
+		this.address = address;
+		this.onlineResource = onlineResource;
 	}
 
 	/**
@@ -99,19 +99,23 @@ public class Contact {
 			+ " contactInstructions=\""	+ contactInstructions + "\">";
 
 		if(fax != telephone) {
+            StringBuilder sb = new StringBuilder(res);
 			for(String s : telephone){
-				res += "<Telephone>";
-				res += s;
-				res += "</Telephone>";
+				sb.append("<Telephone>")
+                    .append(s)
+                    .append("</Telephone>");
 			}
+            res = sb.toString();
 		}
 
 		if(fax != null) {
+            StringBuilder sb = new StringBuilder(res);
 			for(String s : fax){
-				res += "<Fax>";
-				res += s;
-				res += "</Fax>";
+				sb.append("<Fax>")
+                    .append(s)
+                    .append("</Fax>");
 			}
+            res = sb.toString();
 		}
 
         if(address != null) {

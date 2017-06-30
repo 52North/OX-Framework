@@ -80,27 +80,33 @@ public class OperationsMetadata {
 
 		res += "<Operations>";
 		if (operations != null) {
+            StringBuilder sb = new StringBuilder(res);
 			for (final Operation operation : operations) {
-				res += operation.toXML();
+				sb.append(operation.toXML());
 			}
+            res = sb.toString();
 		}
 		res += "</Operations>";
 
 		res += "<Parameters>";
 		if (parameters != null) {
+            StringBuilder sb = new StringBuilder(res);
 			for (final Parameter parameter : parameters) {
-				res += parameter.toXML();
+				sb.append(parameter.toXML());
 			}
+            res = sb.toString();
 		}
 		res += "</Parameters>";
 
 		res += "<Constraints>";
 		if (constraints != null) {
+            StringBuilder sb = new StringBuilder(res);
 			for (final String c : constraints) {
-				res += "<Constraint>";
-				res += c;
-				res += "<Constraint>";
+				sb.append("<Constraint>")
+                        .append(c)
+                        .append("<Constraint>");
 			}
+            res = sb.toString();
 		}
 		res += "</Constraints>";
 

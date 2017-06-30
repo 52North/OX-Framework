@@ -27,6 +27,7 @@
  */
 package org.n52.oxf.valueDomains.time;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -51,7 +52,7 @@ import org.joda.time.DateTime;
  * @author <a href="mailto:h.bredel@52north.org">Henning Bredel</a>
  */
 // TODO change timezone from String to numeric value holding the offset in something like milliseconds as long
-public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
+public class TimePosition implements ITimePosition, Comparable<ITimePosition>, Serializable {
 
 	public static final String YEAR_PATTERN = "-?\\d+";
 	public static final String MONTH_PATTERN = "0*\\d?\\d";
@@ -260,16 +261,6 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private void setDay(final int day) throws IllegalArgumentException {
-		if (day < 32 && day > 0) {
-			this.day = day;
-		}
-		else {
-			throw new IllegalArgumentException("day is not an allowed value");
-		}
-	}
-
 	private void setHour(final String hour) throws IllegalArgumentException {
 		if (Pattern.matches(HOUR_PATTERN, hour)) {
 			this.setHour(Integer.parseInt(hour));
@@ -428,7 +419,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition> {
 				isoDate.append("0");
 			}
 			// isoDate.append(new Double(this.getSecond()).intValue());
-			String fullSec = new Double(getSecond()).toString();
+			String fullSec = Double.toString(getSecond());
 			//3 internal decimal places allowed
 			int end = fullSec.indexOf(".")+4;
 			if(end > fullSec.length()){

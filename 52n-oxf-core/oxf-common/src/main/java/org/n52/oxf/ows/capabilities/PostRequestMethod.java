@@ -40,17 +40,20 @@ public class PostRequestMethod extends RequestMethod {
     /**
      * @return a XML representation.
      */
+    @Override
     public String toXML(){
         String res = "<RequestMethod type=\"HTTP_GET\"\">";
 
         if(getOnlineResource() != null) res += getOnlineResource().toXML();
 
         if(getConstraints() != null){
-            for(String c : getConstraints()){
-                res += "<Constraint>";
-                res += c;
-                res += "</Constraint>";
-            }
+            StringBuilder sb = new StringBuilder(res);
+			for (final String c : getConstraints()) {
+				sb.append("<Constraint>")
+                        .append(c)
+                        .append("<Constraint>");
+			}
+            res = sb.toString();
         }
 
         res += "</RequestMethod>";

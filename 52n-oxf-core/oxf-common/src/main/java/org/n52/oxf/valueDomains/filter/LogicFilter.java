@@ -45,7 +45,7 @@ public class LogicFilter implements IFilter {
     private ArrayList<IFilter> rightFilters;
 
     /**Type of LogicFilter (one of the filter types of this class. e.g. NOT)*/
-    private String filterType;
+    private final String filterType;
 
     /**
      * Constructor with filterType as parameter
@@ -92,6 +92,7 @@ public class LogicFilter implements IFilter {
      *
      * @return the type of this logical filter (e.g. NOT)
      */
+    @Override
     public String getFilterType() {
         return filterType;
     }
@@ -119,16 +120,19 @@ public class LogicFilter implements IFilter {
      *
      * @return logical filter as xml-string
      */
+    @Override
     public String toXML() {
 
         String result = "<"+filterType+">";
-        result += this.leftFilter.toXML();
+        result += leftFilter.toXML();
 
         //Adding second and following Filters to xml string
-        if (!this.filterType.equals(IFilter.NOT)) {
-        for (IFilter f: rightFilters){
-        result += f.toXML();
-        }
+        if (!filterType.equals(IFilter.NOT)) {
+            StringBuilder sb = new StringBuilder(result);
+            for (IFilter f: rightFilters){
+                sb.append(f.toXML());
+            }
+            result = sb.toString();
         }
 
         result += "</"+filterType+">";

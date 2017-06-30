@@ -110,27 +110,33 @@ public class Operation {
 
         res += "<Parameters>";
         if (parameters != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (final Parameter parameter : parameters) {
-                res += parameter.toXML();
+                sb.append(parameter.toXML());
             }
+            res = sb.toString();
         }
         res += "</Parameters>";
 
         res += "<Constraints>";
         if (constraints != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (final String c : constraints) {
-                res += "<Constraint>";
-                res += c;
-                res += "<Constraint>";
+                sb.append("<Constraint>")
+                        .append(c)
+                        .append("<Constraint>");
             }
+            res = sb.toString();
         }
         res += "</Constraints>";
 
         res += "<DCPs>";
         if (dcps != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (final DCP dcp : dcps) {
-                res += dcp.toXML();
+                sb.append(dcp.toXML());
             }
+            res = sb.toString();
         }
         res += "</DCPs>";
 
@@ -144,12 +150,14 @@ public class Operation {
     	String params = null;
     	if (parameters != null) {
     		params = "[";
+            StringBuilder sb = new StringBuilder(params);
     		for (final Parameter param : parameters) {
-                params += "ServiceSidedName: " 	+ param.getServiceSidedName()
-                		+ "  CommonName: "		+ param.getCommonName()
-                		+ "  ValueDomain-class: "
-                					+ param.getValueDomain().getClass() + "\n";
+                sb.append("ServiceSidedName: ").append(param.getServiceSidedName())
+                        .append("  CommonName: ").append(param.getCommonName())
+                        .append("  ValueDomain-class: ").append(param.getValueDomain().getClass())
+                        .append("\n");
             }
+            params = sb.toString();
     		params += "]";
     	}
 		return String.format(

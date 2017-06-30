@@ -102,19 +102,23 @@ public class Address {
 			+ " country=\""+ country + "\">";
 
 		if(deliveryPoints != null){
+            StringBuilder sb = new StringBuilder(res);
 			for(String s : deliveryPoints){
-				res += "<DeliveryPoint>";
-				res += s;
-				res += "</DeliveryPoint>";
+				sb.append("<DeliveryPoint>")
+                    .append(s)
+                    .append("</DeliveryPoint>");
 			}
+            res = sb.toString();
 		}
 
 		if(electronicMailAddresses != null){
+            StringBuilder sb = new StringBuilder(res);
 			for(String s : electronicMailAddresses){
-				res += "<ElectronicMailAddress>";
-				res += s;
-				res += "</ElectronicMailAddress>";
+				sb.append("<ElectronicMailAddress>")
+                    .append(s)
+                    .append("</ElectronicMailAddress>");
 			}
+            res = sb.toString();
 		}
 
 		res += "</Address>";

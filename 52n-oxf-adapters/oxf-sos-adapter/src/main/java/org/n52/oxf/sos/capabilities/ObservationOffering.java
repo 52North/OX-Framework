@@ -38,6 +38,7 @@ import org.n52.oxf.valueDomains.filter.FilterValueDomain;
 /**
  *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>
  *
  */
 public class ObservationOffering extends Dataset {
@@ -158,7 +159,7 @@ public class ObservationOffering extends Dataset {
     }
 
     public String[] getFeatureOfInterest() {
-        return foiIDs;
+        return foiIDs.clone();
     }
 
     protected void setFeatureOfInterest(String[] foiIDs) {
@@ -166,7 +167,7 @@ public class ObservationOffering extends Dataset {
     }
 
     public String[] getObservedProperties() {
-        return observedProperties;
+        return observedProperties.clone();
     }
 
     protected void setObservedProperties(String[] observedProperties) {
@@ -174,7 +175,7 @@ public class ObservationOffering extends Dataset {
     }
 
     public String[] getProcedures() {
-        return procedures;
+        return procedures.clone();
     }
 
     protected void setProcedures(String[] procedures) {
@@ -182,7 +183,7 @@ public class ObservationOffering extends Dataset {
     }
 
     public String[] getResponseModes() {
-        return responseModes;
+        return responseModes.clone();
     }
 
     protected void setResponseModes(String[] responseModes) {
@@ -190,7 +191,7 @@ public class ObservationOffering extends Dataset {
     }
 
     public String[] getResultModels() {
-        return resultModels;
+        return resultModels.clone();
     }
 
     protected void setResultModels(String[] resultModels) {

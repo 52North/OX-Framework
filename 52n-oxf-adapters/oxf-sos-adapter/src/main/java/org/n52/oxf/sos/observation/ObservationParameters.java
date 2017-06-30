@@ -82,9 +82,17 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
     	addNonEmpty(INSERT_OBSERVATION_PHENOMENON_TIME, phenomenonTime);
     }
 
-	public void addExtension(final String... anyXML) {
-		addNonEmpty(EXTENSION, Arrays.asList(anyXML));
-	}
+    /**
+     * SOS 2.0 specific
+     * @param omParameterXML
+     */
+    public void addOmParameter(final String... omParameterXML) {
+	addNonEmpty(OM_PARAMETER, Arrays.asList(omParameterXML));
+    }
+
+    public void addExtension(final String... anyXML) {
+        addNonEmpty(EXTENSION, Arrays.asList(anyXML));
+    }
 
     public void addFoiId(final String foiId) {
     	addNonEmpty(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);
@@ -114,9 +122,9 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
     	addNonEmpty(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
     }
 
-	public void addProcedure(final String procedureId) {
-		addNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, procedureId);
-	}
+    public void addProcedure(final String procedureId) {
+        addNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, procedureId);
+    }
 
     // end -> parameter methods shared by: MeasurementObservationParameters and CategoryObservationBuilder
 

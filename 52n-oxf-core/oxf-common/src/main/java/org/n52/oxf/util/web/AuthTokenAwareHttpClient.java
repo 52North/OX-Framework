@@ -57,7 +57,7 @@ public class AuthTokenAwareHttpClient extends HttpClientDecorator {
         clientToDecorate.addRequestInterceptor(new AuthTokenInterceptor(authtoken));
     }
 
-    private final class AuthTokenInterceptor implements HttpRequestInterceptor {
+    private static final class AuthTokenInterceptor implements HttpRequestInterceptor {
 
         private String authtoken;
 

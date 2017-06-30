@@ -116,6 +116,7 @@ public class Dataset extends Description {
         setTemporalDomain(temporalDomain);
     }
 
+    @Override
     public String toString() {
         return this.getIdentifier();
     }

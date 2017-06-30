@@ -91,10 +91,12 @@ public class OWSException extends Exception {
         res += "<b>Exception:</b> " + exceptionCode + "<br>";
         res += "<b>Locator:</b> " + locator + "<br>";
 
+        StringBuilder sb = new StringBuilder(res);
         for(String excTxt : exceptionTexts) {
-            res += "<b>Exception text:</b> " + excTxt + "<br>";
+            sb.append("<b>Exception text:</b> ").append(excTxt).append("<br>");
         }
 
+        res = sb.toString();
         res += "<b>Sendt request was:</b>" + "<br>";
         res += "<code>" + replaceTagBrackets(sentRequest) + "</code>";
 

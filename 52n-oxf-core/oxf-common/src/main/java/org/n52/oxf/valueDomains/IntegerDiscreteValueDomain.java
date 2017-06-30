@@ -78,35 +78,38 @@ public class IntegerDiscreteValueDomain implements IDiscreteValueDomain<Integer>
         possibleValues.add(i);
     }
 
+    @Override
     public List<Integer> getPossibleValues() {
         return possibleValues;
     }
 
+    @Override
     public String getDomainDescription() {
         return description;
     }
 
+    @Override
     public boolean containsValue(Integer n) {
         return possibleValues.contains(n);
     }
 
+    @Override
     public String toXML() {
 
         String res = "<IntegerDiscreteValueDomain>";
+        StringBuilder sb = new StringBuilder(res);
         for(Integer c : possibleValues ){
-            res += "<xsd:unsignedLong>"
-                + c
-                + "</xsd:unsignedLong>";
+            sb.append("<xsd:unsignedLong>")
+                    .append(c)
+                    .append("</xsd:unsignedLong>");
         }
+        res = sb.toString();
         res += "</IntegerDiscreteValueDomain>";
 
         return res;
     }
 
-//    public Class<Integer> getValueType() {
-//        return Integer.class;
-//    }
-
+    @Override
     public Integer produceValue(String... stringArray) {
         return Integer.parseInt(stringArray[0]);
     }

@@ -31,7 +31,6 @@ import java.util.*;
 
 import org.n52.oxf.ows.capabilities.*;
 
-
 public class StringValueDomain implements IDiscreteValueDomain<String> {
 
 	List<String> possibleValues;
@@ -60,7 +59,10 @@ public class StringValueDomain implements IDiscreteValueDomain<String> {
 	/**
 	 * checks if this StringValueDomain contains the parameter string. The case
 	 * of the string will be ignored.
+     *
+     * @param string the string to check
 	 */
+    @Override
 	public boolean containsValue(String string) {
 		boolean res = false;
 
@@ -72,35 +74,31 @@ public class StringValueDomain implements IDiscreteValueDomain<String> {
 		return res;
 	}
 
+    @Override
 	public List<String> getPossibleValues() {
 		return possibleValues;
 	}
 
+    @Override
 	public String getDomainDescription() {
 		return "value domain for nominal values...";
 	}
 
+    @Override
 	public String toXML() {
 		String res = "<StringValueDomain>";
-
+        StringBuilder sb = new StringBuilder(res);
 		for(String s : possibleValues){
-			res += "<PossibleValue>";
-			res += s;
-			res += "</PossibleValue>";
+			sb.append("<PossibleValue>")
+                    .append(s)
+                    .append("</PossibleValue>");
 		}
-
+        res = sb.toString();
 		res += "</StringValueDomain>";
-
 		return res;
 	}
 
-//    /**
-//     * @return the type of values which can be added to this IValueDomain.
-//     */
-//    public Class<String> getValueType() {
-//        return String.class;
-//    }
-
+    @Override
     public String produceValue(String... stringArray) {
         return stringArray[0];
     }

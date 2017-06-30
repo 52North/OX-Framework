@@ -118,10 +118,12 @@ public class JavaHelper {
      * @param postfix a postfix that will be added after midPart using "."
      *
      * @return a new File
+     * @throws java.io.IOException when the directory for the file could not be generated
      *
+     * @see #genFile(java.lang.String, java.lang.String, java.lang.String)
      * @see System#currentTimeMillis()
      */
-    public static File genRndFile(String parentPath, String midPart, String postfix) {
+    public static File genRndFile(String parentPath, String midPart, String postfix) throws IOException {
         String rndPart = "" + System.currentTimeMillis();
         midPart += rndPart;
         return genFile(parentPath, midPart, postfix);

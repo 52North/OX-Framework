@@ -29,9 +29,23 @@ package org.n52.oxf.sos.feature;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.namespace.QName;
+
+import org.n52.oxf.OXFException;
+import org.n52.oxf.OXFRuntimeException;
+import org.n52.oxf.feature.DataType;
+import org.n52.oxf.feature.OXFAbstractFeatureType;
+import org.n52.oxf.feature.OXFFeature;
+import org.n52.oxf.feature.OXFFeatureAttributeDescriptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
 
 import net.opengis.sensorML.x101.CapabilitiesDocument.Capabilities;
 import net.opengis.sensorML.x101.HistoryDocument.History;
@@ -52,19 +66,6 @@ import net.opengis.swe.x101.PositionType;
 import net.opengis.swe.x101.SimpleDataRecordType;
 import net.opengis.swe.x101.VectorPropertyType;
 import net.opengis.swe.x101.VectorType;
-
-import org.n52.oxf.OXFException;
-import org.n52.oxf.OXFRuntimeException;
-import org.n52.oxf.feature.DataType;
-import org.n52.oxf.feature.OXFAbstractFeatureType;
-import org.n52.oxf.feature.OXFFeature;
-import org.n52.oxf.feature.OXFFeatureAttributeDescriptor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Point;
 
 /**
  * Wrapper class for the SensorML System type.
@@ -91,24 +92,16 @@ public class OXFSensorType extends OXFAbstractFeatureType {
 
     public static final String OUTPUTS = "oxfSensorTypeOutputs";
 
-    public static final List<String> X_AXIS_IDENTIFIERS = new ArrayList<String>(Arrays.asList(new String[] {"x",
-                                                                                                                 "xcoord",
-                                                                                                                 "easting",
-                                                                                                                 "longitude"}));
+    public static final List<String> X_AXIS_IDENTIFIERS = Collections.unmodifiableList(
+	    new ArrayList<String>(Arrays.asList(new String[] { "x", "xcoord", "easting", "longitude" })));
 
-    public static final List<String> Y_AXIS_IDENTIFIERS = new ArrayList<String>(Arrays.asList(new String[] {"y",
-                                                                                                                 "ycoord",
-                                                                                                                 "northing",
-                                                                                                                 "latitude"}));
+    public static final List<String> Y_AXIS_IDENTIFIERS = Collections.unmodifiableList(
+	    new ArrayList<String>(Arrays.asList(new String[] { "y", "ycoord", "northing", "latitude" })));
 
-    public static final List<String> Z_AXIS_IDENTIFIERS = new ArrayList<String>(Arrays.asList(new String[] {"z",
-                                                                                                                 "zcoord",
-                                                                                                                 "altitude",
-                                                                                                                 "elevation"}));
+    public static final List<String> Z_AXIS_IDENTIFIERS = Collections.unmodifiableList(
+	    new ArrayList<String>(Arrays.asList(new String[] { "z", "zcoord", "altitude", "elevation" })));
 
-    /**
-	 *
-	 */
+
     public OXFSensorType() {
         super();
         typeName = "OXFSensorType";
@@ -217,26 +210,26 @@ public class OXFSensorType extends OXFAbstractFeatureType {
      */
     private static String getId(final SystemType xbSensor) throws OXFException {
 
-    	final Identification[] xbIdentificationArray = xbSensor.getIdentificationArray();
-    	if (xbIdentificationArray.length > 0) {
-    		if (xbIdentificationArray.length > 1) {
-    			LOGGER.warn("just the first sml:IdentifierList of the identification array will be used!");
-    		}
-    		final IdentifierList xbIdentifiersList = xbIdentificationArray[0].getIdentifierList();
-    		if (xbIdentifiersList.sizeOfIdentifierArray() > 0) {
-    			if (xbIdentifiersList.sizeOfIdentifierArray() > 1) {
-    				LOGGER.warn("just the first sml:identifier of the identification array will be used!");
-    			}
-    			final Identifier xbIdentifier = xbIdentifiersList.getIdentifierArray(0);
-    			final Term term = xbIdentifier.getTerm();
-    			return term.getValue();
-    		}
-    	}
-    	LOGGER.error("no id found in sml:IdentifierList, trying fallback solution...");
-    	if (xbSensor.getId() != null) {
-    		return xbSensor.getId();
-    	}
-    	throw new OXFException("no identifier could be found in the given System");
+        final Identification[] xbIdentificationArray = xbSensor.getIdentificationArray();
+        if (xbIdentificationArray.length > 0) {
+            if (xbIdentificationArray.length > 1) {
+                LOGGER.warn("just the first sml:IdentifierList of the identification array will be used!");
+            }
+            final IdentifierList xbIdentifiersList = xbIdentificationArray[0].getIdentifierList();
+            if (xbIdentifiersList.sizeOfIdentifierArray() > 0) {
+                if (xbIdentifiersList.sizeOfIdentifierArray() > 1) {
+                    LOGGER.warn("just the first sml:identifier of the identification array will be used!");
+                }
+                final Identifier xbIdentifier = xbIdentifiersList.getIdentifierArray(0);
+                final Term term = xbIdentifier.getTerm();
+                return term.getValue();
+            }
+        }
+        LOGGER.error("no id found in sml:IdentifierList, trying fallback solution...");
+        if (xbSensor.getId() != null) {
+            return xbSensor.getId();
+        }
+        throw new OXFException("no identifier could be found in the given System");
     }
 
     /**
@@ -277,40 +270,40 @@ public class OXFSensorType extends OXFAbstractFeatureType {
             final AbstractDataRecordType xb_abstractDataRecord = capabilities.getAbstractDataRecord();
             final QName qName = new QName("http://www.opengis.net/swe/1.0.1", "SimpleDataRecord");
             if (xb_abstractDataRecord instanceof SimpleDataRecordType) {
-				final SimpleDataRecordType simpleDataRec = (SimpleDataRecordType) xb_abstractDataRecord.substitute(qName, SimpleDataRecordType.type);
-				final AnyScalarPropertyType[] xb_fieldArray = simpleDataRec.getFieldArray();
-				for (final AnyScalarPropertyType anyScalarPropertyType : xb_fieldArray) {
-					final String name = anyScalarPropertyType.getName();
-					if (name.equals(ACTIVE_PARAMETER_NAME)) {
-						final boolean active = anyScalarPropertyType.getBoolean()
-								.getValue();
-						feature.setAttribute(ACTIVE, Boolean.valueOf(active));
-					}
-					if (name.equals(MOBILE_PARAMETER_NAME)) {
-						final boolean mobile = anyScalarPropertyType.getBoolean()
-								.getValue();
-						feature.setAttribute(MOBILE, Boolean.valueOf(mobile));
-					}
-				}
-			} else if (xb_abstractDataRecord instanceof DataRecordType) {
-				final DataRecordType simpleDataRec = (DataRecordType) xb_abstractDataRecord
-						.substitute(qName, DataRecordType.type);
-				final DataComponentPropertyType[] xb_fieldArray = simpleDataRec
-						.getFieldArray();
-				for (final DataComponentPropertyType dataComponent : xb_fieldArray) {
-					final String name = dataComponent.getName();
-					if (name.equals(ACTIVE_PARAMETER_NAME)) {
-						final boolean active = dataComponent.getBoolean()
-								.getValue();
-						feature.setAttribute(ACTIVE, Boolean.valueOf(active));
-					}
-					if (name.equals(MOBILE_PARAMETER_NAME)) {
-						final boolean mobile = dataComponent.getBoolean()
-								.getValue();
-						feature.setAttribute(MOBILE, Boolean.valueOf(mobile));
-					}
-				}
-			}
+                final SimpleDataRecordType simpleDataRec = (SimpleDataRecordType) xb_abstractDataRecord.substitute(qName, SimpleDataRecordType.type);
+                final AnyScalarPropertyType[] xb_fieldArray = simpleDataRec.getFieldArray();
+                for (final AnyScalarPropertyType anyScalarPropertyType : xb_fieldArray) {
+                    final String name = anyScalarPropertyType.getName();
+                    if (name.equals(ACTIVE_PARAMETER_NAME)) {
+                        final boolean active = anyScalarPropertyType.getBoolean()
+                                .getValue();
+                        feature.setAttribute(ACTIVE, Boolean.valueOf(active));
+                    }
+                    if (name.equals(MOBILE_PARAMETER_NAME)) {
+                        final boolean mobile = anyScalarPropertyType.getBoolean()
+                                .getValue();
+                        feature.setAttribute(MOBILE, Boolean.valueOf(mobile));
+                    }
+                }
+            } else if (xb_abstractDataRecord instanceof DataRecordType) {
+                final DataRecordType simpleDataRec = (DataRecordType) xb_abstractDataRecord
+                        .substitute(qName, DataRecordType.type);
+                final DataComponentPropertyType[] xb_fieldArray = simpleDataRec
+                        .getFieldArray();
+                for (final DataComponentPropertyType dataComponent : xb_fieldArray) {
+                    final String name = dataComponent.getName();
+                    if (name.equals(ACTIVE_PARAMETER_NAME)) {
+                        final boolean active = dataComponent.getBoolean()
+                                .getValue();
+                        feature.setAttribute(ACTIVE, Boolean.valueOf(active));
+                    }
+                    if (name.equals(MOBILE_PARAMETER_NAME)) {
+                        final boolean mobile = dataComponent.getBoolean()
+                                .getValue();
+                        feature.setAttribute(MOBILE, Boolean.valueOf(mobile));
+                    }
+                }
+            }
         }
 
         /** input list **/

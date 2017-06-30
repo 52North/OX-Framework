@@ -124,19 +124,23 @@ public class ServiceIdentification extends Description {
         res += "<Fees>" + fees + "</Fees>";
 
         if (accessConstraints != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (String s : accessConstraints) {
-                res += "<AccessConstraint>";
-                res += s;
-                res += "</AccessConstraint>";
+                sb.append("<AccessConstraint>")
+                        .append(s)
+                        .append("</AccessConstraint>");
             }
+            res = sb.toString();
         }
 
         if (serviceTypeVersion != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (String s : serviceTypeVersion) {
-                res += "<ServiceTypeVersion>";
-                res += s;
-                res += "</ServiceTypeVersion>";
+                sb.append("<ServiceTypeVersion>")
+                        .append(s)
+                        .append("</ServiceTypeVersion>");
             }
+            res = sb.toString();
         }
 
         res += "</ServiceIdentification>";

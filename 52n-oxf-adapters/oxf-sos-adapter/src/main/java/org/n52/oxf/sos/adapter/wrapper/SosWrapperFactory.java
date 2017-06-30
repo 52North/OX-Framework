@@ -44,7 +44,8 @@ public class SosWrapperFactory {
 	 * @throws ExceptionReport
 	 * @throws OXFException
 	 */
-	public static SOSWrapper newInstance(final String serviceEndpoint, final String serviceVersion) throws ExceptionReport, OXFException {
+	public static SOSWrapper newInstance(final String serviceEndpoint, final String serviceVersion)
+            throws ExceptionReport, OXFException {
 		return newInstance(serviceEndpoint, serviceVersion, null);
 	}
 
@@ -62,8 +63,8 @@ public class SosWrapperFactory {
 			final String serviceVersion,
 			final Binding binding) throws ExceptionReport, OXFException
 	{
-		final ServiceDescriptor capabilities = doGetCapabilities(serviceEndpoint, serviceVersion,binding);
-		return new SOSWrapper(capabilities,binding);
+		final ServiceDescriptor capabilities = doGetCapabilities(serviceEndpoint, serviceVersion, binding);
+		return new SOSWrapper(capabilities, binding);
 	}
 
 	/**
@@ -81,7 +82,7 @@ public class SosWrapperFactory {
 			final Binding binding) throws ExceptionReport, OXFException
 	{
 		final SOSAdapter adapter = new SOSAdapter(serviceVersion);
-		return adapter.initService(serviceEndpoint,binding);
+		return adapter.initService(serviceEndpoint, binding);
 	}
 
 	/**
@@ -91,7 +92,7 @@ public class SosWrapperFactory {
 	 */
 	public static SOSWrapper newInstance(final ServiceDescriptor capabilities)
 	{
-		return new SOSWrapper(capabilities,null);
+		return new SOSWrapper(capabilities, null);
 	}
 
 }

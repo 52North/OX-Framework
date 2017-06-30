@@ -68,6 +68,7 @@ public class DoubleDiscreteValueDomain implements IDiscreteValueDomain<Double> {
      *
      * @return ArrayList with possible (discrete) values
      */
+    @Override
     public List<Double> getPossibleValues() {
         return possibleValues;
     }
@@ -77,6 +78,7 @@ public class DoubleDiscreteValueDomain implements IDiscreteValueDomain<Double> {
      *
      * @return String with description
      */
+    @Override
     public String getDomainDescription() {
         return description;
     }
@@ -88,6 +90,7 @@ public class DoubleDiscreteValueDomain implements IDiscreteValueDomain<Double> {
      *        the value which has to be tested
      * @return true, if value is contained
      */
+    @Override
     public boolean containsValue(Double d) {
         return possibleValues.contains(d);
     }
@@ -97,17 +100,21 @@ public class DoubleDiscreteValueDomain implements IDiscreteValueDomain<Double> {
      *
      * @return XML-String of this ValueDomain
      */
+    @Override
     public String toXML() {
 
         String res = "<DoubleDiscreteValueDomain>";
+        StringBuilder sb = new StringBuilder(res);
         for (Double c : possibleValues) {
-            res += "<xsd:double>" + c + "</xsd:double>";
+            sb.append("<xsd:double>").append(c).append("</xsd:double>");
         }
+        res = sb.toString();
         res += "</DoubleDiscreteValueDomain>";
 
         return res;
     }
 
+    @Override
     public Double produceValue(String... stringArray) {
         // TODO Auto-generated method stub
         return null;

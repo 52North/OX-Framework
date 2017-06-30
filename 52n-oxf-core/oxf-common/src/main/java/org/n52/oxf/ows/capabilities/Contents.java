@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class Contents {
 
-    private List<Dataset> dataIdentificationList;
+    private final List<Dataset> dataIdentificationList;
 
     /**
      * initializes a new (empty) ArrayList for dataIdentifications.

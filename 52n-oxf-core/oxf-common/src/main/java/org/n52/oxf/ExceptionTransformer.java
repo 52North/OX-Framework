@@ -79,10 +79,11 @@ public class ExceptionTransformer {
         // case: Exception occured on Facade-side
         else {
             res += "<blockquote>";
+            StringBuilder sBuf = new StringBuilder();
             for (StackTraceElement element : t.getStackTrace()) {
-                res += element + "<br>";
+                sBuf.append(element).append("<br>");
             }
-            res += "</blockquote>";
+            res += sBuf.toString() + "</blockquote>";
 
             Throwable cause = t.getCause();
             if (cause != null) {

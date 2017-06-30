@@ -307,7 +307,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         return true;
     }
 
-    
+
 
     /**
      * difference in x direction, i.e. {lower,upper}Corner[0]

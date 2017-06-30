@@ -61,7 +61,7 @@ public class GzipEnabledHttpClient extends HttpClientDecorator {
         httpclient.addResponseInterceptor(new GzipResponseInterceptor());
     }
 
-    private final class GzipResponseInterceptor implements HttpResponseInterceptor {
+    private static final class GzipResponseInterceptor implements HttpResponseInterceptor {
         public void process(HttpResponse response, HttpContext context) throws HttpException, IOException {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
@@ -79,7 +79,7 @@ public class GzipEnabledHttpClient extends HttpClientDecorator {
         }
     }
 
-    private final class GzipRequestInterceptor implements HttpRequestInterceptor {
+    private static final class GzipRequestInterceptor implements HttpRequestInterceptor {
         public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
             if (!request.containsHeader(ENCODING_HEADER_NAME)) {
                 LOGGER.trace("add gzip header.");

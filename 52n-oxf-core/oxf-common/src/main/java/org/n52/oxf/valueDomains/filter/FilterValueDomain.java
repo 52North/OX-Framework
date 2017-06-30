@@ -41,9 +41,9 @@ import org.n52.oxf.ows.capabilities.*;
 public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
 
     /** possible filters (only filterType is initialized!!) */
-    private ArrayList<IFilter> possibleValues;
+    private final ArrayList<IFilter> possibleValues;
 
-    private final String DOMAIN_DESCRIPTION = "Value Domain for Filters";
+    private final static String DOMAIN_DESCRIPTION = "Value Domain for Filters";
 
     public FilterValueDomain() {
         possibleValues = new ArrayList<IFilter>();
@@ -56,6 +56,7 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
     /**
      * @return possible filters (only filterType is initialized!!)
      */
+    @Override
     public List<IFilter> getPossibleValues() {
         return this.possibleValues;
     }
@@ -70,6 +71,7 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
      * @return true, if the filter is contained
      *
      */
+    @Override
     public boolean containsValue(IFilter filter) {
         boolean isContained = false;
 
@@ -120,6 +122,7 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
      *
      * @return domain description
      */
+    @Override
     public String getDomainDescription() {
         return DOMAIN_DESCRIPTION;
     }
@@ -128,12 +131,13 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
      *
      * @return xml-string of this valueDomain
      */
+    @Override
     public String toXML() {
-        String result = "";
-        for (int i = 0; i < this.possibleValues.size(); ++i) {
-            result += this.possibleValues.get(i).toXML();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < possibleValues.size(); ++i) {
+            sb.append(possibleValues.get(i).toXML());
         }
-        return result;
+        return sb.toString();
     }
 
     // public Class getValueType() {
@@ -158,6 +162,7 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
         return res;
     }
 
+    @Override
     public IFilter produceValue(String... stringArray) {
         // TODO Auto-generated method stub
         return null;

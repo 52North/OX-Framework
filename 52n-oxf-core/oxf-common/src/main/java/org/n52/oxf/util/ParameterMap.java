@@ -74,12 +74,9 @@ public class ParameterMap {
 
     public String getParameterValue(String caseInsensitiveName) {
         if (this.paramMap != null && caseInsensitiveName != null) {
-
-            Iterator<?> keyIterator = paramMap.keySet().iterator();
-            while(keyIterator.hasNext()){
-                String key = (String)keyIterator.next();
-                if(key.equalsIgnoreCase(caseInsensitiveName)){
-                    return paramMap.get(key);
+            for (Map.Entry<String, String> entry : paramMap.entrySet()) {
+                if(entry.getKey().equalsIgnoreCase(caseInsensitiveName)){
+                    return entry.getValue();
                 }
             }
         }

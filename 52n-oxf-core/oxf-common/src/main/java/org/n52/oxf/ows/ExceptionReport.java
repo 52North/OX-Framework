@@ -43,7 +43,7 @@ public class ExceptionReport extends Exception {
 
     private String language;
 
-    private ArrayList<OWSException> exceptions;
+    private final ArrayList<OWSException> exceptions;
 
     public ExceptionReport(String version, String language) {
         this.version = version;
@@ -77,9 +77,12 @@ public class ExceptionReport extends Exception {
     public String toHtmlString() {
         String res = "<b>OGC Web Service returned exception:</b><br>";
 
+        StringBuilder sb = new StringBuilder();
         for (OWSException e : exceptions) {
-            res += e.toHtmlString();
+            sb.append(e.toHtmlString());
         }
+
+        res += sb.toString();
 
         return res;
     }

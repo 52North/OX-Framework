@@ -32,7 +32,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.logging.FileHandler;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
@@ -184,7 +183,7 @@ public class TestSOSAdapter {
         final String featureOfInterest = null;
 
         paramCon.addParameterShell(ISOSRequestBuilder.SERVICE, SosUtil.SERVICE_TYPE);
-        paramCon.addParameterShell(ISOSRequestBuilder.VERSION, SosUtil.SUPPORTED_VERSIONS[1]);
+        paramCon.addParameterShell(ISOSRequestBuilder.VERSION, SosUtil.SUPPORTED_VERSIONS.get(2));
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER, omFormat);
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER, responseMode);
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER, resultModel);
@@ -225,7 +224,7 @@ public class TestSOSAdapter {
         final ParameterContainer paramCon = new ParameterContainer();
 
         paramCon.addParameterShell(ISOSRequestBuilder.SERVICE, SosUtil.SERVICE_TYPE);
-        paramCon.addParameterShell(ISOSRequestBuilder.VERSION, SosUtil.SUPPORTED_VERSIONS[1]);
+        paramCon.addParameterShell(ISOSRequestBuilder.VERSION, SosUtil.SUPPORTED_VERSIONS.get(2));
         paramCon.addParameterShell(ISOSRequestBuilder.GET_FOI_ID_PARAMETER, new String[]
         {//"foi_1001",
          "foi_sampSur_1001",
