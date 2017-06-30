@@ -27,7 +27,6 @@
  */
 package org.n52.oxf.feature;
 
-import com.sun.org.apache.xalan.internal.utils.FeatureManager.Feature;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;

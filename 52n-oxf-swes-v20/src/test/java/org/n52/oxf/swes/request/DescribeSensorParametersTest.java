@@ -44,9 +44,8 @@ public class DescribeSensorParametersTest {
 		parameterAssembly = new DescribeSensorParameters(SENSOR_ID, OUTPUT_FORMAT_SENSORML);
 	}
 
-	@Test public void
-	shouldThrowIllegalArgumentExceptionsForInvalidConstructorParameters()
-	{
+	@Test
+    public void shouldThrowIllegalArgumentExceptionsForInvalidConstructorParameters() {
 		boolean case1 = false, case2 = false,case3 = false,
 				case4 = false, case5 = false,case6 = false,
 				case7 = false, case8 = false;
@@ -90,14 +89,14 @@ public class DescribeSensorParametersTest {
 		} catch (final IllegalArgumentException e) {
 			case8 = true;
 		}
-		if (!(case1&&case2&&case3&&case4&&case5&&case6&&case7&&case8)) {
+		if (!(case1 && case2 && case3 && case4 &&
+                case5 && case6 && case7 && case8)) {
 			fail("Not all cases of illegal argument combinations are handled!");
 		}
 	}
 
-	@Test public void
-	shouldApplyMandatoryParametersWithAllConstructors()
-	{
+	@Test
+    public void shouldApplyMandatoryParametersWithAllConstructors() {
 		String procedure = parameterAssembly.getSingleValue(PROCEDURE_PARAMETER);
 		String outputFormat = parameterAssembly.getSingleValue(OUTPUT_FORMAT_PARAMETER);
 
@@ -114,5 +113,4 @@ public class DescribeSensorParametersTest {
 		assertEquals(OUTPUT_FORMAT_SENSORML, outputFormat);
 		assertThat(parameterAssembly.isValid(),is(true));
 	}
-
 }

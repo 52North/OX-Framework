@@ -52,12 +52,11 @@
 
 package org.n52.oxf.adapter;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.io.input.AutoCloseInputStream;
 
@@ -78,7 +77,7 @@ public class OperationResult {
     protected ParameterContainer usedParameters;
 
     /**
-     * @param incomingResult
+     * @param incomingStream
      *        InputStream coming as the result from the service.
      * @param usedParameters
      *        ParameterContainer containing the Parameters from which the request has been build.
@@ -116,7 +115,7 @@ public class OperationResult {
     }
 
     public byte[] getIncomingResult() {
-        return incomingResult;
+        return incomingResult == null? null : incomingResult.clone();
     }
 
     /**
@@ -143,18 +142,20 @@ public class OperationResult {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("OperationResult:[\nDEFAULT_BUFFER_SIZE: ");
-        sb.append(DEFAULT_BUFFER_SIZE);
-        sb.append(",\nincomingResult: ");
-        String incoming = new String(getIncomingResult());
-        sb.append(incoming);
-        sb.append(",\nsendedRequest: ");
-        sb.append(sendedRequest);
-        sb.append(",\nusedParameters: ");
-        sb.append(usedParameters);
-        sb.append("]");
-
-        return sb.toString();
+        String incoming;
+        try {
+            incoming = new String(incomingResult, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            incoming = "UTF-8 encoding NOT supported.";
+        }
+        return "OperationResult{" +
+                "incomingResult=" +
+                incoming +
+                ", sendedRequest=" +
+                sendedRequest +
+                ", usedParameters=" +
+                usedParameters +
+                    '}';
     }
+
 }

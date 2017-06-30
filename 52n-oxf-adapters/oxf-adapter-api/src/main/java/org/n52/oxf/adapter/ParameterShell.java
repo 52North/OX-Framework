@@ -153,7 +153,7 @@ public class ParameterShell {
                         + parameter.getServiceSidedName() + "'");
             }
         }
-        this.specifiedValueArray = specifiedValueArray;
+        this.specifiedValueArray = specifiedValueArray.clone();
     }
 
     @Override

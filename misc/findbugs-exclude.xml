@@ -10,4 +10,12 @@
         <Class name="org.n52.ows.exception.XmlBeansServiceException" />
         <Bug pattern="NM_CLASS_NOT_EXCEPTION" />
     </Match>
+    <!--
+        MODULE oxf-adapter-api
+    -->
+    <Match>
+        <Class name="org.n52.oxf.feature.OperationResultStore" />
+        <Field type="java.lang.String" name="version" />
+        <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
+    </Match>
 </FindBugsFilter>

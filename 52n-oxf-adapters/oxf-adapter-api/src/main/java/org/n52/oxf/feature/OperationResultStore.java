@@ -41,6 +41,7 @@ public abstract class OperationResultStore {
 
     protected XmlObject xmlObject;
 
+    // TODO make private and always use the getVersion() method in subtypes
     protected String version;
 
     /**
