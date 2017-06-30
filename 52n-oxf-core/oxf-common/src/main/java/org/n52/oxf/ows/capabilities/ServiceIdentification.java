@@ -148,7 +148,7 @@ public class ServiceIdentification extends Description {
     }
 
     public String[] getAccessConstraints() {
-        return accessConstraints;
+        return accessConstraints != null? accessConstraints.clone() : null;
     }
 
     public String getFees() {
@@ -156,7 +156,7 @@ public class ServiceIdentification extends Description {
     }
 
     public String[] getServiceTypeVersion() {
-        return serviceTypeVersion;
+        return serviceTypeVersion != null? serviceTypeVersion.clone() : null;
     }
 
     /**

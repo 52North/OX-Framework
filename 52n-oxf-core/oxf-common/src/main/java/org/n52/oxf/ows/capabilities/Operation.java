@@ -169,7 +169,7 @@ public class Operation {
 	}
 
     public String[] getConstraints() {
-        return constraints;
+        return constraints != null? constraints.clone() : new String[0];
     }
 
     protected void setConstraints(final String[] constraints) {
@@ -177,7 +177,7 @@ public class Operation {
     }
 
     public DCP[] getDcps() {
-        return dcps;
+        return dcps != null? dcps.clone() : null;
     }
 
     protected void setDcps(final DCP[] dcps) {

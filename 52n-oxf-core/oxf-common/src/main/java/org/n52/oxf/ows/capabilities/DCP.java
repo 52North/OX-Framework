@@ -32,18 +32,19 @@ import java.util.List;
 
 /**
  * Container for the different RequestMethods. Currently only HTTP POST and GET supported.
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class DCP {
 
-    private List<RequestMethod> requestMethods;
+    private final List<RequestMethod> requestMethods;
 
     public DCP(GetRequestMethod httpGet, PostRequestMethod httpPost){
         requestMethods = new ArrayList<RequestMethod>();
 
-        addHTTPGet(httpGet);
-        addHTTPPost(httpPost);
+        requestMethods.add(httpGet);
+        requestMethods.add(httpPost);
     }
 
     public DCP(List<RequestMethod> methods){
@@ -54,16 +55,16 @@ public class DCP {
 	 * @return a XML representation of this DCP.
 	 */
 	public String toXML(){
-		String res = "<DCP>";
+		StringBuilder sb = new StringBuilder("<DCP>");
 
 		if(requestMethods != null) {
             for (RequestMethod method : requestMethods) {
-                method.toXML();
+                sb.append(method.toXML());
             }
         }
-		res += "</DCP>";
+		sb.append("</DCP>");
 
-		return res;
+		return sb.toString();
 	}
 
     public List<GetRequestMethod> getHTTPGetRequestMethods() {
@@ -79,7 +80,7 @@ public class DCP {
     }
 
     protected void addHTTPGet(GetRequestMethod getMethod) {
-        this.requestMethods.add(getMethod);
+        requestMethods.add(getMethod);
     }
 
     public List<PostRequestMethod> getHTTPPostRequestMethods() {
@@ -95,7 +96,7 @@ public class DCP {
     }
 
     protected void addHTTPPost(PostRequestMethod postMethod) {
-        this.requestMethods.add(postMethod);
+        requestMethods.add(postMethod);
     }
 
 	@Override

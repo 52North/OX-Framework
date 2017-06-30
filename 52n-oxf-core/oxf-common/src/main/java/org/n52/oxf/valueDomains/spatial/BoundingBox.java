@@ -129,14 +129,15 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
 
         if (lowerLeft.length != upperRight.length) {
             throw new IllegalStateException(ERROR_NUM_OF_COORINDATE_DIFFER +
-                    ": uR: " + (upperRight!=null?upperRight.length:"NULL") +
-                    "; lL: " + (lowerLeft!=null?lowerLeft.length:"NULL"));
+                    ": uR: " + upperRight.length +
+                    "; lL: " + lowerLeft.length);
         }
     }
 
     /**
      * @return Returns the cRS.
      */
+    @Override
     public String getCRS() {
         return crs;
     }
@@ -149,10 +150,12 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         this.crs = crs;
     }
 
+    @Override
     public double[] getMaxValue() {
         return getUpperCorner();
     }
 
+    @Override
     public double[] getMinValue() {
         return getLowerCorner();
     }
@@ -160,8 +163,9 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     /**
      * @return Returns the lowerCorner.
      */
+    @Override
     public double[] getLowerCorner() {
-        return lowerCorner;
+        return lowerCorner != null? lowerCorner.clone() : null;
 
     }
 
@@ -184,8 +188,9 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     /**
      * @return Returns the upperCorner.
      */
+    @Override
     public double[] getUpperCorner() {
-        return upperCorner;
+        return upperCorner != null? upperCorner.clone() : null;
     }
 
     /**
@@ -204,6 +209,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         }
     }
 
+    @Override
     public int getDimensions() {
         return dimensions;
     }
@@ -219,6 +225,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
      *
      * @param bBox the {@linkplain IBoundingBox} to check
      */
+    @Override
     public boolean containsValue(IBoundingBox bBox) {
         for (int i = 0; i < getDimensions(); i++) {
             if (this.getLowerCorner()[i] > bBox.getLowerCorner()[i]) {
@@ -231,6 +238,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         return true;
     }
 
+    @Override
     public String toXML() {
         String res = "<BoundingBox>";
 
@@ -262,10 +270,12 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         return toKVPString() + "," + this.crs;
     }
 
+    @Override
     public String getDomainDescription() {
         return "BoundingBox value domain...";
     }
 
+    @Override
     public BoundingBox produceValue(String... stringArray) {
         return null;
     }

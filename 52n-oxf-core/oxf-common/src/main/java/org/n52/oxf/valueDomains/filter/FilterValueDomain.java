@@ -76,7 +76,7 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
         boolean isContained = false;
 
         // if binary LogicFilter (AND or OR)
-        if (filter.getFilterType().equals(IFilter.AND) | filter.getFilterType().equals(IFilter.OR)) {
+        if (filter.getFilterType().equals(IFilter.AND) || filter.getFilterType().equals(IFilter.OR)) {
 
             // test, whether AND or OR is contained in possibleValues
             boolean bool = false;

@@ -47,22 +47,30 @@ public class OWSException extends Exception {
     public static final String INVALID_UPDATE_SEQUENCE = "InvalidUpdateSequence";
     public static final String NO_APPLICABLE_CODE = "NoApplicableCode";
 
-    private String[] exceptionTexts;
-    private String sentRequest;
-    private String exceptionCode;
+    private final String[] exceptionTexts;
+    private final String sentRequest;
+    private final String exceptionCode;
     private String locator;
 
 	public OWSException(String[] exceptionTexts, String exceptionCode, String sentRequest) {
         super(exceptionCode);
 		this.exceptionCode = exceptionCode;
-		this.exceptionTexts = exceptionTexts;
+        if (exceptionTexts != null) {
+            this.exceptionTexts = exceptionTexts.clone();
+        } else {
+            this.exceptionTexts = new String[0];
+        }
         this.sentRequest = sentRequest;
 	}
 
     public OWSException(String[] exceptionTexts, String exceptionCode, String sentRequest, String locator) {
         super(exceptionCode);
         this.exceptionCode = exceptionCode;
-        this.exceptionTexts = exceptionTexts;
+        if (exceptionTexts != null) {
+            this.exceptionTexts = exceptionTexts.clone();
+        } else {
+            this.exceptionTexts = new String[0];
+        }
         this.sentRequest = sentRequest;
         this.locator = locator;
     }
@@ -118,7 +126,7 @@ public class OWSException extends Exception {
 	}
 
 	public String[] getExceptionTexts() {
-		return exceptionTexts;
+		return exceptionTexts == null? null : exceptionTexts.clone();
 	}
 
 	public String getSentRequest() {

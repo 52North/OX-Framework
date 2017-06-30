@@ -93,7 +93,7 @@ public abstract class RequestMethod {
      */
     @Deprecated
 	public String[] getConstraints() {
-        return constraints;
+        return constraints != null? constraints.clone() : null;
     }
 
     /**

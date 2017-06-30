@@ -151,7 +151,7 @@ public class Address {
 	}
 
 	public String[] getDeliveryPoints() {
-		return deliveryPoints;
+		return deliveryPoints == null? null : deliveryPoints.clone();
 	}
 
 	protected void setDeliveryPoints(String[] deliveryPoint) {
@@ -159,7 +159,7 @@ public class Address {
 	}
 
 	public String[] getElectronicMailAddresses() {
-		return electronicMailAddresses;
+		return electronicMailAddresses == null? null : electronicMailAddresses.clone();
 	}
 
 	protected void setElectronicMailAddresses(String[] electronicMailAddress) {

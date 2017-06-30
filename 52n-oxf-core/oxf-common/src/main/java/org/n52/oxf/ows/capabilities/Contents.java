@@ -66,9 +66,11 @@ public class Contents {
 
         res += "<DataIdentifications>";
         if (dataIdentificationList != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (Dataset dataID : dataIdentificationList) {
-                res += dataID.toXML();
+                sb.append(dataID.toXML());
             }
+            res = sb.toString();
         }
         res += "</DataIdentifications>";
 

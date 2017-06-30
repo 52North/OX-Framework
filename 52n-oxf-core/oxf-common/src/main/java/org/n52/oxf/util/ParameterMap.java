@@ -28,7 +28,6 @@
 package org.n52.oxf.util;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -43,7 +42,7 @@ public class ParameterMap {
 
     Map<String, String> paramMap;
 
-    public static String PARAMETER_PATTERN = "([^=&]+=[^=&]*&?)+";
+    public final static String PARAMETER_PATTERN = "([^=&]+=[^=&]*&?)+";
 
 
     /**
@@ -52,7 +51,7 @@ public class ParameterMap {
      *        but also an empty 'value' is allowed (e.g.: "param1=&amp;param2=value2&amp;...")
      */
     public ParameterMap(String parameterString) {
-        paramMap = new HashMap<String, String>();
+        paramMap = new HashMap<>();
 
         if(parameterString.matches(PARAMETER_PATTERN)) {
             String[] paramParts = parameterString.split("&");
@@ -75,8 +74,10 @@ public class ParameterMap {
     public String getParameterValue(String caseInsensitiveName) {
         if (this.paramMap != null && caseInsensitiveName != null) {
             for (Map.Entry<String, String> entry : paramMap.entrySet()) {
-                if(entry.getKey().equalsIgnoreCase(caseInsensitiveName)){
-                    return entry.getValue();
+                final String key = entry.getKey();
+                final String value = entry.getValue();
+                if(key.equalsIgnoreCase(caseInsensitiveName)){
+                    return value;
                 }
             }
         }

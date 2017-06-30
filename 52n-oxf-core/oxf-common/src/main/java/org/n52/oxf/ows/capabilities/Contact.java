@@ -82,8 +82,12 @@ public class Contact {
 	public Contact(String[] telephone, String[] fax, String hoursOfService,
 			String contactInstructions, Address address,
 			OnlineResource onlineResource) {
-		this.telephone = telephone;
-		this.fax = fax;
+        if (telephone != null) {
+            this.telephone = telephone.clone();
+        }
+        if (fax != null) {
+            this.fax = fax.clone();
+        }
 		this.hoursOfService = hoursOfService;
 		this.contactInstructions = contactInstructions;
 		this.address = address;
@@ -148,7 +152,7 @@ public class Contact {
 	}
 
 	public String[] getFax() {
-		return fax;
+		return fax == null? new String[0] : fax.clone();
 	}
 
 	protected void setFax(String[] fax) {
@@ -172,7 +176,7 @@ public class Contact {
 	}
 
 	public String[] getTelephone() {
-		return telephone;
+		return telephone == null? null : telephone.clone();
 	}
 
 	protected void setTelephone(String[] telephone) {

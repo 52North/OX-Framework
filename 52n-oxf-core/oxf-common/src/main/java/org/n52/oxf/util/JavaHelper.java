@@ -175,12 +175,18 @@ public class JavaHelper {
     public static void cleanUpDir(String dirToClean, int olderThanTimeMillis) throws IOException {
         File path = new File(dirToClean);
 
-        for (File file : path.listFiles()) {
-            if (file.lastModified() < System.currentTimeMillis() - olderThanTimeMillis) {
-                if (!file.delete()) {
-                    throw new IOException("Could not delete file '" +
-                            file.getAbsolutePath() +
-                            "'.");
+        if (path.isDirectory()) {
+            final File[] files = path.listFiles();
+            if (files == null) {
+                return;
+            }
+            for (File file : files) {
+                if (file != null && file.lastModified() < System.currentTimeMillis() - olderThanTimeMillis) {
+                    if (!file.delete()) {
+                        throw new IOException("Could not delete file '" +
+                                file.getAbsolutePath() +
+                                "'.");
+                    }
                 }
             }
         }
@@ -200,16 +206,23 @@ public class JavaHelper {
     public static void cleanUpDir(String dirToClean, int olderThanTimeMillis, String postFix) throws IOException {
         File path = new File(dirToClean);
 
-        for (File file : path.listFiles()) {
-
-            String name = file.getName();
-            if (name.length() > 4) {
-                if (name.substring(name.length() - 4).equalsIgnoreCase("." + postFix)) {
-                    if (file.lastModified() < System.currentTimeMillis() - olderThanTimeMillis) {
-                        if (!file.delete()) {
-                            throw new IOException("Could not delete file '" +
-                                    file.getAbsolutePath() +
-                                    "'.");
+        if (path.isFile()) {
+            final File[] files = path.listFiles();
+            if (files == null) {
+                return;
+            }
+            for (File file : files) {
+                if (file != null) {
+                    String name = file.getName();
+                    if (name.length() > 4) {
+                        if (name.substring(name.length() - 4).equalsIgnoreCase("." + postFix)) {
+                            if (file.lastModified() < System.currentTimeMillis() - olderThanTimeMillis) {
+                                if (!file.delete()) {
+                                    throw new IOException("Could not delete file '" +
+                                            file.getAbsolutePath() +
+                                            "'.");
+                                }
+                            }
                         }
                     }
                 }

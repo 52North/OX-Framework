@@ -41,7 +41,8 @@ package org.n52.oxf.valueDomains.time;
  */
 public class TimePeriod implements ITimePeriod {
 
-    public static String PERIOD_PATTERN = ".+/.+(/.+)?";
+    public final static String PERIOD_PATTERN = ".+/.+(/.+)?";
+
     private ITimePosition start;
     private ITimePosition end;
     private ITimeResolution resolution;

@@ -27,10 +27,7 @@
  */
 package org.n52.oxf.valueDomains.time;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import org.n52.oxf.ows.capabilities.*;
+import org.n52.oxf.ows.capabilities.ITime;
 
 /**
  * Creates an appropriate ITime object.
@@ -39,8 +36,6 @@ import org.n52.oxf.ows.capabilities.*;
  * @see TimePosition
  */
 public class TimeFactory {
-
-    public static DateFormat ISO8601LocalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 
     /**
      * @param timeString a String representing a {@link TimePeriod} or {@link TimePosition} or <code>now</code>
@@ -57,16 +52,17 @@ public class TimeFactory {
         }
         if (timeString.contains("/")) {
             // TIME=min/max/res
-            if (timeString.split("/").length == 3) {
-                TimePeriod period = new TimePeriod(timeString);
-                return period;
-            }
-            else if (timeString.split("/").length == 2) {
-                TimePeriod period = new TimePeriod(timeString.split("/")[0], timeString.split("/")[1]);
-                return period;
-            }
-            else {
-                throw new IllegalArgumentException("Time parameter is not in correct format");
+            switch (timeString.split("/").length) {
+                case 3: {
+                    TimePeriod period = new TimePeriod(timeString);
+                    return period;
+                }
+                case 2: {
+                    TimePeriod period = new TimePeriod(timeString.split("/")[0], timeString.split("/")[1]);
+                    return period;
+                }
+                default:
+                    throw new IllegalArgumentException("Time parameter is not in correct format");
             }
         }
         // TIME=timePos

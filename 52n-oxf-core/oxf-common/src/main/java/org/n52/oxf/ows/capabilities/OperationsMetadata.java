@@ -122,7 +122,7 @@ public class OperationsMetadata {
 	 * @return a String representation of the constraints.
 	 */
 	public String[] getConstraints() {
-		return constraints;
+		return constraints != null? constraints.clone() : null;
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class OperationsMetadata {
 	}
 
 	public Operation[] getOperations() {
-		return operations;
+		return operations != null? operations.clone() : null;
 	}
 
 	protected void setOperations(final Operation[] operations) {
@@ -164,7 +164,7 @@ public class OperationsMetadata {
 	 * @return Returns the parameters.
 	 */
 	public Parameter[] getParameters() {
-		return parameters;
+		return parameters != null? parameters.clone() : null;
 	}
 
 	/**

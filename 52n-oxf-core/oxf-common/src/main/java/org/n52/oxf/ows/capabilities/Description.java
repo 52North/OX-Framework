@@ -116,7 +116,7 @@ public abstract class Description {
     }
 
     public String[] getKeywords() {
-        return keywords;
+        return keywords != null? keywords.clone() : null;
     }
 
     public String getTitle() {
