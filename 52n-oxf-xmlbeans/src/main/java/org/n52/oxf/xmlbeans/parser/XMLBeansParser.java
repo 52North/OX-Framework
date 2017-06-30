@@ -32,11 +32,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
@@ -62,18 +65,20 @@ public class XMLBeansParser {
 	/*
 	 * use this list to define special validation cases (mostly substitution groups)
 	 */
-	private static List<LaxValidationCase> laxValidationCases;
+	private static final List<LaxValidationCase> LAX_VALIDATION_CASES;
 	private static boolean validationGlobally = true;
 
 	static {
-		laxValidationCases = new ArrayList<LaxValidationCase>();
+		LAX_VALIDATION_CASES = new ArrayList<>();
 	}
 
 	/**
 	 * Use this method to set the state of the validation flag.
+     *
+     * @param validateGlobally
 	 */
-	public static void setValidationGloballyEnabled(final boolean b) {
-		validationGlobally = b;
+	public static void setValidationGloballyEnabled(final boolean validateGlobally) {
+		validationGlobally = validateGlobally;
 	}
 
 	/**
@@ -83,15 +88,15 @@ public class XMLBeansParser {
 	 * @param lvc a new lax case
 	 */
 	public static void registerLaxValidationCase(final LaxValidationCase lvc) {
-		laxValidationCases.add(lvc);
+		LAX_VALIDATION_CASES.add(lvc);
 	}
 
 	/**
 	 * Returns the list of currently registered {@link LaxValidationCase}s
-	 * @return a List<LaxValidationCase> containing the currently registered {@link LaxValidationCase}s
+	 * @return a List&lt;LaxValidationCase&gt; containing the currently registered {@link LaxValidationCase}s
 	 */
 	public static List<LaxValidationCase> getRegisteredLaxValidationCases() {
-		return laxValidationCases;
+		return LAX_VALIDATION_CASES;
 	}
 
 	/**
@@ -170,7 +175,13 @@ public class XMLBeansParser {
 	private static XmlObject parseAsStringDueToXmlBeansStreamIssues(
 			final InputStream resourceAsStream, final XmlException e)
 			throws XMLHandlingException {
-		final BufferedReader b = new BufferedReader(new InputStreamReader(resourceAsStream));
+
+		final BufferedReader b;
+        try {
+            b = new BufferedReader(new InputStreamReader(resourceAsStream, "UTF-8"));
+        } catch (UnsupportedEncodingException ex) {
+            throw new XMLHandlingException("Default Encoding not supported.", ex);
+        }
 
 		final StringWriter w = new StringWriter();
 		try {
@@ -265,7 +276,7 @@ public class XMLBeansParser {
 			return;
 		}
 
-		final List<XmlError> validationErrors = new ArrayList<XmlError>();
+		final List<XmlError> validationErrors = new ArrayList<>();
 		final XmlOptions validationOptions = new XmlOptions();
 		validationOptions.setErrorListener(validationErrors);
 
@@ -282,16 +293,16 @@ public class XMLBeansParser {
 	 * detailed list of errors.
 	 *
 	 * @param doc the document to validate
-	 * @throws XMLHandlingException thrown if the XML is incorrect
+     * @return a Collection of XmlErros. List is empty, if no error is found.
 	 */
 	public static Collection<XmlError> validate(final XmlObject doc) {
-		final Set<XmlError> validationErrors = new HashSet<XmlError>();
+		final Set<XmlError> validationErrors = new HashSet<>();
 		if (!validationGlobally) {
 			return validationErrors;
 		}
 
 		// Create an XmlOptions instance and set the error listener.
-		final List<XmlError> allValidationErrors = new ArrayList<XmlError>();
+		final List<XmlError> allValidationErrors = new ArrayList<>();
 		final XmlOptions validationOptions = new XmlOptions();
 		validationOptions.setErrorListener(allValidationErrors);
 
@@ -312,14 +323,14 @@ public class XMLBeansParser {
 	}
 
 	private static void filterValidationErrors(final Set<XmlError> validationErrors, final List<XmlError> allValidationErrors) {
-	    if (laxValidationCases.isEmpty()) {
+	    if (LAX_VALIDATION_CASES.isEmpty()) {
             validationErrors.addAll(allValidationErrors);
             return;
         }
 
 	    for (final XmlError validationError : allValidationErrors) {
 	    	boolean shouldPass = false;
-			for (final LaxValidationCase lvc : laxValidationCases) {
+			for (final LaxValidationCase lvc : LAX_VALIDATION_CASES) {
 				if (lvc.shouldPass(validationError)) {
 					shouldPass = true;
 					break;
@@ -346,14 +357,13 @@ public class XMLBeansParser {
 		 */
 		final Collection<XmlError> exs = XMLBeansParser.validate(xb_doc);
 
-		String message = null;
 		String parameterName = null;
 		for (final XmlError error : exs) {
 			// ExceptionCode for Exception
 			ExceptionCode exCode = null;
 
 			// get name of the missing or invalid parameter
-			message = error.getMessage();
+			String message = error.getMessage();
 			if (message != null) {
 
 				// check, if parameter is missing or value of parameter

@@ -30,11 +30,13 @@ package org.n52.oxf.xmlbeans.tools;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.xml.namespace.QName;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -97,7 +99,7 @@ public class XmlUtil {
 	 * @param name
 	 *        the xml element which shall be found.
 	 * @return a DOM {@link Node} which can further be parsed .
-	 * @throws Exception
+	 * @throws XmlException
 	 *         if DOM node of <code>xmlobj</code> is <code>null</code>.
 	 */
 	public static Node getDomNode(XmlObject xmlobj, String name) throws XmlException {
@@ -152,7 +154,7 @@ public class XmlUtil {
 
 			return null;
 		}
-		catch (Exception e) {
+		catch (IllegalAccessException | IllegalArgumentException | SecurityException | InvocationTargetException e) {
 			throw new XMLHandlingException("cannot extract '" + element + "' from "
 					+ doc.schemaType().getName().toString(), e);
 		}
@@ -246,6 +248,7 @@ public class XmlUtil {
 	 *        the event document
 	 *
 	 * @return a org.w3c.dom.Node representation
+     * @throws org.n52.oxf.xmlbeans.parser.XMLHandlingException if a problem during XML handling occurs.
 	 */
 	public static Node getDomNode(XmlObject input) throws XMLHandlingException {
 		/*
@@ -266,6 +269,10 @@ public class XmlUtil {
 	}
 
 	/**
+     * @param xobj the XmlObject to substitute
+     * @param newInstance the element to substitute to
+     * @return the substituted element
+     *
 	 * @see #qualifySubstitutionGroup(XmlObject, QName, SchemaType) with SchemaType=null.
 	 */
 	public static XmlObject qualifySubstitutionGroup(XmlObject xobj, QName newInstance) {
@@ -296,9 +303,8 @@ public class XmlUtil {
 	 * 		type == newType is returned. Otherwise null is returned as you can no longer manipulate the object.
 	 */
 	public static XmlObject qualifySubstitutionGroup(XmlObject xobj, QName newInstance, SchemaType newType) {
-		XmlObject substitute = null;
 		if (newType != null) {
-			substitute = xobj.substitute(newInstance, newType);
+			XmlObject substitute = xobj.substitute(newInstance, newType);
 			if (substitute != null && substitute.schemaType() == newType &&
 					substitute.getDomNode().getLocalName().equals(newInstance.getLocalPart())) {
 				return substitute;
@@ -447,13 +453,11 @@ public class XmlUtil {
 			transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 			transformer.transform(new DOMSource(xml),
 					new StreamResult(buffer));
-		} catch (Exception e) {
+		} catch (IllegalArgumentException | TransformerException e) {
+            //throw new XMLHandlingException("Cannot create String from Node '" + xml + "'.");
+            return "";
 		}
-
 		return buffer.toString();
-
 	}
-
-
 
 }

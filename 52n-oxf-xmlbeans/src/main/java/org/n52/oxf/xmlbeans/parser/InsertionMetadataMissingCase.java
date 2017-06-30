@@ -44,30 +44,29 @@ public class InsertionMetadataMissingCase extends AbstractDependentLaxValidation
 
 	@Override
 	public boolean shouldPass(final XmlError validationError,
-			final List<XmlError> allExceptionalCases)
-	{
+			final List<XmlError> allExceptionalCases) {
 		if (allExceptionalCases == null || allExceptionalCases.isEmpty()) {
 			return false;
 		}
-		final XmlValidationError xve = (XmlValidationError) validationError;
-		if (isContextCorrect(xve)) {
-			// clone list
-			final ArrayList<XmlError> workingCopy = new ArrayList<XmlError>(allExceptionalCases);
-			// remove validation error
-			workingCopy.remove(validationError);
-			// check for potential cause
-			for (final XmlError xmlError : workingCopy) {
-				if (SosInsertionMetadataCase.getInstance().shouldPass(xmlError))
-				{
-					return true;
-				}
-			}
-		}
-		return false;
+        if (validationError instanceof XmlValidationError) {
+            final XmlValidationError xve = (XmlValidationError) validationError;
+            if (isContextCorrect(xve)) {
+                // clone list
+                final ArrayList<XmlError> workingCopy = new ArrayList<>(allExceptionalCases);
+                // remove validation error
+                workingCopy.remove(validationError);
+                // check for potential cause
+                for (final XmlError xmlError : workingCopy) {
+                    if (SosInsertionMetadataCase.getInstance().shouldPass(xmlError)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
 	}
 
-	private boolean isContextCorrect(final XmlValidationError xve)
-	{
+	private boolean isContextCorrect(final XmlValidationError xve) {
 		return xve != null &&
 				xve.getOffendingQName() == null &&
 				xve.getFieldQName() != null &&
