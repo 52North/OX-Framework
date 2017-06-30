@@ -87,6 +87,7 @@ import org.n52.oxf.valueDomains.time.TimeFactory;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.DOMException;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -120,7 +121,7 @@ public class GenericObservationParser {
             //
             // parsing the featureOfInterest:
             //
-            Map<String, OXFFeature> fois = new HashMap<String, OXFFeature>();
+            Map<String, OXFFeature> fois = new HashMap<>();
             FeaturePropertyType xb_foiProp = xb_genericObs.getFeatureOfInterest();
 
             XmlCursor c = xb_foiProp.newCursor();
@@ -140,10 +141,10 @@ public class GenericObservationParser {
                 fois.put(feature.getID(), feature);
             }
 
-            Map<String, String> uoms = new HashMap<String, String>();
-            List<String> definitions = new ArrayList<String>();
-            List<String> types = new ArrayList<String>();
-            List<String> names = new ArrayList<String>();
+            Map<String, String> uoms = new HashMap<>();
+            List<String> definitions = new ArrayList<>();
+            List<String> types = new ArrayList<>();
+            List<String> names = new ArrayList<>();
 
             XmlCursor cursor = xb_genericObs.getResult().newCursor();
             net.opengis.swe.x101.DataArrayDocument dataArray = parseFieldsForSWECommon101(uoms, definitions, types, names, cursor);
@@ -157,7 +158,7 @@ public class GenericObservationParser {
             String resultText = dataArray.getDataArray1().getValues().getDomNode().getFirstChild().getNodeValue();
             parseTextBlock(features, resultText, decimalSeparator, token, block, definitions, types, names, fois, uoms, procedure);
 
-        } catch (Exception e) {
+        } catch (XmlException | OXFException | DOMException e) {
             throw new OXFException("Could not parse omObservationType.", e);
         }
     }
@@ -340,7 +341,7 @@ public class GenericObservationParser {
 
     public static void addElementsFromGenericObservation(OXFFeatureCollection features, OMObservationType omObservation) throws OXFException {
         try {
-            Map<String, OXFFeature> fois = new HashMap<String, OXFFeature>();
+            Map<String, OXFFeature> fois = new HashMap<>();
 
             // TODO check common attributes
 
@@ -348,7 +349,7 @@ public class GenericObservationParser {
 
             // TODO check which type
 
-            String featureOfInterest = null;
+            String featureOfInterest;
             String procedure = getProcedureID(omObservation);
             XmlObject result = omObservation.getResult();
 
@@ -414,10 +415,10 @@ public class GenericObservationParser {
 
 
 			} else {
-				Map<String, String> uoms = new HashMap<String, String>();
-	            List<String> definitions = new ArrayList<String>();
-	            List<String> types = new ArrayList<String>();
-	            List<String> names = new ArrayList<String>();
+				Map<String, String> uoms = new HashMap<>();
+	            List<String> definitions = new ArrayList<>();
+	            List<String> types = new ArrayList<>();
+	            List<String> names = new ArrayList<>();
 	            net.opengis.swe.x20.DataArrayType dataArray = parseFieldsForSWECommon200(uoms, definitions, types, names, result);
 	            TextEncodingType xb_textBlock = (TextEncodingType) dataArray.getEncoding().getAbstractEncoding();
 	            String decimalSeparator = xb_textBlock.getDecimalSeparator();
@@ -632,7 +633,7 @@ public class GenericObservationParser {
                         OXFMeasurementType oxf_measurementType = new OXFMeasurementType();
                         OXFFeature feature = new OXFFeature("anyID", oxf_measurementType);
 
-                        OXFMeasureType resultValue = null;
+                        OXFMeasureType resultValue;
                         if (phenomenValue.equalsIgnoreCase("nodata")) {
                             resultValue = new OXFMeasureType(uomURN, Double.NaN);
                         }
@@ -651,14 +652,14 @@ public class GenericObservationParser {
                             }
                         }
                         oxf_measurementType.initializeFeature(feature,
-                                                              new String[] {names.get(i)},
-                                                              "anyDescription",
-                                                              null,// featureOfInterestValue.getGeometry(),
-                                                              TimeFactory.createTime(time),
-                                                              procedure,
-                                                              new OXFPhenomenonPropertyType(phenomenonURN, uomURN),
-                                                              foi,
-                                                              resultValue);
+                                new String[] {names.get(i)},
+                                "anyDescription",
+                                null,// featureOfInterestValue.getGeometry(),
+                                TimeFactory.createTime(time),
+                                procedure,
+                                new OXFPhenomenonPropertyType(phenomenonURN, uomURN),
+                                foi,
+                                resultValue);
                         featureCollection.add(feature);
                     }
                     else if (types.get(i).equals("category")) {
@@ -670,12 +671,16 @@ public class GenericObservationParser {
 
                         OXFScopedName resultValue = new OXFScopedName("anyCode", phenomenValue);
 
-                        oxf_categoryType.initializeFeature(feature, new String[] {names.get(i)}, "anyDescription", null,// featureOfInterestValue.getGeometry(),
-                                                           TimeFactory.createTime(time),
-                                                           procedure,
-                                                           new OXFPhenomenonPropertyType(phenomenonURN),
-                                                           foi,
-                                                           resultValue);
+                        oxf_categoryType.initializeFeature(feature,
+                                new String[] {names.get(i)},
+                                "anyDescription",
+                                null,
+                                // featureOfInterestValue.getGeometry(),
+                                TimeFactory.createTime(time),
+                                procedure,
+                                new OXFPhenomenonPropertyType(phenomenonURN),
+                                foi,
+                                resultValue);
                         featureCollection.add(feature);
                     }
                     else if (types.get(i).equals("boolean")) {
@@ -687,12 +692,16 @@ public class GenericObservationParser {
 
                         Boolean resultValue = Boolean.parseBoolean(phenomenValue);
 
-                        oxf_TruthType.initializeFeature(feature, new String[] {names.get(i)}, "anyDescription", null,// featureOfInterestValue.getGeometry(),
-                                                           TimeFactory.createTime(time),
-                                                           procedure,
-                                                           new OXFPhenomenonPropertyType(phenomenonURN),
-                                                           foi,
-                                                           resultValue);
+                        oxf_TruthType.initializeFeature(feature,
+                                new String[] {names.get(i)},
+                                "anyDescription",
+                                null,
+                                // featureOfInterestValue.getGeometry(),
+                                TimeFactory.createTime(time),
+                                procedure,
+                                new OXFPhenomenonPropertyType(phenomenonURN),
+                                foi,
+                                resultValue);
 
                         featureCollection.add(feature);
                     }
@@ -705,12 +714,16 @@ public class GenericObservationParser {
 
                         Number resultValue = Integer.parseInt(phenomenValue);
 
-                        oxf_CountType.initializeFeature(feature, new String[] {names.get(i)}, "anyDescription", null,// featureOfInterestValue.getGeometry(),
-                                                           TimeFactory.createTime(time),
-                                                           procedure,
-                                                           new OXFPhenomenonPropertyType(phenomenonURN),
-                                                           foi,
-                                                           resultValue);
+                        oxf_CountType.initializeFeature(feature,
+                                new String[] {names.get(i)},
+                                "anyDescription",
+                                null,
+                                // featureOfInterestValue.getGeometry(),
+                                TimeFactory.createTime(time),
+                                procedure,
+                                new OXFPhenomenonPropertyType(phenomenonURN),
+                                foi,
+                                resultValue);
                         featureCollection.add(feature);
                     }
                     else if (types.get(i).equals("time")) {
@@ -722,17 +735,20 @@ public class GenericObservationParser {
 
                         ITime resultValue = TimeFactory.createTime(phenomenValue);
 
-                        oxf_TimeType.initializeFeature(feature, new String[] {names.get(i)}, "anyDescription", null,// featureOfInterestValue.getGeometry(),
-                                                           TimeFactory.createTime(time),
-                                                           procedure,
-                                                           new OXFPhenomenonPropertyType(phenomenonURN),
-                                                           foi,
-                                                           resultValue);
+                        oxf_TimeType.initializeFeature(feature,
+                                new String[] {names.get(i)},
+                                "anyDescription",
+                                null,
+                                // featureOfInterestValue.getGeometry(),
+                                TimeFactory.createTime(time),
+                                procedure,
+                                new OXFPhenomenonPropertyType(phenomenonURN),
+                                foi,
+                                resultValue);
                         featureCollection.add(feature);
                     }
                 }
             }
         }
     }
-
 }

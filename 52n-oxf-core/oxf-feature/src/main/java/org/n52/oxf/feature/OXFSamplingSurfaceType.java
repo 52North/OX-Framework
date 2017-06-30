@@ -98,6 +98,8 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
 
     /**
      * supports the Sampling specification of version 1.0:
+     * @param feature
+     * @param xb_saSurface
      */
     public void initializeFeature(OXFFeature feature,
                                   SamplingSurfaceType xb_saSurface) {
@@ -107,13 +109,13 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
         // --- initialize the POSITION-attribute:
 
         SurfacePropertyType shape = xb_saSurface.getShape();
-        AbstractSurfaceType surface = shape.getSurface();
-        if (shape != null
-        		&& surface != null
+        if (shape != null) {
+            AbstractSurfaceType surface = shape.getSurface();
+            if (surface != null
                 && ((PolygonType)surface).getExterior() != null
                 && ((PolygonType)surface).getExterior().getRing() != null) {
 
-            PolygonType xb_polygon = (PolygonType)surface;
+//                PolygonType xb_polygon = (PolygonType)surface;
 
             // TODO: create polygon
 
@@ -142,10 +144,11 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
 //                z = (Double) coordsList.get(2);
 //            }
 
-            Polygon polygon = new GeometryFactory().createPolygon(null, null);
+                Polygon polygon = new GeometryFactory().createPolygon(null, null);
 
-            feature.setAttribute(GEOMETRY, polygon);
-            initializeFeaturesGeometry(feature, polygon);
+                feature.setAttribute(GEOMETRY, polygon);
+                initializeFeaturesGeometry(feature, polygon);
+            }
         }
 
         // check if the geometry-attribute is set: (could be set in this or the super class)

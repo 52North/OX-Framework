@@ -27,6 +27,8 @@
  */
 package org.n52.oxf.feature.dataTypes;
 
+import java.util.Objects;
+
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -34,19 +36,13 @@ package org.n52.oxf.feature.dataTypes;
  */
 public class OXFPhenomenonPropertyType {
 
-    private String urn;
+    private final String urn;
     private String uom;
 
-    /**
-     *
-     */
     public OXFPhenomenonPropertyType(String urn) {
         this.urn = urn;
     }
 
-    /**
-     *
-     */
     public OXFPhenomenonPropertyType(String urn, String uom) {
         this.urn = urn;
         this.uom = uom;
@@ -60,30 +56,34 @@ public class OXFPhenomenonPropertyType {
         return uom;
     }
 
-    /**
-     *
-     */
     @Override
-    public boolean equals(Object o) {
-        OXFPhenomenonPropertyType ppt = (OXFPhenomenonPropertyType)o;
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.urn);
+        hash = 97 * hash + Objects.hashCode(this.uom);
+        return hash;
+    }
 
-        if (this.getUOM() == null && ppt.getUOM() != null){
-        	return false;
-        }
-
-        if (this.getUOM() != null && ppt.getUOM() == null){
-        	return false;
-        }
-
-        if (this.getUOM() == null && ppt.getUOM() == null){
-        	return this.getURN().equals(ppt.getURN());
-        }
-
-        if (this.getURN().equals(ppt.getURN()) && this.getUOM().equals(ppt.getUOM()) ) {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        else {
+        if (obj == null) {
             return false;
         }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OXFPhenomenonPropertyType other = (OXFPhenomenonPropertyType) obj;
+        if (!Objects.equals(this.urn, other.urn)) {
+            return false;
+        }
+        if (!Objects.equals(this.uom, other.uom)) {
+            return false;
+        }
+        return true;
     }
+
+
 }

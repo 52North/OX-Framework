@@ -49,6 +49,7 @@ import org.n52.oxf.OXFException;
 import com.vividsolutions.jts.geom.Geometry;
 
 import de.bafg.grdc.sampling.x10.GrdcSamplingPointDocument;
+import java.util.Objects;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -79,47 +80,19 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
      */
     private OXFFeatureCollection parent = null;
 
-    /**
-     *
-     */
     private Geometry geom = null;
 
-    /**
-     *
-     *
-     */
     public OXFFeature(String id, OXFFeatureType featureType) {
         this.id = id;
         this.featureType = featureType;
 
-        attributeMap = new HashMap<String, Object>();
+        attributeMap = new HashMap<>();
     }
 
-    /**
-     *
-     *
-     */
     public OXFFeature(String id, OXFFeatureType featureType, OXFFeatureCollection parent) {
         this(id, featureType);
 
         this.parent = parent;
-    }
-
-    /**
-     *
-     * @param feature
-     * @return true if the specified feature is an OXFFeature and not null and the IDs of both features are
-     *         equal.
-     */
-    @Override
-    public boolean equals(Object feature) {
-        if (feature != null && feature instanceof OXFFeature
-                && getID().equals( ((OXFFeature) feature).getID())) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
     /**
@@ -139,6 +112,8 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
 
     /**
      * Returns the description of this feature's type.
+     *
+     * @return the description of this feature's type.
      */
     public OXFFeatureType getFeatureType() {
         return featureType;
@@ -152,6 +127,7 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
      *
      * @param name
      *        The name of the feature attribute to retrieve.
+     * @return
      *
      * @throws IllegalArgumentException
      *         If an attribute of the given name does not exist in this feature's type.
@@ -214,6 +190,8 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
      * of this feature. Some features may implement this method by concatenating this feature's type name with
      * the String values of all of the primary key attributes. (This is only a suggestion, however, and a
      * given {@code Feature} implementation may choose to compute the ID in whatever way makes sense.)
+     *
+     * @return
      */
     public String getID() {
         return id;
@@ -221,6 +199,8 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
 
     /**
      * Returns the collection in which this Feature is contained.
+     *
+     * @return
      */
     public OXFFeatureCollection getParent() {
         return parent;
@@ -240,35 +220,28 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
         return envelope;
     }
 
-    /**
-     *
-     * @return
-     */
     public Geometry getGeometry() {
         return geom;
     }
 
-    /**
-     *
-     * @param g
-     */
     public void setGeometry(Geometry g) {
         geom = g;
     }
 
+    @Override
     public String toString() {
         return id;
     }
 
 
     public String produceDescription() {
-        String res = id + ": ";
+        StringBuilder res = new StringBuilder(id).append(": ");
 
         for (String attName : getSpecifiedAttributes()) {
-            res += "[" + attName + " - " + getAttribute(attName) + "]";
+            res.append("[").append(attName).append(" - ").append(getAttribute(attName)).append("]");
         }
 
-        return res;
+        return res.toString();
     }
 
     public static OXFFeature createFrom(SFSpatialSamplingFeatureType samplingFeatureType) {
@@ -300,9 +273,12 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
     /**
      * Parses a single feature entity to an OXFFeature object.
      * The method supports the Sampling Specification of version 0.0 and 1.0.
+     * @param xb_featureMember
+     * @return
+     * @throws org.n52.oxf.OXFException
      */
     public static OXFFeature createFrom(FeaturePropertyType xb_featureMember) throws OXFException {
-        OXFFeature feature = null;
+        OXFFeature feature;
 
         XmlCursor c = xb_featureMember.newCursor();
 
@@ -346,7 +322,7 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
                 feature = OXFGrdcSamplingPointType.create(xb_grdcSaPoDoc);
 
                 return feature;
-            } catch (Exception e) {
+            } catch (XmlException e) {
                 throw new OXFException(e);
             }
         }
@@ -362,4 +338,47 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
             return feature;
         }
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + Objects.hashCode(this.featureType);
+        hash = 31 * hash + Objects.hashCode(this.attributeMap);
+        hash = 31 * hash + Objects.hashCode(this.id);
+        hash = 31 * hash + Objects.hashCode(this.parent);
+        hash = 31 * hash + Objects.hashCode(this.geom);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OXFFeature other = (OXFFeature) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.featureType, other.featureType)) {
+            return false;
+        }
+        if (!Objects.equals(this.attributeMap, other.attributeMap)) {
+            return false;
+        }
+        if (!Objects.equals(this.parent, other.parent)) {
+            return false;
+        }
+        if (!Objects.equals(this.geom, other.geom)) {
+            return false;
+        }
+        return true;
+    }
+
+
 }

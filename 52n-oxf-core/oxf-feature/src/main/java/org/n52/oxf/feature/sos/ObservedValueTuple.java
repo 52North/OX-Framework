@@ -37,13 +37,17 @@ import org.n52.oxf.ows.capabilities.ITime;
  */
 public class ObservedValueTuple {
 
-    private Object[] values;
-    private String[] phenNames;
-    private ITime time;
+    private final Object[] values;
+    private final String[] phenNames;
+    private final ITime time;
 
     public ObservedValueTuple(int dimension, String[] phenNames, ITime time) {
         values = new Object[dimension];
-        this.phenNames = phenNames;
+        if (phenNames != null) {
+            this.phenNames = phenNames.clone();
+        } else {
+            this.phenNames = null;
+        }
         this.time = time;
     }
 
@@ -52,7 +56,10 @@ public class ObservedValueTuple {
     }
 
     public Object getValue(int index) {
-        return values[index];
+        if (values != null && index < values.length && index >= 0) {
+            return values[index];
+        }
+        return null;
     }
 
     public int dimension() {
@@ -60,18 +67,19 @@ public class ObservedValueTuple {
     }
 
     public String[] getPhenomenonNames() {
-        return phenNames;
+        return phenNames == null? null : phenNames.clone();
     }
 
     public ITime getTime() {
         return time;
     }
 
+    @Override
     public String toString() {
-        String res = "";
+        StringBuilder res = new StringBuilder();
         for (Object value : values) {
-            res += value.toString() + ", ";
+            res.append(value.toString()).append(", ");
         }
-        return res;
+        return res.toString();
     }
 }

@@ -38,7 +38,7 @@ public class OXFFeatureAttributeDescriptor /*implements org.opengis.feature.Feat
     protected String documentation = "";
 
 
-    public class Attribute { // TODO integrate inner class
+    public static class Attribute { // TODO integrate inner class
         private String name;
         private DataType type;
 
