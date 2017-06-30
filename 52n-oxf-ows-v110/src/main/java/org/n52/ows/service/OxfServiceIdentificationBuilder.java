@@ -36,9 +36,9 @@ public class OxfServiceIdentificationBuilder {
 
     private String[] keywords;
 
-    private String serviceType;
+    private final String serviceType;
 
-    private String[] serviceTypeVersion;
+    private final String[] serviceTypeVersion;
 
     private String[] profiles;
 
@@ -86,23 +86,28 @@ public class OxfServiceIdentificationBuilder {
     }
 
     public String[] getTitles() {
-        return titles;
+        return titles == null? null : titles.clone();
     }
 
     public void setTitles(String[] titles) {
-        this.titles = titles;
+        if (titles != null) {
+            this.titles = titles.clone();
+        }
     }
 
     public String[] getAbstracts() {
-        return abstracts;
+        return abstracts == null? null : abstracts.clone();
     }
 
     public void setAbstracts(String[] abstracts) {
-        this.abstracts = abstracts;
+        if (abstracts == null) {
+            return;
+        }
+        this.abstracts = abstracts.clone();
     }
 
     public String[] getKeywords() {
-        return keywords;
+        return keywords == null? null : keywords.clone();
     }
 
     public String getServiceType() {
@@ -110,11 +115,11 @@ public class OxfServiceIdentificationBuilder {
     }
 
     public String[] getServiceTypeVersion() {
-        return serviceTypeVersion;
+        return serviceTypeVersion == null? null : serviceTypeVersion.clone();
     }
 
     public String[] getProfiles() {
-        return profiles;
+        return profiles == null ? null : profiles.clone();
     }
 
     public String getFees() {
@@ -122,7 +127,7 @@ public class OxfServiceIdentificationBuilder {
     }
 
     public String[] getAccessConstraints() {
-        return accessConstraints;
+        return accessConstraints == null? null : accessConstraints.clone();
     }
 
 }

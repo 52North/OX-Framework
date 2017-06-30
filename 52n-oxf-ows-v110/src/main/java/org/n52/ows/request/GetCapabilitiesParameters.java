@@ -34,7 +34,7 @@ import org.n52.oxf.request.MultiValueRequestParameters;
  */
 public class GetCapabilitiesParameters extends MultiValueRequestParameters {
 
-    private final String REQUEST_PARAMETER = "request";
+    private static final String REQUEST_PARAMETER = "request";
 
     static final String SERVICE_PARAMETER = "service";
 

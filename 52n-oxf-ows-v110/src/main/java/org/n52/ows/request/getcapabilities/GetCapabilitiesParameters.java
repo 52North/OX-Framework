@@ -149,6 +149,6 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters{
         return nonStandardParameters;
     }
 
-    private class GetCapabilitiesParametersSeam extends MultiValueRequestParameters {}
+    private static class GetCapabilitiesParametersSeam extends MultiValueRequestParameters {}
 
 }

@@ -38,7 +38,7 @@ public class HttpBinding {
 
     private String externalDcpUrl;
 
-    private String externalGetCapabilitiesGETDcpUrl = externalDcpUrl; // default
+    private String externalGetCapabilitiesGETDcpUrl;
 
     private HttpMethod httpMethod;
 

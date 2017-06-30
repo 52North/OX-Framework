@@ -1,0 +1,13 @@
+<FindBugsFilter>
+    <!--
+        MODULE 52n-oxf-ows-v110
+    -->
+    <Match>
+        <Class name="org.n52.ows.exception.ServiceException" />
+        <Bug pattern="NM_CLASS_NOT_EXCEPTION" />
+    </Match>
+    <Match>
+        <Class name="org.n52.ows.exception.XmlBeansServiceException" />
+        <Bug pattern="NM_CLASS_NOT_EXCEPTION" />
+    </Match>
+</FindBugsFilter>
