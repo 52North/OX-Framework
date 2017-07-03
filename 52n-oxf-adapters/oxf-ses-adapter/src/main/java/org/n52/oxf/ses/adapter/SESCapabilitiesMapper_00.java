@@ -223,14 +223,15 @@ public class SESCapabilitiesMapper_00 {
         if (xb_contents.getRegisteredSensors() == null) {
             return new Contents();
         }
-        String[] xb_registeredSensorIDsArray = xb_contents.getRegisteredSensors().getSensorIDArray();
 
-        for (int i = 0; i < xb_registeredSensorIDsArray.length; i++) {
-
-            String xb_registeredSensorID = xb_registeredSensorIDsArray[i];
-
-            oc_contents.getDataIdentification(xb_registeredSensorID);
-        }
+        // TODO the for loop is not mapping anything, please fix
+//        String[] xb_registeredSensorIDsArray = xb_contents.getRegisteredSensors().getSensorIDArray();
+//        for (int i = 0; i < xb_registeredSensorIDsArray.length; i++) {
+//
+//            String xb_registeredSensorID = xb_registeredSensorIDsArray[i];
+//
+//            oc_contents.getDataIdentification(xb_registeredSensorID);
+//        }
 
         return oc_contents;
     }

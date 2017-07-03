@@ -76,10 +76,12 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpcore</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>52n-xml-sampling-v100</artifactId>
         </dependency>
+        -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>52n-xml-ows-v110</artifactId>
@@ -88,18 +90,22 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>52n-xml-soap-v12</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>52n-xml-sweCommon-v101</artifactId>
         </dependency>
+        -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>52n-xml-xlink-v110</artifactId>
         </dependency>
+        <!--
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>52n-xml-gml-v311</artifactId>
         </dependency>
+        -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>52n-xml-wsa-v10</artifactId>

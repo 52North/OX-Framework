@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 
 public class SubscriptionConstraints {
 
-	private static final Logger logger = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 			.getLogger(SubscriptionConstraints.class);
 
 	public static final String ALL_FILTER = "<wsnt:MessageContent Dialect=\"http://www.w3.org/TR/1999/REC-xpath-19991116\">*</wsnt:MessageContent>";
@@ -74,15 +74,15 @@ public class SubscriptionConstraints {
 
 	public XmlObject getSubscriptionDocument() throws XmlException {
 		StringBuilder sb = new StringBuilder();
-		InputStream in = SubscriptionConstraints.class.getResourceAsStream("template_subscribe.xml");
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
-		try {
+        try (
+                InputStream in = SubscriptionConstraints.class.getResourceAsStream("template_subscribe.xml");
+                BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                ) {
 			while (br.ready()) {
 				sb.append(br.readLine());
 			}
 		} catch (IOException e) {
-			logger.warn(e.getMessage(), e);
+			LOG.warn(e.getMessage(), e);
 		}
 
 		this.document = XmlObject.Factory.parse(
@@ -124,21 +124,18 @@ public class SubscriptionConstraints {
 			super(consumer);
 
 			StringBuilder sb = new StringBuilder();
-			InputStream in = getClass().getResourceAsStream("dynamic_subscribe.xml");
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
-			try {
+            try (
+                    InputStream in = getClass().getResourceAsStream("dynamic_subscribe.xml");
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                    ) {
 				while (br.ready()) {
 					sb.append(br.readLine());
 				}
 			} catch (IOException e) {
-				logger.warn(e.getMessage(), e);
+				LOG.warn(e.getMessage(), e);
 			}
 
 			this.filter = sb.toString();
 		}
-
-
 	}
-
 }

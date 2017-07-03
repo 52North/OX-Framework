@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SESConnectorImpl implements ISESConnector {
 
-	private static final Logger logger = LoggerFactory
+	private static final Logger LOG = LoggerFactory
 	.getLogger(SESConnectorImpl.class);
 	private DefaultHttpClient httpClient;
 	private URL host;
@@ -63,41 +63,39 @@ public class SESConnectorImpl implements ISESConnector {
 	private boolean addSoap = true;
 
 	private static String SOAP_PRE;
-	private static String SOAP_POST;
+	private static final String SOAP_POST;
 	private static String XML_PRE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
 	static {
-		/*
-		 * read soap pre and post
-		 */
-		StringBuilder sb = new StringBuilder();
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				SESConnectorImpl.class.getResourceAsStream("soap_pre.xml")));
+        /*
+         * read soap pre and post
+         */
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                SESConnectorImpl.class.getResourceAsStream("soap_pre.xml")));) {
+            while (br.ready()) {
+                sb.append(br.readLine());
+            }
+        } catch (IOException e) {
+            LOG.error("Exception thrown:", e);
+        }
+        SOAP_PRE = sb.toString();
 
-		try {
-			while (br.ready()) {
-				sb.append(br.readLine());
-			}
-		} catch (Exception e) {
-			System.err.println(e.getStackTrace());
-		}
-		SOAP_PRE = sb.toString();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(
+                SESConnectorImpl.class.getResourceAsStream("soap_post.xml")));) {
+            sb = new StringBuilder();
 
-		br = new BufferedReader(new InputStreamReader(
-				SESConnectorImpl.class.getResourceAsStream("soap_post.xml")));
-		sb = new StringBuilder();
-
-		try {
-			while (br.ready()) {
-				sb.append(br.readLine());
-			}
-		} catch (Exception e) {
-			System.err.println(e.getStackTrace());
-		}
-		SOAP_POST = sb.toString();
+            while (br.ready()) {
+                sb.append(br.readLine());
+            }
+        } catch (IOException e) {
+            LOG.error("Exception thrown:", e);
+        }
+        SOAP_POST = sb.toString();
 	}
 
 
+    @Override
 	public SESResponse sendHttpPostRequest(String request, String action) throws IllegalStateException, IOException {
 		if (!this.ready) return null;
 
@@ -117,11 +115,11 @@ public class SESConnectorImpl implements ISESConnector {
 
 		req.setEntity(postContent);
 
-		HttpResponse response = null;
+		HttpResponse response;
 		try {
 			response = this.httpClient.execute(req);
-		} catch (Exception e) {
-			logger.warn(e.getMessage());
+		} catch (IOException e) {
+			LOG.warn(e.getMessage());
 			req.abort();
 			return new SESResponse(500, null);
 		}
@@ -133,12 +131,12 @@ public class SESConnectorImpl implements ISESConnector {
 
 			XmlObject xo = null;
 			if (response.getStatusLine().getStatusCode() >= HttpStatus.SC_MULTIPLE_CHOICES) {
-				logger.warn(parseError(instream));
+				LOG.warn(parseError(instream));
 			} else {
 				try {
 					xo = XmlObject.Factory.parse(instream);
 				} catch (XmlException e) {
-					logger.warn(e.getMessage(), e);
+					LOG.warn(e.getMessage(), e);
 				}
 				instream.close();
 			}
@@ -160,22 +158,24 @@ public class SESConnectorImpl implements ISESConnector {
 				sb.append(br.readLine());
 			}
 		} catch (IOException e) {
-			logger.warn(e.getMessage(), e);
+			LOG.warn(e.getMessage(), e);
 		} finally {
 			try {
 				instream.close();
 			} catch (IOException e) {
-				logger.warn(e.getMessage(), e);
+				LOG.warn(e.getMessage(), e);
 			}
 		}
 
 		return sb.toString();
 	}
 
+    @Override
 	public URL getHost() {
 		return this.host;
 	}
 
+    @Override
 	public void setAddSoap(boolean addSoap) {
 		this.addSoap = addSoap;
 	}
@@ -211,7 +211,6 @@ public class SESConnectorImpl implements ISESConnector {
 
 	@Override
 	public void shutdown() {
+        LOG.trace("Shutdown.");
 	}
-
-
 }

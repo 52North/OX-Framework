@@ -47,24 +47,21 @@ import org.n52.oxf.ses.adapter.client.ISESConnector.SESResponse;
 
 public class SESClient {
 
-
-	private static final Log logger = LogFactory
+	private static final Log LOG = LogFactory
 			.getLog(SESClient.class);
-	private static Map<URL, SESClient> _instances = new HashMap<URL, SESClient>();
+	private static Map<URL, SESClient> INSTANCES = new HashMap<>();
 	private URL broker;
-	private Map<String,Subscription> subscriptions = new HashMap<String, Subscription>();
+	private Map<String,Subscription> subscriptions = new HashMap<>();
 	private ISESConnector brokerConnector;
 
-	private static Class<?> connectorImpl = SESConnectorImpl.class;
+	private static Class<?> CONNECTOR_IMPL = SESConnectorImpl.class;
 	private static ISESConnector connectorImplGetInst;
 
 	static {
 		try {
-			connectorImplGetInst = (ISESConnector) connectorImpl.newInstance();
-		} catch (InstantiationException e) {
-			logger.warn(e.getMessage(), e);
-		} catch (IllegalAccessException e) {
-			logger.warn(e.getMessage(), e);
+			connectorImplGetInst = (ISESConnector) CONNECTOR_IMPL.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			LOG.warn(e.getMessage(), e);
 		}
 	}
 
@@ -92,7 +89,7 @@ public class SESClient {
 	 */
 	public static void setConnectorImplementation(Class<?> conn) throws InstantiationException, IllegalAccessException {
 		if (ISESConnector.class.isAssignableFrom(conn)) {
-			connectorImpl = conn;
+			CONNECTOR_IMPL = conn;
 			connectorImplGetInst = (ISESConnector) conn.newInstance();
 		}
 	}
@@ -101,11 +98,11 @@ public class SESClient {
 		this.broker = url;
 
 		try {
-			this.brokerConnector = (ISESConnector) connectorImpl.newInstance();
+			this.brokerConnector = (ISESConnector) CONNECTOR_IMPL.newInstance();
 			this.brokerConnector.setHost(this.broker);
 			this.brokerConnector.initialize();
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (IllegalAccessException | InstantiationException e) {
+			LOG.error("Exception thrown:", e);
 		}
 	}
 
@@ -115,7 +112,7 @@ public class SESClient {
 	 *
 	 */
 
-	public Subscription subscribe(SubscriptionConstraints con) {
+    public Subscription subscribe(SubscriptionConstraints con) {
 		Subscription sub = new Subscription(con);
 		SESResponse resp = null;
 		try {
@@ -155,17 +152,17 @@ public class SESClient {
 	}
 
 	public int notify(String notification) {
-		SESResponse resp = null;
+		SESResponse resp;
 		try {
 			resp = this.brokerConnector.sendHttpPostRequest(
 					notification, NOTIFY_ACTION);
 		} catch (Exception e) {
-			logger.warn(e.getMessage());
+			LOG.warn(e.getMessage());
 			return 500;
 		}
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("Response: "+resp);
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Response: "+resp);
 		}
 
 		return resp.getStatusCode();
@@ -214,8 +211,6 @@ public class SESClient {
 		return null;
 	}
 
-
-
 	/*
 	 *
 	 * MANAGEMENT METHODS
@@ -230,23 +225,19 @@ public class SESClient {
 		return this.subscriptions.get(id);
 	}
 
-
 	public static synchronized SESClient getInstance(URL url) {
-		if (!_instances.containsKey(url)) {
-			_instances.put(url, new SESClient(url));
+		if (!INSTANCES.containsKey(url)) {
+			INSTANCES.put(url, new SESClient(url));
 		}
-		return _instances.get(url);
+		return INSTANCES.get(url);
 	}
 
 	public static ISESConnector getNewConnectorInstance(URL url) {
 		ISESConnector inst;
 		try {
-			inst = (ISESConnector) connectorImpl.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-			return null;
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+			inst = (ISESConnector) CONNECTOR_IMPL.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			LOG.error("Exception thrown: ", e);
 			return null;
 		}
 
@@ -262,7 +253,7 @@ public class SESClient {
 	}
 
 	public static void shutdown() {
-		for (SESClient inst : _instances.values()) {
+		for (SESClient inst : INSTANCES.values()) {
 			inst.freeResources();
 		}
 	}
@@ -278,15 +269,13 @@ public class SESClient {
 	public static void main(String[] args) throws MalformedURLException {
 		SESClient c = new SESClient(new URL("http://localhost:8080/52n-ses-core-1.0-SNAPSHOT/services/"+SES_PORT_TYPE));
 		Subscription sub = c.subscribe(new SubscriptionConstraints.DynamicFilterSubscription("dev.null"));
-		System.out.println(sub.isDestroyed());
+		LOG.info(sub.isDestroyed());
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			LOG.error("Exception thrown: ", e);
 		}
 		c.unsubscribe(sub);
-		System.out.println(sub.isDestroyed());
+        LOG.info(sub.isDestroyed());
 	}
-
-
 }

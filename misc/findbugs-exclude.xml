@@ -37,4 +37,11 @@
         <Class name="org.n52.oxf.ses.adapter.client.httplistener.NanoHTTPD$HTTPSession" />
         <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE,SBSC_USE_STRINGBUFFER_CONCATENATION,DM_DEFAULT_ENCODING" />
     </Match>
+    <!--
+        MODULE oxf-ses-adapter
+    -->
+    <Match>
+        <Class name="org.n52.oxf.ses.adapter.client.SESClient" />
+        <Bug pattern="DMI_COLLECTION_OF_URLS" />
+    </Match>
 </FindBugsFilter>

@@ -108,7 +108,7 @@ public class SESAdapter implements IServiceAdapter {
 	 * the Versions of the services which are connectable by this ServiceAdapter. Should look like e.g.
 	 * {"1.1.0","1.2.0"}.
 	 */
-	public static final String[] SUPPORTED_VERSIONS = {"0.0.0"};
+	protected static final String[] SUPPORTED_VERSIONS = {"0.0.0"};
 
 
 	private String serviceVersion = SUPPORTED_VERSIONS[0];

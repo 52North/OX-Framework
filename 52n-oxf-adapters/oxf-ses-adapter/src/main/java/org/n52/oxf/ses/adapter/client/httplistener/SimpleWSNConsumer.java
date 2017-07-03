@@ -30,6 +30,7 @@ package org.n52.oxf.ses.adapter.client.httplistener;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -84,26 +85,26 @@ public class SimpleWSNConsumer extends NanoHTTPD implements IWSNConsumer {
 
 	private String parseURLEncoded(Properties parms) {
 		StringBuilder sb = new StringBuilder();
-		for (Object o : parms.keySet()) {
-			sb.append(o.toString()+"="+parms.get(o).toString());
+		for (Map.Entry<Object, Object> o : parms.entrySet()) {
+			sb.append(o.getKey().toString())
+                    .append("=")
+                    .append(o.getValue().toString());
 		}
 		return sb.toString();
 	}
 
-
+    @Override
 	public void setListener(HttpListener listener) {
 		this.listener = listener;
 	}
-
 
 	@Override
 	public URL getPublicURL() {
 		return this.publicURL;
 	}
 
-
 	public static void main(String[] args) {
-		final Logger logger = LoggerFactory.getLogger(SimpleWSNConsumer.class);
+		final Logger LOG = LoggerFactory.getLogger(SimpleWSNConsumer.class);
 		try {
 			SimpleWSNConsumer sc = new SimpleWSNConsumer(8082, "http://localhost:8082");
 			sc.setListener(new HttpListener() {
@@ -111,18 +112,16 @@ public class SimpleWSNConsumer extends NanoHTTPD implements IWSNConsumer {
 				@Override
 				public String processRequest(String request, String uri, String method,
 						Properties header) {
-					synchronized (logger) {
-						logger.info("Received reqeust for {}:", uri);
-						logger.info(request);
+					synchronized (LOG) {
+						LOG.info("Received reqeust for {}:", uri);
+						LOG.info(request);
 					}
 
 					return null;
 				}
 			});
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch (IOException | InterruptedException e) {
+			LOG.error("Exception thrown: ", e);
 		}
 
 		while (true);
