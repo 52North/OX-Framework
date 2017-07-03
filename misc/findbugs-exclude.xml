@@ -18,4 +18,23 @@
         <Field type="java.lang.String" name="version" />
         <Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
     </Match>
+    <!--
+        MODULE oxf-third-party-naohttpd
+    -->
+    <Match>
+        <Class name="org.n52.oxf.ses.adapter.client.httplistener.NanoHTTPD" />
+        <Bug pattern="OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE" />
+    </Match>
+    <Match>
+        <Class name="org.n52.oxf.ses.adapter.client.httplistener.NanoHTTPD" />
+        <Method
+            name="decodeMultipartData"
+            params="java.lang.String,byte[],java.io.BufferedReader,java.util.Properties,java.util.Properties"
+            returns="void" />
+        <Bug pattern="SBSC_USE_STRINGBUFFER_CONCATENATION" />
+    </Match>
+    <Match>
+        <Class name="org.n52.oxf.ses.adapter.client.httplistener.NanoHTTPD$HTTPSession" />
+        <Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE,SBSC_USE_STRINGBUFFER_CONCATENATION,DM_DEFAULT_ENCODING" />
+    </Match>
 </FindBugsFilter>

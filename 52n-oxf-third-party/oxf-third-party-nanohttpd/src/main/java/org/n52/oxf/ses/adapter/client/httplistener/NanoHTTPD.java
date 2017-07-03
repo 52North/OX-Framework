@@ -17,8 +17,6 @@ import java.net.SocketException;
 import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.Vector;
-import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -26,6 +24,8 @@ import java.util.TimeZone;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,7 +128,7 @@ public class NanoHTTPD
 	 * HTTP response.
 	 * Return one of these from serve().
 	 */
-	public class Response
+	public static class Response
 	{
 		/**
 		 * Default constructor: response = HTTP_OK, data = mime = 'null'
@@ -243,6 +243,7 @@ public class NanoHTTPD
 		myServerSocket = new ServerSocket( myTcpPort );
 		myThread = new Thread( new Runnable()
 			{
+                @Override
 				public void run()
 				{
 					try
@@ -452,16 +453,15 @@ public class NanoHTTPD
 						decodeMultipartData(boundary, fbuf, in, parms, files);
 					}
 					else if (contentType.contains("xml")) {
-						String postLine = "";
+						StringBuffer postLine = new StringBuffer();
 						char pbuf[] = new char[512];
 						int read = in.read(pbuf);
 						while ( read >= 0)
 						{
-							postLine += String.valueOf(pbuf, 0, read);
+							postLine.append(String.valueOf(pbuf, 0, read));
 							read = in.read(pbuf);
 						}
-						postLine = postLine.trim();
-						parms.put(POST_BODY, postLine);
+						parms.put(POST_BODY, postLine.toString().trim());
 					}
 					else
 					{
@@ -654,7 +654,7 @@ public class NanoHTTPD
 		{
 			int matchcount = 0;
 			int matchbyte = -1;
-			Vector<Integer> matchbytes = new Vector<Integer>();
+			ArrayList<Integer> matchbytes = new ArrayList<>();
 			for (int i=0; i<b.length; i++)
 			{
 				if (b[i] == boundary[matchcount])
@@ -664,7 +664,7 @@ public class NanoHTTPD
 					matchcount++;
 					if (matchcount==boundary.length)
 					{
-						matchbytes.addElement(new Integer(matchbyte));
+						matchbytes.add(matchbyte);
 						matchcount = 0;
 						matchbyte = -1;
 					}
@@ -679,7 +679,7 @@ public class NanoHTTPD
 			int[] ret = new int[matchbytes.size()];
 			for (int i=0; i < ret.length; i++)
 			{
-				ret[i] = ((Integer)matchbytes.elementAt(i)).intValue();
+				ret[i] = (matchbytes.get(i));
 			}
 			return ret;
 		}
@@ -697,9 +697,9 @@ public class NanoHTTPD
 				String tmpdir = System.getProperty("java.io.tmpdir");
 				try {
 					File temp = File.createTempFile("NanoHTTPD", "", new File(tmpdir));
-					OutputStream fstream = new FileOutputStream(temp);
-					fstream.write(b, offset, len);
-					fstream.close();
+                    try (OutputStream fstream = new FileOutputStream(temp)) {
+                        fstream.write(b, offset, len);
+                    }
 					path = temp.getAbsolutePath();
 				} catch (Exception e) { // Catch exception if any
 					logger.warn(e.getMessage(), e);
@@ -715,7 +715,7 @@ public class NanoHTTPD
 		**/
 		private int stripMultipartHeaders(byte[] b, int offset)
 		{
-			int i = 0;
+			int i;
 			for (i=offset; i<b.length; i++)
 			{
 				if (b[i] == '\r' && b[++i] == '\n' && b[++i] == '\r' && b[++i] == '\n')
@@ -732,7 +732,7 @@ public class NanoHTTPD
 		{
 			try
 			{
-				StringBuffer sb = new StringBuffer();
+				StringBuilder sb = new StringBuilder();
 				for( int i=0; i<str.length(); i++ )
 				{
 					char c = str.charAt( i );
@@ -851,7 +851,7 @@ public class NanoHTTPD
 			}
 		}
 
-		private Socket mySocket;
+		private final Socket mySocket;
 	}
 
 	/**
@@ -860,26 +860,28 @@ public class NanoHTTPD
 	 */
 	private String encodeUri( String uri )
 	{
-		String newUri = "";
+		StringBuilder newUri = new StringBuilder();
 		StringTokenizer st = new StringTokenizer( uri, "/ ", true );
 		while ( st.hasMoreTokens())
 		{
 			String tok = st.nextToken();
-			if ( tok.equals( "/" ))
-				newUri += "/";
-			else if ( tok.equals( " " ))
-				newUri += "%20";
-			else
-			{
-				// For Java 1.4 you'll want to use this instead:
-				try {
-					newUri += URLEncoder.encode( tok, "UTF-8" );
-				} catch (java.io.UnsupportedEncodingException uee ) {
-					logger.warn(uee.getMessage(), uee);
-				}
-			}
+            switch (tok) {
+                case "/":
+                    newUri.append("/");
+                    break;
+                case " ":
+                    newUri.append("%20");
+                    break;
+                default:
+                    // For Java 1.4 you'll want to use this instead:
+                    try {
+                        newUri.append(URLEncoder.encode( tok, "UTF-8" ));
+                    } catch (java.io.UnsupportedEncodingException uee ) {
+                        logger.warn(uee.getMessage(), uee);
+                    }   break;
+            }
 		}
-		return newUri;
+		return newUri.toString();
 	}
 
 	private int myTcpPort;
@@ -1010,7 +1012,7 @@ public class NanoHTTPD
 				String mime = null;
 				int dot = f.getCanonicalPath().lastIndexOf( '.' );
 				if ( dot >= 0 )
-					mime = (String)theMimeTypes.get( f.getCanonicalPath().substring( dot + 1 ).toLowerCase());
+					mime = (String)MIME_TYPES.get( f.getCanonicalPath().substring( dot + 1 ).toLowerCase());
 				if ( mime == null )
 					mime = MIME_DEFAULT_BINARY;
 
@@ -1057,6 +1059,7 @@ public class NanoHTTPD
 
 						final long dataLen = newLen;
 						FileInputStream fis = new FileInputStream( f ) {
+                            @Override
 							public int available() throws IOException { return (int)dataLen; }
 						};
 						fis.skip( startFrom );
@@ -1092,7 +1095,7 @@ public class NanoHTTPD
 	/**
 	 * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
 	 */
-	private static Hashtable<String, String> theMimeTypes = new Hashtable<String, String>();
+	private final static HashMap<String, String> MIME_TYPES = new HashMap<>();
 	static
 	{
 		StringTokenizer st = new StringTokenizer(
@@ -1121,18 +1124,18 @@ public class NanoHTTPD
 			"exe		application/octet-stream "+
 			"class		application/octet-stream " );
 		while ( st.hasMoreTokens())
-			theMimeTypes.put( st.nextToken(), st.nextToken());
+			MIME_TYPES.put( st.nextToken(), st.nextToken());
 	}
 
 	private static int theBufferSize = 16 * 1024;
 
 	// Change this if you want to log to somewhere else than stdout
-	protected static PrintStream myOut = System.out;
+	protected final static PrintStream myOut = System.out;
 
 	/**
 	 * GMT date formatter
 	 */
-	private static java.text.SimpleDateFormat gmtFrmt;
+	private final static java.text.SimpleDateFormat gmtFrmt;
 	static
 	{
 		gmtFrmt = new java.text.SimpleDateFormat( "E, d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
