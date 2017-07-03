@@ -176,9 +176,9 @@ public class ObservationSeriesCollection {
     }
 
     public ObservedValueTuple getTuple(OXFFeature feature, ITimePosition timePos) {
-        for (String featureID : featureMap.keySet()) {
-            if (feature.getID().equals(featureID)) {
-                Map<ITimePosition, ObservedValueTuple> timeTupleMap = featureMap.get(featureID);
+        for (Map.Entry<String, Map<ITimePosition, ObservedValueTuple>> featureEntry : featureMap.entrySet()) {
+            if (feature.getID().equals(featureEntry.getKey())) {
+                Map<ITimePosition, ObservedValueTuple> timeTupleMap = featureEntry.getValue();
                 for (Map.Entry<ITimePosition, ObservedValueTuple> timeEntry : timeTupleMap.entrySet()) {
                     if (timePos.equals(timeEntry.getKey())) {
                         return timeEntry.getValue();

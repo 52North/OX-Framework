@@ -38,6 +38,7 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
@@ -216,4 +217,29 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
         System.out.println(featureColl.getBoundingBox());
     }
     */
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.features);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OXFFeatureCollection other = (OXFFeatureCollection) obj;
+        if (!Objects.equals(this.features, other.features)) {
+            return false;
+        }
+        return true;
+    }
 }
