@@ -74,7 +74,7 @@ public class CSWAdapterTest {
 
             ParameterContainer paramCon = new ParameterContainer();
             paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER,
-                                       CSWAdapter.SUPPORTED_VERSIONS[0]);
+                                       CSWAdapter.SUPPORTED_VERSIONS.get(0));
             paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_SERVICE_PARAMETER,
                                        CSWAdapter.SERVICE_TYPE);
             paramCon.addParameterShell(CSWRequestBuilder.GET_CAPABILITIES_SECTIONS_PARAMETER, "ALL");
@@ -107,7 +107,7 @@ public class CSWAdapterTest {
             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_REQUEST,
                                        CSWAdapter.GET_RECORD_BY_ID);
             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_VERSION,
-                                       CSWAdapter.SUPPORTED_VERSIONS[0]);
+                                       CSWAdapter.SUPPORTED_VERSIONS.get(0));
             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_SERVICE,
                                        CSWAdapter.SERVICE_TYPE);
             paramCon.addParameterShell(CSWRequestBuilder.GET_RECORD_BY_ID_ID,
@@ -135,7 +135,7 @@ public class CSWAdapterTest {
 
         ParameterContainer paramCon = new ParameterContainer();
         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_VERSION_PARAMETER,
-                                   CSWAdapter.SUPPORTED_VERSIONS[0]);
+                                   CSWAdapter.SUPPORTED_VERSIONS.get(0));
         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_SERVICE_PARAMETER,
                                    CSWAdapter.SERVICE_TYPE);
         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_OUTPUT_FORMAT_PARAMETER,
@@ -165,7 +165,7 @@ public class CSWAdapterTest {
 
          ParameterContainer paramCon = new ParameterContainer();
          paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_VERSION_PARAMETER,
-                                    CSWAdapter.SUPPORTED_VERSIONS[0]);
+                                    CSWAdapter.SUPPORTED_VERSIONS.get(0));
          paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_SERVICE_PARAMETER,
                                     CSWAdapter.SERVICE_TYPE);
          paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_OUTPUT_FORMAT_PARAMETER,

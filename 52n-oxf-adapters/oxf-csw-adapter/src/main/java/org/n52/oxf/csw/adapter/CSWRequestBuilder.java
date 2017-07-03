@@ -141,10 +141,12 @@ public class CSWRequestBuilder {
             queryString += GET_CAPABILITIES_SECTIONS_PARAMETER + "=";
 
             if (sectionParamShell.hasMultipleSpecifiedValues()) {
-                String[] selectedSections = (String[]) sectionParamShell.getSpecifiedValueArray();
-                for (int i = 0; i < selectedSections.length; i++) {
-                    queryString += selectedSections[i] + ",";
+                String[] selectedSections = sectionParamShell.getSpecifiedTypedValueArray(String[].class);
+                StringBuilder sb = new StringBuilder(queryString);
+                for (String selectedSection : selectedSections) {
+                    sb.append(selectedSection).append(",");
                 }
+                queryString = sb.toString();
             }
             else if (sectionParamShell.hasSingleSpecifiedValue()) {
                 queryString += sectionParamShell.getSpecifiedValue();
@@ -221,7 +223,7 @@ public class CSWRequestBuilder {
         GetRecordsType xb_getRecords = xb_getRecordsDocument.addNewGetRecords();
 
         xb_getRecords.setService(CSWAdapter.SERVICE_TYPE);
-        xb_getRecords.setVersion(CSWAdapter.SUPPORTED_VERSIONS[0]);
+        xb_getRecords.setVersion(CSWAdapter.SUPPORTED_VERSIONS.get(0));
 
 
         ParameterShell maxRecords = parameters.getParameterShellWithServiceSidedName(GET_RECORDS_MAX_RECORDS);

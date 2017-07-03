@@ -28,8 +28,12 @@
 package org.n52.oxf.csw.adapter;
 
 import java.io.IOException;
-
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import net.opengis.ows.ExceptionReportDocument;
+
 import net.opengis.ows.ExceptionType;
 
 import org.apache.http.HttpEntity;
@@ -84,7 +88,7 @@ public class CSWAdapter implements IServiceAdapter {
     /**
      * the Versions of the services which are connectable by this ServiceAdapter.
      */
-    public static final String[] SUPPORTED_VERSIONS = {"2.0.2"};
+    protected static final List<String> SUPPORTED_VERSIONS = Collections.singletonList("2.0.2");
 
     /**
      * The name of the service operation which returns the data to be added to a map view as a layer.
@@ -93,9 +97,7 @@ public class CSWAdapter implements IServiceAdapter {
 
     public static final String NAMESPACE = "http://www.opengis.net/cat/csw/2.0.2";
 
-
-    private CSWRequestBuilder requestBuilder;
-
+    private final CSWRequestBuilder requestBuilder;
 
     /**
      * standard constructor
@@ -118,9 +120,10 @@ public class CSWAdapter implements IServiceAdapter {
      *         if internal exception (in general parsing error or Capabilities doc is incorrect) occurs
      *
      */
+    @Override
     public ServiceDescriptor initService(String url) throws ExceptionReport, OXFException {
         ParameterContainer paramContainer = new ParameterContainer();
-        paramContainer.addParameterShell("acceptVersions", SUPPORTED_VERSIONS[0]);
+        paramContainer.addParameterShell("acceptVersions", SUPPORTED_VERSIONS.get(0));
         paramContainer.addParameterShell("service", SERVICE_TYPE);
 
         Operation operation = new Operation("GetCapabilities", url+"?", null);
@@ -129,13 +132,12 @@ public class CSWAdapter implements IServiceAdapter {
 
     public ServiceDescriptor initService(OperationResult getCapabilitiesResult) throws ExceptionReport, OXFException {
         try {
-            net.opengis.cat.csw.x202.CapabilitiesDocument capsDoc = net.opengis.cat.csw.x202.CapabilitiesDocument.Factory.parse(getCapabilitiesResult.getIncomingResultAsAutoCloseStream());
+            net.opengis.cat.csw.x202.CapabilitiesDocument capsDoc =
+                    net.opengis.cat.csw.x202.CapabilitiesDocument.Factory.parse(
+                            getCapabilitiesResult.getIncomingResultAsAutoCloseStream());
             return initService(capsDoc);
         }
-        catch (XmlException e) {
-            throw new OXFException(e);
-        }
-        catch (IOException e) {
+        catch (XmlException | IOException e) {
             throw new OXFException(e);
         }
     }
@@ -165,6 +167,7 @@ public class CSWAdapter implements IServiceAdapter {
      *
      * @return the result of the executed operation
      */
+    @Override
     public OperationResult doOperation(Operation operation, ParameterContainer parameters) throws ExceptionReport,
             OXFException {
 
@@ -174,26 +177,22 @@ public class CSWAdapter implements IServiceAdapter {
 
         String httpMethod = "GET";
 
-        if (operation.getName().equals(GET_CAPABILITIES)) {
-            request = requestBuilder.buildGetCapabilitiesRequest(parameters);
-        }
-
-        else if (operation.getName().equals(DESCRIBE_RECORD)) {
-            request = requestBuilder.buildDescribeRecordRequest(parameters);
-        }
-
-        else if (operation.getName().equals(GET_RECORDS)) {
-            request = requestBuilder.buildGetRecordsRequest(parameters);
-            httpMethod = "POST";
-        }
-
-        else if (operation.getName().equals(GET_RECORD_BY_ID)) {
-            request = requestBuilder.buildGetRecordByIdRequest(parameters);
-        }
-
-        // Operation not supported
-        else {
-            throw new OXFException("The operation '" + operation.getName() + "' is not supported.");
+        switch (operation.getName()) {
+            case GET_CAPABILITIES:
+                request = requestBuilder.buildGetCapabilitiesRequest(parameters);
+                break;
+            case DESCRIBE_RECORD:
+                request = requestBuilder.buildDescribeRecordRequest(parameters);
+                break;
+            case GET_RECORDS:
+                request = requestBuilder.buildGetRecordsRequest(parameters);
+                httpMethod = "POST";
+                break;
+            case GET_RECORD_BY_ID:
+                request = requestBuilder.buildGetRecordByIdRequest(parameters);
+                break;
+            default:
+                throw new OXFException("The operation '" + operation.getName() + "' is not supported.");
         }
 
         try {
@@ -250,9 +249,14 @@ public class CSWAdapter implements IServiceAdapter {
      *         if an parsing error occurs
      * @throws XmlException
      */
-    private ExceptionReport parseExceptionReport(OperationResult result) throws XmlException {
+    private ExceptionReport parseExceptionReport(OperationResult result) throws XmlException, OXFException {
 
-        String requestResult = new String(result.getIncomingResult());
+        String requestResult;
+        try {
+            requestResult = new String(result.getIncomingResult(),"UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            throw new OXFException("Default encoding UTF-8 not supported!");
+        }
 
         ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(requestResult);
         ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
@@ -278,39 +282,26 @@ public class CSWAdapter implements IServiceAdapter {
 
     }
 
-    /**
-     * returns the ResourceOperationName
-     *
-     * @return The name of the service operation which returns the data to be added to a map view as a layer.
-     */
+    @Override
     public String getResourceOperationName() {
         return RESOURCE_OPERATION;
     }
 
-    /**
-     * returns the description of this Service Adapter
-     *
-     * @return String the description of the adapter
-     */
+    @Override
     public String getDescription() {
         return DESCRIPTION;
     }
 
-    /**
-     * returns the type of the service which is connectable by this ServiceAdapter
-     *
-     * @return String the type of service
-     */
+    @Override
     public String getServiceType() {
         return SERVICE_TYPE;
     }
 
-    /**
-     * returns the supported versions of the service
-     *
-     * @return String[] the supported versions of the service which is connectable by this ServiceAdapter
-     */
+    @Override
     public String[] getSupportedVersions() {
-        return SUPPORTED_VERSIONS;
+        return new ArrayList<>(
+            SUPPORTED_VERSIONS)
+            .toArray(new String[SUPPORTED_VERSIONS.size()]);
     }
+
 }
