@@ -57,6 +57,7 @@ public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertO
         addNonEmpty(INSERT_OBSERVATION_OFFERINGS_PARAMETER, offerings);
         mergeWith(observationParameters);
         observation = observationParameters;
+        omParameters = new OmParameter[0];
     }
 
     public InsertObservationParameters(

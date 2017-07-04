@@ -50,6 +50,7 @@ import org.n52.oxf.xml.XMLConstants;
  */
 public class DefaultObservationParametersFactory implements ObservationParametersFactory {
 
+    @Override
     public final ObservationParameters createObservationParametersFor(QName type) {
         if (QNAME_OM_1_0_MEASUREMENT_OBSERVATION.equals(type)) {
             // Create observation builder for measurements.
@@ -72,6 +73,7 @@ public class DefaultObservationParametersFactory implements ObservationParameter
         }
     }
 
+    @Override
     public ObservationParameters createExtendedObservationFor(QName type) {
         throw new UnsupportedOperationException("Not supported by default implementation.");
     }
