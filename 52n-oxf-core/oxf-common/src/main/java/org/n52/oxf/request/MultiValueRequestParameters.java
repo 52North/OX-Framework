@@ -51,7 +51,7 @@ public abstract class MultiValueRequestParameters implements RequestParameters {
     private final Map<String, MultiValue> parameters;
 
     public MultiValueRequestParameters() {
-        parameters = new HashMap<String, MultiValue>();
+        parameters = new HashMap<>();
     }
 
     @Override
@@ -188,7 +188,7 @@ public abstract class MultiValueRequestParameters implements RequestParameters {
     protected boolean addNonEmpty(final String key, final Collection<String> values) {
         boolean hasChanged = false;
         if (values == null || values.isEmpty()) {
-            throw new IllegalArgumentException("Parameter '"+key+"' is required and may not be null or empty!");
+            throw new IllegalArgumentException("Parameter '" + key + "' is required and may not be null or empty!");
         }
         for (final String value : values) {
             final boolean changed = addNonEmpty(key, value);

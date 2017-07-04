@@ -30,6 +30,7 @@ package org.n52.oxf.sos.request.v200;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.INSERT_OBSERVATION_OFFERINGS_PARAMETER;
 
 import java.util.Collection;
+import org.n52.oxf.om.x20.OmParameter;
 
 import org.n52.oxf.sos.observation.ObservationParameters;
 
@@ -40,6 +41,8 @@ import org.n52.oxf.sos.observation.ObservationParameters;
 public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertObservationParameters {
 
     private final ObservationParameters observation;
+
+    private OmParameter[] omParameters;
 
     public InsertObservationParameters(
             final ObservationParameters observationParameters,
@@ -54,11 +57,33 @@ public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertO
         addNonEmpty(INSERT_OBSERVATION_OFFERINGS_PARAMETER, offerings);
         mergeWith(observationParameters);
         observation = observationParameters;
+        omParameters = new OmParameter[0];
     }
 
+    public InsertObservationParameters(
+            final ObservationParameters observationParameters,
+            final Collection<String> offerings,
+            final OmParameter... omParameters) {
+        this(observationParameters, offerings);
+        if (omParameters != null && omParameters.length > 0) {
+            this.omParameters = omParameters;
+        } else {
+            this.omParameters = new OmParameter[0];
+        }
+    }
+
+    @Override
     public boolean isValid() {
         return !isEmptyValue(INSERT_OBSERVATION_OFFERINGS_PARAMETER) &&
                 observation.isValid();
+    }
+
+    public boolean isSetOmParameter() {
+        return omParameters.length > 0;
+    }
+
+    public OmParameter[] getOmParameter() {
+        return omParameters;
     }
 
 }
