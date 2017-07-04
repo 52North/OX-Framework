@@ -33,6 +33,8 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.List;
 
 import net.opengis.ses.x00.CapabilitiesDocument;
 
@@ -108,16 +110,16 @@ public class SESAdapter implements IServiceAdapter {
 	 * the Versions of the services which are connectable by this ServiceAdapter. Should look like e.g.
 	 * {"1.1.0","1.2.0"}.
 	 */
-	protected static final String[] SUPPORTED_VERSIONS = {"0.0.0"};
+	protected static final List<String>  SUPPORTED_VERSIONS = Collections.singletonList("0.0.0");
 
 
-	private String serviceVersion = SUPPORTED_VERSIONS[0];
+	private String serviceVersion = SUPPORTED_VERSIONS.get(0);
 
 	/**
 	 * constructor which instantiates
 	 */
 	public SESAdapter() {
-		this(SUPPORTED_VERSIONS[0]);
+		this(SUPPORTED_VERSIONS.get(0));
 	}
 
 	/**
@@ -130,6 +132,7 @@ public class SESAdapter implements IServiceAdapter {
 	}
 
 	/**
+     * @param paramCont ignored parameter
 	 * @deprecated constructor parameter has no effect
 	 */
 	@Deprecated
@@ -139,6 +142,7 @@ public class SESAdapter implements IServiceAdapter {
 	/*
 	 * what needs to be done to init the SESAdapter => GetCapabilities?
 	 */
+    @Override
 	public ServiceDescriptor initService(String serviceURL) throws ExceptionReport, OXFException {
 
 		ParameterContainer parameters = new ParameterContainer();
@@ -159,10 +163,7 @@ public class SESAdapter implements IServiceAdapter {
 			return handleCapabilities(capsDoc);
 
 		}
-		catch (XmlException e) {
-			throw new OXFException(e);
-		}
-		catch (IOException e) {
+		catch (XmlException | IOException e) {
 			throw new OXFException(e);
 		}
 
@@ -174,6 +175,7 @@ public class SESAdapter implements IServiceAdapter {
 		return mapper.mapCapabilities(capsDoc);
 	}
 
+    @Override
 	public OperationResult doOperation(Operation operation, ParameterContainer parameterContainer) throws ExceptionReport,
 	OXFException {
 		if (operation == null) throw new IllegalStateException("Operation cannot be null!");
@@ -181,43 +183,32 @@ public class SESAdapter implements IServiceAdapter {
 		ISESRequestBuilder requestBuilder = SESRequestBuilderFactory.generateRequestBuilder(this.serviceVersion);
 
 		String request;
-		// SUBSCRIBE
-		if (operation.getName().equals(SESAdapter.SUBSCRIBE)) {
-			request = requestBuilder.buildSubscribeRequest(parameterContainer);
-		}
-		// UNSUBSCRIBE
-		else if (operation.getName().equals(SESAdapter.UNSUBSCRIBE)) {
-			request = requestBuilder.buildUnsubscribeRequest(parameterContainer);
-		}
-		// GET_CAPABILITIES
-		else if (operation.getName().equals(SESAdapter.GET_CAPABILITIES)) {
-			request = requestBuilder.buildGetCapabilitiesRequest(parameterContainer);
-		}
-		// NOTIFY
-		else if (operation.getName().equals(SESAdapter.NOTIFY)) {
-			request = requestBuilder.buildNotifyRequest(parameterContainer);
-		}
-		// REIGSER_PUBLISHER
-		else if (operation.getName().equals(SESAdapter.REGISTER_PUBLISHER)) {
-			request = requestBuilder.buildRegisterPublisherRequest(parameterContainer);
-		}
-		// DESCRIBE_SENSOR
-		else if (operation.getName().equals(SESAdapter.DESCRIBE_SENSOR)) {
-			request = requestBuilder.buildDescribeSensorRequest(parameterContainer);
-		}
-		//DESTORY_REGISTRATION
-		else if (operation.getName().equals(SESAdapter.DESTROY_REGISTRATION)) {
-			request = requestBuilder.buildDestroyRegistrationRequest(parameterContainer);
-		}
-		// NOTIFY_RESPONSE
-		// this should never happen
-//		else if (operation.getName().equals(SESAdapter.NOTIFY_RESPONSE)) {
-//			request = SESResponseBuilderFactory.generateResponseBuilder(this.serviceVersion).buildNotifyResponseRequest(parameterContainer);
-//		}
-		// Operation not supported
-		else {
-			throw new OXFException("The operation '" + operation.getName() + "' is not supported.");
-		}
+        // SUBSCRIBE
+        switch (operation.getName()) {
+            case SESAdapter.SUBSCRIBE:
+                request = requestBuilder.buildSubscribeRequest(parameterContainer);
+                break;
+            case SESAdapter.UNSUBSCRIBE:
+                request = requestBuilder.buildUnsubscribeRequest(parameterContainer);
+                break;
+            case SESAdapter.GET_CAPABILITIES:
+                request = requestBuilder.buildGetCapabilitiesRequest(parameterContainer);
+                break;
+            case SESAdapter.NOTIFY:
+                request = requestBuilder.buildNotifyRequest(parameterContainer);
+                break;
+            case SESAdapter.REGISTER_PUBLISHER:
+                request = requestBuilder.buildRegisterPublisherRequest(parameterContainer);
+                break;
+            case SESAdapter.DESCRIBE_SENSOR:
+                request = requestBuilder.buildDescribeSensorRequest(parameterContainer);
+                break;
+            case SESAdapter.DESTROY_REGISTRATION:
+                request = requestBuilder.buildDestroyRegistrationRequest(parameterContainer);
+                break;
+            default:
+                throw new OXFException("The operation '" + operation.getName() + "' is not supported.");
+        }
 		try {
 			if (operation.getDcps().length == 0) {
 				throw new IllegalStateException("No DCP links available to send request to.");
@@ -258,7 +249,7 @@ public class SESAdapter implements IServiceAdapter {
 					// check for right action
 					// http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse
 					XmlObject[] actions = XmlUtil.selectPath("declare namespace s='http://www.w3.org/2005/08/addressing' .//s:Action", header);
-					String action = null;
+					String action;
 
 					// is this the right request? If NOT throw Exception
 					if (actions != null && actions.length == 1) {
@@ -266,7 +257,7 @@ public class SESAdapter implements IServiceAdapter {
 						if ( !action.equals("http://docs.oasis-open.org/wsn/brw-2/RegisterPublisher/RegisterPublisherResponse")) {
 
 							StringBuilder sb = new StringBuilder();
-							BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+							BufferedReader reader = new BufferedReader(new InputStreamReader(input,"UTF-8"));
 							while (reader.ready()) {
 								sb.append(reader.readLine());
 							}
@@ -304,20 +295,24 @@ public class SESAdapter implements IServiceAdapter {
 		return result;
 	}
 
+    @Override
 	public String getDescription() {
-		return SESAdapter.DESCRIPTION;
+		return DESCRIPTION;
 	}
 
+    @Override
 	public String getResourceOperationName() {
 		return RESOURCE_OPERATION;
 	}
 
+    @Override
 	public String getServiceType() {
-		return SESAdapter.SERVICE_TYPE;
+		return SERVICE_TYPE;
 	}
 
+    @Override
 	public String[] getSupportedVersions() {
-		return SESAdapter.SUPPORTED_VERSIONS;
+		return SUPPORTED_VERSIONS.toArray(new String[SUPPORTED_VERSIONS.size()]);
 	}
 
 	/**

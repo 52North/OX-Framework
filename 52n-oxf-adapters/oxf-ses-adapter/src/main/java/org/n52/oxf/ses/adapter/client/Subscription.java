@@ -191,7 +191,7 @@ public class Subscription {
 		StringBuilder sb = new StringBuilder();
 		try (
                 InputStream in = getClass().getResourceAsStream("template_unsubscribe.xml");
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
                 ) {
 			while (br.ready()) {
 				sb.append(br.readLine());

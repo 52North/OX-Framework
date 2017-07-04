@@ -80,6 +80,7 @@ public class Publisher {
 	private ISESConnector manager;
 
 	private boolean destroyed;
+    private static final String DEFAULT_ENCODING = "UTF-8";
 
 	public Publisher(XmlObject sensorML) {
 		this.sensorML = sensorML;
@@ -89,9 +90,8 @@ public class Publisher {
 		StringBuilder sb = new StringBuilder();
         try (
                 InputStream in = getClass().getResourceAsStream("template_registerpublisher.xml");
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                BufferedReader br = new BufferedReader(new InputStreamReader(in, DEFAULT_ENCODING));
                 ) {
-
 			while (br.ready()) {
 				sb.append(br.readLine());
 			}
@@ -183,7 +183,7 @@ public class Publisher {
 		StringBuilder sb = new StringBuilder();
         try (
                 InputStream in = getClass().getResourceAsStream("template_destroyregistration.xml");
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                BufferedReader br = new BufferedReader(new InputStreamReader(in, DEFAULT_ENCODING));
         ){
 			while (br.ready()) {
 				sb.append(br.readLine());
@@ -193,7 +193,9 @@ public class Publisher {
 		}
 
 		try {
-			xo = XmlObject.Factory.parse(sb.toString().replace("${resource}", this.resourceID).replace("${reg_pub_host}", this.manager.getHost().toString()));
+			xo = XmlObject.Factory.parse(
+                    sb.toString().replace("${resource}", this.resourceID)
+                    .replace("${reg_pub_host}", this.manager.getHost().toString()));
 		} catch (XmlException e) {
 			LOG.error("Exception thrown:", e);
 		}

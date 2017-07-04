@@ -42,6 +42,6 @@
     -->
     <Match>
         <Class name="org.n52.oxf.ses.adapter.client.SESClient" />
-        <Bug pattern="DMI_COLLECTION_OF_URLS" />
+        <Bug pattern="DMI_COLLECTION_OF_URLS,DM_DEFAULT_ENCODING" />
     </Match>
 </FindBugsFilter>

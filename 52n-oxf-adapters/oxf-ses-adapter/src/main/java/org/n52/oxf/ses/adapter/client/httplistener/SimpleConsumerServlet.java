@@ -81,7 +81,7 @@ public class SimpleConsumerServlet extends HttpServlet implements IWSNConsumer {
 		}
 
 		StringBuilder sb = new StringBuilder();
-        try (Scanner scanner = new Scanner(req.getInputStream())) {
+        try (Scanner scanner = new Scanner(req.getInputStream(), "UTF-8")) {
             while (scanner.hasNextLine()) {
                 sb.append(scanner.nextLine());
             }

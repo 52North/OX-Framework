@@ -76,7 +76,7 @@ public class SubscriptionConstraints {
 		StringBuilder sb = new StringBuilder();
         try (
                 InputStream in = SubscriptionConstraints.class.getResourceAsStream("template_subscribe.xml");
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
                 ) {
 			while (br.ready()) {
 				sb.append(br.readLine());
@@ -126,7 +126,7 @@ public class SubscriptionConstraints {
 			StringBuilder sb = new StringBuilder();
             try (
                     InputStream in = getClass().getResourceAsStream("dynamic_subscribe.xml");
-                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
                     ) {
 				while (br.ready()) {
 					sb.append(br.readLine());

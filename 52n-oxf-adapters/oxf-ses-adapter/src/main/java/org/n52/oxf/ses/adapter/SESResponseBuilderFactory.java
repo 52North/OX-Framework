@@ -36,10 +36,9 @@ public class SESResponseBuilderFactory {
 
     public static ISESResponseBuilder generateResponseBuilder(String serviceVersion) {
 
-        if (serviceVersion.equals(SESAdapter.SUPPORTED_VERSIONS[0])) {
+        if (serviceVersion.equals(SESAdapter.SUPPORTED_VERSIONS.get(0))) {
             return new SESResponseBuilder_00();
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Service version '" + serviceVersion + "' not supported.");
         }
     }

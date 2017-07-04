@@ -55,8 +55,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SESConnectorImpl implements ISESConnector {
 
-	private static final Logger LOG = LoggerFactory
-	.getLogger(SESConnectorImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SESConnectorImpl.class);
 	private DefaultHttpClient httpClient;
 	private URL host;
 	private boolean ready;
@@ -71,8 +70,11 @@ public class SESConnectorImpl implements ISESConnector {
          * read soap pre and post
          */
         StringBuilder sb = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                SESConnectorImpl.class.getResourceAsStream("soap_pre.xml")));) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(
+                        SESConnectorImpl.class.getResourceAsStream("soap_pre.xml"),
+                        "UTF-8"));
+                ) {
             while (br.ready()) {
                 sb.append(br.readLine());
             }
@@ -82,7 +84,7 @@ public class SESConnectorImpl implements ISESConnector {
         SOAP_PRE = sb.toString();
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
-                SESConnectorImpl.class.getResourceAsStream("soap_post.xml")));) {
+                SESConnectorImpl.class.getResourceAsStream("soap_post.xml"), "UTF-8"));) {
             sb = new StringBuilder();
 
             while (br.ready()) {
@@ -151,9 +153,7 @@ public class SESConnectorImpl implements ISESConnector {
 	private String parseError(InputStream instream) {
 		StringBuilder sb = new StringBuilder();
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(instream));
-
-		try {
+		try (BufferedReader br = new BufferedReader(new InputStreamReader(instream, "UTF-8"));){
 			while (br.ready()) {
 				sb.append(br.readLine());
 			}

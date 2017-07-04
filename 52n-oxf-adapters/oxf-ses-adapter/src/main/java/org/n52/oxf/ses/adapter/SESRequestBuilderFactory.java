@@ -35,7 +35,7 @@ public class SESRequestBuilderFactory {
 
     public static ISESRequestBuilder generateRequestBuilder(String serviceVersion) {
 
-        if (serviceVersion.equals(SESAdapter.SUPPORTED_VERSIONS[0])) {
+        if (serviceVersion.equals(SESAdapter.SUPPORTED_VERSIONS.get(0))) {
             return new SESRequestBuilder_00();
         }
         else {

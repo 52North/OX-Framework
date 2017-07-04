@@ -45,13 +45,14 @@ import org.w3.x2003.x05.soapEnvelope.Header;
  */
 public class SESResponseBuilder_00 implements ISESResponseBuilder {
 
+    @Override
     public String buildNotifyResponseRequest(ParameterContainer parameter) {
 
         EnvelopeDocument envDoc = EnvelopeDocument.Factory.newInstance();
         Envelope env = envDoc.addNewEnvelope();
         Header header = env.addNewHeader();
         Body body = env.addNewBody();
-        XmlCursor cur = null;
+        XmlCursor cur;
         String to = (String) parameter.getParameterShellWithCommonName(ISESResponseBuilder.NOTIFY_SOAP_ENVELOPE_HEADER_TO).getSpecifiedValue();
         String relatesTo = (String) parameter.getParameterShellWithCommonName(ISESResponseBuilder.NOTIFY_SOAP_ENVELOPE_HEADER_RELATES_TO).getSpecifiedValue();
         String from = (String) parameter.getParameterShellWithCommonName(ISESResponseBuilder.NOTIFY_SOAP_ENVELOPE_HEADER_FROM).getSpecifiedValue();
