@@ -39,44 +39,44 @@ import org.slf4j.LoggerFactory;
 
 public class SRSUtils {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SRSUtils.class);
-	public static final String DEFAULT_SRS = "urn:ogc:def:crs:EPSG::4326";
-	private static Map<String, AxisOrder> mapping;
+    private static final Logger LOGGER = LoggerFactory.getLogger(SRSUtils.class);
+    public static final String DEFAULT_SRS = "urn:ogc:def:crs:EPSG::4326";
+    private static Map<String, AxisOrder> mapping;
 
-	static {
-		mapping = new HashMap<>();
-		try {
-			loadMappings();
-		} catch (IOException e) {
-			LOGGER.warn(e.getMessage(), e);
-		}
-	}
+    static {
+        mapping = new HashMap<>();
+        try {
+            loadMappings();
+        } catch (IOException e) {
+            LOGGER.warn(e.getMessage(), e);
+        }
+    }
 
-	public static AxisOrder resolveAxisOrder(String srsName) {
-		return srsName != null ? mapping.get(srsName) : mapping.get(DEFAULT_SRS);
-	}
+    public static AxisOrder resolveAxisOrder(String srsName) {
+        return srsName != null ? mapping.get(srsName) : mapping.get(DEFAULT_SRS);
+    }
 
-	private static void loadMappings() throws IOException {
-		InputStream is = SRSUtils.class.getResourceAsStream("axisOrder.mapping");
+    private static void loadMappings() throws IOException {
+        InputStream is = SRSUtils.class.getResourceAsStream("axisOrder.mapping");
         try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
             while (br.ready()) {
                 addMapping(br.readLine());
             }
         }
-	}
+    }
 
-	private static void addMapping(String mappingLine) {
-		String[] kvp = mappingLine.split("=");
-		if (kvp != null && kvp.length == 2) {
-			mapping.put(kvp[0].trim(), parseAxisOrder(kvp[1].trim()));
-		}
-	}
+    private static void addMapping(String mappingLine) {
+        String[] kvp = mappingLine.split("=");
+        if (kvp != null && kvp.length == 2) {
+            mapping.put(kvp[0].trim(), parseAxisOrder(kvp[1].trim()));
+        }
+    }
 
-	private static AxisOrder parseAxisOrder(String axisString) {
-		if (axisString.equals("AxisOrder.LongLat")) {
-			return AxisOrder.LongLat;
-		} else {
-			return AxisOrder.LatLong;
-		}
-	}
+    private static AxisOrder parseAxisOrder(String axisString) {
+        if (axisString.equals("AxisOrder.LongLat")) {
+            return AxisOrder.LongLat;
+        } else {
+            return AxisOrder.LatLong;
+        }
+    }
 }

@@ -40,46 +40,46 @@ import org.n52.oxf.ows.Constraint;
  */
 public abstract class RequestMethod {
 
-	/**
-	 * required
-	 */
-	private OnlineResource onlineResource;
+    /**
+     * required
+     */
+    private OnlineResource onlineResource;
 
-	/**
-	 * optional
-	 */
+    /**
+     * optional
+     */
     private String[] constraints;
 
     private Set<Constraint> owsConstraints;
 
     /**
-	 * @deprecated Use {@link #RequestMethod(OnlineResource, Set)} using type {@link Constraint}.
-	 *
-	 * @param onlineResouce the <b>required</b> online resource
-	 * @param constraints the <b>optional</b> constraints that are relevant for this request method.
-	 */
-	@Deprecated
-	public RequestMethod(final OnlineResource onlineResouce, final String[] constraints){
-		setOnlineResource(onlineResouce);
-		setConstraints(constraints);
-	}
+     * @deprecated Use {@link #RequestMethod(OnlineResource, Set)} using type {@link Constraint}.
+     *
+     * @param onlineResouce the <b>required</b> online resource
+     * @param constraints the <b>optional</b> constraints that are relevant for this request method.
+     */
+    @Deprecated
+    public RequestMethod(final OnlineResource onlineResouce, final String[] constraints){
+        setOnlineResource(onlineResouce);
+        setConstraints(constraints);
+    }
 
-	/**
-	 * @param onlineResource the <b>required</b> online resource
-	 * @param constraints the <b>optional</b> constraints that are relevant for this request method.
-	 */
-	public RequestMethod(final OnlineResource onlineResource, final Set<Constraint> constraints) {
-		setOnlineResource(onlineResource);
-		setOwsConstraints(constraints);
-	}
+    /**
+     * @param onlineResource the <b>required</b> online resource
+     * @param constraints the <b>optional</b> constraints that are relevant for this request method.
+     */
+    public RequestMethod(final OnlineResource onlineResource, final Set<Constraint> constraints) {
+        setOnlineResource(onlineResource);
+        setOwsConstraints(constraints);
+    }
 
-	/**
-	 * this constructor has all required attributes as its parameters.
-	 * @param onlineResource the <b>required</b> online resource
-	 */
-	public RequestMethod(final OnlineResource onlineResource){
-		setOnlineResource(onlineResource);
-	}
+    /**
+     * this constructor has all required attributes as its parameters.
+     * @param onlineResource the <b>required</b> online resource
+     */
+    public RequestMethod(final OnlineResource onlineResource){
+        setOnlineResource(onlineResource);
+    }
 
     /**
      * @return a XML representation.
@@ -92,7 +92,7 @@ public abstract class RequestMethod {
      * @return the constrains as String[]
      */
     @Deprecated
-	public String[] getConstraints() {
+    public String[] getConstraints() {
         return constraints != null? constraints.clone() : null;
     }
 
@@ -114,53 +114,53 @@ public abstract class RequestMethod {
         this.onlineResource = onlineResource;
     }
 
-	/**
-	 * @return an unmodifiable view of the constraints for this {@link RequestMethod} or an empty {@link Set} if not set.
-	 */
-	public Set<Constraint> getOwsConstraints()
-	{
-		if (owsConstraints == null) {
-			return Collections.emptySet();
-		}
-		return Collections.unmodifiableSet(owsConstraints);
-	}
+    /**
+     * @return an unmodifiable view of the constraints for this {@link RequestMethod} or an empty {@link Set} if not set.
+     */
+    public Set<Constraint> getOwsConstraints()
+    {
+        if (owsConstraints == null) {
+            return Collections.emptySet();
+        }
+        return Collections.unmodifiableSet(owsConstraints);
+    }
 
-	/**
-	 * Adds a single constraint to the set of constraints.
-	 * @param owsConstraint the constraint to add
-	 * @return <tt>true</tt>, if the constraint is added. <tt>false</tt>, if adding failed or constraint already contained.
-	 */
-	public boolean addOwsConstraint(final Constraint owsConstraint) {
-		if (owsConstraint == null) {
-			return false;
-		}
-		if (owsConstraints == null) {
-			owsConstraints = new HashSet<Constraint>();
-		}
-		return owsConstraints.add(owsConstraint);
-	}
+    /**
+     * Adds a single constraint to the set of constraints.
+     * @param owsConstraint the constraint to add
+     * @return <tt>true</tt>, if the constraint is added. <tt>false</tt>, if adding failed or constraint already contained.
+     */
+    public boolean addOwsConstraint(final Constraint owsConstraint) {
+        if (owsConstraint == null) {
+            return false;
+        }
+        if (owsConstraints == null) {
+            owsConstraints = new HashSet<Constraint>();
+        }
+        return owsConstraints.add(owsConstraint);
+    }
 
-	/**
-	 * Replaces the constraints set with the given one if it's not null.
-	 * @param owsConstraints the constrains to set
-	 * @return <tt>true</tt>, if owsConstraints is set, else <tt>false</tt>.
-	 */
-	public boolean setOwsConstraints(final Set<Constraint> owsConstraints)
-	{
-		if (owsConstraints == null) {
-			return false;
-		}
-		this.owsConstraints = owsConstraints;
-		return true;
-	}
+    /**
+     * Replaces the constraints set with the given one if it's not null.
+     * @param owsConstraints the constrains to set
+     * @return <tt>true</tt>, if owsConstraints is set, else <tt>false</tt>.
+     */
+    public boolean setOwsConstraints(final Set<Constraint> owsConstraints)
+    {
+        if (owsConstraints == null) {
+            return false;
+        }
+        this.owsConstraints = owsConstraints;
+        return true;
+    }
 
-	@Override
-	public String toString()
-	{
-		return String.format("RequestMethod [onlineResource=%s, constraints=%s, owsConstraints=%s]",
-				onlineResource,
-				Arrays.toString(constraints),
-				owsConstraints);
-	}
+    @Override
+    public String toString()
+    {
+        return String.format("RequestMethod [onlineResource=%s, constraints=%s, owsConstraints=%s]",
+                onlineResource,
+                Arrays.toString(constraints),
+                owsConstraints);
+    }
 
 }

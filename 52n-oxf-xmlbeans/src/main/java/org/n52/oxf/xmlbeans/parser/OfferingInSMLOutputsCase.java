@@ -53,33 +53,33 @@ import org.apache.xmlbeans.XmlValidationError;
  */
 public class OfferingInSMLOutputsCase extends AbstractLaxValidationCase {
 
-	private static final QName QN_GML_ABSTRACT_METADATA =
-			new QName("http://www.opengis.net/gml", "AbstractMetaData");
+    private static final QName QN_GML_ABSTRACT_METADATA =
+            new QName("http://www.opengis.net/gml", "AbstractMetaData");
 
-	private static final QName QN_GML_METADATA_PROPERTY =
-			new QName("http://www.opengis.net/gml","metaDataProperty");
+    private static final QName QN_GML_METADATA_PROPERTY =
+            new QName("http://www.opengis.net/gml","metaDataProperty");
 
-	private static final QName QN_SOS_1_0_OFFERING =
-			new QName("http://www.opengis.net/sos/1.0", "offering");
+    private static final QName QN_SOS_1_0_OFFERING =
+            new QName("http://www.opengis.net/sos/1.0", "offering");
 
-	private static OfferingInSMLOutputsCase instance = null;
+    private static OfferingInSMLOutputsCase instance = null;
 
-	private OfferingInSMLOutputsCase() {}
+    private OfferingInSMLOutputsCase() {}
 
-	public static OfferingInSMLOutputsCase getInstance() {
-		if (instance == null) {
-			instance = new OfferingInSMLOutputsCase();
-		}
-		return instance;
-	}
+    public static OfferingInSMLOutputsCase getInstance() {
+        if (instance == null) {
+            instance = new OfferingInSMLOutputsCase();
+        }
+        return instance;
+    }
 
-	@Override
-	public boolean shouldPass(final XmlValidationError xve) {
-		final QName offending = xve.getOffendingQName();
-		final List<?> expected = xve.getExpectedQNames();
-		final QName field = xve.getFieldQName();
-		return offending != null && offending.equals(QN_SOS_1_0_OFFERING) && // correct substitution
-				expected != null && expected.contains(QN_GML_ABSTRACT_METADATA) && // correct super class
-				field != null && field.equals(QN_GML_METADATA_PROPERTY); // correct field
-	}
+    @Override
+    public boolean shouldPass(final XmlValidationError xve) {
+        final QName offending = xve.getOffendingQName();
+        final List<?> expected = xve.getExpectedQNames();
+        final QName field = xve.getFieldQName();
+        return offending != null && offending.equals(QN_SOS_1_0_OFFERING) && // correct substitution
+                expected != null && expected.contains(QN_GML_ABSTRACT_METADATA) && // correct super class
+                field != null && field.equals(QN_GML_METADATA_PROPERTY); // correct field
+    }
 }

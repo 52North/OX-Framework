@@ -39,39 +39,39 @@ import org.n52.oxf.xml.XMLConstants;
 // TODO add more tests regarding offeringIds and observations
 public class InsertObservationParametersTest {
 
-	@Rule public ExpectedException thrown = ExpectedException.none();
+    @Rule public ExpectedException thrown = ExpectedException.none();
 
-	@Test public void
-	shouldThrowIllegalArgumentExceptionIfMissingAllParameters() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("Parameter 'ObservationParameters' is required and may not be null or empty!");
-		new InsertObservationParameters(null, null);
-	}
+    @Test public void
+    shouldThrowIllegalArgumentExceptionIfMissingAllParameters() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Parameter 'ObservationParameters' is required and may not be null or empty!");
+        new InsertObservationParameters(null, null);
+    }
 
-	@Test public void
-	shouldThrowIllegalArgumentExceptionIfMissingProcedureId() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("Parameter 'offerings' is required and may not be null or empty!");
-		final MeasurementObservationParameters measurementParameters = (MeasurementObservationParameters) new DefaultObservationParametersFactory()
-		.createObservationParametersFor(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION);
-		measurementParameters.addObservationValue("1.0");
-		measurementParameters.addUom("uom");
-		new InsertObservationParameters(measurementParameters,null);
-	}
+    @Test public void
+    shouldThrowIllegalArgumentExceptionIfMissingProcedureId() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Parameter 'offerings' is required and may not be null or empty!");
+        final MeasurementObservationParameters measurementParameters = (MeasurementObservationParameters) new DefaultObservationParametersFactory()
+        .createObservationParametersFor(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION);
+        measurementParameters.addObservationValue("1.0");
+        measurementParameters.addUom("uom");
+        new InsertObservationParameters(measurementParameters,null);
+    }
 
-	@Test public void
-	shouldThrowIllegalArgumentExceptionIfMissingObservationParameter() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("Parameter 'ObservationParameters' is required and may not be null or empty!");
-		new InsertObservationParameters(null,Collections.singletonList("sdf"));
-	}
+    @Test public void
+    shouldThrowIllegalArgumentExceptionIfMissingObservationParameter() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Parameter 'ObservationParameters' is required and may not be null or empty!");
+        new InsertObservationParameters(null,Collections.singletonList("sdf"));
+    }
 
-	@Test public void
-	shouldThrowIllegalArgumentExceptionIfReceivingInvalidObservationParameter() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("Parameter 'ObservationParameters' is required and may not be null or empty!");
-		new InsertObservationParameters( new DefaultObservationParametersFactory()
-		.createObservationParametersFor(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION),Collections.singletonList("sdf"));
-	}
+    @Test public void
+    shouldThrowIllegalArgumentExceptionIfReceivingInvalidObservationParameter() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Parameter 'ObservationParameters' is required and may not be null or empty!");
+        new InsertObservationParameters( new DefaultObservationParametersFactory()
+        .createObservationParametersFor(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION),Collections.singletonList("sdf"));
+    }
 
 }

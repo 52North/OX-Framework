@@ -42,49 +42,49 @@ import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
  */
 public class GetFeatureOfInterestParameterBuilder_v100 {
 
-	private final Map<String, String> parameters = new HashMap<String, String>();
+    private final Map<String, String> parameters = new HashMap<String, String>();
 
-	/**
-	 * Assembles mandatory parameters from method parameter list.
-	 *
-	 * @param identification
-	 * @param identificationType
-	 * @see ISOSRequestBuilder
-	 */
-	public GetFeatureOfInterestParameterBuilder_v100(final String identification, final String identificationType) {
-		if (identification == null || identificationType == null ||
-				(!identificationType.equals(GET_FOI_ID_PARAMETER) && !identificationType.equals(GET_FOI_LOCATION_PARAMETER))) {
-			throw new IllegalArgumentException("The parameters \"identification\" and \"identificationType\" are mandatory. " +
-					"They cannot be left empty! Take care of the available identification types! (" +
-					GET_FOI_ID_PARAMETER + ", " + GET_FOI_LOCATION_PARAMETER + ")");
-		}
-		if (identificationType.equals(GET_FOI_ID_PARAMETER)) {
-			parameters.put(GET_FOI_ID_PARAMETER, identification);
-		}
-		else {
-			parameters.put(GET_FOI_LOCATION_PARAMETER, identification);
-		}
-	}
+    /**
+     * Assembles mandatory parameters from method parameter list.
+     *
+     * @param identification
+     * @param identificationType
+     * @see ISOSRequestBuilder
+     */
+    public GetFeatureOfInterestParameterBuilder_v100(final String identification, final String identificationType) {
+        if (identification == null || identificationType == null ||
+                (!identificationType.equals(GET_FOI_ID_PARAMETER) && !identificationType.equals(GET_FOI_LOCATION_PARAMETER))) {
+            throw new IllegalArgumentException("The parameters \"identification\" and \"identificationType\" are mandatory. " +
+                    "They cannot be left empty! Take care of the available identification types! (" +
+                    GET_FOI_ID_PARAMETER + ", " + GET_FOI_LOCATION_PARAMETER + ")");
+        }
+        if (identificationType.equals(GET_FOI_ID_PARAMETER)) {
+            parameters.put(GET_FOI_ID_PARAMETER, identification);
+        }
+        else {
+            parameters.put(GET_FOI_LOCATION_PARAMETER, identification);
+        }
+    }
 
-	/**
-	 * @return set of parameters
-	 */
-	public Map<String, String> getParameters() {
-		return parameters;
-	}
+    /**
+     * @return set of parameters
+     */
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
 
-	/**
-	 * Adds or replaces the optional parameter "eventTime".
-	 *
-	 * @param eventTime
-	 * @return parameter builder
-	 */
-	public GetFeatureOfInterestParameterBuilder_v100 addEventTime(final String eventTime) {
-		if (parameters.get(GET_FOI_EVENT_TIME_PARAMETER) != null) {
-			parameters.remove(GET_FOI_EVENT_TIME_PARAMETER);
-		}
-		parameters.put(GET_FOI_EVENT_TIME_PARAMETER, eventTime);
-		return this;
-	}
+    /**
+     * Adds or replaces the optional parameter "eventTime".
+     *
+     * @param eventTime
+     * @return parameter builder
+     */
+    public GetFeatureOfInterestParameterBuilder_v100 addEventTime(final String eventTime) {
+        if (parameters.get(GET_FOI_EVENT_TIME_PARAMETER) != null) {
+            parameters.remove(GET_FOI_EVENT_TIME_PARAMETER);
+        }
+        parameters.put(GET_FOI_EVENT_TIME_PARAMETER, eventTime);
+        return this;
+    }
 
 }

@@ -36,17 +36,17 @@ import java.util.Map;
 
 public abstract class MultiValueRequestParameters implements RequestParameters {
 
-	/**
-	 * Service version parameter identifier for OWS requests, e.g. set to "1.0.0"
-	 *  for version 1.0.0 requests of a specific service interface.
-	 */
-	public static final String SERVICE_VERSION = "version";
+    /**
+     * Service version parameter identifier for OWS requests, e.g. set to "1.0.0"
+     *  for version 1.0.0 requests of a specific service interface.
+     */
+    public static final String SERVICE_VERSION = "version";
 
-	/**
-	 * Service type parameter identifier for OWS requests,
-	 * e.g. set to "SOS" for Sensor Observation Service requests.
-	 */
-	public static final String SERVICE_TYPE = "service";
+    /**
+     * Service type parameter identifier for OWS requests,
+     * e.g. set to "SOS" for Sensor Observation Service requests.
+     */
+    public static final String SERVICE_TYPE = "service";
 
     private final Map<String, MultiValue> parameters;
 
@@ -59,15 +59,15 @@ public abstract class MultiValueRequestParameters implements RequestParameters {
         return parameters.isEmpty();
     }
 
-	@Override
-	public boolean isEmpty(final String parameter)
-	{
-		return !parameters.containsKey(parameter) ||
-				parameters.get(parameter).isEmpty() ||
-        		(parameters.get(parameter).size() == 1 &&
-        		parameters.get(parameter).getValues().size() == 1 &&
-        		parameters.get(parameter).getValues().iterator().next().length() == 0);
-	}
+    @Override
+    public boolean isEmpty(final String parameter)
+    {
+        return !parameters.containsKey(parameter) ||
+                parameters.get(parameter).isEmpty() ||
+                (parameters.get(parameter).size() == 1 &&
+                parameters.get(parameter).getValues().size() == 1 &&
+                parameters.get(parameter).getValues().iterator().next().length() == 0);
+    }
 
 
     @Override
@@ -110,9 +110,9 @@ public abstract class MultiValueRequestParameters implements RequestParameters {
 
     @Override
     public boolean mergeWith(final RequestParameters parameters) {
-    	if (parameters == null) {
+        if (parameters == null) {
             throw new IllegalArgumentException("Parameter assembly to merge with may not be null!");
-    	}
+        }
         boolean hasChanged = false;
         for (final String parameter : parameters.getParameterNames()) {
             final MultiValue multiValue = getMultiValueFor(parameter);
@@ -186,12 +186,12 @@ public abstract class MultiValueRequestParameters implements RequestParameters {
     }
 
     protected boolean addNonEmpty(final String key, final Collection<String> values) {
-    	boolean hasChanged = false;
-    	if (values == null || values.isEmpty()) {
-        	throw new IllegalArgumentException("Parameter '"+key+"' is required and may not be null or empty!");
+        boolean hasChanged = false;
+        if (values == null || values.isEmpty()) {
+            throw new IllegalArgumentException("Parameter '"+key+"' is required and may not be null or empty!");
         }
         for (final String value : values) {
-        	final boolean changed = addNonEmpty(key, value);
+            final boolean changed = addNonEmpty(key, value);
             hasChanged = changed ? changed : hasChanged;
         }
         return hasChanged;
@@ -207,11 +207,11 @@ public abstract class MultiValueRequestParameters implements RequestParameters {
      */
     protected boolean isEmptyValue(final String parameter) {
         return parameter == null ||
-        		!parameters.containsKey(parameter) ||
-        		parameters.get(parameter).isEmpty() ||
-        		(parameters.get(parameter).size() == 1 &&
-        		parameters.get(parameter).getValues().size() == 1 &&
-        		parameters.get(parameter).getValues().iterator().next().length() == 0);
+                !parameters.containsKey(parameter) ||
+                parameters.get(parameter).isEmpty() ||
+                (parameters.get(parameter).size() == 1 &&
+                parameters.get(parameter).getValues().size() == 1 &&
+                parameters.get(parameter).getValues().iterator().next().length() == 0);
     }
 
     protected boolean isEmptyString(final String value) {

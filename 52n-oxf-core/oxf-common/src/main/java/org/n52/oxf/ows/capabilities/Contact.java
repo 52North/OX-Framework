@@ -37,149 +37,149 @@ package org.n52.oxf.ows.capabilities;
  */
 public class Contact {
 
-	/**
-	 * Telephone numbers of the responsible individual or organization.
-	 * <br>
-	 * Zero or more (optional) values are possible. <br>
-	 */
-	private String[] telephone;
+    /**
+     * Telephone numbers of the responsible individual or organization.
+     * <br>
+     * Zero or more (optional) values are possible. <br>
+     */
+    private String[] telephone;
 
-	/**
-	 * Facsimile numbers of the responsible individual or organization.
-	 * <br>
-	 * Zero or more (optional) values are possible. <br>
-	 */
-	private String[] fax;
+    /**
+     * Facsimile numbers of the responsible individual or organization.
+     * <br>
+     * Zero or more (optional) values are possible. <br>
+     */
+    private String[] fax;
 
-	/**
-	 * Time period when you can contact the individual or organization.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private String hoursOfService;
+    /**
+     * Time period when you can contact the individual or organization.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private String hoursOfService;
 
-	/**
-	 * Supplemental instructions to contact the organization or individual.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private String contactInstructions;
+    /**
+     * Supplemental instructions to contact the organization or individual.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private String contactInstructions;
 
-	/**
-	 * Physical and email address at which the organization or individual may be contacted.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private Address address;
+    /**
+     * Physical and email address at which the organization or individual may be contacted.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private Address address;
 
-	/**
-	 * On-line resource to contact the individual or organization.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private OnlineResource onlineResource;
+    /**
+     * On-line resource to contact the individual or organization.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private OnlineResource onlineResource;
 
-	public Contact(String[] telephone, String[] fax, String hoursOfService,
-			String contactInstructions, Address address,
-			OnlineResource onlineResource) {
+    public Contact(String[] telephone, String[] fax, String hoursOfService,
+            String contactInstructions, Address address,
+            OnlineResource onlineResource) {
         if (telephone != null) {
             this.telephone = telephone.clone();
         }
         if (fax != null) {
             this.fax = fax.clone();
         }
-		this.hoursOfService = hoursOfService;
-		this.contactInstructions = contactInstructions;
-		this.address = address;
-		this.onlineResource = onlineResource;
-	}
+        this.hoursOfService = hoursOfService;
+        this.contactInstructions = contactInstructions;
+        this.address = address;
+        this.onlineResource = onlineResource;
+    }
 
-	/**
-	 * @return a XML representation of this Contact.
-	 */
-	public String toXML(){
-		String res = "<Contact"
-			+ " hoursOfService=\""+ hoursOfService + "\""
-			+ " contactInstructions=\""	+ contactInstructions + "\">";
+    /**
+     * @return a XML representation of this Contact.
+     */
+    public String toXML(){
+        String res = "<Contact"
+            + " hoursOfService=\""+ hoursOfService + "\""
+            + " contactInstructions=\"" + contactInstructions + "\">";
 
-		if(fax != telephone) {
+        if(fax != telephone) {
             StringBuilder sb = new StringBuilder(res);
-			for(String s : telephone){
-				sb.append("<Telephone>")
+            for(String s : telephone){
+                sb.append("<Telephone>")
                     .append(s)
                     .append("</Telephone>");
-			}
+            }
             res = sb.toString();
-		}
+        }
 
-		if(fax != null) {
+        if(fax != null) {
             StringBuilder sb = new StringBuilder(res);
-			for(String s : fax){
-				sb.append("<Fax>")
+            for(String s : fax){
+                sb.append("<Fax>")
                     .append(s)
                     .append("</Fax>");
-			}
+            }
             res = sb.toString();
-		}
+        }
 
         if(address != null) {
             res += address.toXML();
         }
 
         if(onlineResource != null) {
-			res += onlineResource.toXML();
+            res += onlineResource.toXML();
         }
 
-		res += "</Contact>";
-		return res;
-	}
+        res += "</Contact>";
+        return res;
+    }
 
 
-	public Address getAddress() {
-		return address;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	protected void setAddress(Address address) {
-		this.address = address;
-	}
+    protected void setAddress(Address address) {
+        this.address = address;
+    }
 
-	public String getContactInstructions() {
-		return contactInstructions;
-	}
+    public String getContactInstructions() {
+        return contactInstructions;
+    }
 
-	protected void setContactInstructions(String contactInstructions) {
-		this.contactInstructions = contactInstructions;
-	}
+    protected void setContactInstructions(String contactInstructions) {
+        this.contactInstructions = contactInstructions;
+    }
 
-	public String[] getFax() {
-		return fax == null? new String[0] : fax.clone();
-	}
+    public String[] getFax() {
+        return fax == null? new String[0] : fax.clone();
+    }
 
-	protected void setFax(String[] fax) {
-		this.fax = fax;
-	}
+    protected void setFax(String[] fax) {
+        this.fax = fax;
+    }
 
-	public String getHoursOfService() {
-		return hoursOfService;
-	}
+    public String getHoursOfService() {
+        return hoursOfService;
+    }
 
-	protected void setHoursOfService(String hoursOfService) {
-		this.hoursOfService = hoursOfService;
-	}
+    protected void setHoursOfService(String hoursOfService) {
+        this.hoursOfService = hoursOfService;
+    }
 
-	public OnlineResource getOnlineResource() {
-		return onlineResource;
-	}
+    public OnlineResource getOnlineResource() {
+        return onlineResource;
+    }
 
-	protected void setOnlineResource(OnlineResource onlineResource) {
-		this.onlineResource = onlineResource;
-	}
+    protected void setOnlineResource(OnlineResource onlineResource) {
+        this.onlineResource = onlineResource;
+    }
 
-	public String[] getTelephone() {
-		return telephone == null? null : telephone.clone();
-	}
+    public String[] getTelephone() {
+        return telephone == null? null : telephone.clone();
+    }
 
-	protected void setTelephone(String[] telephone) {
-		this.telephone = telephone;
-	}
+    protected void setTelephone(String[] telephone) {
+        this.telephone = telephone;
+    }
 }

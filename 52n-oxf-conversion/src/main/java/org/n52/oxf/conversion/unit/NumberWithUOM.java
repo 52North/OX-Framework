@@ -29,21 +29,21 @@ package org.n52.oxf.conversion.unit;
 
 public class NumberWithUOM {
 
-	private double value;
-	private String uom;
+    private double value;
+    private String uom;
 
-	public NumberWithUOM(double value, String uom) {
-		this.value = value;
-		this.uom = uom;
-	}
+    public NumberWithUOM(double value, String uom) {
+        this.value = value;
+        this.uom = uom;
+    }
 
-	public double getValue() {
-		return value;
-	}
+    public double getValue() {
+        return value;
+    }
 
-	public String getUom() {
-		return uom;
-	}
+    public String getUom() {
+        return uom;
+    }
 
 
 

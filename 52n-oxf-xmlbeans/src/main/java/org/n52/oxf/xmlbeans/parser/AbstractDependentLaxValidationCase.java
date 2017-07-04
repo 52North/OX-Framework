@@ -39,14 +39,14 @@ import org.apache.xmlbeans.XmlValidationError;
  */
 public abstract class AbstractDependentLaxValidationCase extends AbstractLaxValidationCase implements DependentLaxValidationCase {
 
-	@Override
-	public boolean shouldPass(final XmlValidationError validationError)
-	{
-		return false;
-	}
+    @Override
+    public boolean shouldPass(final XmlValidationError validationError)
+    {
+        return false;
+    }
 
-	@Override
-	public abstract boolean shouldPass(XmlError validationError,
-			List<XmlError> allExceptionalCases);
+    @Override
+    public abstract boolean shouldPass(XmlError validationError,
+            List<XmlError> allExceptionalCases);
 
 }

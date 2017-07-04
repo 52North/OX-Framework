@@ -50,7 +50,7 @@ public interface ResponseHandler {
      * appropriately. Use this method to trigger higher-level error messaging.
      *
      * @param reason
-     * 		  a higher-level error message
+     *        a higher-level error message
      */
     public void onFailure(String reason);
 

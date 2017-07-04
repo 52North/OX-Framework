@@ -66,8 +66,8 @@ public interface ISESRequestBuilder {
     public static final String UNSUBSCRIBE_REFERENCE = "unsubscribeReference";
     public static final String UNSUBSCRIBE_REFERENCE_XML = "unsubscribeReferenceXmlMarkup";
 
-	public static final String DESTROY_REGISTRATION_SES_URL = "destroyRegistrationSesUrl";
-	public static final String DESTROY_REGISTRATION_REFERENCE = "destroyRegistrationReference";
+    public static final String DESTROY_REGISTRATION_SES_URL = "destroyRegistrationSesUrl";
+    public static final String DESTROY_REGISTRATION_REFERENCE = "destroyRegistrationReference";
 
     /**
      * Builds the GetCapabilities SOAP SES Request
@@ -95,7 +95,7 @@ public interface ISESRequestBuilder {
 
     public String buildNotifyRequest(ParameterContainer parameter) throws OXFException;
 
-	public String buildDestroyRegistrationRequest(
-			ParameterContainer parameterContainer) throws OXFException;
+    public String buildDestroyRegistrationRequest(
+            ParameterContainer parameterContainer) throws OXFException;
 
 }

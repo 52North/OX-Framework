@@ -61,20 +61,20 @@ public class InsertSensorParameters extends Sos200RequestParameters {
      *         if passed arguments are <code>null</code> or empty.
      */
     public InsertSensorParameters(final String procedureDescriptionXml,
-    		final String procedureDescriptionFormat,
-    		final Collection<String> observableProperties,
-    		final Collection<String> featureOfInterestTypes,
-    		final Collection<String> observationTypes) {
-    	addNonEmpty(PROCEDURE_DESCRIPTION, procedureDescriptionXml);
-    	addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
-    	addNonEmpty(OBSERVABLE_PROPERTIES,observableProperties);
-    	addNonEmpty(FEATURE_OF_INTEREST_TYPES,featureOfInterestTypes);
-    	addNonEmpty(OBSERVATION_TYPES, observationTypes);
+            final String procedureDescriptionFormat,
+            final Collection<String> observableProperties,
+            final Collection<String> featureOfInterestTypes,
+            final Collection<String> observationTypes) {
+        addNonEmpty(PROCEDURE_DESCRIPTION, procedureDescriptionXml);
+        addNonEmpty(PROCEDURE_DESCRIPTION_FORMAT, procedureDescriptionFormat);
+        addNonEmpty(OBSERVABLE_PROPERTIES,observableProperties);
+        addNonEmpty(FEATURE_OF_INTEREST_TYPES,featureOfInterestTypes);
+        addNonEmpty(OBSERVATION_TYPES, observationTypes);
     }
 
     public boolean isValid() {
         return ! (isEmptyValue(PROCEDURE_DESCRIPTION) ||
-        		isEmptyValue(PROCEDURE_DESCRIPTION_FORMAT) ||
-        		isEmptyValue(OBSERVABLE_PROPERTIES));
+                isEmptyValue(PROCEDURE_DESCRIPTION_FORMAT) ||
+                isEmptyValue(OBSERVABLE_PROPERTIES));
     }
 }

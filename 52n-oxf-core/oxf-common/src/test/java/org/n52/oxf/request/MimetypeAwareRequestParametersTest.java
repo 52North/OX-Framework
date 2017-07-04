@@ -36,28 +36,28 @@ import org.junit.Test;
 
 public class MimetypeAwareRequestParametersTest {
 
-	@Test public void
-	shouldBeInvalidAfterCreate(){
-		assertThat(new MimetypeAwareRequestParametersSeam().isValid(), is(false));
-	}
+    @Test public void
+    shouldBeInvalidAfterCreate(){
+        assertThat(new MimetypeAwareRequestParametersSeam().isValid(), is(false));
+    }
 
-	@Test public void
-	isSetMimetypeShouldReturnTrueIfSet() {
-		final MimetypeAwareRequestParametersSeam parameters = new MimetypeAwareRequestParametersSeam();
-		parameters.setCharset(Charset.forName("UTF-8"));
-		parameters.setType("text/xml");
-		assertThat(parameters.isSetMimetype(), is(true));
-	}
+    @Test public void
+    isSetMimetypeShouldReturnTrueIfSet() {
+        final MimetypeAwareRequestParametersSeam parameters = new MimetypeAwareRequestParametersSeam();
+        parameters.setCharset(Charset.forName("UTF-8"));
+        parameters.setType("text/xml");
+        assertThat(parameters.isSetMimetype(), is(true));
+    }
 
-	@Test public void
-	isSetMimetypeShouldReturnFalseIfTypeOrCharsetIsMissing() {
-		MimetypeAwareRequestParametersSeam parameters = new MimetypeAwareRequestParametersSeam();
-		parameters.setCharset(Charset.forName("UTF-8"));
-		assertThat(parameters.isSetMimetype(), is(false));
-		parameters = new MimetypeAwareRequestParametersSeam();
-		parameters.setType("text/xml");
-		assertThat(parameters.isSetMimetype(), is(false));
-	}
+    @Test public void
+    isSetMimetypeShouldReturnFalseIfTypeOrCharsetIsMissing() {
+        MimetypeAwareRequestParametersSeam parameters = new MimetypeAwareRequestParametersSeam();
+        parameters.setCharset(Charset.forName("UTF-8"));
+        assertThat(parameters.isSetMimetype(), is(false));
+        parameters = new MimetypeAwareRequestParametersSeam();
+        parameters.setType("text/xml");
+        assertThat(parameters.isSetMimetype(), is(false));
+    }
 
-	private class MimetypeAwareRequestParametersSeam extends MimetypeAwareRequestParameters {}
+    private class MimetypeAwareRequestParametersSeam extends MimetypeAwareRequestParameters {}
 }

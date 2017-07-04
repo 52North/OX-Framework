@@ -49,100 +49,100 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SimpleConsumerServlet extends HttpServlet implements IWSNConsumer {
 
-	private static final long serialVersionUID = 1L;
-	private static final List<CallbackOnAvailableListener> CALLBACKS_ON_AVAILABLE = new ArrayList<CallbackOnAvailableListener>();
-	private static final Object MUTEX = new Object();
-	private static final List<SimpleConsumerServlet> INSTANCES = new ArrayList<SimpleConsumerServlet>();
-	private HttpListener listener;
-	private String hostString;
+    private static final long serialVersionUID = 1L;
+    private static final List<CallbackOnAvailableListener> CALLBACKS_ON_AVAILABLE = new ArrayList<CallbackOnAvailableListener>();
+    private static final Object MUTEX = new Object();
+    private static final List<SimpleConsumerServlet> INSTANCES = new ArrayList<SimpleConsumerServlet>();
+    private HttpListener listener;
+    private String hostString;
 
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		this.hostString = getInitParameter("hostUrlAndPort");
-		callOnAvailableListeners();
-	}
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        this.hostString = getInitParameter("hostUrlAndPort");
+        callOnAvailableListeners();
+    }
 
-	private void callOnAvailableListeners() {
-		for (CallbackOnAvailableListener l : CALLBACKS_ON_AVAILABLE) {
-			l.onConsumerServletAvailable(this);
-		}
-		synchronized (MUTEX) {
-			INSTANCES.add(this);
-		}
-	}
+    private void callOnAvailableListeners() {
+        for (CallbackOnAvailableListener l : CALLBACKS_ON_AVAILABLE) {
+            l.onConsumerServletAvailable(this);
+        }
+        synchronized (MUTEX) {
+            INSTANCES.add(this);
+        }
+    }
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		if (req == null || this.listener == null) {
-			finalizeResponse(resp);
-			return;
-		}
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        if (req == null || this.listener == null) {
+            finalizeResponse(resp);
+            return;
+        }
 
-		StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         try (Scanner scanner = new Scanner(req.getInputStream(), "UTF-8")) {
             while (scanner.hasNextLine()) {
                 sb.append(scanner.nextLine());
             }
         }
 
-		this.listener.processRequest(sb.toString(), req.getRequestURI(), req.getMethod(), null);
+        this.listener.processRequest(sb.toString(), req.getRequestURI(), req.getMethod(), null);
 
-		finalizeResponse(resp);
-	}
+        finalizeResponse(resp);
+    }
 
-	private void finalizeResponse(HttpServletResponse resp) {
-		resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
-	}
+    private void finalizeResponse(HttpServletResponse resp) {
+        resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+    }
 
-	@Override
-	public void setListener(HttpListener collectListener) {
-		this.listener = collectListener;
-	}
+    @Override
+    public void setListener(HttpListener collectListener) {
+        this.listener = collectListener;
+    }
 
-	@Override
-	public void stop() {
-		this.listener = null;
-	}
+    @Override
+    public void stop() {
+        this.listener = null;
+    }
 
-	@Override
-	public URL getPublicURL() {
-		try {
-			if (this.hostString != null) {
-				log(this.hostString);
-				log(getServletContext().getContextPath());
-				log(getServletName());
-				return new URL(this.hostString +
-						getServletContext().getContextPath() + "/" +getServletConfig().getServletName());
-			}
-		} catch (MalformedURLException e) {
-			log(e.getMessage(), e);
-		}
-		return null;
-	}
+    @Override
+    public URL getPublicURL() {
+        try {
+            if (this.hostString != null) {
+                log(this.hostString);
+                log(getServletContext().getContextPath());
+                log(getServletName());
+                return new URL(this.hostString +
+                        getServletContext().getContextPath() + "/" +getServletConfig().getServletName());
+            }
+        } catch (MalformedURLException e) {
+            log(e.getMessage(), e);
+        }
+        return null;
+    }
 
-	public static void registerCallbackOnAvailable(CallbackOnAvailableListener l) {
-		CALLBACKS_ON_AVAILABLE.add(l);
+    public static void registerCallbackOnAvailable(CallbackOnAvailableListener l) {
+        CALLBACKS_ON_AVAILABLE.add(l);
 
-		synchronized (MUTEX) {
-			if (!INSTANCES.isEmpty()) {
-				for (SimpleConsumerServlet s : INSTANCES) {
-					l.onConsumerServletAvailable(s);
-				}
-			}
-		}
-	}
+        synchronized (MUTEX) {
+            if (!INSTANCES.isEmpty()) {
+                for (SimpleConsumerServlet s : INSTANCES) {
+                    l.onConsumerServletAvailable(s);
+                }
+            }
+        }
+    }
 
-	/**
-	 * A callback listener which is informed when the servlet is available.
-	 *
-	 * @author matthes rieke
-	 *
-	 */
-	public static interface CallbackOnAvailableListener {
+    /**
+     * A callback listener which is informed when the servlet is available.
+     *
+     * @author matthes rieke
+     *
+     */
+    public static interface CallbackOnAvailableListener {
 
-		public void onConsumerServletAvailable(SimpleConsumerServlet servlet);
+        public void onConsumerServletAvailable(SimpleConsumerServlet servlet);
 
-	}
+    }
 }

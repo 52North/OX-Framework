@@ -29,6 +29,6 @@ package org.n52.oxf.conversion.gml32.srs;
 
 public enum AxisOrder {
 
-	LatLong, LongLat
+    LatLong, LongLat
 
 }

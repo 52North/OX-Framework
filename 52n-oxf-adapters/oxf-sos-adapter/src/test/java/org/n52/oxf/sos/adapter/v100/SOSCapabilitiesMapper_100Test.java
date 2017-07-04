@@ -38,20 +38,20 @@ import org.n52.oxf.OXFException;
 
 public class SOSCapabilitiesMapper_100Test {
 
-	private static final String SOS_VERSION = "1.0.0";
+    private static final String SOS_VERSION = "1.0.0";
 
-	@Test
-	public void shouldNotThrowNPEWhileReceivingMissingContentsSection() throws OXFException {
-		CapabilitiesDocument capabilitiesDoc = CapabilitiesDocument.Factory.newInstance();
-		Capabilities capabilities = capabilitiesDoc.addNewCapabilities();
-		ServiceIdentification serviceIdentification = capabilities.addNewServiceIdentification();
-		serviceIdentification.addNewTitle().setStringValue("test-title");
-		serviceIdentification.addNewServiceType().setStringValue("test-service-type");
-		serviceIdentification.addNewAbstract();
-		serviceIdentification.addNewServiceTypeVersion().setStringValue(SOS_VERSION);
-		capabilities.setVersion(SOS_VERSION);
-		capabilities.addNewOperationsMetadata();
-		new SOSCapabilitiesMapper_100().mapCapabilities(capabilitiesDoc);
-	}
+    @Test
+    public void shouldNotThrowNPEWhileReceivingMissingContentsSection() throws OXFException {
+        CapabilitiesDocument capabilitiesDoc = CapabilitiesDocument.Factory.newInstance();
+        Capabilities capabilities = capabilitiesDoc.addNewCapabilities();
+        ServiceIdentification serviceIdentification = capabilities.addNewServiceIdentification();
+        serviceIdentification.addNewTitle().setStringValue("test-title");
+        serviceIdentification.addNewServiceType().setStringValue("test-service-type");
+        serviceIdentification.addNewAbstract();
+        serviceIdentification.addNewServiceTypeVersion().setStringValue(SOS_VERSION);
+        capabilities.setVersion(SOS_VERSION);
+        capabilities.addNewOperationsMetadata();
+        new SOSCapabilitiesMapper_100().mapCapabilities(capabilitiesDoc);
+    }
 
 }

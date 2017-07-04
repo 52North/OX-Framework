@@ -93,13 +93,13 @@ public class OXFSensorType extends OXFAbstractFeatureType {
     public static final String OUTPUTS = "oxfSensorTypeOutputs";
 
     public static final List<String> X_AXIS_IDENTIFIERS = Collections.unmodifiableList(
-	    new ArrayList<String>(Arrays.asList(new String[] { "x", "xcoord", "easting", "longitude" })));
+        new ArrayList<String>(Arrays.asList(new String[] { "x", "xcoord", "easting", "longitude" })));
 
     public static final List<String> Y_AXIS_IDENTIFIERS = Collections.unmodifiableList(
-	    new ArrayList<String>(Arrays.asList(new String[] { "y", "ycoord", "northing", "latitude" })));
+        new ArrayList<String>(Arrays.asList(new String[] { "y", "ycoord", "northing", "latitude" })));
 
     public static final List<String> Z_AXIS_IDENTIFIERS = Collections.unmodifiableList(
-	    new ArrayList<String>(Arrays.asList(new String[] { "z", "zcoord", "altitude", "elevation" })));
+        new ArrayList<String>(Arrays.asList(new String[] { "z", "zcoord", "altitude", "elevation" })));
 
 
     public OXFSensorType() {

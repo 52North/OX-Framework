@@ -34,20 +34,20 @@ package org.n52.oxf.conversion.gml32.xmlbeans.jts;
  */
 public class GeometryFactoryConfiguration {
 
-	private static boolean userInternalInterpolation;
+    private static boolean userInternalInterpolation;
 
-	static {
-		userInternalInterpolation = true;
-	}
+    static {
+        userInternalInterpolation = true;
+    }
 
-	public static boolean isUserInternalInterpolation() {
-		return userInternalInterpolation;
-	}
+    public static boolean isUserInternalInterpolation() {
+        return userInternalInterpolation;
+    }
 
-	public static void setUserInternalInterpolation(
-			boolean inte) {
-		userInternalInterpolation = inte;
-	}
+    public static void setUserInternalInterpolation(
+            boolean inte) {
+        userInternalInterpolation = inte;
+    }
 
 
 }

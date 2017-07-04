@@ -235,136 +235,136 @@ import org.w3c.dom.Node;
 
 public class XbeansXPathSaxon94 implements PathDelegate.SelectPathInterface {
 
-	private final Object[] namespaceMap;
-	private final String path;
-	private final String contextVar;
-	private final String defaultNS;
+    private final Object[] namespaceMap;
+    private final String path;
+    private final String contextVar;
+    private final String defaultNS;
 
-	/**
-	 * Construct given an XPath expression string.
-	 * @param path The XPath expression
-	 * @param contextVar The name of the context variable
-	 * @param namespaceMap a map of prefix/uri bindings for NS support
-	 * @param defaultNS the uri for the default element NS, if any
-	 */
-	public XbeansXPathSaxon94(final String path, final String contextVar,
-			final Map<?,?> namespaceMap, final String defaultNS)
-	{
-		this.path = path;
-		this.contextVar = contextVar;
-		this.defaultNS = defaultNS;
-		this.namespaceMap = namespaceMap.entrySet().toArray();
-	}
+    /**
+     * Construct given an XPath expression string.
+     * @param path The XPath expression
+     * @param contextVar The name of the context variable
+     * @param namespaceMap a map of prefix/uri bindings for NS support
+     * @param defaultNS the uri for the default element NS, if any
+     */
+    public XbeansXPathSaxon94(final String path, final String contextVar,
+            final Map<?,?> namespaceMap, final String defaultNS)
+    {
+        this.path = path;
+        this.contextVar = contextVar;
+        this.defaultNS = defaultNS;
+        this.namespaceMap = namespaceMap.entrySet().toArray();
+    }
 
-	/**
-	 * Select all nodes that are selectable by this XPath
-	 * expression. If multiple nodes match, multiple nodes
-	 * will be returned.
-	 * <br>
-	 * <p>
-	 * <b>NOTE:</b> In most cases, nodes will be returned
-	 * in document-order, as defined by the XML Canonicalization
-	 * specification.  The exception occurs when using XPath
-	 * expressions involving the <code>union</code> operator
-	 * (denoted with the pipe '|' character).
-	 * </p>
-	 * <br>
-	 * <p>
-	 * <b>NOTE:</b> Param node must be a DOM node which will be used
-	 * during the xpath execution and iteration through the results.
-	 * A call of node.dispose() must be done after reading all results.
-	 * </p>
-	 *
-	 * @param node The node, nodeset or Context object for evaluation.
-	 * This value can be null.
-	 * @return The <code>List</code> of all items selected
-	 *         by this XPath expression.
-	 */
-	@SuppressWarnings({"unchecked", "rawtypes" })
-	public List<?> selectNodes(final Object node)
-	{
-		try
-		{
-			final Node contextNode = (Node)node;
-			final XPathEvaluator xpe = new XPathEvaluator();
-			final Configuration config = new Configuration();
-			config.setDOMLevel(2);
-			config.setTreeModel(net.sf.saxon.event.Builder.STANDARD_TREE);
-			final IndependentContext sc = new IndependentContext(config);
-			// Declare ns bindings
-			if (defaultNS != null) {
-				sc.setDefaultElementNamespace(defaultNS);
-			}
+    /**
+     * Select all nodes that are selectable by this XPath
+     * expression. If multiple nodes match, multiple nodes
+     * will be returned.
+     * <br>
+     * <p>
+     * <b>NOTE:</b> In most cases, nodes will be returned
+     * in document-order, as defined by the XML Canonicalization
+     * specification.  The exception occurs when using XPath
+     * expressions involving the <code>union</code> operator
+     * (denoted with the pipe '|' character).
+     * </p>
+     * <br>
+     * <p>
+     * <b>NOTE:</b> Param node must be a DOM node which will be used
+     * during the xpath execution and iteration through the results.
+     * A call of node.dispose() must be done after reading all results.
+     * </p>
+     *
+     * @param node The node, nodeset or Context object for evaluation.
+     * This value can be null.
+     * @return The <code>List</code> of all items selected
+     *         by this XPath expression.
+     */
+    @SuppressWarnings({"unchecked", "rawtypes" })
+    public List<?> selectNodes(final Object node)
+    {
+        try
+        {
+            final Node contextNode = (Node)node;
+            final XPathEvaluator xpe = new XPathEvaluator();
+            final Configuration config = new Configuration();
+            config.setDOMLevel(2);
+            config.setTreeModel(net.sf.saxon.event.Builder.STANDARD_TREE);
+            final IndependentContext sc = new IndependentContext(config);
+            // Declare ns bindings
+            if (defaultNS != null) {
+                sc.setDefaultElementNamespace(defaultNS);
+            }
 
-			for (final Object element : namespaceMap) {
-				final Map.Entry entry = (Map.Entry) element;
-				sc.declareNamespace((String) entry.getKey(),
-						(String) entry.getValue());
-			}
-			xpe.setStaticContext(sc);
-			final XPathVariable thisVar = xpe.declareVariable("", contextVar);
-			final XPathExpression xpath = xpe.createExpression(path);
-			final NodeInfo contextItem =
-					//config.buildDocument(new DOMSource(contextNode));
-					config.unravel(new DOMSource(contextNode));
-			final XPathDynamicContext dc = xpath.createDynamicContext(null);
-			dc.setContextItem(contextItem);
-			dc.setVariable(thisVar, contextItem);
+            for (final Object element : namespaceMap) {
+                final Map.Entry entry = (Map.Entry) element;
+                sc.declareNamespace((String) entry.getKey(),
+                        (String) entry.getValue());
+            }
+            xpe.setStaticContext(sc);
+            final XPathVariable thisVar = xpe.declareVariable("", contextVar);
+            final XPathExpression xpath = xpe.createExpression(path);
+            final NodeInfo contextItem =
+                    //config.buildDocument(new DOMSource(contextNode));
+                    config.unravel(new DOMSource(contextNode));
+            final XPathDynamicContext dc = xpath.createDynamicContext(null);
+            dc.setContextItem(contextItem);
+            dc.setVariable(thisVar, contextItem);
 
-			final List<?> saxonNodes = xpath.evaluate(dc);
-			for (final ListIterator it = saxonNodes.listIterator(); it.hasNext(); )
-			{
-				final Object o = it.next();
-				if (o instanceof NodeInfo)
-				{
-					if (o instanceof NodeWrapper)
-					{
-						final Node n = getUnderlyingNode((NodeWrapper)o);
-						it.set(n);
-					}
-					else
-					{
-						it.set(((NodeInfo)o).getStringValue());
-					}
-				}
-				else if (o instanceof Item<?>) {
-					it.set(Value.convertToJava((Item<?>)o));
-				}
-			}
-			return saxonNodes;
-		}
-		catch (final TransformerException e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
+            final List<?> saxonNodes = xpath.evaluate(dc);
+            for (final ListIterator it = saxonNodes.listIterator(); it.hasNext(); )
+            {
+                final Object o = it.next();
+                if (o instanceof NodeInfo)
+                {
+                    if (o instanceof NodeWrapper)
+                    {
+                        final Node n = getUnderlyingNode((NodeWrapper)o);
+                        it.set(n);
+                    }
+                    else
+                    {
+                        it.set(((NodeInfo)o).getStringValue());
+                    }
+                }
+                else if (o instanceof Item<?>) {
+                    it.set(Value.convertToJava((Item<?>)o));
+                }
+            }
+            return saxonNodes;
+        }
+        catch (final TransformerException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 
-	@Override
-	public List<?> selectPath(final Object node)
-	{
-		return selectNodes(node);
-	}
+    @Override
+    public List<?> selectPath(final Object node)
+    {
+        return selectNodes(node);
+    }
 
-	/**
-	 * According to the Saxon javadoc:
-	 * <code>getUnderlyingNode</code> in <code>NodeWrapper</code> implements
-	 * the method specified in the interface <code>VirtualNode</code>, and
-	 * the specification of the latter says that it may return another
-	 * <code>VirtualNode</code>, and you may have to drill down through
-	 * several layers of wrapping.
-	 * To be safe, this method is provided to drill down through multiple
-	 * layers of wrapping.
-	 * @param v The <code>VirtualNode</code>
-	 * @return The underlying node
-	 */
-	private static Node getUnderlyingNode(final VirtualNode v)
-	{
-		Object o = v;
-		while (o instanceof VirtualNode)
-		{
-			o = ((VirtualNode)o).getUnderlyingNode();
-		}
-		return (Node)o;
-	}
+    /**
+     * According to the Saxon javadoc:
+     * <code>getUnderlyingNode</code> in <code>NodeWrapper</code> implements
+     * the method specified in the interface <code>VirtualNode</code>, and
+     * the specification of the latter says that it may return another
+     * <code>VirtualNode</code>, and you may have to drill down through
+     * several layers of wrapping.
+     * To be safe, this method is provided to drill down through multiple
+     * layers of wrapping.
+     * @param v The <code>VirtualNode</code>
+     * @return The underlying node
+     */
+    private static Node getUnderlyingNode(final VirtualNode v)
+    {
+        Object o = v;
+        while (o instanceof VirtualNode)
+        {
+            o = ((VirtualNode)o).getUnderlyingNode();
+        }
+        return (Node)o;
+    }
 
 }

@@ -101,17 +101,17 @@ public class OperationResult {
      */
     protected void setIncomingResult(InputStream incomingStream, int bufferSize) throws IOException {
         // DataInputStream in = new DataInputStream(incomingStream);
-		ByteArrayOutputStream bufferOutputStream = new ByteArrayOutputStream();
-		int read;
-		byte[] data = new byte[16384];
+        ByteArrayOutputStream bufferOutputStream = new ByteArrayOutputStream();
+        int read;
+        byte[] data = new byte[16384];
 
-		while ((read = incomingStream.read(data, 0, data.length)) != -1) {
-			bufferOutputStream.write(data, 0, read);
-		}
+        while ((read = incomingStream.read(data, 0, data.length)) != -1) {
+            bufferOutputStream.write(data, 0, read);
+        }
 
-		bufferOutputStream.flush();
-		bufferOutputStream.close();
-		incomingResult = bufferOutputStream.toByteArray();
+        bufferOutputStream.flush();
+        bufferOutputStream.close();
+        incomingResult = bufferOutputStream.toByteArray();
     }
 
     public byte[] getIncomingResult() {

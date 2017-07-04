@@ -260,9 +260,9 @@ public class OXFFeature /*implements org.opengis.feature.Feature*/ {
             String featureId = samplingFeatureType.getIdentifier().getStringValue();
             String featureType = "";
             if (samplingFeatureType.getType() != null && samplingFeatureType.getType().getHref() != null) {
-            	featureType = samplingFeatureType.getType().getHref();
+                featureType = samplingFeatureType.getType().getHref();
             } else if (samplingFeatureType.getSampledFeature() != null && samplingFeatureType.getSampledFeature().getHref() != null) {
-            	featureType = samplingFeatureType.getSampledFeature().getHref();
+                featureType = samplingFeatureType.getSampledFeature().getHref();
             }
             // XXX check if setting featureAttributeDescriptors is appropriate
             List<OXFFeatureAttributeDescriptor> featureAttributeDescriptors = new OXFSamplingPointType().getAttributeDescriptors();

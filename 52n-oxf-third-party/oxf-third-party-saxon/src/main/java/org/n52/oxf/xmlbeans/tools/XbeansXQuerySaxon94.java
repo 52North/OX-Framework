@@ -237,90 +237,90 @@ import org.slf4j.LoggerFactory;
 public class XbeansXQuerySaxon94
 implements QueryDelegate.QueryInterface
 {
-	private XQueryExpression xquery;
-	private String contextVar;
-	private Configuration config;
+    private XQueryExpression xquery;
+    private String contextVar;
+    private Configuration config;
 
-	@SuppressWarnings("unused")
-	private static final Logger LOG = LoggerFactory.getLogger(XbeansXPathSaxon94.class);
+    @SuppressWarnings("unused")
+    private static final Logger LOG = LoggerFactory.getLogger(XbeansXPathSaxon94.class);
 
-	/**
-	 * Construct given an XQuery expression string.
-	 * @param query The XQuery expression
-	 * @param contextVar The name of the context variable
-	 * @param boundary The offset of the end of the prolog
-	 */
-	public XbeansXQuerySaxon94(String query, String contextVar, Integer boundary)
-	{
-		config = new Configuration();
-		config.setDOMLevel(2);
-		config.setTreeModel(net.sf.saxon.event.Builder.STANDARD_TREE);
-		StaticQueryContext sc = new StaticQueryContext(config);
-		this.contextVar = contextVar;
-		int bdry = boundary.intValue();
-		//Saxon requires external variables at the end of the prolog...
-		query = (bdry == 0) ?
-				"declare variable $" +
-				contextVar + " external;" + query :
-					query.substring(0, bdry) +
-					"declare variable $" +
-					contextVar + " external;" +
-					query.substring(bdry);
-		try
-		{
-			xquery = sc.compileQuery(query);
-		}
-		catch (TransformerException e)
-		{
-			throw new XmlRuntimeException(e);
-		}
-	}
+    /**
+     * Construct given an XQuery expression string.
+     * @param query The XQuery expression
+     * @param contextVar The name of the context variable
+     * @param boundary The offset of the end of the prolog
+     */
+    public XbeansXQuerySaxon94(String query, String contextVar, Integer boundary)
+    {
+        config = new Configuration();
+        config.setDOMLevel(2);
+        config.setTreeModel(net.sf.saxon.event.Builder.STANDARD_TREE);
+        StaticQueryContext sc = new StaticQueryContext(config);
+        this.contextVar = contextVar;
+        int bdry = boundary.intValue();
+        //Saxon requires external variables at the end of the prolog...
+        query = (bdry == 0) ?
+                "declare variable $" +
+                contextVar + " external;" + query :
+                    query.substring(0, bdry) +
+                    "declare variable $" +
+                    contextVar + " external;" +
+                    query.substring(bdry);
+        try
+        {
+            xquery = sc.compileQuery(query);
+        }
+        catch (TransformerException e)
+        {
+            throw new XmlRuntimeException(e);
+        }
+    }
 
-	public List execQuery(Object node, Map variableBindings)
-	{
-		try
-		{
-			Node contextNode = (Node)node;
-			NodeInfo contextItem =
-					config.buildDocument(new DOMSource(contextNode));
-			//config.unravel(new DOMSource(contextNode));
-			DynamicQueryContext dc = new DynamicQueryContext(config);
-			dc.setContextItem(contextItem);
-			dc.setParameter(contextVar, contextItem);
-			// Set the other variables
-			if (variableBindings != null)
-			{
-				for (Iterator it = variableBindings.entrySet().iterator();
-						it.hasNext(); )
-				{
-					Map.Entry entry = (Map.Entry)it.next();
-					String key = (String)entry.getKey();
-					Object value = entry.getValue();
-					if (value instanceof XmlTokenSource)
-					{
-						Node paramObject = ((XmlTokenSource)value).getDomNode();
-						dc.setParameter(key, paramObject);
-					}
-					else if (value instanceof String)
-						dc.setParameter(key, value);
-				}
-			}
+    public List execQuery(Object node, Map variableBindings)
+    {
+        try
+        {
+            Node contextNode = (Node)node;
+            NodeInfo contextItem =
+                    config.buildDocument(new DOMSource(contextNode));
+            //config.unravel(new DOMSource(contextNode));
+            DynamicQueryContext dc = new DynamicQueryContext(config);
+            dc.setContextItem(contextItem);
+            dc.setParameter(contextVar, contextItem);
+            // Set the other variables
+            if (variableBindings != null)
+            {
+                for (Iterator it = variableBindings.entrySet().iterator();
+                        it.hasNext(); )
+                {
+                    Map.Entry entry = (Map.Entry)it.next();
+                    String key = (String)entry.getKey();
+                    Object value = entry.getValue();
+                    if (value instanceof XmlTokenSource)
+                    {
+                        Node paramObject = ((XmlTokenSource)value).getDomNode();
+                        dc.setParameter(key, paramObject);
+                    }
+                    else if (value instanceof String)
+                        dc.setParameter(key, value);
+                }
+            }
 
-			List saxonNodes = xquery.evaluate(dc);
-			for (ListIterator it = saxonNodes.listIterator(); it.hasNext(); )
-			{
-				Object o = it.next();
-				if(o instanceof NodeInfo)
-				{
-					Node n = NodeOverNodeInfo.wrap((NodeInfo)o);
-					it.set(n);
-				}
-			}
-			return saxonNodes;
-		}
-		catch (TransformerException e)
-		{
-			throw new RuntimeException("Error binding " + contextVar, e);
-		}
-	}
+            List saxonNodes = xquery.evaluate(dc);
+            for (ListIterator it = saxonNodes.listIterator(); it.hasNext(); )
+            {
+                Object o = it.next();
+                if(o instanceof NodeInfo)
+                {
+                    Node n = NodeOverNodeInfo.wrap((NodeInfo)o);
+                    it.set(n);
+                }
+            }
+            return saxonNodes;
+        }
+        catch (TransformerException e)
+        {
+            throw new RuntimeException("Error binding " + contextVar, e);
+        }
+    }
 }

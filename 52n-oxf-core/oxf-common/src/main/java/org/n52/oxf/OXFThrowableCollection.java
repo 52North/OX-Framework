@@ -41,9 +41,9 @@ import java.util.*;
  */
 public class OXFThrowableCollection extends OXFException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private ArrayList<Throwable> throwables;
+    private ArrayList<Throwable> throwables;
 
 
     public OXFThrowableCollection() {

@@ -34,8 +34,8 @@ import java.util.regex.*;
  * "P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+([.]\\d+)?S)?)?" <br>
  * Valid example time strings:
  * <ul>
- * 	<li>P2Y</li>
- * 	<li>P1Y1M3DT6H2M8.5S</li>
+ *  <li>P2Y</li>
+ *  <li>P1Y1M3DT6H2M8.5S</li>
  * </ul>
  *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster </a>

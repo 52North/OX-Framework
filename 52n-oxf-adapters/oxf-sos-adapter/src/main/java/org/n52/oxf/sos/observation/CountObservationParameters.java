@@ -57,7 +57,7 @@ public class CountObservationParameters extends ObservationParameters {
     }
 
     @Override
-	public boolean isValid() {
+    public boolean isValid() {
         return !isEmptyValue(INSERT_OBSERVATION_VALUE_PARAMETER);
     }
 }

@@ -37,78 +37,78 @@ import org.vast.unit.*;
 public class UCUMTools {
 
 
-	private static UnitParser parser;
+    private static UnitParser parser;
 
-	static {
-		parser = new UnitParserUCUM();
-	}
+    static {
+        parser = new UnitParserUCUM();
+    }
 
-	/**
-	 * Converts the number to its base unit (e.g. kilometers to meters)
-	 */
-	public static NumberWithUOM convert(String sourceUnitString, double value) {
-		Unit sourceUnit = parser.getUnit(sourceUnitString);
-		return convert(sourceUnit, sourceUnit.getCompatibleSIUnit(), value);
+    /**
+     * Converts the number to its base unit (e.g. kilometers to meters)
+     */
+    public static NumberWithUOM convert(String sourceUnitString, double value) {
+        Unit sourceUnit = parser.getUnit(sourceUnitString);
+        return convert(sourceUnit, sourceUnit.getCompatibleSIUnit(), value);
 
-	}
+    }
 
-	/**
-	 * Converts the number to the target unit
-	 */
-	private static NumberWithUOM convert(Unit sourceUnit, Unit targetUnit,
-			double value) {
-		double resultValue = UnitConversion.getConverter(sourceUnit,
-				targetUnit).convert(value);
-		return new NumberWithUOM(resultValue, targetUnit.getUCUMExpression());
-	}
+    /**
+     * Converts the number to the target unit
+     */
+    private static NumberWithUOM convert(Unit sourceUnit, Unit targetUnit,
+            double value) {
+        double resultValue = UnitConversion.getConverter(sourceUnit,
+                targetUnit).convert(value);
+        return new NumberWithUOM(resultValue, targetUnit.getUCUMExpression());
+    }
 
-	/**
-	 * Converts the number to the target unit. Inputs are Strings
-	 * representing UCUM codes.
-	 */
-	public static NumberWithUOM convert(String sourceUnitString, String targetUnitString, double value) throws UnitConversionFailedException {
-		Unit sourceUnit = parser.getUnit(sourceUnitString);
-		Unit targetUnit = parser.getUnit(targetUnitString);
-		return convert(sourceUnit, targetUnit, value);
-	}
+    /**
+     * Converts the number to the target unit. Inputs are Strings
+     * representing UCUM codes.
+     */
+    public static NumberWithUOM convert(String sourceUnitString, String targetUnitString, double value) throws UnitConversionFailedException {
+        Unit sourceUnit = parser.getUnit(sourceUnitString);
+        Unit targetUnit = parser.getUnit(targetUnitString);
+        return convert(sourceUnit, targetUnit, value);
+    }
 
-	/**
-	 * Checks if to UCUM codes are compatible (= having the same base unit)
-	 */
-	public static boolean isCompatible(String unitString1, String unitString2) {
-		//build units
-		Unit u1 = parser.getUnit(unitString1);
-		Unit u2 = parser.getUnit(unitString2);
+    /**
+     * Checks if to UCUM codes are compatible (= having the same base unit)
+     */
+    public static boolean isCompatible(String unitString1, String unitString2) {
+        //build units
+        Unit u1 = parser.getUnit(unitString1);
+        Unit u2 = parser.getUnit(unitString2);
 
-		if (u1 == null || u2 == null) {
-			//error: unit not found
-			return false;
-		}
+        if (u1 == null || u2 == null) {
+            //error: unit not found
+            return false;
+        }
 
-		return u1.isCompatible(u2);
-	}
-
-
-	/**
-	 * Returns the compatible SI unit.
-	 */
-	public static Unit getBaseUnit(String unitString) {
-		return parser.getUnit(unitString).getCompatibleSIUnit();
-	}
+        return u1.isCompatible(u2);
+    }
 
 
-	public static class UnitConversionFailedException extends Exception {
+    /**
+     * Returns the compatible SI unit.
+     */
+    public static Unit getBaseUnit(String unitString) {
+        return parser.getUnit(unitString).getCompatibleSIUnit();
+    }
 
-		/**
-		 *
-		 */
-		private static final long serialVersionUID = 1L;
 
-		public UnitConversionFailedException(String string) {
-			super(string);
-		}
+    public static class UnitConversionFailedException extends Exception {
 
-	}
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+
+        public UnitConversionFailedException(String string) {
+            super(string);
+        }
+
+    }
 
 
 

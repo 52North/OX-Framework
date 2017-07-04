@@ -36,21 +36,21 @@ import org.n52.oxf.xml.XMLConstants;
 
 public class InsertObservationParametersTest {
 
-	@Rule public ExpectedException thrown = ExpectedException.none();
+    @Rule public ExpectedException thrown = ExpectedException.none();
 
-	@Test public void
-	shouldThrowIllegalArgumentExceptionIfMissingObservationParameter() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("Parameter 'ObservationParameters' with may not be null or empty!");
-		new InsertObservationParameters(null);
-	}
+    @Test public void
+    shouldThrowIllegalArgumentExceptionIfMissingObservationParameter() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Parameter 'ObservationParameters' with may not be null or empty!");
+        new InsertObservationParameters(null);
+    }
 
-	@Test public void
-	shouldThrowIllegalArgumentExceptionIfReceivingInvalidObservationParameter() {
-		thrown.expect(IllegalArgumentException.class);
-		thrown.expectMessage("Parameter 'ObservationParameters' with may not be null or empty!");
-		new InsertObservationParameters(new DefaultObservationParametersFactory()
-		.createObservationParametersFor(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION));
-	}
+    @Test public void
+    shouldThrowIllegalArgumentExceptionIfReceivingInvalidObservationParameter() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Parameter 'ObservationParameters' with may not be null or empty!");
+        new InsertObservationParameters(new DefaultObservationParametersFactory()
+        .createObservationParametersFor(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION));
+    }
 
 }

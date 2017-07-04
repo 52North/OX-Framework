@@ -42,19 +42,19 @@ import org.n52.oxf.ses.adapter.client.Subscription;
 public class RegisterPublisherResponseParsingTest {
 
 
-	@Test
-	public void
-	shouldParseRegisterPublisherResponse() throws XmlException, IOException {
-		XmlObject xo = readResponse();
+    @Test
+    public void
+    shouldParseRegisterPublisherResponse() throws XmlException, IOException {
+        XmlObject xo = readResponse();
 
-		Publisher pub = new Publisher(null);
-		pub.parseResponse(xo);
+        Publisher pub = new Publisher(null);
+        pub.parseResponse(xo);
 
-		Assert.assertTrue(pub.getResourceID().trim().equals("Publisher-1"));
-		Assert.assertTrue(pub.getPublisherAddress().trim().endsWith("services/PublisherRegistrationManager"));
-	}
+        Assert.assertTrue(pub.getResourceID().trim().equals("Publisher-1"));
+        Assert.assertTrue(pub.getPublisherAddress().trim().endsWith("services/PublisherRegistrationManager"));
+    }
 
-	private XmlObject readResponse() throws XmlException, IOException {
-		return XmlObject.Factory.parse(getClass().getResourceAsStream("RegisterPublisherResponse.xml"));
-	}
+    private XmlObject readResponse() throws XmlException, IOException {
+        return XmlObject.Factory.parse(getClass().getResourceAsStream("RegisterPublisherResponse.xml"));
+    }
 }

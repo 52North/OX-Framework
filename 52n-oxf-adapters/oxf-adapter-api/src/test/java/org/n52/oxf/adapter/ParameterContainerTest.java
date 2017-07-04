@@ -40,33 +40,33 @@ import org.n52.oxf.OXFException;
  */
 public class ParameterContainerTest {
 
-	@Test public void
-	removeParameterShell_by_parameterName_should_return_true_if_shell_is_contained_and_removed()
-			 throws OXFException {
-		final ParameterContainer container = new ParameterContainer();
-		final String parameterValue = "parameterValue";
-		final String parameterName = "parameterName";
-		container.addParameterShell(parameterName, parameterValue);
-		container.addParameterShell(parameterName.toUpperCase(), parameterValue);
-		boolean isShellContained = container.containsParameterShellWithCommonName(parameterName) ||
-				container.containsParameterShellWithServiceSidedName(parameterName);
+    @Test public void
+    removeParameterShell_by_parameterName_should_return_true_if_shell_is_contained_and_removed()
+             throws OXFException {
+        final ParameterContainer container = new ParameterContainer();
+        final String parameterValue = "parameterValue";
+        final String parameterName = "parameterName";
+        container.addParameterShell(parameterName, parameterValue);
+        container.addParameterShell(parameterName.toUpperCase(), parameterValue);
+        boolean isShellContained = container.containsParameterShellWithCommonName(parameterName) ||
+                container.containsParameterShellWithServiceSidedName(parameterName);
 
-		assertThat(isShellContained,is(TRUE));
-		final boolean isShellRemoved = container.removeParameterShell(parameterName);
+        assertThat(isShellContained,is(TRUE));
+        final boolean isShellRemoved = container.removeParameterShell(parameterName);
 
-		isShellContained = container.containsParameterShellWithCommonName(parameterName) ||
-				container.containsParameterShellWithServiceSidedName(parameterName);
+        isShellContained = container.containsParameterShellWithCommonName(parameterName) ||
+                container.containsParameterShellWithServiceSidedName(parameterName);
 
-		assertThat(isShellContained,is(FALSE));
-		assertThat(isShellRemoved, is(TRUE));
-	}
+        assertThat(isShellContained,is(FALSE));
+        assertThat(isShellRemoved, is(TRUE));
+    }
 
-	@Test public void
-	removeParameterShell_by_parameterName_should_return_false_if_shell_is_NOT_contained()
-			 throws OXFException {
-		final ParameterContainer container = new ParameterContainer();
-		final boolean isShellRemoved = container.removeParameterShell("any-name");
+    @Test public void
+    removeParameterShell_by_parameterName_should_return_false_if_shell_is_NOT_contained()
+             throws OXFException {
+        final ParameterContainer container = new ParameterContainer();
+        final boolean isShellRemoved = container.removeParameterShell("any-name");
 
-		assertThat(isShellRemoved, is(FALSE));
-	}
+        assertThat(isShellRemoved, is(FALSE));
+    }
 }

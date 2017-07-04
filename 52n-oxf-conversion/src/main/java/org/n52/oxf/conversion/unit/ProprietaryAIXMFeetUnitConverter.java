@@ -29,19 +29,19 @@ package org.n52.oxf.conversion.unit;
 
 public class ProprietaryAIXMFeetUnitConverter implements CustomUnitConverter {
 
-	@Override
-	public NumberWithUOM convert(double doubleValue) {
-		return new NumberWithUOM(doubleValue, "[ft_i]");
-	}
+    @Override
+    public NumberWithUOM convert(double doubleValue) {
+        return new NumberWithUOM(doubleValue, "[ft_i]");
+    }
 
-	@Override
-	public String getBaseUnit() {
-		return "[ft_i]";
-	}
+    @Override
+    public String getBaseUnit() {
+        return "[ft_i]";
+    }
 
-	@Override
-	public String getUnitString() {
-		return "FT";
-	}
+    @Override
+    public String getUnitString() {
+        return "FT";
+    }
 
 }

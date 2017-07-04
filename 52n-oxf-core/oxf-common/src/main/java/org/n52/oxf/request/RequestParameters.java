@@ -43,7 +43,7 @@ public interface RequestParameters {
      * Checks if the assembly is empty at all.
      *
      * @return <code>true</code> if there are no key-value pairs available,<br>
-     *		<code>false</code> if the assembly contains at least one key-value pair.
+     *      <code>false</code> if the assembly contains at least one key-value pair.
      */
     boolean isEmpty();
 
@@ -51,10 +51,10 @@ public interface RequestParameters {
      * Checks if the given parameter has at least one associated value.
      *
      * @param parameter
-     * 		  the parameter key to check.
+     *        the parameter key to check.
      * @return <code>true</code> if the passed parameter has zero associated values
-     * 					or is not present in the assembly,<br>
-     * 		   <code>false</code> if the parameter is has one or more associated values.
+     *                  or is not present in the assembly,<br>
+     *         <code>false</code> if the parameter is has one or more associated values.
      */
     boolean isEmpty(String parameter);
 
@@ -199,7 +199,7 @@ public interface RequestParameters {
      * Removes the given parameter and its associated values.
      *
      * @param parameter
-     * 		  the parameter key.
+     *        the parameter key.
      * @return the previously associated value(s) for the given parameter.
      */
     Collection<String> remove(String parameter);

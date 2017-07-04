@@ -55,17 +55,17 @@ import org.slf4j.LoggerFactory;
  */
 public class SESConnectorImpl implements ISESConnector {
 
-	private static final Logger LOG = LoggerFactory.getLogger(SESConnectorImpl.class);
-	private DefaultHttpClient httpClient;
-	private URL host;
-	private boolean ready;
-	private boolean addSoap = true;
+    private static final Logger LOG = LoggerFactory.getLogger(SESConnectorImpl.class);
+    private DefaultHttpClient httpClient;
+    private URL host;
+    private boolean ready;
+    private boolean addSoap = true;
 
-	private static String SOAP_PRE;
-	private static final String SOAP_POST;
-	private static String XML_PRE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    private static String SOAP_PRE;
+    private static final String SOAP_POST;
+    private static String XML_PRE = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
-	static {
+    static {
         /*
          * read soap pre and post
          */
@@ -94,123 +94,123 @@ public class SESConnectorImpl implements ISESConnector {
             LOG.error("Exception thrown:", e);
         }
         SOAP_POST = sb.toString();
-	}
+    }
 
 
     @Override
-	public SESResponse sendHttpPostRequest(String request, String action) throws IllegalStateException, IOException {
-		if (!this.ready) return null;
+    public SESResponse sendHttpPostRequest(String request, String action) throws IllegalStateException, IOException {
+        if (!this.ready) return null;
 
-		HttpPost req = new HttpPost(this.host.toString());
+        HttpPost req = new HttpPost(this.host.toString());
 
-		String str;
-		if (this.addSoap) {
-			String thisPre = SOAP_PRE.replace("${ses_host}", req.getURI().toString()).replace("${soap_action}", action);
-			str = XML_PRE +System.getProperty("line.separator")+
-			thisPre + request + SOAP_POST;
-		} else {
-			str = XML_PRE +System.getProperty("line.separator")+ request;
-		}
+        String str;
+        if (this.addSoap) {
+            String thisPre = SOAP_PRE.replace("${ses_host}", req.getURI().toString()).replace("${soap_action}", action);
+            str = XML_PRE +System.getProperty("line.separator")+
+            thisPre + request + SOAP_POST;
+        } else {
+            str = XML_PRE +System.getProperty("line.separator")+ request;
+        }
 
-		StringEntity postContent = new StringEntity(str);
-		postContent.setContentType("text/xml; charset=utf-8");
+        StringEntity postContent = new StringEntity(str);
+        postContent.setContentType("text/xml; charset=utf-8");
 
-		req.setEntity(postContent);
+        req.setEntity(postContent);
 
-		HttpResponse response;
-		try {
-			response = this.httpClient.execute(req);
-		} catch (IOException e) {
-			LOG.warn(e.getMessage());
-			req.abort();
-			return new SESResponse(500, null);
-		}
+        HttpResponse response;
+        try {
+            response = this.httpClient.execute(req);
+        } catch (IOException e) {
+            LOG.warn(e.getMessage());
+            req.abort();
+            return new SESResponse(500, null);
+        }
 
-		HttpEntity entity = response.getEntity();
+        HttpEntity entity = response.getEntity();
 
-		if (entity != null) {
-			InputStream instream = entity.getContent();
+        if (entity != null) {
+            InputStream instream = entity.getContent();
 
-			XmlObject xo = null;
-			if (response.getStatusLine().getStatusCode() >= HttpStatus.SC_MULTIPLE_CHOICES) {
-				LOG.warn(parseError(instream));
-			} else {
-				try {
-					xo = XmlObject.Factory.parse(instream);
-				} catch (XmlException e) {
-					LOG.warn(e.getMessage(), e);
-				}
-				instream.close();
-			}
+            XmlObject xo = null;
+            if (response.getStatusLine().getStatusCode() >= HttpStatus.SC_MULTIPLE_CHOICES) {
+                LOG.warn(parseError(instream));
+            } else {
+                try {
+                    xo = XmlObject.Factory.parse(instream);
+                } catch (XmlException e) {
+                    LOG.warn(e.getMessage(), e);
+                }
+                instream.close();
+            }
 
-			return new SESResponse(response.getStatusLine().getStatusCode(), xo);
-		} else {
-			req.abort();
-			return new SESResponse(response.getStatusLine().getStatusCode(), null);
-		}
-	}
+            return new SESResponse(response.getStatusLine().getStatusCode(), xo);
+        } else {
+            req.abort();
+            return new SESResponse(response.getStatusLine().getStatusCode(), null);
+        }
+    }
 
-	private String parseError(InputStream instream) {
-		StringBuilder sb = new StringBuilder();
+    private String parseError(InputStream instream) {
+        StringBuilder sb = new StringBuilder();
 
-		try (BufferedReader br = new BufferedReader(new InputStreamReader(instream, "UTF-8"));){
-			while (br.ready()) {
-				sb.append(br.readLine());
-			}
-		} catch (IOException e) {
-			LOG.warn(e.getMessage(), e);
-		} finally {
-			try {
-				instream.close();
-			} catch (IOException e) {
-				LOG.warn(e.getMessage(), e);
-			}
-		}
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(instream, "UTF-8"));){
+            while (br.ready()) {
+                sb.append(br.readLine());
+            }
+        } catch (IOException e) {
+            LOG.warn(e.getMessage(), e);
+        } finally {
+            try {
+                instream.close();
+            } catch (IOException e) {
+                LOG.warn(e.getMessage(), e);
+            }
+        }
 
-		return sb.toString();
-	}
-
-    @Override
-	public URL getHost() {
-		return this.host;
-	}
+        return sb.toString();
+    }
 
     @Override
-	public void setAddSoap(boolean addSoap) {
-		this.addSoap = addSoap;
-	}
+    public URL getHost() {
+        return this.host;
+    }
 
-	@Override
-	public void setHost(URL h) {
-		this.host = h;
-	}
+    @Override
+    public void setAddSoap(boolean addSoap) {
+        this.addSoap = addSoap;
+    }
 
-	@Override
-	public void initialize() {
-		this.httpClient = new DefaultHttpClient();
+    @Override
+    public void setHost(URL h) {
+        this.host = h;
+    }
 
-		this.ready = !(SOAP_PRE == null || SOAP_POST == null);
-	}
+    @Override
+    public void initialize() {
+        this.httpClient = new DefaultHttpClient();
 
-	@Override
-	public SESResponse sendHttpGetRequest(URI uri) throws Exception {
-		HttpGet req = new HttpGet(uri);
+        this.ready = !(SOAP_PRE == null || SOAP_POST == null);
+    }
 
-		HttpResponse response = new DefaultHttpClient().execute(req);
-		HttpEntity entity = response.getEntity();
+    @Override
+    public SESResponse sendHttpGetRequest(URI uri) throws Exception {
+        HttpGet req = new HttpGet(uri);
 
-		if (entity != null) {
-			InputStream instream = entity.getContent();
-			XmlObject xo;
-			xo = XmlObject.Factory.parse(instream);
-			return new SESResponse(response.getStatusLine().getStatusCode(), xo);
-		} else {
-			return new SESResponse(response.getStatusLine().getStatusCode(), null);
-		}
-	}
+        HttpResponse response = new DefaultHttpClient().execute(req);
+        HttpEntity entity = response.getEntity();
 
-	@Override
-	public void shutdown() {
+        if (entity != null) {
+            InputStream instream = entity.getContent();
+            XmlObject xo;
+            xo = XmlObject.Factory.parse(instream);
+            return new SESResponse(response.getStatusLine().getStatusCode(), xo);
+        } else {
+            return new SESResponse(response.getStatusLine().getStatusCode(), null);
+        }
+    }
+
+    @Override
+    public void shutdown() {
         LOG.trace("Shutdown.");
-	}
+    }
 }

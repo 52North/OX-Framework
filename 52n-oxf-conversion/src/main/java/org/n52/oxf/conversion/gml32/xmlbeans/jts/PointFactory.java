@@ -49,35 +49,35 @@ import static org.n52.oxf.conversion.gml32.xmlbeans.jts.GMLGeometryFactory.creat
  */
 public class PointFactory {
 
-	public static Point createPoint(DirectPositionType pos, String srs) {
-		List<?> list = pos.getListValue();
-		int dim;
-		if (pos.isSetSrsDimension()) {
-			dim = pos.getSrsDimension().intValue();
-		} else {
-			dim = list.size();
-		}
+    public static Point createPoint(DirectPositionType pos, String srs) {
+        List<?> list = pos.getListValue();
+        int dim;
+        if (pos.isSetSrsDimension()) {
+            dim = pos.getSrsDimension().intValue();
+        } else {
+            dim = list.size();
+        }
 
-		if (dim == 2) {
-			return new GeometryFactory().createPoint(createCoordinate(Double.parseDouble(list.get(0).toString()),
-					Double.parseDouble(list.get(1).toString()),
-					SRSUtils.resolveAxisOrder(srs != null ? srs : pos.getSrsName())));
-		}
-		else if (dim == 3) {
-			return new GeometryFactory().createPoint(createCoordinate(Double.parseDouble(list.get(0).toString()),
-					Double.parseDouble(list.get(1).toString()),
-					Double.parseDouble(list.get(2).toString()),
-					SRSUtils.resolveAxisOrder(srs != null ? srs : pos.getSrsName())));
-		}
+        if (dim == 2) {
+            return new GeometryFactory().createPoint(createCoordinate(Double.parseDouble(list.get(0).toString()),
+                    Double.parseDouble(list.get(1).toString()),
+                    SRSUtils.resolveAxisOrder(srs != null ? srs : pos.getSrsName())));
+        }
+        else if (dim == 3) {
+            return new GeometryFactory().createPoint(createCoordinate(Double.parseDouble(list.get(0).toString()),
+                    Double.parseDouble(list.get(1).toString()),
+                    Double.parseDouble(list.get(2).toString()),
+                    SRSUtils.resolveAxisOrder(srs != null ? srs : pos.getSrsName())));
+        }
 
-		throw new IllegalStateException("Point must have dimension 2 or 3.");
-	}
+        throw new IllegalStateException("Point must have dimension 2 or 3.");
+    }
 
-	protected static Geometry createPoint(PointType point, String srs) {
-		if (point.isSetPos()) {
-			return createPoint(point.getPos(), srs);
-		}
-		return null;
-	}
+    protected static Geometry createPoint(PointType point, String srs) {
+        if (point.isSetPos()) {
+            return createPoint(point.getPos(), srs);
+        }
+        return null;
+    }
 
 }

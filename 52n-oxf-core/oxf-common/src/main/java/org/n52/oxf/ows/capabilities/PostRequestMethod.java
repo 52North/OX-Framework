@@ -48,11 +48,11 @@ public class PostRequestMethod extends RequestMethod {
 
         if(getConstraints() != null){
             StringBuilder sb = new StringBuilder(res);
-			for (final String c : getConstraints()) {
-				sb.append("<Constraint>")
+            for (final String c : getConstraints()) {
+                sb.append("<Constraint>")
                         .append(c)
                         .append("<Constraint>");
-			}
+            }
             res = sb.toString();
         }
 

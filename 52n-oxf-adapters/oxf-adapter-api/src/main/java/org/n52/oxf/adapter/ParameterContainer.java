@@ -58,39 +58,39 @@ public class ParameterContainer {
     /**
      * @param parameterName a CommonName or ServiceSidedName of a parameter.
      * @return <tt>true</tt> if the container contained a shell identified by
-     * 		   <tt>parameterName</tt> (ignoring case) and the according shell is successfully
-     * 			removed.
+     *         <tt>parameterName</tt> (ignoring case) and the according shell is successfully
+     *          removed.
      */
     public boolean removeParameterShell(final String parameterName) {
-    	boolean returnValue = true;
-    	boolean found = false;
-    	// collect shells to remove
-    	final ArrayList<ParameterShell> shellsToRemove = new ArrayList<ParameterShell>();
-    	for (final ParameterShell shell : parameterShells)
-    	{
-			if (isParameterNameEqual(parameterName, shell))
-			{
-				found = true;
-				shellsToRemove.add(shell);
-			}
-		}
-    	// remove all found shells
-    	for (final ParameterShell shell : shellsToRemove) {
-    		final boolean tmp = parameterShells.remove(shell);
-    		if (!tmp && returnValue) {
-    			returnValue = false;
-    		}
-		}
-		return found?returnValue:false;
+        boolean returnValue = true;
+        boolean found = false;
+        // collect shells to remove
+        final ArrayList<ParameterShell> shellsToRemove = new ArrayList<ParameterShell>();
+        for (final ParameterShell shell : parameterShells)
+        {
+            if (isParameterNameEqual(parameterName, shell))
+            {
+                found = true;
+                shellsToRemove.add(shell);
+            }
+        }
+        // remove all found shells
+        for (final ParameterShell shell : shellsToRemove) {
+            final boolean tmp = parameterShells.remove(shell);
+            if (!tmp && returnValue) {
+                returnValue = false;
+            }
+        }
+        return found?returnValue:false;
 
     }
 
-	private boolean isParameterNameEqual(final String parameterName,
-			final ParameterShell shell)
-	{
-		return shell.getParameter().getCommonName().equalsIgnoreCase(parameterName) ||
-				shell.getParameter().getServiceSidedName().equalsIgnoreCase(parameterName);
-	}
+    private boolean isParameterNameEqual(final String parameterName,
+            final ParameterShell shell)
+    {
+        return shell.getParameter().getCommonName().equalsIgnoreCase(parameterName) ||
+                shell.getParameter().getServiceSidedName().equalsIgnoreCase(parameterName);
+    }
 
     public void addParameterShell(final ParameterShell parameterShell) {
         parameterShells.add(parameterShell);

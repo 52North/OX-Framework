@@ -45,22 +45,22 @@ import org.n52.oxf.xml.XMLConstants;
  */
 public class SASamplingPointCase extends AbstractLaxValidationCase {
 
-	private static SASamplingPointCase instance = null;
+    private static SASamplingPointCase instance = null;
 
-	private SASamplingPointCase() {}
+    private SASamplingPointCase() {}
 
-	public static SASamplingPointCase getInstance() {
-		if (instance == null) {
-			instance = new SASamplingPointCase();
-		}
-		return instance;
-	}
+    public static SASamplingPointCase getInstance() {
+        if (instance == null) {
+            instance = new SASamplingPointCase();
+        }
+        return instance;
+    }
 
-	@Override
-	public boolean shouldPass(final XmlValidationError xve) {
-		final QName offending = xve.getOffendingQName();
-		final List<?> expected = xve.getExpectedQNames();
-		return offending != null && offending.equals(XMLConstants.QN_SA_1_0_SAMPLING_POINT) && // correct substitution
-				expected != null && expected.contains(XMLConstants.QN_GML_ABSTRACT_FEATURE); // correct super class
-	}
+    @Override
+    public boolean shouldPass(final XmlValidationError xve) {
+        final QName offending = xve.getOffendingQName();
+        final List<?> expected = xve.getExpectedQNames();
+        return offending != null && offending.equals(XMLConstants.QN_SA_1_0_SAMPLING_POINT) && // correct substitution
+                expected != null && expected.contains(XMLConstants.QN_GML_ABSTRACT_FEATURE); // correct super class
+    }
 }

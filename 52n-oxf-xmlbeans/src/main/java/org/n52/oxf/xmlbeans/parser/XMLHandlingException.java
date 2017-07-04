@@ -39,61 +39,61 @@ import org.apache.xmlbeans.XmlError;
  */
 public class XMLHandlingException extends Exception {
 
-	/**
-	 * auto generated serialVerionUID
-	 */
-	private static final long serialVersionUID = -5705266650634591453L;
+    /**
+     * auto generated serialVerionUID
+     */
+    private static final long serialVersionUID = -5705266650634591453L;
 
-	protected String message = "";
+    protected String message = "";
 
-	/**
-	 * @param xmlErrors
-	 *            the errors string.
-	 * @param cause
-	 *            the cause
-	 */
-	public XMLHandlingException(String xmlErrors, Throwable cause) {
-		super(xmlErrors, cause);
-	}
+    /**
+     * @param xmlErrors
+     *            the errors string.
+     * @param cause
+     *            the cause
+     */
+    public XMLHandlingException(String xmlErrors, Throwable cause) {
+        super(xmlErrors, cause);
+    }
 
-	/**
-	 * @param xmlErrors
-	 *            the errors string.
-	 */
-	public XMLHandlingException(String xmlErrors) {
-		super(xmlErrors);
-	}
+    /**
+     * @param xmlErrors
+     *            the errors string.
+     */
+    public XMLHandlingException(String xmlErrors) {
+        super(xmlErrors);
+    }
 
-	/**
-	 * @param xmlErrors
-	 *            The error string.
-	 * @param validationErrors
-	 *            List of validation errors.
-	 */
-	public XMLHandlingException(String xmlErrors, List<?> validationErrors) {
-		super(xmlErrors);
-		StringBuffer sb = new StringBuffer();
-		Iterator<?> iter = validationErrors.iterator();
+    /**
+     * @param xmlErrors
+     *            The error string.
+     * @param validationErrors
+     *            List of validation errors.
+     */
+    public XMLHandlingException(String xmlErrors, List<?> validationErrors) {
+        super(xmlErrors);
+        StringBuffer sb = new StringBuffer();
+        Iterator<?> iter = validationErrors.iterator();
 
-		while (iter.hasNext()) {
-			sb.append("[Validation-Error] " + iter.next() + "\n");
-		}
-		this.message = sb.toString();
-	}
+        while (iter.hasNext()) {
+            sb.append("[Validation-Error] " + iter.next() + "\n");
+        }
+        this.message = sb.toString();
+    }
 
-	public XMLHandlingException(XmlError err) {
-		super(err.getMessage());
-	}
+    public XMLHandlingException(XmlError err) {
+        super(err.getMessage());
+    }
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * @see java.lang.Throwable#getMessage()
-	 */
-	@Override
-	public String getMessage() {
-		return super.getMessage() + this.message;
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Throwable#getMessage()
+     */
+    @Override
+    public String getMessage() {
+        return super.getMessage() + this.message;
+    }
 
 
 }

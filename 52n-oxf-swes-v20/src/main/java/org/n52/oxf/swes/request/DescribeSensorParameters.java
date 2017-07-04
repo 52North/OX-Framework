@@ -69,7 +69,7 @@ public class DescribeSensorParameters extends MimetypeAwareRequestParameters {
     }
 
     @Override
-	public boolean isValid() {
+    public boolean isValid() {
         final boolean invalidProcedureValue = isEmptyValue(PROCEDURE_PARAMETER);
         final boolean invalidOutputFormatValue = isEmptyValue(OUTPUT_FORMAT_PARAMETER);
         return ! (invalidProcedureValue || invalidOutputFormatValue);

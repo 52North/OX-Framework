@@ -37,60 +37,60 @@ import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
  */
 public class SOSRequestBuilder200KVP implements ISOSRequestBuilder {
 
-	@Override
-	public String buildGetCapabilitiesRequest(final ParameterContainer parameters) throws OXFException
-	{
-		// TODO Auto-generated method "buildGetCapabilitiesRequest" stub generated on 27.08.2013 around 12:10:12 by eike
-		return null;
-	}
+    @Override
+    public String buildGetCapabilitiesRequest(final ParameterContainer parameters) throws OXFException
+    {
+        // TODO Auto-generated method "buildGetCapabilitiesRequest" stub generated on 27.08.2013 around 12:10:12 by eike
+        return null;
+    }
 
-	@Override
-	public String buildGetObservationRequest(final ParameterContainer parameters) throws OXFException
-	{
-		// TODO Auto-generated method "buildGetObservationRequest" stub generated on 27.08.2013 around 12:10:12 by eike
-		return null;
-	}
+    @Override
+    public String buildGetObservationRequest(final ParameterContainer parameters) throws OXFException
+    {
+        // TODO Auto-generated method "buildGetObservationRequest" stub generated on 27.08.2013 around 12:10:12 by eike
+        return null;
+    }
 
-	@Override
-	public String buildGetObservationByIDRequest(final ParameterContainer parameters) throws OXFException
-	{
-		// TODO Auto-generated method "buildGetObservationByIDRequest" stub generated on 27.08.2013 around 12:10:12 by eike
-		return null;
-	}
+    @Override
+    public String buildGetObservationByIDRequest(final ParameterContainer parameters) throws OXFException
+    {
+        // TODO Auto-generated method "buildGetObservationByIDRequest" stub generated on 27.08.2013 around 12:10:12 by eike
+        return null;
+    }
 
-	@Override
-	public String buildDescribeSensorRequest(final ParameterContainer parameters) throws OXFException
-	{
-		// TODO Auto-generated method "buildDescribeSensorRequest" stub generated on 27.08.2013 around 12:10:12 by eike
-		return null;
-	}
+    @Override
+    public String buildDescribeSensorRequest(final ParameterContainer parameters) throws OXFException
+    {
+        // TODO Auto-generated method "buildDescribeSensorRequest" stub generated on 27.08.2013 around 12:10:12 by eike
+        return null;
+    }
 
-	@Override
-	public String buildGetFeatureOfInterestRequest(final ParameterContainer parameters) throws OXFException
-	{
-		// TODO Auto-generated method "buildGetFeatureOfInterestRequest" stub generated on 27.08.2013 around 12:10:12 by eike
-		return null;
-	}
+    @Override
+    public String buildGetFeatureOfInterestRequest(final ParameterContainer parameters) throws OXFException
+    {
+        // TODO Auto-generated method "buildGetFeatureOfInterestRequest" stub generated on 27.08.2013 around 12:10:12 by eike
+        return null;
+    }
 
-	@Override
-	public String buildInsertObservationRequest(final ParameterContainer parameters) throws OXFException
-	{
-		// TODO Auto-generated method "buildInsertObservation" stub generated on 27.08.2013 around 12:10:12 by eike
-		return null;
-	}
+    @Override
+    public String buildInsertObservationRequest(final ParameterContainer parameters) throws OXFException
+    {
+        // TODO Auto-generated method "buildInsertObservation" stub generated on 27.08.2013 around 12:10:12 by eike
+        return null;
+    }
 
-	@Override
-	public String buildRegisterSensorRequest(final ParameterContainer parameters) throws OXFException
-	{
-		// TODO Auto-generated method "buildRegisterSensor" stub generated on 27.08.2013 around 12:10:12 by eike
-		return null;
-	}
+    @Override
+    public String buildRegisterSensorRequest(final ParameterContainer parameters) throws OXFException
+    {
+        // TODO Auto-generated method "buildRegisterSensor" stub generated on 27.08.2013 around 12:10:12 by eike
+        return null;
+    }
 
-	@Override
-	public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException
-	{
-		// TODO Auto-generated method "buildDeleteSensorRequest" stub generated on 02.09.2013 around 16:31:04 by eike
-		return null;
-	}
+    @Override
+    public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException
+    {
+        // TODO Auto-generated method "buildDeleteSensorRequest" stub generated on 02.09.2013 around 16:31:04 by eike
+        return null;
+    }
 
 }

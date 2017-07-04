@@ -49,7 +49,7 @@ public class MultiValue {
             value = "";
         }
         if (values.contains(value)) {
-        	// we don't add the same value twice
+            // we don't add the same value twice
             return false;
         }
         return values.add(value);
@@ -102,17 +102,17 @@ public class MultiValue {
         values.clear();
     }
 
-	/**
-	 * @return <code>true</code>, if this instance is empty
-	 */
-	public boolean isEmpty()
-	{
-		return values.isEmpty();
-	}
+    /**
+     * @return <code>true</code>, if this instance is empty
+     */
+    public boolean isEmpty()
+    {
+        return values.isEmpty();
+    }
 
-	@Override
-	public String toString() {
-		return String.format("MultiValue [values=%s]", values);
-	}
+    @Override
+    public String toString() {
+        return String.format("MultiValue [values=%s]", values);
+    }
 
 }

@@ -40,7 +40,7 @@ public class OXFTemporalObservationType extends OXFAbstractObservationType {
     public static final String RESULT = "result";
 
     public OXFTemporalObservationType(){
-    	super();
+        super();
 
         typeName = "OXFTemporalObservationType";
         featureAttributeDescriptors = generateAttributeDescriptors();

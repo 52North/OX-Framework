@@ -35,9 +35,9 @@ import java.util.List;
  */
 public interface IDiscreteValueDomain<T> extends IValueDomain<T> {
 
-	/**
-	 * @return all possible values of this DiscreteValueDomain.
-	 */
-	public List<T> getPossibleValues();
+    /**
+     * @return all possible values of this DiscreteValueDomain.
+     */
+    public List<T> getPossibleValues();
 
 }

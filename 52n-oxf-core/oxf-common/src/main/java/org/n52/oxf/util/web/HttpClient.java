@@ -116,10 +116,10 @@ public interface HttpClient {
 
     /**
      * @param method
-     * 		  the HTTP method to execute.
+     *        the HTTP method to execute.
      * @return the HTTP response returned by the target.
      * @throws HttpClientException
-     * 		   if sending the request fails
+     *         if sending the request fails
      */
     public HttpResponse executeMethod(HttpRequestBase method) throws HttpClientException;
 

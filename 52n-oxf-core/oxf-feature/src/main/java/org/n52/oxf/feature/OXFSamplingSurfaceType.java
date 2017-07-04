@@ -124,7 +124,7 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
 //            CoordType[] xb_coordinateArray = ((LinearRingType)xb_polygon.getExterior().getRing()).getCoordArray();
 //            for (int i = 0; i < xb_coordinateArray.length; i++) {
 //
-//			}
+//          }
 //
 //            DirectPositionType xb_pos = xb_point.getPos();
 //
@@ -134,10 +134,10 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
 //            double y = (Double) coordsList.get(1);
 //            double z = Double.NaN;
 //            try {
-//            		z = (Double) coordsList.get(2);
-//			} catch (Exception e) {
-//				// no Exception -> 2D Point
-//			}
+//                  z = (Double) coordsList.get(2);
+//          } catch (Exception e) {
+//              // no Exception -> 2D Point
+//          }
 //
 //
 //            if (coordsList.size() > 2) {

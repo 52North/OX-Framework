@@ -99,8 +99,8 @@ public class ParameterShell {
     /**
      * @return the specifiedValueArray
      * @deprecated
-     * 		Use {@link #getSpecifiedTypedValueArray(Class&lt;T[]&gt;)} instead,
-     * 		e.g. <tt>getSpecifiedTypedValueArray(String[].class)</tt>.
+     *      Use {@link #getSpecifiedTypedValueArray(Class&lt;T[]&gt;)} instead,
+     *      e.g. <tt>getSpecifiedTypedValueArray(String[].class)</tt>.
      */
     @Deprecated
     public Object[] getSpecifiedValueArray() {

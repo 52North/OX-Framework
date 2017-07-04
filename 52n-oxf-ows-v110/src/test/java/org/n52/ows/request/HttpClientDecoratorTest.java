@@ -60,6 +60,6 @@ public class HttpClientDecoratorTest {
 
     @Test
     public void testNothing() {
-    	//do nothing to not break the build.
+        //do nothing to not break the build.
     }
 }

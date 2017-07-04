@@ -100,7 +100,7 @@ import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
 
 public class SOSCapabilitiesMapper_200 {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SOSCapabilitiesMapper_200.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSCapabilitiesMapper_200.class);
 
     public ServiceDescriptor mapCapabilities(final CapabilitiesDocument capabilitiesDoc) throws OXFException {
 
@@ -251,24 +251,24 @@ public class SOSCapabilitiesMapper_200 {
         return new OperationsMetadata(ocOperations);
     }
 
-	private void addConstraints(final RequestMethodType xbGetRequestMethod,
-			final RequestMethod ocRequestMethod)
-	{
-		if (xbGetRequestMethod.getConstraintArray() != null ) {
-			for (final DomainType xbConstraint : xbGetRequestMethod.getConstraintArray()) {
-				final String name = xbConstraint.getName();
-				final ArrayList<String> allowedValues = new ArrayList<>();
-				if(xbConstraint.isSetAllowedValues()) {
-					for (final ValueType xbAllowedValue : xbConstraint.getAllowedValues().getValueArray()) {
-						allowedValues.add(xbAllowedValue.getStringValue());
-					}
-				}
-				if (name != null && !name.isEmpty() && !allowedValues.isEmpty()) {
-					ocRequestMethod.addOwsConstraint(new Constraint(name,allowedValues.toArray(new String[allowedValues.size()])));
-				}
-			}
-		}
-	}
+    private void addConstraints(final RequestMethodType xbGetRequestMethod,
+            final RequestMethod ocRequestMethod)
+    {
+        if (xbGetRequestMethod.getConstraintArray() != null ) {
+            for (final DomainType xbConstraint : xbGetRequestMethod.getConstraintArray()) {
+                final String name = xbConstraint.getName();
+                final ArrayList<String> allowedValues = new ArrayList<>();
+                if(xbConstraint.isSetAllowedValues()) {
+                    for (final ValueType xbAllowedValue : xbConstraint.getAllowedValues().getValueArray()) {
+                        allowedValues.add(xbAllowedValue.getStringValue());
+                    }
+                }
+                if (name != null && !name.isEmpty() && !allowedValues.isEmpty()) {
+                    ocRequestMethod.addOwsConstraint(new Constraint(name,allowedValues.toArray(new String[allowedValues.size()])));
+                }
+            }
+        }
+    }
 
     public static void main(final String[] args) {
         try {
@@ -281,7 +281,7 @@ public class SOSCapabilitiesMapper_200 {
             new SOSCapabilitiesMapper_200().mapCapabilities(CapabilitiesDocument.Factory.parse(responseStream));
         }
         catch (final HttpClientException | IOException | XmlException | OXFException e) {
-        	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
+            LOGGER.error("Exception thrown: {}",e.getMessage(),e);
         }
     }
 
@@ -392,50 +392,50 @@ public class SOSCapabilitiesMapper_200 {
 
     private IDiscreteValueDomain<ITime> getTemporalDomain(final ObservationOfferingType xb_obsOffering)
     {
-    	// TemporalDomain:
-    	final List<ITime> oc_timeList = new ArrayList<>();
-    	final ResultTime resultTime = xb_obsOffering.getResultTime();
-    	if (resultTime != null && resultTime.getTimePeriod() != null) {
-    		final TimePeriodType xb_timePeriod = resultTime.getTimePeriod();
-    		final String beginPos = xb_timePeriod.getBeginPosition().getStringValue();
-    		final String endPos = xb_timePeriod.getEndPosition().getStringValue();
-    		if ( !beginPos.equals("") && !endPos.equals("")) {
-    			final TimePeriod oc_timePeriod = new TimePeriod(beginPos, endPos);
-    			oc_timeList.add(oc_timePeriod);
-    		}
-    	}
-    	return new TemporalValueDomain(oc_timeList);
+        // TemporalDomain:
+        final List<ITime> oc_timeList = new ArrayList<>();
+        final ResultTime resultTime = xb_obsOffering.getResultTime();
+        if (resultTime != null && resultTime.getTimePeriod() != null) {
+            final TimePeriodType xb_timePeriod = resultTime.getTimePeriod();
+            final String beginPos = xb_timePeriod.getBeginPosition().getStringValue();
+            final String endPos = xb_timePeriod.getEndPosition().getStringValue();
+            if ( !beginPos.equals("") && !endPos.equals("")) {
+                final TimePeriod oc_timePeriod = new TimePeriod(beginPos, endPos);
+                oc_timeList.add(oc_timePeriod);
+            }
+        }
+        return new TemporalValueDomain(oc_timeList);
     }
 
-	private FilterValueDomain getFilterDomain(final CapabilitiesType capabilities)
-	{
-		final FilterValueDomain filterDomain = new FilterValueDomain();
-		if (capabilities.getFilterCapabilities() != null) {
-		    final FilterCapabilities filterCaps = capabilities.getFilterCapabilities().getFilterCapabilities();
-		    if (filterCaps != null) {
-		        processScalarFilterCapabilities(filterDomain, filterCaps.getScalarCapabilities());
-		        processSpatialFilterCapabilities(filterDomain, filterCaps.getSpatialCapabilities());
-		        processTemporalFilterCapabilities(filterDomain, filterCaps.getTemporalCapabilities());
-		    }
-		}
-		return filterDomain;
-	}
+    private FilterValueDomain getFilterDomain(final CapabilitiesType capabilities)
+    {
+        final FilterValueDomain filterDomain = new FilterValueDomain();
+        if (capabilities.getFilterCapabilities() != null) {
+            final FilterCapabilities filterCaps = capabilities.getFilterCapabilities().getFilterCapabilities();
+            if (filterCaps != null) {
+                processScalarFilterCapabilities(filterDomain, filterCaps.getScalarCapabilities());
+                processSpatialFilterCapabilities(filterDomain, filterCaps.getSpatialCapabilities());
+                processTemporalFilterCapabilities(filterDomain, filterCaps.getTemporalCapabilities());
+            }
+        }
+        return filterDomain;
+    }
 
-	private String getTitle(final ObservationOfferingType xb_obsOffering)
-	{
-		// title (take the first name or if name does not exist take the id)
-		final CodeType[] xb_names = xb_obsOffering.getNameArray();
+    private String getTitle(final ObservationOfferingType xb_obsOffering)
+    {
+        // title (take the first name or if name does not exist take the id)
+        final CodeType[] xb_names = xb_obsOffering.getNameArray();
         String oc_title;
-		if (xb_names != null && xb_names.length > 0 && xb_names[0].getStringValue() != null) {
+        if (xb_names != null && xb_names.length > 0 && xb_names[0].getStringValue() != null) {
             oc_title = xb_names[0].getStringValue();
         }
         else {
             oc_title = xb_obsOffering.getIdentifier();
         }
-		return oc_title;
-	}
+        return oc_title;
+    }
 
-	private void processScalarFilterCapabilities(final FilterValueDomain filterDomain,
+    private void processScalarFilterCapabilities(final FilterValueDomain filterDomain,
                                                  final ScalarCapabilitiesType scalarCapabilities) {
         if (scalarCapabilities != null) {
             final ComparisonOperatorsType comparisonOperators = scalarCapabilities.getComparisonOperators();

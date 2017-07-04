@@ -37,26 +37,26 @@ import org.n52.oxf.xmlbeans.tools.XmlUtil;
 
 public class XmlUtilXQueryTest {
 
-	@Test
-	public void testXQuery() throws XmlException, IOException {
-	    String namespaceDeclaration =
-	            "declare namespace muse-wsa='http://ws.apache.org/muse/addressing';"+
-	            		"declare namespace wsa='http://www.w3.org/2005/08/addressing'; ";
+    @Test
+    public void testXQuery() throws XmlException, IOException {
+        String namespaceDeclaration =
+                "declare namespace muse-wsa='http://ws.apache.org/muse/addressing';"+
+                        "declare namespace wsa='http://www.w3.org/2005/08/addressing'; ";
 
-	        String queryExpression =
-	            "let $e := $this//wsa:ReferenceParameters " +
-	            "return " +
-	                "for $z in $e/muse-wsa:ResourceId " +
-	                "return $z";
+            String queryExpression =
+                "let $e := $this//wsa:ReferenceParameters " +
+                "return " +
+                    "for $z in $e/muse-wsa:ResourceId " +
+                    "return $z";
 
-		XmlObject xo = readObject();
-		xo = XmlUtil.execQuery(namespaceDeclaration + queryExpression, xo)[0];
-		String inner = XmlUtil.stripText(XmlObject.Factory.parse(xo.getDomNode().getFirstChild().getFirstChild()));
-		Assert.assertTrue(inner.trim().equals("Subscription-2"));
-	}
+        XmlObject xo = readObject();
+        xo = XmlUtil.execQuery(namespaceDeclaration + queryExpression, xo)[0];
+        String inner = XmlUtil.stripText(XmlObject.Factory.parse(xo.getDomNode().getFirstChild().getFirstChild()));
+        Assert.assertTrue(inner.trim().equals("Subscription-2"));
+    }
 
-	private XmlObject readObject() throws XmlException, IOException {
-		return XmlObject.Factory.parse(getClass().getResourceAsStream("XPathSaxon94Text.xml"));
-	}
+    private XmlObject readObject() throws XmlException, IOException {
+        return XmlObject.Factory.parse(getClass().getResourceAsStream("XPathSaxon94Text.xml"));
+    }
 
 }

@@ -146,27 +146,27 @@ public class Operation {
     }
 
     @Override
-	public String toString() {
-    	String params = null;
-    	if (parameters != null) {
-    		params = "[";
+    public String toString() {
+        String params = null;
+        if (parameters != null) {
+            params = "[";
             StringBuilder sb = new StringBuilder(params);
-    		for (final Parameter param : parameters) {
+            for (final Parameter param : parameters) {
                 sb.append("ServiceSidedName: ").append(param.getServiceSidedName())
                         .append("  CommonName: ").append(param.getCommonName())
                         .append("  ValueDomain-class: ").append(param.getValueDomain().getClass())
                         .append("\n");
             }
             params = sb.toString();
-    		params += "]";
-    	}
-		return String.format(
-				"Operation [name=%s, parameters=%s, constraints=%s, dcps=%s]",
-				name,
-				(parameters!=null?params:parameters),
-				Arrays.toString(constraints),
-				Arrays.toString(dcps));
-	}
+            params += "]";
+        }
+        return String.format(
+                "Operation [name=%s, parameters=%s, constraints=%s, dcps=%s]",
+                name,
+                (parameters!=null?params:parameters),
+                Arrays.toString(constraints),
+                Arrays.toString(dcps));
+    }
 
     public String[] getConstraints() {
         return constraints != null? constraints.clone() : new String[0];
@@ -196,10 +196,10 @@ public class Operation {
      */
     protected void setName(final String name) throws IllegalArgumentException {
         if (name == null || name.isEmpty()) {
-        	throw new IllegalArgumentException("The parameter 'name' is null or empty.");
+            throw new IllegalArgumentException("The parameter 'name' is null or empty.");
         }
         else {
-        	this.name = name;
+            this.name = name;
         }
     }
 

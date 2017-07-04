@@ -38,139 +38,139 @@ package org.n52.oxf.ows.capabilities;
  */
 public class Address {
 
-	/**
-	 * city of the location
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private String city;
+    /**
+     * city of the location
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private String city;
 
-	/**
-	 * State, province of the location.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private String administrativeArea;
+    /**
+     * State, province of the location.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private String administrativeArea;
 
-	/**
-	 * ZIP or other postal code.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private String postalCode;
+    /**
+     * ZIP or other postal code.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private String postalCode;
 
-	/**
-	 * Country of the physical address.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private String country;
+    /**
+     * Country of the physical address.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private String country;
 
-	/**
-	 * Address line for the location (as described in ISO 11180, Annex A).
-	 * <br>
-	 * Zero or more (optional) values are possible. <br>
-	 */
-	private String[] deliveryPoints;
+    /**
+     * Address line for the location (as described in ISO 11180, Annex A).
+     * <br>
+     * Zero or more (optional) values are possible. <br>
+     */
+    private String[] deliveryPoints;
 
-	/**
-	 * Address of the electronic mailbox of the responsible organization or individual.
-	 * <br>
-	 * Zero or more (optional) values are possible. <br>
-	 */
-	private String[] electronicMailAddresses;
+    /**
+     * Address of the electronic mailbox of the responsible organization or individual.
+     * <br>
+     * Zero or more (optional) values are possible. <br>
+     */
+    private String[] electronicMailAddresses;
 
-	public Address(String city, String administrativeArea, String postalCode,
-			String country, String[] deliveryPoint,
-			String[] electronicMailAddress) {
-		setCity(city);
-		setAdministrativeArea(administrativeArea);
-		setPostalCode(postalCode);
-		setCountry(country);
-		setDeliveryPoints(deliveryPoint);
-		setElectronicMailAddresses(electronicMailAddress);
-	}
+    public Address(String city, String administrativeArea, String postalCode,
+            String country, String[] deliveryPoint,
+            String[] electronicMailAddress) {
+        setCity(city);
+        setAdministrativeArea(administrativeArea);
+        setPostalCode(postalCode);
+        setCountry(country);
+        setDeliveryPoints(deliveryPoint);
+        setElectronicMailAddresses(electronicMailAddress);
+    }
 
-	/**
-	 * @return a XML representation of this Address.
-	 */
-	public String toXML(){
-		String res = "<Address"
-			+ " city=\""+ city + "\""
-			+ " administrativeArea=\""+ administrativeArea + "\""
-			+ " postalCode=\""+ postalCode + "\""
-			+ " country=\""+ country + "\">";
+    /**
+     * @return a XML representation of this Address.
+     */
+    public String toXML(){
+        String res = "<Address"
+            + " city=\""+ city + "\""
+            + " administrativeArea=\""+ administrativeArea + "\""
+            + " postalCode=\""+ postalCode + "\""
+            + " country=\""+ country + "\">";
 
-		if(deliveryPoints != null){
+        if(deliveryPoints != null){
             StringBuilder sb = new StringBuilder(res);
-			for(String s : deliveryPoints){
-				sb.append("<DeliveryPoint>")
+            for(String s : deliveryPoints){
+                sb.append("<DeliveryPoint>")
                     .append(s)
                     .append("</DeliveryPoint>");
-			}
+            }
             res = sb.toString();
-		}
+        }
 
-		if(electronicMailAddresses != null){
+        if(electronicMailAddresses != null){
             StringBuilder sb = new StringBuilder(res);
-			for(String s : electronicMailAddresses){
-				sb.append("<ElectronicMailAddress>")
+            for(String s : electronicMailAddresses){
+                sb.append("<ElectronicMailAddress>")
                     .append(s)
                     .append("</ElectronicMailAddress>");
-			}
+            }
             res = sb.toString();
-		}
+        }
 
-		res += "</Address>";
-		return res;
-	}
+        res += "</Address>";
+        return res;
+    }
 
 
-	public String getAdministrativeArea() {
-		return administrativeArea;
-	}
+    public String getAdministrativeArea() {
+        return administrativeArea;
+    }
 
-	protected void setAdministrativeArea(String administrativeArea) {
-		this.administrativeArea = administrativeArea;
-	}
+    protected void setAdministrativeArea(String administrativeArea) {
+        this.administrativeArea = administrativeArea;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	protected void setCity(String city) {
-		this.city = city;
-	}
+    protected void setCity(String city) {
+        this.city = city;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public String getCountry() {
+        return country;
+    }
 
-	protected void setCountry(String country) {
-		this.country = country;
-	}
+    protected void setCountry(String country) {
+        this.country = country;
+    }
 
-	public String[] getDeliveryPoints() {
-		return deliveryPoints == null? null : deliveryPoints.clone();
-	}
+    public String[] getDeliveryPoints() {
+        return deliveryPoints == null? null : deliveryPoints.clone();
+    }
 
-	protected void setDeliveryPoints(String[] deliveryPoint) {
-		this.deliveryPoints = deliveryPoint;
-	}
+    protected void setDeliveryPoints(String[] deliveryPoint) {
+        this.deliveryPoints = deliveryPoint;
+    }
 
-	public String[] getElectronicMailAddresses() {
-		return electronicMailAddresses == null? null : electronicMailAddresses.clone();
-	}
+    public String[] getElectronicMailAddresses() {
+        return electronicMailAddresses == null? null : electronicMailAddresses.clone();
+    }
 
-	protected void setElectronicMailAddresses(String[] electronicMailAddress) {
-		this.electronicMailAddresses = electronicMailAddress;
-	}
+    protected void setElectronicMailAddresses(String[] electronicMailAddress) {
+        this.electronicMailAddresses = electronicMailAddress;
+    }
 
-	public String getPostalCode() {
-		return postalCode;
-	}
+    public String getPostalCode() {
+        return postalCode;
+    }
 
-	protected void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+    protected void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
 }

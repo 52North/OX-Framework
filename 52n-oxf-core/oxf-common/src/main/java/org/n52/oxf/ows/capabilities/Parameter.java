@@ -120,10 +120,10 @@ public class Parameter {
      * @param valueDomain
      *        holds all possible values.
      * @param commonName
-	 *            the "commonName" is used internally by the OX-framework to
-	 *            address this parameter.<br>
-	 *            ATTENTION: if the parameter has no corresponding commonName
-	 *            please set it on <code>null</code>.
+     *            the "commonName" is used internally by the OX-framework to
+     *            address this parameter.<br>
+     *            ATTENTION: if the parameter has no corresponding commonName
+     *            please set it on <code>null</code>.
      */
     public Parameter(String name, boolean required, IValueDomain valueDomain, String commonName) {
         setServiceSidedName(name);

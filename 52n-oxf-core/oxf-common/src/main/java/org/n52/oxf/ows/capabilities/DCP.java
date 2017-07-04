@@ -51,21 +51,21 @@ public class DCP {
         requestMethods = methods;
     }
 
-	/**
-	 * @return a XML representation of this DCP.
-	 */
-	public String toXML(){
-		StringBuilder sb = new StringBuilder("<DCP>");
+    /**
+     * @return a XML representation of this DCP.
+     */
+    public String toXML(){
+        StringBuilder sb = new StringBuilder("<DCP>");
 
-		if(requestMethods != null) {
+        if(requestMethods != null) {
             for (RequestMethod method : requestMethods) {
                 sb.append(method.toXML());
             }
         }
-		sb.append("</DCP>");
+        sb.append("</DCP>");
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
     public List<GetRequestMethod> getHTTPGetRequestMethods() {
         List<GetRequestMethod> getRequestMethods = new ArrayList<GetRequestMethod>();
@@ -99,9 +99,9 @@ public class DCP {
         requestMethods.add(postMethod);
     }
 
-	@Override
-	public String toString() {
-		return String.format("DCP [requestMethods=%s]", requestMethods);
-	}
+    @Override
+    public String toString() {
+        return String.format("DCP [requestMethods=%s]", requestMethods);
+    }
 
 }

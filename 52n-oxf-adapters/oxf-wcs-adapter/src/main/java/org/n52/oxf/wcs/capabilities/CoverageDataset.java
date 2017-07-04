@@ -93,47 +93,47 @@ public class CoverageDataset extends Dataset {
         this.rpcLink = rpcLink;
     }
 
-    	public String getGridBaseCRS() {
-    		return gridBaseCRS;
-    	}
+        public String getGridBaseCRS() {
+            return gridBaseCRS;
+        }
 
-    	protected void setGridBaseCRS(String gridBaseCRS) {
-    		this.gridBaseCRS = gridBaseCRS;
-    	}
+        protected void setGridBaseCRS(String gridBaseCRS) {
+            this.gridBaseCRS = gridBaseCRS;
+        }
 
-    	public String getGridType() {
-    		return gridType;
-    	}
+        public String getGridType() {
+            return gridType;
+        }
 
-    	protected void setGridType(String gridType) {
-    		this.gridType = gridType;
-    	}
+        protected void setGridType(String gridType) {
+            this.gridType = gridType;
+        }
 
-    	public double[] getGridOrigin() {
-    		return gridOrigin == null ? null : gridOrigin.clone();
-    	}
+        public double[] getGridOrigin() {
+            return gridOrigin == null ? null : gridOrigin.clone();
+        }
 
-    	protected void setGridOrigin(double[] gridOrigin) {
-    		this.gridOrigin = gridOrigin;
-    	}
+        protected void setGridOrigin(double[] gridOrigin) {
+            this.gridOrigin = gridOrigin;
+        }
 
-    	public double[] getGridOffset() {
-    		return gridOffset == null ? null : gridOffset.clone();
-    	}
+        public double[] getGridOffset() {
+            return gridOffset == null ? null : gridOffset.clone();
+        }
 
-    	protected void setGridOffset(double[] gridOffset) {
-    		this.gridOffset = gridOffset;
-    	}
+        protected void setGridOffset(double[] gridOffset) {
+            this.gridOffset = gridOffset;
+        }
 
-    	public String getGridCS() {
-    		return gridCS;
-    	}
+        public String getGridCS() {
+            return gridCS;
+        }
 
-    	protected void setGridCS(String gridCS) {
-    		this.gridCS = gridCS;
-    	}
+        protected void setGridCS(String gridCS) {
+            this.gridCS = gridCS;
+        }
 
-    	public String getRpcLink () {
-    	    return rpcLink;
-    	}
+        public String getRpcLink () {
+            return rpcLink;
+        }
 }

@@ -37,23 +37,23 @@ import org.apache.xmlbeans.XmlValidationError;
  */
 public abstract class AbstractLaxValidationCase implements LaxValidationCase {
 
-	@Override
-	public boolean shouldPass(final XmlError validationError)
-	{
-		if (validationError == null) {
-			return false;
-		}
-		if (!(validationError instanceof XmlValidationError)) {
-			return false;
-		}
-		return shouldPass((XmlValidationError) validationError);
-	}
+    @Override
+    public boolean shouldPass(final XmlError validationError)
+    {
+        if (validationError == null) {
+            return false;
+        }
+        if (!(validationError instanceof XmlValidationError)) {
+            return false;
+        }
+        return shouldPass((XmlValidationError) validationError);
+    }
 
-	/**
-	 * @deprecated see {@link LaxValidationCase#shouldPass(XmlValidationError)}
-	 */
-	@Override
-	@Deprecated
-	public abstract boolean shouldPass(XmlValidationError validationError);
+    /**
+     * @deprecated see {@link LaxValidationCase#shouldPass(XmlValidationError)}
+     */
+    @Override
+    @Deprecated
+    public abstract boolean shouldPass(XmlValidationError validationError);
 
 }

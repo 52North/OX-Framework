@@ -39,20 +39,20 @@ import org.n52.oxf.xml.XMLConstants;
  */
 public class GMLAbstractFeatureCase extends AbstractLaxValidationCase {
 
-	private static GMLAbstractFeatureCase instance = null;
+    private static GMLAbstractFeatureCase instance = null;
 
-	private GMLAbstractFeatureCase() {}
+    private GMLAbstractFeatureCase() {}
 
-	public static GMLAbstractFeatureCase getInstance() {
-		if (instance == null) {
-			instance = new GMLAbstractFeatureCase();
-		}
-		return instance;
-	}
+    public static GMLAbstractFeatureCase getInstance() {
+        if (instance == null) {
+            instance = new GMLAbstractFeatureCase();
+        }
+        return instance;
+    }
 
-	@Override
-	public boolean shouldPass(final XmlValidationError xve) {
-		return xve.getExpectedQNames() != null && (xve.getExpectedQNames().contains(XMLConstants.FEATURE_QN)
-				|| xve.getExpectedQNames().contains(XMLConstants.FEATURE_COLLECTION_QN));
-	}
+    @Override
+    public boolean shouldPass(final XmlValidationError xve) {
+        return xve.getExpectedQNames() != null && (xve.getExpectedQNames().contains(XMLConstants.FEATURE_QN)
+                || xve.getExpectedQNames().contains(XMLConstants.FEATURE_COLLECTION_QN));
+    }
 }

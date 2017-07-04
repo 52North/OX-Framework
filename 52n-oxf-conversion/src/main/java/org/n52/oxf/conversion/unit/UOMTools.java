@@ -40,47 +40,47 @@ import org.n52.oxf.conversion.unit.ucum.UCUMTools.UnitConversionFailedException;
  */
 public class UOMTools {
 
-	public static final String METER_UOM = "m";
-	private static Map<String, CustomUnitConverter> customUnitConverters;
+    public static final String METER_UOM = "m";
+    private static Map<String, CustomUnitConverter> customUnitConverters;
 
-	static {
-		customUnitConverters = new HashMap<String, CustomUnitConverter>();
-		customUnitConverters.put("FL", new FlightLevelUnitConverter());
-		customUnitConverters.put("FT", new ProprietaryAIXMFeetUnitConverter());
-	}
+    static {
+        customUnitConverters = new HashMap<String, CustomUnitConverter>();
+        customUnitConverters.put("FL", new FlightLevelUnitConverter());
+        customUnitConverters.put("FT", new ProprietaryAIXMFeetUnitConverter());
+    }
 
 
-	public static double convertToTargetUnit(double doubleValue, String sourceUom,
-			String targetUom) {
-		if (customUnitConverters.containsKey(sourceUom)) {
-			NumberWithUOM preProcessed = customUnitConverters.get(sourceUom).convert(doubleValue);
-			try {
-				return UCUMTools.convert(preProcessed.getUom(), targetUom, preProcessed.getValue()).getValue();
-			} catch (UnitConversionFailedException e) {
-				return preProcessed.getValue();
-			}
-		}
+    public static double convertToTargetUnit(double doubleValue, String sourceUom,
+            String targetUom) {
+        if (customUnitConverters.containsKey(sourceUom)) {
+            NumberWithUOM preProcessed = customUnitConverters.get(sourceUom).convert(doubleValue);
+            try {
+                return UCUMTools.convert(preProcessed.getUom(), targetUom, preProcessed.getValue()).getValue();
+            } catch (UnitConversionFailedException e) {
+                return preProcessed.getValue();
+            }
+        }
 
-		try {
-			return UCUMTools.convert(sourceUom, targetUom, doubleValue).getValue();
-		} catch (UnitConversionFailedException e) {
-			return doubleValue;
-		}
-	}
+        try {
+            return UCUMTools.convert(sourceUom, targetUom, doubleValue).getValue();
+        } catch (UnitConversionFailedException e) {
+            return doubleValue;
+        }
+    }
 
-	public static double convertToBaseUnit(double doubleValue, String sourceUom) {
-		String target;
-		if (customUnitConverters.containsKey(sourceUom)) {
-			target = customUnitConverters.get(sourceUom).getBaseUnit();
-		}
-		else {
-			target = UCUMTools.getBaseUnit(sourceUom).getUCUMExpression();
-		}
-		return convertToTargetUnit(doubleValue, sourceUom, target);
-	}
+    public static double convertToBaseUnit(double doubleValue, String sourceUom) {
+        String target;
+        if (customUnitConverters.containsKey(sourceUom)) {
+            target = customUnitConverters.get(sourceUom).getBaseUnit();
+        }
+        else {
+            target = UCUMTools.getBaseUnit(sourceUom).getUCUMExpression();
+        }
+        return convertToTargetUnit(doubleValue, sourceUom, target);
+    }
 
-	public static void addCustomUnitConverter(CustomUnitConverter c) {
-		customUnitConverters.put(c.getUnitString(), c);
-	}
+    public static void addCustomUnitConverter(CustomUnitConverter c) {
+        customUnitConverters.put(c.getUnitString(), c);
+    }
 
 }

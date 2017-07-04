@@ -477,7 +477,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
     }
 
     private OXFException createException(final String typeName, final Object phenomenonTimeObj) {
-	return new OXFException(
+    return new OXFException(
                 String.format("Support for '%s' type not yet implemented. Received type: '%s'",
                         typeName,
                         phenomenonTimeObj!=null?phenomenonTimeObj.getClass().getName():null));
@@ -537,11 +537,11 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
             String newFoiSRS = (String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS).getSpecifiedValue();
             String foiSRS = OGC_URI_START_CRS;
             if (newFoiSRS != null && !newFoiSRS.isEmpty()) {
-        	if (newFoiSRS.contains(OGC_URI_START_CRS)) {
-        	    foiSRS = newFoiSRS;
-        	} else {
-        	    foiSRS = OGC_URI_START_CRS.concat(newFoiSRS);
-        	}
+            if (newFoiSRS.contains(OGC_URI_START_CRS)) {
+                foiSRS = newFoiSRS;
+            } else {
+                foiSRS = OGC_URI_START_CRS.concat(newFoiSRS);
+            }
             }
             pos.setSrsName(foiSRS);
             pos.setStringValue((String)parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_NEW_FOI_POSITION).getSpecifiedValue());

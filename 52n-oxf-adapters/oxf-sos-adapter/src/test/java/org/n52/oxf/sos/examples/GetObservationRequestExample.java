@@ -50,7 +50,7 @@ import org.n52.oxf.valueDomains.time.TimePeriod;
 public class GetObservationRequestExample extends SosAdapterRequestExample {
 
     @Override
-	@Before
+    @Before
     public void setUp() throws Exception {
         super.setUp();
 

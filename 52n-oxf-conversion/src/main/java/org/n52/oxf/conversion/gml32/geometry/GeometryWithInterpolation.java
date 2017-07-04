@@ -31,29 +31,29 @@ import com.vividsolutions.jts.geom.Geometry;
 
 public class GeometryWithInterpolation {
 
-	public static final String LINEAR = "Linear";
-	public static final String GEODESIC = "Geodesic";
+    public static final String LINEAR = "Linear";
+    public static final String GEODESIC = "Geodesic";
 
-	private Geometry geometry;
-	private String interpolation;
+    private Geometry geometry;
+    private String interpolation;
 
-	public GeometryWithInterpolation(Geometry geom, String interpol) {
-		this.geometry = geom;
-		this.interpolation = interpol;
-	}
+    public GeometryWithInterpolation(Geometry geom, String interpol) {
+        this.geometry = geom;
+        this.interpolation = interpol;
+    }
 
 
-	public Geometry getGeometry() {
-		return geometry;
-	}
+    public Geometry getGeometry() {
+        return geometry;
+    }
 
-	public String getInterpolation() {
-		return interpolation;
-	}
+    public String getInterpolation() {
+        return interpolation;
+    }
 
-	public void setGeometry(Geometry geom) {
-		this.geometry = geom;
-	}
+    public void setGeometry(Geometry geom) {
+        this.geometry = geom;
+    }
 
 
 }

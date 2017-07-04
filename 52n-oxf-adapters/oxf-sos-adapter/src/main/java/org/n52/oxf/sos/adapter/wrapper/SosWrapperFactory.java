@@ -35,64 +35,64 @@ import org.n52.oxf.sos.adapter.SOSAdapter;
 
 public class SosWrapperFactory {
 
-	/**
-	 * Creates a SOSWrapper instance by initiating a GetCapabilities request.
-	 *
-	 * @param serviceEndpoint Location of the SOS service.
-	 * @param serviceVersion specification version.
-	 * @return Instance of a SOSWrapper for a certain SOS service.
-	 * @throws ExceptionReport
-	 * @throws OXFException
-	 */
-	public static SOSWrapper newInstance(final String serviceEndpoint, final String serviceVersion)
+    /**
+     * Creates a SOSWrapper instance by initiating a GetCapabilities request.
+     *
+     * @param serviceEndpoint Location of the SOS service.
+     * @param serviceVersion specification version.
+     * @return Instance of a SOSWrapper for a certain SOS service.
+     * @throws ExceptionReport
+     * @throws OXFException
+     */
+    public static SOSWrapper newInstance(final String serviceEndpoint, final String serviceVersion)
             throws ExceptionReport, OXFException {
-		return newInstance(serviceEndpoint, serviceVersion, null);
-	}
+        return newInstance(serviceEndpoint, serviceVersion, null);
+    }
 
-	/**
-	 * Creates a SOSWrapper instance by initiating a GetCapabilities request.
-	 *
-	 * @param serviceEndpoint Location of the SOS service.
-	 * @param serviceVersion specification version.
-	 * @param binding binding protocol used by this service instance.
-	 * @return Instance of a SOSWrapper for a certain SOS service.
-	 * @throws OXFException
-	 * @throws ExceptionReport
-	 */
-	public static SOSWrapper newInstance(final String serviceEndpoint,
-			final String serviceVersion,
-			final Binding binding) throws ExceptionReport, OXFException
-	{
-		final ServiceDescriptor capabilities = doGetCapabilities(serviceEndpoint, serviceVersion, binding);
-		return new SOSWrapper(capabilities, binding);
-	}
+    /**
+     * Creates a SOSWrapper instance by initiating a GetCapabilities request.
+     *
+     * @param serviceEndpoint Location of the SOS service.
+     * @param serviceVersion specification version.
+     * @param binding binding protocol used by this service instance.
+     * @return Instance of a SOSWrapper for a certain SOS service.
+     * @throws OXFException
+     * @throws ExceptionReport
+     */
+    public static SOSWrapper newInstance(final String serviceEndpoint,
+            final String serviceVersion,
+            final Binding binding) throws ExceptionReport, OXFException
+    {
+        final ServiceDescriptor capabilities = doGetCapabilities(serviceEndpoint, serviceVersion, binding);
+        return new SOSWrapper(capabilities, binding);
+    }
 
-	/**
-	 * Requests and returns the SOS capability description.
-	 *
-	 * @param serviceEndpoint Location of the SOS service.
-	 * @param serviceVersion specification version.
-	 * @param binding
-	 * @return ServiceDescriptor filled with data resulting from the GetCapabilities request.
-	 * @throws OXFException
-	 * @throws ExceptionReport
-	 */
-	private static ServiceDescriptor doGetCapabilities(final String serviceEndpoint,
-			final String serviceVersion,
-			final Binding binding) throws ExceptionReport, OXFException
-	{
-		final SOSAdapter adapter = new SOSAdapter(serviceVersion);
-		return adapter.initService(serviceEndpoint, binding);
-	}
+    /**
+     * Requests and returns the SOS capability description.
+     *
+     * @param serviceEndpoint Location of the SOS service.
+     * @param serviceVersion specification version.
+     * @param binding
+     * @return ServiceDescriptor filled with data resulting from the GetCapabilities request.
+     * @throws OXFException
+     * @throws ExceptionReport
+     */
+    private static ServiceDescriptor doGetCapabilities(final String serviceEndpoint,
+            final String serviceVersion,
+            final Binding binding) throws ExceptionReport, OXFException
+    {
+        final SOSAdapter adapter = new SOSAdapter(serviceVersion);
+        return adapter.initService(serviceEndpoint, binding);
+    }
 
-	/**
-	 * Creates a SOSWrapper instance from given ServiceDescriptor
-	 * @param capabilities
-	 * @return
-	 */
-	public static SOSWrapper newInstance(final ServiceDescriptor capabilities)
-	{
-		return new SOSWrapper(capabilities, null);
-	}
+    /**
+     * Creates a SOSWrapper instance from given ServiceDescriptor
+     * @param capabilities
+     * @return
+     */
+    public static SOSWrapper newInstance(final ServiceDescriptor capabilities)
+    {
+        return new SOSWrapper(capabilities, null);
+    }
 
 }

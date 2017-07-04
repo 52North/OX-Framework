@@ -503,8 +503,8 @@ public class SOSRequestBuilder200POXTest {
                 .getSFSpatialSamplingFeature();
 
         assertThat(
-        	((PointType)((ShapeType)feature.getShape()).getAbstractGeometry()).getPos().getSrsName(),
-        	is("http://www.opengis.net/def/crs/EPSG/0/4326"));
+            ((PointType)((ShapeType)feature.getShape()).getAbstractGeometry()).getPos().getSrsName(),
+            is("http://www.opengis.net/def/crs/EPSG/0/4326"));
 
         parameters.removeParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS);
         parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS, "http://www.opengis.net/def/crs/EPSG/0/4326");

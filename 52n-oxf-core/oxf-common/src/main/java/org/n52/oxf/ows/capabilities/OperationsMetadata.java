@@ -36,144 +36,144 @@ package org.n52.oxf.ows.capabilities;
  */
 public class OperationsMetadata {
 
-	/**
-	 * Metadata for the operations that this server interface implements <br>
-	 * <br>
-	 * One or more (mandatory)
-	 */
-	private Operation[] operations;
+    /**
+     * Metadata for the operations that this server interface implements <br>
+     * <br>
+     * One or more (mandatory)
+     */
+    private Operation[] operations;
 
-	/**
-	 * ParameterContainer applies to one or more operations which this server
-	 * implements.<br>
-	 * The parameter can be an input and/or output parameter of the operations.<br>
-	 * <br>
-	 * Zero or more (optional)
-	 */
+    /**
+     * ParameterContainer applies to one or more operations which this server
+     * implements.<br>
+     * The parameter can be an input and/or output parameter of the operations.<br>
+     * <br>
+     * Zero or more (optional)
+     */
     //TODO: these parameters should be applied to all Operations
-	private Parameter[] parameters;
+    private Parameter[] parameters;
 
-	/**
-	 * Constraint on valid domain of a non-parameter quantity that applies to
-	 * this server.<br>
-	 * <br>
-	 * Zero or more (optional)
-	 */
-	private String[] constraints;
+    /**
+     * Constraint on valid domain of a non-parameter quantity that applies to
+     * this server.<br>
+     * <br>
+     * Zero or more (optional)
+     */
+    private String[] constraints;
 
-	public OperationsMetadata(final Operation[] operations) {
-		setOperations(operations);
-	}
+    public OperationsMetadata(final Operation[] operations) {
+        setOperations(operations);
+    }
 
-	public OperationsMetadata(final Operation[] operations, final Parameter[] parameters,
-			final String[] constraints) {
-		setOperations(operations);
-		setParameters(parameters);
-		setConstraints(constraints);
-	}
+    public OperationsMetadata(final Operation[] operations, final Parameter[] parameters,
+            final String[] constraints) {
+        setOperations(operations);
+        setParameters(parameters);
+        setConstraints(constraints);
+    }
 
-	/**
-	 * @return a XML representation of this OperationsMetadata-section.
-	 */
-	public String toXML() {
-		String res = "<OperationsMetadata>";
+    /**
+     * @return a XML representation of this OperationsMetadata-section.
+     */
+    public String toXML() {
+        String res = "<OperationsMetadata>";
 
-		res += "<Operations>";
-		if (operations != null) {
+        res += "<Operations>";
+        if (operations != null) {
             StringBuilder sb = new StringBuilder(res);
-			for (final Operation operation : operations) {
-				sb.append(operation.toXML());
-			}
+            for (final Operation operation : operations) {
+                sb.append(operation.toXML());
+            }
             res = sb.toString();
-		}
-		res += "</Operations>";
+        }
+        res += "</Operations>";
 
-		res += "<Parameters>";
-		if (parameters != null) {
+        res += "<Parameters>";
+        if (parameters != null) {
             StringBuilder sb = new StringBuilder(res);
-			for (final Parameter parameter : parameters) {
-				sb.append(parameter.toXML());
-			}
+            for (final Parameter parameter : parameters) {
+                sb.append(parameter.toXML());
+            }
             res = sb.toString();
-		}
-		res += "</Parameters>";
+        }
+        res += "</Parameters>";
 
-		res += "<Constraints>";
-		if (constraints != null) {
+        res += "<Constraints>";
+        if (constraints != null) {
             StringBuilder sb = new StringBuilder(res);
-			for (final String c : constraints) {
-				sb.append("<Constraint>")
+            for (final String c : constraints) {
+                sb.append("<Constraint>")
                         .append(c)
                         .append("<Constraint>");
-			}
+            }
             res = sb.toString();
-		}
-		res += "</Constraints>";
+        }
+        res += "</Constraints>";
 
-		res += "</OperationsMetadata>";
+        res += "</OperationsMetadata>";
 
-		return res;
-	}
+        return res;
+    }
 
-	/**
-	 * Representation of possible Constraints. These constraints will be
-	 * inherited by all underlying operations.
-	 *
-	 * @return a String representation of the constraints.
-	 */
-	public String[] getConstraints() {
-		return constraints != null? constraints.clone() : null;
-	}
+    /**
+     * Representation of possible Constraints. These constraints will be
+     * inherited by all underlying operations.
+     *
+     * @return a String representation of the constraints.
+     */
+    public String[] getConstraints() {
+        return constraints != null? constraints.clone() : null;
+    }
 
-	/**
-	 * Representation of possible Constraints. These constraints will be
-	 * inherited by all underlying operations.
-	 *
-	 * @param constraints
-	 *            The constraints to set.
-	 */
-	protected void setConstraints(final String[] constraints) {
-		this.constraints = constraints;
-	}
+    /**
+     * Representation of possible Constraints. These constraints will be
+     * inherited by all underlying operations.
+     *
+     * @param constraints
+     *            The constraints to set.
+     */
+    protected void setConstraints(final String[] constraints) {
+        this.constraints = constraints;
+    }
 
-	/**
-	 * @param operationName a name of an operation
-	 * @return the Operation with the specified operationName. Returns
-	 *         <code>null</code> if there isn't such an Operation.
-	 */
-	public Operation getOperationByName(final String operationName) {
-		for (final Operation op : operations) {
-			if (op != null && op.getName().equals(operationName)) {
-				return op;
-			}
-		}
-		return null;
-	}
+    /**
+     * @param operationName a name of an operation
+     * @return the Operation with the specified operationName. Returns
+     *         <code>null</code> if there isn't such an Operation.
+     */
+    public Operation getOperationByName(final String operationName) {
+        for (final Operation op : operations) {
+            if (op != null && op.getName().equals(operationName)) {
+                return op;
+            }
+        }
+        return null;
+    }
 
-	public Operation[] getOperations() {
-		return operations != null? operations.clone() : null;
-	}
+    public Operation[] getOperations() {
+        return operations != null? operations.clone() : null;
+    }
 
-	protected void setOperations(final Operation[] operations) {
-		this.operations = operations;
-	}
+    protected void setOperations(final Operation[] operations) {
+        this.operations = operations;
+    }
 
-	/**
-	 * This parameters are inherited by ALL operations. (ie. parameter version)
-	 *
-	 * @return Returns the parameters.
-	 */
-	public Parameter[] getParameters() {
-		return parameters != null? parameters.clone() : null;
-	}
+    /**
+     * This parameters are inherited by ALL operations. (ie. parameter version)
+     *
+     * @return Returns the parameters.
+     */
+    public Parameter[] getParameters() {
+        return parameters != null? parameters.clone() : null;
+    }
 
-	/**
-	 * This parameters are inherited by ALL operations
-	 *
-	 * @param parameters
-	 *            The parameters to set.
-	 */
-	protected void setParameters(final Parameter[] parameters) {
-		this.parameters = parameters;
-	}
+    /**
+     * This parameters are inherited by ALL operations
+     *
+     * @param parameters
+     *            The parameters to set.
+     */
+    protected void setParameters(final Parameter[] parameters) {
+        this.parameters = parameters;
+    }
 }

@@ -36,5 +36,5 @@ package org.n52.oxf.feature;
  */
 @Deprecated
 public enum DataType {
-	INTEGER, DECIMAL, DOUBLE, STRING, DATETIME, OBJECT, GEOMETRY, STYLE;
+    INTEGER, DECIMAL, DOUBLE, STRING, DATETIME, OBJECT, GEOMETRY, STYLE;
 }

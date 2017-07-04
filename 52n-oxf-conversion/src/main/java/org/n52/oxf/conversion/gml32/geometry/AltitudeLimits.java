@@ -32,50 +32,50 @@ package org.n52.oxf.conversion.gml32.geometry;
  */
 public class AltitudeLimits {
 
-	/**
-	 * Enumeration defining the common altitude reference definitions (derived from AIXM 5.1)
-	 */
-	public static enum AltitudeReferences {SFC, STD, FL, MSL, W84 }
+    /**
+     * Enumeration defining the common altitude reference definitions (derived from AIXM 5.1)
+     */
+    public static enum AltitudeReferences {SFC, STD, FL, MSL, W84 }
 
-	private final AltitudeReferences lowerLimitReference;
-	private final AltitudeReferences upperLimitReference;
-	private final double lowerLimit;
-	private final double upperLimit;
+    private final AltitudeReferences lowerLimitReference;
+    private final AltitudeReferences upperLimitReference;
+    private final double lowerLimit;
+    private final double upperLimit;
 
-	public AltitudeLimits(double lowerLimit2,
-			AltitudeReferences lowerReference, double upperLimit2,
-			AltitudeReferences upperReference) {
-		this.lowerLimit = lowerLimit2;
-		this.upperLimit = upperLimit2;
-		this.lowerLimitReference = lowerReference;
-		this.upperLimitReference = upperReference;
-	}
+    public AltitudeLimits(double lowerLimit2,
+            AltitudeReferences lowerReference, double upperLimit2,
+            AltitudeReferences upperReference) {
+        this.lowerLimit = lowerLimit2;
+        this.upperLimit = upperLimit2;
+        this.lowerLimitReference = lowerReference;
+        this.upperLimitReference = upperReference;
+    }
 
-	public AltitudeReferences getLowerLimitReference() {
-		return lowerLimitReference;
-	}
+    public AltitudeReferences getLowerLimitReference() {
+        return lowerLimitReference;
+    }
 
-	public AltitudeReferences getUpperLimitReference() {
-		return upperLimitReference;
-	}
+    public AltitudeReferences getUpperLimitReference() {
+        return upperLimitReference;
+    }
 
-	public double getLowerLimit() {
-		return lowerLimit;
-	}
+    public double getLowerLimit() {
+        return lowerLimit;
+    }
 
-	public double getUpperLimit() {
-		return upperLimit;
-	}
+    public double getUpperLimit() {
+        return upperLimit;
+    }
 
     @Deprecated
-	public String getLowerLimitUom() {
+    public String getLowerLimitUom() {
         // field was never written
-		return null;
-	}
+        return null;
+    }
 
     @Deprecated
-	public String getUpperLimitUom() {
+    public String getUpperLimitUom() {
         // field was never writtern
-		return null;
-	}
+        return null;
+    }
 }

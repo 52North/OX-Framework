@@ -38,8 +38,8 @@ import java.util.Collection;
  */
 public interface GeometryCollectionWithAltitudeLimits {
 
-	public Collection<GeometryWithInterpolation> getGeometries();
+    public Collection<GeometryWithInterpolation> getGeometries();
 
-	public AltitudeLimits getAltitudeLimits();
+    public AltitudeLimits getAltitudeLimits();
 
 }

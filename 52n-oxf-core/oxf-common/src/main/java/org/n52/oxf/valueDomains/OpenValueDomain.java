@@ -31,25 +31,25 @@ import org.n52.oxf.ows.capabilities.IValueDomain;
 
 public class OpenValueDomain implements IValueDomain<Object> {
 
-	public boolean containsValue(Object t) {
-		return true;
-	}
+    public boolean containsValue(Object t) {
+        return true;
+    }
 
-	public String getDomainDescription() {
-		return "allows any object";
-	}
+    public String getDomainDescription() {
+        return "allows any object";
+    }
 
-	public Object produceValue(String... stringArray) {
-		return stringArray[0];
-	}
+    public Object produceValue(String... stringArray) {
+        return stringArray[0];
+    }
 
-	public String toXML() {
-		String res = "<OpenValueDomain>";
-		res += "<PossibleValue>";
-		res += "all Objects are allowed";
-		res += "</PossibleValue>";
-		res += "</OpenValueDomain>";
-		return res;
-	}
+    public String toXML() {
+        String res = "<OpenValueDomain>";
+        res += "<PossibleValue>";
+        res += "all Objects are allowed";
+        res += "</PossibleValue>";
+        res += "</OpenValueDomain>";
+        return res;
+    }
 
 }

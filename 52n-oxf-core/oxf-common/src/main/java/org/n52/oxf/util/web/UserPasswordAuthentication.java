@@ -29,20 +29,20 @@ package org.n52.oxf.util.web;
 
 public class UserPasswordAuthentication {
 
-	private final String username;
-	private final String password;
+    private final String username;
+    private final String password;
 
-	public UserPasswordAuthentication(String user, String pass) {
-	      username = user;
-	      password = pass;
-	}
+    public UserPasswordAuthentication(String user, String pass) {
+          username = user;
+          password = pass;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
 }

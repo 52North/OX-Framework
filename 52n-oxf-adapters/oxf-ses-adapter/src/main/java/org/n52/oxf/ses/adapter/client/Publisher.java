@@ -45,85 +45,85 @@ import org.slf4j.LoggerFactory;
 
 public class Publisher {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(Publisher.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(Publisher.class);
 
-	private static final Object MANAGERS_MUTEX = new Object();
+    private static final Object MANAGERS_MUTEX = new Object();
 
-	private static final Map<String,ISESConnector> MANAGERS = new HashMap<>();
+    private static final Map<String,ISESConnector> MANAGERS = new HashMap<>();
 
-	private static final String SES_RESOURCES_NS = "http://ws.apache.org/muse/addressing";
-	private static final String WSA_NS = "http://www.w3.org/2005/08/addressing";
-	private static final String WSBR_NS = "http://docs.oasis-open.org/wsn/br-2";
-	private static final String WSNT_NS = "http://docs.oasis-open.org/wsn/b-2";
+    private static final String SES_RESOURCES_NS = "http://ws.apache.org/muse/addressing";
+    private static final String WSA_NS = "http://www.w3.org/2005/08/addressing";
+    private static final String WSBR_NS = "http://docs.oasis-open.org/wsn/br-2";
+    private static final String WSNT_NS = "http://docs.oasis-open.org/wsn/b-2";
 
-	private static final String RESOURCE_ID_XPATH = "declare namespace res='"+SES_RESOURCES_NS+"'; " +
-		"//res:ResourceId";
-	private static final String PUBLISHER_ADDRESS_XPATH = "declare namespace wsa='"+WSA_NS+"'; " +
-			"declare namespace wsbr='"+WSBR_NS+"'; " +
-			"//wsbr:PublisherRegistrationReference/wsa:Address";
-	private static final String CONSUMER_ADDRESS_XPATH = "declare namespace wsa='"+WSA_NS+"'; " +
-			"declare namespace wsnt='"+WSNT_NS+"'; " +
-			"//wsnt:ConsumerReference/wsa:Address";
+    private static final String RESOURCE_ID_XPATH = "declare namespace res='"+SES_RESOURCES_NS+"'; " +
+        "//res:ResourceId";
+    private static final String PUBLISHER_ADDRESS_XPATH = "declare namespace wsa='"+WSA_NS+"'; " +
+            "declare namespace wsbr='"+WSBR_NS+"'; " +
+            "//wsbr:PublisherRegistrationReference/wsa:Address";
+    private static final String CONSUMER_ADDRESS_XPATH = "declare namespace wsa='"+WSA_NS+"'; " +
+            "declare namespace wsnt='"+WSNT_NS+"'; " +
+            "//wsnt:ConsumerReference/wsa:Address";
 
-	private XmlObject document;
-	private final XmlObject sensorML;
-	private boolean failed;
-	private String exceptionText;
+    private XmlObject document;
+    private final XmlObject sensorML;
+    private boolean failed;
+    private String exceptionText;
 
-	private String resourceID;
+    private String resourceID;
 
-	private String publisherAddress;
+    private String publisherAddress;
 
-	private String consumerAddress;
+    private String consumerAddress;
 
-	private ISESConnector manager;
+    private ISESConnector manager;
 
-	private boolean destroyed;
+    private boolean destroyed;
     private static final String DEFAULT_ENCODING = "UTF-8";
 
-	public Publisher(XmlObject sensorML) {
-		this.sensorML = sensorML;
-	}
+    public Publisher(XmlObject sensorML) {
+        this.sensorML = sensorML;
+    }
 
-	public XmlObject getRegisterDocument() {
-		StringBuilder sb = new StringBuilder();
+    public XmlObject getRegisterDocument() {
+        StringBuilder sb = new StringBuilder();
         try (
                 InputStream in = getClass().getResourceAsStream("template_registerpublisher.xml");
                 BufferedReader br = new BufferedReader(new InputStreamReader(in, DEFAULT_ENCODING));
                 ) {
-			while (br.ready()) {
-				sb.append(br.readLine());
-			}
-		} catch (IOException e) {
-			LOG.warn(e.getMessage(), e);
-		}
+            while (br.ready()) {
+                sb.append(br.readLine());
+            }
+        } catch (IOException e) {
+            LOG.warn(e.getMessage(), e);
+        }
 
-		try {
-			document = XmlObject.Factory.parse(
-					sb.toString().replace("${sensorml}", sensorML.toString()).
-					replace("${topic}", "default"));
-		} catch (XmlException e) {
-			LOG.warn(e.getMessage(), e);
-		}
+        try {
+            document = XmlObject.Factory.parse(
+                    sb.toString().replace("${sensorml}", sensorML.toString()).
+                    replace("${topic}", "default"));
+        } catch (XmlException e) {
+            LOG.warn(e.getMessage(), e);
+        }
 
-		return this.document;
-	}
+        return this.document;
+    }
 
-	public void setException(Exception e) {
-		failed = true;
-		exceptionText = e.getMessage();
-	}
+    public void setException(Exception e) {
+        failed = true;
+        exceptionText = e.getMessage();
+    }
 
-	public void parseResponse(XmlObject response) {
-		XmlObject[] body = XmlUtil.selectPath("declare namespace soap='http://www.w3.org/2003/05/soap-envelope'; //soap:Body", response);
-		if (body == null || body.length == 0) {
+    public void parseResponse(XmlObject response) {
+        XmlObject[] body = XmlUtil.selectPath("declare namespace soap='http://www.w3.org/2003/05/soap-envelope'; //soap:Body", response);
+        if (body == null || body.length == 0) {
             this.setException(new Exception("Could not parse response: no SOAP body found."));
             return;
         }
 
-		XmlCursor cur = body[0].newCursor();
-		cur.toFirstChild();
+        XmlCursor cur = body[0].newCursor();
+        cur.toFirstChild();
         switch (cur.getName().getLocalPart()) {
             case "RegisterPublisherResponse":
                 /*
@@ -175,59 +175,59 @@ public class Publisher {
                 failed = true;
                 break;
         }
-	}
+    }
 
-	public XmlObject getDestroyRegistrationDocument() {
-		XmlObject xo = null;
+    public XmlObject getDestroyRegistrationDocument() {
+        XmlObject xo = null;
 
-		StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         try (
                 InputStream in = getClass().getResourceAsStream("template_destroyregistration.xml");
                 BufferedReader br = new BufferedReader(new InputStreamReader(in, DEFAULT_ENCODING));
         ){
-			while (br.ready()) {
-				sb.append(br.readLine());
-			}
-		} catch (IOException e1) {
-			LOG.error("Exception thrown:", e1);
-		}
+            while (br.ready()) {
+                sb.append(br.readLine());
+            }
+        } catch (IOException e1) {
+            LOG.error("Exception thrown:", e1);
+        }
 
-		try {
-			xo = XmlObject.Factory.parse(
+        try {
+            xo = XmlObject.Factory.parse(
                     sb.toString().replace("${resource}", this.resourceID)
                     .replace("${reg_pub_host}", this.manager.getHost().toString()));
-		} catch (XmlException e) {
-			LOG.error("Exception thrown:", e);
-		}
+        } catch (XmlException e) {
+            LOG.error("Exception thrown:", e);
+        }
 
-		return xo;
-	}
+        return xo;
+    }
 
-	public boolean isFailed() {
-		return failed;
-	}
+    public boolean isFailed() {
+        return failed;
+    }
 
-	public boolean isDestroyed() {
-		return destroyed;
-	}
+    public boolean isDestroyed() {
+        return destroyed;
+    }
 
-	public String getExceptionText() {
-		return exceptionText;
-	}
+    public String getExceptionText() {
+        return exceptionText;
+    }
 
-	public String getResourceID() {
-		return resourceID;
-	}
+    public String getResourceID() {
+        return resourceID;
+    }
 
-	public String getPublisherAddress() {
-		return publisherAddress;
-	}
+    public String getPublisherAddress() {
+        return publisherAddress;
+    }
 
-	public String getConsumerAddress() {
-		return consumerAddress;
-	}
+    public String getConsumerAddress() {
+        return consumerAddress;
+    }
 
-	public ISESConnector getManager() {
-		return manager;
-	}
+    public ISESConnector getManager() {
+        return manager;
+    }
 }

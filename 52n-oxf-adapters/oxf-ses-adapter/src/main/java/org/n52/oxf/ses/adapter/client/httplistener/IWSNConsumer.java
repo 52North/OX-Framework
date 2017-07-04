@@ -39,19 +39,19 @@ import org.n52.oxf.ses.adapter.client.httplistener.HttpListener;
  */
 public interface IWSNConsumer {
 
-	/**
-	 * @param collectListener the request listener
-	 */
-	public void setListener(HttpListener collectListener);
+    /**
+     * @param collectListener the request listener
+     */
+    public void setListener(HttpListener collectListener);
 
-	/**
-	 * use to free resources
-	 */
-	public void stop();
+    /**
+     * use to free resources
+     */
+    public void stop();
 
-	/**
-	 * @return if available, return the publicly known URL of the consumer
-	 */
-	public URL getPublicURL();
+    /**
+     * @return if available, return the publicly known URL of the consumer
+     */
+    public URL getPublicURL();
 
 }

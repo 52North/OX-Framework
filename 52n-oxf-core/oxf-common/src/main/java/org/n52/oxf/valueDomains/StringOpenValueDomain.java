@@ -31,25 +31,25 @@ import org.n52.oxf.ows.capabilities.IValueDomain;
 
 public class StringOpenValueDomain implements IValueDomain<String> {
 
-	public String getDomainDescription() {
-		return "allowes all String values";
-	}
+    public String getDomainDescription() {
+        return "allowes all String values";
+    }
 
-	public String produceValue(String... stringArray) {
-		return stringArray[0];
-	}
+    public String produceValue(String... stringArray) {
+        return stringArray[0];
+    }
 
-	public String toXML() {
-		String res = "<StringOpenValueDomain>";
-		res += "<PossibleValue>";
-		res += "all Strings are allowed";
-		res += "</PossibleValue>";
-		res += "</StringOpenValueDomain>";
-		return res;
-	}
+    public String toXML() {
+        String res = "<StringOpenValueDomain>";
+        res += "<PossibleValue>";
+        res += "all Strings are allowed";
+        res += "</PossibleValue>";
+        res += "</StringOpenValueDomain>";
+        return res;
+    }
 
-	public boolean containsValue(String t) {
-		return true;
-	}
+    public boolean containsValue(String t) {
+        return true;
+    }
 
 }

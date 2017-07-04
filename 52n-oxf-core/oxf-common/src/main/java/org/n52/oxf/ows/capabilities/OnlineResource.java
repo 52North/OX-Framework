@@ -37,12 +37,12 @@ package org.n52.oxf.ows.capabilities;
  */
 public class OnlineResource {
 
-	public static String TYPE_EXTENDED	= "extended";
-	public static String TYPE_SIMPLE	= "simple";
-	public static String TYPE_RESOURCE	= "resource";
-	public static String TYPE_LOCATOR	= "locator";
-	public static String TYPE_ARC		= "arc";
-	public static String TYPE_TITLE		= "title";
+    public static String TYPE_EXTENDED  = "extended";
+    public static String TYPE_SIMPLE    = "simple";
+    public static String TYPE_RESOURCE  = "resource";
+    public static String TYPE_LOCATOR   = "locator";
+    public static String TYPE_ARC       = "arc";
+    public static String TYPE_TITLE     = "title";
 
     /**
      * The allowed values for 'type' are: extended, simple, resource, locator, arc, title.
@@ -68,36 +68,36 @@ public class OnlineResource {
         setHref(href);
     }
 
-	public OnlineResource(String type, String href){
-		setType(type);
-		setHref(href);
-	}
+    public OnlineResource(String type, String href){
+        setType(type);
+        setHref(href);
+    }
 
-	public OnlineResource(String type, String href, String role, String arcrole, String show, String actuate, String title){
-		setType(type);
-		setHref(href);
-		setRole(role);
-		setArcrole(arcrole);
-		setShow(show);
-		setActuate(actuate);
-		setTitle(title);
-	}
+    public OnlineResource(String type, String href, String role, String arcrole, String show, String actuate, String title){
+        setType(type);
+        setHref(href);
+        setRole(role);
+        setArcrole(arcrole);
+        setShow(show);
+        setActuate(actuate);
+        setTitle(title);
+    }
 
-	/**
-	 * @return a XML representation of this OnlineResource.
-	 */
-	public String toXML(){
-		String res = "<OnlineResource"
-				+ " type=\""	+ type + "\""
-				+ " href=\""	+ href + "\""
-				+ " role=\""	+ role + "\""
-				+ " arcrole=\"" + arcrole + "\""
-				+ " show=\""	+ show + "\""
-				+ " actuate=\"" + actuate + "\""
-				+ " title=\""	+ title + "\"/>";
+    /**
+     * @return a XML representation of this OnlineResource.
+     */
+    public String toXML(){
+        String res = "<OnlineResource"
+                + " type=\""    + type + "\""
+                + " href=\""    + href + "\""
+                + " role=\""    + role + "\""
+                + " arcrole=\"" + arcrole + "\""
+                + " show=\""    + show + "\""
+                + " actuate=\"" + actuate + "\""
+                + " title=\""   + title + "\"/>";
 
-		return res;
-	}
+        return res;
+    }
 
     public String getActuate() {
         return actuate;
@@ -111,7 +111,7 @@ public class OnlineResource {
         return arcrole;
     }
 
-	protected void setArcrole(String arcrole) {
+    protected void setArcrole(String arcrole) {
         this.arcrole = arcrole;
     }
 
@@ -119,7 +119,7 @@ public class OnlineResource {
         return href;
     }
 
-	protected void setHref(String href) {
+    protected void setHref(String href) {
         this.href = href;
     }
 
@@ -127,7 +127,7 @@ public class OnlineResource {
         return role;
     }
 
-	protected void setRole(String role) {
+    protected void setRole(String role) {
         this.role = role;
     }
 
@@ -135,7 +135,7 @@ public class OnlineResource {
         return show;
     }
 
-	protected void setShow(String show) {
+    protected void setShow(String show) {
         this.show = show;
     }
 
@@ -143,7 +143,7 @@ public class OnlineResource {
         return title;
     }
 
-	protected void setTitle(String title) {
+    protected void setTitle(String title) {
         this.title = title;
     }
 
@@ -156,7 +156,7 @@ public class OnlineResource {
      * @param type the parameter must be compliant to the recommendation. There are only some allowed.
      * Standard is simple. This should be ok. So please be careful in changing this attribute.
      */
-	protected void setType(String type) {
+    protected void setType(String type) {
         this.type = type;
     }
 }

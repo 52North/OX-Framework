@@ -31,30 +31,30 @@ import java.util.List;
 
 public class RouteSegmentWithAltitudeLimits implements GeometryCollectionWithAltitudeLimits {
 
-	private AltitudeLimits altitudes;
-	private double width;
-	private List<GeometryWithInterpolation> geometries;
+    private AltitudeLimits altitudes;
+    private double width;
+    private List<GeometryWithInterpolation> geometries;
 
-	public RouteSegmentWithAltitudeLimits(List<GeometryWithInterpolation> geometries,
-			AltitudeLimits altitude, double width) {
-		this.geometries = geometries;
-		this.altitudes = altitude;
-		this.width = width;
-	}
+    public RouteSegmentWithAltitudeLimits(List<GeometryWithInterpolation> geometries,
+            AltitudeLimits altitude, double width) {
+        this.geometries = geometries;
+        this.altitudes = altitude;
+        this.width = width;
+    }
 
-	@Override
-	public List<GeometryWithInterpolation> getGeometries() {
-		return this.geometries;
-	}
+    @Override
+    public List<GeometryWithInterpolation> getGeometries() {
+        return this.geometries;
+    }
 
-	@Override
-	public AltitudeLimits getAltitudeLimits() {
-		return this.altitudes;
-	}
+    @Override
+    public AltitudeLimits getAltitudeLimits() {
+        return this.altitudes;
+    }
 
-	public double getWidth() {
-		return width;
-	}
+    public double getWidth() {
+        return width;
+    }
 
 
 }

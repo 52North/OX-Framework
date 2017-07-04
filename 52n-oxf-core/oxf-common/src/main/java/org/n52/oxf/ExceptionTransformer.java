@@ -40,7 +40,7 @@ public class ExceptionTransformer {
      *
      * @param e The Exception to transform
      * @param debugMode <code>true</code> to activate the transformation into HTML, <code>false</code>
-     * 			will print "Sorry, a server error occured!"
+     *          will print "Sorry, a server error occured!"
      *
      * @return HTML code representing the exception
      *

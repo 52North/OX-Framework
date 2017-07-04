@@ -33,38 +33,38 @@ import org.n52.oxf.adapter.ParameterContainer;
 
 public class OMParser {
 
-	public static ParameterContainer parseOM(ObservationDocument document) throws Exception {
-//		ObservationType observation;
-		ParameterContainer paramCon = new ParameterContainer();
+    public static ParameterContainer parseOM(ObservationDocument document) throws Exception {
+//      ObservationType observation;
+        ParameterContainer paramCon = new ParameterContainer();
 
-		if (document != null) {
-//			observation = document.getObservation();
-		} else throw new Exception("No Observation found!");
+        if (document != null) {
+//          observation = document.getObservation();
+        } else throw new Exception("No Observation found!");
 
 
-		// parse featureOfInterest
-//		FeaturePropertyType foi = observation.getFeatureOfInterest();
-//		SamplingPointType sa = SamplingPointType.Factory.parse(foi.toString());
-//		SamplingPointDocument doc = SamplingPointDocument.Factory.parse(sa.toString());
+        // parse featureOfInterest
+//      FeaturePropertyType foi = observation.getFeatureOfInterest();
+//      SamplingPointType sa = SamplingPointType.Factory.parse(foi.toString());
+//      SamplingPointDocument doc = SamplingPointDocument.Factory.parse(sa.toString());
 
-//		OXFFeature feature = OXFSamplingPointType.create(doc);// XXX TEMPORARY COMMENT TO LET IT COMPILE
+//      OXFFeature feature = OXFSamplingPointType.create(doc);// XXX TEMPORARY COMMENT TO LET IT COMPILE
 
-		// position
-//		double x = feature.getGeometry().getInteriorPoint().getCoordinate().x;// XXX TEMPORARY COMMENT TO LET IT COMPILE
-//		double y = feature.getGeometry().getInteriorPoint().getCoordinate().y;// XXX TEMPORARY COMMENT TO LET IT COMPILE
-//		paramCon.addParameterShell(SesLayerAdder.X_COORD, Double.toString(x));// XXX TEMPORARY COMMENT TO LET IT COMPILE
-//		paramCon.addParameterShell(SesLayerAdder.Y_COORD, Double.toString(y));// XXX TEMPORARY COMMENT TO LET IT COMPILE
+        // position
+//      double x = feature.getGeometry().getInteriorPoint().getCoordinate().x;// XXX TEMPORARY COMMENT TO LET IT COMPILE
+//      double y = feature.getGeometry().getInteriorPoint().getCoordinate().y;// XXX TEMPORARY COMMENT TO LET IT COMPILE
+//      paramCon.addParameterShell(SesLayerAdder.X_COORD, Double.toString(x));// XXX TEMPORARY COMMENT TO LET IT COMPILE
+//      paramCon.addParameterShell(SesLayerAdder.Y_COORD, Double.toString(y));// XXX TEMPORARY COMMENT TO LET IT COMPILE
 
-		// foiID
-//		paramCon.addParameterShell(SesLayerAdder.FOI_ID, feature.getID());// XXX TEMPORARY COMMENT TO LET IT COMPILE
+        // foiID
+//      paramCon.addParameterShell(SesLayerAdder.FOI_ID, feature.getID());// XXX TEMPORARY COMMENT TO LET IT COMPILE
 
-		// observedProperty
-//		PhenomenonPropertyType phType = observation.getObservedProperty();
-//		paramCon.addParameterShell(SesLayerAdder.OBSERVED_PROPERTY, phType.getHref());// XXX TEMPORARY COMMENT TO LET IT COMPILE
+        // observedProperty
+//      PhenomenonPropertyType phType = observation.getObservedProperty();
+//      paramCon.addParameterShell(SesLayerAdder.OBSERVED_PROPERTY, phType.getHref());// XXX TEMPORARY COMMENT TO LET IT COMPILE
 
-		// samplingTime
-//		ITime time = null;
-//		if (observation.getSamplingTime().getTimeObject() != null) {
+        // samplingTime
+//      ITime time = null;
+//      if (observation.getSamplingTime().getTimeObject() != null) {
 //            XmlObject timeXo = observation.getSamplingTime().getTimeObject().newCursor().getObject();
 //            SchemaType timeSchemaType = timeXo.schemaType();
 
@@ -75,16 +75,16 @@ public class OMParser {
 //                time = TimeFactory.createTime(xb_timePosition.getStringValue());
 //                paramCon.addParameterShell(SesLayerAdder.SAMPLING_TIME, time.toISO8601Format());// XXX TEMPORARY COMMENT TO LET IT COMPILE
 //            }
-//		}
-		// result
-//		String resultValue = observation.getResult().newCursor().getTextValue();
-//		paramCon.addParameterShell(SesLayerAdder.RESULT_VALUE, resultValue);// XXX TEMPORARY COMMENT TO LET IT COMPILE
+//      }
+        // result
+//      String resultValue = observation.getResult().newCursor().getTextValue();
+//      paramCon.addParameterShell(SesLayerAdder.RESULT_VALUE, resultValue);// XXX TEMPORARY COMMENT TO LET IT COMPILE
 
-//		PhenomenonType b = (PhenomenonType) bla.getPhenomenon();
-//		PhenomenonType type =  PhenomenonType.Factory.parse(bla.toString());
-//		XmlObject result = observation.getResult();
-//		PhenomenonPropertyType test = PhenomenonPropertyType.Factory.parse(observation.getObservedProperty().toString());
+//      PhenomenonType b = (PhenomenonType) bla.getPhenomenon();
+//      PhenomenonType type =  PhenomenonType.Factory.parse(bla.toString());
+//      XmlObject result = observation.getResult();
+//      PhenomenonPropertyType test = PhenomenonPropertyType.Factory.parse(observation.getObservedProperty().toString());
 
-		return paramCon;
-	}
+        return paramCon;
+    }
 }

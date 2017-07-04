@@ -31,22 +31,22 @@ import java.util.List;
 
 public class AirspaceVolumeWithAltitudeLimits implements GeometryCollectionWithAltitudeLimits {
 
-	private List<GeometryWithInterpolation> geometry;
-	private AltitudeLimits altitudes;
+    private List<GeometryWithInterpolation> geometry;
+    private AltitudeLimits altitudes;
 
-	public AirspaceVolumeWithAltitudeLimits(List<GeometryWithInterpolation> horiz, AltitudeLimits altitude) {
-		this.geometry = horiz;
-		this.altitudes = altitude;
-	}
+    public AirspaceVolumeWithAltitudeLimits(List<GeometryWithInterpolation> horiz, AltitudeLimits altitude) {
+        this.geometry = horiz;
+        this.altitudes = altitude;
+    }
 
-	@Override
-	public List<GeometryWithInterpolation> getGeometries() {
-		return geometry;
-	}
+    @Override
+    public List<GeometryWithInterpolation> getGeometries() {
+        return geometry;
+    }
 
-	@Override
-	public AltitudeLimits getAltitudeLimits() {
-		return this.altitudes;
-	}
+    @Override
+    public AltitudeLimits getAltitudeLimits() {
+        return this.altitudes;
+    }
 
 }

@@ -32,6 +32,6 @@ import java.util.Properties;
 
 public interface HttpListener extends Serializable {
 
-	public String processRequest(String request, String uri, String method, Properties header);
+    public String processRequest(String request, String uri, String method, Properties header);
 
 }

@@ -45,45 +45,45 @@ import org.apache.http.protocol.HttpContext;
 
 public class PreemptiveBasicAuthenticationHttpClient extends BasicAuthenticationHttpClient {
 
-	public PreemptiveBasicAuthenticationHttpClient(HttpClient toDecorate) {
-		super(toDecorate);
-	}
+    public PreemptiveBasicAuthenticationHttpClient(HttpClient toDecorate) {
+        super(toDecorate);
+    }
 
-	@Override
-	protected HttpRequestInterceptor getAuthenticationIntercepter() {
-		return new PreemptiveBasicAuthenticationInterceptor();
-	}
+    @Override
+    protected HttpRequestInterceptor getAuthenticationIntercepter() {
+        return new PreemptiveBasicAuthenticationInterceptor();
+    }
 
 
-	private final class PreemptiveBasicAuthenticationInterceptor implements HttpRequestInterceptor {
+    private final class PreemptiveBasicAuthenticationInterceptor implements HttpRequestInterceptor {
 
-		public void process(HttpRequest request, HttpContext context)
-				throws HttpException, IOException {
-			HttpHost targetHost = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+        public void process(HttpRequest request, HttpContext context)
+                throws HttpException, IOException {
+            HttpHost targetHost = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
 
-			UserPasswordAuthentication creds;
-			synchronized (this) {
-				creds = credentials.get(targetHost);
-			}
+            UserPasswordAuthentication creds;
+            synchronized (this) {
+                creds = credentials.get(targetHost);
+            }
 
-			if (creds != null) {
-				UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(creds.getUsername(),
-						creds.getPassword());
-				AuthScope scope = new AuthScope(targetHost);
+            if (creds != null) {
+                UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(creds.getUsername(),
+                        creds.getPassword());
+                AuthScope scope = new AuthScope(targetHost);
 
-				getHttpClientToDecorate().getCredentialsProvider().setCredentials(scope, credentials);
+                getHttpClientToDecorate().getCredentialsProvider().setCredentials(scope, credentials);
 
-				AuthCache cache = new BasicAuthCache();
-				cache.put(targetHost, new BasicScheme());
+                AuthCache cache = new BasicAuthCache();
+                cache.put(targetHost, new BasicScheme());
 
-				context.setAttribute(ClientContext.AUTH_CACHE, cache);
+                context.setAttribute(ClientContext.AUTH_CACHE, cache);
 
-				BasicCredentialsProvider credProvider = new BasicCredentialsProvider();
-				credProvider.setCredentials(scope, credentials);
-				context.setAttribute(ClientContext.CREDS_PROVIDER, credProvider);
-			}
-		}
+                BasicCredentialsProvider credProvider = new BasicCredentialsProvider();
+                credProvider.setCredentials(scope, credentials);
+                context.setAttribute(ClientContext.CREDS_PROVIDER, credProvider);
+            }
+        }
 
-	}
+    }
 
 }

@@ -33,10 +33,10 @@ import org.n52.oxf.conversion.unit.UOMTools;
 
 public class UOMTest {
 
-	@Test
-	public void testConversion() {
-		double result = UOMTools.convertToTargetUnit(100, "FL", "m");
-		Assert.assertTrue("Conversion result is not correct.", result == 3048);
-	}
+    @Test
+    public void testConversion() {
+        double result = UOMTools.convertToTargetUnit(100, "FL", "m");
+        Assert.assertTrue("Conversion result is not correct.", result == 3048);
+    }
 
 }

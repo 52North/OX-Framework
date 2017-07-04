@@ -38,7 +38,7 @@ import org.n52.oxf.*;
 public class BoundingBox3D extends BoundingBox {
 
 
-	/**
+    /**
      * this constructor has all required attributes as its parameters.
      * @param llx x-coordinate of the lowerCorner
      * @param lly y-coordinate of the lowerCorner
@@ -48,9 +48,9 @@ public class BoundingBox3D extends BoundingBox {
      * @param urz z-coordinate of the upperCorner
      * @throws OXFException if the dimensions of lowerLeft and upperRight are not the same.
      */
-	public BoundingBox3D(double llx, double lly, double llz, double urx, double ury, double urz) throws OXFException{
-		super(new double[]{llx, lly, llz}, new double[]{urx, ury, urz});
-	}
+    public BoundingBox3D(double llx, double lly, double llz, double urx, double ury, double urz) throws OXFException{
+        super(new double[]{llx, lly, llz}, new double[]{urx, ury, urz});
+    }
 
     /**
      * this constructor has all attributes as its parameters.
@@ -63,31 +63,31 @@ public class BoundingBox3D extends BoundingBox {
      * @param urz z-coordinate of the upperCorner
      * @throws OXFException if the dimensions of lowerLeft and upperRight are not the same.
      */
-	public BoundingBox3D(String crs, double llx, double lly, double llz, double urx, double ury, double urz) throws OXFException{
-		super(crs, new double[]{llx, lly, llz}, new double[]{urx, ury, urz});
-	}
+    public BoundingBox3D(String crs, double llx, double lly, double llz, double urx, double ury, double urz) throws OXFException{
+        super(crs, new double[]{llx, lly, llz}, new double[]{urx, ury, urz});
+    }
 
-	public double getLlx(){
-		return getLowerCorner()[0];
-	}
+    public double getLlx(){
+        return getLowerCorner()[0];
+    }
 
-	public double getLly(){
-		return getLowerCorner()[1];
-	}
+    public double getLly(){
+        return getLowerCorner()[1];
+    }
 
-	public double getLlz(){
-		return getLowerCorner()[2];
-	}
+    public double getLlz(){
+        return getLowerCorner()[2];
+    }
 
-	public double getUrx(){
-		return getUpperCorner()[0];
-	}
+    public double getUrx(){
+        return getUpperCorner()[0];
+    }
 
-	public double getUry(){
-		return getUpperCorner()[1];
-	}
+    public double getUry(){
+        return getUpperCorner()[1];
+    }
 
-	public double getUrz(){
-		return getUpperCorner()[2];
-	}
+    public double getUrz(){
+        return getUpperCorner()[2];
+    }
 }

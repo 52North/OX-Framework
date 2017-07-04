@@ -35,13 +35,13 @@ import org.junit.Test;
 
 public class Sos100RequestParametersTest {
 
-	@Test public void
-	shouldSetServiceVersionTo100()
-	{
-		assertThat(new ParametersSeam().getSingleValue(SERVICE_TYPE), is("SOS"));
-		assertThat(new ParametersSeam().getSingleValue(SERVICE_VERSION), is("1.0.0"));
-	}
+    @Test public void
+    shouldSetServiceVersionTo100()
+    {
+        assertThat(new ParametersSeam().getSingleValue(SERVICE_TYPE), is("SOS"));
+        assertThat(new ParametersSeam().getSingleValue(SERVICE_VERSION), is("1.0.0"));
+    }
 
-	private class ParametersSeam extends Sos100RequestParameters{}
+    private class ParametersSeam extends Sos100RequestParameters{}
 
 }

@@ -111,9 +111,9 @@ import org.slf4j.LoggerFactory;
  */
 public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SOSRequestBuilder_100.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSRequestBuilder_100.class);
 
-	/**
+    /**
      * Builds the GetCapabilities-Request. <br>
      * <br>
      * For the ParameterContainer 'parameters' are the ParameterShells with the following serviceSidedNames
@@ -134,7 +134,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
      * @return CapabilitiesRequest in xml-Format as String
      */
     @Override
-	public String buildGetCapabilitiesRequest(final ParameterContainer parameters) {
+    public String buildGetCapabilitiesRequest(final ParameterContainer parameters) {
 
         final GetCapabilitiesDocument getCapDoc = GetCapabilitiesDocument.Factory.newInstance();
 
@@ -223,7 +223,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
      *
      */
     @Override
-	public String buildGetObservationRequest(final ParameterContainer parameters) throws OXFException {
+    public String buildGetObservationRequest(final ParameterContainer parameters) throws OXFException {
 
         final GetObservationDocument xb_getObsDoc = GetObservationDocument.Factory.newInstance();
 
@@ -387,32 +387,32 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
      *
      */
     @Override
-	public String buildGetObservationByIDRequest(final ParameterContainer parameters)
+    public String buildGetObservationByIDRequest(final ParameterContainer parameters)
     throws OXFException {
-    	final GetObservationByIdDocument xb_getObsDoc = GetObservationByIdDocument.Factory.newInstance();
+        final GetObservationByIdDocument xb_getObsDoc = GetObservationByIdDocument.Factory.newInstance();
 
-    	final GetObservationById xb_getObs = xb_getObsDoc.addNewGetObservationById();
-
-
-//  	set required elements:
-
-    	xb_getObs.setService((String) parameters.getParameterShellWithServiceSidedName(SERVICE).getSpecifiedValue());
-
-    	xb_getObs.setVersion((String) parameters.getParameterShellWithServiceSidedName(VERSION).getSpecifiedValue());
-
-    	xb_getObs.setObservationId((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER).getSpecifiedValue());
-
-    	xb_getObs.setResponseFormat((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER).getSpecifiedValue());
+        final GetObservationById xb_getObs = xb_getObsDoc.addNewGetObservationById();
 
 
-//  	set optional elements:
+//      set required elements:
 
-    	if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER) != null) {
-    		final ResponseModeType.Enum responseModeEnum = ResponseModeType.Enum.forString((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER).getSpecifiedValue());
-    		xb_getObs.setResponseMode(responseModeEnum);
-    	}
-//  	TODO ResultModel?
-    	return xb_getObsDoc.xmlText(XmlUtil.PRETTYPRINT);
+        xb_getObs.setService((String) parameters.getParameterShellWithServiceSidedName(SERVICE).getSpecifiedValue());
+
+        xb_getObs.setVersion((String) parameters.getParameterShellWithServiceSidedName(VERSION).getSpecifiedValue());
+
+        xb_getObs.setObservationId((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_OBSERVATION_ID_PARAMETER).getSpecifiedValue());
+
+        xb_getObs.setResponseFormat((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_RESPONSE_FORMAT_PARAMETER).getSpecifiedValue());
+
+
+//      set optional elements:
+
+        if (parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER) != null) {
+            final ResponseModeType.Enum responseModeEnum = ResponseModeType.Enum.forString((String) parameters.getParameterShellWithServiceSidedName(GET_OBSERVATION_BY_ID_RESPONSE_MODE_PARAMETER).getSpecifiedValue());
+            xb_getObs.setResponseMode(responseModeEnum);
+        }
+//      TODO ResultModel?
+        return xb_getObsDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
 
@@ -437,7 +437,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
      * @return DescribeSensorRequest in XML-Format as String
      */
     @Override
-	public String buildDescribeSensorRequest(final ParameterContainer parameters) {
+    public String buildDescribeSensorRequest(final ParameterContainer parameters) {
 
         final DescribeSensorDocument descSensorDoc = DescribeSensorDocument.Factory.newInstance();
 
@@ -463,7 +463,7 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     }
 
     @Override
-	public String buildGetFeatureOfInterestRequest(final ParameterContainer parameters) {
+    public String buildGetFeatureOfInterestRequest(final ParameterContainer parameters) {
 
         final GetFeatureOfInterestDocument getFoIDoc = GetFeatureOfInterestDocument.Factory.newInstance();
 
@@ -503,550 +503,550 @@ public class SOSRequestBuilder_100 implements ISOSRequestBuilder {
     }
 
     @Override
-	public String buildInsertObservationRequest(final ParameterContainer parameters) throws OXFException {
-    	final InsertObservationDocument insObDoc = InsertObservationDocument.Factory.newInstance();
-    	final InsertObservation insert = insObDoc.addNewInsertObservation();
-    	addOperationMetadata(insert,parameters);
-    	addAssignedSensorId(insert,parameters);
-    	addObservation(insert,parameters);
-    	/*
-    	 * Validate before returning -> throw OXFException if validation fails
-    	 */
-    	doLaxRequestValidation(insObDoc);
+    public String buildInsertObservationRequest(final ParameterContainer parameters) throws OXFException {
+        final InsertObservationDocument insObDoc = InsertObservationDocument.Factory.newInstance();
+        final InsertObservation insert = insObDoc.addNewInsertObservation();
+        addOperationMetadata(insert,parameters);
+        addAssignedSensorId(insert,parameters);
+        addObservation(insert,parameters);
+        /*
+         * Validate before returning -> throw OXFException if validation fails
+         */
+        doLaxRequestValidation(insObDoc);
 
-    	return insObDoc.xmlText(XmlUtil.PRETTYPRINT);
+        return insObDoc.xmlText(XmlUtil.PRETTYPRINT);
     }
 
-	@Override
-	public String buildRegisterSensorRequest(final ParameterContainer parameters) throws OXFException{
+    @Override
+    public String buildRegisterSensorRequest(final ParameterContainer parameters) throws OXFException{
 
-		final RegisterSensorDocument regSensorDoc = RegisterSensorDocument.Factory.newInstance();
-		final RegisterSensor regSensor = regSensorDoc.addNewRegisterSensor();
-		addOperationMetadata(regSensor, parameters);
-		addSensorDescription(regSensor,parameters);
-		addObservationTemplate(regSensor,parameters);
-		doLaxRequestValidation(regSensorDoc);
-		return regSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
-	}
+        final RegisterSensorDocument regSensorDoc = RegisterSensorDocument.Factory.newInstance();
+        final RegisterSensor regSensor = regSensorDoc.addNewRegisterSensor();
+        addOperationMetadata(regSensor, parameters);
+        addSensorDescription(regSensor,parameters);
+        addObservationTemplate(regSensor,parameters);
+        doLaxRequestValidation(regSensorDoc);
+        return regSensorDoc.xmlText(XmlUtil.PRETTYPRINT);
+    }
 
-	/**
-	 * Observation Type, e.g. om:MeasurementObservationParameters<br />
-	 *  om:samplingTime<br />
-     * 	om:procedure<br />
-     * 	om:observedProperty<br />
-     * 	om:featureOfInterest<br />
-     * 	om:result<br />
-	 */
-	private void addObservation(final InsertObservation insert,
-			final ParameterContainer parameters) {
-		ObservationType obsType = insert.addNewObservation();
-    	String observationType = INSERT_OBSERVATION_TYPE_MEASUREMENT;
-    	try {
-    		observationType = (String)parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_TYPE).getSpecifiedValue();
-		} catch (final Exception e) {
-			// ignoring -> value not defined -> using default
-		}
-    	// TODO add more observation types
-    	if (observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)){
-    		// fill in measurement
-    		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION,
-    						MeasurementType.type);
-    	} else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_TEXT)){
-    		//fill in text
-    		obsType = (ObservationType) obsType.substitute(
-    				XMLConstants.QNAME_OM_1_0_OBSERVATION,
-    						ObservationType.type);
-    	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
-			// fill in count
-			obsType = (ObservationType) obsType.substitute(
-					XMLConstants.QNAME_OM_1_0_OBSERVATION,
-							ObservationType.type);
-    	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_TRUTH)) {
-    		// fill in truth
-    		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_OBSERVATION,
-    						ObservationType.type);
-    	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_TEMPORAL)) {
-    		// fill in temporal
-    		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_TEMPORAL_OBSERVATION,
-    						TemporalObservationType.type);
-    	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_GEOMETRY)) {
-    		// fill in geometry
-    		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_GEOMETRY_OBSERVATION,
-    						GeometryObservationType.type);
-    	} else if (observationType.equals(INSERT_OBSERVATION_TYPE_COMPLEX)) {
-    		// fill in complex
-    		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_COMPLEX_OBSERVATION,
-    						ComplexObservationType.type);
-    	}
+    /**
+     * Observation Type, e.g. om:MeasurementObservationParameters<br />
+     *  om:samplingTime<br />
+     *  om:procedure<br />
+     *  om:observedProperty<br />
+     *  om:featureOfInterest<br />
+     *  om:result<br />
+     */
+    private void addObservation(final InsertObservation insert,
+            final ParameterContainer parameters) {
+        ObservationType obsType = insert.addNewObservation();
+        String observationType = INSERT_OBSERVATION_TYPE_MEASUREMENT;
+        try {
+            observationType = (String)parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_TYPE).getSpecifiedValue();
+        } catch (final Exception e) {
+            // ignoring -> value not defined -> using default
+        }
+        // TODO add more observation types
+        if (observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)){
+            // fill in measurement
+            obsType = (ObservationType) obsType.
+                    substitute(XMLConstants.QNAME_OM_1_0_MEASUREMENT_OBSERVATION,
+                            MeasurementType.type);
+        } else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_TEXT)){
+            //fill in text
+            obsType = (ObservationType) obsType.substitute(
+                    XMLConstants.QNAME_OM_1_0_OBSERVATION,
+                            ObservationType.type);
+        } else if (observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
+            // fill in count
+            obsType = (ObservationType) obsType.substitute(
+                    XMLConstants.QNAME_OM_1_0_OBSERVATION,
+                            ObservationType.type);
+        } else if (observationType.equals(INSERT_OBSERVATION_TYPE_TRUTH)) {
+            // fill in truth
+            obsType = (ObservationType) obsType.
+                    substitute(XMLConstants.QNAME_OM_1_0_OBSERVATION,
+                            ObservationType.type);
+        } else if (observationType.equals(INSERT_OBSERVATION_TYPE_TEMPORAL)) {
+            // fill in temporal
+            obsType = (ObservationType) obsType.
+                    substitute(XMLConstants.QNAME_OM_1_0_TEMPORAL_OBSERVATION,
+                            TemporalObservationType.type);
+        } else if (observationType.equals(INSERT_OBSERVATION_TYPE_GEOMETRY)) {
+            // fill in geometry
+            obsType = (ObservationType) obsType.
+                    substitute(XMLConstants.QNAME_OM_1_0_GEOMETRY_OBSERVATION,
+                            GeometryObservationType.type);
+        } else if (observationType.equals(INSERT_OBSERVATION_TYPE_COMPLEX)) {
+            // fill in complex
+            obsType = (ObservationType) obsType.
+                    substitute(XMLConstants.QNAME_OM_1_0_COMPLEX_OBSERVATION,
+                            ComplexObservationType.type);
+        }
 
-    	// types for varying properties
-    	/* else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_DISCRETE_COVERAGE)) {
-    		// fill in discrete coverage
-    		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_DISCRETE_COVERAGE_OBSERVATION,
-    						DiscreteCoverageType.type);
-    	} else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_POINT_COVERAGE)) {
-    		// fill in point coverage
-    		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_POINT_COVERAGE_OBSERVATION,
-    						PointCoverageType.type);
-    	} else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_TIME_SERIES)) {
-    		// fill in time series
-    		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_TIME_SERIES_OBSERVATION,
-    						TimeseriesType.type);
-    	} else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_ELEMENT_COVERAGE)) {
-    		// fill in point coverage
-    		obsType = (ObservationType) obsType.
-    				substitute(XMLConstants.QNAME_OM_1_0_ELEMENT_COVERAGE_OBSERVATION,
-    						ElementCoverageType.type);
-    	}*/
+        // types for varying properties
+        /* else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_DISCRETE_COVERAGE)) {
+            // fill in discrete coverage
+            obsType = (ObservationType) obsType.
+                    substitute(XMLConstants.QNAME_OM_1_0_DISCRETE_COVERAGE_OBSERVATION,
+                            DiscreteCoverageType.type);
+        } else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_POINT_COVERAGE)) {
+            // fill in point coverage
+            obsType = (ObservationType) obsType.
+                    substitute(XMLConstants.QNAME_OM_1_0_POINT_COVERAGE_OBSERVATION,
+                            PointCoverageType.type);
+        } else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_TIME_SERIES)) {
+            // fill in time series
+            obsType = (ObservationType) obsType.
+                    substitute(XMLConstants.QNAME_OM_1_0_TIME_SERIES_OBSERVATION,
+                            TimeseriesType.type);
+        } else if (observationType.equals(ISOSRequestBuilder.INSERT_OBSERVATION_TYPE_ELEMENT_COVERAGE)) {
+            // fill in point coverage
+            obsType = (ObservationType) obsType.
+                    substitute(XMLConstants.QNAME_OM_1_0_ELEMENT_COVERAGE_OBSERVATION,
+                            ElementCoverageType.type);
+        }*/
 
 
-    	insert.setObservation(obsType);
-    	addSamplingTime(obsType,parameters);
-    	addProcedure(obsType,parameters);
-    	addObservedProperty(obsType,parameters);
-    	addFeatureOfInterest(obsType,parameters);
-    	addResult(obsType,parameters,observationType);
-	}
+        insert.setObservation(obsType);
+        addSamplingTime(obsType,parameters);
+        addProcedure(obsType,parameters);
+        addObservedProperty(obsType,parameters);
+        addFeatureOfInterest(obsType,parameters);
+        addResult(obsType,parameters,observationType);
+    }
 
-	/**
-	 * om:result
-	 */
-	private void addResult(final ObservationType obsType,
-			final ParameterContainer parameters,
-			final String observationType) {
-    	final XmlObject result = obsType.addNewResult();
+    /**
+     * om:result
+     */
+    private void addResult(final ObservationType obsType,
+            final ParameterContainer parameters,
+            final String observationType) {
+        final XmlObject result = obsType.addNewResult();
 
-    	/*
-    	 * if observation is a CategoryObservation
-    	 * and the CodeSpace for the result value is set, add it
-    	 */
-    	// TODO Check if this is working with validating SOS?
-    	if(observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TEXT)){
-    		final String value = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
-    		final String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
-    		final String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
-         	final String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
+        /*
+         * if observation is a CategoryObservation
+         * and the CodeSpace for the result value is set, add it
+         */
+        // TODO Check if this is working with validating SOS?
+        if(observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TEXT)){
+            final String value = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
+            final String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
+            final String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
+            final String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
 
-        	final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
-        	final DataArrayType arrayType = doc.addNewDataArray1();
-        	final ElementCount ec = arrayType.addNewElementCount();
-        	ec.addNewCount().setValue(BigInteger.ONE);
-        	final DataComponentPropertyType et = arrayType.addNewElementType();
-        	et.setName("Components");
-        	final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
-        	final DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
-        	final DataComponentPropertyType textField1 = drt.addNewField();
-        	textField1.setName("Time");
-        	textField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
-        	final DataComponentPropertyType textField2 = drt.addNewField();
-        	textField2.setName("feature");
-        	textField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
-        	final DataComponentPropertyType textField3 = drt.addNewField();
-        	textField3.setName("resultValue");
-        	textField3.addNewText().setDefinition(obsPropId);
-        	final TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
-        	block.setDecimalSeparator(".");
-        	block.setTokenSeparator(",");
-        	block.setBlockSeparator(";");
+            final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
+            final DataArrayType arrayType = doc.addNewDataArray1();
+            final ElementCount ec = arrayType.addNewElementCount();
+            ec.addNewCount().setValue(BigInteger.ONE);
+            final DataComponentPropertyType et = arrayType.addNewElementType();
+            et.setName("Components");
+            final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
+            final DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
+            final DataComponentPropertyType textField1 = drt.addNewField();
+            textField1.setName("Time");
+            textField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
+            final DataComponentPropertyType textField2 = drt.addNewField();
+            textField2.setName("feature");
+            textField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
+            final DataComponentPropertyType textField3 = drt.addNewField();
+            textField3.setName("resultValue");
+            textField3.addNewText().setDefinition(obsPropId);
+            final TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
+            block.setDecimalSeparator(".");
+            block.setTokenSeparator(",");
+            block.setBlockSeparator(";");
 
-        	final XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
-        	dataArrayCursor.toChild("values");
-        	dataArrayCursor.toNextToken();
-        	dataArrayCursor.insertChars(time + "," + foi + "," + value);
-        	dataArrayCursor.dispose();
+            final XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
+            dataArrayCursor.toChild("values");
+            dataArrayCursor.toNextToken();
+            dataArrayCursor.insertChars(time + "," + foi + "," + value);
+            dataArrayCursor.dispose();
 
-        	result.set(doc);
-    	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)) {
-    		final MeasureType mt = MeasureType.Factory.newInstance();
+            result.set(doc);
+        } else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_MEASUREMENT)) {
+            final MeasureType mt = MeasureType.Factory.newInstance();
 
-        	final ParameterShell ps = parameters.getParameterShellWithCommonName(
-        			INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE);
-        	if (ps != null) {
-        		 final String uomCode = ps.getSpecifiedValue().toString();
-        		 mt.setUom(uomCode);
-        	}
-    		mt.setStringValue((String)
-        			parameters.getParameterShellWithCommonName(
-        					INSERT_OBSERVATION_VALUE_PARAMETER).
-        					getSpecifiedValue());
-        	result.set(mt);
-    	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
-    		final int value = (int) Double.parseDouble((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue());
-    		final String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
-    		final String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
-         	final String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
+            final ParameterShell ps = parameters.getParameterShellWithCommonName(
+                    INSERT_OBSERVATION_VALUE_UOM_ATTRIBUTE);
+            if (ps != null) {
+                 final String uomCode = ps.getSpecifiedValue().toString();
+                 mt.setUom(uomCode);
+            }
+            mt.setStringValue((String)
+                    parameters.getParameterShellWithCommonName(
+                            INSERT_OBSERVATION_VALUE_PARAMETER).
+                            getSpecifiedValue());
+            result.set(mt);
+        } else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_COUNT)) {
+            final int value = (int) Double.parseDouble((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue());
+            final String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
+            final String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
+            final String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
 
-        	final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
-        	final DataArrayType arrayType = doc.addNewDataArray1();
-        	final ElementCount ec = arrayType.addNewElementCount();
-        	ec.addNewCount().setValue(BigInteger.ONE);
-        	final DataComponentPropertyType et = arrayType.addNewElementType();
-        	et.setName("Components");
-        	final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
-        	final DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
-        	final DataComponentPropertyType countField1 = drt.addNewField();
-        	countField1.setName("Time");
-        	countField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
-        	final DataComponentPropertyType countField2 = drt.addNewField();
-        	countField2.setName("feature");
-        	countField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
-        	final DataComponentPropertyType countField3 = drt.addNewField();
-        	countField3.setName("resultValue");
-        	countField3.addNewCount().setDefinition(obsPropId);
-        	final TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
-        	block.setDecimalSeparator(".");
-        	block.setTokenSeparator(",");
-        	block.setBlockSeparator(";");
+            final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
+            final DataArrayType arrayType = doc.addNewDataArray1();
+            final ElementCount ec = arrayType.addNewElementCount();
+            ec.addNewCount().setValue(BigInteger.ONE);
+            final DataComponentPropertyType et = arrayType.addNewElementType();
+            et.setName("Components");
+            final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
+            final DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
+            final DataComponentPropertyType countField1 = drt.addNewField();
+            countField1.setName("Time");
+            countField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
+            final DataComponentPropertyType countField2 = drt.addNewField();
+            countField2.setName("feature");
+            countField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
+            final DataComponentPropertyType countField3 = drt.addNewField();
+            countField3.setName("resultValue");
+            countField3.addNewCount().setDefinition(obsPropId);
+            final TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
+            block.setDecimalSeparator(".");
+            block.setTokenSeparator(",");
+            block.setBlockSeparator(";");
 
-        	final XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
-        	dataArrayCursor.toChild("values");
-        	dataArrayCursor.toNextToken();
-        	dataArrayCursor.insertChars(time + "," + foi + "," + value);
-        	dataArrayCursor.dispose();
+            final XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
+            dataArrayCursor.toChild("values");
+            dataArrayCursor.toNextToken();
+            dataArrayCursor.insertChars(time + "," + foi + "," + value);
+            dataArrayCursor.dispose();
 
-        	result.set(doc);
-    	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TRUTH)) {
-    		final String value = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
-    		final String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
-    		final String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
-         	final String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
+            result.set(doc);
+        } else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TRUTH)) {
+            final String value = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_VALUE_PARAMETER).getSpecifiedValue();
+            final String obsPropId = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).getSpecifiedValue();
+            final String time = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_SAMPLING_TIME).getSpecifiedValue();
+            final String foi = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue();
 
-        	final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
-        	final DataArrayType arrayType = doc.addNewDataArray1();
-        	final ElementCount ec = arrayType.addNewElementCount();
-        	ec.addNewCount().setValue(BigInteger.ONE);
-        	final DataComponentPropertyType et = arrayType.addNewElementType();
-        	et.setName("Components");
-        	final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
-        	final DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
-        	final DataComponentPropertyType booleanField1 = drt.addNewField();
-        	booleanField1.setName("Time");
-        	booleanField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
-        	final DataComponentPropertyType booleanField2 = drt.addNewField();
-        	booleanField2.setName("feature");
-        	booleanField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
-        	final DataComponentPropertyType booleanField3 = drt.addNewField();
-        	booleanField3.setName("resultValue");
-        	booleanField3.addNewBoolean().setDefinition(obsPropId);
-        	final TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
-        	block.setDecimalSeparator(".");
-        	block.setTokenSeparator(",");
-        	block.setBlockSeparator(";");
+            final DataArrayDocument doc = DataArrayDocument.Factory.newInstance();
+            final DataArrayType arrayType = doc.addNewDataArray1();
+            final ElementCount ec = arrayType.addNewElementCount();
+            ec.addNewCount().setValue(BigInteger.ONE);
+            final DataComponentPropertyType et = arrayType.addNewElementType();
+            et.setName("Components");
+            final AbstractDataRecordType adr = et.addNewAbstractDataRecord();
+            final DataRecordType drt = (DataRecordType) adr.substitute(XMLConstants.QNAME_SWE_1_0_1_DATA_RECORD, DataRecordType.type);
+            final DataComponentPropertyType booleanField1 = drt.addNewField();
+            booleanField1.setName("Time");
+            booleanField1.addNewTime().setDefinition("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian");
+            final DataComponentPropertyType booleanField2 = drt.addNewField();
+            booleanField2.setName("feature");
+            booleanField2.addNewText().setDefinition("http://www.opengis.net/def/property/OGC/0/FeatureOfInterest");
+            final DataComponentPropertyType booleanField3 = drt.addNewField();
+            booleanField3.setName("resultValue");
+            booleanField3.addNewBoolean().setDefinition(obsPropId);
+            final TextBlock block = arrayType.addNewEncoding().addNewTextBlock();
+            block.setDecimalSeparator(".");
+            block.setTokenSeparator(",");
+            block.setBlockSeparator(";");
 
-        	final XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
-        	dataArrayCursor.toChild("values");
-        	dataArrayCursor.toNextToken();
-        	dataArrayCursor.insertChars(time + "," + foi + "," + value);
-        	dataArrayCursor.dispose();
+            final XmlCursor dataArrayCursor = arrayType.addNewValues().newCursor();
+            dataArrayCursor.toChild("values");
+            dataArrayCursor.toNextToken();
+            dataArrayCursor.insertChars(time + "," + foi + "," + value);
+            dataArrayCursor.dispose();
 
-        	result.set(doc);
-    	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TEMPORAL)) {
-    		final TemporalObservationType tt = TemporalObservationType.Factory.newInstance();
-    		logTypeNotImplemented(tt.getClass());
-    	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_GEOMETRY)) {
-    		final GeometryObservationType gt = GeometryObservationType.Factory.newInstance();
-    		logTypeNotImplemented(gt.getClass());
-     	} else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_COMPLEX)) {
-     		final ComplexObservationType ct = ComplexObservationType.Factory.newInstance();
-     		logTypeNotImplemented(ct.getClass());
-     	}
-	}
+            result.set(doc);
+        } else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_TEMPORAL)) {
+            final TemporalObservationType tt = TemporalObservationType.Factory.newInstance();
+            logTypeNotImplemented(tt.getClass());
+        } else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_GEOMETRY)) {
+            final GeometryObservationType gt = GeometryObservationType.Factory.newInstance();
+            logTypeNotImplemented(gt.getClass());
+        } else if (observationType != null && observationType.equals(INSERT_OBSERVATION_TYPE_COMPLEX)) {
+            final ComplexObservationType ct = ComplexObservationType.Factory.newInstance();
+            logTypeNotImplemented(ct.getClass());
+        }
+    }
 
-	private void logTypeNotImplemented(final Class<?> clazz)
-	{
-		LOGGER.info("Support for type '{}' NOT YET IMPLEMENTED",clazz.getName());
-	}
+    private void logTypeNotImplemented(final Class<?> clazz)
+    {
+        LOGGER.info("Support for type '{}' NOT YET IMPLEMENTED",clazz.getName());
+    }
 
-	/**
-	 * Feature of Interest
-	 */
-	private void addFeatureOfInterest(final ObservationType obsType,
-			final ParameterContainer parameters) {
-    	final FeaturePropertyType featureProp = obsType.addNewFeatureOfInterest();
-    	final SamplingPointDocument sampPointDoc =
-    			SamplingPointDocument.Factory.newInstance();
-    	final SamplingPointType sampPoint = sampPointDoc.addNewSamplingPoint();
-    	sampPoint.setId((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue());
-    	//Code for new Features
-    	final ParameterShell nameObj =  parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_NEW_FOI_NAME);
-    	if(nameObj !=null){
-    		final String name = (String) nameObj.getSpecifiedValue();
-    		sampPoint.addNewName().setStringValue(name);
+    /**
+     * Feature of Interest
+     */
+    private void addFeatureOfInterest(final ObservationType obsType,
+            final ParameterContainer parameters) {
+        final FeaturePropertyType featureProp = obsType.addNewFeatureOfInterest();
+        final SamplingPointDocument sampPointDoc =
+                SamplingPointDocument.Factory.newInstance();
+        final SamplingPointType sampPoint = sampPointDoc.addNewSamplingPoint();
+        sampPoint.setId((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_FOI_ID_PARAMETER).getSpecifiedValue());
+        //Code for new Features
+        final ParameterShell nameObj =  parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_NEW_FOI_NAME);
+        if(nameObj !=null){
+            final String name = (String) nameObj.getSpecifiedValue();
+            sampPoint.addNewName().setStringValue(name);
 
-    		final String desc = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_NEW_FOI_DESC).getSpecifiedValue();
-    		sampPoint.addNewDescription().setStringValue(desc);
+            final String desc = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_NEW_FOI_DESC).getSpecifiedValue();
+            sampPoint.addNewDescription().setStringValue(desc);
 
-    		sampPoint.addNewSampledFeature();
+            sampPoint.addNewSampledFeature();
 
-    		final PointType type = sampPoint.addNewPosition().addNewPoint();
-    		type.addNewPos().setStringValue((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_NEW_FOI_POSITION).getSpecifiedValue());
-    		final String srsName = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_POSITION_SRS).getSpecifiedValue();
-    		if (srsName != null) {
-    			type.setSrsName(srsName);
-    		} else { //default is epsg:4326 (= WGS84)
-    			type.setSrsName("urn:ogc:def:crs:EPSG::4326");
-    		}
-    	}
-    	//End Code for new Features
-    	featureProp.set(sampPointDoc);
-	}
+            final PointType type = sampPoint.addNewPosition().addNewPoint();
+            type.addNewPos().setStringValue((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_NEW_FOI_POSITION).getSpecifiedValue());
+            final String srsName = (String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_POSITION_SRS).getSpecifiedValue();
+            if (srsName != null) {
+                type.setSrsName(srsName);
+            } else { //default is epsg:4326 (= WGS84)
+                type.setSrsName("urn:ogc:def:crs:EPSG::4326");
+            }
+        }
+        //End Code for new Features
+        featureProp.set(sampPointDoc);
+    }
 
-	/**
-	 * Observed Property
-	 */
-	private void addObservedProperty(final ObservationType obsType,
-			final ParameterContainer parameters) {
-    	final PhenomenonPropertyType phenProp = obsType.addNewObservedProperty();
-    	phenProp.setHref((String) parameters.
-    			getParameterShellWithCommonName(
-    					INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).
-    					getSpecifiedValue());
-	}
+    /**
+     * Observed Property
+     */
+    private void addObservedProperty(final ObservationType obsType,
+            final ParameterContainer parameters) {
+        final PhenomenonPropertyType phenProp = obsType.addNewObservedProperty();
+        phenProp.setHref((String) parameters.
+                getParameterShellWithCommonName(
+                        INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER).
+                        getSpecifiedValue());
+    }
 
-	/**
-	 * Procedure/Sensor
-	 */
-	private void addProcedure(final ObservationType obsType,
-			final ParameterContainer parameters) {
-    	final ProcessPropertyType procedure = obsType.addNewProcedure();
-    	procedure.setHref((String) parameters.
-    			getParameterShellWithCommonName(
-    					INSERT_OBSERVATION_PROCEDURE_PARAMETER).
-    					getSpecifiedValue());
-	}
+    /**
+     * Procedure/Sensor
+     */
+    private void addProcedure(final ObservationType obsType,
+            final ParameterContainer parameters) {
+        final ProcessPropertyType procedure = obsType.addNewProcedure();
+        procedure.setHref((String) parameters.
+                getParameterShellWithCommonName(
+                        INSERT_OBSERVATION_PROCEDURE_PARAMETER).
+                        getSpecifiedValue());
+    }
 
-	/**
-	 * om:samplingTime
-	 */
-	private void addSamplingTime(final ObservationType obsType,
-			final ParameterContainer parameters) {
-    	final TimeObjectPropertyType timeProp = obsType.addNewSamplingTime();
-    	final AbstractTimeObjectType atot = timeProp.addNewTimeObject();
-    	final TimeInstantType timeInstant =
-    			(TimeInstantType) atot.
-    			substitute(XMLConstants.QNAME_GML_TIMEINSTANT,
-    					TimeInstantType.type);
-    	final TimePositionType timePos = timeInstant.addNewTimePosition();
-    	final String timeParamValue = (String)parameters.
-    			getParameterShellWithCommonName(
-    					INSERT_OBSERVATION_SAMPLING_TIME).
-    					getSpecifiedValue();
-    	final ITimePosition timePosition = (ITimePosition)TimeFactory.createTime(timeParamValue);
-    	timePos.setStringValue(timePosition.toISO8601Format());
-    	timeInstant.setId("t_"+timeInstant.hashCode());
-	}
+    /**
+     * om:samplingTime
+     */
+    private void addSamplingTime(final ObservationType obsType,
+            final ParameterContainer parameters) {
+        final TimeObjectPropertyType timeProp = obsType.addNewSamplingTime();
+        final AbstractTimeObjectType atot = timeProp.addNewTimeObject();
+        final TimeInstantType timeInstant =
+                (TimeInstantType) atot.
+                substitute(XMLConstants.QNAME_GML_TIMEINSTANT,
+                        TimeInstantType.type);
+        final TimePositionType timePos = timeInstant.addNewTimePosition();
+        final String timeParamValue = (String)parameters.
+                getParameterShellWithCommonName(
+                        INSERT_OBSERVATION_SAMPLING_TIME).
+                        getSpecifiedValue();
+        final ITimePosition timePosition = (ITimePosition)TimeFactory.createTime(timeParamValue);
+        timePos.setStringValue(timePosition.toISO8601Format());
+        timeInstant.setId("t_"+timeInstant.hashCode());
+    }
 
-	/**
-	 * sos:AssignedSensorId
-	 */
-	private void addAssignedSensorId(final InsertObservation insert,
-			final ParameterContainer parameters) {
-    	insert.setAssignedSensorId((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_PROCEDURE_PARAMETER).getSpecifiedValue());
-	}
+    /**
+     * sos:AssignedSensorId
+     */
+    private void addAssignedSensorId(final InsertObservation insert,
+            final ParameterContainer parameters) {
+        insert.setAssignedSensorId((String) parameters.getParameterShellWithCommonName(INSERT_OBSERVATION_PROCEDURE_PARAMETER).getSpecifiedValue());
+    }
 
-	/**
-	 * Operation Metadata: Service type and version
-	 */
-	private void addOperationMetadata(final InsertObservation insert,
-			final ParameterContainer parameters) {
-		final String version =(String) parameters.getParameterShellWithCommonName(VERSION).getSpecifiedValue();
-    	insert.setVersion(version);
-    	final String service =(String) parameters.getParameterShellWithCommonName(SERVICE).getSpecifiedValue();
-    	insert.setService(service);
-	}
+    /**
+     * Operation Metadata: Service type and version
+     */
+    private void addOperationMetadata(final InsertObservation insert,
+            final ParameterContainer parameters) {
+        final String version =(String) parameters.getParameterShellWithCommonName(VERSION).getSpecifiedValue();
+        insert.setVersion(version);
+        final String service =(String) parameters.getParameterShellWithCommonName(SERVICE).getSpecifiedValue();
+        insert.setService(service);
+    }
 
-	/**
-	 * TODO Review and make better use of XmlError methods
-	 * Throws OXFException at the first error that is found
-	 * @throws OXFException in the case of not valid request
-	 */
-	private void doLaxRequestValidation(final XmlObject xmlDoc) throws OXFException {
-		XMLBeansParser.registerLaxValidationCase(GMLAbstractFeatureCase.getInstance());
-		XMLBeansParser.registerLaxValidationCase(SASamplingPointCase.getInstance());
+    /**
+     * TODO Review and make better use of XmlError methods
+     * Throws OXFException at the first error that is found
+     * @throws OXFException in the case of not valid request
+     */
+    private void doLaxRequestValidation(final XmlObject xmlDoc) throws OXFException {
+        XMLBeansParser.registerLaxValidationCase(GMLAbstractFeatureCase.getInstance());
+        XMLBeansParser.registerLaxValidationCase(SASamplingPointCase.getInstance());
 
-		if (xmlDoc instanceof RegisterSensorDocument) {
-			XMLBeansParser.registerLaxValidationCase(OfferingInSMLOutputsCase.getInstance());
-		}
+        if (xmlDoc instanceof RegisterSensorDocument) {
+            XMLBeansParser.registerLaxValidationCase(OfferingInSMLOutputsCase.getInstance());
+        }
 
-		/*
-		 * get errors. if empty, do not throw exception
-		 */
-		final Collection<XmlError> exs = XMLBeansParser.validate(xmlDoc);
+        /*
+         * get errors. if empty, do not throw exception
+         */
+        final Collection<XmlError> exs = XMLBeansParser.validate(xmlDoc);
 
-		String message = null;
-		String parameterName = null;
-		for (final XmlError error : exs) {
-			// ExceptionCode for Exception
-			OwsExceptionCode exCode = null;
+        String message = null;
+        String parameterName = null;
+        for (final XmlError error : exs) {
+            // ExceptionCode for Exception
+            OwsExceptionCode exCode = null;
 
-			// get name of the missing or invalid parameter
-			message = error.getMessage();
-			if (message != null) {
+            // get name of the missing or invalid parameter
+            message = error.getMessage();
+            if (message != null) {
 
-				// check, if parameter is missing or value of parameter
-				// is
-				// invalid to ensure, that correct
-				// exceptioncode in exception response is used
+                // check, if parameter is missing or value of parameter
+                // is
+                // invalid to ensure, that correct
+                // exceptioncode in exception response is used
 
-				// invalid parameter value
-				if (message.startsWith("The value")) {
-					exCode = OwsExceptionCode.InvalidParameterValue;
+                // invalid parameter value
+                if (message.startsWith("The value")) {
+                    exCode = OwsExceptionCode.InvalidParameterValue;
 
-					// split message string to get attribute name
-					final String[] messAndAttribute = message
-							.split("attribute '");
-					if (messAndAttribute.length == 2) {
-						parameterName = messAndAttribute[1]
-								.replace("'", "");
-					}
-				}
+                    // split message string to get attribute name
+                    final String[] messAndAttribute = message
+                            .split("attribute '");
+                    if (messAndAttribute.length == 2) {
+                        parameterName = messAndAttribute[1]
+                                .replace("'", "");
+                    }
+                }
 
-				// invalid enumeration value --> InvalidParameterValue
-				else if (message.contains("not a valid enumeration value")) {
-					exCode = OwsExceptionCode.InvalidParameterValue;
+                // invalid enumeration value --> InvalidParameterValue
+                else if (message.contains("not a valid enumeration value")) {
+                    exCode = OwsExceptionCode.InvalidParameterValue;
 
-					// get attribute name
-					final String[] messAndAttribute = message.split(" ");
-					parameterName = messAndAttribute[10];
-				}
+                    // get attribute name
+                    final String[] messAndAttribute = message.split(" ");
+                    parameterName = messAndAttribute[10];
+                }
 
-				// mandatory attribute is missing -->
-				// missingParameterValue
-				else if (message.startsWith("Expected attribute")) {
-					exCode = OwsExceptionCode.MissingParameterValue;
+                // mandatory attribute is missing -->
+                // missingParameterValue
+                else if (message.startsWith("Expected attribute")) {
+                    exCode = OwsExceptionCode.MissingParameterValue;
 
-					// get attribute name
-					final String[] messAndAttribute = message
-							.split("attribute: ");
-					if (messAndAttribute.length == 2) {
-						final String[] attrAndRest = messAndAttribute[1]
-								.split(" in");
-						if (attrAndRest.length == 2) {
-							parameterName = attrAndRest[0];
-						}
-					}
-				}
+                    // get attribute name
+                    final String[] messAndAttribute = message
+                            .split("attribute: ");
+                    if (messAndAttribute.length == 2) {
+                        final String[] attrAndRest = messAndAttribute[1]
+                                .split(" in");
+                        if (attrAndRest.length == 2) {
+                            parameterName = attrAndRest[0];
+                        }
+                    }
+                }
 
-				// mandatory element is missing -->
-				// missingParameterValue
-				else if (message.startsWith("Expected element")) {
-					exCode = OwsExceptionCode.MissingParameterValue;
+                // mandatory element is missing -->
+                // missingParameterValue
+                else if (message.startsWith("Expected element")) {
+                    exCode = OwsExceptionCode.MissingParameterValue;
 
-					// get element name
-					final String[] messAndElements = message.split(" '");
-					if (messAndElements.length >= 2) {
-						final String elements = messAndElements[1];
-						if (elements.contains("offering")) {
-							parameterName = "offering";
-						} else if (elements.contains("observedProperty")) {
-							parameterName = "observedProperty";
-						} else if (elements.contains("responseFormat")) {
-							parameterName = "responseFormat";
-						} else if (elements.contains("procedure")) {
-							parameterName = "procedure";
-						} else if (elements.contains("featureOfInterest")) {
-							parameterName = "featureOfInterest";
-						}
-						// TODO check if other elements are invalid
-					}
-				}
-				// invalidParameterValue
-				else if (message.startsWith("Element")) {
-					exCode = OwsExceptionCode.InvalidParameterValue;
+                    // get element name
+                    final String[] messAndElements = message.split(" '");
+                    if (messAndElements.length >= 2) {
+                        final String elements = messAndElements[1];
+                        if (elements.contains("offering")) {
+                            parameterName = "offering";
+                        } else if (elements.contains("observedProperty")) {
+                            parameterName = "observedProperty";
+                        } else if (elements.contains("responseFormat")) {
+                            parameterName = "responseFormat";
+                        } else if (elements.contains("procedure")) {
+                            parameterName = "procedure";
+                        } else if (elements.contains("featureOfInterest")) {
+                            parameterName = "featureOfInterest";
+                        }
+                        // TODO check if other elements are invalid
+                    }
+                }
+                // invalidParameterValue
+                else if (message.startsWith("Element")) {
+                    exCode = OwsExceptionCode.InvalidParameterValue;
 
-					// get element name
-					final String[] messAndElements = message.split(" '");
-					if (messAndElements.length >= 2) {
-						final String elements = messAndElements[1];
-						if (elements.contains("offering")) {
-							parameterName = "offering";
-						} else if (elements.contains("observedProperty")) {
-							parameterName = "observedProperty";
-						} else if (elements.contains("responseFormat")) {
-							parameterName = "responseFormat";
-						} else if (elements.contains("procedure")) {
-							parameterName = "procedure";
-						} else if (elements.contains("featureOfInterest")) {
-							parameterName = "featureOfInterest";
-						}
-						// TODO check if other elements are invalid
-					}
-				} else {
-					// create simple OXFExcpetion exception
-					final String msg = String.format("Error in XMLBeans request validation: %s",
-							message);
-					throw new OXFException(msg);
-				}
+                    // get element name
+                    final String[] messAndElements = message.split(" '");
+                    if (messAndElements.length >= 2) {
+                        final String elements = messAndElements[1];
+                        if (elements.contains("offering")) {
+                            parameterName = "offering";
+                        } else if (elements.contains("observedProperty")) {
+                            parameterName = "observedProperty";
+                        } else if (elements.contains("responseFormat")) {
+                            parameterName = "responseFormat";
+                        } else if (elements.contains("procedure")) {
+                            parameterName = "procedure";
+                        } else if (elements.contains("featureOfInterest")) {
+                            parameterName = "featureOfInterest";
+                        }
+                        // TODO check if other elements are invalid
+                    }
+                } else {
+                    // create simple OXFExcpetion exception
+                    final String msg = String.format("Error in XMLBeans request validation: %s",
+                            message);
+                    throw new OXFException(msg);
+                }
 
-				// create OXFException with more information exception
-				final String msg = String.format("Error in XMLBeans request validation. Causing error: %s. Element name: %s. Message: %s",
-						exCode,
-						parameterName,
-						message);
-				throw new OXFException(msg);
-			}
-		}
-	}
+                // create OXFException with more information exception
+                final String msg = String.format("Error in XMLBeans request validation. Causing error: %s. Element name: %s. Message: %s",
+                        exCode,
+                        parameterName,
+                        message);
+                throw new OXFException(msg);
+            }
+        }
+    }
 
-	private void addObservationTemplate(final RegisterSensor regSensor,
-			final ParameterContainer parameters) throws OXFException {
+    private void addObservationTemplate(final RegisterSensor regSensor,
+            final ParameterContainer parameters) throws OXFException {
 
-		ObservationTemplate obsTemp = ObservationTemplate.Factory.newInstance();
-		// TODO add method "addParameterShell(String, XmlObject)" to ParameterContainer
-		try {
-			obsTemp = regSensor.addNewObservationTemplate();
-			final ObservationType obsType = ObservationType.Factory.parse((String)parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVATION_TEMPLATE).getSpecifiedValue());
-			obsTemp.set(obsType);
-		} catch (final XmlException e) {
-			throw new OXFException("Could not parse observation type from paramter shell.",e);
-		}
+        ObservationTemplate obsTemp = ObservationTemplate.Factory.newInstance();
+        // TODO add method "addParameterShell(String, XmlObject)" to ParameterContainer
+        try {
+            obsTemp = regSensor.addNewObservationTemplate();
+            final ObservationType obsType = ObservationType.Factory.parse((String)parameters.getParameterShellWithCommonName(REGISTER_SENSOR_OBSERVATION_TEMPLATE).getSpecifiedValue());
+            obsTemp.set(obsType);
+        } catch (final XmlException e) {
+            throw new OXFException("Could not parse observation type from paramter shell.",e);
+        }
 
-		regSensor.setObservationTemplate(obsTemp);
-	}
+        regSensor.setObservationTemplate(obsTemp);
+    }
 
-	private void addSensorDescription(final RegisterSensor regSensor,
-			final ParameterContainer parameters) throws OXFException {
-    	final SensorDescription sensorDesc = regSensor.addNewSensorDescription();
+    private void addSensorDescription(final RegisterSensor regSensor,
+            final ParameterContainer parameters) throws OXFException {
+        final SensorDescription sensorDesc = regSensor.addNewSensorDescription();
 
-    	SensorMLDocument sensorDescripiton = null;
+        SensorMLDocument sensorDescripiton = null;
 
-		try {
-			sensorDescripiton = SensorMLDocument.Factory.parse((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_ML_DOC_PARAMETER).getSpecifiedValue());
-		} catch (final XmlException e) {
-			LOGGER.error(String.format("Exception thrown: %s", e.getMessage()), e);
-		}
+        try {
+            sensorDescripiton = SensorMLDocument.Factory.parse((String) parameters.getParameterShellWithCommonName(REGISTER_SENSOR_ML_DOC_PARAMETER).getSpecifiedValue());
+        } catch (final XmlException e) {
+            LOGGER.error(String.format("Exception thrown: %s", e.getMessage()), e);
+        }
 
-    	sensorDesc.set(sensorDescripiton);
-	}
+        sensorDesc.set(sensorDescripiton);
+    }
 
-	private void addOperationMetadata(final RegisterSensor regSensor,
-			final ParameterContainer parameters) {
-		regSensor.setVersion((String) parameters.getParameterShellWithCommonName(VERSION).getSpecifiedValue());
-    	regSensor.setService((String) parameters.getParameterShellWithCommonName(SERVICE).getSpecifiedValue());
-	}
+    private void addOperationMetadata(final RegisterSensor regSensor,
+            final ParameterContainer parameters) {
+        regSensor.setVersion((String) parameters.getParameterShellWithCommonName(VERSION).getSpecifiedValue());
+        regSensor.setService((String) parameters.getParameterShellWithCommonName(SERVICE).getSpecifiedValue());
+    }
 
-	private String[] objectArrayToStringArray(final Object[] objectArray) {
-		final String[] stringArray = new String[objectArray.length];
-		for (int i = 0; i < objectArray.length; i++) {
-			stringArray[i] = (String) objectArray[i];
-		}
-		return stringArray;
-	}
+    private String[] objectArrayToStringArray(final Object[] objectArray) {
+        final String[] stringArray = new String[objectArray.length];
+        for (int i = 0; i < objectArray.length; i++) {
+            stringArray[i] = (String) objectArray[i];
+        }
+        return stringArray;
+    }
 
-	@Override
-	public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException
-	{
-		final OXFException e = new OXFException("Operation DeleteSensor not supported by SOS 1.0.0");
-		LOGGER.error("NOT SUPPORTED:",e);
-		throw e;
-	}
+    @Override
+    public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException
+    {
+        final OXFException e = new OXFException("Operation DeleteSensor not supported by SOS 1.0.0");
+        LOGGER.error("NOT SUPPORTED:",e);
+        throw e;
+    }
 
 }

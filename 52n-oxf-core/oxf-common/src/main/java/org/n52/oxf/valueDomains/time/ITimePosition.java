@@ -39,38 +39,38 @@ import org.n52.oxf.ows.capabilities.*;
  */
 public interface ITimePosition extends ITime, Comparable<ITimePosition>, Comparator<ITimePosition> {
 
-	long getYear();
+    long getYear();
 
-	int getMonth();
+    int getMonth();
 
-	int getDay();
+    int getDay();
 
-	int getHour();
+    int getHour();
 
-	int getMinute();
+    int getMinute();
 
-	float getSecond();
+    float getSecond();
 
-	String getTimezone();
+    String getTimezone();
 
-	/**
-	 * @param timePos the timeposition to check against
-	 *
-	 * @return whether this TimePosition represents a time before the time represented by the specified
-	 *         TimePosition object. This method is equivalent to: compareTo(when) &lt; 0
-	 */
-	boolean before(ITimePosition timePos);
+    /**
+     * @param timePos the timeposition to check against
+     *
+     * @return whether this TimePosition represents a time before the time represented by the specified
+     *         TimePosition object. This method is equivalent to: compareTo(when) &lt; 0
+     */
+    boolean before(ITimePosition timePos);
 
-	/**
-	 * @param timePos the timeposition to check against
-	 *
-	 * @return whether this TimePosition represents a time after the time represented by the specified
-	 *         TimePosition object. This method is equivalent to: compareTo(when) &gt; 0
-	 */
-	boolean after(ITimePosition timePos);
+    /**
+     * @param timePos the timeposition to check against
+     *
+     * @return whether this TimePosition represents a time after the time represented by the specified
+     *         TimePosition object. This method is equivalent to: compareTo(when) &gt; 0
+     */
+    boolean after(ITimePosition timePos);
 
-	/**
-	 * @return this ITimePosition as a {@link java.util.Calendar} object.
-	 */
-	Calendar getCalendar();
+    /**
+     * @return this ITimePosition as a {@link java.util.Calendar} object.
+     */
+    Calendar getCalendar();
 }

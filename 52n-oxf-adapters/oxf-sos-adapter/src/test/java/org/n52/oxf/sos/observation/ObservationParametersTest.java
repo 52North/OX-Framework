@@ -37,35 +37,35 @@ import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 
 public class ObservationParametersTest {
 
-	@Test
-	public void shouldAddResultTime()
-	{
-		final ObservationParameterSeam obsParams = new ObservationParameterSeam(null);
-		final String resultTime = "2013-01-02T03:04:05+06:00";
-		obsParams.addResultTime(resultTime);
-		assertThat(obsParams.getSingleValue(ISOSRequestBuilder.INSERT_OBSERVATION_RESULT_TIME),is(resultTime));
-	}
+    @Test
+    public void shouldAddResultTime()
+    {
+        final ObservationParameterSeam obsParams = new ObservationParameterSeam(null);
+        final String resultTime = "2013-01-02T03:04:05+06:00";
+        obsParams.addResultTime(resultTime);
+        assertThat(obsParams.getSingleValue(ISOSRequestBuilder.INSERT_OBSERVATION_RESULT_TIME),is(resultTime));
+    }
 
-	@Test
-	public void shouldAddPhenomenonTime()
-	{
-		final ObservationParameterSeam obsParams = new ObservationParameterSeam(null);
-		final String phenTime = "2013-01-02T03:04:05+06:00";
-		obsParams.addPhenomenonTime(phenTime);
-		assertThat(obsParams.getSingleValue(ISOSRequestBuilder.INSERT_OBSERVATION_PHENOMENON_TIME),is(phenTime));
-	}
+    @Test
+    public void shouldAddPhenomenonTime()
+    {
+        final ObservationParameterSeam obsParams = new ObservationParameterSeam(null);
+        final String phenTime = "2013-01-02T03:04:05+06:00";
+        obsParams.addPhenomenonTime(phenTime);
+        assertThat(obsParams.getSingleValue(ISOSRequestBuilder.INSERT_OBSERVATION_PHENOMENON_TIME),is(phenTime));
+    }
 
-	private class ObservationParameterSeam extends ObservationParameters {
+    private class ObservationParameterSeam extends ObservationParameters {
 
-		protected ObservationParameterSeam(final QName type) {
-			super(type);
-		}
+        protected ObservationParameterSeam(final QName type) {
+            super(type);
+        }
 
-		@Override
-		public boolean isValid()
-		{
-			return false;
-		}
-	}
+        @Override
+        public boolean isValid()
+        {
+            return false;
+        }
+    }
 
 }

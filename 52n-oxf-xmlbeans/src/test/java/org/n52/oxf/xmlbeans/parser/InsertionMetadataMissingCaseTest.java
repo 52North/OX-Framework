@@ -45,16 +45,16 @@ import org.junit.Test;
  */
 public class InsertionMetadataMissingCaseTest {
 
-	@Test
-	public void shouldReturnFalseIfReceivingNullValues() {
-		List<XmlError> lxe = null;
-		final XmlValidationError mockedXVE = mock(XmlValidationError.class);
+    @Test
+    public void shouldReturnFalseIfReceivingNullValues() {
+        List<XmlError> lxe = null;
+        final XmlValidationError mockedXVE = mock(XmlValidationError.class);
 
-		assertThat(getInstance().shouldPass(mockedXVE, lxe), is(false));
+        assertThat(getInstance().shouldPass(mockedXVE, lxe), is(false));
 
-		lxe = new ArrayList<XmlError>();
-		assertThat(getInstance().shouldPass(mockedXVE, lxe), is(false));
+        lxe = new ArrayList<XmlError>();
+        assertThat(getInstance().shouldPass(mockedXVE, lxe), is(false));
 
-	}
+    }
 
 }

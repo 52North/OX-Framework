@@ -39,8 +39,8 @@ import java.io.PrintStream;
  */
 public class OWSException extends Exception {
 
-	private static final long serialVersionUID = 1L;
-	public static final String OPERATION_NOT_SUPPORTED = "OperationNotSupported";
+    private static final long serialVersionUID = 1L;
+    public static final String OPERATION_NOT_SUPPORTED = "OperationNotSupported";
     public static final String MISSING_PARAMETER_VALUE = "MissingParameterValue";
     public static final String INVALID_PARAMTER_VALUE = "InvalidParameterValue";
     public static final String VERSION_NEGOTIATION_FOUND = "VersionNegotiationFound";
@@ -52,16 +52,16 @@ public class OWSException extends Exception {
     private final String exceptionCode;
     private String locator;
 
-	public OWSException(String[] exceptionTexts, String exceptionCode, String sentRequest) {
+    public OWSException(String[] exceptionTexts, String exceptionCode, String sentRequest) {
         super(exceptionCode);
-		this.exceptionCode = exceptionCode;
+        this.exceptionCode = exceptionCode;
         if (exceptionTexts != null) {
             this.exceptionTexts = exceptionTexts.clone();
         } else {
             this.exceptionTexts = new String[0];
         }
         this.sentRequest = sentRequest;
-	}
+    }
 
     public OWSException(String[] exceptionTexts, String exceptionCode, String sentRequest, String locator) {
         super(exceptionCode);
@@ -121,33 +121,33 @@ public class OWSException extends Exception {
         return res;
     }
 
-	public String getExceptionCode() {
-		return exceptionCode;
-	}
+    public String getExceptionCode() {
+        return exceptionCode;
+    }
 
-	public String[] getExceptionTexts() {
-		return exceptionTexts == null? null : exceptionTexts.clone();
-	}
+    public String[] getExceptionTexts() {
+        return exceptionTexts == null? null : exceptionTexts.clone();
+    }
 
-	public String getSentRequest() {
+    public String getSentRequest() {
         return sentRequest;
     }
 
     /**
-	 * Indicates in which part the exception occurred. This is optional!
-	 *
-	 * @return Returns the locator.
-	 */
-	public String getLocator() {
-		return locator;
-	}
+     * Indicates in which part the exception occurred. This is optional!
+     *
+     * @return Returns the locator.
+     */
+    public String getLocator() {
+        return locator;
+    }
 
-	/**
-	 * Indicates in which part the exception occurred. This is optional!
-	 *
-	 * @param locator The locator to set.
-	 */
-	public void setLocator(String locator) {
-		this.locator = locator;
-	}
+    /**
+     * Indicates in which part the exception occurred. This is optional!
+     *
+     * @param locator The locator to set.
+     */
+    public void setLocator(String locator) {
+        this.locator = locator;
+    }
 }

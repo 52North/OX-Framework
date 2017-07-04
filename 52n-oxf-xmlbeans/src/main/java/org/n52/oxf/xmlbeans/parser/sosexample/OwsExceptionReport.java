@@ -29,21 +29,21 @@ package org.n52.oxf.xmlbeans.parser.sosexample;
 
 public class OwsExceptionReport extends Exception {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public void addCodedException(String invalidrequest, Object object,
-			String string) {
-		// TODO Auto-generated method stub
+    public void addCodedException(String invalidrequest, Object object,
+            String string) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
-	public void addCodedException(ExceptionCode exCode, String parameterName,
-			String string) {
-		// TODO Auto-generated method stub
+    public void addCodedException(ExceptionCode exCode, String parameterName,
+            String string) {
+        // TODO Auto-generated method stub
 
-	}
+    }
 
 }

@@ -189,7 +189,7 @@ public class WCSAdapter implements IServiceAdapter {
 
             }
             catch (JAXBException | OXFException | ExceptionReport exc) {
-            	LOGGER.error("Exception thrown: ", exc);
+                LOGGER.error("Exception thrown: ", exc);
                 // VERSION 1.1.1:
 
 //                LOGGER.info("Not convertible to version 1.0.0 --> trying 1.1.1");
@@ -225,13 +225,13 @@ public class WCSAdapter implements IServiceAdapter {
                                                                                 paramCon);
 
                         CoverageDescriptionsDocument desCovDoc;
-						try {
-							desCovDoc = CoverageDescriptionsDocument.Factory.parse(opResult_DescribeCoverage.getIncomingResultAsAutoCloseStream());
-						} catch (XmlException e) {
-							String error = new String(opResult_DescribeCoverage.getIncomingResult(), "UTF-8");
-							LOGGER.info(error);
-							throw new OXFException(error,new Throwable("Access Denied"));
-						}
+                        try {
+                            desCovDoc = CoverageDescriptionsDocument.Factory.parse(opResult_DescribeCoverage.getIncomingResultAsAutoCloseStream());
+                        } catch (XmlException e) {
+                            String error = new String(opResult_DescribeCoverage.getIncomingResult(), "UTF-8");
+                            LOGGER.info(error);
+                            throw new OXFException(error,new Throwable("Access Denied"));
+                        }
 
                         // CoverageDescriptionsDocument contains only ONE CoverageDescription
                         CoverageDescriptionType covDesType = desCovDoc.getCoverageDescriptions().getCoverageDescriptionArray(0);
@@ -251,7 +251,7 @@ public class WCSAdapter implements IServiceAdapter {
                         operationsMetadataSection = new OperationsMetadata(new Operation[0]);
                     }
                 }catch (OXFException ex) {
-                	LOGGER.error(ex.getMessage());
+                    LOGGER.error(ex.getMessage());
 //                    LOGGER.error("Could not read WCS Capabilities as 1.0.0 or 1.1.1");
 //                    ex.printStackTrace();
                     throw ex;
@@ -269,7 +269,7 @@ public class WCSAdapter implements IServiceAdapter {
 
             sd = new ServiceDescriptor(version, serviceIdentificationSection, serviceProviderSection, operationsMetadataSection, contentsSection);
         }catch (OXFException ex) {
-        	LOGGER.error(ex.getMessage());
+            LOGGER.error(ex.getMessage());
 //          LOGGER.error("Could not read WCS Capabilities as 1.0.0 or 1.1.1");
 //          ex.printStackTrace();
           throw ex;

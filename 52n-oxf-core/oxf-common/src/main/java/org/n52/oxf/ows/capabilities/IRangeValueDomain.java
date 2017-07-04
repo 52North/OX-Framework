@@ -34,18 +34,18 @@ package org.n52.oxf.ows.capabilities;
  */
 public interface IRangeValueDomain<T> extends IValueDomain<T> {
 
-	/**
-	 * @return the maximum value of this RangeValueDomain. Of course the return
-	 *         type <code>Object</code> can be replaced by a specialized type.
-	 *         (e.g. BoundingBox: <code>public double[] getMaxValue() </code>)
-	 */
-	public Object getMaxValue();
+    /**
+     * @return the maximum value of this RangeValueDomain. Of course the return
+     *         type <code>Object</code> can be replaced by a specialized type.
+     *         (e.g. BoundingBox: <code>public double[] getMaxValue() </code>)
+     */
+    public Object getMaxValue();
 
-	/**
-	 * @return the minimum value of this RangeValueDomain. Of course the return
-	 *         type <code>Object</code> can be replaced by a specialized type.
-	 *         (e.g. BoundingBox: <code>public double[] getMinValue() </code>)
-	 */
-	public Object getMinValue();
+    /**
+     * @return the minimum value of this RangeValueDomain. Of course the return
+     *         type <code>Object</code> can be replaced by a specialized type.
+     *         (e.g. BoundingBox: <code>public double[] getMinValue() </code>)
+     */
+    public Object getMinValue();
 
 }

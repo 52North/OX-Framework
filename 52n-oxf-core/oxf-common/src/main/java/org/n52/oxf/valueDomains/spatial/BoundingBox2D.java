@@ -38,7 +38,7 @@ import java.awt.geom.*;
 public class BoundingBox2D extends BoundingBox {
 
 
-	/**
+    /**
      * this constructor has all required attributes as its parameters.
      *
      * @param llx the x value of the lower left corner
@@ -49,9 +49,9 @@ public class BoundingBox2D extends BoundingBox {
      * @throws IllegalArgumentException
      *         if the dimensions of lowerLeft and upperRight are not the same.
      */
-	public BoundingBox2D(double llx, double lly, double urx, double ury){
-		super(new double[]{llx, lly}, new double[]{urx, ury});
-	}
+    public BoundingBox2D(double llx, double lly, double urx, double ury){
+        super(new double[]{llx, lly}, new double[]{urx, ury});
+    }
 
     /**
      * this constructor has all attributes as its parameters.
@@ -64,27 +64,27 @@ public class BoundingBox2D extends BoundingBox {
      * @throws IllegalArgumentException
      *         if the dimensions of lowerLeft and upperRight are not the same.
      */
-	public BoundingBox2D(String crs, double llx, double lly, double urx, double ury) {
-		super(crs, new double[]{llx, lly}, new double[]{urx, ury});
-	}
+    public BoundingBox2D(String crs, double llx, double lly, double urx, double ury) {
+        super(crs, new double[]{llx, lly}, new double[]{urx, ury});
+    }
 
-	public Rectangle2D.Double asRectangle2D(){
-		return new Rectangle2D.Double(getLlx(), getLly(), getUrx() - getLlx(), getUry() - getLly());
-	}
+    public Rectangle2D.Double asRectangle2D(){
+        return new Rectangle2D.Double(getLlx(), getLly(), getUrx() - getLlx(), getUry() - getLly());
+    }
 
-	public double getLlx(){
-		return getLowerCorner()[0];
-	}
+    public double getLlx(){
+        return getLowerCorner()[0];
+    }
 
-	public double getLly(){
-		return getLowerCorner()[1];
-	}
+    public double getLly(){
+        return getLowerCorner()[1];
+    }
 
-	public double getUrx(){
-		return getUpperCorner()[0];
-	}
+    public double getUrx(){
+        return getUpperCorner()[0];
+    }
 
-	public double getUry(){
-		return getUpperCorner()[1];
-	}
+    public double getUry(){
+        return getUpperCorner()[1];
+    }
 }

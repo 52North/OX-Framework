@@ -33,8 +33,8 @@ package org.n52.oxf.valueDomains.time;
  *
  * Valid example time period strings:
  * <ul>
- * 	<li>1998-11-01/2005-11-02</li>
- * 	<li>1998-11-01/2005-11-02/P1Y</li>
+ *  <li>1998-11-01/2005-11-02</li>
+ *  <li>1998-11-01/2005-11-02/P1Y</li>
  * </ul>
  *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
@@ -81,7 +81,7 @@ public class TimePeriod implements ITimePeriod {
             start = new TimePosition(periodParts[0]);
             end = new TimePosition(periodParts[1]);
             if (periodParts.length > 2) {
-            	resolution = new TimeResolution(periodParts[2]);
+                resolution = new TimeResolution(periodParts[2]);
             }
         }
         else {
@@ -122,17 +122,17 @@ public class TimePeriod implements ITimePeriod {
     }
 
     @Override
-	public ITimePosition getStart() {
+    public ITimePosition getStart() {
         return start;
     }
 
     @Override
-	public ITimePosition getEnd() {
+    public ITimePosition getEnd() {
         return end;
     }
 
     @Override
-	public ITimeResolution getResolution() {
+    public ITimeResolution getResolution() {
         return resolution;
     }
 
@@ -156,7 +156,7 @@ public class TimePeriod implements ITimePeriod {
     }
 
     @Override
-	public String toISO8601Format() {
+    public String toISO8601Format() {
         return start.toISO8601Format() + "/" + end.toISO8601Format() + (resolution != null ? ("/" + resolution) : "");
     }
 
@@ -169,7 +169,7 @@ public class TimePeriod implements ITimePeriod {
      * proofs whether timePeriod is contained in this TimePeriod.
      */
     @Override
-	public boolean contains(final ITimePeriod timePeriod) {
+    public boolean contains(final ITimePeriod timePeriod) {
         return (start.before(timePeriod.getStart()) || start.equals(timePeriod.getStart()))
                 && (end.after(timePeriod.getEnd()) || end.equals(timePeriod.getEnd()));
     }
@@ -178,7 +178,7 @@ public class TimePeriod implements ITimePeriod {
      * proofs whether timePosition is contained in this TimePeriod.
      */
     @Override
-	public boolean contains(final ITimePosition timePos) {
+    public boolean contains(final ITimePosition timePos) {
         return (start.before(timePos) || start.equals(timePos)) && (end.after(timePos) || end.equals(timePos));
     }
 

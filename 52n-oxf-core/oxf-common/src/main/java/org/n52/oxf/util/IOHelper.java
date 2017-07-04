@@ -80,7 +80,7 @@ public class IOHelper {
         return readText(url.openStream());
     }
 
-	public static String readText(File file) throws IOException {
+    public static String readText(File file) throws IOException {
         return readText(file.toURI().toURL());
     }
 

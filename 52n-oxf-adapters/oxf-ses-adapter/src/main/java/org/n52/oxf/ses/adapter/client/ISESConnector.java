@@ -46,45 +46,45 @@ import org.apache.xmlbeans.XmlObject;
 public interface ISESConnector {
 
 
-	public SESResponse sendHttpPostRequest(String request, String action) throws Exception;
+    public SESResponse sendHttpPostRequest(String request, String action) throws Exception;
 
-	public SESResponse sendHttpGetRequest(URI uri) throws Exception;
+    public SESResponse sendHttpGetRequest(URI uri) throws Exception;
 
-	public void setHost(URL h);
+    public void setHost(URL h);
 
-	public void initialize();
+    public void initialize();
 
-	public void setAddSoap(boolean b);
+    public void setAddSoap(boolean b);
 
-	public URL getHost();
-
-
-	public static class SESResponse {
-
-		private int statusCode;
-		private XmlObject responseBody;
+    public URL getHost();
 
 
-		public SESResponse(int statusCode, XmlObject responseBody) {
-			this.statusCode = statusCode;
-			this.responseBody = responseBody;
-		}
+    public static class SESResponse {
+
+        private int statusCode;
+        private XmlObject responseBody;
 
 
-		public int getStatusCode() {
-			return this.statusCode;
-		}
+        public SESResponse(int statusCode, XmlObject responseBody) {
+            this.statusCode = statusCode;
+            this.responseBody = responseBody;
+        }
 
 
-		public XmlObject getResponseBody() {
-			return this.responseBody;
-		}
+        public int getStatusCode() {
+            return this.statusCode;
+        }
 
 
-	}
+        public XmlObject getResponseBody() {
+            return this.responseBody;
+        }
 
 
-	public void shutdown();
+    }
+
+
+    public void shutdown();
 
 
 

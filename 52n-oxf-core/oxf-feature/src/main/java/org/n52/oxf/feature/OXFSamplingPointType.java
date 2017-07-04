@@ -119,10 +119,10 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
             double y = (Double) coordsList.get(1);
             double z = Double.NaN;
             try {
-            		z = (Double) coordsList.get(2);
-			} catch (Exception e) {
-				// no Exception -> 2D Point
-			}
+                    z = (Double) coordsList.get(2);
+            } catch (Exception e) {
+                // no Exception -> 2D Point
+            }
 
 
             if (coordsList.size() > 2) {

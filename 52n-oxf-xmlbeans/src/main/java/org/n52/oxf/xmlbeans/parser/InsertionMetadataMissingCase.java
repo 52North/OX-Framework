@@ -40,14 +40,14 @@ import org.n52.oxf.xml.XMLConstants;
  */
 public class InsertionMetadataMissingCase extends AbstractDependentLaxValidationCase {
 
-	private static InsertionMetadataMissingCase instance;
+    private static InsertionMetadataMissingCase instance;
 
-	@Override
-	public boolean shouldPass(final XmlError validationError,
-			final List<XmlError> allExceptionalCases) {
-		if (allExceptionalCases == null || allExceptionalCases.isEmpty()) {
-			return false;
-		}
+    @Override
+    public boolean shouldPass(final XmlError validationError,
+            final List<XmlError> allExceptionalCases) {
+        if (allExceptionalCases == null || allExceptionalCases.isEmpty()) {
+            return false;
+        }
         if (validationError instanceof XmlValidationError) {
             final XmlValidationError xve = (XmlValidationError) validationError;
             if (isContextCorrect(xve)) {
@@ -64,22 +64,22 @@ public class InsertionMetadataMissingCase extends AbstractDependentLaxValidation
             }
         }
         return false;
-	}
+    }
 
-	private boolean isContextCorrect(final XmlValidationError xve) {
-		return xve != null &&
-				xve.getOffendingQName() == null &&
-				xve.getFieldQName() != null &&
-				xve.getExpectedQNames() != null &&
-				xve.getFieldQName().equals(XMLConstants.QN_SWES_2_0_METADATA) &&
-				xve.getExpectedQNames().contains(XMLConstants.QN_SWES_2_0_INSERTION_METADATA);
-	}
+    private boolean isContextCorrect(final XmlValidationError xve) {
+        return xve != null &&
+                xve.getOffendingQName() == null &&
+                xve.getFieldQName() != null &&
+                xve.getExpectedQNames() != null &&
+                xve.getFieldQName().equals(XMLConstants.QN_SWES_2_0_METADATA) &&
+                xve.getExpectedQNames().contains(XMLConstants.QN_SWES_2_0_INSERTION_METADATA);
+    }
 
-	public static InsertionMetadataMissingCase getInstance() {
-		if (instance == null) {
-			instance = new InsertionMetadataMissingCase();
-		}
-		return instance;
-	}
+    public static InsertionMetadataMissingCase getInstance() {
+        if (instance == null) {
+            instance = new InsertionMetadataMissingCase();
+        }
+        return instance;
+    }
 
 }

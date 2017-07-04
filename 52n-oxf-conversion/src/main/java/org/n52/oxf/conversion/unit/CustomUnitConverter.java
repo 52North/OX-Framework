@@ -35,10 +35,10 @@ package org.n52.oxf.conversion.unit;
  */
 public interface CustomUnitConverter {
 
-	NumberWithUOM convert(double doubleValue);
+    NumberWithUOM convert(double doubleValue);
 
-	String getBaseUnit();
+    String getBaseUnit();
 
-	String getUnitString();
+    String getUnitString();
 
 }

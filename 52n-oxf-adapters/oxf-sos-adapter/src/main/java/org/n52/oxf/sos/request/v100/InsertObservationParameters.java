@@ -37,20 +37,20 @@ import org.n52.oxf.sos.observation.ObservationParameters;
 public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertObservationParameters {
 
     private static final String REQUEST_PARAMETER = "request";
-	private final ObservationParameters observationParameters;
+    private final ObservationParameters observationParameters;
 
-	public InsertObservationParameters(final ObservationParameters observationParameters) throws IllegalArgumentException {
-	    addNonEmpty(REQUEST_PARAMETER, "InsertObservation");
+    public InsertObservationParameters(final ObservationParameters observationParameters) throws IllegalArgumentException {
+        addNonEmpty(REQUEST_PARAMETER, "InsertObservation");
         if (observationParameters == null || observationParameters.isEmpty() || !observationParameters.isValid()) {
-        	throw new IllegalArgumentException("Parameter 'ObservationParameters' with may not be null or empty!");
+            throw new IllegalArgumentException("Parameter 'ObservationParameters' with may not be null or empty!");
         }
-		mergeWith(observationParameters);
-		this.observationParameters = observationParameters;
-	}
+        mergeWith(observationParameters);
+        this.observationParameters = observationParameters;
+    }
 
     public boolean isValid() {
         return !isEmptyValue(INSERT_OBSERVATION_PROCEDURE_PARAMETER) &&
-        		observationParameters.isValid();
+                observationParameters.isValid();
     }
 
 }

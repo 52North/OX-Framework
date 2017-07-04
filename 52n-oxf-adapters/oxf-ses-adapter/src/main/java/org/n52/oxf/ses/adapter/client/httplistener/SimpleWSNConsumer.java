@@ -46,85 +46,85 @@ import org.slf4j.LoggerFactory;
  */
 public class SimpleWSNConsumer extends NanoHTTPD implements IWSNConsumer {
 
-	private static final String HTTP_NOCONTENT = "204 No Content";
+    private static final String HTTP_NOCONTENT = "204 No Content";
 
-	private HttpListener listener;
-	private URL publicURL;
+    private HttpListener listener;
+    private URL publicURL;
 
-	public SimpleWSNConsumer(int port, String publicUrl) throws IOException, InterruptedException {
-		this(port, publicUrl, new File("."), null);
-	}
-
-
-	public SimpleWSNConsumer(int port, String publicUrl, File wwwroot, HttpListener l) throws IOException, InterruptedException {
-		super(port, wwwroot);
-		this.listener = l;
-		this.publicURL = new URL(publicUrl);
-	}
-
-	@Override
-	protected Response serve(String uri, String method, Properties header, Properties parms, Properties files) {
-		String data = parms.getProperty(POST_BODY);
-
-		if (data == null) {
-			data = parseURLEncoded(parms);
-		}
-
-		String resp = null;
-		if (data != null && !data.isEmpty() && this.listener != null) {
-			resp = this.listener.processRequest(data, uri, method, header);
-		}
-
-		if (resp == null || resp.isEmpty()) {
-			return new NanoHTTPD.Response(HTTP_NOCONTENT, null, resp);
-		} else {
-			return new NanoHTTPD.Response(HTTP_OK, MIME_XML, resp);
-		}
-	}
+    public SimpleWSNConsumer(int port, String publicUrl) throws IOException, InterruptedException {
+        this(port, publicUrl, new File("."), null);
+    }
 
 
-	private String parseURLEncoded(Properties parms) {
-		StringBuilder sb = new StringBuilder();
-		for (Map.Entry<Object, Object> o : parms.entrySet()) {
-			sb.append(o.getKey().toString())
-                    .append("=")
-                    .append(o.getValue().toString());
-		}
-		return sb.toString();
-	}
+    public SimpleWSNConsumer(int port, String publicUrl, File wwwroot, HttpListener l) throws IOException, InterruptedException {
+        super(port, wwwroot);
+        this.listener = l;
+        this.publicURL = new URL(publicUrl);
+    }
 
     @Override
-	public void setListener(HttpListener listener) {
-		this.listener = listener;
-	}
+    protected Response serve(String uri, String method, Properties header, Properties parms, Properties files) {
+        String data = parms.getProperty(POST_BODY);
 
-	@Override
-	public URL getPublicURL() {
-		return this.publicURL;
-	}
+        if (data == null) {
+            data = parseURLEncoded(parms);
+        }
 
-	public static void main(String[] args) {
-		final Logger LOG = LoggerFactory.getLogger(SimpleWSNConsumer.class);
-		try {
-			SimpleWSNConsumer sc = new SimpleWSNConsumer(8082, "http://localhost:8082");
-			sc.setListener(new HttpListener() {
+        String resp = null;
+        if (data != null && !data.isEmpty() && this.listener != null) {
+            resp = this.listener.processRequest(data, uri, method, header);
+        }
 
-				@Override
-				public String processRequest(String request, String uri, String method,
-						Properties header) {
-					synchronized (LOG) {
-						LOG.info("Received reqeust for {}:", uri);
-						LOG.info(request);
-					}
+        if (resp == null || resp.isEmpty()) {
+            return new NanoHTTPD.Response(HTTP_NOCONTENT, null, resp);
+        } else {
+            return new NanoHTTPD.Response(HTTP_OK, MIME_XML, resp);
+        }
+    }
 
-					return null;
-				}
-			});
-		} catch (IOException | InterruptedException e) {
-			LOG.error("Exception thrown: ", e);
-		}
 
-		while (true);
-	}
+    private String parseURLEncoded(Properties parms) {
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<Object, Object> o : parms.entrySet()) {
+            sb.append(o.getKey().toString())
+                    .append("=")
+                    .append(o.getValue().toString());
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public void setListener(HttpListener listener) {
+        this.listener = listener;
+    }
+
+    @Override
+    public URL getPublicURL() {
+        return this.publicURL;
+    }
+
+    public static void main(String[] args) {
+        final Logger LOG = LoggerFactory.getLogger(SimpleWSNConsumer.class);
+        try {
+            SimpleWSNConsumer sc = new SimpleWSNConsumer(8082, "http://localhost:8082");
+            sc.setListener(new HttpListener() {
+
+                @Override
+                public String processRequest(String request, String uri, String method,
+                        Properties header) {
+                    synchronized (LOG) {
+                        LOG.info("Received reqeust for {}:", uri);
+                        LOG.info(request);
+                    }
+
+                    return null;
+                }
+            });
+        } catch (IOException | InterruptedException e) {
+            LOG.error("Exception thrown: ", e);
+        }
+
+        while (true);
+    }
 
 }

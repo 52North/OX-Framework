@@ -66,10 +66,10 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
     }
 
     public static OXFFeatureCollection createFeatureCollection(String id, ObservationCollectionType obsCollection) throws OXFException {
-    	OXFObservationCollectionType type = new OXFObservationCollectionType();
-    	OXFFeatureCollection featureCollection = new OXFFeatureCollection(id, type);
-		type.initializeFeature(featureCollection, obsCollection);
-		return featureCollection;
+        OXFObservationCollectionType type = new OXFObservationCollectionType();
+        OXFFeatureCollection featureCollection = new OXFFeatureCollection(id, type);
+        type.initializeFeature(featureCollection, obsCollection);
+        return featureCollection;
     }
 
     /**
@@ -102,11 +102,11 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
      * @throws OXFException
      */
     private static OXFFeatureCollection createFeatureCollection(String id, MeasurementTimeseriesType timeseriesObservation) throws OXFException {
-    	OXFObservationCollectionType type = new OXFObservationCollectionType();
-    	OXFFeatureCollection featureCollection = new OXFFeatureCollection(id, type);
-		type.addMember(featureCollection, timeseriesObservation);
-		return featureCollection;
-	}
+        OXFObservationCollectionType type = new OXFObservationCollectionType();
+        OXFFeatureCollection featureCollection = new OXFFeatureCollection(id, type);
+        type.addMember(featureCollection, timeseriesObservation);
+        return featureCollection;
+    }
 
     private void addMember(OXFFeatureCollection featureCollection, XmlObject xb_memberDocument) throws OXFException {
 

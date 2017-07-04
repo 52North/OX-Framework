@@ -148,7 +148,7 @@ public class CSWAdapterTest {
         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_SCHEMA_LANGUAGE_PARAMETER,
                                    "XMLSCHEMA");
         paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_NAME_SPACE_PARAMETER,
-        							"xmlns(rim=urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0)");
+                                    "xmlns(rim=urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0)");
                                     //"xmlns(rim=urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.5),xmlns(csw=http://www.opengis.net/cat/csw)");
 //    "xmlns(rim=urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.5),xmlns(csw=http://www.opengis.net/cat/csw)");
         System.out.println("http://geossregistries.info:1090/GEOSSCSW202/discovery?Request=DescribeRecord&Service=CSW&Version=2.0.2&NAMESPACE=xmlns(rim=urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0)");
@@ -161,7 +161,7 @@ public class CSWAdapterTest {
 
     @Test
     public void testGetRecords() throws OXFException, ExceptionReport {
-    	 CSWAdapter adapter = new CSWAdapter();
+         CSWAdapter adapter = new CSWAdapter();
 
          ParameterContainer paramCon = new ParameterContainer();
          paramCon.addParameterShell(CSWRequestBuilder.DESCRIBE_RECORD_VERSION_PARAMETER,

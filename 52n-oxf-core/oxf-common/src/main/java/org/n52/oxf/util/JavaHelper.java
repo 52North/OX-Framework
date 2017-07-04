@@ -168,7 +168,7 @@ public class JavaHelper {
      *
      * @param dirToClean the directory to clean
      * @param olderThanTimeMillis the timestamp that will be compared with {@link File#lastModified()}
-     * 			of each file in the given folder. Older files will be deleted.
+     *          of each file in the given folder. Older files will be deleted.
      *
      * @throws IOException when a file in the given directory could not be deleted.
      */
@@ -198,7 +198,7 @@ public class JavaHelper {
      *
      * @param dirToClean the directory to clean
      * @param olderThanTimeMillis the timestamp that will be compared with {@link File#lastModified()}
-     * 			of each file in the given folder. Older files will be deleted.
+     *          of each file in the given folder. Older files will be deleted.
      * @param postFix Only files ending with <code>postfix</code> will be deleted
      *
      * @throws IOException when a file in the given directory could not be deleted.

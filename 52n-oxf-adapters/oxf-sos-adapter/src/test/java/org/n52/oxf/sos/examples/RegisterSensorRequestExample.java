@@ -41,7 +41,7 @@ import org.n52.oxf.ows.capabilities.Operation;
 public class RegisterSensorRequestExample extends SosAdapterRequestExample {
 
     @Override
-	@Before
+    @Before
     public void setUp() throws Exception {
         super.setUp();
     }

@@ -42,7 +42,7 @@ public class IntegerRangeValueDomain implements IRangeValueDomain<Integer> {
     /**
      * minimum.
      */
-	Integer min = null;
+    Integer min = null;
 
     /**
      * maximum.
@@ -61,14 +61,14 @@ public class IntegerRangeValueDomain implements IRangeValueDomain<Integer> {
      * @param max
      *            maxvalue of the value range
      */
-	public IntegerRangeValueDomain(int min, int max){
-		this.min = min;
-		this.max = max;
-	}
+    public IntegerRangeValueDomain(int min, int max){
+        this.min = min;
+        this.max = max;
+    }
 
-	public String getDomainDescription() {
-		return description;
-	}
+    public String getDomainDescription() {
+        return description;
+    }
 
     public boolean containsValue(Integer i) {
         return min <= i  &&  max >= i;

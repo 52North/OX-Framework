@@ -37,18 +37,18 @@ import org.n52.oxf.xmlbeans.tools.XmlUtil;
 
 public class XmlUtilXPathTest {
 
-	@Test
-	public void testXpathCompilation() throws XmlException, IOException {
-		String xpath = "declare namespace muse-wsa='http://ws.apache.org/muse/addressing'; //muse-wsa:ResourceId";
+    @Test
+    public void testXpathCompilation() throws XmlException, IOException {
+        String xpath = "declare namespace muse-wsa='http://ws.apache.org/muse/addressing'; //muse-wsa:ResourceId";
 
-		XmlObject xo = readObject();
-		xo = XmlUtil.selectPath(xpath, xo)[0];
-		String inner = XmlUtil.stripText(xo);
-		Assert.assertTrue(inner.trim().equals("Subscription-2"));
-	}
+        XmlObject xo = readObject();
+        xo = XmlUtil.selectPath(xpath, xo)[0];
+        String inner = XmlUtil.stripText(xo);
+        Assert.assertTrue(inner.trim().equals("Subscription-2"));
+    }
 
-	private XmlObject readObject() throws XmlException, IOException {
-		return XmlObject.Factory.parse(getClass().getResourceAsStream("XPathSaxon94Text.xml"));
-	}
+    private XmlObject readObject() throws XmlException, IOException {
+        return XmlObject.Factory.parse(getClass().getResourceAsStream("XPathSaxon94Text.xml"));
+    }
 
 }

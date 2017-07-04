@@ -37,9 +37,9 @@ import java.util.*;
  */
 public class ExceptionReport extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String version;
+    private String version;
 
     private String language;
 

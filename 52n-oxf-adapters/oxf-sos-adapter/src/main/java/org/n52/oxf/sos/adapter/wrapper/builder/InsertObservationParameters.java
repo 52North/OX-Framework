@@ -42,75 +42,75 @@ import org.n52.oxf.sos.observation.ObservationParameters;
  */
 public class InsertObservationParameters {
 
-	private final Map<String, String> parameters;
+    private final Map<String, String> parameters;
 
-	/**
-	 * Assembles mandatory parameters from method parameter list.
-	 *
-	 * @param assignedSensorId
-	 * @param observation
-	 * @deprecated Use {@link #InsertObservationParameters(String, ObservationParameters)}
-	 */
-	@Deprecated
-	public InsertObservationParameters(final String assignedSensorId, final ObservationBuilder observationBuilder) throws IllegalArgumentException {
-		if (assignedSensorId == null || observationBuilder == null) {
-			throw new IllegalArgumentException("The parameters \"assignedSensorId\" and \"observationBuilder\" are mandatory. They cannot be left empty!");
-		}
-		parameters = observationBuilder.getParameters();
-		parameters.put(INSERT_OBSERVATION_PROCEDURE_PARAMETER, assignedSensorId);
-	}
+    /**
+     * Assembles mandatory parameters from method parameter list.
+     *
+     * @param assignedSensorId
+     * @param observation
+     * @deprecated Use {@link #InsertObservationParameters(String, ObservationParameters)}
+     */
+    @Deprecated
+    public InsertObservationParameters(final String assignedSensorId, final ObservationBuilder observationBuilder) throws IllegalArgumentException {
+        if (assignedSensorId == null || observationBuilder == null) {
+            throw new IllegalArgumentException("The parameters \"assignedSensorId\" and \"observationBuilder\" are mandatory. They cannot be left empty!");
+        }
+        parameters = observationBuilder.getParameters();
+        parameters.put(INSERT_OBSERVATION_PROCEDURE_PARAMETER, assignedSensorId);
+    }
 
-	/**
-	 * Assembles mandatory parameters from method parameter list.
-	 *
-	 * @param sensorURI
-	 * @param obsParameter
-	 */
-	public InsertObservationParameters(final String assignedSensorId, final ObservationParameters obsParameter) {
-		if (assignedSensorId == null || obsParameter == null) {
-			throw new IllegalArgumentException("The parameters \"assignedSensorId\" and \"obsParameter\" are mandatory. They cannot be left empty!");
-		}
-		parameters = getParameterMapFrom(obsParameter);
-		parameters.put(INSERT_OBSERVATION_PROCEDURE_PARAMETER, assignedSensorId);
-	}
+    /**
+     * Assembles mandatory parameters from method parameter list.
+     *
+     * @param sensorURI
+     * @param obsParameter
+     */
+    public InsertObservationParameters(final String assignedSensorId, final ObservationParameters obsParameter) {
+        if (assignedSensorId == null || obsParameter == null) {
+            throw new IllegalArgumentException("The parameters \"assignedSensorId\" and \"obsParameter\" are mandatory. They cannot be left empty!");
+        }
+        parameters = getParameterMapFrom(obsParameter);
+        parameters.put(INSERT_OBSERVATION_PROCEDURE_PARAMETER, assignedSensorId);
+    }
 
-	private Map<String, String> getParameterMapFrom(final ObservationParameters obsParameter)
-	{
-		if (!obsParameter.isEmpty())
-		{
-			final HashMap<String,String> parameterMap = new HashMap<String, String>();
-			for (final String key : obsParameter.getParameterNames())
-			{
-				if (!key.isEmpty())
-				{
-					final Iterable<String> parameterValues = obsParameter.getAllValues(key);
-					final StringBuilder concatenatedParameterValues = new StringBuilder();
-					for (final String parameterValue : parameterValues) {
-						if (parameterValue != null && !parameterValue.isEmpty())
-						{
-							concatenatedParameterValues.append(parameterValue);
-							concatenatedParameterValues.append(",");
-						}
-					}
-					// remove last ","
-					String parameterValuesAsSingleString = concatenatedParameterValues.toString();
-					if (!parameterValuesAsSingleString.isEmpty())
-					{
-						parameterValuesAsSingleString = parameterValuesAsSingleString.substring(0, parameterValuesAsSingleString.length()-1);
-						parameterMap.put(key, parameterValuesAsSingleString);
-					}
-				}
-			}
-			return parameterMap;
-		}
-		return new HashMap<String, String>(0);
-	}
+    private Map<String, String> getParameterMapFrom(final ObservationParameters obsParameter)
+    {
+        if (!obsParameter.isEmpty())
+        {
+            final HashMap<String,String> parameterMap = new HashMap<String, String>();
+            for (final String key : obsParameter.getParameterNames())
+            {
+                if (!key.isEmpty())
+                {
+                    final Iterable<String> parameterValues = obsParameter.getAllValues(key);
+                    final StringBuilder concatenatedParameterValues = new StringBuilder();
+                    for (final String parameterValue : parameterValues) {
+                        if (parameterValue != null && !parameterValue.isEmpty())
+                        {
+                            concatenatedParameterValues.append(parameterValue);
+                            concatenatedParameterValues.append(",");
+                        }
+                    }
+                    // remove last ","
+                    String parameterValuesAsSingleString = concatenatedParameterValues.toString();
+                    if (!parameterValuesAsSingleString.isEmpty())
+                    {
+                        parameterValuesAsSingleString = parameterValuesAsSingleString.substring(0, parameterValuesAsSingleString.length()-1);
+                        parameterMap.put(key, parameterValuesAsSingleString);
+                    }
+                }
+            }
+            return parameterMap;
+        }
+        return new HashMap<String, String>(0);
+    }
 
-	/**
-	 * @return set of parameters
-	 */
-	public Map<String, String> getParameters() {
-		return parameters;
-	}
+    /**
+     * @return set of parameters
+     */
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
 
 }

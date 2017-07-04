@@ -29,8 +29,8 @@ package org.n52.oxf.xmlbeans.parser.sosexample;
 
 public class ExceptionCode {
 
-	public static final ExceptionCode InvalidParameterValue = null;
-	public static final ExceptionCode MissingParameterValue = null;
-	public static final String InvalidRequest = null;
+    public static final ExceptionCode InvalidParameterValue = null;
+    public static final ExceptionCode MissingParameterValue = null;
+    public static final String InvalidRequest = null;
 
 }

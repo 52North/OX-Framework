@@ -37,7 +37,7 @@ import org.n52.oxf.sos.request.SosRequestParameters;
  */
 public abstract class Sos200RequestParameters extends SosRequestParameters {
 
-	public Sos200RequestParameters() {
-		addNonEmpty(SERVICE_VERSION, "2.0.0");
-	}
+    public Sos200RequestParameters() {
+        addNonEmpty(SERVICE_VERSION, "2.0.0");
+    }
 }
