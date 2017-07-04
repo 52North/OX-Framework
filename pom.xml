@@ -508,6 +508,13 @@
                         <excludeFilterFile>misc/findbugs-exclude.xml</excludeFilterFile>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <configuration>
+                        <failOnViolation>false</failOnViolation>
+                    </configuration>
+                </plugin>
 
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
