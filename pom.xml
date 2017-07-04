@@ -503,6 +503,33 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <requireNoRepositories>
+                                        <!-- Allow repositories -->
+                                        <banRepositories>false</banRepositories>
+                                        <!-- Allow SNAPSHOT repositories -->
+                                        <allowSnapshotRepositories>true</allowSnapshotRepositories>
+                                        <!-- Define allowed repositories, use repo id -->
+                                        <allowedRepositories>
+                                            <id>n52-snapshots</id>
+                                            <id>n52-releases</id>
+                                        </allowedRepositories>
+                                    </requireNoRepositories>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
                     <configuration>
                         <failOnError>false</failOnError>
@@ -752,4 +779,28 @@
             </build>
         </profile>
 	</profiles>
+    <repositories>
+        <repository>
+            <id>n52-releases</id>
+            <name>52n Releases</name>
+            <url>http://52north.org/maven/repo/releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>n52-snapshots</id>
+            <name>52n Snapshots</name>
+            <url>http://52north.org/maven/repo/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>
