@@ -39,16 +39,16 @@ import org.slf4j.LoggerFactory;
 
 public class SRSUtils {
 
-	private static final Logger logger = LoggerFactory.getLogger(SRSUtils.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SRSUtils.class);
 	public static final String DEFAULT_SRS = "urn:ogc:def:crs:EPSG::4326";
 	private static Map<String, AxisOrder> mapping;
 
 	static {
-		mapping = new HashMap<String, AxisOrder>();
+		mapping = new HashMap<>();
 		try {
 			loadMappings();
 		} catch (IOException e) {
-			logger.warn(e.getMessage(), e);
+			LOGGER.warn(e.getMessage(), e);
 		}
 	}
 
@@ -58,13 +58,11 @@ public class SRSUtils {
 
 	private static void loadMappings() throws IOException {
 		InputStream is = SRSUtils.class.getResourceAsStream("axisOrder.mapping");
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
-		while (br.ready()) {
-			addMapping(br.readLine());
-		}
-
-		br.close();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
+            while (br.ready()) {
+                addMapping(br.readLine());
+            }
+        }
 	}
 
 	private static void addMapping(String mappingLine) {

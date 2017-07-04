@@ -37,13 +37,10 @@ public class AltitudeLimits {
 	 */
 	public static enum AltitudeReferences {SFC, STD, FL, MSL, W84 }
 
-	private AltitudeReferences lowerLimitReference;
-	private AltitudeReferences upperLimitReference;
-	private double lowerLimit;
-	private double upperLimit;
-	private String lowerLimitUom;
-	private String upperLimitUom;
-
+	private final AltitudeReferences lowerLimitReference;
+	private final AltitudeReferences upperLimitReference;
+	private final double lowerLimit;
+	private final double upperLimit;
 
 	public AltitudeLimits(double lowerLimit2,
 			AltitudeReferences lowerReference, double upperLimit2,
@@ -54,35 +51,31 @@ public class AltitudeLimits {
 		this.upperLimitReference = upperReference;
 	}
 
-
 	public AltitudeReferences getLowerLimitReference() {
 		return lowerLimitReference;
 	}
-
 
 	public AltitudeReferences getUpperLimitReference() {
 		return upperLimitReference;
 	}
 
-
 	public double getLowerLimit() {
 		return lowerLimit;
 	}
-
 
 	public double getUpperLimit() {
 		return upperLimit;
 	}
 
-
+    @Deprecated
 	public String getLowerLimitUom() {
-		return lowerLimitUom;
+        // field was never written
+		return null;
 	}
 
-
+    @Deprecated
 	public String getUpperLimitUom() {
-		return upperLimitUom;
+        // field was never writtern
+		return null;
 	}
-
-
 }

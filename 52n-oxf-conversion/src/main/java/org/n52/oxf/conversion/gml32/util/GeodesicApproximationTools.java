@@ -48,6 +48,9 @@ public class GeodesicApproximationTools {
 	 * Approximates a Great Circle on the earth using start
 	 * and end coordinates and the estimate target segment length
 	 *
+     * @param start
+     * @param end
+     * @param segmentLength
 	 * @return a JTS LineString
 	 */
 	public static LineString approximateGreatCircle(Coordinate start, Coordinate end, double segmentLength) {
@@ -58,6 +61,9 @@ public class GeodesicApproximationTools {
 	 * Approximates a Great Circle on the earth using start
 	 * and end coordinates and the number of segments per half of the target circle.
 	 *
+     * @param segmentsPerHalf
+     * @param start
+     * @param end
 	 * @return a JTS LineString
 	 */
 	public static LineString approximateGreatCircle(int segmentsPerHalf, Coordinate start, Coordinate end) {
@@ -71,6 +77,9 @@ public class GeodesicApproximationTools {
 	 * Approximates a Rhumbline on the earth using start
 	 * and end coordinates and the estimate target segment length
 	 *
+     * @param start
+     * @param end
+     * @param segmentLength
 	 * @return a JTS LineString
 	 */
 	public static LineString approximateRhumbline(Coordinate start, Coordinate end, double segmentLength) {
@@ -81,10 +90,15 @@ public class GeodesicApproximationTools {
 	 * Approximates a Rhumbline on the earth using start
 	 * and end coordinates and the number of segments per half of the target circle.
 	 *
+     * @param segmentsPerHalf
+     * @param start
+     * @param end
 	 * @return a JTS LineString
 	 */
 	public static LineString approximateRhumbline(int segmentsPerHalf, Coordinate start, Coordinate end) {
-		if (segmentsPerHalf == 0) return new GeometryFactory().createLineString(new Coordinate[] {start, end});
+		if (segmentsPerHalf == 0) {
+            return new GeometryFactory().createLineString(new Coordinate[] {start, end});
+        }
 
 		Coordinate[] result = new Coordinate[segmentsPerHalf * 2 +1];
 		result[0] = start;
@@ -94,7 +108,7 @@ public class GeodesicApproximationTools {
 
 	private static Coordinate[] approximateGreatCircle(Coordinate[] result, int subListStart, int subListEnd) {
 		Coordinate midPoint = intermediatePointGreatCircle(result[subListStart], result[subListEnd], 0.5);
-		int targetIndex = (subListEnd+subListStart)/2;
+		int targetIndex = (subListEnd+subListStart) >>> 1;
 
 		if (result[targetIndex] == null) {
 			result[targetIndex] = midPoint;
@@ -107,7 +121,7 @@ public class GeodesicApproximationTools {
 
 	private static Coordinate[] approximateRhumbline(Coordinate[] result, int subListStart, int subListEnd) {
 		Coordinate midPoint = intermediatePointRhumbline(result[subListStart], result[subListEnd]);
-		int targetIndex = (subListEnd+subListStart)/2;
+		int targetIndex = (subListEnd+subListStart) >>> 1;
 
 		if (result[targetIndex] == null) {
 			result[targetIndex] = midPoint;
