@@ -87,7 +87,7 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
      * @param omParameterXML
      */
     public void addOmParameter(final String... omParameterXML) {
-    addNonEmpty(OM_PARAMETER, Arrays.asList(omParameterXML));
+    addNonEmpty(INSERT_OBSERVATION_OM_PARAMETER_PARAMETERS, Arrays.asList(omParameterXML));
     }
 
     public void addExtension(final String... anyXML) {

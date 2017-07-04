@@ -27,17 +27,17 @@
  */
 package org.n52.oxf.sos.adapter.v200;
 
+import java.math.BigInteger;
 import static org.n52.oxf.xml.XMLConstants.*;
 
-import java.math.BigInteger;
 import java.util.Collection;
-
 import net.opengis.fes.x20.BinaryTemporalOpType;
 import net.opengis.fes.x20.DuringDocument;
 import net.opengis.fes.x20.TEqualsDocument;
 import net.opengis.gml.x32.AbstractTimeObjectType;
 import net.opengis.gml.x32.CodeWithAuthorityType;
 import net.opengis.gml.x32.DirectPositionType;
+
 import net.opengis.gml.x32.MeasureType;
 import net.opengis.gml.x32.PointDocument;
 import net.opengis.gml.x32.PointType;
@@ -47,6 +47,7 @@ import net.opengis.gml.x32.TimeInstantType;
 import net.opengis.gml.x32.TimePeriodDocument;
 import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.gml.x32.TimePositionType;
+import net.opengis.om.x20.NamedValueType;
 import net.opengis.om.x20.OMObservationType;
 import net.opengis.ows.x11.AcceptVersionsType;
 import net.opengis.ows.x11.SectionsType;
@@ -73,7 +74,6 @@ import net.opengis.swes.x20.DescribeSensorType;
 import net.opengis.swes.x20.InsertSensorDocument;
 import net.opengis.swes.x20.InsertSensorType;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
@@ -83,6 +83,11 @@ import org.apache.xmlbeans.XmlString;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
+import org.n52.oxf.om.x20.BooleanParameter;
+import org.n52.oxf.om.x20.CategoryParameter;
+import org.n52.oxf.om.x20.CountParameter;
+import org.n52.oxf.om.x20.OmParameter;
+import org.n52.oxf.om.x20.QuantityParameter;
 import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.ows.capabilities.Parameter;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
@@ -135,14 +140,14 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
         // set optional elements:
         //
 
-        // Parameter "updateSequence":
+        // OmParameter "updateSequence":
         if (parameters.getParameterShellWithServiceSidedName(GET_CAPABILITIES_UPDATE_SEQUENCE_PARAMETER) != null) {
             getCap.setUpdateSequence((String) parameters
                     .getParameterShellWithServiceSidedName(GET_CAPABILITIES_UPDATE_SEQUENCE_PARAMETER)
                     .getSpecifiedValue());
         }
 
-        // Parameter "AcceptVersions":
+        // OmParameter "AcceptVersions":
         ParameterShell versionPS = parameters
                 .getParameterShellWithServiceSidedName(GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER);
         if (versionPS == null){
@@ -162,7 +167,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
             }
         }
 
-        // Parameter "sections":
+        // OmParameter "sections":
         final ParameterShell sectionParamShell = parameters
                 .getParameterShellWithServiceSidedName(GET_CAPABILITIES_SECTIONS_PARAMETER);
         if (sectionParamShell != null) {
@@ -347,12 +352,62 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
         final OMObservationType xbObservation = addObservationType(parameters, xbInsertObservationType);
         xbObservation.setId("observation");
         addProcedure(parameters, xbObservation);
+        addOMParameters(parameters, xbObservation);
         addObservedProperty(parameters, xbObservation);
         addFeatureOfInterest(parameters, xbObservation);
         addResultTime(parameters, xbObservation);
         addPhenomenonTime(parameters, xbObservation);
         // add result
         addResult(parameters,xbObservation);
+    }
+
+        private void addOMParameters(ParameterContainer parameters, OMObservationType xbObservation) {
+        final ParameterShell omParameters = parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_OM_PARAMETER_PARAMETERS);
+        if (omParameters == null) {
+            // optional parameter
+            return;
+        }
+        OmParameter[] specifiedValue = omParameters.getSpecifiedTypedValueArray(OmParameter[].class);
+        if (specifiedValue.length == 0) {
+            // optional parameter
+            return;
+        }
+        for (OmParameter omParameter : specifiedValue) {
+            if (omParameter != null) {
+                NamedValueType xbNamedValue = xbObservation.addNewParameter().addNewNamedValue();
+                xbNamedValue.addNewName().setHref(omParameter.getName());
+                if (omParameter instanceof QuantityParameter) {
+                    QuantityParameter qP = (QuantityParameter) omParameter;
+                    final MeasureType xbQuantity = MeasureType.Factory.newInstance();
+                    xbQuantity.setUom(qP.getUOM());
+                    xbQuantity.setDoubleValue(qP.getValue());
+                    xbNamedValue.addNewValue().set(xbQuantity);
+                } else if (omParameter instanceof CountParameter) {
+                    CountParameter cP = (CountParameter) omParameter;
+                    final XmlInteger xbCount = XmlInteger.Factory.newInstance();
+                    xbCount.setBigIntegerValue(cP.getValue());
+                    xbNamedValue.addNewValue().set(xbCount);
+                } else if (omParameter instanceof BooleanParameter) {
+                    BooleanParameter bP = (BooleanParameter) omParameter;
+                    final XmlBoolean xbBoolean = XmlBoolean.Factory.newInstance();
+                    xbBoolean.setBooleanValue(bP.getValue());
+                    xbNamedValue.addNewValue().set(xbBoolean);
+                } else if (omParameter instanceof CategoryParameter) {
+                    CategoryParameter cP = (CategoryParameter) omParameter;
+                    final ReferenceType xbCategory = ReferenceType.Factory.newInstance();
+                    xbCategory.setHref(cP.getValue());
+                    xbNamedValue.addNewValue().set(xbCategory);
+                } else {
+                    // TextParameter or anything else
+                    final XmlString xbText = XmlString.Factory.newInstance();
+                    xbText.setStringValue(omParameter.getValue().toString());
+                    xbNamedValue.addNewValue().set(xbText);
+                }
+            } else {
+                LOGGER.error("om:paramter parameter shell contained 'null' value! Skipping this one.");
+            }
+        }
+
     }
 
     private void addResult(final ParameterContainer parameters,
@@ -806,7 +861,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
         if (shell == null) {
             return; // optional parameter
         }
-        throw new NotImplementedException();
+        LOGGER.error("Support for spatial filter is not implemented yet!");
     }
 
     protected void processFeatureOfInterest(final GetObservationType xb_getObs, final ParameterShell shell) {

@@ -40,6 +40,7 @@ import net.opengis.gml.x32.PointType;
 import net.opengis.gml.x32.ReferenceType;
 import net.opengis.gml.x32.TimeInstantType;
 import net.opengis.gml.x32.TimePeriodType;
+import net.opengis.om.x20.NamedValuePropertyType;
 import net.opengis.om.x20.OMObservationType;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
@@ -65,6 +66,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.adapter.ParameterShell;
+import org.n52.oxf.om.x20.BooleanParameter;
+import org.n52.oxf.om.x20.CategoryParameter;
+import org.n52.oxf.om.x20.CountParameter;
+import org.n52.oxf.om.x20.OmParameter;
+import org.n52.oxf.om.x20.QuantityParameter;
+import org.n52.oxf.om.x20.TextParameter;
 import org.n52.oxf.ows.capabilities.ITime;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 import org.n52.oxf.sos.adapter.wrapper.builder.SensorDescriptionBuilder;
@@ -639,8 +647,122 @@ public class SOSRequestBuilder200POXTest {
                 .getPhenomenonTime()
                 .getAbstractTimeObject();
 
-        assertThat(phenomenonTime.getBeginPosition().getStringValue(),is(phenTimePeriodStart.toISO8601Format()));
-        assertThat(phenomenonTime.getEndPosition().getStringValue(),is(phenTimePeriodEnd.toISO8601Format()));
+        assertThat(phenomenonTime.getBeginPosition().getStringValue(), is(phenTimePeriodStart.toISO8601Format()));
+        assertThat(phenomenonTime.getEndPosition().getStringValue(), is(phenTimePeriodEnd.toISO8601Format()));
+    }
+
+    @Test
+    public void buildInsertObservation_should_add_om_parameter_boolean() throws OXFException, XmlException {
+        addServiceAndVersion();
+        addObservationValues();
+        BooleanParameter parameter = new BooleanParameter("test-name", false);
+        parameters.addParameterShell(new ParameterShell(OmParameter.PARAMETER, parameter));
+
+        final String insertObservation = builder.buildInsertObservationRequest(parameters);
+
+        NamedValuePropertyType[] parameterArray = InsertObservationDocument.Factory.parse(insertObservation)
+                .getInsertObservation().getObservationArray(0).getOMObservation().getParameterArray();
+
+        assertThat(parameterArray.length, is(1));
+        assertThat(parameterArray[0].getNamedValue().getName().getHref(), is("test-name"));
+        assertThat(((XmlBoolean) parameterArray[0].getNamedValue().getValue()).getBooleanValue(), is(false));
+    }
+
+    @Test
+    public void buildInsertObservation_should_add_om_parameter_quantity() throws OXFException, XmlException {
+        addServiceAndVersion();
+        addObservationValues();
+        QuantityParameter parameter = new QuantityParameter("test-name", "test-uom", 52.0);
+        parameters.addParameterShell(new ParameterShell(OmParameter.PARAMETER, parameter));
+
+        final String insertObservation = builder.buildInsertObservationRequest(parameters);
+
+        NamedValuePropertyType[] parameterArray = InsertObservationDocument.Factory.parse(insertObservation)
+                .getInsertObservation().getObservationArray(0).getOMObservation().getParameterArray();
+
+        assertThat(parameterArray.length, is(1));
+        assertThat(parameterArray[0].getNamedValue().getName().getHref(), is("test-name"));
+        MeasureType xb = (MeasureType) parameterArray[0].getNamedValue().getValue();
+        assertThat(xb.getUom(), is("test-uom"));
+        assertThat(xb.getDoubleValue(), is(52.0));
+    }
+
+    @Test
+    public void buildInsertObservation_should_add_om_parameter_text() throws OXFException, XmlException {
+        addServiceAndVersion();
+        addObservationValues();
+        TextParameter parameter = new TextParameter("test-name", "test-text");
+        parameters.addParameterShell(new ParameterShell(OmParameter.PARAMETER, parameter));
+
+        final String insertObservation = builder.buildInsertObservationRequest(parameters);
+
+        NamedValuePropertyType[] parameterArray = InsertObservationDocument.Factory.parse(insertObservation)
+                .getInsertObservation().getObservationArray(0).getOMObservation().getParameterArray();
+
+        assertThat(parameterArray.length, is(1));
+        assertThat(parameterArray[0].getNamedValue().getName().getHref(), is("test-name"));
+        XmlString xb = (XmlString) parameterArray[0].getNamedValue().getValue();
+        assertThat(xb.getStringValue(), is("test-text"));
+    }
+
+    @Test
+    public void buildInsertObservation_should_add_om_parameter_category() throws OXFException, XmlException {
+        addServiceAndVersion();
+        addObservationValues();
+        CategoryParameter parameter = new CategoryParameter("test-name", "test-category");
+        parameters.addParameterShell(new ParameterShell(OmParameter.PARAMETER, parameter));
+
+        final String insertObservation = builder.buildInsertObservationRequest(parameters);
+
+        NamedValuePropertyType[] parameterArray = InsertObservationDocument.Factory.parse(insertObservation)
+                .getInsertObservation().getObservationArray(0).getOMObservation().getParameterArray();
+
+        assertThat(parameterArray.length, is(1));
+        assertThat(parameterArray[0].getNamedValue().getName().getHref(), is("test-name"));
+        ReferenceType xb = (ReferenceType) parameterArray[0].getNamedValue().getValue();
+        assertThat(xb.getHref(), is("test-category"));
+    }
+
+    @Test
+    public void buildInsertObservation_should_add_om_parameter_count() throws OXFException, XmlException {
+        addServiceAndVersion();
+        addObservationValues();
+        CountParameter parameter = new CountParameter("test-name", 42);
+        parameters.addParameterShell(new ParameterShell(OmParameter.PARAMETER, parameter));
+
+        final String insertObservation = builder.buildInsertObservationRequest(parameters);
+
+        NamedValuePropertyType[] parameterArray = InsertObservationDocument.Factory.parse(insertObservation)
+                .getInsertObservation().getObservationArray(0).getOMObservation().getParameterArray();
+
+        assertThat(parameterArray.length, is(1));
+        assertThat(parameterArray[0].getNamedValue().getName().getHref(), is("test-name"));
+        XmlInteger xb = (XmlInteger) parameterArray[0].getNamedValue().getValue();
+        assertThat(xb.getBigIntegerValue().intValueExact(), is(42));
+    }
+
+    @Test
+    public void buildInsertObservation_should_add_various_om_parameter() throws OXFException, XmlException {
+        addServiceAndVersion();
+        addObservationValues();
+        CountParameter p1 = new CountParameter("test-name", 42);
+        QuantityParameter p2 = new QuantityParameter("p2-name", "p2-uom", 52.0);
+        parameters.addParameterShell(new ParameterShell(OmParameter.PARAMETER, p1, p2));
+
+        final String insertObservation = builder.buildInsertObservationRequest(parameters);
+
+        NamedValuePropertyType[] parameterArray = InsertObservationDocument.Factory.parse(insertObservation)
+                .getInsertObservation().getObservationArray(0).getOMObservation().getParameterArray();
+
+        assertThat(parameterArray.length, is(2));
+        assertThat(parameterArray[0].getNamedValue().getName().getHref(), is(p1.getName()));
+        XmlInteger xb = (XmlInteger) parameterArray[0].getNamedValue().getValue();
+        assertThat(xb.getBigIntegerValue().intValueExact(), is(p1.getValue().intValue()));
+
+        assertThat(parameterArray[1].getNamedValue().getName().getHref(), is(p2.getName()));
+        MeasureType xb2 = (MeasureType) parameterArray[1].getNamedValue().getValue();
+        assertThat(xb2.getUom(), is(p2.getUOM()));
+        assertThat(xb2.getDoubleValue(), is(p2.getValue()));
     }
 
     private void removeObservationTypeAndMeasurementResult() {

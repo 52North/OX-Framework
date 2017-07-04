@@ -30,6 +30,7 @@ package org.n52.oxf.sos.adapter;
 import org.apache.http.entity.ContentType;
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.ParameterContainer;
+import org.n52.oxf.om.x20.OmParameter;
 
 /**
  * TODO Document fields and methods!
@@ -44,11 +45,6 @@ public interface ISOSRequestBuilder {
     String VERSION = "version";
 
     String SERVICE = "service";
-
-    /**
-     * OGC O&M 2.0 parameter
-     */
-    String OM_PARAMETER = "om_parameter";
 
     String EXTENSION = "extension";
 
@@ -172,6 +168,10 @@ public interface ISOSRequestBuilder {
     String INSERT_OBSERVATION_NEW_FOI_PARENT_FEATURE_ID = "parentFeatureId";
     String INSERT_OBSERVATION_NEW_FOI_POSITION = "newFoiPosition";
     String INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER = "observedProperty";
+    /**
+     * SOS 2.0 Optional: Defines additional omParameters to add
+     */
+    String INSERT_OBSERVATION_OM_PARAMETER_PARAMETERS = OmParameter.PARAMETER_NAME;
     String INSERT_OBSERVATION_SAMPLING_TIME = "samplingTime";
     String INSERT_OBSERVATION_VALUE_PARAMETER = "value";
     String INSERT_OBSERVATION_POSITION_SRS = "srsPosition";
@@ -279,6 +279,8 @@ public interface ISOSRequestBuilder {
     /**
      * Builds a RegisterSensor request and returns it.
      * A SensorML file can either be passed along or a set of parameters is used to create one.
+     * @param parameters
+     * @return
      * @throws OXFException
      */
     String buildRegisterSensorRequest(ParameterContainer parameters) throws OXFException;
