@@ -106,12 +106,14 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         if (binding.equals(Binding.POX)) {
             return poxBuilder.buildInsertObservationRequest(parameters);
         }
-        throw new OXFException(String.format("Building InsertObservation request not supported via binding '%s'!",binding.toString()));
+        throw createOperationNotSupportedByBindingException("InsertObservation", binding);
     }
 
     /**
      * Builds a <b>Insert</b>Sensor request and returns it.
      * A SensorML document MUST be passed using <tt>ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER</tt>.
+     * @param parameters
+     * @return
      * @throws OXFException
      */
     public String buildInsertSensorRequest(final ParameterContainer parameters) throws OXFException {
@@ -119,12 +121,14 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         if (binding.equals(Binding.POX)) {
             return poxBuilder.buildInsertSensorRequest(parameters);
         }
-        throw new OXFException(String.format("Building InsertSensor request not supported via binding '%s'!",binding.toString()));
+        throw createOperationNotSupportedByBindingException("InsertSensor", binding);
     }
 
     /**
      * Builds a <b>Insert</b>Sensor request and returns it.
      * A SensorML document MUST be passed using <tt>ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER</tt>.
+     * @param parameters
+     * @return
      * @throws OXFException
      * @Deprecated since SOS 2.0 using SWES 2.0 this operation is called InsertSensor
      * @see #buildInsertSensorRequest(ParameterContainer)
