@@ -670,7 +670,7 @@ public class SOSAdapter implements IServiceAdapter {
      */
     @Override
     public String[] getSupportedVersions() {
-        return new ArrayList<String>(
+        return new ArrayList<>(
             SosUtil.SUPPORTED_VERSIONS.subList(1, SosUtil.SUPPORTED_VERSIONS.size()-1))
             .toArray(new String[SosUtil.SUPPORTED_VERSIONS.size()]);
     }

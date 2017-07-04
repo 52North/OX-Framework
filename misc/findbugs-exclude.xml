@@ -44,4 +44,19 @@
         <Class name="org.n52.oxf.ses.adapter.client.SESClient" />
         <Bug pattern="DMI_COLLECTION_OF_URLS,DM_DEFAULT_ENCODING" />
     </Match>
+    <!--
+        MODULE oxf-sos-adapter
+    -->
+    <Match>
+        <Class name="org.n52.oxf.sos.adapter.v200.SOSCapabilitiesMapper_200" />
+        <Bug pattern="EC_UNRELATED_CLASS_AND_INTERFACE" />
+    </Match>
+    <Match>
+        <Class name="org.n52.oxf.sos.request.v100.InsertObservationParameters" />
+        <Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" />
+    </Match>
+    <Match>
+        <Class name="org.n52.oxf.sos.request.v200.InsertObservationParameters" />
+        <Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" />
+    </Match>
 </FindBugsFilter>

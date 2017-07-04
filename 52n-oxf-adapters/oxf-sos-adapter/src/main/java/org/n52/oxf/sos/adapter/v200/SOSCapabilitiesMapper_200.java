@@ -202,7 +202,7 @@ public class SOSCapabilitiesMapper_200 {
                 //
                 // map the RequestMethods:
                 //
-                final List<RequestMethod> ocRequestMethods = new ArrayList<RequestMethod>();
+                final List<RequestMethod> ocRequestMethods = new ArrayList<>();
 
                 final RequestMethodType[] xbGetRequestMethods = xbDcp.getHTTP().getGetArray();
                 for (final RequestMethodType xbGetRequestMethod : xbGetRequestMethods) {
@@ -225,7 +225,7 @@ public class SOSCapabilitiesMapper_200 {
             // map the operations parameters:
             //
             final DomainType[] xbParameters = xbOperation.getParameterArray();
-            final List<Parameter> ocParameters = new ArrayList<Parameter>();
+            final List<Parameter> ocParameters = new ArrayList<>();
             for (final DomainType xbParameter : xbParameters) {
                 final String parameterName = xbParameter.getName();
                 if (!parameterName.equalsIgnoreCase("eventTime")) {
@@ -257,7 +257,7 @@ public class SOSCapabilitiesMapper_200 {
 		if (xbGetRequestMethod.getConstraintArray() != null ) {
 			for (final DomainType xbConstraint : xbGetRequestMethod.getConstraintArray()) {
 				final String name = xbConstraint.getName();
-				final ArrayList<String> allowedValues = new ArrayList<String>();
+				final ArrayList<String> allowedValues = new ArrayList<>();
 				if(xbConstraint.isSetAllowedValues()) {
 					for (final ValueType xbAllowedValue : xbConstraint.getAllowedValues().getValueArray()) {
 						allowedValues.add(xbAllowedValue.getStringValue());
@@ -280,16 +280,7 @@ public class SOSCapabilitiesMapper_200 {
             final InputStream responseStream = responseEntity.getContent();
             new SOSCapabilitiesMapper_200().mapCapabilities(CapabilitiesDocument.Factory.parse(responseStream));
         }
-        catch (final HttpClientException e) {
-        	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
-        }
-        catch (final IOException e) {
-        	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
-        }
-        catch (final XmlException e) {
-        	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
-        }
-        catch (final OXFException e) {
+        catch (final HttpClientException | IOException | XmlException | OXFException e) {
         	LOGGER.error("Exception thrown: {}",e.getMessage(),e);
         }
     }
@@ -304,16 +295,13 @@ public class SOSCapabilitiesMapper_200 {
         final String[] observablePropertys = contentsType.getObservablePropertyArray();
         final String[] responseFormats = contentsType.getResponseFormatArray();
         final Offering[] xb_obsOfferings = contentsType.getOfferingArray();
-        final ArrayList<ObservationOffering> oc_obsOffList = new ArrayList<ObservationOffering>();
+        final ArrayList<ObservationOffering> oc_obsOffList = new ArrayList<>();
         for (final Offering xb_obsOffering2 : xb_obsOfferings) {
             ObservationOfferingDocument xb_obsOfferingDoc = null;
             try {
                 xb_obsOfferingDoc = ObservationOfferingDocument.Factory.parse(xb_obsOffering2.newInputStream());
             }
-            catch (final XmlException e) {
-                throw new OXFException("Could not parse DOM node.", e);
-            }
-            catch (final IOException e) {
+            catch (final XmlException | IOException e) {
                 throw new OXFException("Could not parse DOM node.", e);
             }
             final ObservationOfferingType xb_obsOffering = xb_obsOfferingDoc.getObservationOffering();
@@ -328,10 +316,7 @@ public class SOSCapabilitiesMapper_200 {
             try {
                 envelopeDoc = EnvelopeDocument.Factory.parse(xb_obsOffering.getObservedArea().newInputStream());
             }
-            catch (final IOException e) {
-                throw new OXFException("Could not get DOM node.", e);
-            }
-            catch (final XmlException e) {
+            catch (final IOException | XmlException e) {
                 throw new OXFException("Could not get DOM node.", e);
             }
 
@@ -408,7 +393,7 @@ public class SOSCapabilitiesMapper_200 {
     private IDiscreteValueDomain<ITime> getTemporalDomain(final ObservationOfferingType xb_obsOffering)
     {
     	// TemporalDomain:
-    	final List<ITime> oc_timeList = new ArrayList<ITime>();
+    	final List<ITime> oc_timeList = new ArrayList<>();
     	final ResultTime resultTime = xb_obsOffering.getResultTime();
     	if (resultTime != null && resultTime.getTimePeriod() != null) {
     		final TimePeriodType xb_timePeriod = resultTime.getTimePeriod();
@@ -457,6 +442,7 @@ public class SOSCapabilitiesMapper_200 {
             if (comparisonOperators != null) {
                 final ComparisonOperatorType[] xb_compOpsArray = comparisonOperators.getComparisonOperatorArray();
                 for (final ComparisonOperatorType compOp : xb_compOpsArray) {
+                    // TODO is this working?
                     if (compOp.equals(ComparisonOperatorType.EQUAL)) {
                         final IFilter filter = new ComparisonFilter(ComparisonFilter.PROPERTY_IS_EQUAL_TO);
                         filterDomain.addPossibleValue(filter);
@@ -513,16 +499,15 @@ public class SOSCapabilitiesMapper_200 {
         if (serviceIdentification.getAbstractArray() != null) {
             oc_abstract = serviceIdentification.getAbstractArray(0).getStringValue();
         }
-        String[] oc_keywords = null;
 
-        final List<String> oc_keywordsVec = new ArrayList<String>();
+        final List<String> oc_keywordsVec = new ArrayList<>();
         for (int i = 0; i < serviceIdentification.getKeywordsArray().length; i++) {
             final LanguageStringType[] xb_keywords = serviceIdentification.getKeywordsArray(i).getKeywordArray();
             for (final LanguageStringType xb_keyword : xb_keywords) {
                 oc_keywordsVec.add(xb_keyword.getStringValue());
             }
         }
-        oc_keywords = new String[oc_keywordsVec.size()];
+        String[] oc_keywords = new String[oc_keywordsVec.size()];
         oc_keywordsVec.toArray(oc_keywords);
 
         return new ServiceIdentification(oc_title,
