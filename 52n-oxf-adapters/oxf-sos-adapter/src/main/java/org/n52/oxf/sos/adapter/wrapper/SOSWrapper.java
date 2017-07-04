@@ -39,6 +39,7 @@ import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
 import org.n52.oxf.adapter.ParameterContainer;
 import org.n52.oxf.adapter.ParameterShell;
+import org.n52.oxf.om.x20.OmParameter;
 import org.n52.oxf.ows.ExceptionReport;
 import org.n52.oxf.ows.ServiceDescriptor;
 import org.n52.oxf.ows.capabilities.Operation;
@@ -59,7 +60,8 @@ import org.n52.oxf.util.web.SimpleHttpClient;
 /**
  * SOSWrapper wraps all SOS operations implemented in SOSAdapter class.
  *
- * @author Eric
+ * @author <a href="mailto:e.fiedler@52north.org">Eric Fiedler</a>
+ *
  * @see SOSAdapter
  */
 public class SOSWrapper {
@@ -233,6 +235,8 @@ public class SOSWrapper {
     }
 
     /**
+     * @param insertSensorParameters
+     * @return
      * @throws OXFException
      * @throws ExceptionReport
      * @see {@link #doRegisterSensor(RegisterSensorParameters)}
@@ -416,6 +420,10 @@ public class SOSWrapper {
         }
         if (parameters.contains(EXTENSION)) {
             parameterContainer.addParameterShell(EXTENSION, parameters.getSingleValue(EXTENSION));
+        }
+        if (parameters.isSetOmParameter()) {
+            parameterContainer.addParameterShell(
+                    new ParameterShell(OmParameter.PARAMETER, (Object[])parameters.getOmParameter()));
         }
     }
 

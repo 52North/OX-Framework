@@ -33,6 +33,7 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.Before;
 
 import org.junit.Test;
 import org.n52.oxf.sos.observation.MeasurementObservationParameters;
@@ -49,26 +50,32 @@ import org.n52.oxf.sos.observation.TextObservationParameters;
  */
 public class InsertObservationParametersTest {
 
-    /**
-     * Checks the behaviour on valid constructor parameters.
-     */
+    private final String foiId = "my-feature-of-interest";
+
+    private final String sensorId = "my-sensor-id";
+
+    private ObservationParameters obsParameter;
+
+    private InsertObservationParameters parameters;
+
+    @Before
+    public void setUp() {
+        obsParameter = new MeasurementObservationParameters();
+        obsParameter.addFoiId(foiId);
+        parameters = new InsertObservationParameters(sensorId, obsParameter);
+    }
+
     @Test
     public void testValidConstructorParameters() {
         new InsertObservationParameters("", ObservationBuilder.createObservationForTypeText());
     }
 
-    /**
-     * Checks the behaviour on invalid constructor parameters.
-     */
     @Test(expected = IllegalArgumentException.class)
     public void testInvalidConstructorParameters() {
         new InsertObservationParameters(null, new TextObservationParameters());
         new InsertObservationParameters(null, ObservationBuilder.createObservationForTypeText());
     }
 
-    /**
-     * Checks, whether the mandatory parameters were applied correctly.
-     */
     @Test
     public void testApplyingAndGettingMandatoryParameters() {
         final ObservationBuilder observationBuilder = ObservationBuilder.createObservationForTypeText();
@@ -82,9 +89,6 @@ public class InsertObservationParametersTest {
         assertEquals(INSERT_OBSERVATION_TYPE_TEXT, parMan_02);
     }
 
-    /**
-     * Checks, whether the optional parameters were applied correctly.
-     */
     @Test
     public void testApplyingAndGettingOptionalParameters() {
         final TextObservationBuilder observationBuilder = ObservationBuilder.createObservationForTypeText();
@@ -124,19 +128,12 @@ public class InsertObservationParametersTest {
     }
 
     @Test
-    public void should_return_parameters_map_key_and_value_unmodified()
-    {
-        final ObservationParameters obsParameter = new MeasurementObservationParameters();
-        final String foiId = "my-feature-of-interest";
-        obsParameter.addFoiId(foiId);
-        final String sensorId = "my-sensor-id";
-        final InsertObservationParameters builder = new InsertObservationParameters(sensorId, obsParameter);
-        final Map<String, String> builderParameters = builder.getParameters();
+    public void should_return_parameters_map_key_and_value_unmodified() {
+        final Map<String, String> builderParameters = parameters.getParameters();
 
         assertThat(builderParameters, hasKey(INSERT_OBSERVATION_FOI_ID_PARAMETER));
         assertThat(builderParameters, hasEntry(INSERT_OBSERVATION_FOI_ID_PARAMETER,foiId));
         assertThat(builderParameters, hasKey(INSERT_OBSERVATION_PROCEDURE_PARAMETER));
         assertThat(builderParameters, hasEntry(INSERT_OBSERVATION_PROCEDURE_PARAMETER,sensorId));
     }
-
 }
