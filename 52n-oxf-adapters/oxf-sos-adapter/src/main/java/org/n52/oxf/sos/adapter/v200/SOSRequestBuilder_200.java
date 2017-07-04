@@ -53,10 +53,6 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
 
     private final SOSRequestBuilder200POX poxBuilder = new SOSRequestBuilder200POX();
 
-    private final SOSRequestBuilder200KVP kvpBuilder = new SOSRequestBuilder200KVP();
-
-    private final SOSRequestBuilder200SOAP soapBuilder = new SOSRequestBuilder200SOAP();
-
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSRequestBuilder_200.class);
 
     @Override
