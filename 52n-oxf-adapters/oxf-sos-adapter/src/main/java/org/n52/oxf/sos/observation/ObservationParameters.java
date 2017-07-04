@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -71,7 +71,7 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
      * @param resultTime
      */
     public void addResultTime(final String resultTime) {
-    	addNonEmpty(INSERT_OBSERVATION_RESULT_TIME, resultTime);
+        addNonEmpty(INSERT_OBSERVATION_RESULT_TIME, resultTime);
     }
 
     /**
@@ -79,31 +79,39 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
      * @param phenomenonTime
      */
     public void addPhenomenonTime(final String phenomenonTime) {
-    	addNonEmpty(INSERT_OBSERVATION_PHENOMENON_TIME, phenomenonTime);
+        addNonEmpty(INSERT_OBSERVATION_PHENOMENON_TIME, phenomenonTime);
     }
 
-	public void addExtension(final String... anyXML) {
-		addNonEmpty(EXTENSION, Arrays.asList(anyXML));
-	}
+    /**
+     * SOS 2.0 specific
+     * @param omParameterXML
+     */
+    public void addOmParameter(final String... omParameterXML) {
+    addNonEmpty(INSERT_OBSERVATION_OM_PARAMETER_PARAMETERS, Arrays.asList(omParameterXML));
+    }
+
+    public void addExtension(final String... anyXML) {
+        addNonEmpty(EXTENSION, Arrays.asList(anyXML));
+    }
 
     public void addFoiId(final String foiId) {
-    	addNonEmpty(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);
+        addNonEmpty(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);
     }
 
     public void addNewFoiId(final String foiId) {
-    	addNonEmpty(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER, foiId);
+        addNonEmpty(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER, foiId);
     }
 
     public void addNewFoiName(final String foiName) {
-    	addNonEmpty(INSERT_OBSERVATION_NEW_FOI_NAME, foiName);
+        addNonEmpty(INSERT_OBSERVATION_NEW_FOI_NAME, foiName);
     }
 
     public void addFoiDescription(final String foiDescription) {
-    	addNonEmpty(INSERT_OBSERVATION_NEW_FOI_DESC, foiDescription);
+        addNonEmpty(INSERT_OBSERVATION_NEW_FOI_DESC, foiDescription);
     }
 
     public void addFoiPosition(final String foiPosition) {
-    	addNonEmpty(INSERT_OBSERVATION_NEW_FOI_POSITION, foiPosition);
+        addNonEmpty(INSERT_OBSERVATION_NEW_FOI_POSITION, foiPosition);
     }
 
     public void addSrsPosition(final String srsPosition) {
@@ -111,12 +119,12 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
     }
 
     public void addObservedProperty(final String observedProperty) {
-    	addNonEmpty(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
+        addNonEmpty(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
     }
 
-	public void addProcedure(final String procedureId) {
-		addNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, procedureId);
-	}
+    public void addProcedure(final String procedureId) {
+        addNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, procedureId);
+    }
 
     // end -> parameter methods shared by: MeasurementObservationParameters and CategoryObservationBuilder
 

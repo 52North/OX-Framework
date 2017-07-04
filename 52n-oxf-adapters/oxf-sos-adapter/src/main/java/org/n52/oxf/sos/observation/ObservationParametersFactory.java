@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -35,7 +35,7 @@ public interface ObservationParametersFactory {
      * Creates an observation parameter assembly for well known observation types (as Count, or Measurement).
      * If given observation type does not match, {@link #createExtendedObservationFor(QName)} is called as a
      * fallback to let implementation specific factories create custom observation types.
-     * 
+     *
      * @param type
      *        the observation type to create parameter assembly for.
      * @return an observation parameters assembly to create InsertObservation request.
@@ -46,7 +46,7 @@ public interface ObservationParametersFactory {
      * A fallback which is called when no observation type matches in
      * {@link #createObservationParametersFor(QName)}. Can be overridden by implementors who wants to extend
      * already known observation types with custom types.
-     * 
+     *
      * @param type
      *        which extended Observation type to create.
      * @return an observation parameters assembly to create InsertObservation request.

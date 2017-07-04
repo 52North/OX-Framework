@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -29,12 +29,12 @@ package org.n52.oxf.ows.capabilities;
 
 
 /**
- * 
+ *
  * ServiceIdentification describes the specific service.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster </a>
  * @author <a href="mailto:broering@52north.org">Arne Broering </a>
- * 
+ *
  */
 public class ServiceIdentification extends Description {
 
@@ -81,7 +81,7 @@ public class ServiceIdentification extends Description {
      * sets the accessConstraints variable on initialization to "NONE" (as specified by OWS COMMON). <br>
      * sets the fees variable on initialization to "NONE" (as specified by OWS COMMON). <br>
      * <br>
-     * 
+     *
      * @param title
      *        the title of the service.
      * @param serviceType
@@ -106,9 +106,9 @@ public class ServiceIdentification extends Description {
                                  String[] accessConstraints,
                                  String abstractDescription,
                                  String[] keywords) {
-        
+
         super(title, abstractDescription, keywords);
-        
+
         setServiceType(serviceType);
         setServiceTypeVersion(serviceTypeVersion);
         setFees(fees);
@@ -124,19 +124,23 @@ public class ServiceIdentification extends Description {
         res += "<Fees>" + fees + "</Fees>";
 
         if (accessConstraints != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (String s : accessConstraints) {
-                res += "<AccessConstraint>";
-                res += s;
-                res += "</AccessConstraint>";
+                sb.append("<AccessConstraint>")
+                        .append(s)
+                        .append("</AccessConstraint>");
             }
+            res = sb.toString();
         }
 
         if (serviceTypeVersion != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (String s : serviceTypeVersion) {
-                res += "<ServiceTypeVersion>";
-                res += s;
-                res += "</ServiceTypeVersion>";
+                sb.append("<ServiceTypeVersion>")
+                        .append(s)
+                        .append("</ServiceTypeVersion>");
             }
+            res = sb.toString();
         }
 
         res += "</ServiceIdentification>";
@@ -144,7 +148,7 @@ public class ServiceIdentification extends Description {
     }
 
     public String[] getAccessConstraints() {
-        return accessConstraints;
+        return accessConstraints != null? accessConstraints.clone() : null;
     }
 
     public String getFees() {
@@ -152,12 +156,12 @@ public class ServiceIdentification extends Description {
     }
 
     public String[] getServiceTypeVersion() {
-        return serviceTypeVersion;
+        return serviceTypeVersion != null? serviceTypeVersion.clone() : null;
     }
 
     /**
      * sets the version for this service
-     * 
+     *
      * @param version the version to set
      * @throws IllegalArgumentException
      *         if version.length == 0 or version[0].equals("").

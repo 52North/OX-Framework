@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -60,7 +60,7 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters{
     /**
      * Creates a minimal ready to go GetCapabilities Request. Use the instance methods to add further
      * parameters.
-     * 
+     *
      * @param service
      *        the service type, e.g. <code>SPS</code>, or <code>SOS</code>.
      */
@@ -73,7 +73,7 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters{
      * complete service metadata document.<br>
      * <br>
      * There is at maximum one value possible. If an update sequence was set before, it will be overridden.
-     * 
+     *
      * @param updateSequence
      *        a content section the capabilities shall contain.
      * @return this instance for method chaining.
@@ -87,7 +87,7 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters{
      * Adds accepted versions of the capabilities.<br>
      * <br>
      * The parameter is optional and multiple values are allowed. The ordering is important.
-     * 
+     *
      * @param acceptVersions
      *        a sequence of accepted capabilities versions (from high priority to low).
      * @return this instance for method chaining.
@@ -101,7 +101,7 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters{
      * Adds a content section the capabilities shall contain.<br>
      * <br>
      * The parameter is optional and multiple values are allowed.
-     * 
+     *
      * @param sections
      *        a sequence of content sections the capabilities shall contain.
      * @return this instance for method chaining.
@@ -115,7 +115,7 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters{
      * Adds an accepted format of the capabilities.<br>
      * <br>
      * The parameter is optional and multiple values are allowed.
-     * 
+     *
      * @param formats
      *        a sequence of accepted formats, e.g. <code>text/xml</code>.
      * @return this instance for method chaining.
@@ -129,7 +129,7 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters{
      * Offers the ability to add non-standard parameters.<br>
      * <br>
      * TODO add some example of a custom request builders (especially for KVP requests)
-     * 
+     *
      * @param parameter
      *        the parameter name.
      * @param value
@@ -148,7 +148,7 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters{
     public RequestParameters getNonStandardParameters() {
         return nonStandardParameters;
     }
-    
-    private class GetCapabilitiesParametersSeam extends MultiValueRequestParameters {}
+
+    private static class GetCapabilitiesParametersSeam extends MultiValueRequestParameters {}
 
 }

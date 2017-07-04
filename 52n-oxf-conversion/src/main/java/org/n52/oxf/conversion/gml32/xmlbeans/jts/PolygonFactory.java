@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -52,104 +52,104 @@ import static org.n52.oxf.conversion.gml32.xmlbeans.jts.GMLGeometryFactory.creat
 /**
  * Outsource of {@link Polygon}-related methods,
  * closely linked with {@link GMLGeometryFactory}.
- * 
+ *
  * @author matthes rieke
  *
  */
 public class PolygonFactory {
 
-	/**
-	 * Creates a polygon with one exterior and 0..*
-	 * interior holes.
-	 * 
-	 * @param exterior the exterior ring
-	 * @param interiors the holes
-	 * @param srs as defined in srsName
-	 * @return a raw polygon
-	 */
-	public static Polygon createPolygon(AbstractRingPropertyType exterior,
-			AbstractRingPropertyType[] interiors, String srs) {
-		LinearRing exteriorRing = createRing(exterior.getAbstractRing(), srs);
+    /**
+     * Creates a polygon with one exterior and 0..*
+     * interior holes.
+     *
+     * @param exterior the exterior ring
+     * @param interiors the holes
+     * @param srs as defined in srsName
+     * @return a raw polygon
+     */
+    public static Polygon createPolygon(AbstractRingPropertyType exterior,
+            AbstractRingPropertyType[] interiors, String srs) {
+        LinearRing exteriorRing = createRing(exterior.getAbstractRing(), srs);
 
-		List<LinearRing> interiorRings = new ArrayList<LinearRing>();
-		for (AbstractRingPropertyType interiorRing : interiors) {
-			interiorRings.add(createRing(interiorRing.getAbstractRing(), srs));
-		}
-		LinearRing[] castedArray = new LinearRing[0];
-		return exteriorRing.getFactory().createPolygon(exteriorRing, interiorRings.toArray(castedArray));
-	}
+        List<LinearRing> interiorRings = new ArrayList<LinearRing>();
+        for (AbstractRingPropertyType interiorRing : interiors) {
+            interiorRings.add(createRing(interiorRing.getAbstractRing(), srs));
+        }
+        LinearRing[] castedArray = new LinearRing[0];
+        return exteriorRing.getFactory().createPolygon(exteriorRing, interiorRings.toArray(castedArray));
+    }
 
-	/**
-	 * @param patch the gml polygon patch
-	 * @param srs as defined in srsName
-	 * @return a polygon with a defined interpolation method.
-	 */
-	public static GeometryWithInterpolation createPolygonPatch(AbstractSurfacePatchType abstractPatch, String srs) {
-		if (!(abstractPatch instanceof PolygonPatchType)) {
-			throw new UnsupportedOperationException("Currently, only PolygonPatch is supported.");
-		}
-		
-		PolygonPatchType patch = (PolygonPatchType) abstractPatch;
-		
-		if (!patch.isSetExterior()) throw new IllegalStateException("No exterior found in the Polygon patch.");
+    /**
+     * @param patch the gml polygon patch
+     * @param srs as defined in srsName
+     * @return a polygon with a defined interpolation method.
+     */
+    public static GeometryWithInterpolation createPolygonPatch(AbstractSurfacePatchType abstractPatch, String srs) {
+        if (!(abstractPatch instanceof PolygonPatchType)) {
+            throw new UnsupportedOperationException("Currently, only PolygonPatch is supported.");
+        }
 
-		Polygon polygon = createPolygon(patch.getExterior(), patch.getInteriorArray(), srs);
+        PolygonPatchType patch = (PolygonPatchType) abstractPatch;
 
-		String interpol;
-		if (patch.isSetInterpolation()) {
-			interpol = patch.getInterpolation().toString();
-		} else {
-			interpol = GeometryWithInterpolation.LINEAR;
-		}
+        if (!patch.isSetExterior()) throw new IllegalStateException("No exterior found in the Polygon patch.");
 
-		return new GeometryWithInterpolation(polygon, interpol);
-	}
-	
-	public static Geometry createPolygon(BoundingShapeType boundedBy) {
-		if (boundedBy.isSetEnvelope()) {
-			return createPolygon(boundedBy.getEnvelope());
-		}
-		return null;
-	}
+        Polygon polygon = createPolygon(patch.getExterior(), patch.getInteriorArray(), srs);
 
-	public static Geometry createPolygon(PolygonType polygon) {
-		LinearRing ext = createRing(polygon.getExterior().getAbstractRing(), polygon.getSrsName());
-		
-		List<LinearRing> innerRings = new ArrayList<LinearRing>(polygon.getInteriorArray().length);
-		for (AbstractRingPropertyType innerRing : polygon.getInteriorArray()) {
-			innerRings.add(createRing(innerRing.getAbstractRing(), polygon.getSrsName()));
-		}
-		
-		GeometryFactory gf = new GeometryFactory();
-		return gf.createPolygon(ext, innerRings.toArray(new LinearRing[]{}));
-	}
-	
-	public static Geometry createPolygon(EnvelopeType envelope) {
-		String srs = envelope.getSrsName();
-		if (envelope.isSetLowerCorner() && envelope.isSetUpperCorner()) {
-			Coordinate lowerLeft = createCoordinatesFromPosition(envelope.getLowerCorner(), srs);
-			Coordinate upperRight = createCoordinatesFromPosition(envelope.getUpperCorner(), srs);
-			Coordinate upperLeft = new Coordinate(lowerLeft.x, upperRight.y);
-			Coordinate lowerRight = new Coordinate(upperRight.x, lowerLeft.y);
-			GeometryFactory gf = new GeometryFactory();
-			LinearRing lr = gf.createLinearRing(new Coordinate[] {
-					lowerLeft, upperLeft, upperRight, lowerRight, lowerLeft
-			});
-			return gf.createPolygon(lr, null);
-		}
-		
-		if (envelope.isSetCoordinates()) {
-			Coordinate[] coords = createCoordinatesFromCoordinates(envelope.getCoordinates(),
-					envelope.getSrsName());
-			GeometryFactory gf = new GeometryFactory();
-			LinearRing lr = gf.createLinearRing(coords);
-			return gf.createPolygon(lr, null);
-		}
-		
-		if (envelope.getPosArray().length > 0) {
+        String interpol;
+        if (patch.isSetInterpolation()) {
+            interpol = patch.getInterpolation().toString();
+        } else {
+            interpol = GeometryWithInterpolation.LINEAR;
+        }
 
-		}
-		throw new UnsupportedOperationException("Currently only gml:Coordinates and gml:posList are supported.");
-	}
-	
+        return new GeometryWithInterpolation(polygon, interpol);
+    }
+
+    public static Geometry createPolygon(BoundingShapeType boundedBy) {
+        if (boundedBy.isSetEnvelope()) {
+            return createPolygon(boundedBy.getEnvelope());
+        }
+        return null;
+    }
+
+    public static Geometry createPolygon(PolygonType polygon) {
+        LinearRing ext = createRing(polygon.getExterior().getAbstractRing(), polygon.getSrsName());
+
+        List<LinearRing> innerRings = new ArrayList<LinearRing>(polygon.getInteriorArray().length);
+        for (AbstractRingPropertyType innerRing : polygon.getInteriorArray()) {
+            innerRings.add(createRing(innerRing.getAbstractRing(), polygon.getSrsName()));
+        }
+
+        GeometryFactory gf = new GeometryFactory();
+        return gf.createPolygon(ext, innerRings.toArray(new LinearRing[]{}));
+    }
+
+    public static Geometry createPolygon(EnvelopeType envelope) {
+        String srs = envelope.getSrsName();
+        if (envelope.isSetLowerCorner() && envelope.isSetUpperCorner()) {
+            Coordinate lowerLeft = createCoordinatesFromPosition(envelope.getLowerCorner(), srs);
+            Coordinate upperRight = createCoordinatesFromPosition(envelope.getUpperCorner(), srs);
+            Coordinate upperLeft = new Coordinate(lowerLeft.x, upperRight.y);
+            Coordinate lowerRight = new Coordinate(upperRight.x, lowerLeft.y);
+            GeometryFactory gf = new GeometryFactory();
+            LinearRing lr = gf.createLinearRing(new Coordinate[] {
+                    lowerLeft, upperLeft, upperRight, lowerRight, lowerLeft
+            });
+            return gf.createPolygon(lr, null);
+        }
+
+        if (envelope.isSetCoordinates()) {
+            Coordinate[] coords = createCoordinatesFromCoordinates(envelope.getCoordinates(),
+                    envelope.getSrsName());
+            GeometryFactory gf = new GeometryFactory();
+            LinearRing lr = gf.createLinearRing(coords);
+            return gf.createPolygon(lr, null);
+        }
+
+        if (envelope.getPosArray().length > 0) {
+
+        }
+        throw new UnsupportedOperationException("Currently only gml:Coordinates and gml:posList are supported.");
+    }
+
 }

@@ -6,8 +6,8 @@
     xmlns:sos="http://www.opengis.net/sos/2.0" xmlns:fes="http://www.opengis.net/fes/2.0"
     xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:ogc="http://www.opengis.net/ogc"
     xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!--ServiceIdentification contains general information about the service 
-        like title, type and version as well as information about supported profiles 
+    <!--ServiceIdentification contains general information about the service
+        like title, type and version as well as information about supported profiles
         of the service -->
     <ows:ServiceIdentification>
         <ows:Title>AirQualitySOS</ows:Title>
@@ -34,7 +34,7 @@
         <ows:Fees>NONE</ows:Fees>
         <ows:AccessConstraints>NONE</ows:AccessConstraints>
     </ows:ServiceIdentification>
-    <!--ServiceProvider section contains information about service provider 
+    <!--ServiceProvider section contains information about service provider
         like contact, adress, etc. -->
     <ows:ServiceProvider>
         <ows:ProviderName>52North</ows:ProviderName>
@@ -57,7 +57,7 @@
             <ows:Role />
         </ows:ServiceContact>
     </ows:ServiceProvider>
-    <!--the filterCapabilities section lists the filters and operands which 
+    <!--the filterCapabilities section lists the filters and operands which
         are supported in the observation, result and feature retrieval operations -->
     <sos:filterCapabilities>
         <fes:Filter_Capabilities>

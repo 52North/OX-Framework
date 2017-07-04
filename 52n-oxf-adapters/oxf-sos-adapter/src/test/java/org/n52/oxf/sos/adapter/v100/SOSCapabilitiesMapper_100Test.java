@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -37,21 +37,21 @@ import org.n52.oxf.OXFException;
 
 
 public class SOSCapabilitiesMapper_100Test {
-	
-	private static final String SOS_VERSION = "1.0.0";
 
-	@Test
-	public void shouldNotThrowNPEWhileReceivingMissingContentsSection() throws OXFException {
-		CapabilitiesDocument capabilitiesDoc = CapabilitiesDocument.Factory.newInstance();
-		Capabilities capabilities = capabilitiesDoc.addNewCapabilities();
-		ServiceIdentification serviceIdentification = capabilities.addNewServiceIdentification();
-		serviceIdentification.addNewTitle().setStringValue("test-title");
-		serviceIdentification.addNewServiceType().setStringValue("test-service-type");
-		serviceIdentification.addNewAbstract();
-		serviceIdentification.addNewServiceTypeVersion().setStringValue(SOS_VERSION);
-		capabilities.setVersion(SOS_VERSION);
-		capabilities.addNewOperationsMetadata();
-		new SOSCapabilitiesMapper_100().mapCapabilities(capabilitiesDoc);
-	}
+    private static final String SOS_VERSION = "1.0.0";
+
+    @Test
+    public void shouldNotThrowNPEWhileReceivingMissingContentsSection() throws OXFException {
+        CapabilitiesDocument capabilitiesDoc = CapabilitiesDocument.Factory.newInstance();
+        Capabilities capabilities = capabilitiesDoc.addNewCapabilities();
+        ServiceIdentification serviceIdentification = capabilities.addNewServiceIdentification();
+        serviceIdentification.addNewTitle().setStringValue("test-title");
+        serviceIdentification.addNewServiceType().setStringValue("test-service-type");
+        serviceIdentification.addNewAbstract();
+        serviceIdentification.addNewServiceTypeVersion().setStringValue(SOS_VERSION);
+        capabilities.setVersion(SOS_VERSION);
+        capabilities.addNewOperationsMetadata();
+        new SOSCapabilitiesMapper_100().mapCapabilities(capabilitiesDoc);
+    }
 
 }

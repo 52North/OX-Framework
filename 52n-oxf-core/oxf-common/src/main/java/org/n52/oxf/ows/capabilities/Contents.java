@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -35,13 +35,13 @@ import java.util.List;
  * elements. dataIdentifications are something like FeatureTypes (WFS) or Layers (WMS) or Coverages (WCS).
  * This container can be empty or null, if the service has no data (i.e. WebNotificationService,
  * WebAlertService, SensorPlaningService).
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering </a>
  */
 public class Contents {
 
-    private List<Dataset> dataIdentificationList;
+    private final List<Dataset> dataIdentificationList;
 
     /**
      * initializes a new (empty) ArrayList for dataIdentifications.
@@ -66,9 +66,11 @@ public class Contents {
 
         res += "<DataIdentifications>";
         if (dataIdentificationList != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (Dataset dataID : dataIdentificationList) {
-                res += dataID.toXML();
+                sb.append(dataID.toXML());
             }
+            res = sb.toString();
         }
         res += "</DataIdentifications>";
 
@@ -81,7 +83,7 @@ public class Contents {
     }
 
     /**
-     * 
+     *
      * @param identifier a Dataset identifier
      * @return the dataset with the specified identifier/name or <code>null</code> if there is no dataset
      *         with the specified identifier/name.
@@ -99,13 +101,13 @@ public class Contents {
     public int getDataIdentificationCount() {
         return dataIdentificationList.size();
     }
-    
+
     public String[] getDataIdentificationIDArray() {
         String[] idArray = new String[dataIdentificationList.size()];
-        
+
         for (int i=0; i<dataIdentificationList.size(); i++)
             idArray[i] = dataIdentificationList.get(i).getIdentifier();
-        
+
         return idArray;
     }
 

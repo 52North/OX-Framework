@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -45,91 +45,91 @@ import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;
 
 public class SESServiceInstance {
 
-	private static final Logger logger = LoggerFactory.getLogger(SESServiceInstance.class);
-	private boolean ready = false;
-	private URL host;
-	private Object availableMutex = new Object();
-	protected boolean serviceTested = false;
+    private static final Logger logger = LoggerFactory.getLogger(SESServiceInstance.class);
+    private boolean ready = false;
+    private URL host;
+    private Object availableMutex = new Object();
+    protected boolean serviceTested = false;
 
 
-	public SESServiceInstance(URL instance) {
-		this.host = instance;
-		logger.info("using ses host at {}", host);
+    public SESServiceInstance(URL instance) {
+        this.host = instance;
+        logger.info("using ses host at {}", host);
 
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				long start = System.currentTimeMillis();
-				boolean success = false;
-				try {
-					while (System.currentTimeMillis() - start < 10000) {
-						Thread.sleep(1000);
-						if (requestCapabilities()) {
-							success = true;
-							break;
-						}
-					}
-				} catch (InterruptedException e) {
-					logger.warn(e.getMessage(), e);
-				}
-				synchronized (availableMutex) {
-					ready = success;
-					serviceTested = true;
-					availableMutex.notifyAll();
-				}
-			}
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long start = System.currentTimeMillis();
+                boolean success = false;
+                try {
+                    while (System.currentTimeMillis() - start < 10000) {
+                        Thread.sleep(1000);
+                        if (requestCapabilities()) {
+                            success = true;
+                            break;
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    logger.warn(e.getMessage(), e);
+                }
+                synchronized (availableMutex) {
+                    ready = success;
+                    serviceTested = true;
+                    availableMutex.notifyAll();
+                }
+            }
 
-			private boolean requestCapabilities() {
-				SESAdapter adapter = new SESAdapter("0.0.0");
+            private boolean requestCapabilities() {
+                SESAdapter adapter = new SESAdapter("0.0.0");
 
-		        Operation op = new Operation(SESAdapter.GET_CAPABILITIES, null, host.toExternalForm());
+                Operation op = new Operation(SESAdapter.GET_CAPABILITIES, null, host.toExternalForm());
 
-		        ParameterContainer parameter = new ParameterContainer();
-		        try {
-					parameter.addParameterShell(ISESRequestBuilder.GET_CAPABILITIES_SES_URL, host.toExternalForm());
-			        OperationResult opResult = adapter.doOperation(op, parameter);
+                ParameterContainer parameter = new ParameterContainer();
+                try {
+                    parameter.addParameterShell(ISESRequestBuilder.GET_CAPABILITIES_SES_URL, host.toExternalForm());
+                    OperationResult opResult = adapter.doOperation(op, parameter);
 
-			        if (opResult == null) return false;
+                    if (opResult == null) return false;
 
-			        XmlObject response = XmlObject.Factory.parse(opResult.getIncomingResultAsAutoCloseStream());
-			        if (response instanceof EnvelopeDocument) {
-			        	if (((EnvelopeDocument) response).getEnvelope().getBody().xmlText().contains("Capabilities")) {
-			        		return true;
-			        	}
-			        }
-				} catch (OXFException e) {
-					logger.warn(e.getMessage());
-				} catch (XmlException e) {
-					logger.warn(e.getMessage());
-				} catch (IOException e) {
-					logger.warn(e.getMessage());
-				} catch (ExceptionReport e) {
-					logger.warn(e.getMessage());
-				}
+                    XmlObject response = XmlObject.Factory.parse(opResult.getIncomingResultAsAutoCloseStream());
+                    if (response instanceof EnvelopeDocument) {
+                        if (((EnvelopeDocument) response).getEnvelope().getBody().xmlText().contains("Capabilities")) {
+                            return true;
+                        }
+                    }
+                } catch (OXFException e) {
+                    logger.warn(e.getMessage());
+                } catch (XmlException e) {
+                    logger.warn(e.getMessage());
+                } catch (IOException e) {
+                    logger.warn(e.getMessage());
+                } catch (ExceptionReport e) {
+                    logger.warn(e.getMessage());
+                }
 
-		        return false;
-			}
-		}).start();
-	}
+                return false;
+            }
+        }).start();
+    }
 
-	public void waitUntilAvailable() {
-		synchronized (availableMutex) {
-			while (!serviceTested) {
-				logger.info("Waiting for service to be ready.");
-				try {
-					availableMutex.wait();
-				} catch (InterruptedException e) {
-					logger.warn(e.getMessage());
-				}
-			}
-			if (!ready) throw new IllegalStateException("Could not access the service at "+host);
-		}
-		logger.info("Service Ready!");
-	}
+    public void waitUntilAvailable() {
+        synchronized (availableMutex) {
+            while (!serviceTested) {
+                logger.info("Waiting for service to be ready.");
+                try {
+                    availableMutex.wait();
+                } catch (InterruptedException e) {
+                    logger.warn(e.getMessage());
+                }
+            }
+            if (!ready) throw new IllegalStateException("Could not access the service at "+host);
+        }
+        logger.info("Service Ready!");
+    }
 
-	public URL getHost() {
-		return host;
-	}
+    public URL getHost() {
+        return host;
+    }
 
 
 

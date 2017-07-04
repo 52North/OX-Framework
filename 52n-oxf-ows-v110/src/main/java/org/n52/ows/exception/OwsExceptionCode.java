@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -36,9 +36,9 @@ public enum OwsExceptionCode {
     INVALID_UPDATE_SEQUENCE("InvalidUpdateSequence"),
     OPTION_NOT_SUPPORTED("OptionNotSupported"),
     NO_APPLICABLE_CODE("NoApplicableCode");
-    
+
     private String exceptionCode;
-    
+
     private OwsExceptionCode(String exceptionCode) {
         this.exceptionCode = exceptionCode;
     }
@@ -47,5 +47,5 @@ public enum OwsExceptionCode {
         return exceptionCode;
     }
 
-    
+
 }

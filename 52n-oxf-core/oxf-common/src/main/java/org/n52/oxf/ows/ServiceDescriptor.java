@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -35,7 +35,7 @@ import org.n52.oxf.ows.capabilities.ServiceProvider;
 /**
  * This class provides access to all the serviceMetadata which is described in the OWS Common spec (04-016r5h)
  * of the OGC. This Descriptor has to be filled by each ServiceAdapter.
- * 
+ *
  * The main parts of that model are:
  * <ul>
  * <li>ServiceIdentification</li>
@@ -43,7 +43,7 @@ import org.n52.oxf.ows.capabilities.ServiceProvider;
  * <li>OperationsMetadata</li>
  * <li>Contents</li>
  * </ul>
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster </a>
  * @author <a href="mailto:broering@52north.org">Arne Broering </a>
  */
@@ -138,7 +138,7 @@ public class ServiceDescriptor {
 
     /**
      * sets the version of the GetCapabilities operation response.
-     * 
+     *
      * @param version the version to set
      * @throws IllegalArgumentException
      *         if version.equals("").

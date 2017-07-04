@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -43,12 +43,9 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.SERVICE;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.VERSION;
 
 import java.io.IOException;
-
-import net.opengis.ows.x11.ExceptionReportDocument;
-import net.opengis.ows.x11.ExceptionType;
+import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -79,18 +76,23 @@ import org.n52.oxf.util.web.BasicAuthenticationHttpClient;
 import org.n52.oxf.util.web.GzipEnabledHttpClient;
 import org.n52.oxf.util.web.HttpClient;
 import org.n52.oxf.util.web.HttpClientException;
-import org.n52.oxf.util.web.PreemptiveBasicAuthenticationHttpClient;
 import org.n52.oxf.util.web.ProxyAwareHttpClient;
 import org.n52.oxf.util.web.SimpleHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import net.opengis.ows.x11.ExceptionReportDocument;
+import net.opengis.ows.x11.ExceptionType;
+
 /**
  * SOS-Adapter for the OX-Framework
  *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
+ * @author <a href="mailto:e.h.juerens@52north.org">Eike Hinderk J&uumlrrens</a>
  */
 public class SOSAdapter implements IServiceAdapter {
+
+    private static final String DEFAULT_BINDING = "POX";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SOSAdapter.class);
 
@@ -146,10 +148,10 @@ public class SOSAdapter implements IServiceAdapter {
      * @param httpclient
      *        the (decorated) {@link HttpClient} to use for service connections.
      */
-    public SOSAdapter(final String serviceVersion, final HttpClient httpclient) {
+    public SOSAdapter(final String serviceVersion, final HttpClient httpClient) {
         this(serviceVersion, (ISOSRequestBuilder) null);
         // override simple client
-        httpClient = httpclient;
+        this.httpClient = httpClient;
     }
 
     /**
@@ -244,7 +246,7 @@ public class SOSAdapter implements IServiceAdapter {
         final ParameterContainer paramContainer = new ParameterContainer();
         paramContainer.addParameterShell(GET_CAPABILITIES_ACCEPT_VERSIONS_PARAMETER, serviceVersion);
         paramContainer.addParameterShell(SERVICE, "SOS");
-        paramContainer.addParameterShell(BINDING, binding.name());
+        paramContainer.addParameterShell(BINDING, binding != null? binding.name() : DEFAULT_BINDING);
         final String baseUrlGet = serviceEndpoint + "?";
         final Operation operation = new Operation("GetCapabilities", baseUrlGet, serviceEndpoint);
         return initService(doOperation(operation, paramContainer));
@@ -312,7 +314,7 @@ public class SOSAdapter implements IServiceAdapter {
      * @return the result of the executed operation
      */
     @Override
-    public OperationResult doOperation(final Operation operation, final ParameterContainer parameters) 
+    public OperationResult doOperation(final Operation operation, final ParameterContainer parameters)
             throws ExceptionReport, OXFException {
 
         OperationResult result = null;
@@ -357,6 +359,10 @@ public class SOSAdapter implements IServiceAdapter {
             uri = operation.getDcps()[0].getHTTPPostRequestMethods().get(0).getOnlineResource().getHref();
         }
 
+        if (uri == null) {
+            throw new OXFException("Could not determine service endpoint for operation from capabilities!");
+        }
+
         /*
          *  TODO implement support for different bindings using other HTTP methods than POST!
          * Ideas: binding information in parameters and some default values resulting in the same
@@ -364,9 +370,9 @@ public class SOSAdapter implements IServiceAdapter {
          */
 
         final ContentType mimetype = getMimetype(parameters);
-        
+
         HttpClient myHttpClient = httpClient;
-        
+
         if(isSetAuthtoken(parameters)) {
             myHttpClient = new AuthTokenAwareHttpClient(httpClient, (String)parameters.getParameterShellWithCommonName(ISOSRequestBuilder.AUTH_TOKEN)
                     .getSpecifiedValue());
@@ -605,7 +611,7 @@ public class SOSAdapter implements IServiceAdapter {
 
         return featureCollection;
     }
-    
+
     private ExceptionReport parseOws110ExceptionReport(final OperationResult result) throws IOException, XmlException {
         final ExceptionReportDocument xb_execRepDoc = ExceptionReportDocument.Factory.parse(result.getIncomingResultAsAutoCloseStream());
         final net.opengis.ows.x11.ExceptionType[] xb_exceptions = xb_execRepDoc.getExceptionReport().getExceptionArray();
@@ -664,7 +670,9 @@ public class SOSAdapter implements IServiceAdapter {
      */
     @Override
     public String[] getSupportedVersions() {
-        return SosUtil.SUPPORTED_VERSIONS;
+        return new ArrayList<>(
+            SosUtil.SUPPORTED_VERSIONS.subList(1, SosUtil.SUPPORTED_VERSIONS.size()-1))
+            .toArray(new String[SosUtil.SUPPORTED_VERSIONS.size()]);
     }
 
     public ISOSRequestBuilder getRequestBuilder() {

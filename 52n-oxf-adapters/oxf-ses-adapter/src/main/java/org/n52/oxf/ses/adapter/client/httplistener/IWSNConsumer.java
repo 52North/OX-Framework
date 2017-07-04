@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -33,25 +33,25 @@ import org.n52.oxf.ses.adapter.client.httplistener.HttpListener;
 
 /**
  * Interface for a WS-N consumer.
- * 
+ *
  * @author matthes rieke
  *
  */
 public interface IWSNConsumer {
 
-	/**
-	 * @param collectListener the request listener
-	 */
-	public void setListener(HttpListener collectListener);
+    /**
+     * @param collectListener the request listener
+     */
+    public void setListener(HttpListener collectListener);
 
-	/**
-	 * use to free resources
-	 */
-	public void stop();
-	
-	/**
-	 * @return if available, return the publicly known URL of the consumer
-	 */
-	public URL getPublicURL();
+    /**
+     * use to free resources
+     */
+    public void stop();
+
+    /**
+     * @return if available, return the publicly known URL of the consumer
+     */
+    public URL getPublicURL();
 
 }

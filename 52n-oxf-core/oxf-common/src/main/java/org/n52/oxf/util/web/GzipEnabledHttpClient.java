@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -44,24 +44,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GzipEnabledHttpClient extends HttpClientDecorator {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(GzipEnabledHttpClient.class);
-    
+
     private static final String GZIP_ENCODING_VALUE = "gzip";
-    
+
     private static final String ENCODING_HEADER_NAME = "Accept-Encoding";
-    
+
     public GzipEnabledHttpClient(HttpClient httpclient) {
         super(httpclient);
         addGzipInterceptors(getHttpClientToDecorate());
     }
-    
+
     private void addGzipInterceptors(DefaultHttpClient httpclient) {
         httpclient.addRequestInterceptor(new GzipRequestInterceptor());
         httpclient.addResponseInterceptor(new GzipResponseInterceptor());
     }
 
-    private final class GzipResponseInterceptor implements HttpResponseInterceptor {
+    private static final class GzipResponseInterceptor implements HttpResponseInterceptor {
         public void process(HttpResponse response, HttpContext context) throws HttpException, IOException {
             HttpEntity entity = response.getEntity();
             if (entity != null) {
@@ -75,16 +75,16 @@ public class GzipEnabledHttpClient extends HttpClientDecorator {
                         }
                     }
                 }
-            }                
+            }
         }
     }
 
-    private final class GzipRequestInterceptor implements HttpRequestInterceptor {
+    private static final class GzipRequestInterceptor implements HttpRequestInterceptor {
         public void process(HttpRequest request, HttpContext context) throws HttpException, IOException {
             if (!request.containsHeader(ENCODING_HEADER_NAME)) {
                 LOGGER.trace("add gzip header.");
                 request.addHeader(ENCODING_HEADER_NAME, GZIP_ENCODING_VALUE);
-            }                
+            }
         }
     }
 

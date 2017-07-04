@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -32,6 +32,7 @@ import java.io.IOException;
 import net.opengis.gml.AbstractFeatureCollectionType;
 import net.opengis.gml.FeatureCollectionDocument2;
 import net.opengis.sampling.x10.SamplingPointDocument;
+import org.apache.xmlbeans.XmlException;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.OXFException;
@@ -55,6 +56,7 @@ public class FeatureStore extends OperationResultStore implements IFeatureStore 
         super(operationResult);
     }
 
+    @Override
     public OXFFeatureCollection unmarshalFeatures() throws OXFException {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Unmarshalling features from: {}\n", xmlObject.xmlText());
@@ -84,6 +86,7 @@ public class FeatureStore extends OperationResultStore implements IFeatureStore 
     }
 
     @Deprecated
+    @Override
     public OXFFeatureCollection unmarshalFeatures(OperationResult opsRes) throws OXFException {
 
         // 1. try to parse the feature data as a FeatureCollection:
@@ -102,7 +105,7 @@ public class FeatureStore extends OperationResultStore implements IFeatureStore 
                 coll.add(feature);
                 return coll;
             }
-            catch (Exception e) {
+            catch (IOException | XmlException e) {
                 throw new OXFException(e);
             }
         }
@@ -123,6 +126,4 @@ public class FeatureStore extends OperationResultStore implements IFeatureStore 
 
         return oxf_featureCollection;
     }
-
-
 }

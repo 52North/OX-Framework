@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -34,6 +34,7 @@ import java.net.URL;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import net.opengis.wcs.x11.CapabilitiesDocument;
@@ -87,21 +88,23 @@ public class WCSAdapter implements IServiceAdapter {
             System.out.println(sd.toXML());
         }
         catch (OXFException e) {
-            e.printStackTrace();
+            LOGGER.error("Exception thrown: ", e);
         }
     }
 
     /**
-     * @param urlString
+     * @param serviceUrlString
      * @throws OXFException
      */
+    @Override
     public ServiceDescriptor initService(String serviceUrlString) throws OXFException {
         return initService(serviceUrlString, false);
     }
 
     /**
-     * @param urlString
+     * @param serviceUrlString
      * @param urlIsGetCGetCapabilities
+     * @return
      * @throws OXFException
      */
     public ServiceDescriptor initService(String serviceUrlString, boolean urlIsGetCGetCapabilities) throws OXFException {
@@ -170,7 +173,7 @@ public class WCSAdapter implements IServiceAdapter {
                 try {
                     cd = (CoverageDescription) u.unmarshal(opResult_DescribeCoverage.getIncomingResultAsAutoCloseStream());
                 }
-                catch (Exception exc) {
+                catch (JAXBException exc) {
                     // --> probably DescribeCoverage-operation not supported
                     throwCollect.addThrowable(new OXFException("Exception while trying to parse DescribeCoverage-document.",
                                                                exc));
@@ -185,8 +188,8 @@ public class WCSAdapter implements IServiceAdapter {
                 operationsMetadataSection = wcsCapsMapper.mapOperationsMetadata(wc, contentsSection);
 
             }
-            catch (Exception exc) {
-            	exc.printStackTrace();
+            catch (JAXBException | OXFException | ExceptionReport exc) {
+                LOGGER.error("Exception thrown: ", exc);
                 // VERSION 1.1.1:
 
 //                LOGGER.info("Not convertible to version 1.0.0 --> trying 1.1.1");
@@ -222,14 +225,13 @@ public class WCSAdapter implements IServiceAdapter {
                                                                                 paramCon);
 
                         CoverageDescriptionsDocument desCovDoc;
-						try {
-							desCovDoc = CoverageDescriptionsDocument.Factory.parse(opResult_DescribeCoverage.getIncomingResultAsAutoCloseStream());
-						} catch (XmlException e) {
-							String error = new String(opResult_DescribeCoverage.getIncomingResult());
-							LOGGER.info(error);
-//							throw new OWSException(new String[]{error},error,null);
-							throw new OXFException(error,new Throwable("Access Denied"));
-						}
+                        try {
+                            desCovDoc = CoverageDescriptionsDocument.Factory.parse(opResult_DescribeCoverage.getIncomingResultAsAutoCloseStream());
+                        } catch (XmlException e) {
+                            String error = new String(opResult_DescribeCoverage.getIncomingResult(), "UTF-8");
+                            LOGGER.info(error);
+                            throw new OXFException(error,new Throwable("Access Denied"));
+                        }
 
                         // CoverageDescriptionsDocument contains only ONE CoverageDescription
                         CoverageDescriptionType covDesType = desCovDoc.getCoverageDescriptions().getCoverageDescriptionArray(0);
@@ -243,20 +245,20 @@ public class WCSAdapter implements IServiceAdapter {
                         contentsSection = wcsCapsMapper.mapContents(coverageDescArray);
                         operationsMetadataSection = wcsCapsMapper.mapOperationsMetadata(capDoc, contentsSection);
                     }
-                    catch (Exception ex) {
+                    catch (OXFException ex) {
                         LOGGER.warn("DescribeCoverage was not succesfull or could not be parsed");
-                        ex.printStackTrace();
+                        LOGGER.error("Exception thrown: ", ex);
                         operationsMetadataSection = new OperationsMetadata(new Operation[0]);
                     }
                 }catch (OXFException ex) {
-                	LOGGER.error(ex.getMessage());
+                    LOGGER.error(ex.getMessage());
 //                    LOGGER.error("Could not read WCS Capabilities as 1.0.0 or 1.1.1");
 //                    ex.printStackTrace();
                     throw ex;
                 }
-                catch (Exception ex) {
+                catch (IOException | XmlException | ExceptionReport ex) {
                     LOGGER.error("Could not read WCS Capabilities as 1.0.0 or 1.1.1");
-                    ex.printStackTrace();
+                    LOGGER.error("Exception thrown: ", ex);
                     throw new OXFException();
                 }
             }
@@ -267,12 +269,12 @@ public class WCSAdapter implements IServiceAdapter {
 
             sd = new ServiceDescriptor(version, serviceIdentificationSection, serviceProviderSection, operationsMetadataSection, contentsSection);
         }catch (OXFException ex) {
-        	LOGGER.error(ex.getMessage());
+            LOGGER.error(ex.getMessage());
 //          LOGGER.error("Could not read WCS Capabilities as 1.0.0 or 1.1.1");
 //          ex.printStackTrace();
           throw ex;
         }
-        catch (Exception e) {
+        catch (IOException | ExceptionReport e) {
             throw new OXFException(e);
         }
 
@@ -292,7 +294,10 @@ public class WCSAdapter implements IServiceAdapter {
      * Attention: the URL which will be used to connect the service will be taken from the DCP specification
      * of the operation (be sure that the capabilities document of the service is correct and up to date in
      * this point).
+     * @throws org.n52.oxf.ows.ExceptionReport
+     * @throws org.n52.oxf.OXFException
      */
+    @Override
     public OperationResult doOperation(Operation operation, ParameterContainer parameterContainer) throws ExceptionReport,
             OXFException {
 
@@ -364,16 +369,12 @@ public class WCSAdapter implements IServiceAdapter {
         return result;
     }
 
-    /**
-     * @return a description of the implemented OGC Web Service Adapter.
-     */
+    @Override
     public String getDescription() {
         return "This ServiceAdapter can be used to connect to Web Coverage Services. ...";
     }
 
-    /**
-     * @return the type of the service which is connectable by this ServiceAdapter
-     */
+    @Override
     public String getServiceType() {
         return "OGC:WCS";
     }
@@ -382,6 +383,7 @@ public class WCSAdapter implements IServiceAdapter {
      * @return the versions of the services which are connectable by this ServiceAdapter. Should look like
      *         e.g. {"1.1.0","1.2.0"}.
      */
+    @Override
     public String[] getSupportedVersions() {
         return new String[] {"1.0.0", "1.1.0", "1.1.1"};
     }
@@ -390,6 +392,7 @@ public class WCSAdapter implements IServiceAdapter {
      * @return the name of the serice operation which returns the data to be added to a map-view as a layer.
      *         In the case of the WCS it is 'GetCoverage'.
      */
+    @Override
     public String getResourceOperationName() {
         return "GetCoverage";
     }

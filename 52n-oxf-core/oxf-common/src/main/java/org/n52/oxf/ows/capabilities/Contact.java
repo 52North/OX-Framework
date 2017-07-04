@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -31,147 +31,155 @@ package org.n52.oxf.ows.capabilities;
  * Information which is needed to contact the responsible organization/person.
  * <br>
  * This class refers to CI_Contact of ISO 19115.
- * 
+ *
  * @author ISO 19115 and <a href="www.opengeospatial.org">OGC</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering </a>
  */
 public class Contact {
 
-	/**
-	 * Telephone numbers of the responsible individual or organization.
-	 * <br>
-	 * Zero or more (optional) values are possible. <br>
-	 */
-	private String[] telephone;
+    /**
+     * Telephone numbers of the responsible individual or organization.
+     * <br>
+     * Zero or more (optional) values are possible. <br>
+     */
+    private String[] telephone;
 
-	/**
-	 * Facsimile numbers of the responsible individual or organization.
-	 * <br>
-	 * Zero or more (optional) values are possible. <br>
-	 */
-	private String[] fax;
+    /**
+     * Facsimile numbers of the responsible individual or organization.
+     * <br>
+     * Zero or more (optional) values are possible. <br>
+     */
+    private String[] fax;
 
-	/**
-	 * Time period when you can contact the individual or organization.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private String hoursOfService;
+    /**
+     * Time period when you can contact the individual or organization.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private String hoursOfService;
 
-	/**
-	 * Supplemental instructions to contact the organization or individual.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private String contactInstructions;
+    /**
+     * Supplemental instructions to contact the organization or individual.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private String contactInstructions;
 
-	/**
-	 * Physical and email address at which the organization or individual may be contacted.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private Address address;
+    /**
+     * Physical and email address at which the organization or individual may be contacted.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private Address address;
 
-	/**
-	 * On-line resource to contact the individual or organization.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private OnlineResource onlineResource;
+    /**
+     * On-line resource to contact the individual or organization.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private OnlineResource onlineResource;
 
-	public Contact(String[] telephone, String[] fax, String hoursOfService,
-			String contactInstructions, Address address,
-			OnlineResource onlineResource) {
-		setTelephone(telephone);
-		setFax(fax);
-		setHoursOfService(hoursOfService);
-		setContactInstructions(contactInstructions);
-		setAddress(address);
-		setOnlineResource(onlineResource);
-	}
-	
-	/**
-	 * @return a XML representation of this Contact. 
-	 */
-	public String toXML(){
-		String res = "<Contact"
-			+ " hoursOfService=\""+ hoursOfService + "\""
-			+ " contactInstructions=\""	+ contactInstructions + "\">";
-		
-		if(fax != telephone) {
-			for(String s : telephone){
-				res += "<Telephone>";
-				res += s;
-				res += "</Telephone>";
-			}
-		}
-		
-		if(fax != null) {
-			for(String s : fax){
-				res += "<Fax>";
-				res += s;
-				res += "</Fax>";
-			}
-		}
-		
+    public Contact(String[] telephone, String[] fax, String hoursOfService,
+            String contactInstructions, Address address,
+            OnlineResource onlineResource) {
+        if (telephone != null) {
+            this.telephone = telephone.clone();
+        }
+        if (fax != null) {
+            this.fax = fax.clone();
+        }
+        this.hoursOfService = hoursOfService;
+        this.contactInstructions = contactInstructions;
+        this.address = address;
+        this.onlineResource = onlineResource;
+    }
+
+    /**
+     * @return a XML representation of this Contact.
+     */
+    public String toXML(){
+        String res = "<Contact"
+            + " hoursOfService=\""+ hoursOfService + "\""
+            + " contactInstructions=\"" + contactInstructions + "\">";
+
+        if(fax != telephone) {
+            StringBuilder sb = new StringBuilder(res);
+            for(String s : telephone){
+                sb.append("<Telephone>")
+                    .append(s)
+                    .append("</Telephone>");
+            }
+            res = sb.toString();
+        }
+
+        if(fax != null) {
+            StringBuilder sb = new StringBuilder(res);
+            for(String s : fax){
+                sb.append("<Fax>")
+                    .append(s)
+                    .append("</Fax>");
+            }
+            res = sb.toString();
+        }
+
         if(address != null) {
             res += address.toXML();
         }
-        
+
         if(onlineResource != null) {
-			res += onlineResource.toXML();
+            res += onlineResource.toXML();
         }
-		
-		res += "</Contact>";
-		return res;
-	}
-	
 
-	public Address getAddress() {
-		return address;
-	}
+        res += "</Contact>";
+        return res;
+    }
 
-	protected void setAddress(Address address) {
-		this.address = address;
-	}
 
-	public String getContactInstructions() {
-		return contactInstructions;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	protected void setContactInstructions(String contactInstructions) {
-		this.contactInstructions = contactInstructions;
-	}
+    protected void setAddress(Address address) {
+        this.address = address;
+    }
 
-	public String[] getFax() {
-		return fax;
-	}
+    public String getContactInstructions() {
+        return contactInstructions;
+    }
 
-	protected void setFax(String[] fax) {
-		this.fax = fax;
-	}
+    protected void setContactInstructions(String contactInstructions) {
+        this.contactInstructions = contactInstructions;
+    }
 
-	public String getHoursOfService() {
-		return hoursOfService;
-	}
+    public String[] getFax() {
+        return fax == null? new String[0] : fax.clone();
+    }
 
-	protected void setHoursOfService(String hoursOfService) {
-		this.hoursOfService = hoursOfService;
-	}
+    protected void setFax(String[] fax) {
+        this.fax = fax;
+    }
 
-	public OnlineResource getOnlineResource() {
-		return onlineResource;
-	}
+    public String getHoursOfService() {
+        return hoursOfService;
+    }
 
-	protected void setOnlineResource(OnlineResource onlineResource) {
-		this.onlineResource = onlineResource;
-	}
+    protected void setHoursOfService(String hoursOfService) {
+        this.hoursOfService = hoursOfService;
+    }
 
-	public String[] getTelephone() {
-		return telephone;
-	}
+    public OnlineResource getOnlineResource() {
+        return onlineResource;
+    }
 
-	protected void setTelephone(String[] telephone) {
-		this.telephone = telephone;
-	}
+    protected void setOnlineResource(OnlineResource onlineResource) {
+        this.onlineResource = onlineResource;
+    }
+
+    public String[] getTelephone() {
+        return telephone == null? null : telephone.clone();
+    }
+
+    protected void setTelephone(String[] telephone) {
+        this.telephone = telephone;
+    }
 }

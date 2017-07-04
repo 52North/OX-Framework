@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -36,7 +36,7 @@ public interface ResponseHandler {
     /**
      * Called when a response was received successfully. Content and HTTP status code is passed for further
      * processing.
-     * 
+     *
      * @param response
      *        response's content as stream.
      * @param httpStatusCode
@@ -48,9 +48,9 @@ public interface ResponseHandler {
      * Called when no response could be received. When this method is called, any low-level exceptions (e.g.
      * {@link IOException} {@link TimeoutException}, etc.) should already have been handled and logged
      * appropriately. Use this method to trigger higher-level error messaging.
-     * 
+     *
      * @param reason
-     * 		  a higher-level error message
+     *        a higher-level error message
      */
     public void onFailure(String reason);
 

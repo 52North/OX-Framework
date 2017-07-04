@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -45,42 +45,42 @@ import org.n52.oxf.xml.XMLConstants;
  */
 public class SosInsertionMetadataCase extends AbstractLaxValidationCase {
 
-	private static SosInsertionMetadataCase instance;
+    private static SosInsertionMetadataCase instance;
 
-	@Override
-	public boolean shouldPass(final XmlValidationError xve)
-	{
-		final QName offending = xve.getOffendingQName();
-		final List<?> expected = xve.getExpectedQNames();
-		final QName field = xve.getFieldQName();
-		if (offending != null && 
-				offending.equals(XMLConstants.QN_SOS_2_0_SOS_INSERTION_METADATA) &&
-				field.equals(XMLConstants.QN_SWES_2_0_METADATA) &&
-				expected.contains(XMLConstants.QN_SWES_2_0_INSERTION_METADATA))
-		{
-			return validateSubstitutionGroup(xve);
-		}
-		return false;
-	}
+    @Override
+    public boolean shouldPass(final XmlValidationError xve)
+    {
+        final QName offending = xve.getOffendingQName();
+        final List<?> expected = xve.getExpectedQNames();
+        final QName field = xve.getFieldQName();
+        if (offending != null &&
+                offending.equals(XMLConstants.QN_SOS_2_0_SOS_INSERTION_METADATA) &&
+                field.equals(XMLConstants.QN_SWES_2_0_METADATA) &&
+                expected.contains(XMLConstants.QN_SWES_2_0_INSERTION_METADATA))
+        {
+            return validateSubstitutionGroup(xve);
+        }
+        return false;
+    }
 
-	private boolean validateSubstitutionGroup(final XmlValidationError xve)
-	{
-		try {
-			final SosInsertionMetadataType sosInsertionMetadataType = SosInsertionMetadataType.Factory.parse(xve.getObjectLocation().xmlText());
-			final Collection<XmlError> revalidation = XMLBeansParser.validate(sosInsertionMetadataType);
-			return revalidation.size()==0?true:false;
-		} catch (final XmlException e) {}
-		return false;
-	}
+    private boolean validateSubstitutionGroup(final XmlValidationError xve)
+    {
+        try {
+            final SosInsertionMetadataType sosInsertionMetadataType = SosInsertionMetadataType.Factory.parse(xve.getObjectLocation().xmlText());
+            final Collection<XmlError> revalidation = XMLBeansParser.validate(sosInsertionMetadataType);
+            return revalidation.size()==0?true:false;
+        } catch (final XmlException e) {}
+        return false;
+    }
 
-	public static SosInsertionMetadataCase getInstance()
-	{
-		if (instance == null) {
-			instance = new SosInsertionMetadataCase();
-		}
-		return instance;
-	}
+    public static SosInsertionMetadataCase getInstance()
+    {
+        if (instance == null) {
+            instance = new SosInsertionMetadataCase();
+        }
+        return instance;
+    }
 
-	private SosInsertionMetadataCase() {}
+    private SosInsertionMetadataCase() {}
 
 }

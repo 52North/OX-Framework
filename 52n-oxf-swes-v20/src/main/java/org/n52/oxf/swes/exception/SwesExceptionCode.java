@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -30,13 +30,13 @@ package org.n52.oxf.swes.exception;
 public enum SwesExceptionCode {
     INVALID_REQUEST("InvalidRequest"),
     REQUEST_EXTENSION_NOT_SUPPORTED("RequestExtensionNotSupported");
-    
+
     private String exceptionCode;
-    
+
     private SwesExceptionCode(String exceptionCode) {
         this.exceptionCode = exceptionCode;
     }
-    
+
     public String getExceptionCode() {
         return this.exceptionCode;
     }

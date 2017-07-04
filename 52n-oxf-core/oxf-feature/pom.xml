@@ -21,21 +21,7 @@
 		<!-- ### XML BINDING DEPENDENCIES ### -->
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-context-v100</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.n52.sensorweb</groupId>
-					<artifactId>52n-xml-gml-v212</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
 			<artifactId>52n-xml-sampling-v100</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.n52.sensorweb</groupId>
-			<artifactId>52n-xml-sensorML-v100</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.n52.sensorweb</groupId>
@@ -50,14 +36,38 @@
 			<groupId>com.vividsolutions</groupId>
 			<artifactId>jts</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>isorelax</groupId>
-			<artifactId>isorelax</artifactId>
-		</dependency>
 		<!-- ### TEMPORAL LOCAL DEPENDENCIES ### -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>oxf-feature-grdc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.xmlbeans</groupId>
+			<artifactId>xmlbeans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>52n-xml-sweCommon-v20</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>52n-xml-gml-v321</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>52n-xml-om-v20</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>52n-xml-sampling-v20</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>52n-xml-gml-v311</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>52n-xml-om-v100</artifactId>
 		</dependency>
 	</dependencies>
 </project>

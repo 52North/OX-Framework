@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -29,25 +29,25 @@ package org.n52.oxf.conversion.gml32.xmlbeans.jts;
 
 
 /**
- * General configuration class. Here, things like when to 
+ * General configuration class. Here, things like when to
  * apply interpolations (length thresholds) are configured.
  */
 public class GeometryFactoryConfiguration {
 
-	private static boolean userInternalInterpolation;
-	
-	static {
-		userInternalInterpolation = true;
-	}
-	
-	public static boolean isUserInternalInterpolation() {
-		return userInternalInterpolation;
-	}
+    private static boolean userInternalInterpolation;
 
-	public static void setUserInternalInterpolation(
-			boolean inte) {
-		userInternalInterpolation = inte;
-	}
-	
-	
+    static {
+        userInternalInterpolation = true;
+    }
+
+    public static boolean isUserInternalInterpolation() {
+        return userInternalInterpolation;
+    }
+
+    public static void setUserInternalInterpolation(
+            boolean inte) {
+        userInternalInterpolation = inte;
+    }
+
+
 }

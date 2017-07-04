@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -31,16 +31,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class OwsException extends Exception {
-    
+
     private static final long serialVersionUID = 3899044347528650839L;
-    
+
     public static final int BAD_REQUEST = 400;
     public static final int FORBIDDEN = 403;
     public static final int GONE = 410;
     public static final int INTERNAL_SERVER_ERROR = 500;
     public static final int NOT_IMPLEMENTED = 501;
 
-    private List<String> exceptionTexts = new ArrayList<String>();
+    private final List<String> exceptionTexts = new ArrayList<>();
     private String exceptionCode;
     private String locator;
 
@@ -72,7 +72,7 @@ public abstract class OwsException extends Exception {
     public String getLocator() {
         return this.locator;
     }
-    
+
     public boolean isSetLocator() {
         return locator != null;
     }

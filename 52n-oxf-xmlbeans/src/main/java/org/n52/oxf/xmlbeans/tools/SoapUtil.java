@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -58,15 +58,15 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 /**
- * 
+ *
  */
 public class SoapUtil {
-    
+
     /**
      * Creates an exception report from the {@link Throwable}'s stacktrace.<br>
      * <br/>
      * An example looks like the following.
-     * 
+     *
      * <pre>
      * {@code
      *  <Exception>
@@ -80,8 +80,8 @@ public class SoapUtil {
      *  </Exception>
      * }
      * </pre>
-     * 
-     * 
+     *
+     *
      * @param t
      *        the {@link Throwable} occured
      * @return and OWS 1.1 ExceptionReport containing the {@link Throwable}'s stacktrace information
@@ -99,7 +99,7 @@ public class SoapUtil {
 
     /**
      * Seeks for a <code>&lt;wsa:To&gt;</code> header element win SOAP Envelope header.
-     * 
+     *
      * @param xml
      *        the SOAP envelope
      * @return the recipient URL the request shall be sent to.
@@ -115,7 +115,7 @@ public class SoapUtil {
         }
         return null;
     }
-    
+
     public static String getWsaReplyToUrlFromSoapHeader(XmlObject xml) throws XmlException {
         if (isSoapEnvelope(xml)) {
             EnvelopeDocument envelope = (EnvelopeDocument) xml;
@@ -125,7 +125,7 @@ public class SoapUtil {
         }
         return null;
     }
-    
+
     public static String getWsaMessageIdFromSoapHeader(XmlObject xml) throws XmlException {
         if (isSoapEnvelope(xml)) {
             EnvelopeDocument envelope = (EnvelopeDocument) xml;
@@ -135,7 +135,7 @@ public class SoapUtil {
         }
         return null;
     }
-    
+
     public static String getWsaRelatesToFromSoapHeader(XmlObject xml) throws XmlException {
         if (isSoapEnvelope(xml)) {
             EnvelopeDocument envelope = (EnvelopeDocument) xml;
@@ -145,7 +145,7 @@ public class SoapUtil {
         }
         return null;
     }
-    
+
 
     public static String getWsaActionFromSoapHeader(XmlObject xml) throws XmlException {
         if (isSoapEnvelope(xml)) {
@@ -167,7 +167,7 @@ public class SoapUtil {
     /**
      * Strips SOAP envelope from passed argument and returns SOAP body's XML payload. If passed XML is not a
      * SOAP envelope the argument is returned without any processing.
-     * 
+     *
      * @param xmlToStrip
      *        the XML to strip SOAP envelope from.
      * @return the SOAP body's XML payload, or the XML itself if it is not a SOAP envelope.
@@ -175,11 +175,11 @@ public class SoapUtil {
     public static XmlObject stripSoapEnvelope(XmlObject xmlToStrip) {
         return stripSoapEnvelope(xmlToStrip, null);
     }
-    
+
     /**
      * Strips SOAP envelope from passed argument and returns SOAP body's XML payload. If passed XML is not a
      * SOAP envelope the argument is returned without any processing.
-     * 
+     *
      * @param xmlToStrip
      *        the XML to strip SOAP envelope from.
      * @param nodeName
@@ -197,7 +197,7 @@ public class SoapUtil {
     public static boolean isSoapEnvelope(XmlObject xml) {
         return xml != null && xml.schemaType() == EnvelopeDocument.type;
     }
-    
+
 
     public static boolean isSoapFault(XmlObject response) {
         XmlObject request = stripSoapEnvelope(response, "Fault");
@@ -212,7 +212,7 @@ public class SoapUtil {
             throw new IllegalArgumentException("Cannot parse from envelope");
         }
     }
-    
+
     /**
      * @param envelope
      *        the SOAP envelope to read body from
@@ -268,7 +268,7 @@ public class SoapUtil {
         cursor.dispose();
         return xmlObject;
     }
-    
+
     public static EnvelopeDocument wrapToSoapEnvelope(XmlObject bodyContent) {
         EnvelopeDocument envelopeDoc = EnvelopeDocument.Factory.newInstance();
         Envelope envelope = envelopeDoc.addNewEnvelope();
@@ -276,7 +276,7 @@ public class SoapUtil {
         body.set(bodyContent);
         return envelopeDoc;
     }
-    
+
     public static void addWsaRecipientTo(EnvelopeDocument envelopeDoc, String recipient) {
         Envelope envelope = envelopeDoc.getEnvelope();
         if (!envelope.isSetHeader()) {
@@ -287,7 +287,7 @@ public class SoapUtil {
         toDoc.addNewTo().setStringValue(recipient);
         addToHeader(header, toDoc.getTo().getDomNode());
     }
-    
+
     public static void addWsaReplyTo(EnvelopeDocument envelopeDoc, String replyTo) {
         Envelope envelope = envelopeDoc.getEnvelope();
         if (!envelope.isSetHeader()) {
@@ -298,7 +298,7 @@ public class SoapUtil {
         replyToDoc.addNewReplyTo().addNewAddress().setStringValue(replyTo);
         addToHeader(header, replyToDoc.getReplyTo().getDomNode());
     }
-    
+
     public static void addWsaFrom(EnvelopeDocument envelopeDoc, String from) {
         Envelope envelope = envelopeDoc.getEnvelope();
         if (!envelope.isSetHeader()) {
@@ -309,7 +309,7 @@ public class SoapUtil {
         fromDoc.addNewFrom().addNewAddress().setStringValue(from);
         addToHeader(header, fromDoc.getFrom().getDomNode());
     }
-    
+
     public static void addWsaAction(EnvelopeDocument envelopeDoc, String action) {
         Envelope envelope = envelopeDoc.getEnvelope();
         if (!envelope.isSetHeader()) {
@@ -320,7 +320,7 @@ public class SoapUtil {
         actionDoc.addNewAction().setStringValue(action);
         addToHeader(header, actionDoc.getAction().getDomNode());
     }
-    
+
     public static void addRelatedWsaMessageId(EnvelopeDocument envelopeDoc, String relatedMessageId) {
         Envelope envelope = envelopeDoc.getEnvelope();
         if (!envelope.isSetHeader()) {
@@ -331,12 +331,12 @@ public class SoapUtil {
         relatesToDoc.addNewRelatesTo().setStringValue(relatedMessageId);
         addToHeader(header, relatesToDoc.getRelatesTo().getDomNode());
     }
-    
+
 
     public static void addNewWsaMessageId(EnvelopeDocument envelopeDoc) {
         addNewWsaMessageId(envelopeDoc, (String) null);
     }
-    
+
     public static void addNewWsaMessageId(EnvelopeDocument envelopeDoc, String messageIdPrefix) {
         addWsaMessageId(envelopeDoc, generateSoapMessageId(messageIdPrefix));
     }
@@ -356,13 +356,13 @@ public class SoapUtil {
         messageIdDoc.addNewMessageID().setStringValue(messageId);
         addToHeader(header, messageIdDoc.getMessageID().getDomNode());
     }
-    
+
     private static void addToHeader(Header header, Node nodeToAdd) {
         Document ownerDocument = header.getDomNode().getOwnerDocument();
         Node importedNode = ownerDocument.importNode(nodeToAdd, true);
         header.getDomNode().appendChild(importedNode);
     }
-//    
+//
 //    public static void addWssAuthentication(EnvelopeDocument envelopeDocument, String username, String password) throws WSSecurityException {
 //        Envelope envelope = envelopeDocument.getEnvelope();
 //        WSSecHeader secHeader = new WSSecHeader();

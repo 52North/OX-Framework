@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -29,30 +29,30 @@ package org.n52.oxf.ses.adapter.client;
 
 public class ResourceIdInstance {
 
-	private String namespace = "http://ws.apache.org/muse/addressing"; //http://www.ids-spa.it/
-	private String element = "ResourceId";
+    private String namespace = "http://ws.apache.org/muse/addressing"; //http://www.ids-spa.it/
+    private String element = "ResourceId";
 
-	public ResourceIdInstance(String namespace, String element) {
-		this.namespace = namespace;
-		this.element = element;
-	}
-	
-	
-	public String getNamespace() {
-		return namespace;
-	}
+    public ResourceIdInstance(String namespace, String element) {
+        this.namespace = namespace;
+        this.element = element;
+    }
 
-	public String getElement() {
-		return element;
-	}
 
-	public String getXPathExpression() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("declare namespace res='");
-		sb.append(this.namespace);
-		sb.append("'; //res:");
-		sb.append(this.element);
-		return sb.toString();
-	}
-	
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public String getElement() {
+        return element;
+    }
+
+    public String getXPathExpression() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("declare namespace res='");
+        sb.append(this.namespace);
+        sb.append("'; //res:");
+        sb.append(this.element);
+        return sb.toString();
+    }
+
 }

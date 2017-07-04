@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -33,24 +33,24 @@ import org.n52.oxf.conversion.unit.NumberWithUOM;
 
 public class FlightLevelUnitConverter implements CustomUnitConverter {
 
-	private static final String RESULT_UOM = "[ft_i]";
-	
-	@Override
-	public NumberWithUOM convert(double doubleValue) {
-		/*
-		 * simple FL -> feet conversion, taking no atmospheric pressure into account
-		 */
-		return new NumberWithUOM(doubleValue * 100, RESULT_UOM);
-	}
+    private static final String RESULT_UOM = "[ft_i]";
 
-	@Override
-	public String getBaseUnit() {
-		return RESULT_UOM;
-	}
+    @Override
+    public NumberWithUOM convert(double doubleValue) {
+        /*
+         * simple FL -> feet conversion, taking no atmospheric pressure into account
+         */
+        return new NumberWithUOM(doubleValue * 100, RESULT_UOM);
+    }
 
-	@Override
-	public String getUnitString() {
-		return "FL";
-	}
+    @Override
+    public String getBaseUnit() {
+        return RESULT_UOM;
+    }
+
+    @Override
+    public String getUnitString() {
+        return "FL";
+    }
 
 }

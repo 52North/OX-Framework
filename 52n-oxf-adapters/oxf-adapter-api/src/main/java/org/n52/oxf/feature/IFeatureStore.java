@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -38,23 +38,23 @@ public interface IFeatureStore {
 
     /**
      * This method unmarshals the specified dataToUnmarshal to the feature model of the framework.
-     * 
+     *
      * @param dataToUnmarshal
      *        an OperationResult containing an InputStream consisting of feature data.
      * @return an OXFFeatureCollection containing all the OXFFeatures are contained in the OperationResult.
-     * 
+     *
      * @throws OXFException
-     * 
+     *
      * @deprecated Use {@link IFeatureStore#unmarshalFeatures()}
      */
     @Deprecated
     public OXFFeatureCollection unmarshalFeatures(OperationResult dataToUnmarshal) throws OXFException;
-    
+
     /**
      * This method unmarshals the features in this store to the feature model of the framework.
-     * 
+     *
      * @return An OXFFeatureCollection containing all the OXFFeatures are contained {@link IFeatureStore} instance.
-     * 
+     *
      * @throws OXFException
      */
     public OXFFeatureCollection unmarshalFeatures() throws OXFException;

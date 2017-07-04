@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -33,9 +33,9 @@ import org.n52.oxf.request.Request;
 import org.n52.oxf.sps.SpsAdapter;
 
 public class SpsAdapterV100 extends SpsAdapter {
-    
-    private String serviceUrl;
-    
+
+    private final String serviceUrl;
+
     public SpsAdapterV100(String serviceUrl) {
         this.serviceUrl = serviceUrl;
     }
@@ -51,7 +51,6 @@ public class SpsAdapterV100 extends SpsAdapter {
 
     public void send(Request request) {
         request.sendViaGet(serviceUrl, httpClient);
-//        httpClient.executeGet(serviceUrl, request.getRequestParameters()); ??? 
     }
 
 }

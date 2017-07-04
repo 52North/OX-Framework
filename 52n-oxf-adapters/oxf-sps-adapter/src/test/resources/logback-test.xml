@@ -12,7 +12,7 @@
 
 	<logger name="org.n52" level="${config.logger.level}" />
 	<logger name="org.apache.http" level="WARN" />
-	
+
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 	</root>

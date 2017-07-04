@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -33,8 +33,8 @@ import org.n52.oxf.request.MultiValueRequestParameters;
  * Assembles all parameters needed for a GetCapabilities request.
  */
 public class GetCapabilitiesParameters extends MultiValueRequestParameters {
-    
-    private final String REQUEST_PARAMETER = "request";
+
+    private static final String REQUEST_PARAMETER = "request";
 
     static final String SERVICE_PARAMETER = "service";
 
@@ -66,7 +66,7 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters {
      * complete service metadata document.<br>
      * <br>
      * There is at maximum one value possible. If an update sequence was set before, it will be overridden.
-     * 
+     *
      * @param updateSequence
      *        a content section the capabilities shall contain.
      */
@@ -78,7 +78,7 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters {
      * Adds a content section the capabilities shall contain.<br>
      * <br>
      * The parameter is optional and multiple values are can be added.
-     * 
+     *
      * @param section
      *        a content section the capabilities shall contain.
      */
@@ -90,7 +90,7 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters {
      * Adds an accepted format of the capabilities.<br>
      * <br>
      * The parameter is optional and multiple values are can be added.
-     * 
+     *
      * @param acceptedFormat
      *        an accepted capabilities format.
      */
@@ -102,7 +102,7 @@ public class GetCapabilitiesParameters extends MultiValueRequestParameters {
      * Adds an accepted version of the capabilities.<br>
      * <br>
      * The parameter is optional and multiple values are can be added.
-     * 
+     *
      * @param acceptedVersion
      *        an accepted capabilities version.
      */

@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -34,18 +34,18 @@ package org.n52.oxf.ows.capabilities;
  */
 public interface IRangeValueDomain<T> extends IValueDomain<T> {
 
-	/**
-	 * @return the maximum value of this RangeValueDomain. Of course the return
-	 *         type <code>Object</code> can be replaced by a specialized type.
-	 *         (e.g. BoundingBox: <code>public double[] getMaxValue() </code>)
-	 */
-	public Object getMaxValue();
+    /**
+     * @return the maximum value of this RangeValueDomain. Of course the return
+     *         type <code>Object</code> can be replaced by a specialized type.
+     *         (e.g. BoundingBox: <code>public double[] getMaxValue() </code>)
+     */
+    public Object getMaxValue();
 
-	/**
-	 * @return the minimum value of this RangeValueDomain. Of course the return
-	 *         type <code>Object</code> can be replaced by a specialized type.
-	 *         (e.g. BoundingBox: <code>public double[] getMinValue() </code>)
-	 */
-	public Object getMinValue();
-	
+    /**
+     * @return the minimum value of this RangeValueDomain. Of course the return
+     *         type <code>Object</code> can be replaced by a specialized type.
+     *         (e.g. BoundingBox: <code>public double[] getMinValue() </code>)
+     */
+    public Object getMinValue();
+
 }

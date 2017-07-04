@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -31,23 +31,23 @@ import org.n52.oxf.ows.ExceptionReport;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class ExceptionTransformer {
 
     /**
      * transforms the specified Exception into an HTML representation and returns it as a String.
-     * 
+     *
      * @param e The Exception to transform
      * @param debugMode <code>true</code> to activate the transformation into HTML, <code>false</code>
-     * 			will print "Sorry, a server error occured!"
-     * 
+     *          will print "Sorry, a server error occured!"
+     *
      * @return HTML code representing the exception
-     * 
+     *
      */
     public static String transformExceptionToHTML(Exception e, boolean debugMode) {
         String res = "";
-        
+
         if (debugMode) {
             res += "<h2>Service-sided exception occured:</h2>";
             res += transformHelper(e);
@@ -55,34 +55,35 @@ public class ExceptionTransformer {
         else {
             res += "<b>Sorry, a server error occured!</b>";
         }
-        
+
         return res;
     }
 
     private static String transformHelper(Throwable t) {
         String res = "<b>" + t.getClass().getName() + "</b>";
-        
+
         if (t.getLocalizedMessage() != null) {
             res += " - " + t.getLocalizedMessage();
         }
-        
+
         // case: Exception occured on SOS-side:
         if (t instanceof ExceptionReport) {
             res += "<blockquote>";
-            
+
             ExceptionReport excReport = (ExceptionReport) t;
             res += excReport.toHtmlString();
-            
+
             res += "</blockquote>";
         }
-        
+
         // case: Exception occured on Facade-side
         else {
             res += "<blockquote>";
+            StringBuilder sBuf = new StringBuilder();
             for (StackTraceElement element : t.getStackTrace()) {
-                res += element + "<br>";
+                sBuf.append(element).append("<br>");
             }
-            res += "</blockquote>";
+            res += sBuf.toString() + "</blockquote>";
 
             Throwable cause = t.getCause();
             if (cause != null) {

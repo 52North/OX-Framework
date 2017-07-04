@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -35,18 +35,18 @@ import net.opengis.ows.x11.RequestMethodType;
 import org.w3.x1999.xlink.TypeType.Enum;
 
 public class HttpBinding {
-    
+
     private String externalDcpUrl;
-    
-    private String externalGetCapabilitiesGETDcpUrl = externalDcpUrl; // default
-    
+
+    private String externalGetCapabilitiesGETDcpUrl;
+
     private HttpMethod httpMethod;
-    
+
     private String conformanceClass;
-    
+
     /* flags extension operation not defined within spec */
     private boolean extension = false;
-    
+
     private HttpBinding() {
         // needed for injection
     }
@@ -64,11 +64,11 @@ public class HttpBinding {
     public void setExternalDcpUrl(String externalDcpUrl) {
         this.externalDcpUrl = externalDcpUrl;
     }
-    
+
     public String getExternalGetCapabilitiesGETDcpUrl() {
         return externalGetCapabilitiesGETDcpUrl;
     }
-    
+
     public void setExternalGetCapabilitiesGETDcpUrl(String externalGetCapabilitiesGETDcpUrl) {
         this.externalGetCapabilitiesGETDcpUrl = externalGetCapabilitiesGETDcpUrl;
     }
@@ -80,30 +80,30 @@ public class HttpBinding {
     public void setHttpMethod(String httpMethod) {
         this.httpMethod = HttpMethod.getForString(httpMethod);
     }
-    
+
     public String getConformanceClass() {
         return conformanceClass;
     }
-    
+
     public void setConformanceClass(String conformanceClass) {
         this.conformanceClass = conformanceClass;
     }
-    
+
     public boolean isExtension() {
         return this.extension;
     }
-    
+
     public void setExtension(boolean extension) {
         this.extension = extension;
     }
-    
+
     public HTTPDocument getHttpInfo() {
         return getHttpInfo("");
     }
-    
+
     /**
      * @param resource an extension string for a base HTTP binding.
-     * 
+     *
      * @return a {@link HTTPDocument} with the given resource
      */
     public HTTPDocument getHttpInfo(String resource) {
@@ -127,7 +127,7 @@ public class HttpBinding {
     private boolean isPathSeparatorNeeded(String resource) {
         return !externalDcpUrl.endsWith("/") && !resource.startsWith("/");
     }
-    
+
     /**
      * @return the GetCapabilites GET binding (mandatory for all bindings)
      */
@@ -138,5 +138,5 @@ public class HttpBinding {
         method.setType(Enum.forString("kvp"));
         return httpDocument;
     }
-    
+
 }

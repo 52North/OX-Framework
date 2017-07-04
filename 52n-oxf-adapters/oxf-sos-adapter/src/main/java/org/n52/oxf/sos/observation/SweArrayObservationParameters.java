@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -36,18 +36,18 @@ import org.n52.oxf.xml.XMLConstants;
  */
 public class SweArrayObservationParameters extends ObservationParameters {
 
-	public SweArrayObservationParameters() {
-		super(XMLConstants.QNAME_OM_2_0_SWE_ARRAY_OBSERVATION);
-		addNonEmpty(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_SWE_ARRAY);
-	}
+    public SweArrayObservationParameters() {
+        super(XMLConstants.QNAME_OM_2_0_SWE_ARRAY_OBSERVATION);
+        addNonEmpty(INSERT_OBSERVATION_TYPE, INSERT_OBSERVATION_TYPE_SWE_ARRAY);
+    }
 
-	@Override
-	public boolean isValid() {
-		return !isEmpty(INSERT_OBSERVATION_VALUE_PARAMETER);
-	}
+    @Override
+    public boolean isValid() {
+        return !isEmpty(INSERT_OBSERVATION_VALUE_PARAMETER);
+    }
 
-	public void addObservationValue(final String sweArrayXmlString) {
-		addNonEmpty(INSERT_OBSERVATION_VALUE_PARAMETER, sweArrayXmlString);
-	}
+    public void addObservationValue(final String sweArrayXmlString) {
+        addNonEmpty(INSERT_OBSERVATION_VALUE_PARAMETER, sweArrayXmlString);
+    }
 
 }

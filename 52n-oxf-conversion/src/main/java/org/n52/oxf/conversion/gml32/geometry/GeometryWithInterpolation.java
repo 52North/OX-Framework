@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -31,29 +31,29 @@ import com.vividsolutions.jts.geom.Geometry;
 
 public class GeometryWithInterpolation {
 
-	public static final String LINEAR = "Linear";
-	public static final String GEODESIC = "Geodesic";
-	
-	private Geometry geometry;
-	private String interpolation;
-	
-	public GeometryWithInterpolation(Geometry geom, String interpol) {
-		this.geometry = geom;
-		this.interpolation = interpol;
-	}
-	
+    public static final String LINEAR = "Linear";
+    public static final String GEODESIC = "Geodesic";
 
-	public Geometry getGeometry() {
-		return geometry;
-	}
+    private Geometry geometry;
+    private String interpolation;
 
-	public String getInterpolation() {
-		return interpolation;
-	}
+    public GeometryWithInterpolation(Geometry geom, String interpol) {
+        this.geometry = geom;
+        this.interpolation = interpol;
+    }
 
-	public void setGeometry(Geometry geom) {
-		this.geometry = geom;
-	}
-	
+
+    public Geometry getGeometry() {
+        return geometry;
+    }
+
+    public String getInterpolation() {
+        return interpolation;
+    }
+
+    public void setGeometry(Geometry geom) {
+        this.geometry = geom;
+    }
+
 
 }

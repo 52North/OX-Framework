@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -36,15 +36,15 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This represents a standard BoundingBox. Does not any operations like zoom etc..
- * 
+ *
  * @see BoundingBox2D
  * @see BoundingBox3D
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox> {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(BoundingBox.class);
 
     public static final String ERROR_INPUT_COORDINATES = "input coordinates have a different dimension";
@@ -63,12 +63,12 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     protected double[] upperCorner;
 
     protected String crs;
-    
+
     protected int dimensions;
 
     /**
      * this constructor has all required attributes as its parameters.
-     * 
+     *
      * @param lowerLeft
      *        the lowerCorner
      * @param upperRight
@@ -79,10 +79,10 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     public BoundingBox(double[] lowerLeft, double[] upperRight) {
         this(null, lowerLeft, upperRight);
     }
-    
+
     /**
      * this constructor has all attributes as its parameters.
-     * 
+     *
      * @param crs
      *        a EPSG String for instance
      * @param lowerLeft
@@ -112,7 +112,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         if (lowerLeft == null ||  upperRight == null) {
             throw new NullPointerException("Bounds must not be null!");
         }
-        
+
         if (lowerLeft.length == 0 || upperRight.length == 0) {
             StringBuilder sb = new StringBuilder();
             sb.append("Boundingbox must be at least one-dimensional:");
@@ -126,17 +126,18 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
             setLowerCorner(resettedCorner);
             setUpperCorner(resettedCorner);
         }
-        
+
         if (lowerLeft.length != upperRight.length) {
-            throw new IllegalStateException(ERROR_NUM_OF_COORINDATE_DIFFER + 
-                    ": uR: " + (upperRight!=null?upperRight.length:"NULL") +
-                    "; lL: " + (lowerLeft!=null?lowerLeft.length:"NULL"));
+            throw new IllegalStateException(ERROR_NUM_OF_COORINDATE_DIFFER +
+                    ": uR: " + upperRight.length +
+                    "; lL: " + lowerLeft.length);
         }
     }
 
     /**
      * @return Returns the cRS.
      */
+    @Override
     public String getCRS() {
         return crs;
     }
@@ -149,10 +150,12 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         this.crs = crs;
     }
 
+    @Override
     public double[] getMaxValue() {
         return getUpperCorner();
     }
 
+    @Override
     public double[] getMinValue() {
         return getLowerCorner();
     }
@@ -160,8 +163,9 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     /**
      * @return Returns the lowerCorner.
      */
+    @Override
     public double[] getLowerCorner() {
-        return lowerCorner;
+        return lowerCorner != null? lowerCorner.clone() : null;
 
     }
 
@@ -184,8 +188,9 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     /**
      * @return Returns the upperCorner.
      */
+    @Override
     public double[] getUpperCorner() {
-        return upperCorner;
+        return upperCorner != null? upperCorner.clone() : null;
     }
 
     /**
@@ -204,6 +209,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         }
     }
 
+    @Override
     public int getDimensions() {
         return dimensions;
     }
@@ -216,9 +222,10 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
 
     /**
      * checks if the parameter bBox is contained in (or equal to) this BoundingBox.
-     * 
+     *
      * @param bBox the {@linkplain IBoundingBox} to check
      */
+    @Override
     public boolean containsValue(IBoundingBox bBox) {
         for (int i = 0; i < getDimensions(); i++) {
             if (this.getLowerCorner()[i] > bBox.getLowerCorner()[i]) {
@@ -231,6 +238,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         return true;
     }
 
+    @Override
     public String toXML() {
         String res = "<BoundingBox>";
 
@@ -241,7 +249,7 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
     }
 
     /**
-     * 
+     *
      * @return a KeyValuePair-representation of this BBOX in the standard OGC form: <br>
      *         if it's a 2D BBOX: "minx,miny,maxx,maxy"<br>
      *         if it's a 3D BBOX: "minx,miny,maxx,maxy,minz,maxz"<br>
@@ -262,71 +270,76 @@ public class BoundingBox implements IBoundingBox, IRangeValueDomain<IBoundingBox
         return toKVPString() + "," + this.crs;
     }
 
+    @Override
     public String getDomainDescription() {
         return "BoundingBox value domain...";
     }
 
+    @Override
     public BoundingBox produceValue(String... stringArray) {
         return null;
     }
 
-    public boolean equals(Object obj) {
-    	if (obj == null) {
-    		return false;
-    	}
-    	if (obj == this) {
-    		return true;
-    	}
-    	if (!(obj instanceof BoundingBox)) {
-    		return false;
-    	} else {
-
-    		BoundingBox bbox = (BoundingBox) obj;
-    		if (this.getCRS() != bbox.getCRS()) {
-    			return false;
-    		}
-
-    		if (this.getDimensions() != bbox.getDimensions()) {
-    			return false;
-    		}
-
-    		for (int i = 0; i < getLowerCorner().length; i++) {
-    			if (getLowerCorner()[i] != bbox.getLowerCorner()[i]) {
-    				return false;
-    			}
-    		}
-
-    		for (int i = 0; i < getUpperCorner().length; i++) {
-    			if (getUpperCorner()[i] != bbox.getUpperCorner()[i]) {
-    				return false;
-    			}
-    		}
-
-    		return true;
-    	}
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + Arrays.hashCode(this.lowerCorner);
+        hash = 89 * hash + Arrays.hashCode(this.upperCorner);
+        hash = 89 * hash + (this.crs != null ? this.crs.hashCode() : 0);
+        hash = 89 * hash + this.dimensions;
+        return hash;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final BoundingBox other = (BoundingBox) obj;
+        if (this.dimensions != other.dimensions) {
+            return false;
+        }
+        if ((this.crs == null) ? (other.crs != null) : !this.crs.equals(other.crs)) {
+            return false;
+        }
+        if (!Arrays.equals(this.lowerCorner, other.lowerCorner)) {
+            return false;
+        }
+        if (!Arrays.equals(this.upperCorner, other.upperCorner)) {
+            return false;
+        }
+        return true;
+    }
+
+
+
     /**
      * difference in x direction, i.e. {lower,upper}Corner[0]
-     * 
+     *
      * @return the difference in x direction.
      */
     public double getWidth() {
         return upperCorner[0] - lowerCorner[0];
     }
-    
+
     /**
      * difference in y direction, i.e. {lower,upper}Corner[1]
-     * 
+     *
      * @return difference in y direction
      */
     public double getHeight() {
         return upperCorner[1] - lowerCorner[1];
     }
-    
+
     /**
      * difference in z direction, i.e. {lower,upper}Corner[2]
-     * 
+     *
      * @return difference in z direction
      */
     public double getDepth() {

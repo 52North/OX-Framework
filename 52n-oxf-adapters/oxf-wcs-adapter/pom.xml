@@ -1,27 +1,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.n52.sensorweb</groupId>
-		<artifactId>52n-oxf-adapters</artifactId>
-		<version>2.0.0-SNAPSHOT</version>
-	</parent>
-	<artifactId>oxf-wcs-adapter</artifactId>
-	<name>52North OxFramework WCS Adapter</name>
-	<description>Provides WCS Adapter implementation.</description>
-	<packaging>jar</packaging>
-	<dependencies>
-		<!-- ### MODULE DEPENDENCIES ### -->
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>oxf-common</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>52n-xml-wcs-v11</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>oxf-adapter-api</artifactId>
-		</dependency>
-	</dependencies>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.n52.sensorweb</groupId>
+        <artifactId>52n-oxf-adapters</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>oxf-wcs-adapter</artifactId>
+    <name>52North OxFramework WCS Adapter</name>
+    <description>Provides WCS Adapter implementation.</description>
+    <packaging>jar</packaging>
+    <dependencies>
+        <!-- ### MODULE DEPENDENCIES ### -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>oxf-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>52n-xml-wcs-v11</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>oxf-adapter-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>52n-xml-ows-v110</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -7,6 +7,7 @@
 	</parent>
 	<artifactId>oxf-third-party-saxon</artifactId>
 	<name>52North OxFramework Third Party - Saxon</name>
+	<description>Provides a Saxon 9.4 specific implementation.</description>
 	<packaging>jar</packaging>
 	<licenses>
 		<license>
@@ -15,20 +16,6 @@
 		</license>
 	</licenses>
 	<dependencies>
-		<dependency>
-            <groupId>org.apache.xmlbeans</groupId>
-            <artifactId>xmlbeans-xpath</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>saxon</artifactId>
-                    <groupId>net.sf.saxon</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>org.apache.xmlbeans</artifactId>
-                    <groupId>xmlbeans</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>Saxon-HE</artifactId>
@@ -38,5 +25,4 @@
         	<artifactId>xmlbeans</artifactId>
         </dependency>
 	</dependencies>
-	<description>Provides a Saxon 9.4 specific implementation.</description>
 </project>

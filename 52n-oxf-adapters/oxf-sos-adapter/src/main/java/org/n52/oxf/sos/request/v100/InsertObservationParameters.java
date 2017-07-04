@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -35,22 +35,22 @@ import org.n52.oxf.sos.observation.ObservationParameters;
  * Assembles all parameters needed for an InsertObservation request.
  */
 public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertObservationParameters {
-    
+
     private static final String REQUEST_PARAMETER = "request";
-	private final ObservationParameters observationParameters;
-	
-	public InsertObservationParameters(final ObservationParameters observationParameters) throws IllegalArgumentException {
-	    addNonEmpty(REQUEST_PARAMETER, "InsertObservation");
+    private final ObservationParameters observationParameters;
+
+    public InsertObservationParameters(final ObservationParameters observationParameters) throws IllegalArgumentException {
+        addNonEmpty(REQUEST_PARAMETER, "InsertObservation");
         if (observationParameters == null || observationParameters.isEmpty() || !observationParameters.isValid()) {
-        	throw new IllegalArgumentException("Parameter 'ObservationParameters' with may not be null or empty!");
+            throw new IllegalArgumentException("Parameter 'ObservationParameters' with may not be null or empty!");
         }
-		mergeWith(observationParameters);
-		this.observationParameters = observationParameters;
-	}
+        mergeWith(observationParameters);
+        this.observationParameters = observationParameters;
+    }
 
     public boolean isValid() {
         return !isEmptyValue(INSERT_OBSERVATION_PROCEDURE_PARAMETER) &&
-        		observationParameters.isValid();
+                observationParameters.isValid();
     }
-	
+
 }

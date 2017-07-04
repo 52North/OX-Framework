@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -34,17 +34,17 @@ import org.apache.xmlbeans.XmlError;
 /**
  * Interface for providing exceptional cases in XML validation (e.g. substitution
  * groups) which are cause by other exceptional cases.
- *  
+ *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  */
 public interface DependentLaxValidationCase extends LaxValidationCase {
-	
-	/**
-	 * @param validationError the validation error to check
-	 * @param allExceptionalCases all validation errors in the current document incl. the one that is currently checked!
-	 * @return <tt>true</tt>, if this {@link DependentLaxValidationCase} is caused by one of the other cases and can be ignored.
-	 */
-	boolean shouldPass(XmlError validationError, List<XmlError> allExceptionalCases);
+
+    /**
+     * @param validationError the validation error to check
+     * @param allExceptionalCases all validation errors in the current document incl. the one that is currently checked!
+     * @return <tt>true</tt>, if this {@link DependentLaxValidationCase} is caused by one of the other cases and can be ignored.
+     */
+    boolean shouldPass(XmlError validationError, List<XmlError> allExceptionalCases);
 
 }

@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -41,7 +41,7 @@ import org.w3c.dom.Node;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class OXFObservationCollectionType extends OXFAbstractFeatureType {
 
@@ -66,17 +66,17 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
     }
 
     public static OXFFeatureCollection createFeatureCollection(String id, ObservationCollectionType obsCollection) throws OXFException {
-    	OXFObservationCollectionType type = new OXFObservationCollectionType();
-    	OXFFeatureCollection featureCollection = new OXFFeatureCollection(id, type);
-		type.initializeFeature(featureCollection, obsCollection);
-		return featureCollection;
+        OXFObservationCollectionType type = new OXFObservationCollectionType();
+        OXFFeatureCollection featureCollection = new OXFFeatureCollection(id, type);
+        type.initializeFeature(featureCollection, obsCollection);
+        return featureCollection;
     }
-    
+
     /**
      * supports O&M 1.0
      */
     private void initializeFeature(OXFFeatureCollection featureCollection, ObservationCollectionType observationCollection) throws OXFException {
-        
+
         super.initializeFeature(featureCollection, observationCollection);
         ObservationPropertyType[] memberArray = observationCollection.getMemberArray();
         for (int i = 0; i < memberArray.length; i++) {
@@ -96,23 +96,23 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
             }
         }
     }
-    
+
     /**
      * supports WaterML 2.0.0
-     * @throws OXFException 
+     * @throws OXFException
      */
     private static OXFFeatureCollection createFeatureCollection(String id, MeasurementTimeseriesType timeseriesObservation) throws OXFException {
-    	OXFObservationCollectionType type = new OXFObservationCollectionType();
-    	OXFFeatureCollection featureCollection = new OXFFeatureCollection(id, type);
-		type.addMember(featureCollection, timeseriesObservation);
-		return featureCollection;
-	}
+        OXFObservationCollectionType type = new OXFObservationCollectionType();
+        OXFFeatureCollection featureCollection = new OXFFeatureCollection(id, type);
+        type.addMember(featureCollection, timeseriesObservation);
+        return featureCollection;
+    }
 
     private void addMember(OXFFeatureCollection featureCollection, XmlObject xb_memberDocument) throws OXFException {
-        
+
         // this feature shall be initialized and added to collection:
         OXFFeature feature = null;
-        
+
         // TODO Spec-Too-Flexible-Problem --> various Observation-Types are possible:
         // TODO create factory method to get FeatureInitializer via XmlObject.schemaType()
 
@@ -152,12 +152,12 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
             net.opengis.om.x10.ObservationType xb_genericObs = xb_observationDoc.getObservation();
             GenericObservationParser.addElementsFromGenericObservation(featureCollection, xb_genericObs);
         }
-        
+
         else {
             throw new IllegalArgumentException("The FeatureType '" + xb_memberDocument.schemaType()
                     + "' of the ObservationCollections member element is not supported.");
         }
-        
+
         //
         // add the observation (feature) if it is not null:
         //
@@ -166,5 +166,5 @@ public class OXFObservationCollectionType extends OXFAbstractFeatureType {
         }
     }
 
- 
+
 }

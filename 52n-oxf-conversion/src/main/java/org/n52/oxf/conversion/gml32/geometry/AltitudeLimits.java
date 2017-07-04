@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -32,57 +32,50 @@ package org.n52.oxf.conversion.gml32.geometry;
  */
 public class AltitudeLimits {
 
-	/**
-	 * Enumeration defining the common altitude reference definitions (derived from AIXM 5.1)
-	 */
-	public static enum AltitudeReferences {SFC, STD, FL, MSL, W84 }
-	
-	private AltitudeReferences lowerLimitReference;
-	private AltitudeReferences upperLimitReference;
-	private double lowerLimit;
-	private double upperLimit;
-	private String lowerLimitUom;
-	private String upperLimitUom;
+    /**
+     * Enumeration defining the common altitude reference definitions (derived from AIXM 5.1)
+     */
+    public static enum AltitudeReferences {SFC, STD, FL, MSL, W84 }
 
-	
-	public AltitudeLimits(double lowerLimit2,
-			AltitudeReferences lowerReference, double upperLimit2,
-			AltitudeReferences upperReference) {
-		this.lowerLimit = lowerLimit2;
-		this.upperLimit = upperLimit2;
-		this.lowerLimitReference = lowerReference;
-		this.upperLimitReference = upperReference;
-	}
+    private final AltitudeReferences lowerLimitReference;
+    private final AltitudeReferences upperLimitReference;
+    private final double lowerLimit;
+    private final double upperLimit;
 
+    public AltitudeLimits(double lowerLimit2,
+            AltitudeReferences lowerReference, double upperLimit2,
+            AltitudeReferences upperReference) {
+        this.lowerLimit = lowerLimit2;
+        this.upperLimit = upperLimit2;
+        this.lowerLimitReference = lowerReference;
+        this.upperLimitReference = upperReference;
+    }
 
-	public AltitudeReferences getLowerLimitReference() {
-		return lowerLimitReference;
-	}
+    public AltitudeReferences getLowerLimitReference() {
+        return lowerLimitReference;
+    }
 
+    public AltitudeReferences getUpperLimitReference() {
+        return upperLimitReference;
+    }
 
-	public AltitudeReferences getUpperLimitReference() {
-		return upperLimitReference;
-	}
+    public double getLowerLimit() {
+        return lowerLimit;
+    }
 
+    public double getUpperLimit() {
+        return upperLimit;
+    }
 
-	public double getLowerLimit() {
-		return lowerLimit;
-	}
+    @Deprecated
+    public String getLowerLimitUom() {
+        // field was never written
+        return null;
+    }
 
-
-	public double getUpperLimit() {
-		return upperLimit;
-	}
-
-
-	public String getLowerLimitUom() {
-		return lowerLimitUom;
-	}
-
-
-	public String getUpperLimitUom() {
-		return upperLimitUom;
-	}
-	
-	
+    @Deprecated
+    public String getUpperLimitUom() {
+        // field was never writtern
+        return null;
+    }
 }

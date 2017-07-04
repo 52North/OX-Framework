@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -64,7 +64,7 @@ public class OXFAbstractFeatureType extends OXFFeatureType {
                                                                                              "Contains or refers to a metadata package that contains metadata properties.");
 
         attributeDescriptors.add(metadataProperties);
-        
+
         OXFFeatureAttributeDescriptor description = new OXFFeatureAttributeDescriptor(DESCRIPTION,
                                                                                       DataType.STRING,
                                                                                       String.class,
@@ -94,7 +94,7 @@ public class OXFAbstractFeatureType extends OXFFeatureType {
     }
 
     /**
-     * 
+     *
      * @param feature
      * @param geom
      */
@@ -103,7 +103,7 @@ public class OXFAbstractFeatureType extends OXFFeatureType {
     }
 
     /**
-     * 
+     *
      * @param xb_abstractFeature
      *        shall be an instance of <code>net.opengis.gml.AbstractFeatureType</code>, taken form a concrete
      *        <code>AbstractObservationDocument</code>.
@@ -168,7 +168,7 @@ public class OXFAbstractFeatureType extends OXFFeatureType {
     }
 
     /**
-     * 
+     *
      * @param feature
      * @param nameValue
      * @param descriptionValue

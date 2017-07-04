@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -49,7 +49,7 @@ public class MultiValue {
             value = "";
         }
         if (values.contains(value)) {
-        	// we don't add the same value twice
+            // we don't add the same value twice
             return false;
         }
         return values.add(value);
@@ -102,17 +102,17 @@ public class MultiValue {
         values.clear();
     }
 
-	/**
-	 * @return <code>true</code>, if this instance is empty
-	 */
-	public boolean isEmpty()
-	{
-		return values.isEmpty();
-	}
+    /**
+     * @return <code>true</code>, if this instance is empty
+     */
+    public boolean isEmpty()
+    {
+        return values.isEmpty();
+    }
 
-	@Override
-	public String toString() {
-		return String.format("MultiValue [values=%s]", values);
-	}
+    @Override
+    public String toString() {
+        return String.format("MultiValue [values=%s]", values);
+    }
 
 }

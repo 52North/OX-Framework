@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -37,18 +37,18 @@ import org.vast.unit.UnitParserUCUM;
 
 public class TestUnitParsing {
 
-	@Test
-	public void testParsing() {
-		UnitParserUCUM ucom = new UnitParserUCUM();
-		Unit unit = ucom.getUnit("m");
-		Assert.assertTrue("Could not get unit", unit != null);
-	}
-	
-	@Test
-	public void testConversion() throws UnitConversionFailedException {
-		double value = 10000d;
-		NumberWithUOM result = UCUMTools.convert("mm", "m", value);
-		Assert.assertTrue("Unexpected conversion result.", result.getValue() == 10);
-	}
-	
+    @Test
+    public void testParsing() {
+        UnitParserUCUM ucom = new UnitParserUCUM();
+        Unit unit = ucom.getUnit("m");
+        Assert.assertTrue("Could not get unit", unit != null);
+    }
+
+    @Test
+    public void testConversion() throws UnitConversionFailedException {
+        double value = 10000d;
+        NumberWithUOM result = UCUMTools.convert("mm", "m", value);
+        Assert.assertTrue("Unexpected conversion result.", result.getValue() == 10);
+    }
+
 }

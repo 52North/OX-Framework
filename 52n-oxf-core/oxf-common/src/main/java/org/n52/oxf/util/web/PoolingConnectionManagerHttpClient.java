@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -42,46 +42,46 @@ import org.apache.http.impl.conn.PoolingClientConnectionManager;
  */
 public class PoolingConnectionManagerHttpClient extends SimpleHttpClient {
 
-	private static SchemeRegistry schemeRegistry;
+    private static SchemeRegistry schemeRegistry;
 
-	static {
-		schemeRegistry = new SchemeRegistry();
-		schemeRegistry.register(
-				new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
-		schemeRegistry.register(
-				new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
-	}
-	
-	public PoolingConnectionManagerHttpClient() {
-		super();
-	}
-	
-	public PoolingConnectionManagerHttpClient(int connectionTimeout) {
-		super(connectionTimeout);
-	}
-	
+    static {
+        schemeRegistry = new SchemeRegistry();
+        schemeRegistry.register(
+                new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
+        schemeRegistry.register(
+                new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
+    }
 
-	/*
-	 * XXX this cannot get called as it is overriding the superclass
-	 * getConnectionManager which is called in the superclass constructor.
-	 */
-	@Override
-	public ClientConnectionManager getConnectionManager() {
-		PoolingClientConnectionManager cm = new PoolingClientConnectionManager(schemeRegistry);
-		// Increase max total connection to 200
-		cm.setMaxTotal(200);
-		// Increase default max connection per route to 20
-		cm.setDefaultMaxPerRoute(20);
-		// Increase max connections for localhost:80 to 50
-		HttpHost localhost8080 = new HttpHost("localhost", 8080);
-		cm.setMaxPerRoute(new HttpRoute(localhost8080), 50);
-		HttpHost localhost = new HttpHost("localhost", 80);
-		cm.setMaxPerRoute(new HttpRoute(localhost), 50);
+    public PoolingConnectionManagerHttpClient() {
+        super();
+    }
 
-		return cm;
-	}
+    public PoolingConnectionManagerHttpClient(int connectionTimeout) {
+        super(connectionTimeout);
+    }
 
 
-	
+    /*
+     * XXX this cannot get called as it is overriding the superclass
+     * getConnectionManager which is called in the superclass constructor.
+     */
+    @Override
+    public ClientConnectionManager getConnectionManager() {
+        PoolingClientConnectionManager cm = new PoolingClientConnectionManager(schemeRegistry);
+        // Increase max total connection to 200
+        cm.setMaxTotal(200);
+        // Increase default max connection per route to 20
+        cm.setDefaultMaxPerRoute(20);
+        // Increase max connections for localhost:80 to 50
+        HttpHost localhost8080 = new HttpHost("localhost", 8080);
+        cm.setMaxPerRoute(new HttpRoute(localhost8080), 50);
+        HttpHost localhost = new HttpHost("localhost", 80);
+        cm.setMaxPerRoute(new HttpRoute(localhost), 50);
+
+        return cm;
+    }
+
+
+
 
 }

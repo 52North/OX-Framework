@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -41,42 +41,42 @@ import org.apache.http.entity.ContentType;
  */
 public abstract class MimetypeAwareRequestParameters extends MultiValueRequestParameters {
 
-	public static final String MIME_TYPE = "mimetypeType";
-	public static final String CHARSET = "mimetypeCharset";
+    public static final String MIME_TYPE = "mimetypeType";
+    public static final String CHARSET = "mimetypeCharset";
 
-	public void setType(final String mimetype) {
-		if (mimetype == null) {
-			throw new IllegalArgumentException("Parameter 'mimetype' should not be null!");
-		}
-		addNonEmpty(MIME_TYPE, mimetype);
-	}
+    public void setType(final String mimetype) {
+        if (mimetype == null) {
+            throw new IllegalArgumentException("Parameter 'mimetype' should not be null!");
+        }
+        addNonEmpty(MIME_TYPE, mimetype);
+    }
 
-	public void setCharset(final Charset charset) {
-		if (charset == null) {
-			throw new IllegalArgumentException("Parameter 'charset' should not be null!");
-		}
-		addNonEmpty(CHARSET, charset.toString());
-	}
+    public void setCharset(final Charset charset) {
+        if (charset == null) {
+            throw new IllegalArgumentException("Parameter 'charset' should not be null!");
+        }
+        addNonEmpty(CHARSET, charset.toString());
+    }
 
-	@Override
-	public boolean isEmpty() {
-		return super.isEmpty() || isEmpty(MIME_TYPE) || isEmpty(CHARSET);
-	}
+    @Override
+    public boolean isEmpty() {
+        return super.isEmpty() || isEmpty(MIME_TYPE) || isEmpty(CHARSET);
+    }
 
-	public boolean isValid() {
-		if (this.isEmpty()) {
-			return false;
-		}
-		try {
-			ContentType.create(getSingleValue(MIME_TYPE), getSingleValue(CHARSET));
-		} catch(final UnsupportedCharsetException uce) {
-			return false;
-		}
-		return true;
-	}
+    public boolean isValid() {
+        if (this.isEmpty()) {
+            return false;
+        }
+        try {
+            ContentType.create(getSingleValue(MIME_TYPE), getSingleValue(CHARSET));
+        } catch(final UnsupportedCharsetException uce) {
+            return false;
+        }
+        return true;
+    }
 
-	public boolean isSetMimetype() {
-		return isValid();
-	}
+    public boolean isSetMimetype() {
+        return isValid();
+    }
 
 }

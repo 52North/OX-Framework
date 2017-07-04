@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -42,31 +42,31 @@ public class OwsExceptionReport extends Exception {
     public enum LevelOfDetail {
         PLAIN, DETAILED;
     }
-    
+
     private LevelOfDetail levelOfDetail = LevelOfDetail.DETAILED;
-    
+
     private List<OwsException> exceptionList = new ArrayList<OwsException>();
-    
+
     public OwsExceptionReport() {
         // allow default construction
     }
-    
+
     public OwsExceptionReport(OwsException exception) {
         this.addOwsException(exception);
     }
-    
+
     public OwsException[] getOwsExceptionsArray() {
         return exceptionList.toArray(new OwsException[exceptionList.size()]);
     }
-    
+
     public void addOwsException(OwsException exception) {
         this.exceptionList.add(exception);
     }
-    
+
     public void addAllOwsExceptions(Collection<OwsException> exceptions) {
         this.exceptionList.addAll(exceptions);
     }
-    
+
     public boolean containsExceptions() {
         return !exceptionList.isEmpty();
     }
@@ -78,5 +78,5 @@ public class OwsExceptionReport extends Exception {
     public void setLevelOfDetail(LevelOfDetail levelOfDetail) {
         this.levelOfDetail = levelOfDetail;
     }
-    
+
 }

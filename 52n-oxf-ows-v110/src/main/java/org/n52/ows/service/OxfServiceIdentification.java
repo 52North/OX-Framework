@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -42,21 +42,21 @@ public class OxfServiceIdentification {
     public OxfServiceIdentification(ServiceIdentification serviceIdentification) {
         this.serviceIdentification = serviceIdentification;
     }
-    
+
     public void setServiceIdentification(ServiceIdentification serviceIdentification) {
         this.serviceIdentification = serviceIdentification;
     }
-    
+
     public ServiceIdentification getServiceIdentification() {
         return serviceIdentification;
     }
-    
+
     public ServiceIdentificationDocument getServiceIdentificationAsDocument() {
         ServiceIdentificationDocument document = ServiceIdentificationDocument.Factory.newInstance();
         document.setServiceIdentification(this.serviceIdentification);
         return document;
     }
-    
+
 
 //    public void setKeywords(String[] keywords) {
 //        this.serviceIdentification.setKeywordsArray(keywords);
@@ -84,6 +84,6 @@ public class OxfServiceIdentification {
     public void setAccessConstraints(String[] accessConstraints) {
         this.serviceIdentification.setAccessConstraintsArray(accessConstraints);
     }
-    
-    
+
+
 }

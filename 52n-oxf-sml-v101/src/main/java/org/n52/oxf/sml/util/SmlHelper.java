@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -45,6 +45,8 @@ import net.opengis.swes.x20.InsertSensorType.ProcedureDescription;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.xmlbeans.tools.XmlUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A helper class to conveniently read SensorML documents. <br/>
@@ -58,18 +60,21 @@ public class SmlHelper {
     public SensorMLDocument cachedDocument;
 
     // XXX think of how and where to separate those constants
-    
+
     public static final String UNIQUE_ID_NAME = "uniqueID";
-    
+
     public static final String LONG_NAME_NAME = "longName";
 
     public static final String SHORT_NAME_NAME = "shortName";
 
     public static final String OGC_UNIQUE_ID_URN = "urn:ogc:def:identifier:OGC:uniqueID";
-    
+
     public static final String OGC_LONG_NAME_URN = "urn:ogc:def:identifier:OGC:1.0:longName";
 
     public static final String OGC_SHORT_NAME_URN = "urn:ogc:def:identifier:OGC:1.0:shortName";
+
+    @SuppressWarnings("unused")
+    private static final Logger LOG = LoggerFactory.getLogger(SmlHelper.class);
 
     /**
      * @param smlContainer
@@ -86,13 +91,13 @@ public class SmlHelper {
      * Parses the passed procedure description into SensorML and caches the result for later use. If a new
      * SensorML description shall be cachedDocument the cachedDocument instance can be cleared by
      * {@link #clearCachedSml()}.
-     * 
+     *
      * @param smlContainer
      *        the xml container containing the SensorML description
      * @return the procedure description parsed as SensorML
      * @throws XmlException
      *         if parsing to SensorML fails.
-     * 
+     *
      * @see #getSmlFrom(ProcedureDescription)
      * @see #clearCachedSml()
      */
@@ -131,7 +136,7 @@ public class SmlHelper {
 
     /**
      * Gets the first Identification entry of the first SensorML member.
-     * 
+     *
      * @param smlDoc
      *        the sensor description document.
      * @return the first Identification of the first member found in the sensor description, or
@@ -153,7 +158,7 @@ public class SmlHelper {
 
     /**
      * Finds the value from a given sml:identification that matches either <code>name</code>.
-     * 
+     *
      * @param name
      *        the name to search for (mandatory)
      * @param identifier
@@ -168,7 +173,7 @@ public class SmlHelper {
     /**
      * Finds the value from a given sml:identification that matches either <code>name</code> or
      * <code>definition</code>.
-     * 
+     *
      * @param name
      *        the name to search for (mandatory)
      * @param definition

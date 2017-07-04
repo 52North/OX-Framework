@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -31,24 +31,25 @@ package org.n52.oxf.valueDomains.time;
  * Represents a TimePeriod specified in OGC WCS spec 1.0.0 and consists of the TimePositions start and end and
  * the TimeResolution resolution.
  *
- * Valid example time period strings: 
+ * Valid example time period strings:
  * <ul>
- * 	<li>1998-11-01/2005-11-02</li>
- * 	<li>1998-11-01/2005-11-02/P1Y</li>
+ *  <li>1998-11-01/2005-11-02</li>
+ *  <li>1998-11-01/2005-11-02/P1Y</li>
  * </ul>
  *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  */
 public class TimePeriod implements ITimePeriod {
 
-    public static String PERIOD_PATTERN = ".+/.+(/.+)?";
+    public final static String PERIOD_PATTERN = ".+/.+(/.+)?";
+
     private ITimePosition start;
     private ITimePosition end;
     private ITimeResolution resolution;
 
     /**
      * Constructs a TimePeriod without a resolution. The default resolution has to be set explicitly.
-     * 
+     *
      * @param begin a String representing the start
      * @param end a String representing the end
      */
@@ -80,7 +81,7 @@ public class TimePeriod implements ITimePeriod {
             start = new TimePosition(periodParts[0]);
             end = new TimePosition(periodParts[1]);
             if (periodParts.length > 2) {
-            	resolution = new TimeResolution(periodParts[2]);
+                resolution = new TimeResolution(periodParts[2]);
             }
         }
         else {
@@ -112,27 +113,36 @@ public class TimePeriod implements ITimePeriod {
     }
 
     @Override
-	public ITimePosition getStart() {
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + (this.start != null ? this.start.hashCode() : 0);
+        hash = 97 * hash + (this.end != null ? this.end.hashCode() : 0);
+        hash = 97 * hash + (this.resolution != null ? this.resolution.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public ITimePosition getStart() {
         return start;
     }
 
     @Override
-	public ITimePosition getEnd() {
+    public ITimePosition getEnd() {
         return end;
     }
 
     @Override
-	public ITimeResolution getResolution() {
+    public ITimeResolution getResolution() {
         return resolution;
     }
 
     /**
      * Sets a default resolution if the resolution has not been set yet in any other method.
-     * 
+     *
      * @param resolution The resolution to set
-     * 
+     *
      * @throws IllegalArgumentException if the String could not be parsed to an {@link TimeResolution}.
-     * 
+     *
      * @see TimeResolution#TimeResolution(String)
      */
     public void setDefaultResolution(final String resolution) {
@@ -146,7 +156,7 @@ public class TimePeriod implements ITimePeriod {
     }
 
     @Override
-	public String toISO8601Format() {
+    public String toISO8601Format() {
         return start.toISO8601Format() + "/" + end.toISO8601Format() + (resolution != null ? ("/" + resolution) : "");
     }
 
@@ -159,7 +169,7 @@ public class TimePeriod implements ITimePeriod {
      * proofs whether timePeriod is contained in this TimePeriod.
      */
     @Override
-	public boolean contains(final ITimePeriod timePeriod) {
+    public boolean contains(final ITimePeriod timePeriod) {
         return (start.before(timePeriod.getStart()) || start.equals(timePeriod.getStart()))
                 && (end.after(timePeriod.getEnd()) || end.equals(timePeriod.getEnd()));
     }
@@ -168,7 +178,7 @@ public class TimePeriod implements ITimePeriod {
      * proofs whether timePosition is contained in this TimePeriod.
      */
     @Override
-	public boolean contains(final ITimePosition timePos) {
+    public boolean contains(final ITimePosition timePos) {
         return (start.before(timePos) || start.equals(timePos)) && (end.after(timePos) || end.equals(timePos));
     }
 

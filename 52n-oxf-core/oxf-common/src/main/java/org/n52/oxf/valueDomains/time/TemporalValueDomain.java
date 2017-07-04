@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -36,9 +36,9 @@ import org.n52.oxf.ows.capabilities.ITime;
 /**
  * This class is a ValueDomain for ITime objects. These objects could be instances of TimePosition or
  * TimePeriod.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
 
@@ -49,20 +49,20 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
 
     public TemporalValueDomain(ITime time) {
         this.timeList = new ArrayList<ITime>();
-        add(time);
+        timeList.add(time);
     }
-    
+
     public TemporalValueDomain(List<ITime> timeList) {
         this.timeList = timeList;
     }
-    
+
     public TemporalValueDomain(ITime[] possibleValues){
         this.timeList = new ArrayList<ITime>(java.util.Arrays.asList(possibleValues));
     }
 
     /**
      * adds an ITime object to the timeList.
-     * 
+     *
      * @param time the {@linkplain ITime} to add
      */
     public void add(ITime time) {
@@ -72,14 +72,14 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
     /**
      * adds an ITime object to the timeList. This object will be generated from the timeString which has to
      * bee ISO8601 compliant.
-     * 
+     *
      * @param timeString
      *        ISO8601 compliant timeString.
      */
     public void add(String timeString) {
         timeList.add(TimeFactory.createTime(timeString));
     }
-    
+
     public boolean isEmpty(){
         return timeList.isEmpty();
     }
@@ -87,6 +87,7 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
     /**
      * @return the List of all possible ITime objects.
      */
+    @Override
     public List<ITime> getPossibleValues() {
         return timeList;
     }
@@ -94,9 +95,11 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
     /**
      * proofs whether the overgiven ITime object is contained in this TemporalValueDomain. (It also proofs if
      * time is contained in TimePeriods which are contained in this TemporalValueDomain.
-     * 
+     *
+     * @param time the time to check
      */
     //TODO: sind hier wirklich auch TimePeriods als Eingabe sinnvoll? oder nur TimePositions?
+    @Override
     public boolean containsValue(ITime time) {
         for (ITime t : timeList) {
             if (t instanceof ITimePosition && time instanceof ITimePeriod) {
@@ -122,7 +125,7 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
                 if (timePeriod1.contains(timePeriod2)) {
                     return true;
                 }
-            } 
+            }
             else if (t.equals(time)) {
                 return true;
             }
@@ -131,29 +134,31 @@ public class TemporalValueDomain implements IDiscreteValueDomain<ITime> {
         return false;
     }
 
+    @Override
     public String getDomainDescription() {
         return "ValueDomain for ITime objects; so either TimePosition or TimePeriod objects.";
     }
 
+    @Override
     public String toXML() {
-        String res = "<temporalDomain>";
-
+        StringBuilder res = new StringBuilder("<temporalDomain>");
         for (ITime t : timeList) {
             if (t instanceof ITimePeriod) {
-                res += "<timePeriod>" + t + "</timePeriod>";
+                res.append("<timePeriod>").append(t).append("</timePeriod>");
             }
             else if (t instanceof ITimePosition) {
-                res += "<timePosition>" + t + "</timePosition>";
+                res.append("<timePosition>").append(t).append("</timePosition>");
             }
         }
-
-        res += "</temporalDomain>";
-        return res;
+        return res.append("</temporalDomain>").toString();
     }
 
     /**
      * builds from the first element of the stringArray an ITime object. The string must be ISO8601 compliant.
+     * @param stringArray the String[] to create an ITime object from. MUST be ISO8601 compliant.
+     * @return ITime object from the first element of the String[].
      */
+    @Override
     public ITime produceValue(String... stringArray) {
         return TimeFactory.createTime(stringArray[0]);
     }

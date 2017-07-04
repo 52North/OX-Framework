@@ -1,6 +1,6 @@
         <wsnt:MessageContent Dialect="http://www.opengis.net/ses/filter/level3">
           <eml:EML xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:eml="http://www.opengis.net/eml/0.0.2" xmlns:swe="http://www.opengis.net/swe/1.0.1">
- 
+
            <eml:SimplePatterns>
              <eml:SimplePattern patternID="select_aircraft_updates">
                 <eml:SelectFunctions>

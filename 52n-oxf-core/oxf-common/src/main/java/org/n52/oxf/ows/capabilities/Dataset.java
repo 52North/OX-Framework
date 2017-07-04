@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -31,7 +31,7 @@ import java.util.Locale;
 
 /**
  * This holds metadata about data provided by the service.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering </a>
  */
@@ -39,7 +39,7 @@ public class Dataset extends Description {
 
     /**
      * for example the name of the dataset.
-     * 
+     *
      * required
      */
     private String identifier;
@@ -61,7 +61,7 @@ public class Dataset extends Description {
 
     /**
      * holds all possible time values for this dataset.
-     * 
+     *
      * optional
      */
     private IDiscreteValueDomain<ITime> temporalDomain;
@@ -73,14 +73,14 @@ public class Dataset extends Description {
 
     /**
      * is compliant to ISO 639
-     * 
+     *
      * optional
      */
     private Locale[] language;
 
     /**
      * only a String representation of the point of contact element.
-     * 
+     *
      * optional
      */
     private String pointOfContactString;
@@ -116,6 +116,7 @@ public class Dataset extends Description {
         setTemporalDomain(temporalDomain);
     }
 
+    @Override
     public String toString() {
         return this.getIdentifier();
     }
@@ -135,39 +136,47 @@ public class Dataset extends Description {
 
         res += "<AvailableCRSs>";
         if (availableCRSs != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (String crs : availableCRSs) {
-                res += "<CRS>";
-                res += crs;
-                res += "</CRS>";
+                sb.append("<CRS>")
+                        .append(crs)
+                        .append("</CRS>");
             }
+            res = sb.toString();
         }
         res += "</AvailableCRSs>";
 
         res += "<OutputFormats>";
         if (outputFormats != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (String format : outputFormats) {
-                res += "<Format>";
-                res += format;
-                res += "</Format>";
+                sb.append("<Format>")
+                        .append(format)
+                        .append("</Format>");
             }
+            res = sb.toString();
         }
         res += "</OutputFormats>";
 
         res += "<BBoxes>";
         if (boundingBoxes != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (IBoundingBox bBox : boundingBoxes) {
-                res += bBox.toXML();
+                sb.append(bBox.toXML());
             }
+            res = sb.toString();
         }
         res += "</BBoxes>";
 
         res += "<Languages>";
         if (language != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (Locale locale : language) {
-                res += "<Language>";
-                res += locale.toString();
-                res += "</Language>";
+                sb.append("<Language>")
+                        .append(locale.toString())
+                        .append("</Language>");
             }
+            res = sb.toString();
         }
         res += "</Languages>";
 
@@ -177,7 +186,7 @@ public class Dataset extends Description {
     }
 
     public String[] getAvailableCRSs() {
-        return availableCRSs;
+        return availableCRSs == null? new String[0] : availableCRSs.clone();
     }
 
     protected void setAvailableCRSs(String[] availableCRS) {
@@ -185,7 +194,7 @@ public class Dataset extends Description {
     }
 
     public IBoundingBox[] getBoundingBoxes() {
-        return boundingBoxes;
+        return boundingBoxes == null? new IBoundingBox[0] : boundingBoxes.clone();
     }
 
     /**
@@ -229,7 +238,7 @@ public class Dataset extends Description {
     }
 
     public Locale[] getLanguage() {
-        return language;
+        return language == null? new Locale[0] : language.clone();
     }
 
     protected void setLanguage(Locale[] language) {
@@ -237,7 +246,7 @@ public class Dataset extends Description {
     }
 
     public String[] getOutputFormats() {
-        return outputFormats;
+        return outputFormats == null? null : outputFormats.clone();
     }
 
     protected void setOutputFormats(String[] outputFormat) {

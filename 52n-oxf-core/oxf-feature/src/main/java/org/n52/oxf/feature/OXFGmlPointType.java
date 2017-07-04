@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -40,11 +40,11 @@ import com.vividsolutions.jts.geom.Point;
 public class OXFGmlPointType extends OXFAbstractFeatureType {
 
     public static final String POSITION = "position";
-    
+
     public OXFGmlPointType() {
         typeName = "OXFGmlPointType";
     }
-    
+
     public static OXFFeature create(PointType gmlPoint) {
         String id = gmlPoint.isSetIdentifier() ? gmlPoint.getIdentifier().getStringValue() : "NotSet";
         OXFGmlPointType gmlPointType = new OXFGmlPointType();
@@ -52,21 +52,21 @@ public class OXFGmlPointType extends OXFAbstractFeatureType {
         gmlPointType.initializeFeature(feature, gmlPoint);
         return feature;
     }
-    
+
     public void initializeFeature(OXFFeature feature, PointType gmlPoint) {
-        
+
         // create the DESCRIPTION-attribute:
         if (gmlPoint.isSetDescription()) {
             String description = gmlPoint.getDescription().getStringValue();
             feature.setAttribute(DESCRIPTION, description);
         }
-        
+
         // create the NAME-attribute:
         if (hasAtLeastOneName(gmlPoint)) {
             String name = gmlPoint.getNameArray(0).getStringValue();
             feature.setAttribute(NAME, new String[] {name});
         }
-        
+
         // create the POSITION-attribute:
         if (gmlPoint.isSetPos()) {
             DirectPositionType directPosition = gmlPoint.getPos();

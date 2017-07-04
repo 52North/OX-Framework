@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -33,9 +33,9 @@ import org.n52.oxf.ows.capabilities.Contents;
 import org.n52.oxf.ows.capabilities.Dataset;
 
 /**
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class SOSContents extends Contents {
 
@@ -60,7 +60,7 @@ public class SOSContents extends Contents {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public ObservationOffering getDataIdentification(final int i) {
@@ -68,7 +68,7 @@ public class SOSContents extends Contents {
     }
 
     /**
-     * 
+     *
      * @param identifier
      * @return the <code>ObservationOffering</code> with the specified identifier/name or <code>null</code> if
      *         there is no dataset with the specified identifier/name.

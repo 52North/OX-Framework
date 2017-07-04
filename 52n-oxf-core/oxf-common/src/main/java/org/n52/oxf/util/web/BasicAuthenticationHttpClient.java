@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -45,46 +45,46 @@ import org.apache.http.protocol.HttpContext;
 
 public class BasicAuthenticationHttpClient extends HttpClientDecorator {
 
-	protected Map<HttpHost, UserPasswordAuthentication> credentials = new HashMap<HttpHost, UserPasswordAuthentication>();
-	
-	public BasicAuthenticationHttpClient(HttpClient toDecorate) {
-		super(toDecorate);
-		addAuthenticationInterceptor(getHttpClientToDecorate());
-	}
-	
-	private void addAuthenticationInterceptor(DefaultHttpClient httpclient) {
+    protected Map<HttpHost, UserPasswordAuthentication> credentials = new HashMap<HttpHost, UserPasswordAuthentication>();
+
+    public BasicAuthenticationHttpClient(HttpClient toDecorate) {
+        super(toDecorate);
+        addAuthenticationInterceptor(getHttpClientToDecorate());
+    }
+
+    private void addAuthenticationInterceptor(DefaultHttpClient httpclient) {
         httpclient.addRequestInterceptor(getAuthenticationIntercepter(), 0);
-	}
+    }
 
-	protected HttpRequestInterceptor getAuthenticationIntercepter() {
-		return new BasicAuthenticationInterceptor();
-	}
+    protected HttpRequestInterceptor getAuthenticationIntercepter() {
+        return new BasicAuthenticationInterceptor();
+    }
 
-	public synchronized void provideAuthentication(HttpHost host, String user, String pw) {
-		this.credentials.put(host, new UserPasswordAuthentication(user, pw));
-	}
+    public synchronized void provideAuthentication(HttpHost host, String user, String pw) {
+        this.credentials.put(host, new UserPasswordAuthentication(user, pw));
+    }
 
-	private final class BasicAuthenticationInterceptor implements HttpRequestInterceptor {
+    private final class BasicAuthenticationInterceptor implements HttpRequestInterceptor {
 
-		public void process(HttpRequest request, HttpContext context)
-				throws HttpException, IOException {
-			HttpHost targetHost = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
-			
-			UserPasswordAuthentication creds;
-			synchronized (this) {
-				creds = credentials.get(targetHost);	
-			}
-			
-			if (creds != null) {
-				AuthScope scope = new AuthScope(targetHost);
-				
-				BasicCredentialsProvider credProvider = new BasicCredentialsProvider();
-				credProvider.setCredentials(scope, new UsernamePasswordCredentials(creds.getUsername(),
-						creds.getPassword()));
-				context.setAttribute(ClientContext.CREDS_PROVIDER, credProvider);	
-			}
-		}
-		
-	}
-	
+        public void process(HttpRequest request, HttpContext context)
+                throws HttpException, IOException {
+            HttpHost targetHost = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+
+            UserPasswordAuthentication creds;
+            synchronized (this) {
+                creds = credentials.get(targetHost);
+            }
+
+            if (creds != null) {
+                AuthScope scope = new AuthScope(targetHost);
+
+                BasicCredentialsProvider credProvider = new BasicCredentialsProvider();
+                credProvider.setCredentials(scope, new UsernamePasswordCredentials(creds.getUsername(),
+                        creds.getPassword()));
+                context.setAttribute(ClientContext.CREDS_PROVIDER, credProvider);
+            }
+        }
+
+    }
+
 }

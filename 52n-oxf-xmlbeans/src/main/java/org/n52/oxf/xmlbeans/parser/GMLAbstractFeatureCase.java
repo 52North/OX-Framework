@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -34,25 +34,25 @@ import org.n52.oxf.xml.XMLConstants;
  * Allow substitutions of gml:AbstractFeature.
  * This lax validation lets pass every child, hence
  * it checks not _if_ this is a valid substitution.
- * 
+ *
  * @author matthes rieke <m.rieke@52north.org>
  */
 public class GMLAbstractFeatureCase extends AbstractLaxValidationCase {
 
-	private static GMLAbstractFeatureCase instance = null;
-	
-	private GMLAbstractFeatureCase() {}
-	
-	public static GMLAbstractFeatureCase getInstance() {
-		if (instance == null) {
-			instance = new GMLAbstractFeatureCase();
-		}
-		return instance;
-	}
+    private static GMLAbstractFeatureCase instance = null;
 
-	@Override
-	public boolean shouldPass(final XmlValidationError xve) {
-		return xve.getExpectedQNames() != null && (xve.getExpectedQNames().contains(XMLConstants.FEATURE_QN)
-				|| xve.getExpectedQNames().contains(XMLConstants.FEATURE_COLLECTION_QN));
-	}
+    private GMLAbstractFeatureCase() {}
+
+    public static GMLAbstractFeatureCase getInstance() {
+        if (instance == null) {
+            instance = new GMLAbstractFeatureCase();
+        }
+        return instance;
+    }
+
+    @Override
+    public boolean shouldPass(final XmlValidationError xve) {
+        return xve.getExpectedQNames() != null && (xve.getExpectedQNames().contains(XMLConstants.FEATURE_QN)
+                || xve.getExpectedQNames().contains(XMLConstants.FEATURE_COLLECTION_QN));
+    }
 }

@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -27,27 +27,31 @@
  */
 package org.n52.oxf.sos.util;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class SosUtil {
 
     /**
      * The Type of the service which is connectable by this ServiceAdapter
      */
     public static final String SERVICE_TYPE = "SOS";
-    
+
     /**
      * the Versions of the services which are connectable by this ServiceAdapter.
-     * Array contains: [1.0.0, 2.0.0]
+     * List contains: [0.0.0, 1.0.0, 2.0.0] hence index is matching version
      */
-    public static final String[] SUPPORTED_VERSIONS = { "1.0.0", "2.0.0" };
+    public static final List<String> SUPPORTED_VERSIONS = Collections.unmodifiableList(Arrays.asList("0.0.0","1.0.0", "2.0.0"));
 
     public static boolean isVersion100(final String version) {
-        return SUPPORTED_VERSIONS[0].equals(version);
+        return SUPPORTED_VERSIONS.get(1).equals(version);
     }
 
     public static boolean isVersion200(final String version) {
-        return SUPPORTED_VERSIONS[1].equals(version);
+        return SUPPORTED_VERSIONS.get(2).equals(version);
     }
-    
+
     private SosUtil() {}
 
 }

@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -37,18 +37,18 @@ import org.n52.oxf.xmlbeans.tools.XmlUtil;
 
 public class XmlUtilXPathTest {
 
-	@Test
-	public void testXpathCompilation() throws XmlException, IOException {
-		String xpath = "declare namespace muse-wsa='http://ws.apache.org/muse/addressing'; //muse-wsa:ResourceId";
-		
-		XmlObject xo = readObject();
-		xo = XmlUtil.selectPath(xpath, xo)[0];
-		String inner = XmlUtil.stripText(xo);
-		Assert.assertTrue(inner.trim().equals("Subscription-2"));
-	}
+    @Test
+    public void testXpathCompilation() throws XmlException, IOException {
+        String xpath = "declare namespace muse-wsa='http://ws.apache.org/muse/addressing'; //muse-wsa:ResourceId";
 
-	private XmlObject readObject() throws XmlException, IOException {
-		return XmlObject.Factory.parse(getClass().getResourceAsStream("XPathSaxon94Text.xml"));
-	}
-	
+        XmlObject xo = readObject();
+        xo = XmlUtil.selectPath(xpath, xo)[0];
+        String inner = XmlUtil.stripText(xo);
+        Assert.assertTrue(inner.trim().equals("Subscription-2"));
+    }
+
+    private XmlObject readObject() throws XmlException, IOException {
+        return XmlObject.Factory.parse(getClass().getResourceAsStream("XPathSaxon94Text.xml"));
+    }
+
 }

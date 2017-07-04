@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -34,10 +34,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ *
  * This class holds the values to invoke a service operation. One Operation will be generated for each
  * operation of a OWS (i.e. GetMap)
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
@@ -87,7 +87,7 @@ public class Operation {
      * convenience constructor. Creates an Operation with the specified name and sets one DCP with the
      * specified httpGetHref and httpPostHref. The constraints and parameters attributes will stay
      * <code>null</code>.
-     * 
+     *
      * @param name name of the operation
      * @param httpGetHref the URL to be used for HTTP GET
      * @param httpPostHref the URL to be used for HTTP POST
@@ -110,27 +110,33 @@ public class Operation {
 
         res += "<Parameters>";
         if (parameters != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (final Parameter parameter : parameters) {
-                res += parameter.toXML();
+                sb.append(parameter.toXML());
             }
+            res = sb.toString();
         }
         res += "</Parameters>";
 
         res += "<Constraints>";
         if (constraints != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (final String c : constraints) {
-                res += "<Constraint>";
-                res += c;
-                res += "<Constraint>";
+                sb.append("<Constraint>")
+                        .append(c)
+                        .append("<Constraint>");
             }
+            res = sb.toString();
         }
         res += "</Constraints>";
 
         res += "<DCPs>";
         if (dcps != null) {
+            StringBuilder sb = new StringBuilder(res);
             for (final DCP dcp : dcps) {
-                res += dcp.toXML();
+                sb.append(dcp.toXML());
             }
+            res = sb.toString();
         }
         res += "</DCPs>";
 
@@ -140,28 +146,30 @@ public class Operation {
     }
 
     @Override
-	public String toString() {
-    	String params = null;
-    	if (parameters != null) {
-    		params = "[";
-    		for (final Parameter param : parameters) {
-                params += "ServiceSidedName: " 	+ param.getServiceSidedName() 
-                		+ "  CommonName: "		+ param.getCommonName()
-                		+ "  ValueDomain-class: "
-                					+ param.getValueDomain().getClass() + "\n";
+    public String toString() {
+        String params = null;
+        if (parameters != null) {
+            params = "[";
+            StringBuilder sb = new StringBuilder(params);
+            for (final Parameter param : parameters) {
+                sb.append("ServiceSidedName: ").append(param.getServiceSidedName())
+                        .append("  CommonName: ").append(param.getCommonName())
+                        .append("  ValueDomain-class: ").append(param.getValueDomain().getClass())
+                        .append("\n");
             }
-    		params += "]";
-    	}
-		return String.format(
-				"Operation [name=%s, parameters=%s, constraints=%s, dcps=%s]",
-				name,
-				(parameters!=null?params:parameters),
-				Arrays.toString(constraints),
-				Arrays.toString(dcps));
-	}
+            params = sb.toString();
+            params += "]";
+        }
+        return String.format(
+                "Operation [name=%s, parameters=%s, constraints=%s, dcps=%s]",
+                name,
+                (parameters!=null?params:parameters),
+                Arrays.toString(constraints),
+                Arrays.toString(dcps));
+    }
 
     public String[] getConstraints() {
-        return constraints;
+        return constraints != null? constraints.clone() : new String[0];
     }
 
     protected void setConstraints(final String[] constraints) {
@@ -169,7 +177,7 @@ public class Operation {
     }
 
     public DCP[] getDcps() {
-        return dcps;
+        return dcps != null? dcps.clone() : null;
     }
 
     protected void setDcps(final DCP[] dcps) {
@@ -188,10 +196,10 @@ public class Operation {
      */
     protected void setName(final String name) throws IllegalArgumentException {
         if (name == null || name.isEmpty()) {
-        	throw new IllegalArgumentException("The parameter 'name' is null or empty.");
+            throw new IllegalArgumentException("The parameter 'name' is null or empty.");
         }
         else {
-        	this.name = name;
+            this.name = name;
         }
     }
 
@@ -217,7 +225,7 @@ public class Operation {
     /**
      * This returns a Map, which contains the parameterNames (= serviceSidedNames) as Keys and the
      * Parameters itself as values.
-     * 
+     *
      * @return a parameter name &rarr; parameter map.
      */
     public Map<String, Parameter> getParametersAsMap() {
@@ -244,7 +252,7 @@ public class Operation {
     }
 
     /**
-     * @param serviceSidedName the service side parametername 
+     * @param serviceSidedName the service side parametername
      * @param datasetID the dataset id
      * @return the DatasetParameter with the specified serviceSidedName (ignore case!) and the specified
      *         datasetID.

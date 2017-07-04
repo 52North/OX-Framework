@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -31,92 +31,92 @@ package org.n52.oxf.ows.capabilities;
  * Description of person(s) and organizations.<br>
  * <br>
  * This class refers to CI_ResponsibleParty of ISO 19115.
- * 
+ *
  * @author ISO 19115 and <a href="www.opengeospatial.org">OGC</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class ServiceContact {
 
-	/**
-	 * Name of the responsible person-surname, given name, title separated by a delimiter.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private String individualName;
+    /**
+     * Name of the responsible person-surname, given name, title separated by a delimiter.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private String individualName;
 
-	/**
-	 *  Address of the responsible party.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private String organisationName;
+    /**
+     *  Address of the responsible party.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private String organisationName;
 
-	/**
-	 * Position of the contact person.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private String positionName;
+    /**
+     * Position of the contact person.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private String positionName;
 
-	/**
-	 *  Address of the responsible party.
-	 * <br>
-	 * Zero or one (optional) value is possible. <br>
-	 */
-	private Contact contactInfo;
+    /**
+     *  Address of the responsible party.
+     * <br>
+     * Zero or one (optional) value is possible. <br>
+     */
+    private Contact contactInfo;
 
-	public ServiceContact(String individualName, String organisationName,
-			String positionName, Contact contactInfo) {
-		this.individualName = individualName;
-		this.organisationName = organisationName;
-		this.positionName = positionName;
-		this.contactInfo = contactInfo;
-	}
+    public ServiceContact(String individualName, String organisationName,
+            String positionName, Contact contactInfo) {
+        this.individualName = individualName;
+        this.organisationName = organisationName;
+        this.positionName = positionName;
+        this.contactInfo = contactInfo;
+    }
 
-	/**
-	 * @return a XML representation of this ServiceContact. 
-	 */
-	public String toXML(){
-		String res = "<ServiceContact"
-			+ " individualName=\""	+ individualName + "\""
-			+ " organisationName=\""+ organisationName + "\""
-			+ " positionName=\""	+ positionName + "\">";
-		
-		if(contactInfo != null) res += contactInfo.toXML();
-		
-		res += "</ServiceContact>";
-		return res;
-	}
-	
-	public Contact getContactInfo() {
-		return contactInfo;
-	}
+    /**
+     * @return a XML representation of this ServiceContact.
+     */
+    public String toXML(){
+        String res = "<ServiceContact"
+            + " individualName=\""  + individualName + "\""
+            + " organisationName=\""+ organisationName + "\""
+            + " positionName=\""    + positionName + "\">";
 
-	protected void setContactInfo(Contact contactInfo) {
-		this.contactInfo = contactInfo;
-	}
+        if(contactInfo != null) res += contactInfo.toXML();
 
-	public String getIndividualName() {
-		return individualName;
-	}
+        res += "</ServiceContact>";
+        return res;
+    }
 
-	protected void setIndividualName(String individualName) {
-		this.individualName = individualName;
-	}
+    public Contact getContactInfo() {
+        return contactInfo;
+    }
 
-	public String getOrganisationName() {
-		return organisationName;
-	}
+    protected void setContactInfo(Contact contactInfo) {
+        this.contactInfo = contactInfo;
+    }
 
-	protected void setOrganisationName(String organisationName) {
-		this.organisationName = organisationName;
-	}
+    public String getIndividualName() {
+        return individualName;
+    }
 
-	public String getPositionName() {
-		return positionName;
-	}
+    protected void setIndividualName(String individualName) {
+        this.individualName = individualName;
+    }
 
-	protected void setPositionName(String positionName) {
-		this.positionName = positionName;
-	}
+    public String getOrganisationName() {
+        return organisationName;
+    }
+
+    protected void setOrganisationName(String organisationName) {
+        this.organisationName = organisationName;
+    }
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    protected void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
 }

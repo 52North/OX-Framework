@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -45,7 +45,7 @@ public class SESUtils {
          * <b>prefix:</b>  {@link SesNamespace#SES} <code>ses</code><br>
          * <b>namespace:</b> <code>http://www.opengis.net/ses/0.0</code>
          */
-        SES("ses", "http://www.opengis.net/ses/0.0"), 
+        SES("ses", "http://www.opengis.net/ses/0.0"),
         /**
          * <b>prefix:</b> <code>wsa</code><br>
          * <b>namespace:</b> <code>http://www.w3.org/2005/08/addressing</code>
@@ -156,10 +156,10 @@ public class SESUtils {
          * <b>namespace:</b> <code>http://www.w3.org/2001/XMLSchema-instance</code>
          */
         XSI("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        
+
         private String prefix;
         private String namespace;
-        
+
         private SesNamespace(String prefix, String namespace) {
             this.prefix = prefix;
             this.namespace = namespace;
@@ -172,7 +172,7 @@ public class SESUtils {
         public String getNamespace() {
             return namespace;
         }
-        
+
         public QName createQNameFor(String localPart) {
             return new QName(namespace, localPart, prefix);
         }
@@ -180,7 +180,7 @@ public class SESUtils {
 
     /**
      * Creates a qualified element for given elementName with prefix known by {@link #SES_NAMESPACES}.
-     * 
+     *
      * @param elementName
      *        the element name to get a qualified name for.
      * @param namespace
@@ -193,7 +193,7 @@ public class SESUtils {
 
     /**
      * Adds a set of namespaces to the SOAP-Envelope document.
-     * 
+     *
      * @param envelope
      *        the {@link EnvelopeDocument} to which the namespace set is added
      */

@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -36,7 +36,7 @@ public class OXFFeatureType /*implements org.opengis.feature.FeatureType*/ {
     protected List<OXFFeatureAttributeDescriptor> featureAttributeDescriptors;
 
     /**
-     * 
+     *
      * @param typeName
      * @param featureAttributeDescriptors
      * @param defaultShapeAttribute
@@ -47,7 +47,7 @@ public class OXFFeatureType /*implements org.opengis.feature.FeatureType*/ {
     }
 
     /**
-     * 
+     *
      * @return
      */
     public String getTypeName() {
@@ -55,7 +55,7 @@ public class OXFFeatureType /*implements org.opengis.feature.FeatureType*/ {
     }
 
     /**
-     * 
+     *
      * @param attributeName
      * @return true, if there is an FeatureAttributeDescriptor which has got the specified attributeName.
      */
@@ -69,7 +69,7 @@ public class OXFFeatureType /*implements org.opengis.feature.FeatureType*/ {
     }
 
     /**
-     * 
+     *
      * @param attributeName
      * @return the FeatureAttributeDescriptor with the specified name; or <code>null</code> if there is no
      *         such FeatureAttributeDescriptor.
@@ -95,22 +95,22 @@ public class OXFFeatureType /*implements org.opengis.feature.FeatureType*/ {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public String toString() {
         return "FeatureType:'" + typeName + "'";
     }
-    
+
 
     /** not supported */
     public List getChildTypes() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
-    
+
     /** not supported */
     public OXFGeometryAttribute getDefaultShapeAttribute() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
-    
+
 }

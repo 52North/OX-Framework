@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -30,20 +30,24 @@ package org.n52.oxf.feature.sos;
 import org.n52.oxf.ows.capabilities.ITime;
 
 /**
- * Associates a tuple of observedProperties with a time (-position or -period). 
- * 
+ * Associates a tuple of observedProperties with a time (-position or -period).
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  *
  */
 public class ObservedValueTuple {
-    
-    private Object[] values;
-    private String[] phenNames;
-    private ITime time;
+
+    private final Object[] values;
+    private final String[] phenNames;
+    private final ITime time;
 
     public ObservedValueTuple(int dimension, String[] phenNames, ITime time) {
         values = new Object[dimension];
-        this.phenNames = phenNames;
+        if (phenNames != null) {
+            this.phenNames = phenNames.clone();
+        } else {
+            this.phenNames = null;
+        }
         this.time = time;
     }
 
@@ -52,7 +56,10 @@ public class ObservedValueTuple {
     }
 
     public Object getValue(int index) {
-        return values[index];
+        if (values != null && index < values.length && index >= 0) {
+            return values[index];
+        }
+        return null;
     }
 
     public int dimension() {
@@ -60,18 +67,19 @@ public class ObservedValueTuple {
     }
 
     public String[] getPhenomenonNames() {
-        return phenNames;
+        return phenNames == null? null : phenNames.clone();
     }
 
     public ITime getTime() {
         return time;
     }
-    
+
+    @Override
     public String toString() {
-        String res = "";
+        StringBuilder res = new StringBuilder();
         for (Object value : values) {
-            res += value.toString() + ", ";
+            res.append(value.toString()).append(", ");
         }
-        return res;
+        return res.toString();
     }
 }

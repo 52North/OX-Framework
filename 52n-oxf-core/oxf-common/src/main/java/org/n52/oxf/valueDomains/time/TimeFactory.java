@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -27,26 +27,21 @@
  */
 package org.n52.oxf.valueDomains.time;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import org.n52.oxf.ows.capabilities.*;
+import org.n52.oxf.ows.capabilities.ITime;
 
 /**
  * Creates an appropriate ITime object.
- * 
+ *
  * @see TimePeriod
  * @see TimePosition
  */
 public class TimeFactory {
 
-    public static DateFormat ISO8601LocalFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-
     /**
      * @param timeString a String representing a {@link TimePeriod} or {@link TimePosition} or <code>now</code>
      * @return an appropriate ITime object depending on the timeString that may be "now" for the most recent
      *         available data, a TimePosition (e.g. "2005-08-04") or "min/max(/res)" to create a TimePeriod.
-     * 
+     *
      * @throws IllegalArgumentException
      *         if timeString is not in correct format.
      */
@@ -57,16 +52,17 @@ public class TimeFactory {
         }
         if (timeString.contains("/")) {
             // TIME=min/max/res
-            if (timeString.split("/").length == 3) {
-                TimePeriod period = new TimePeriod(timeString);
-                return period;
-            }
-            else if (timeString.split("/").length == 2) {
-                TimePeriod period = new TimePeriod(timeString.split("/")[0], timeString.split("/")[1]);
-                return period;
-            }
-            else {
-                throw new IllegalArgumentException("Time parameter is not in correct format");
+            switch (timeString.split("/").length) {
+                case 3: {
+                    TimePeriod period = new TimePeriod(timeString);
+                    return period;
+                }
+                case 2: {
+                    TimePeriod period = new TimePeriod(timeString.split("/")[0], timeString.split("/")[1]);
+                    return period;
+                }
+                default:
+                    throw new IllegalArgumentException("Time parameter is not in correct format");
             }
         }
         // TIME=timePos

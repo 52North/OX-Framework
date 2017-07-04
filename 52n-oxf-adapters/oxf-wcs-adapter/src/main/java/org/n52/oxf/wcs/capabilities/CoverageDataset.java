@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -29,27 +29,26 @@ package org.n52.oxf.wcs.capabilities;
 
 import java.util.Locale;
 
-import org.n52.oxf.OXFException;
 import org.n52.oxf.ows.capabilities.Dataset;
 import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.ows.capabilities.IDiscreteValueDomain;
 import org.n52.oxf.ows.capabilities.ITime;
 
 public class CoverageDataset extends Dataset {
-	
+
     // new in Version 1.1.1 of WCS
-    
+
     private String gridBaseCRS;
     private String gridType;
     private double[] gridOrigin;
     private double[] gridOffset;
     private String gridCS;
-	
-    private String rpcLink;
-	
+
+    private final String rpcLink;
+
     /**
      * this constructor has ALL attributes of the class as its parameters.(Also WCS 1.1.1)
-     * 
+     *
      * @param title
      * @param identifier
      * @param boundingBoxes
@@ -58,9 +57,17 @@ public class CoverageDataset extends Dataset {
      * @param fees
      * @param language
      * @param pointOfContactString
-     * @throws OXFException
+     * @param temporalDomain
+     * @param abstractDescription
+     * @param keywords
+     * @param gridBaseCRS
+     * @param gridType
+     * @param gridOrigin
+     * @param gridOffset
+     * @param gridCS
+     * @param rpcLink
      */
-    	public CoverageDataset(String title,
+    public CoverageDataset(String title,
                    String identifier,
                    IBoundingBox[] boundingBoxes,
                    String[] outputFormats,
@@ -85,48 +92,48 @@ public class CoverageDataset extends Dataset {
         setGridCS(gridCS);
         this.rpcLink = rpcLink;
     }
-    
-    	public String getGridBaseCRS() {
-    		return gridBaseCRS;
-    	}
 
-    	protected void setGridBaseCRS(String gridBaseCRS) {
-    		this.gridBaseCRS = gridBaseCRS;
-    	}
+        public String getGridBaseCRS() {
+            return gridBaseCRS;
+        }
 
-    	public String getGridType() {
-    		return gridType;
-    	}
+        protected void setGridBaseCRS(String gridBaseCRS) {
+            this.gridBaseCRS = gridBaseCRS;
+        }
 
-    	protected void setGridType(String gridType) {
-    		this.gridType = gridType;
-    	}
+        public String getGridType() {
+            return gridType;
+        }
 
-    	public double[] getGridOrigin() {
-    		return gridOrigin;
-    	}
+        protected void setGridType(String gridType) {
+            this.gridType = gridType;
+        }
 
-    	protected void setGridOrigin(double[] gridOrigin) {
-    		this.gridOrigin = gridOrigin;
-    	}
+        public double[] getGridOrigin() {
+            return gridOrigin == null ? null : gridOrigin.clone();
+        }
 
-    	public double[] getGridOffset() {
-    		return gridOffset;
-    	}
+        protected void setGridOrigin(double[] gridOrigin) {
+            this.gridOrigin = gridOrigin;
+        }
 
-    	protected void setGridOffset(double[] gridOffset) {
-    		this.gridOffset = gridOffset;
-    	}
+        public double[] getGridOffset() {
+            return gridOffset == null ? null : gridOffset.clone();
+        }
 
-    	public String getGridCS() {
-    		return gridCS;
-    	}
+        protected void setGridOffset(double[] gridOffset) {
+            this.gridOffset = gridOffset;
+        }
 
-    	protected void setGridCS(String gridCS) {
-    		this.gridCS = gridCS;
-    	}
-    	
-    	public String getRpcLink () {
-    	    return rpcLink;
-    	}
+        public String getGridCS() {
+            return gridCS;
+        }
+
+        protected void setGridCS(String gridCS) {
+            this.gridCS = gridCS;
+        }
+
+        public String getRpcLink () {
+            return rpcLink;
+        }
 }

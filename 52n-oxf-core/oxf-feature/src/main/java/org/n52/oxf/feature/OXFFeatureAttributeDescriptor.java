@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -36,9 +36,9 @@ public class OXFFeatureAttributeDescriptor /*implements org.opengis.feature.Feat
     protected int minOccurrences = 0;
     protected int maxOccurrences = Integer.MAX_VALUE;
     protected String documentation = "";
-    
 
-    public class Attribute { // TODO integrate inner class
+
+    public static class Attribute { // TODO integrate inner class
         private String name;
         private DataType type;
 
@@ -64,9 +64,9 @@ public class OXFFeatureAttributeDescriptor /*implements org.opengis.feature.Feat
         }
 
     }
-    
+
     /**
-     * 
+     *
      * @param name
      * @param dataType
      * @param objectClass
@@ -78,7 +78,7 @@ public class OXFFeatureAttributeDescriptor /*implements org.opengis.feature.Feat
     }
 
     /**
-     * 
+     *
      * @param name
      * @param dataType
      * @param objectClass
@@ -171,6 +171,6 @@ public class OXFFeatureAttributeDescriptor /*implements org.opengis.feature.Feat
     public int getSize() throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
-    
-    
+
+
 }

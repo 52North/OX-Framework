@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -32,14 +32,14 @@ import java.util.Collection;
 /**
  * Interface providing access to 2.5D geometries (having a
  * horizontal extent and a altitude range).
- * 
+ *
  * @author matthes rieke
  *
  */
 public interface GeometryCollectionWithAltitudeLimits {
-	
-	public Collection<GeometryWithInterpolation> getGeometries();
-	
-	public AltitudeLimits getAltitudeLimits();
+
+    public Collection<GeometryWithInterpolation> getGeometries();
+
+    public AltitudeLimits getAltitudeLimits();
 
 }

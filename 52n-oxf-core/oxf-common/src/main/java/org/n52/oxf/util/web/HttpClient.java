@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -57,7 +57,7 @@ public interface HttpClient {
      * <strong>Callees are responsible for ensuring that the contents are actually
      * encoded as UTF-8</strong>. If not UTF-8, use {@link #executePost(String, String, ContentType)}
      * instead.
-     * 
+     *
      * @param uri
      *        the target to send the POST request to.
      * @param payloadToSend
@@ -73,7 +73,7 @@ public interface HttpClient {
      * <strong>Callees are responsible for ensuring that the contents are actually
      * encoded as UTF-8</strong>. If not UTF-8, use {@link #executePost(String, String, ContentType)}
      * instead.
-     * 
+     *
      * @param uri
      *        the target to send the POST request to.
      * @param payloadToSend
@@ -83,10 +83,10 @@ public interface HttpClient {
      *         if sending the request fails.
      */
     public HttpResponse executePost(String uri, String payloadToSend) throws HttpClientException;
-    
+
     /**
      * Sends the given payload (marked to be of a specific content-type) to the determined URI.
-     * 
+     *
      * @param uri
      *        the target to send the POST request to.
      * @param payloadToSend
@@ -103,7 +103,7 @@ public interface HttpClient {
      * Sends the given payload to the determined URI. Refer to the <a
      * href="http://hc.apache.org/httpcomponents-core-ga/httpcore/apidocs/index.html">HTTP components docs</a>
      * to get more information which entity types are possible.
-     * 
+     *
      * @param uri
      *        the target to send the POST request to.
      * @param payloadToSend
@@ -116,10 +116,10 @@ public interface HttpClient {
 
     /**
      * @param method
-     * 		  the HTTP method to execute.
+     *        the HTTP method to execute.
      * @return the HTTP response returned by the target.
      * @throws HttpClientException
-     * 		   if sending the request fails
+     *         if sending the request fails
      */
     public HttpResponse executeMethod(HttpRequestBase method) throws HttpClientException;
 

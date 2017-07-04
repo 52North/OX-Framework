@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -31,30 +31,30 @@ import java.util.List;
 
 public class RouteSegmentWithAltitudeLimits implements GeometryCollectionWithAltitudeLimits {
 
-	private AltitudeLimits altitudes;
-	private double width;
-	private List<GeometryWithInterpolation> geometries;
+    private AltitudeLimits altitudes;
+    private double width;
+    private List<GeometryWithInterpolation> geometries;
 
-	public RouteSegmentWithAltitudeLimits(List<GeometryWithInterpolation> geometries,
-			AltitudeLimits altitude, double width) {
-		this.geometries = geometries;
-		this.altitudes = altitude;
-		this.width = width;
-	}
+    public RouteSegmentWithAltitudeLimits(List<GeometryWithInterpolation> geometries,
+            AltitudeLimits altitude, double width) {
+        this.geometries = geometries;
+        this.altitudes = altitude;
+        this.width = width;
+    }
 
-	@Override
-	public List<GeometryWithInterpolation> getGeometries() {
-		return this.geometries;
-	}
+    @Override
+    public List<GeometryWithInterpolation> getGeometries() {
+        return this.geometries;
+    }
 
-	@Override
-	public AltitudeLimits getAltitudeLimits() {
-		return this.altitudes;
-	}
+    @Override
+    public AltitudeLimits getAltitudeLimits() {
+        return this.altitudes;
+    }
 
-	public double getWidth() {
-		return width;
-	}
-	
+    public double getWidth() {
+        return width;
+    }
+
 
 }

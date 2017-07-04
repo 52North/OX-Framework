@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -47,7 +47,7 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
     public static final String POSITION = "position";
 
     /**
-     * 
+     *
      */
     public OXFSamplingPointType() {
         super();
@@ -56,7 +56,7 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
         featureAttributeDescriptors = generateAttributeDescriptors();
     }
 
-    
+
     public static OXFFeature create(SamplingPointDocument xb_saPointDoc) {
 
         SamplingPointType xb_samplingPoint = xb_saPointDoc.getSamplingPoint();
@@ -75,7 +75,7 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
     }
 
     /**
-     * 
+     *
      * @param doc
      * @return
      */
@@ -90,7 +90,7 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
                                                                                    1,
                                                                                    "");
         attributeDescriptors.add(position);
-        
+
         // TODO support for other attributes of SamplingPoint (e.g. sampledFeature)
 
         return attributeDescriptors;
@@ -119,11 +119,11 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
             double y = (Double) coordsList.get(1);
             double z = Double.NaN;
             try {
-            		z = (Double) coordsList.get(2);
-			} catch (Exception e) {
-				// no Exception -> 2D Point
-			}
-            
+                    z = (Double) coordsList.get(2);
+            } catch (Exception e) {
+                // no Exception -> 2D Point
+            }
+
 
             if (coordsList.size() > 2) {
                 z = (Double) coordsList.get(2);
@@ -139,7 +139,7 @@ public class OXFSamplingPointType extends OXFAbstractFeatureType {
         if (feature.getGeometry() == null) {
             throw new IllegalArgumentException("The geometry attribute could not be initialized.");
         }
-        
+
     }
 
 }

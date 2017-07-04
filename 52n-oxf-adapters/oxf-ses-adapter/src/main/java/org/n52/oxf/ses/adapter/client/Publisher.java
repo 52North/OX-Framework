@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -44,190 +44,190 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Publisher {
-	
-	private static final Logger logger = LoggerFactory
-			.getLogger(Publisher.class);
 
-	private static final Object MANAGERS_MUTEX = new Object();
+    private static final Logger LOG = LoggerFactory
+            .getLogger(Publisher.class);
 
-	private static Map<String,ISESConnector> MANAGERS = new HashMap<String, ISESConnector>();
-	
-	private static String SES_RESOURCES_NS = "http://ws.apache.org/muse/addressing";
-	private static String WSA_NS = "http://www.w3.org/2005/08/addressing";
-	private static String WSBR_NS = "http://docs.oasis-open.org/wsn/br-2";
-	private static String WSNT_NS = "http://docs.oasis-open.org/wsn/b-2";
-	
-	private static String RESOURCE_ID_XPATH = "declare namespace res='"+SES_RESOURCES_NS+"'; " +
-		"//res:ResourceId";
-	private static String PUBLISHER_ADDRESS_XPATH = "declare namespace wsa='"+WSA_NS+"'; " +
-			"declare namespace wsbr='"+WSBR_NS+"'; " +
-			"//wsbr:PublisherRegistrationReference/wsa:Address";
-	private static String CONSUMER_ADDRESS_XPATH = "declare namespace wsa='"+WSA_NS+"'; " +
-			"declare namespace wsnt='"+WSNT_NS+"'; " +
-			"//wsnt:ConsumerReference/wsa:Address";
-	
-	
-	private XmlObject document;
-	private XmlObject sensorML;
-	private boolean failed;
-	private String exceptionText;
+    private static final Object MANAGERS_MUTEX = new Object();
 
-	private String resourceID;
+    private static final Map<String,ISESConnector> MANAGERS = new HashMap<>();
 
-	private String publisherAddress;
+    private static final String SES_RESOURCES_NS = "http://ws.apache.org/muse/addressing";
+    private static final String WSA_NS = "http://www.w3.org/2005/08/addressing";
+    private static final String WSBR_NS = "http://docs.oasis-open.org/wsn/br-2";
+    private static final String WSNT_NS = "http://docs.oasis-open.org/wsn/b-2";
 
-	private String consumerAddress;
+    private static final String RESOURCE_ID_XPATH = "declare namespace res='"+SES_RESOURCES_NS+"'; " +
+        "//res:ResourceId";
+    private static final String PUBLISHER_ADDRESS_XPATH = "declare namespace wsa='"+WSA_NS+"'; " +
+            "declare namespace wsbr='"+WSBR_NS+"'; " +
+            "//wsbr:PublisherRegistrationReference/wsa:Address";
+    private static final String CONSUMER_ADDRESS_XPATH = "declare namespace wsa='"+WSA_NS+"'; " +
+            "declare namespace wsnt='"+WSNT_NS+"'; " +
+            "//wsnt:ConsumerReference/wsa:Address";
 
-	private ISESConnector manager;
+    private XmlObject document;
+    private final XmlObject sensorML;
+    private boolean failed;
+    private String exceptionText;
 
-	private boolean destroyed;
+    private String resourceID;
 
-	public Publisher(XmlObject sensorML) {
-		this.sensorML = sensorML;
-	}
+    private String publisherAddress;
 
-	public XmlObject getRegisterDocument() {
-		StringBuilder sb = new StringBuilder();
-		InputStream in = getClass().getResourceAsStream("template_registerpublisher.xml");
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+    private String consumerAddress;
 
-		try {
-			while (br.ready()) {
-				sb.append(br.readLine());
-			}
-		} catch (IOException e) {
-			logger.warn(e.getMessage(), e);
-		}
+    private ISESConnector manager;
 
-		try {
-			this.document = XmlObject.Factory.parse(
-					sb.toString().replace("${sensorml}", this.sensorML.toString()).
-					replace("${topic}", "default"));
-		} catch (XmlException e) {
-			logger.warn(e.getMessage(), e);
-		}
-		
-		return this.document;
-	}
+    private boolean destroyed;
+    private static final String DEFAULT_ENCODING = "UTF-8";
 
-	public void setException(Exception e) {
-		this.failed = true;
-		this.exceptionText = e.getMessage();
-	}
+    public Publisher(XmlObject sensorML) {
+        this.sensorML = sensorML;
+    }
 
-	public void parseResponse(XmlObject response) {
-		XmlObject[] body = XmlUtil.selectPath("declare namespace soap='http://www.w3.org/2003/05/soap-envelope'; //soap:Body", response);
-		if (body == null || body.length == 0) this.setException(new Exception("Could not parse response: no SOAP body found."));
-		
-		XmlCursor cur = body[0].newCursor();
-		cur.toFirstChild();
-		if (cur.getName().getLocalPart().equals("RegisterPublisherResponse")) {
-			/*
-			 * get the resourceID
-			 */
-			XmlObject[] xo = XmlUtil.selectPath(RESOURCE_ID_XPATH, response);
-			if (xo != null && xo.length > 0) {
-				this.resourceID = xo[0].newCursor().getTextValue().trim();
-			}
-			
-			/*
-			 * get the publishers address
-			 */
-			xo = XmlUtil.selectPath(PUBLISHER_ADDRESS_XPATH, response);
-			publisher:
-			if (xo != null && xo.length > 0) {
-				this.publisherAddress = xo[0].newCursor().getTextValue().trim();
-				URL url = null;
-				try {
-					url = new URL(this.publisherAddress);
-				} catch (MalformedURLException e) {
-					e.printStackTrace();
-				}
-				
-				if (url == null) break publisher;
-				
-				/*
-				 * only create one manager instance per URL
-				 */
-				synchronized (MANAGERS_MUTEX) {
-					if (MANAGERS.containsKey(url.toString())) {
-						this.manager = MANAGERS.get(url.toString());
-					}
-					else {
-						this.manager = SESClient.getNewConnectorInstance(url);
-						this.manager.setAddSoap(false);
-						MANAGERS.put(url.toString(), this.manager);
-					}
-				}
-			}
-			
-			/*
-			 * get the consumer address
-			 */
-			xo = XmlUtil.selectPath(CONSUMER_ADDRESS_XPATH, response);
-			if (xo != null && xo.length > 0) {
-				this.consumerAddress = xo[0].newCursor().getTextValue().trim();
-			}
-		} else if (cur.getName().getLocalPart().equals("DestroyRegistrationResponse")){
-			this.destroyed = true;
-		} else {
-			this.failed = true;
-		}
-	}
-	
-	public XmlObject getDestroyRegistrationDocument() {
-		XmlObject xo = null;
-		
-		StringBuilder sb = new StringBuilder();
-		InputStream in = getClass().getResourceAsStream("template_destroyregistration.xml");
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		
-		try {
-			while (br.ready()) {
-				sb.append(br.readLine());
-			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
-		try {
-			xo = XmlObject.Factory.parse(sb.toString().replace("${resource}", this.resourceID).replace("${reg_pub_host}", this.manager.getHost().toString()));
-		} catch (XmlException e) {
-			e.printStackTrace();
-		}
-		
-		return xo;
-	}
+    public XmlObject getRegisterDocument() {
+        StringBuilder sb = new StringBuilder();
+        try (
+                InputStream in = getClass().getResourceAsStream("template_registerpublisher.xml");
+                BufferedReader br = new BufferedReader(new InputStreamReader(in, DEFAULT_ENCODING));
+                ) {
+            while (br.ready()) {
+                sb.append(br.readLine());
+            }
+        } catch (IOException e) {
+            LOG.warn(e.getMessage(), e);
+        }
 
-	public boolean isFailed() {
-		return failed;
-	}
-	
+        try {
+            document = XmlObject.Factory.parse(
+                    sb.toString().replace("${sensorml}", sensorML.toString()).
+                    replace("${topic}", "default"));
+        } catch (XmlException e) {
+            LOG.warn(e.getMessage(), e);
+        }
 
-	public boolean isDestroyed() {
-		return destroyed;
-	}
+        return this.document;
+    }
 
-	public String getExceptionText() {
-		return exceptionText;
-	}
+    public void setException(Exception e) {
+        failed = true;
+        exceptionText = e.getMessage();
+    }
 
-	public String getResourceID() {
-		return resourceID;
-	}
+    public void parseResponse(XmlObject response) {
+        XmlObject[] body = XmlUtil.selectPath("declare namespace soap='http://www.w3.org/2003/05/soap-envelope'; //soap:Body", response);
+        if (body == null || body.length == 0) {
+            this.setException(new Exception("Could not parse response: no SOAP body found."));
+            return;
+        }
 
-	public String getPublisherAddress() {
-		return publisherAddress;
-	}
+        XmlCursor cur = body[0].newCursor();
+        cur.toFirstChild();
+        switch (cur.getName().getLocalPart()) {
+            case "RegisterPublisherResponse":
+                /*
+                * get the resourceID
+                */
+                XmlObject[] xo = XmlUtil.selectPath(RESOURCE_ID_XPATH, response);
+                if (xo != null && xo.length > 0) {
+                    resourceID = xo[0].newCursor().getTextValue().trim();
+                }   /*
+                * get the publishers address
+                */
+                xo = XmlUtil.selectPath(PUBLISHER_ADDRESS_XPATH, response);
+                publisher:
+                if (xo != null && xo.length > 0) {
+                    publisherAddress = xo[0].newCursor().getTextValue().trim();
+                    URL url = null;
+                    try {
+                        url = new URL(publisherAddress);
+                    } catch (MalformedURLException e) {
+                        LOG.error("Exception thrown:", e);
+                    }
 
-	public String getConsumerAddress() {
-		return consumerAddress;
-	}
+                    if (url == null) break publisher;
 
-	public ISESConnector getManager() {
-		return manager;
-	}
-	
-	
+                    /*
+                    * only create one manager instance per URL
+                    */
+                    synchronized (MANAGERS_MUTEX) {
+                        if (MANAGERS.containsKey(url.toString())) {
+                            this.manager = MANAGERS.get(url.toString());
+                        }
+                        else {
+                            manager = SESClient.getNewConnectorInstance(url);
+                            manager.setAddSoap(false);
+                            MANAGERS.put(url.toString(), manager);
+                        }
+                    }
+                }   /*
+                * get the consumer address
+                */
+                xo = XmlUtil.selectPath(CONSUMER_ADDRESS_XPATH, response);
+                if (xo != null && xo.length > 0) {
+                    consumerAddress = xo[0].newCursor().getTextValue().trim();
+                }   break;
+            case "DestroyRegistrationResponse":
+                destroyed = true;
+                break;
+            default:
+                failed = true;
+                break;
+        }
+    }
 
+    public XmlObject getDestroyRegistrationDocument() {
+        XmlObject xo = null;
+
+        StringBuilder sb = new StringBuilder();
+        try (
+                InputStream in = getClass().getResourceAsStream("template_destroyregistration.xml");
+                BufferedReader br = new BufferedReader(new InputStreamReader(in, DEFAULT_ENCODING));
+        ){
+            while (br.ready()) {
+                sb.append(br.readLine());
+            }
+        } catch (IOException e1) {
+            LOG.error("Exception thrown:", e1);
+        }
+
+        try {
+            xo = XmlObject.Factory.parse(
+                    sb.toString().replace("${resource}", this.resourceID)
+                    .replace("${reg_pub_host}", this.manager.getHost().toString()));
+        } catch (XmlException e) {
+            LOG.error("Exception thrown:", e);
+        }
+
+        return xo;
+    }
+
+    public boolean isFailed() {
+        return failed;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public String getExceptionText() {
+        return exceptionText;
+    }
+
+    public String getResourceID() {
+        return resourceID;
+    }
+
+    public String getPublisherAddress() {
+        return publisherAddress;
+    }
+
+    public String getConsumerAddress() {
+        return consumerAddress;
+    }
+
+    public ISESConnector getManager() {
+        return manager;
+    }
 }

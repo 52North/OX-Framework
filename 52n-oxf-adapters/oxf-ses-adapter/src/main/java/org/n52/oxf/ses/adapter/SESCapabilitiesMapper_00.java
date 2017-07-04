@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -58,14 +58,14 @@ import org.n52.oxf.ows.capabilities.ServiceProvider;
 
 /**
  * maps the Capabilities of the SES into a ServiceDescriptor object.
- * 
+ *
  * NOT YET COMPLETED!
  * TODO
  * - filterCapabilities need to be handled somewhere; take a look @ SOS-stuff -> mapContents(...)
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Br&ouml;ring</a>
  * @author <a href="mailto:ehjuerrens@uni-muenster.de">Eike Hinderk J&uuml;rrens</a>
- * 
+ *
  */
 public class SESCapabilitiesMapper_00 {
 
@@ -77,7 +77,7 @@ public class SESCapabilitiesMapper_00 {
         // FIXME Methods not finished
         org.n52.oxf.ows.capabilities.OperationsMetadata operationsMetadata = mapOperationsMetadata(capsDoc.getCapabilities().getOperationsMetadata());
         Contents contents = mapContents(capsDoc.getCapabilities().getContents());
-        
+
         ServiceDescriptor serviceDesc = new ServiceDescriptor(version,
                 serviceIdentification,
                 serviceProvider,
@@ -94,9 +94,9 @@ public class SESCapabilitiesMapper_00 {
      * this method goes through the supported operations declared in the OperationsMetadata-section of the
      * SAS-Capabilities and maps the provided informations to the OXF internal capabilities-model (e.g. the
      * class org.n52.oxf.ows.capabilities.OperationsMetadata)
-     * 
+     *
      * @param metadata
-     * 
+     *
      * @param xb_opMetadata
      * @return
      */
@@ -223,20 +223,21 @@ public class SESCapabilitiesMapper_00 {
         if (xb_contents.getRegisteredSensors() == null) {
             return new Contents();
         }
-        String[] xb_registeredSensorIDsArray = xb_contents.getRegisteredSensors().getSensorIDArray();
 
-        for (int i = 0; i < xb_registeredSensorIDsArray.length; i++) {
-
-            String xb_registeredSensorID = xb_registeredSensorIDsArray[i];
-
-            oc_contents.getDataIdentification(xb_registeredSensorID);
-        }
+        // TODO the for loop is not mapping anything, please fix
+//        String[] xb_registeredSensorIDsArray = xb_contents.getRegisteredSensors().getSensorIDArray();
+//        for (int i = 0; i < xb_registeredSensorIDsArray.length; i++) {
+//
+//            String xb_registeredSensorID = xb_registeredSensorIDsArray[i];
+//
+//            oc_contents.getDataIdentification(xb_registeredSensorID);
+//        }
 
         return oc_contents;
     }
 
     /**
-     * 
+     *
      * @param capsDoc
      * @return
      */
@@ -271,42 +272,42 @@ public class SESCapabilitiesMapper_00 {
     }
 
     /**
-     * 
+     *
      * @param xb_serviceProvider
      * @return
      */
     private ServiceProvider mapServiceProvider(net.opengis.ows.x11.ServiceProviderDocument.ServiceProvider xb_serviceProvider) {
         ResponsiblePartySubsetType xb_contact = xb_serviceProvider.getServiceContact();
         ContactType xb_contactType = xb_contact.getContactInfo();
-        
+
         String providerName = xb_serviceProvider.getProviderName();
         String individualName = xb_contact.getIndividualName();
         String positionName = xb_contact.getPositionName();
-        
+
         String[] telephones = (xb_contactType.getPhone()!=null?
                 (xb_contactType.getPhone().getVoiceArray()!=null?
                         xb_contactType.getPhone().getVoiceArray():null):null);
-        
+
         String[] fax = (xb_contactType.getPhone()!=null?
                 (xb_contactType.getPhone().getFacsimileArray()!=null?
                         xb_contactType.getPhone().getFacsimileArray():null):null);
-        
+
         String hoursOfService = xb_contactType.getHoursOfService();
         String contactInstructions = xb_contactType.getContactInstructions();
-        
+
         AddressType xb_address = xb_contactType.getAddress();
-        
+
         String city = xb_address!=null?xb_address.getCity():null;
         String adminArea = xb_address!=null?xb_address.getAdministrativeArea():null;
         String postalCode = xb_address!=null?xb_address.getPostalCode():null;
         String country = xb_address!=null?xb_address.getCountry():null;
         String[] deliveryPoints = xb_address!=null?xb_address.getDeliveryPointArray():null;
         String[] eMails = xb_address!=null?xb_address.getElectronicMailAddressArray():null;
-        
+
         Address oc_address = new Address(city,adminArea,postalCode,country,deliveryPoints,eMails);
-        
+
         OnlineResourceType xb_onlineRes = xb_contactType.getOnlineResource();
-        
+
         String type = xb_onlineRes!=null?xb_onlineRes.getType().toString():null;
         String href = xb_onlineRes!=null?xb_onlineRes.getHref():null;
         String role = xb_onlineRes!=null?xb_onlineRes.getRole():null;
@@ -314,12 +315,12 @@ public class SESCapabilitiesMapper_00 {
         String show = xb_onlineRes!=null?xb_onlineRes.getShow().toString():null;
         String actuate = xb_onlineRes!=null?xb_onlineRes.getActuate().toString():null;
         String title = xb_onlineRes!=null?xb_onlineRes.getTitle():null;
-        
+
         OnlineResource oc_onlineRes = new OnlineResource(type,href,role,arcrole,show,actuate,title);
 
         Contact oc_contactInfo = new Contact(telephones,fax,hoursOfService,contactInstructions,oc_address,oc_onlineRes);
         ServiceContact oc_serviceContact = new ServiceContact(individualName, providerName ,positionName, oc_contactInfo);
-        
+
         return  new ServiceProvider(providerName,oc_serviceContact,oc_onlineRes);
     }
 }

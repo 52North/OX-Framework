@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -29,21 +29,21 @@ package org.n52.oxf.xmlbeans.parser.sosexample;
 
 public class OwsExceptionReport extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	public void addCodedException(String invalidrequest, Object object,
-			String string) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void addCodedException(String invalidrequest, Object object,
+            String string) {
+        // TODO Auto-generated method stub
 
-	public void addCodedException(ExceptionCode exCode, String parameterName,
-			String string) {
-		// TODO Auto-generated method stub
-		
-	}
+    }
+
+    public void addCodedException(ExceptionCode exCode, String parameterName,
+            String string) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -27,6 +27,7 @@
  */
 package org.n52.oxf.util;
 
+import com.google.common.io.FileBackedOutputStream;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -38,6 +39,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -48,59 +51,60 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * Some little helper methods for IO-handling.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Br&ouml;ring</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @author <a href="mailto:h.bredel@52north.org">Henning Bredel</a>
  */
 public class IOHelper {
 
+    private static final String DEFAULT_ENCODING = "UTF-8";
+
     public static String readText(InputStream in) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
-        String line;
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; (line = br.readLine()) != null; i++) {
-
-            // if not first line --> append "\n"
-            if (i > 0) {
-                sb.append("\n");
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(in, DEFAULT_ENCODING));) {
+            String line;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; (line = br.readLine()) != null; i++) {
+                // if not first line --> append "\n"
+                if (i > 0) {
+                    sb.append("\n");
+                }
+                sb.append(line);
             }
-
-            sb.append(line);
+            br.close();
+            return sb.toString();
         }
-        br.close();
-
-        return sb.toString();
     }
 
     public static String readText(URL url) throws IOException {
         return readText(url.openStream());
     }
 
-	public static String readText(File file) throws IOException {
+    public static String readText(File file) throws IOException {
         return readText(file.toURI().toURL());
     }
 
     public static String supplyProperty(String key, URL url) throws IOException {
-        InputStream in = url.openConnection().getInputStream();
-        Properties prop = new Properties();
-        prop.load(in);
-
-        String erg = prop.getProperty(key);
-
-        return erg;
+        try (InputStream in = url.openConnection().getInputStream();) {
+            Properties prop = new Properties();
+            prop.load(in);
+            String erg = prop.getProperty(key);
+            return erg;
+        }
     }
 
     public static void saveFile(OutputStream out, InputStream in) throws IOException {
-        BufferedOutputStream bufout = new BufferedOutputStream(out);
-        int b;
-        while ( (b = in.read()) != -1) {
-            bufout.write(b);
+        try (BufferedOutputStream bufout = new BufferedOutputStream(out);) {
+            int b;
+            while ( (b = in.read()) != -1) {
+                bufout.write(b);
+            }
+            bufout.flush();
+            bufout.close();
+            out.flush();
+            out.close();
+            in.close();
         }
-        bufout.flush();
-        bufout.close();
-        out.flush();
-        out.close();
     }
 
     public static void saveFile(String filename, URL url) throws IOException {
@@ -121,14 +125,15 @@ public class IOHelper {
     }
 
     public static void saveFile(File filename, String stringToStoreInFile) throws IOException {
-        OutputStream out = new FileOutputStream(filename);
-        out.write(stringToStoreInFile.getBytes());
-        out.flush();
-        out.close();
+        try (OutputStream out = new FileOutputStream(filename)) {
+            out.write(stringToStoreInFile.getBytes(DEFAULT_ENCODING));
+            out.flush();
+            out.close();
+        }
     }
 
     /**
-     * 
+     *
      * @param filename the file to write to
      * @param msg the message to write or append to file
      * @param append replace file or append to file
@@ -137,11 +142,13 @@ public class IOHelper {
      * @throws IOException thrown if writing to file is not possible.
      */
     public static void saveFile(String filename, String msg, boolean append) throws IOException {
-        FileWriter writer = new FileWriter(new File(filename), append);
-
-        writer.write(msg);
-        writer.flush();
-        writer.close();
+        try (Writer writer = new OutputStreamWriter(
+                new FileOutputStream(new File(filename), append),
+                DEFAULT_ENCODING);) {
+            writer.write(msg);
+            writer.flush();
+            writer.close();
+        }
     }
 
     public static void decompressAll(File zipFile, File targetDirectory) throws IOException, ZipException {
@@ -150,69 +157,64 @@ public class IOHelper {
             throw new IOException("2nd Parameter targetDirectory is not a valid diectory!");
 
         byte[] buf = new byte[4096];
-        ZipInputStream in = new ZipInputStream(new FileInputStream(zipFile));
-        while (true) {
-            // Read next entry
-            ZipEntry entry = in.getNextEntry();
-            if (entry == null) {
-                break;
-            }
+        try (ZipInputStream in = new ZipInputStream(new FileInputStream(zipFile));) {
+            while (true) {
+                // Read next entry
+                ZipEntry entry = in.getNextEntry();
+                if (entry == null) {
+                    break;
+                }
 
-            // create output file
-            FileOutputStream out = new FileOutputStream(targetDirectory.getAbsolutePath() + "/"
-                    + new File(entry.getName()).getName());
-            // read process
-            int len;
-            while ( (len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-            out.close();
+                // create output file
+                try (FileOutputStream out = new FileOutputStream(targetDirectory.getAbsolutePath() + "/"
+                        + new File(entry.getName()).getName());) {
+                    // read process
+                    int len;
+                    while ( (len = in.read(buf)) > 0) {
+                        out.write(buf, 0, len);
+                    }
+                    out.close();
+                }
 
-            // close input stream
-            in.closeEntry();
+                // close input stream
+                in.closeEntry();
+            }
+            in.close();
         }
-        in.close();
     }
 
     public static void compressFilesToZip(File[] files, File zipFile) throws IOException, ZipException {
         File[] clearedFiles = removeDoubleFiles(files);
 
         byte[] buf = new byte[4096];
-        ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
-
-        for (int i = 0; i < clearedFiles.length; i++) {
-            String fname = clearedFiles[i].getAbsolutePath();
-
-            FileInputStream in = new FileInputStream(fname);
-            ZipEntry entry = new ZipEntry(fname);
-            out.putNextEntry(entry);
-            int len;
-            while ( (len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
+        try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile))) {
+            for (File clearedFile : clearedFiles) {
+                String fname = clearedFile.getAbsolutePath();
+                try (FileInputStream in = new FileInputStream(fname)) {
+                    ZipEntry entry = new ZipEntry(fname);
+                    out.putNextEntry(entry);
+                    int len;
+                    while ( (len = in.read(buf)) > 0) {
+                        out.write(buf, 0, len);
+                    }
+                }
             }
-            in.close();
         }
-        out.close();
     }
 
     /*
      * helper-method for compressFilesToZip
      */
     private static File[] removeDoubleFiles(File[] files) {
-        ArrayList<File> tmpList = new ArrayList<File>();
+        ArrayList<File> tmpList = new ArrayList<>();
 
-        for (int i = 0; i < files.length; i++) {
-            if ( !tmpList.contains(files[i])) {
-                tmpList.add(files[i]);
+        for (File file : files) {
+            if (!tmpList.contains(file)) {
+                tmpList.add(file);
             }
         }
 
-        File[] res = new File[tmpList.size()];
-        for (int i = 0; i < tmpList.size(); i++) {
-            res[i] = tmpList.get(i);
-        }
-
-        return res;
+        return tmpList.toArray(new File[tmpList.size()]);
     }
 
 }

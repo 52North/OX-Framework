@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -32,75 +32,76 @@ import java.util.List;
 
 /**
  * Container for the different RequestMethods. Currently only HTTP POST and GET supported.
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class DCP {
-    
-    private List<RequestMethod> requestMethods;
-	
+
+    private final List<RequestMethod> requestMethods;
+
     public DCP(GetRequestMethod httpGet, PostRequestMethod httpPost){
         requestMethods = new ArrayList<RequestMethod>();
-        
-        addHTTPGet(httpGet);
-        addHTTPPost(httpPost);
+
+        requestMethods.add(httpGet);
+        requestMethods.add(httpPost);
     }
-	
+
     public DCP(List<RequestMethod> methods){
         requestMethods = methods;
     }
-    
-	/**
-	 * @return a XML representation of this DCP. 
-	 */
-	public String toXML(){
-		String res = "<DCP>";
-		
-		if(requestMethods != null) {
+
+    /**
+     * @return a XML representation of this DCP.
+     */
+    public String toXML(){
+        StringBuilder sb = new StringBuilder("<DCP>");
+
+        if(requestMethods != null) {
             for (RequestMethod method : requestMethods) {
-                method.toXML();
+                sb.append(method.toXML());
             }
         }
-		res += "</DCP>";
-		
-		return res;
-	}
-	
+        sb.append("</DCP>");
+
+        return sb.toString();
+    }
+
     public List<GetRequestMethod> getHTTPGetRequestMethods() {
         List<GetRequestMethod> getRequestMethods = new ArrayList<GetRequestMethod>();
-        
+
         for (RequestMethod method : requestMethods) {
             if(method instanceof GetRequestMethod){
                 getRequestMethods.add((GetRequestMethod)method);
             }
         }
-        
+
         return getRequestMethods;
     }
-    
+
     protected void addHTTPGet(GetRequestMethod getMethod) {
-        this.requestMethods.add(getMethod);
+        requestMethods.add(getMethod);
     }
 
     public List<PostRequestMethod> getHTTPPostRequestMethods() {
         List<PostRequestMethod> postRequestMethods = new ArrayList<PostRequestMethod>();
-        
+
         for (RequestMethod method : requestMethods) {
             if(method instanceof PostRequestMethod){
                 postRequestMethods.add((PostRequestMethod)method);
             }
         }
-        
+
         return postRequestMethods;
     }
-    
+
     protected void addHTTPPost(PostRequestMethod postMethod) {
-        this.requestMethods.add(postMethod);
+        requestMethods.add(postMethod);
     }
 
-	@Override
-	public String toString() {
-		return String.format("DCP [requestMethods=%s]", requestMethods);
-	}
-    
+    @Override
+    public String toString() {
+        return String.format("DCP [requestMethods=%s]", requestMethods);
+    }
+
 }

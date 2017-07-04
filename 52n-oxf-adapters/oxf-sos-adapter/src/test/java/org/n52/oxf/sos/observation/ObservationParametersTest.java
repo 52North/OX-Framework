@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -36,36 +36,36 @@ import org.junit.Test;
 import org.n52.oxf.sos.adapter.ISOSRequestBuilder;
 
 public class ObservationParametersTest {
-	
-	@Test
-	public void shouldAddResultTime()
-	{
-		final ObservationParameterSeam obsParams = new ObservationParameterSeam(null);
-		final String resultTime = "2013-01-02T03:04:05+06:00";
-		obsParams.addResultTime(resultTime);
-		assertThat(obsParams.getSingleValue(ISOSRequestBuilder.INSERT_OBSERVATION_RESULT_TIME),is(resultTime));		
-	}
-	
-	@Test
-	public void shouldAddPhenomenonTime()
-	{
-		final ObservationParameterSeam obsParams = new ObservationParameterSeam(null);
-		final String phenTime = "2013-01-02T03:04:05+06:00";
-		obsParams.addPhenomenonTime(phenTime);
-		assertThat(obsParams.getSingleValue(ISOSRequestBuilder.INSERT_OBSERVATION_PHENOMENON_TIME),is(phenTime));		
-	}
-	
-	private class ObservationParameterSeam extends ObservationParameters {
 
-		protected ObservationParameterSeam(final QName type) {
-			super(type);
-		}
+    @Test
+    public void shouldAddResultTime()
+    {
+        final ObservationParameterSeam obsParams = new ObservationParameterSeam(null);
+        final String resultTime = "2013-01-02T03:04:05+06:00";
+        obsParams.addResultTime(resultTime);
+        assertThat(obsParams.getSingleValue(ISOSRequestBuilder.INSERT_OBSERVATION_RESULT_TIME),is(resultTime));
+    }
 
-		@Override
-		public boolean isValid()
-		{
-			return false;
-		}
-	}
-	
+    @Test
+    public void shouldAddPhenomenonTime()
+    {
+        final ObservationParameterSeam obsParams = new ObservationParameterSeam(null);
+        final String phenTime = "2013-01-02T03:04:05+06:00";
+        obsParams.addPhenomenonTime(phenTime);
+        assertThat(obsParams.getSingleValue(ISOSRequestBuilder.INSERT_OBSERVATION_PHENOMENON_TIME),is(phenTime));
+    }
+
+    private class ObservationParameterSeam extends ObservationParameters {
+
+        protected ObservationParameterSeam(final QName type) {
+            super(type);
+        }
+
+        @Override
+        public boolean isValid()
+        {
+            return false;
+        }
+    }
+
 }

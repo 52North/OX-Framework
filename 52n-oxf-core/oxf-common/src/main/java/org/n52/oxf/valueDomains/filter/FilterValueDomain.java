@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -34,16 +34,16 @@ import org.n52.oxf.ows.capabilities.*;
 /**
  * ValueDomain for OGC Filter Implementation Specification 1.1.0 conform filters, containsValue()-method
  * checks only the FilterType!
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
 
     /** possible filters (only filterType is initialized!!) */
-    private ArrayList<IFilter> possibleValues;
+    private final ArrayList<IFilter> possibleValues;
 
-    private final String DOMAIN_DESCRIPTION = "Value Domain for Filters";
+    private final static String DOMAIN_DESCRIPTION = "Value Domain for Filters";
 
     public FilterValueDomain() {
         possibleValues = new ArrayList<IFilter>();
@@ -56,6 +56,7 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
     /**
      * @return possible filters (only filterType is initialized!!)
      */
+    @Override
     public List<IFilter> getPossibleValues() {
         return this.possibleValues;
     }
@@ -63,18 +64,19 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
     /**
      * checks if a filter (exactly: only the filterType) is contained in the possible filters (or exactly:
      * filterTypes)
-     * 
+     *
      * @param filter
      *        the filter which should be checked
-     * 
+     *
      * @return true, if the filter is contained
-     * 
+     *
      */
+    @Override
     public boolean containsValue(IFilter filter) {
         boolean isContained = false;
 
         // if binary LogicFilter (AND or OR)
-        if (filter.getFilterType().equals(IFilter.AND) | filter.getFilterType().equals(IFilter.OR)) {
+        if (filter.getFilterType().equals(IFilter.AND) || filter.getFilterType().equals(IFilter.OR)) {
 
             // test, whether AND or OR is contained in possibleValues
             boolean bool = false;
@@ -117,23 +119,25 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
     }
 
     /**
-     * 
+     *
      * @return domain description
      */
+    @Override
     public String getDomainDescription() {
         return DOMAIN_DESCRIPTION;
     }
 
     /**
-     * 
+     *
      * @return xml-string of this valueDomain
      */
+    @Override
     public String toXML() {
-        String result = "";
-        for (int i = 0; i < this.possibleValues.size(); ++i) {
-            result += this.possibleValues.get(i).toXML();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < possibleValues.size(); ++i) {
+            sb.append(possibleValues.get(i).toXML());
         }
-        return result;
+        return sb.toString();
     }
 
     // public Class getValueType() {
@@ -142,10 +146,10 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
 
     /**
      * help method for containsValue method, check if filters are contained in possibleValues
-     * 
+     *
      * @param filters
      *        filters which should be checked
-     * 
+     *
      * @return true if all filters are contained in possibleValues
      */
     private boolean containsValueList(ArrayList<IFilter> filters) {
@@ -158,6 +162,7 @@ public class FilterValueDomain implements IDiscreteValueDomain<IFilter> {
         return res;
     }
 
+    @Override
     public IFilter produceValue(String... stringArray) {
         // TODO Auto-generated method stub
         return null;

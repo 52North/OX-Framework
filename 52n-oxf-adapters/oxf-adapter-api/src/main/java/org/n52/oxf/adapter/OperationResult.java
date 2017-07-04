@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -52,12 +52,11 @@
 
 package org.n52.oxf.adapter;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.io.input.AutoCloseInputStream;
 
@@ -78,7 +77,7 @@ public class OperationResult {
     protected ParameterContainer usedParameters;
 
     /**
-     * @param incomingResult
+     * @param incomingStream
      *        InputStream coming as the result from the service.
      * @param usedParameters
      *        ParameterContainer containing the Parameters from which the request has been build.
@@ -102,21 +101,21 @@ public class OperationResult {
      */
     protected void setIncomingResult(InputStream incomingStream, int bufferSize) throws IOException {
         // DataInputStream in = new DataInputStream(incomingStream);
-		ByteArrayOutputStream bufferOutputStream = new ByteArrayOutputStream();
-		int read;
-		byte[] data = new byte[16384];
+        ByteArrayOutputStream bufferOutputStream = new ByteArrayOutputStream();
+        int read;
+        byte[] data = new byte[16384];
 
-		while ((read = incomingStream.read(data, 0, data.length)) != -1) {
-			bufferOutputStream.write(data, 0, read);
-		}
+        while ((read = incomingStream.read(data, 0, data.length)) != -1) {
+            bufferOutputStream.write(data, 0, read);
+        }
 
-		bufferOutputStream.flush();
-		bufferOutputStream.close();
-		incomingResult = bufferOutputStream.toByteArray();
+        bufferOutputStream.flush();
+        bufferOutputStream.close();
+        incomingResult = bufferOutputStream.toByteArray();
     }
 
     public byte[] getIncomingResult() {
-        return incomingResult;
+        return incomingResult == null? null : incomingResult.clone();
     }
 
     /**
@@ -143,18 +142,20 @@ public class OperationResult {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("OperationResult:[\nDEFAULT_BUFFER_SIZE: ");
-        sb.append(DEFAULT_BUFFER_SIZE);
-        sb.append(",\nincomingResult: ");
-        String incoming = new String(getIncomingResult());
-        sb.append(incoming);
-        sb.append(",\nsendedRequest: ");
-        sb.append(sendedRequest);
-        sb.append(",\nusedParameters: ");
-        sb.append(usedParameters);
-        sb.append("]");
-
-        return sb.toString();
+        String incoming;
+        try {
+            incoming = new String(incomingResult, "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            incoming = "UTF-8 encoding NOT supported.";
+        }
+        return "OperationResult{" +
+                "incomingResult=" +
+                incoming +
+                ", sendedRequest=" +
+                sendedRequest +
+                ", usedParameters=" +
+                usedParameters +
+                    '}';
     }
+
 }

@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -44,7 +44,7 @@ import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class OXFAbstractObservationType extends OXFAbstractFeatureType {
 
@@ -52,10 +52,10 @@ public class OXFAbstractObservationType extends OXFAbstractFeatureType {
     public static final String OBSERVED_PROPERTY = "observedProperty";
     public static final String FEATURE_OF_INTEREST = "featureOfInterest";
     public static final String SAMPLING_TIME = "samplingTime";
-    
-    
+
+
     /**
-     * 
+     *
      */
     public OXFAbstractObservationType() {
         super();
@@ -65,7 +65,7 @@ public class OXFAbstractObservationType extends OXFAbstractFeatureType {
     }
 
     /**
-     * 
+     *
      */
     protected List<OXFFeatureAttributeDescriptor> generateAttributeDescriptors() {
 
@@ -94,7 +94,7 @@ public class OXFAbstractObservationType extends OXFAbstractFeatureType {
                                                                                             1,
                                                                                             "");
         attributeDescriptors.add(featureOfInterest);
-        
+
         OXFFeatureAttributeDescriptor time = new OXFFeatureAttributeDescriptor(SAMPLING_TIME,
                                                                                DataType.OBJECT,
                                                                                ITime.class,
@@ -105,7 +105,7 @@ public class OXFAbstractObservationType extends OXFAbstractFeatureType {
 
         return attributeDescriptors;
     }
-    
+
     /**
      * supports O&M 1.0
      */
@@ -113,19 +113,19 @@ public class OXFAbstractObservationType extends OXFAbstractFeatureType {
                                   net.opengis.om.x10.ObservationType xb_abstractObservation) throws OXFException {
         super.initializeFeature(feature, xb_abstractObservation);
 
-        
+
         // create the PROCEDURE-attribute:
         net.opengis.om.x10.ProcessPropertyType xb_procedureProperty = xb_abstractObservation.getProcedure();
         String procedureValue = xb_procedureProperty.getHref();
         feature.setAttribute(PROCEDURE, procedureValue);
 
-        
+
         // create the OBSERVEDPROPERTY-attribute:
         net.opengis.swe.x101.PhenomenonPropertyType xb_observedProperty = xb_abstractObservation.getObservedProperty();
         OXFPhenomenonPropertyType oxf_observedProperty = new OXFPhenomenonPropertyType(xb_observedProperty.getHref());
         feature.setAttribute(OBSERVED_PROPERTY, oxf_observedProperty);
 
-        
+
         // create the SAMPLINGTIME-attribute:
         if (xb_abstractObservation.getSamplingTime().getTimeObject() != null) {
             XmlObject timeXo = xb_abstractObservation.getSamplingTime().getTimeObject().newCursor().getObject();
@@ -145,17 +145,17 @@ public class OXFAbstractObservationType extends OXFAbstractFeatureType {
             }
             feature.setAttribute(SAMPLING_TIME, time);
         }
-        
-        
+
+
         // create the FEATUREOFINTEREST-attribute:
         FeaturePropertyType xb_featureMember = xb_abstractObservation.getFeatureOfInterest();
 
         OXFFeature foi = OXFFeature.createFrom(xb_featureMember);
-        
+
         feature.setAttribute(FEATURE_OF_INTEREST, foi);
     }
-    
-    
+
+
     public void initializeFeature(OXFFeature feature,
                                   String[] nameValue,
                                   String descriptionValue,
@@ -165,7 +165,7 @@ public class OXFAbstractObservationType extends OXFAbstractFeatureType {
                                   OXFPhenomenonPropertyType observedPropertyValue,
                                   OXFFeature featureOfInterestValue) {
         super.initializeFeature(feature, nameValue, descriptionValue, locationValue);
-        
+
         feature.setAttribute(PROCEDURE, procedureValue);
         feature.setAttribute(OBSERVED_PROPERTY, observedPropertyValue);
         feature.setAttribute(FEATURE_OF_INTEREST, featureOfInterestValue);

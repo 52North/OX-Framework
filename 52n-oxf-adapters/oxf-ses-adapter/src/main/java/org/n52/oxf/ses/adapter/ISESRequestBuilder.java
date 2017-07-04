@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -61,20 +61,20 @@ public interface ISESRequestBuilder {
     public static final String NOTIFY_TOPIC_DIALECT = "notifyTopicDialect";
     public static final String NOTIFY_TOPIC = "notifyTopic";
     public static final String NOTIFY_XML_MESSAGE = "notifyXmlMessage";
-    
+
     public static final String UNSUBSCRIBE_SES_URL = "unsubscribeSesUrl";
     public static final String UNSUBSCRIBE_REFERENCE = "unsubscribeReference";
     public static final String UNSUBSCRIBE_REFERENCE_XML = "unsubscribeReferenceXmlMarkup";
-    
-	public static final String DESTROY_REGISTRATION_SES_URL = "destroyRegistrationSesUrl";
-	public static final String DESTROY_REGISTRATION_REFERENCE = "destroyRegistrationReference";
+
+    public static final String DESTROY_REGISTRATION_SES_URL = "destroyRegistrationSesUrl";
+    public static final String DESTROY_REGISTRATION_REFERENCE = "destroyRegistrationReference";
 
     /**
      * Builds the GetCapabilities SOAP SES Request
      * (section 10.1.1.1 of OGC 08-133 SES Interface Description DP)
      * @param parameters MUST contain the target URL of the SES
      * @return the GetCapabilities SOAP SES Request
-     * @throws OXFException if problems with the SOAP implementation occur 
+     * @throws OXFException if problems with the SOAP implementation occur
      */
     public String buildGetCapabilitiesRequest(ParameterContainer parameter) throws OXFException;
 
@@ -88,14 +88,14 @@ public interface ISESRequestBuilder {
     public String buildRegisterPublisherRequest(ParameterContainer parameter) throws OXFException;
 
     public String buildSubscribeRequest(ParameterContainer parameter) throws OXFException;
-    
+
     public String buildUnsubscribeRequest(ParameterContainer parameter) throws OXFException;
 
     public String buildDescribeSensorRequest(ParameterContainer parameter) throws OXFException;
 
     public String buildNotifyRequest(ParameterContainer parameter) throws OXFException;
 
-	public String buildDestroyRegistrationRequest(
-			ParameterContainer parameterContainer) throws OXFException;
+    public String buildDestroyRegistrationRequest(
+            ParameterContainer parameterContainer) throws OXFException;
 
 }

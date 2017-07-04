@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -40,21 +40,24 @@ public class GetRequestMethod extends RequestMethod {
     /**
      * @return a XML representation.
      */
+    @Override
     public String toXML(){
         String res = "<RequestMethod type=\"HTTP_GET\"\">";
-        
+
         if(getOnlineResource() != null) res += getOnlineResource().toXML();
-        
+
         if(getConstraints() != null){
+            StringBuilder sb = new StringBuilder(res);
             for(String c : getConstraints()){
-                res += "<Constraint>";
-                res += c;
-                res += "</Constraint>";
+                sb.append("<Constraint>")
+                    .append(c)
+                    .append("</Constraint>");
             }
+            res = sb.toString();
         }
-        
+
         res += "</RequestMethod>";
-        
+
         return res;
     }
 }

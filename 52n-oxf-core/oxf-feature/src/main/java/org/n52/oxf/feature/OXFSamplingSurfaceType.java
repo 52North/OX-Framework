@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -47,7 +47,7 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
     public static final String GEOMETRY = "geometry";
 
     /**
-     * 
+     *
      */
     public OXFSamplingSurfaceType() {
         super();
@@ -56,7 +56,7 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
         featureAttributeDescriptors = generateAttributeDescriptors();
     }
 
-    
+
     public static OXFFeature create(SamplingSurfaceDocument xb_saSurfaceDoc) {
 
         SamplingSurfaceType xb_samplingSurface = xb_saSurfaceDoc.getSamplingSurface();
@@ -75,7 +75,7 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
     }
 
     /**
-     * 
+     *
      * @param doc
      * @return
      */
@@ -90,7 +90,7 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
                                                                                    1,
                                                                                    "");
         attributeDescriptors.add(position);
-        
+
         // TODO support for other attributes of SamplingSurface (e.g. sampledFeature)
 
         return attributeDescriptors;
@@ -98,6 +98,8 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
 
     /**
      * supports the Sampling specification of version 1.0:
+     * @param feature
+     * @param xb_saSurface
      */
     public void initializeFeature(OXFFeature feature,
                                   SamplingSurfaceType xb_saSurface) {
@@ -107,23 +109,23 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
         // --- initialize the POSITION-attribute:
 
         SurfacePropertyType shape = xb_saSurface.getShape();
-        AbstractSurfaceType surface = shape.getSurface();
-        if (shape != null
-        		&& surface != null
+        if (shape != null) {
+            AbstractSurfaceType surface = shape.getSurface();
+            if (surface != null
                 && ((PolygonType)surface).getExterior() != null
                 && ((PolygonType)surface).getExterior().getRing() != null) {
 
-            PolygonType xb_polygon = (PolygonType)surface;
+//                PolygonType xb_polygon = (PolygonType)surface;
 
             // TODO: create polygon
-            
+
 //            LinearRing linearRing = new LinearRing(points, factory);
-//            
+//
 //            CoordType[] xb_coordinateArray = ((LinearRingType)xb_polygon.getExterior().getRing()).getCoordArray();
 //            for (int i = 0; i < xb_coordinateArray.length; i++) {
-//				
-//			}
-//            
+//
+//          }
+//
 //            DirectPositionType xb_pos = xb_point.getPos();
 //
 //            List coordsList = xb_pos.getListValue();
@@ -132,26 +134,27 @@ public class OXFSamplingSurfaceType extends OXFAbstractFeatureType {
 //            double y = (Double) coordsList.get(1);
 //            double z = Double.NaN;
 //            try {
-//            		z = (Double) coordsList.get(2);
-//			} catch (Exception e) {
-//				// no Exception -> 2D Point
-//			}
-//            
+//                  z = (Double) coordsList.get(2);
+//          } catch (Exception e) {
+//              // no Exception -> 2D Point
+//          }
+//
 //
 //            if (coordsList.size() > 2) {
 //                z = (Double) coordsList.get(2);
 //            }
 
-            Polygon polygon = new GeometryFactory().createPolygon(null, null);
+                Polygon polygon = new GeometryFactory().createPolygon(null, null);
 
-            feature.setAttribute(GEOMETRY, polygon);
-            initializeFeaturesGeometry(feature, polygon);
+                feature.setAttribute(GEOMETRY, polygon);
+                initializeFeaturesGeometry(feature, polygon);
+            }
         }
 
         // check if the geometry-attribute is set: (could be set in this or the super class)
         if (feature.getGeometry() == null) {
             throw new IllegalArgumentException("The geometry attribute could not be initialized.");
         }
-        
+
     }
 }

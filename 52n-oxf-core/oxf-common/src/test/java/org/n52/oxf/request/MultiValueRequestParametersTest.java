@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -51,29 +51,29 @@ public class MultiValueRequestParametersTest {
     {
         requestParameters = new MultiValueRequestParametersSeam();
     }
-    
+
     @Test
-    public void 
+    public void
     shouldBeEmptyJustAfterCreation()
     {
         assertThat(requestParameters.isEmpty(), is(true));
     }
 
-    @Test public void 
+    @Test public void
     shouldContainAddedParameter()
     {
         requestParameters.addParameterValue("version", "1.0.0");
         assertThat(requestParameters.contains("version"), is(true));
     }
-    
-    @Test public void 
+
+    @Test public void
     shouldIndicateThatAddingParameterValueChangedSize()
     {
         assertThat(requestParameters.addParameterValue("version", "1.0.0"), is(true));
     }
-    
-    @Test public void 
-    shouldContainAddedValues() 
+
+    @Test public void
+    shouldContainAddedValues()
     {
         requestParameters.addParameterValue("version", "1.0.0");
         requestParameters.addParameterValue("version", "2.0.0");
@@ -82,56 +82,56 @@ public class MultiValueRequestParametersTest {
         assertThat(values.contains("2.0.0"), is(true));
     }
 
-    @Test public void 
+    @Test public void
     shouldDetermineSingleValueForParameterWhenOneValueIsPresent()
     {
         requestParameters.addParameterValue("version", "1.0.0");
         assertThat(requestParameters.isSingleValue("version"), is(true));
     }
-    
-    @Test public void 
+
+    @Test public void
     shouldNotDetermineHasSingleValueForParameterWhenMultipleValuesArePresent()
     {
         requestParameters.addParameterValue("version", "1.0.0");
         requestParameters.addParameterValue("version", "2.0.0");
         assertThat(requestParameters.isSingleValue("version"), is(false));
     }
-    
-    @Test public void 
-    shouldDetermineMultipleValuesForParameterWhenMultipleValuesArePresent() 
+
+    @Test public void
+    shouldDetermineMultipleValuesForParameterWhenMultipleValuesArePresent()
     {
         requestParameters.addParameterValue("version", "1.0.0");
         requestParameters.addParameterValue("version", "2.0.0");
         assertThat(requestParameters.hasMultipleValues("version"), is(true));
     }
 
-    @Test public void 
-    shouldNotDetermineMultipleValuesForParameterWhenSingleValueIsPresent() 
+    @Test public void
+    shouldNotDetermineMultipleValuesForParameterWhenSingleValueIsPresent()
     {
         requestParameters.addParameterValue("version", "1.0.0");
         assertThat(requestParameters.hasMultipleValues("version"), is(false));
     }
 
-    @Test public void 
+    @Test public void
     shouldNotDetermineNonPresentValueAsSingle()
     {
         assertThat(requestParameters.isSingleValue("version"), is(false));
     }
-    
-    @Test public void 
+
+    @Test public void
     shouldNotDetermineNonPresentValueAsMultipleValue()
     {
         assertThat(requestParameters.hasMultipleValues("version"), is(false));
     }
-    
-    @Test public void 
+
+    @Test public void
     shouldReturnEmptyStringWhenSingleValueIsAskedAndParameterIsNotPresent()
     {
         requestParameters.addParameterValue("version", "1.0.0");
         assertThat(requestParameters.getSingleValue("does_not_exist"), is(""));
     }
-    
-    @Test public void 
+
+    @Test public void
     shouldReturnAllParameterNamesAddedViaVarArgs()
     {
         requestParameters.addParameterValue("version", "1.0.0");
@@ -140,30 +140,30 @@ public class MultiValueRequestParametersTest {
         assertThat("version is missing.", parameters.contains("version"), is(true));
         assertThat("service is missing", parameters.contains("service"), is(true));
     }
-    
-    @Test public void 
+
+    @Test public void
     shouldContainAllValuesForParameterAddedViaVarArgs() {
         requestParameters.addParameterStringValues("service", "SOS", "SPS");
         final Collection<String> services = getValueCollectionFor("service");
         assertThat(services.contains("SOS"), is(true));
         assertThat(services.contains("SPS"), is(true));
     }
-    
-    @Test public void 
+
+    @Test public void
     shouldAddParameterWithEmptyArrayValueViaVarArgs() {
         requestParameters.addParameterStringValues("service", new String[0]);
         final Iterable<String> services = requestParameters.getAllValues("service");
         assertThat((Collection<String>) services, is(empty()));
     }
-    
-    @Test public void 
+
+    @Test public void
     shouldAddParameterWithNullValueViaVarArgs() {
         requestParameters.addParameterStringValues("service", (String[]) null);
         final Iterable<String> services = requestParameters.getAllValues("service");
         assertThat((Collection<String>) services, is(empty()));
     }
 
-    @Test public void 
+    @Test public void
     shouldContainAllValuesForParameterAddedViaIterable()
     {
         final List<String> parameterValues = new ArrayList<String>();
@@ -174,13 +174,13 @@ public class MultiValueRequestParametersTest {
         assertThat(versions.contains("1.0.0"), is(true));
         assertThat(versions.contains("2.0.0"), is(true));
     }
-    
+
     @Test public void
     shouldIndicateSizeChangeWhenAddingMultipleValues() {
         assertThat(requestParameters.addParameterStringValues("version", "1.0.0", "2.0.0"), is(true));
         assertThat(requestParameters.addParameterStringValues("version", "1.0.0", "2.0.0"), is(false));
     }
-    
+
     @Test public void
     shouldPreserveOrderWhenAddingMultipleValuesViaStringVarArgs() {
         requestParameters.addParameterStringValues("version", "2.0.0", "1.0.0");
@@ -189,7 +189,7 @@ public class MultiValueRequestParametersTest {
         assertThat(versions.contains("2.0.0"), is(true));
         assertThat(versions.contains("1.0.0"), is(true));
     }
-    
+
     @Test public void
     shouldPreserveOrderWhenAddingMultipleValuesViaDifferentCalls() {
         requestParameters.addParameterValue("version", "3.0.0");
@@ -200,7 +200,7 @@ public class MultiValueRequestParametersTest {
         assertThat(iterator.next(), is("2.0.0"));
         assertThat(iterator.next(), is("1.0.0"));
     }
-    
+
     @Test public void
     shouldPreserveOrderWhenAddingMultipleValuesViaEnumVarArgs() {
         requestParameters.addParameterEnumValues("keys", SERVICE, VERSION);
@@ -210,7 +210,7 @@ public class MultiValueRequestParametersTest {
         assertThat(iterator.next(), is("version"));
     }
 
-    @Test public void 
+    @Test public void
     shouldContainAllValuesFromTwoMergedRequestParameters()
     {
         requestParameters.addParameterStringValues("version", "1.0.0", "2.0.0");
@@ -226,15 +226,15 @@ public class MultiValueRequestParametersTest {
         assertThat(services.contains("SOS"), is(true));
     }
 
-    @Test public void 
+    @Test public void
     shouldAddSingleStringParameterValue() {
         assertThat(requestParameters.addParameterValue("version", "1.0.0"), is(true));
         assertThat(requestParameters.contains("version"), is(true));
         assertThat(requestParameters.getSingleValue("version"), is("1.0.0"));
     }
 
-    @Test public void 
-    shouldNotContainParameterAfterRemovingItAndReturnPreviouslyAssignedValues() 
+    @Test public void
+    shouldNotContainParameterAfterRemovingItAndReturnPreviouslyAssignedValues()
     {
         requestParameters.addParameterValue("version", "1.0.0");
         requestParameters.addParameterValue("version", "2.0.0");
@@ -245,16 +245,16 @@ public class MultiValueRequestParametersTest {
         assertThat(removedValues.contains("2.0.0"), is(true));
     }
 
-    @Test public void 
-    shouldReturnEmptyCollectionWhenRemovingNonExistingParameter() 
+    @Test public void
+    shouldReturnEmptyCollectionWhenRemovingNonExistingParameter()
     {
         final Collection<String> removedValues = requestParameters.remove("version");
         assertThat(removedValues, isA(Collection.class));
         assertThat(removedValues, is(empty()));
     }
-    
-    @Test public void 
-    shouldHaveNoValuesAnymoreAfterRemovingAllValues() 
+
+    @Test public void
+    shouldHaveNoValuesAnymoreAfterRemovingAllValues()
     {
         requestParameters.addParameterValue("version", "1.0.0");
         requestParameters.addParameterValue("version", "2.0.0");
@@ -263,85 +263,85 @@ public class MultiValueRequestParametersTest {
         assertThat(requestParameters.isEmpty(), is(true));
     }
 
-    @Test public void 
+    @Test public void
     shouldAddEmptyListIfNullIsAddedAsParameterEnum()
     {
-    	final String parameter = "test-parameter";
-		requestParameters.addParameterEnumValues(parameter, (Enum[])null);
-    	final Iterator<String> iterator = requestParameters.getAllValues(parameter).iterator();
-		assertThat(iterator.hasNext(), is(false));
+        final String parameter = "test-parameter";
+        requestParameters.addParameterEnumValues(parameter, (Enum[])null);
+        final Iterator<String> iterator = requestParameters.getAllValues(parameter).iterator();
+        assertThat(iterator.hasNext(), is(false));
     }
-    
+
     @Test public void
     shouldReturnEmptyListWhenRequestingAllElementsForNotContainedParameter()
     {
-    	final String parameter = "test";
-		assertThat(requestParameters.contains(parameter),is(false));
-		final Iterable<String> allValues = requestParameters.getAllValues(parameter);
-		assertThat(((List<String>)allValues).isEmpty(), is(true));
+        final String parameter = "test";
+        assertThat(requestParameters.contains(parameter),is(false));
+        final Iterable<String> allValues = requestParameters.getAllValues(parameter);
+        assertThat(((List<String>)allValues).isEmpty(), is(true));
     }
-    
+
     @Test public void
     shouldReturnTrueIfNoValueIsAssociatedToParameterOrParameterIsNotContained()
     {
-    	final String parameter = "parameter";
-		assertThat(requestParameters.isEmpty(parameter),is(true));
-		requestParameters.addParameterValue(parameter, null);
-		assertThat(requestParameters.isEmpty(parameter),is(true));
-		requestParameters.addParameterValue(parameter, "value");
-		assertThat(requestParameters.isEmpty(parameter),is(false));
-		requestParameters.addParameterValue(parameter, "value2");
-		assertThat(requestParameters.isEmpty(parameter),is(false));
+        final String parameter = "parameter";
+        assertThat(requestParameters.isEmpty(parameter),is(true));
+        requestParameters.addParameterValue(parameter, null);
+        assertThat(requestParameters.isEmpty(parameter),is(true));
+        requestParameters.addParameterValue(parameter, "value");
+        assertThat(requestParameters.isEmpty(parameter),is(false));
+        requestParameters.addParameterValue(parameter, "value2");
+        assertThat(requestParameters.isEmpty(parameter),is(false));
     }
-    
+
     @Rule public ExpectedException thrown = ExpectedException.none();
-    
+
     @Test public void
     shouldThrowIllegalArgumentExceptionIfAddingNullOrEmptyValueViaAddNonEmpty()
     {
-    	thrown.expect(IllegalArgumentException.class);
-    	thrown.expectMessage(is("Parameter 'key' is required and may not be null or empty!"));
-    	((MultiValueRequestParameters)requestParameters).addNonEmpty("key", "");
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(is("Parameter 'key' is required and may not be null or empty!"));
+        ((MultiValueRequestParameters)requestParameters).addNonEmpty("key", "");
     }
-    
+
     @Test public void
     shouldAddValueViaAddNonEmpty()
     {
-    	final String key = "key";
-		final String value = "value";
-		assertThat(((MultiValueRequestParameters)requestParameters).addNonEmpty(key,value),is(true));
-    	assertThat(requestParameters.contains(key),is(true));
-    	assertThat(requestParameters.isEmpty(key),is(false));
-    	assertThat(requestParameters.isEmpty(),is(false));
-    	assertThat(requestParameters.getSingleValue(key),is(value));
+        final String key = "key";
+        final String value = "value";
+        assertThat(((MultiValueRequestParameters)requestParameters).addNonEmpty(key,value),is(true));
+        assertThat(requestParameters.contains(key),is(true));
+        assertThat(requestParameters.isEmpty(key),is(false));
+        assertThat(requestParameters.isEmpty(),is(false));
+        assertThat(requestParameters.getSingleValue(key),is(value));
     }
-    
+
     @Test public void
     shouldReturnTrueIfNoValueIsAssociatedToParameterViaIsEmptyValue()
     {
-    	final String emptyValue = null;
-    	final String nonEmptyValue = "value";
-		final String parameter = "parameter";
-		requestParameters.addParameterValue(parameter, emptyValue );
-		final MultiValueRequestParameters parameters = (MultiValueRequestParameters)requestParameters;
-		
-		assertThat(parameters.isEmptyValue(parameter),is(true));
-		requestParameters.addParameterValue(parameter, nonEmptyValue);
-		assertThat(parameters.isEmptyValue(parameter),is(false));
+        final String emptyValue = null;
+        final String nonEmptyValue = "value";
+        final String parameter = "parameter";
+        requestParameters.addParameterValue(parameter, emptyValue );
+        final MultiValueRequestParameters parameters = (MultiValueRequestParameters)requestParameters;
+
+        assertThat(parameters.isEmptyValue(parameter),is(true));
+        requestParameters.addParameterValue(parameter, nonEmptyValue);
+        assertThat(parameters.isEmptyValue(parameter),is(false));
     }
 
     private Collection<String> getValueCollectionFor(final String parameter) {
         return requestParameters.getAllValues(parameter);
     }
-    
+
     enum TestEnum {
         VERSION, SERVICE;
-        
+
         @Override
         public String toString() {
             return name().toLowerCase();
         }
     }
-    
+
     private class MultiValueRequestParametersSeam extends MultiValueRequestParameters {}
 }

@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -32,7 +32,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.logging.FileHandler;
 
 import org.n52.oxf.OXFException;
 import org.n52.oxf.adapter.OperationResult;
@@ -148,7 +147,7 @@ public class TestSOSAdapter {
      *         + ((OXFFeature) featureCollection.toList().get(0).getAttribute(&quot;featureOfInterest&quot;)).getGeometry());
      *
      * </pre>
-     * 
+     *
      * @throws OXFException in case of problems in the OX-Framework.
      * @throws ExceptionReport in case of problems in communication with OWS service.
      *
@@ -184,7 +183,7 @@ public class TestSOSAdapter {
         final String featureOfInterest = null;
 
         paramCon.addParameterShell(ISOSRequestBuilder.SERVICE, SosUtil.SERVICE_TYPE);
-        paramCon.addParameterShell(ISOSRequestBuilder.VERSION, SosUtil.SUPPORTED_VERSIONS[1]);
+        paramCon.addParameterShell(ISOSRequestBuilder.VERSION, SosUtil.SUPPORTED_VERSIONS.get(2));
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_FORMAT_PARAMETER, omFormat);
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESPONSE_MODE_PARAMETER, responseMode);
         paramCon.addParameterShell(ISOSRequestBuilder.GET_OBSERVATION_RESULT_MODEL_PARAMETER, resultModel);
@@ -225,7 +224,7 @@ public class TestSOSAdapter {
         final ParameterContainer paramCon = new ParameterContainer();
 
         paramCon.addParameterShell(ISOSRequestBuilder.SERVICE, SosUtil.SERVICE_TYPE);
-        paramCon.addParameterShell(ISOSRequestBuilder.VERSION, SosUtil.SUPPORTED_VERSIONS[1]);
+        paramCon.addParameterShell(ISOSRequestBuilder.VERSION, SosUtil.SUPPORTED_VERSIONS.get(2));
         paramCon.addParameterShell(ISOSRequestBuilder.GET_FOI_ID_PARAMETER, new String[]
         {//"foi_1001",
          "foi_sampSur_1001",
@@ -365,7 +364,7 @@ public class TestSOSAdapter {
 
         final OperationResult opResult = sosAdapter.doOperation(new Operation(SOSAdapter.REGISTER_SENSOR, url + "?", url), paramCon);
     }
-    
+
     public void testInsertSensor() throws OXFException, ExceptionReport, IOException, URISyntaxException {
             final SOSAdapter sosAdapter = new SOSAdapter(serviceVersion);
 
@@ -388,7 +387,7 @@ public class TestSOSAdapter {
         paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_UOM_PARAMETER, "mm");
         paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_OBSERVATION_TYPE, "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement");
         paramCon.addParameterShell(ISOSRequestBuilder.REGISTER_SENSOR_FEATURE_TYPE_PARAMETER,"http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint");
-        
+
 //        paramCon.addParameterShell(ISOSRequestBuilder.AUTH_TOKEN, "oxf-test-token");
         paramCon.addParameterShell(ISOSRequestBuilder.BASIC_AUTH_HOST, "http://localhost:81");
         paramCon.addParameterShell(ISOSRequestBuilder.BASIC_AUTH_PASSWORD, "test");

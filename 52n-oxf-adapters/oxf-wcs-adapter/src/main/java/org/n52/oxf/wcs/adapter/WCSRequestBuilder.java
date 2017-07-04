@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -40,14 +40,14 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class WCSRequestBuilder {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(WCSRequestBuilder.class);
 
     /**
-     * 
+     *
      * @param operation
      * @param parameterContainer
      * @return
@@ -72,9 +72,11 @@ public class WCSRequestBuilder {
                 String[] specifiedValues = (String[]) section.getSpecifiedValueArray();
 
                 requestStringGET += "&SECTION=" + specifiedValues[0];
+                StringBuilder sb = new StringBuilder(requestStringGET);
                 for (int i = 1; i < specifiedValues.length; i++) {
-                    requestStringGET += "," + specifiedValues[i];
+                    sb.append(",").append(specifiedValues[i]);
                 }
+                requestStringGET = sb.toString();
             }
             else if (section.hasSingleSpecifiedValue()) {
                 requestStringGET += (String) section.getSpecifiedValue();
@@ -85,7 +87,7 @@ public class WCSRequestBuilder {
     }
 
     /**
-     * 
+     *
      * @param operation
      * @param parameterContainer
      * @return
@@ -112,23 +114,26 @@ public class WCSRequestBuilder {
         if (parameterContainer.containsParameterShellWithServiceSidedName("COVERAGE")) {
             ParameterShell coverage = parameterContainer.getParameterShellWithServiceSidedName("COVERAGE");
 
-            if (versionStr.equals("1.0.0")) {
-                requestStringGET += "&COVERAGE=";
+            switch (versionStr) {
+                case "1.0.0":
+                    requestStringGET += "&COVERAGE=";
+                    break;
+                case "1.1.1":
+                    requestStringGET += "&IDENTIFIERS=";
+                    break;
+                default:
+                    throw new OXFException("Usupported WCS version: '" + versionStr + "'");
             }
-            else if (versionStr.equals("1.1.1")) {
-                requestStringGET += "&IDENTIFIERS=";
-            }
-            else {
-                throw new OXFException("Usupported WCS version: '" + versionStr + "'");
-            }
-            
+
             if (coverage.hasMultipleSpecifiedValues()) {
                 String[] specifiedValues = (String[]) coverage.getSpecifiedValueArray();
-                
+
                 requestStringGET += specifiedValues[0];
+                StringBuilder sb = new StringBuilder(requestStringGET);
                 for (int i = 1; i < specifiedValues.length; i++) {
-                    requestStringGET += "," + specifiedValues[i];
+                    sb.append(",").append(specifiedValues[i]);
                 }
+                requestStringGET = sb.toString();
             }
             else if (coverage.hasSingleSpecifiedValue()) {
                 requestStringGET += (String) coverage.getSpecifiedValue();
@@ -139,7 +144,7 @@ public class WCSRequestBuilder {
     }
 
     /**
-     * 
+     *
      * @param operation
      * @param parameterContainer
      * @return
@@ -259,7 +264,7 @@ public class WCSRequestBuilder {
 
         // Replace ' ' character with '%20' character:
         requestStringGET = requestStringGET.replace(" ", "%20");
-        
+
         return requestStringGET;
     }
 

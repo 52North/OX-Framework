@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -33,15 +33,16 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
- * 
+ *
  */
 public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeature> {
 
@@ -49,7 +50,7 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
 
     public OXFFeatureCollection(String id, OXFFeatureType featureType) {
         super(id, featureType);
-        this.features = new Vector<OXFFeature>();
+        this.features = new ArrayList<>();
     }
 
     public OXFFeatureCollection(String id, OXFFeatureType featureType, Collection<OXFFeature> features) {
@@ -57,22 +58,10 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
         this.features = features;
     }
 
-    /**
-     * 
-     * @param worldX
-     * @param worldY
-     * @return
-     */
     public OXFFeature getFeatureAtPoint(double worldX, double worldY) {
         return getFeatureAtPoint(worldX, worldY, Double.NaN);
     }
 
-    /**
-     * 
-     * @param worldX
-     * @param worldY
-     * @return
-     */
     public OXFFeature getFeatureAtPoint(double worldX, double worldY, double worldZ) {
 
         Coordinate c = new Coordinate(worldX, worldY, worldZ);
@@ -99,6 +88,7 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
      * @return the computed BoundingBox of all contained OXFFeatures. or <code>null</code> if this object
      *         does not contain any features or the contained features have no geometry.
      */
+    @Override
     public Geometry getBoundingBox() {
         Geometry envelope = null;
 
@@ -119,6 +109,7 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
     /**
      * Returns an iterator that enumerates all of the features in this collection.
      */
+    @Override
     public Iterator<OXFFeature> iterator() {
         return features.iterator();
     }
@@ -127,21 +118,22 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
      * @return a List containing all OXFFeatures of this OXFFeatureCollection.
      */
     public List<OXFFeature> toList() {
-        return new Vector<OXFFeature>(features);
+        return new ArrayList<>(features);
     }
 
     /**
      * @return a Set containing all OXFFeatures of this OXFFeatureCollection.
      */
     public Set<OXFFeature> toSet() {
-        HashSet<OXFFeature> hSet = new HashSet<OXFFeature>();
+        HashSet<OXFFeature> hSet = new HashSet<>();
         hSet.addAll(this.features);
         return hSet;
     }
 
     /**
      * Creates a {@link Feature} array and populates it.
-     * 
+     *
+     * @return
      * @throws OutOfMemoryError
      *         if the feature collection is too large to fit into memory.
      */
@@ -154,20 +146,18 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
 
     /**
      * Returns {@code true} if this collection contains no {@link Feature}s.
+     * @return {@code true} if this collection contains no {@link Feature}s.
      */
     public boolean isEmpty() {
         return features.isEmpty();
     }
 
-    /**
-     * Returns the size of the collection.
-     */
     public int size() {
         return features.size();
     }
 
     /**
-     * 
+     *
      * @param fArray
      */
     public void add(OXFFeature[] fArray) {
@@ -175,49 +165,34 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
         add(fList);
     }
 
-    /**
-     * 
-     * @param fCollection
-     */
     public void add(Collection<OXFFeature> fCollection) {
         features.addAll(fCollection);
     }
 
-    /**
-     * 
-     * @param f
-     */
     public void add(OXFFeature f) {
         features.add(f);
     }
 
-    /**
-     * Checks if the given feature is a member of this collection.
-     */
     public boolean contains(OXFFeature f) {
         return features.contains(f);
     }
 
-    /**
-     * Checks if every feature in the given collection is also a member of this feature collection.
-     */
     public boolean containsAll(Collection<OXFFeature> c) {
-        return features.contains(c);
+        return features.containsAll(c);
     }
 
+    @Override
     public String produceDescription() {
-        String res = "";
-        
+        StringBuilder res = new StringBuilder();
+
         for (OXFFeature feature : features) {
-            res += feature.produceDescription() + "\n";
+            res.append(feature.produceDescription()).append("\n");
         }
-        
-        return res;
+
+        return res.toString();
     }
-    
+
     /*
-     * 
-     */
     public static void main(String[] args) {
         OXFFeatureCollection featureColl = new OXFFeatureCollection("", null);
         {
@@ -240,5 +215,31 @@ public class OXFFeatureCollection extends OXFFeature implements Iterable<OXFFeat
         }
 
         System.out.println(featureColl.getBoundingBox());
+    }
+    */
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.features);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OXFFeatureCollection other = (OXFFeatureCollection) obj;
+        if (!Objects.equals(this.features, other.features)) {
+            return false;
+        }
+        return true;
     }
 }

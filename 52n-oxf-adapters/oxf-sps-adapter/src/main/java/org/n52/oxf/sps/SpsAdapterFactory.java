@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -32,15 +32,15 @@ import static java.lang.String.format;
 import org.n52.oxf.sps.v100.SpsAdapterV100;
 
 public class SpsAdapterFactory {
-    
+
     private static final String VERSION_100 = "1.0.0";
-    
+
     private static final String VERSION_200 = "2.0.0";
-    
+
     private SpsAdapterFactory() {
         // do not instantiate static factory
     }
-    
+
     public static SpsAdapter createAdapter(final String serviceUrl, final String version) throws MissingAdapterImplementationException {
         if (serviceUrl == null) {
             throw new IllegalArgumentException("Service URL must not be null.");

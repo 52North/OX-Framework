@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -37,13 +37,13 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.oxf.request.RequestParameters;
 
 public abstract class HttpClientDecorator implements HttpClient {
-    
+
     private HttpClient httpclient;
-    
+
     public HttpClientDecorator(HttpClient toDecorate) {
         this.httpclient = toDecorate;
     }
-    
+
     public DefaultHttpClient getHttpClientToDecorate() {
         return httpclient.getHttpClientToDecorate();
     }
@@ -59,7 +59,7 @@ public abstract class HttpClientDecorator implements HttpClient {
     public HttpResponse executePost(String uri, XmlObject payloadToSend) throws HttpClientException {
         return httpclient.executePost(uri, payloadToSend);
     }
-    
+
     public HttpResponse executePost(String uri, String payloadToSend) throws HttpClientException {
         return httpclient.executePost(uri, payloadToSend);
     }

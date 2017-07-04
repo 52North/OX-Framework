@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -63,12 +63,12 @@ public class ObservationSeriesCollection {
     private Comparable[] minimumValues;
 
     private String[] observedPropertyArray;
-    
+
     public ObservationSeriesCollection(OXFFeatureCollection observationCollection,
                                    Set<OXFFeature> featuresSet,
                                    String[] observedProperties,
                                    boolean onlyCompleteTuples) {
-        
+
         String[] featureIDArray = new String[featuresSet.size()];
         Iterator iter = featuresSet.iterator();
         int i = 0;
@@ -76,31 +76,34 @@ public class ObservationSeriesCollection {
             featureIDArray[i] = ((OXFFeature) iter.next()).getID();
             i++;
         }
-        
-        observedPropertyArray = observedProperties;
+        timeSet = new HashSet<>();
 
-        timeSet = new HashSet<ITimePosition>();
-        featureMap = findObservedValueTuples4FOI(observationCollection,
-                                                 featureIDArray,
-                                                 observedProperties,
-                                                 onlyCompleteTuples);
+        if (observedProperties != null) {
+            observedPropertyArray = observedProperties.clone();
+            featureMap = findObservedValueTuples4FOI(observationCollection,
+                    featureIDArray,
+                    observedProperties,
+                    onlyCompleteTuples);
+        }
+
     }
 
     /**
-     * 
+     *
      */
     public ObservationSeriesCollection(OXFFeatureCollection observationCollection,
                                    String[] featureIDArray,
                                    String[] observedProperties,
                                    boolean onlyCompleteTuples) {
-        
-        observedPropertyArray = observedProperties;
-        
-        timeSet = new HashSet<ITimePosition>();
-        featureMap = findObservedValueTuples4FOI(observationCollection,
-                                                 featureIDArray,
-                                                 observedProperties,
-                                                 onlyCompleteTuples);
+
+        timeSet = new HashSet<>();
+        if (observedProperties != null) {
+            observedPropertyArray = observedProperties.clone();
+            featureMap = findObservedValueTuples4FOI(observationCollection,
+                    featureIDArray,
+                    observedProperties,
+                    onlyCompleteTuples);
+        }
     }
 
     public ObservationSeriesCollection(OXFFeatureCollection observationCollection,
@@ -111,16 +114,16 @@ public class ObservationSeriesCollection {
         if (observationCollection == null) {
             throw new NullPointerException("No observation given.");
         }
-        timeSet = new HashSet<ITimePosition>();
+        timeSet = new HashSet<>();
         featureMap = findObservedValueTuples4FOI(observationCollection,
                                                  featureIDArray,
                                                  observedProperties,
                                                  procedureNames,
                                                  onlyCompleteTuples);
     }
-    
+
     /**
-     * 
+     *
      * @param indexOfObservedProperty
      * @return
      */
@@ -128,16 +131,16 @@ public class ObservationSeriesCollection {
         return maximumValues[indexOfObservedProperty];
     }
     public Comparable getMaximum(String observedPropertyName) {
-        for (int i=0; i<observedPropertyArray.length; i++) {
+        for (int i = 0; i < observedPropertyArray.length; i++) {
             if (observedPropertyArray[i].equals(observedPropertyName)) {
                 return maximumValues[i];
             }
         }
         return null;
     }
-    
+
     /**
-     * 
+     *
      * @param indexOfObservedProperty
      * @return
      */
@@ -153,62 +156,32 @@ public class ObservationSeriesCollection {
         }
         return null;
     }
-    
-    /**
-     * Gibt s�mtliche <code>ObservedValueTuple</code> zur�ck. D.h. alle <code>ObservedValueTuple</code>
-     * f�r s�mtliche FOI-Zeitpunkt-Kombinationen.
-     * 
-     * @return
-     */
-    public List<ObservedValueTuple> getAllTuples() {
-        List<ObservedValueTuple> res = new ArrayList<ObservedValueTuple>();
 
-        for (String featureID : featureMap.keySet()) {
-            Map<ITimePosition, ObservedValueTuple> timeMap = featureMap.get(featureID);
-            res.addAll(timeMap.values());
+    public List<ObservedValueTuple> getAllTuples() {
+        List<ObservedValueTuple> res = new ArrayList<>();
+
+        for (Map<ITimePosition, ObservedValueTuple> featureID : featureMap.values()) {
+            res.addAll(featureID.values());
         }
 
         return res;
     }
 
-    /**
-     * gibt zu dem spezifizierten OXFFeature s�mtliche observedValueTuples zur�ck, und zwar sortiert zu den
-     * zugeh�rigen Mess-Zeitpunkten in einer Map.
-     * 
-     * @param feature
-     * @return
-     */
     public Map<ITimePosition, ObservedValueTuple> getAllTuples(OXFFeature foi) {
         return featureMap.get(foi.getID());
     }
 
-    /**
-     * gibt zu der spezifizierten OXFFeature-ID s�mtliche observedValueTuples zur�ck, und zwar sortiert zu den
-     * zugeh�rigen Mess-Zeitpunkten in einer Map.
-     * 
-     * @param feature-ID
-     * @return
-     */
     public Map<ITimePosition, ObservedValueTuple> getAllTuples(String foiID) {
         return featureMap.get(foiID);
     }
 
-    /**
-     * Gibt f�r ein spezifiziertes FOI und einen bestimmten Zeitpunkt das Ph�nomen-Werte-Tupel zur�ck. <br>
-     * Entspricht der Funktion: <br>
-     * f(featureID, timePos) = phenTuple = (X1, X2, ... Xn) | mit Xi := beobachteter Ph�nomenwert.
-     * 
-     * @param feature
-     * @param timePos
-     * @return
-     */
     public ObservedValueTuple getTuple(OXFFeature feature, ITimePosition timePos) {
-        for (String featureID : featureMap.keySet()) {
-            if (feature.getID().equals(featureID)) {
-                Map<ITimePosition, ObservedValueTuple> timeTupleMap = featureMap.get(featureID);
-                for (ITimePosition timeKey : timeTupleMap.keySet()) {
-                    if (timePos.equals(timeKey)) {
-                        return timeTupleMap.get(timeKey);
+        for (Map.Entry<String, Map<ITimePosition, ObservedValueTuple>> featureEntry : featureMap.entrySet()) {
+            if (feature.getID().equals(featureEntry.getKey())) {
+                Map<ITimePosition, ObservedValueTuple> timeTupleMap = featureEntry.getValue();
+                for (Map.Entry<ITimePosition, ObservedValueTuple> timeEntry : timeTupleMap.entrySet()) {
+                    if (timePos.equals(timeEntry.getKey())) {
+                        return timeEntry.getValue();
                     }
                 }
             }
@@ -216,12 +189,6 @@ public class ObservationSeriesCollection {
         return null;
     }
 
-    /**
-     * gibt s�mtliche Zeitpunkte in einem Array zur�ck, f�r die bei mindestens einem FOI Messwerte f�r jedes
-     * Ph�nomen vorliegen.
-     * 
-     * @return
-     */
     public ITimePosition[] getSortedTimeArray() {
         ITimePosition[] timeArray = new ITimePosition[timeSet.size()];
         timeSet.toArray(timeArray);
@@ -229,26 +196,11 @@ public class ObservationSeriesCollection {
         return timeArray;
     }
 
-    /**
-     * �bergeben wird eine <code>observationCollection</code>, die observations f�r n Ph�nomene enth�lt.
-     * Die Namen dieser Ph�nomene werden in dem Parameter <code>observedPropertyNames</code> angegeben. Dann
-     * werden f�r s�mtliche FOI, deren ID in dem Parameter <code>featureIDArray</code> spezifiziert wurde,
-     * die zugeh�rigen observations gefunden. F�r jeden Zeitpunkt f�r den observations f�r dieses foi
-     * existieren werden die zugeh�rigen Messwerte zu den einzelnen Ph�nomenen gefunden und zu Tupeln, sog.
-     * <code>ObservedValueTuple</code>, zusammengefasst. <br>
-     * <br>!! Falls (onlyCompleteTuples == true): Finden sich f�r ein FOI bei einem bestimmten Zeitpunkt
-     * nicht f�r jedes Ph�nomen Messwerte, so wird das unvollst�ndig besetzte <code>ObservedValueTuple</code>
-     * nicht ins Resultat mit aufgenommen!
-     * 
-     * @param observationCollection
-     * @param featureSet
-     * @param observedPropertyNames
-     */
     protected Map<String, Map<ITimePosition, ObservedValueTuple>> findObservedValueTuples4FOI(OXFFeatureCollection observationCollection,
                                                                                               String[] featureIDArray,
                                                                                               String[] observedPropertyNames,
                                                                                               boolean onlyCompleteTuples) {
-        Map<String, Map<ITimePosition, ObservedValueTuple>> resultMap = new HashMap<String, Map<ITimePosition, ObservedValueTuple>>();
+        Map<String, Map<ITimePosition, ObservedValueTuple>> resultMap = new HashMap<>();
 
         //
         // firstly, initialize maximum- and minimum-arrays:
@@ -260,7 +212,7 @@ public class ObservationSeriesCollection {
         // now iterate over features:
         //
         for (String featureID : featureIDArray) {
-            Map<String, ObservedValueTuple> tupleMap = new HashMap<String, ObservedValueTuple>();
+            Map<String, ObservedValueTuple> tupleMap = new HashMap<>();
 
             for (OXFFeature observation : observationCollection) {
 
@@ -287,28 +239,21 @@ public class ObservationSeriesCollection {
                         OXFPhenomenonPropertyType observedProperty = (OXFPhenomenonPropertyType) observation.getAttribute(OBSERVED_PROPERTY);
 
                         String procedure = (String)observation.getAttribute(PROCEDURE);
-                        
-                        //
-                        // setze den Wert an der richtigen Tupel-Position:
-                        //
+
                         for (int i = 0; i < observedPropertyNames.length; i++) {
                             if (observedProperty.getURN().equals(observedPropertyNames[i])) {
                                 tuple.setValue(i, result);
                             }
                         }
-                        // f�ge das Tupel der tupleMap hinzu bzw. ersetze das alte Objekt:
                         tupleMap.put(timeString, tuple);
 
                     }
                 }
             }
 
-            //
-            // nachschauen, welche tuple vollst�ndig gesetzt sind:
-            //
-            Map<ITimePosition, ObservedValueTuple> tupleMap_corrected = new HashMap<ITimePosition, ObservedValueTuple>();
-            for (String timeString : tupleMap.keySet()) {
-                ObservedValueTuple tuple = tupleMap.get(timeString);
+            Map<ITimePosition, ObservedValueTuple> tupleMap_corrected = new HashMap<>();
+            for (Map.Entry<String, ObservedValueTuple> tupleEntry : tupleMap.entrySet()) {
+                ObservedValueTuple tuple = tupleEntry.getValue();
 
                 boolean completeTuple = true;
 
@@ -320,23 +265,15 @@ public class ObservationSeriesCollection {
                     }
                 }
 
-                // falls auch nicht-vollst�ndige Tupel mit aufgenommen werden sollen, wird 'completeTuple'
-                // wieder auf 'true' gesetzt:
                 if (onlyCompleteTuples == false) {
                     completeTuple = true;
                 }
 
                 if (completeTuple) {
-                    ITimePosition time = new TimePosition(timeString);
+                    ITimePosition time = new TimePosition(tupleEntry.getKey());
 
-                    //
-                    // das tuple darf rein
-                    //
                     tupleMap_corrected.put(time, tuple);
 
-                    //
-                    // den Zeitpunkt der Menge der timeSet hinzuf�gen, falls noch nicht enthalten:
-                    //
                     boolean contained = false;
                     for (ITimePosition timePos : timeSet) {
                         if (timePos.equals(time)) {
@@ -348,9 +285,6 @@ public class ObservationSeriesCollection {
                         timeSet.add(time);
                     }
 
-                    //
-                    // falls der value vom Typ Comparable --> maximum und minimum setzen:
-                    //
                     for (int i = 0; i < tuple.dimension(); i++) {
                         if (tuple.getValue(i) instanceof Comparable) {
                             Comparable c = (Comparable) tuple.getValue(i);
@@ -371,29 +305,14 @@ public class ObservationSeriesCollection {
 
         return resultMap;
     }
-    
-    
-    /**
-     * �bergeben wird eine <code>observationCollection</code>, die observations f�r n Ph�nomene enth�lt.
-     * Die Namen dieser Ph�nomene werden in dem Parameter <code>observedPropertyNames</code> angegeben. Dann
-     * werden f�r s�mtliche FOI, deren ID in dem Parameter <code>featureIDArray</code> spezifiziert wurde,
-     * die zugeh�rigen observations gefunden. F�r jeden Zeitpunkt f�r den observations f�r dieses foi
-     * existieren werden die zugeh�rigen Messwerte zu den einzelnen Ph�nomenen gefunden und zu Tupeln, sog.
-     * <code>ObservedValueTuple</code>, zusammengefasst. <br>
-     * <br>!! Falls (onlyCompleteTuples == true): Finden sich f�r ein FOI bei einem bestimmten Zeitpunkt
-     * nicht f�r jedes Ph�nomen Messwerte, so wird das unvollst�ndig besetzte <code>ObservedValueTuple</code>
-     * nicht ins Resultat mit aufgenommen!
-     * 
-     * @param observationCollection
-     * @param featureSet
-     * @param observedPropertyNames
-     */
+
+
     protected Map<String, Map<ITimePosition, ObservedValueTuple>> findObservedValueTuples4FOI(OXFFeatureCollection observationCollection,
                                                                                               String[] featureIDArray,
                                                                                               String[] observedPropertyNames,
                                                                                               String[] procedureNames,
                                                                                               boolean onlyCompleteTuples) {
-        Map<String, Map<ITimePosition, ObservedValueTuple>> resultMap = new HashMap<String, Map<ITimePosition, ObservedValueTuple>>();
+        Map<String, Map<ITimePosition, ObservedValueTuple>> resultMap = new HashMap<>();
 
         //
         // firstly, initialize maximum- and minimum-arrays:
@@ -405,7 +324,7 @@ public class ObservationSeriesCollection {
         // now iterate over features:
         //
         for (String featureID : featureIDArray) {
-            Map<String, ObservedValueTuple> tupleMap = new HashMap<String, ObservedValueTuple>();
+            Map<String, ObservedValueTuple> tupleMap = new HashMap<>();
 
             for (OXFFeature observation : observationCollection) {
 
@@ -431,30 +350,22 @@ public class ObservationSeriesCollection {
                         OXFPhenomenonPropertyType observedProperty = (OXFPhenomenonPropertyType) observation.getAttribute(OXFAbstractObservationType.OBSERVED_PROPERTY);
 
                         String procedure = (String)observation.getAttribute(OXFAbstractObservationType.PROCEDURE);
-                        
-                        //
-                        // setze den Wert an der richtigen Tupel-Position:
-                        //
+
                         for (int i = 0; i < observedPropertyNames.length; i++) {
-                            if (observedProperty.getURN().equals(observedPropertyNames[i])) { 
+                            if (observedProperty.getURN().equals(observedPropertyNames[i])) {
                                 if (procedure.equals(procedureNames[i])){
                                     tuple.setValue(i, result);
                                 }
                             }
                         }
-                        // f�ge das Tupel der tupleMap hinzu bzw. ersetze das alte Objekt:
                         tupleMap.put(timeString, tuple);
-
                     }
                 }
             }
 
-            //
-            // nachschauen, welche tuple vollst�ndig gesetzt sind:
-            //
-            Map<ITimePosition, ObservedValueTuple> tupleMap_corrected = new HashMap<ITimePosition, ObservedValueTuple>();
-            for (String timeString : tupleMap.keySet()) {
-                ObservedValueTuple tuple = tupleMap.get(timeString);
+            Map<ITimePosition, ObservedValueTuple> tupleMap_corrected = new HashMap<>();
+            for (Map.Entry<String, ObservedValueTuple> tupleEntry : tupleMap.entrySet()) {
+                ObservedValueTuple tuple = tupleEntry.getValue();
 
                 boolean completeTuple = true;
 
@@ -466,23 +377,15 @@ public class ObservationSeriesCollection {
                     }
                 }
 
-                // falls auch nicht-vollst�ndige Tupel mit aufgenommen werden sollen, wird 'completeTuple'
-                // wieder auf 'true' gesetzt:
                 if (onlyCompleteTuples == false) {
                     completeTuple = true;
                 }
 
                 if (completeTuple) {
-                    ITimePosition time = new TimePosition(timeString);
+                    ITimePosition time = new TimePosition(tupleEntry.getKey());
 
-                    //
-                    // das tuple darf rein
-                    //
                     tupleMap_corrected.put(time, tuple);
 
-                    //
-                    // den Zeitpunkt der Menge der timeSet hinzuf�gen, falls noch nicht enthalten:
-                    //
                     boolean contained = false;
                     for (ITimePosition timePos : timeSet) {
                         if (timePos.equals(time)) {
@@ -494,9 +397,6 @@ public class ObservationSeriesCollection {
                         timeSet.add(time);
                     }
 
-                    //
-                    // falls der value vom Typ Comparable --> maximum und minimum setzen:
-                    //
                     for (int i = 0; i < tuple.dimension(); i++) {
                         if (tuple.getValue(i) instanceof Comparable) {
                             Comparable c = (Comparable) tuple.getValue(i);
@@ -514,7 +414,6 @@ public class ObservationSeriesCollection {
                 resultMap.put(featureID, tupleMap_corrected);
             }
         }
-
         return resultMap;
     }
 }

@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -40,140 +40,146 @@ import org.slf4j.LoggerFactory;
  * <li>SOAP &rarr; XML</li>
  * <li>KVP &rarr; query String</li>
  * </ul>
- * 
+ *
  * TODO: add java doc for each public method including mandatory and optional parameters like {@link SOSRequestBuilder_100}.
- * 
+ *
  * TODO: implement binding specific request creation
  *  using new to be implemented request builder hierarchy. This current implementation reflects the default implementation: POX
  * TODO: SOAP
- * TODO: KVP 
+ * TODO: KVP
  * TODO: REST?
  */
 public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
-	
-	private final SOSRequestBuilder200POX poxBuilder = new SOSRequestBuilder200POX();
-	
-	private final SOSRequestBuilder200KVP kvpBuilder = new SOSRequestBuilder200KVP();
-	
-	private final SOSRequestBuilder200SOAP soapBuilder = new SOSRequestBuilder200SOAP();
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(SOSRequestBuilder_200.class);
+
+    private final SOSRequestBuilder200POX poxBuilder = new SOSRequestBuilder200POX();
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SOSRequestBuilder_200.class);
 
     @Override
-	public String buildGetCapabilitiesRequest(final ParameterContainer parameters) throws OXFException {
-    	final Binding binding = getBinding(parameters);
-    	if (binding.equals(Binding.POX)) {
-    		return poxBuilder.buildGetCapabilitiesRequest(parameters);
-    	}
-    	throw new OXFException(String.format("Building GetCapabilities request not supported via binding '%s'!",binding.toString()));
+    public String buildGetCapabilitiesRequest(final ParameterContainer parameters) throws OXFException {
+        final Binding binding = getBinding(parameters);
+        if (binding.equals(Binding.POX)) {
+            return poxBuilder.buildGetCapabilitiesRequest(parameters);
+        }
+        throw createOperationNotSupportedByBindingException("GetCapabilities", binding);
     }
 
     @Override
-	public String buildGetObservationRequest(final ParameterContainer parameters) throws OXFException {
-    	final Binding binding = getBinding(parameters);
-    	if (binding.equals(Binding.POX)) {
-    		return poxBuilder.buildGetObservationRequest(parameters);
-    	}
-    	throw new OXFException(String.format("Building GetObservation request not supported via binding '%s'!",binding.toString()));
-    }
-    
-    @Override
-	public String buildGetObservationByIDRequest(final ParameterContainer parameters) throws OXFException {
-    	final Binding binding = getBinding(parameters);
-    	if (binding.equals(Binding.POX)) {
-    		return poxBuilder.buildGetObservationByIDRequest(parameters);
-    	}
-    	throw new OXFException(String.format("Building GetObservationById request not supported via binding '%s'!",binding.toString()));
+    public String buildGetObservationRequest(final ParameterContainer parameters) throws OXFException {
+        final Binding binding = getBinding(parameters);
+        if (binding.equals(Binding.POX)) {
+            return poxBuilder.buildGetObservationRequest(parameters);
+        }
+        throw createOperationNotSupportedByBindingException("GetObservation", binding);
     }
 
     @Override
-	public String buildDescribeSensorRequest(final ParameterContainer parameters) throws OXFException {
-    	final Binding binding = getBinding(parameters);
-    	if (binding.equals(Binding.POX)) {
-    		return poxBuilder.buildDescribeSensorRequest(parameters);
-    	}
-    	throw new OXFException(String.format("Building DescribeSensor request not supported via binding '%s'!",binding.toString()));
-    }
-    
-    @Override
-	public String buildGetFeatureOfInterestRequest(final ParameterContainer parameters) throws OXFException {
-    	final Binding binding = getBinding(parameters);
-    	if (binding.equals(Binding.POX)) {
-    		return poxBuilder.buildGetFeatureOfInterestRequest(parameters);
-    	}
-    	throw new OXFException(String.format("Building GetFeatureOfInterest request not supported via binding '%s'!",binding.toString()));
+    public String buildGetObservationByIDRequest(final ParameterContainer parameters) throws OXFException {
+        final Binding binding = getBinding(parameters);
+        if (binding.equals(Binding.POX)) {
+            return poxBuilder.buildGetObservationByIDRequest(parameters);
+        }
+        throw createOperationNotSupportedByBindingException("GetObservationById", binding);
     }
 
     @Override
-	public String buildInsertObservationRequest(final ParameterContainer parameters) throws OXFException {
-    	final Binding binding = getBinding(parameters);
-    	if (binding.equals(Binding.POX)) {
-    		return poxBuilder.buildInsertObservationRequest(parameters);
-    	}
-    	throw new OXFException(String.format("Building InsertObservation request not supported via binding '%s'!",binding.toString()));
+    public String buildDescribeSensorRequest(final ParameterContainer parameters) throws OXFException {
+        final Binding binding = getBinding(parameters);
+        if (binding.equals(Binding.POX)) {
+            return poxBuilder.buildDescribeSensorRequest(parameters);
+        }
+        throw createOperationNotSupportedByBindingException("DescribeSensor", binding);
     }
 
-	/**
-	 * Builds a <b>Insert</b>Sensor request and returns it.
-     * A SensorML document MUST be passed using <tt>ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER</tt>.
-     * @throws OXFException
-     */
-    public String buildInsertSensorRequest(final ParameterContainer parameters) throws OXFException {
-    	final Binding binding = getBinding(parameters);
-    	if (binding.equals(Binding.POX)) {
-    		return poxBuilder.buildInsertSensorRequest(parameters);
-    	}
-    	throw new OXFException(String.format("Building InsertSensor request not supported via binding '%s'!",binding.toString()));
+    @Override
+    public String buildGetFeatureOfInterestRequest(final ParameterContainer parameters) throws OXFException {
+        final Binding binding = getBinding(parameters);
+        if (binding.equals(Binding.POX)) {
+            return poxBuilder.buildGetFeatureOfInterestRequest(parameters);
+        }
+        throw createOperationNotSupportedByBindingException("GetFeatureOfInterest", binding);
+    }
+
+    @Override
+    public String buildInsertObservationRequest(final ParameterContainer parameters) throws OXFException {
+        final Binding binding = getBinding(parameters);
+        if (binding.equals(Binding.POX)) {
+            return poxBuilder.buildInsertObservationRequest(parameters);
+        }
+        throw createOperationNotSupportedByBindingException("InsertObservation", binding);
     }
 
     /**
      * Builds a <b>Insert</b>Sensor request and returns it.
      * A SensorML document MUST be passed using <tt>ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER</tt>.
+     * @param parameters
+     * @return
+     * @throws OXFException
+     */
+    public String buildInsertSensorRequest(final ParameterContainer parameters) throws OXFException {
+        final Binding binding = getBinding(parameters);
+        if (binding.equals(Binding.POX)) {
+            return poxBuilder.buildInsertSensorRequest(parameters);
+        }
+        throw createOperationNotSupportedByBindingException("InsertSensor", binding);
+    }
+
+    /**
+     * Builds a <b>Insert</b>Sensor request and returns it.
+     * A SensorML document MUST be passed using <tt>ISOSRequestBuilder.REGISTER_SENSOR_ML_DOC_PARAMETER</tt>.
+     * @param parameters
+     * @return
      * @throws OXFException
      * @Deprecated since SOS 2.0 using SWES 2.0 this operation is called InsertSensor
      * @see #buildInsertSensorRequest(ParameterContainer)
      */
     @Override
-	public String buildRegisterSensorRequest(final ParameterContainer parameters) throws OXFException {
-    	return buildInsertSensorRequest(parameters);
+    public String buildRegisterSensorRequest(final ParameterContainer parameters) throws OXFException {
+        return buildInsertSensorRequest(parameters);
     }
 
-	private Binding getBinding(final ParameterContainer parameters) throws OXFException
-	{
-		if (parameters == null) {
-    		throw new OXFException(new IllegalArgumentException("ParameterContainer 'parameters' should not be null"));
-    	}
-		if (isBindingParameterSpecified(parameters)) {
-			final String bindingName = (String) parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).getSpecifiedValue();
-			if (bindingName.equalsIgnoreCase(Binding.POX.toString())) {
-				return Binding.POX;
-			}
-			else if (bindingName.equalsIgnoreCase(Binding.SOAP.toString())) {
-				return Binding.SOAP;
-			}
-			else if (bindingName.equalsIgnoreCase(Binding.KVP.toString())) {
-				return Binding.KVP;
-			}
-		}
-		LOGGER.info("Missing parameter 'binding'. Using POX.");
-		return Binding.POX;
-	}
+    private Binding getBinding(final ParameterContainer parameters) throws OXFException
+    {
+        if (parameters == null) {
+            throw new OXFException(new IllegalArgumentException("ParameterContainer 'parameters' should not be null"));
+        }
+        if (isBindingParameterSpecified(parameters)) {
+            final String bindingName = (String) parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING)
+                    .getSpecifiedValue();
+            if (bindingName.equalsIgnoreCase(Binding.POX.toString())) {
+                return Binding.POX;
+            }
+            else if (bindingName.equalsIgnoreCase(Binding.SOAP.toString())) {
+                return Binding.SOAP;
+            }
+            else if (bindingName.equalsIgnoreCase(Binding.KVP.toString())) {
+                return Binding.KVP;
+            }
+        }
+        LOGGER.info("Missing parameter 'binding'. Using POX.");
+        return Binding.POX;
+    }
 
-	private boolean isBindingParameterSpecified(final ParameterContainer parameters)
-	{
-		return parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING) != null && 
-				parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).hasSingleSpecifiedValue() &&
-				parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).getSpecifiedValue() instanceof String;
-	}
+    @Override
+    public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException {
+        final Binding binding = getBinding(parameters);
+        if (binding.equals(Binding.POX)) {
+            return poxBuilder.buildDeleteSensorRequest(parameters);
+        }
+        throw createOperationNotSupportedByBindingException("DeleteSensor", binding);
+    }
 
-	@Override
-	public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException
-	{
-		final Binding binding = getBinding(parameters);
-    	if (binding.equals(Binding.POX)) {
-    		return poxBuilder.buildDeleteSensorRequest(parameters);
-    	}
-    	throw new OXFException(String.format("Building DeleteSensor request not supported via binding '%s'!",binding.toString()));
-	}
+    private OXFException createOperationNotSupportedByBindingException(final String operation, final Binding binding) {
+        return new OXFException(String.format("Building '%s' request not supported via binding '%s'!",
+                operation,
+                binding.toString()));
+    }
+
+    private boolean isBindingParameterSpecified(final ParameterContainer parameters) {
+        return parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING) != null &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).hasSingleSpecifiedValue() &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING)
+                        .getSpecifiedValue() instanceof String;
+    }
 
 }

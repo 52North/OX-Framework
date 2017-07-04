@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -32,18 +32,18 @@ import java.util.*;
 
 /**
  * Encapsulates Exceptions which occur on service side processing.
- * 
+ *
  * @author <a href="mailto:foerster@52north.org">Theodor Foerster</a>
  */
 public class ExceptionReport extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String version;
+    private String version;
 
     private String language;
 
-    private ArrayList<OWSException> exceptions;
+    private final ArrayList<OWSException> exceptions;
 
     public ExceptionReport(String version, String language) {
         this.version = version;
@@ -77,13 +77,16 @@ public class ExceptionReport extends Exception {
     public String toHtmlString() {
         String res = "<b>OGC Web Service returned exception:</b><br>";
 
+        StringBuilder sb = new StringBuilder();
         for (OWSException e : exceptions) {
-            res += e.toHtmlString();
+            sb.append(e.toHtmlString());
         }
-        
+
+        res += sb.toString();
+
         return res;
     }
-    
+
     public int countExceptions() {
         return exceptions.size();
     }

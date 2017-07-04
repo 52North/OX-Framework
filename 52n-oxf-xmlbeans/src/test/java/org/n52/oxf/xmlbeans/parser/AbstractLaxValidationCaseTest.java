@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -38,36 +38,36 @@ import org.junit.Test;
 
 public class AbstractLaxValidationCaseTest {
 
-	@Test
-	public void shouldReturnFalseIfReceivingNullValue() {
-		final XmlError ve = null;
+    @Test
+    public void shouldReturnFalseIfReceivingNullValue() {
+        final XmlError ve = null;
 
-		assertThat(new LaxValidationCaseSeam().shouldPass(ve), is(false));
-	}
+        assertThat(new LaxValidationCaseSeam().shouldPass(ve), is(false));
+    }
 
-	@Test
-	public void shouldReturnFalseIfReceivingUnknownType() {
-		final XmlError validationError = new MyType();
+    @Test
+    public void shouldReturnFalseIfReceivingUnknownType() {
+        final XmlError validationError = new MyType();
 
-		assertThat(new LaxValidationCaseSeam().shouldPass(validationError), is(false));
-	}
+        assertThat(new LaxValidationCaseSeam().shouldPass(validationError), is(false));
+    }
 
-	private class LaxValidationCaseSeam extends AbstractLaxValidationCase {
+    private class LaxValidationCaseSeam extends AbstractLaxValidationCase {
 
-		@Override
-		public boolean shouldPass(final XmlValidationError validationError) {
-			return true;
-		}
+        @Override
+        public boolean shouldPass(final XmlValidationError validationError) {
+            return true;
+        }
 
-	}
+    }
 
-	private class MyType extends XmlError {
+    private class MyType extends XmlError {
 
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-		public MyType() {
-			super(mock(XmlError.class));
-		}
-	}
+        public MyType() {
+            super(mock(XmlError.class));
+        }
+    }
 
 }

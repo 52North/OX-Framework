@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -37,13 +37,13 @@ import org.slf4j.LoggerFactory;
 /**
  * This class associates a <a href=Parameter.html>Parameter</a> with one or multiple values dependend on the
  * used constructor.
- * 
+ *
  * @author <a href="mailto:broering@52north.org">Arne Broering</a>
  */
 public class ParameterShell {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParameterShell.class);
-    
+
     private final Parameter parameter;
 
     private Object[] specifiedValueArray = null;
@@ -99,21 +99,21 @@ public class ParameterShell {
     /**
      * @return the specifiedValueArray
      * @deprecated
-     * 		Use {@link #getSpecifiedTypedValueArray(Class&lt;T[]&gt;)} instead,
-     * 		e.g. <tt>getSpecifiedTypedValueArray(String[].class)</tt>.
+     *      Use {@link #getSpecifiedTypedValueArray(Class&lt;T[]&gt;)} instead,
+     *      e.g. <tt>getSpecifiedTypedValueArray(String[].class)</tt>.
      */
     @Deprecated
     public Object[] getSpecifiedValueArray() {
         return getSpecifiedTypedValueArray(Object[].class);
     }
-    
+
     public <T> T[] getSpecifiedTypedValueArray(final Class<T[]> clazz) {
         return Arrays.copyOf(specifiedValueArray, specifiedValueArray.length, clazz);
     }
 
     /**
      * sets the specifiedValue attribute (single-mode).
-     * 
+     *
      * @param specifiedValue
      *        must be an element of the valueDomain of the parameter.
      * @throws OXFException
@@ -137,7 +137,7 @@ public class ParameterShell {
     /**
      * sets the specifiedValueArray attribute (multiple-mode). The specifiedValue attribute (single-mode) will
      * be set on <code>null</code>.
-     * 
+     *
      * @param specifiedValueArray
      *        multiple values which are all elements of the valueDomain of the parameter.
      * @throws OXFException
@@ -153,7 +153,7 @@ public class ParameterShell {
                         + parameter.getServiceSidedName() + "'");
             }
         }
-        this.specifiedValueArray = specifiedValueArray;
+        this.specifiedValueArray = specifiedValueArray.clone();
     }
 
     @Override

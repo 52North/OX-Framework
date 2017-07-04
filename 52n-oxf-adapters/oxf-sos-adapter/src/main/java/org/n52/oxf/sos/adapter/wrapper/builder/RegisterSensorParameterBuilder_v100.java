@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -37,34 +37,34 @@ import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 /**
  * This class describes a set of parameters, which is necessary to call
  * doRegisterSensor([...]) from SOSWrapper.
- * 
+ *
  * @author Eric
  * @deprecated use {@link InsertSensorParameters}
  */
 @Deprecated
 public class RegisterSensorParameterBuilder_v100 {
-	
-	private Map<String, String> parameters = new HashMap<String, String>();
-	
-	/**
-	 * Assembles mandatory parameters from method parameter list.
-	 * 
-	 * @param sensorDescription 
-	 * @throws IllegalArgumentException
-	 */
-	public RegisterSensorParameterBuilder_v100(String sensorDescription, String observationTemplate) throws IllegalArgumentException {
-		if (sensorDescription == null || observationTemplate == null) {
-			throw new IllegalArgumentException("The parameters \"sensorDescription\" and \"template\" are mandatory. They cannot be left empty!");
-		}
-		parameters.put(REGISTER_SENSOR_ML_DOC_PARAMETER, sensorDescription);
-		parameters.put(REGISTER_SENSOR_OBSERVATION_TEMPLATE, observationTemplate);
-	}
 
-	/**
-	 * @return set of parameters
-	 */
-	public Map<String, String> getParameters() {
-		return parameters;
-	}
+    private Map<String, String> parameters = new HashMap<String, String>();
+
+    /**
+     * Assembles mandatory parameters from method parameter list.
+     *
+     * @param sensorDescription
+     * @throws IllegalArgumentException
+     */
+    public RegisterSensorParameterBuilder_v100(String sensorDescription, String observationTemplate) throws IllegalArgumentException {
+        if (sensorDescription == null || observationTemplate == null) {
+            throw new IllegalArgumentException("The parameters \"sensorDescription\" and \"template\" are mandatory. They cannot be left empty!");
+        }
+        parameters.put(REGISTER_SENSOR_ML_DOC_PARAMETER, sensorDescription);
+        parameters.put(REGISTER_SENSOR_OBSERVATION_TEMPLATE, observationTemplate);
+    }
+
+    /**
+     * @return set of parameters
+     */
+    public Map<String, String> getParameters() {
+        return parameters;
+    }
 
 }

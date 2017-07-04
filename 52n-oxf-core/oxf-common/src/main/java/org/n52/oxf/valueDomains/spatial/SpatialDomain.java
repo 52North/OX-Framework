@@ -1,9 +1,9 @@
-/**
- * ﻿Copyright (C) 2012-2015 52°North Initiative for Geospatial Open Source
+/*
+ * ﻿Copyright (C) 2012-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * This program is free software; you can redistribute it and/or modify it under
- * the terms of the GNU General Public License version 2 as publishedby the Free
+ * the terms of the GNU General Public License version 2 as published by the Free
  * Software Foundation.
  *
  * If the program is linked with libraries which are licensed under one of the
@@ -31,35 +31,48 @@ import java.util.*;
 
 import org.n52.oxf.ows.capabilities.*;
 
+/**
+ * NOT YET IMPLEMENTED
+ *
+ */
 public class SpatialDomain implements IDiscreteValueDomain<IBoundingBox> {
 
-    private List<IBoundingBox> bboxList;
-    
     public SpatialDomain() {
         super();
         // TODO Auto-generated constructor stub
     }
 
+    @Override
     public List getPossibleValues() {
         // TODO Auto-generated method stub
         return null;
     }
 
+    @Override
     public boolean containsValue(IBoundingBox t) {
         // TODO Auto-generated method stub
         return false;
     }
 
+    @Override
     public String getDomainDescription() {
         // TODO Auto-generated method stub
         return null;
     }
 
+    @Override
     public String toXML() {
         // TODO Auto-generated method stub
         return null;
     }
 
+    /**
+     * NOT YET IMPLEMENTED
+     *
+     * @param stringArray
+     * @return null
+     */
+    @Override
     public IBoundingBox produceValue(String... stringArray) {
         // TODO Auto-generated method stub
         return null;
