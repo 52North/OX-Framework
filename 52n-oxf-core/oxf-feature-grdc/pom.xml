@@ -37,7 +37,7 @@
 			<artifactId>xmlbeans</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>${groupId}</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>52n-xml-xlink-v110</artifactId>
 		</dependency>
 		<dependency>
