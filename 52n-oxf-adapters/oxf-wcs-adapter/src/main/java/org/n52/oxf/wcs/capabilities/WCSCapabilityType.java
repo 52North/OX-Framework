@@ -183,7 +183,7 @@ public class WCSCapabilityType {
 
         protected List<String> _getFormat() {
             if (format == null) {
-                format = new ArrayList<String>();
+                format = new ArrayList<>();
             }
             return format;
         }
@@ -208,6 +208,7 @@ public class WCSCapabilityType {
          * Objects of the following type(s) are allowed in the list
          * {@link java.lang.String}
          *
+         * @return
          */
         public List<String> getFormat() {
             return this._getFormat();
@@ -301,7 +302,7 @@ public class WCSCapabilityType {
 
             protected List<DCPTypeType> _getDCPType() {
                 if (dcpType == null) {
-                    dcpType = new ArrayList<DCPTypeType>();
+                    dcpType = new ArrayList<>();
                 }
                 return dcpType;
             }
@@ -326,6 +327,7 @@ public class WCSCapabilityType {
              * Objects of the following type(s) are allowed in the list
              * {@link org.n52.oxf.wcs.capabilities.DCPTypeType}
              *
+             * @return
              */
             public List<DCPTypeType> getDCPType() {
                 return this._getDCPType();
@@ -342,7 +344,7 @@ public class WCSCapabilityType {
 
             protected List<DCPTypeType> _getDCPType() {
                 if (dcpType == null) {
-                    dcpType = new ArrayList<DCPTypeType>();
+                    dcpType = new ArrayList<>();
                 }
                 return dcpType;
             }
@@ -367,6 +369,7 @@ public class WCSCapabilityType {
              * Objects of the following type(s) are allowed in the list
              * {@link org.n52.oxf.wcs.capabilities.DCPTypeType}
              *
+             * @return
              */
             public List<DCPTypeType> getDCPType() {
                 return this._getDCPType();
@@ -383,7 +386,7 @@ public class WCSCapabilityType {
 
             protected List<DCPTypeType> _getDCPType() {
                 if (dcpType == null) {
-                    dcpType = new ArrayList<DCPTypeType>();
+                    dcpType = new ArrayList<>();
                 }
                 return dcpType;
             }
@@ -408,6 +411,7 @@ public class WCSCapabilityType {
              * Objects of the following type(s) are allowed in the list
              * {@link org.n52.oxf.wcs.capabilities.DCPTypeType}
              *
+             * @return
              */
             public List<DCPTypeType> getDCPType() {
                 return this._getDCPType();

@@ -29,7 +29,6 @@ package org.n52.oxf.wcs.capabilities;
 
 import java.util.Locale;
 
-import org.n52.oxf.OXFException;
 import org.n52.oxf.ows.capabilities.Dataset;
 import org.n52.oxf.ows.capabilities.IBoundingBox;
 import org.n52.oxf.ows.capabilities.IDiscreteValueDomain;
@@ -45,7 +44,7 @@ public class CoverageDataset extends Dataset {
     private double[] gridOffset;
     private String gridCS;
 
-    private String rpcLink;
+    private final String rpcLink;
 
     /**
      * this constructor has ALL attributes of the class as its parameters.(Also WCS 1.1.1)
@@ -58,9 +57,17 @@ public class CoverageDataset extends Dataset {
      * @param fees
      * @param language
      * @param pointOfContactString
-     * @throws OXFException
+     * @param temporalDomain
+     * @param abstractDescription
+     * @param keywords
+     * @param gridBaseCRS
+     * @param gridType
+     * @param gridOrigin
+     * @param gridOffset
+     * @param gridCS
+     * @param rpcLink
      */
-    	public CoverageDataset(String title,
+    public CoverageDataset(String title,
                    String identifier,
                    IBoundingBox[] boundingBoxes,
                    String[] outputFormats,
@@ -103,7 +110,7 @@ public class CoverageDataset extends Dataset {
     	}
 
     	public double[] getGridOrigin() {
-    		return gridOrigin;
+    		return gridOrigin == null ? null : gridOrigin.clone();
     	}
 
     	protected void setGridOrigin(double[] gridOrigin) {
@@ -111,7 +118,7 @@ public class CoverageDataset extends Dataset {
     	}
 
     	public double[] getGridOffset() {
-    		return gridOffset;
+    		return gridOffset == null ? null : gridOffset.clone();
     	}
 
     	protected void setGridOffset(double[] gridOffset) {

@@ -93,19 +93,15 @@ import org.n52.oxf.wcs.model.TimePositionType;
 public class WCSCapabilitiesMapper {
 
     private static final String DEFAULT_SRS = "WGS84";
+    private static final String SERVICE_TYPE = "OGC:WCS";
+    private static final String[] SERVICE_TYPE_VERSION = new String[] {"1.0.0"};
 
-    /**
-     * @return
-     * @throws OXFException
-     */
     public ServiceIdentification mapServiceIdentification(WCSCapabilitiesType w) throws OXFException {
         String title = w.getService().getLabel();
-        String serviceType = "OGC:WCS"; // -> cause its a WCS-Adapter
-        String[] serviceTypeVersion = new String[] {"1.0.0"};
 
         ServiceIdentification si;
         try {
-            si = new ServiceIdentification(title, serviceType, serviceTypeVersion);
+            si = new ServiceIdentification(title, SERVICE_TYPE, SERVICE_TYPE_VERSION);
         }
         catch (IllegalArgumentException e) {
             throw new OXFException(e);
@@ -114,13 +110,11 @@ public class WCSCapabilitiesMapper {
     }
 
     public ServiceIdentification mapServiceIdentification(CapabilitiesDocument capDoc) throws OXFException {
-        String title = capDoc.getCapabilities().getServiceIdentification().getTitleArray().toString();
-        String serviceType = "OGC:WCS"; // -> cause its a WCS-Adapter
-        String[] serviceTypeVersion = new String[] {"1.1.1"};
+        String title = capDoc.getCapabilities().getServiceIdentification().getTitleArray(0).toString();
 
         ServiceIdentification si;
         try {
-            si = new ServiceIdentification(title, serviceType, serviceTypeVersion);
+            si = new ServiceIdentification(title, SERVICE_TYPE, SERVICE_TYPE_VERSION);
         }
         catch (IllegalArgumentException e) {
             throw new OXFException(e);
@@ -135,16 +129,15 @@ public class WCSCapabilitiesMapper {
      * uses the CoverageOfferingDescription returned by the DescribeCoverage-Operation to produce a
      * Content-object.
      *
-     * @param w
+     * @param cd
+     * @param throwCollect
      * @return
-     * @throws OXFException
-     * @throws EmptyParameterException
      */
     public Contents mapContents(CoverageDescription cd, OXFThrowableCollection throwCollect) {
 
         List<CoverageOfferingType> covOffList = cd.getCoverageOffering();
 
-        ArrayList<Dataset> dataIdentificationList = new ArrayList<Dataset>();
+        ArrayList<Dataset> dataIdentificationList = new ArrayList<>();
 
         for (CoverageOfferingType covOff : covOffList) {
 
@@ -159,10 +152,10 @@ public class WCSCapabilitiesMapper {
             // TODO: fuer die BBox koennte man auch
             // "(SpatialDomainType)covOff.getDomainSet().getContent().get(0).getValue()" nehmen
 
-            ArrayList<BoundingBox> bBoxArrayList = new ArrayList<BoundingBox>();
+            ArrayList<BoundingBox> bBoxArrayList = new ArrayList<>();
 
-            List<DirectPositionType> directPositionList = null;
-            String srsName = null;
+            List<DirectPositionType> directPositionList;
+            String srsName;
 
             if (covOff.getLonLatEnvelope() != null) {
                 /*
@@ -201,7 +194,7 @@ public class WCSCapabilitiesMapper {
             // --- create timeEnvelope:
             List<JAXBElement> domainSet = covOff.getDomainSet().getContent();
 
-            List<ITime> timeList = new ArrayList<ITime>();
+            List<ITime> timeList = new ArrayList<>();
 
             for (int i = 0; i < domainSet.size(); i++) {
                 if (domainSet.get(i).getName().toString().equals("{http://www.opengis.net/wcs}temporalDomain")) {
@@ -213,7 +206,7 @@ public class WCSCapabilitiesMapper {
                         if (o instanceof TimePositionType) {
                             TimePositionType timePosition = (TimePositionType) o;
                             try {
-                                ITime time = TimeFactory.createTime(timePosition.getValue().toString());
+                                ITime time = TimeFactory.createTime(timePosition.getValue());
                                 timeList.add(time);
                             }
                             catch (IllegalArgumentException e) {
@@ -235,7 +228,7 @@ public class WCSCapabilitiesMapper {
             }
 
             // --- create outputFormat:
-            List<String> outputFormats = new ArrayList<String>();
+            List<String> outputFormats = new ArrayList<>();
             for (CodeListType clt : covOff.getSupportedFormats().getFormats()) {
                 for (String formatString : clt.getValue()) {
                     outputFormats.add(formatString);
@@ -246,7 +239,7 @@ public class WCSCapabilitiesMapper {
             outputFormats.toArray(outputFormatsArray);
 
             // --- create availableCRSs:
-            List<String> availableCRSs = new ArrayList<String>();
+            List<String> availableCRSs = new ArrayList<>();
             for (CodeListType clt : covOff.getSupportedCRSs().getNativeCRSs()) {
                 for (String crsString : clt.getValue()) {
                     if ( !availableCRSs.contains(crsString)) {
@@ -296,10 +289,12 @@ public class WCSCapabilitiesMapper {
      * Supports WCS 1.1.1:
      *
      * Parses Capabilities Contents section.
+     * @param xb_covDesTypeArray
+     * @return
      */
     public Contents mapContents(CoverageDescriptionType[] xb_covDesTypeArray) {
 
-        ArrayList<Dataset> dataIdentificationList = new ArrayList<Dataset>();
+        ArrayList<Dataset> dataIdentificationList = new ArrayList<>();
 
         for (CoverageDescriptionType xb_covDesType : xb_covDesTypeArray) {
             String[] availableCRSsArray = xb_covDesType.getSupportedCRSArray();
@@ -311,7 +306,7 @@ public class WCSCapabilitiesMapper {
             // initialize BBOX:
 
             BoundingBoxType[] xb_bBoxTypeArray = xb_covDesType.getDomain().getSpatialDomain().getBoundingBoxArray();
-            List<BoundingBox> bBoxes = new ArrayList<BoundingBox>();
+            List<BoundingBox> bBoxes = new ArrayList<>();
             for (BoundingBoxType xb_bBoxType : xb_bBoxTypeArray) {
                 String ll = xb_bBoxType.getLowerCorner().toString();
                 String ur = xb_bBoxType.getUpperCorner().toString();
@@ -394,6 +389,8 @@ public class WCSCapabilitiesMapper {
      * Supports WCS 1.1.1:
      *
      * Parses Capabilities Contents section.
+     * @param desCovDoc
+     * @return
      */
     public Contents mapContents(CoverageDescriptionsDocument desCovDoc) {
 
@@ -409,13 +406,12 @@ public class WCSCapabilitiesMapper {
      *
      * @param wc
      * @return
-     * @throws OXFException
      */
     public Contents mapContents(WCSCapabilitiesType wc) {
 
         List<CoverageOfferingBriefType> covOffList = wc.getContentMetadata().getCoverageOfferingBrief();
 
-        ArrayList<Dataset> dataIdentificationList = new ArrayList<Dataset>();
+        ArrayList<Dataset> dataIdentificationList = new ArrayList<>();
 
         for (CoverageOfferingBriefType covOff : covOffList) {
 
@@ -455,10 +451,10 @@ public class WCSCapabilitiesMapper {
 
             // --- create temporalDomain:
             List<TimePositionType> timePosList = lle.getTimePosition();
-            List<ITime> timeList = new ArrayList<ITime>();
+            List<ITime> timeList = new ArrayList<>();
             if (timePosList != null) {
                 for (TimePositionType timePosition : timePosList) {
-                    ITime time = TimeFactory.createTime(timePosition.getValue().toString());
+                    ITime time = TimeFactory.createTime(timePosition.getValue());
                     timeList.add(time);
                 }
             }
@@ -485,12 +481,14 @@ public class WCSCapabilitiesMapper {
 
     /**
      * Supports WCS 1.1.1
+     * @param capDoc
+     * @return
      */
     public Contents mapContents(CapabilitiesDocument capDoc) {
 
         CoverageSummaryType[] covSumArray = capDoc.getCapabilities().getContents().getCoverageSummaryArray();
 
-        ArrayList<Dataset> dataIdentificationList = new ArrayList<Dataset>();
+        ArrayList<Dataset> dataIdentificationList = new ArrayList<>();
 
         for (CoverageSummaryType covSum : covSumArray) {
             String title = covSum.getTitleArray()[0].getStringValue();
@@ -522,6 +520,9 @@ public class WCSCapabilitiesMapper {
 
     /**
      * Supports WCS 1.0.0
+     * @param wt
+     * @return
+     * @throws org.n52.oxf.OXFException
      */
     public ServiceProvider mapServiceProvider(WCSCapabilitiesType wt) throws OXFException {
         ResponsiblePartyType responsibleParty = wt.getService().getResponsibleParty();
@@ -612,6 +613,8 @@ public class WCSCapabilitiesMapper {
 
     /**
      * Supports WCS 1.1.1
+     * @param capDoc
+     * @return
      */
     public ServiceProvider mapServiceProvider(CapabilitiesDocument capDoc) {
 
@@ -649,6 +652,9 @@ public class WCSCapabilitiesMapper {
 
     /**
      * Supports WCS 1.0.0
+     * @param wt
+     * @return
+     * @throws org.n52.oxf.OXFException
      */
     public OperationsMetadata mapOperationsMetadata(WCSCapabilitiesType wt, Contents contents) throws OXFException {
 
@@ -709,7 +715,7 @@ public class WCSCapabilitiesMapper {
         Request.GetCoverage getCov = wt.getCapability().getRequest().getGetCoverage();
         List<DCPTypeType> dcpListGetCoverage = getCov.getDCPType();
 
-        ArrayList<Parameter> getCoverageParameterList = new ArrayList<Parameter>();
+        ArrayList<Parameter> getCoverageParameterList = new ArrayList<>();
 
         Parameter getCovRequestParameter = new Parameter("REQUEST", true, new StringValueDomain("GetCoverage"), null);
 
@@ -740,7 +746,7 @@ public class WCSCapabilitiesMapper {
                                                                   Parameter.COMMON_NAME_TIME));
             }
 
-            ArrayList<String> formatList = new ArrayList<String>();
+            ArrayList<String> formatList = new ArrayList<>();
             if (contents.getDataIdentification(i).getOutputFormats() != null) {
                 for (int j = 0; j < contents.getDataIdentification(i).getOutputFormats().length; j++) {
                     formatList.add(contents.getDataIdentification(i).getOutputFormats()[j]);
@@ -785,12 +791,16 @@ public class WCSCapabilitiesMapper {
 
     /**
      * Supports WCS 1.1.1
+     * @param capDoc
+     * @param contents
+     * @return
+     * @throws org.n52.oxf.OXFException
      */
     public OperationsMetadata mapOperationsMetadata(CapabilitiesDocument capDoc, Contents contents) throws OXFException {
 
-        List<DCP> getCapDcps = new ArrayList<DCP>();
-        List<DCP> desCovDcps = new ArrayList<DCP>();
-        List<DCP> getCovDcps = new ArrayList<DCP>();
+        List<DCP> getCapDcps = new ArrayList<>();
+        List<DCP> desCovDcps = new ArrayList<>();
+        List<DCP> getCovDcps = new ArrayList<>();
 
         net.opengis.ows.x11.OperationDocument.Operation[] opsArray = capDoc.getCapabilities().getOperationsMetadata().getOperationArray();
         for (net.opengis.ows.x11.OperationDocument.Operation op : opsArray) {
@@ -856,7 +866,7 @@ public class WCSCapabilitiesMapper {
 
         // --- GetCoverage Operation ---------------------------------------------------------------
 
-        ArrayList<Parameter> getCoverageParameterList = new ArrayList<Parameter>();
+        ArrayList<Parameter> getCoverageParameterList = new ArrayList<>();
 
         Parameter getCovRequestParameter = new Parameter("REQUEST", true, new StringValueDomain("GetCoverage"), null);
 
@@ -887,7 +897,7 @@ public class WCSCapabilitiesMapper {
                                                                   Parameter.COMMON_NAME_TIME));
             }
 
-            ArrayList<String> formatList = new ArrayList<String>();
+            ArrayList<String> formatList = new ArrayList<>();
             if (contents.getDataIdentification(i).getOutputFormats() != null) {
                 for (int j = 0; j < contents.getDataIdentification(i).getOutputFormats().length; j++) {
                     formatList.add(contents.getDataIdentification(i).getOutputFormats()[j]);

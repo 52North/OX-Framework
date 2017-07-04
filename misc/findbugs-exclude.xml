@@ -59,4 +59,11 @@
         <Class name="org.n52.oxf.sos.request.v200.InsertObservationParameters" />
         <Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS" />
     </Match>
+    <!--
+        MODULE oxf-wcs-adapter
+    -->
+    <Match>
+        <Class name="org.n52.oxf.wcs.capabilities.WCSCapabilityType$Exception" />
+        <Bug pattern="NM_CLASS_NOT_EXCEPTION" />
+    </Match>
 </FindBugsFilter>
