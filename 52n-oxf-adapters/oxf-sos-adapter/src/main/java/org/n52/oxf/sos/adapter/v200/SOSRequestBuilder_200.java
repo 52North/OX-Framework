@@ -61,7 +61,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         if (binding.equals(Binding.POX)) {
             return poxBuilder.buildGetCapabilitiesRequest(parameters);
         }
-        throw new OXFException(String.format("Building GetCapabilities request not supported via binding '%s'!",binding.toString()));
+        throw createOperationNotSupportedByBindingException("GetCapabilities", binding);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         if (binding.equals(Binding.POX)) {
             return poxBuilder.buildGetObservationRequest(parameters);
         }
-        throw new OXFException(String.format("Building GetObservation request not supported via binding '%s'!",binding.toString()));
+        throw createOperationNotSupportedByBindingException("GetObservation", binding);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         if (binding.equals(Binding.POX)) {
             return poxBuilder.buildGetObservationByIDRequest(parameters);
         }
-        throw new OXFException(String.format("Building GetObservationById request not supported via binding '%s'!",binding.toString()));
+        throw createOperationNotSupportedByBindingException("GetObservationById", binding);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         if (binding.equals(Binding.POX)) {
             return poxBuilder.buildDescribeSensorRequest(parameters);
         }
-        throw new OXFException(String.format("Building DescribeSensor request not supported via binding '%s'!",binding.toString()));
+        throw createOperationNotSupportedByBindingException("DescribeSensor", binding);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         if (binding.equals(Binding.POX)) {
             return poxBuilder.buildGetFeatureOfInterestRequest(parameters);
         }
-        throw new OXFException(String.format("Building GetFeatureOfInterest request not supported via binding '%s'!",binding.toString()));
+        throw createOperationNotSupportedByBindingException("GetFeatureOfInterest", binding);
     }
 
     @Override
@@ -140,7 +140,8 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
             throw new OXFException(new IllegalArgumentException("ParameterContainer 'parameters' should not be null"));
         }
         if (isBindingParameterSpecified(parameters)) {
-            final String bindingName = (String) parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).getSpecifiedValue();
+            final String bindingName = (String) parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING)
+                    .getSpecifiedValue();
             if (bindingName.equalsIgnoreCase(Binding.POX.toString())) {
                 return Binding.POX;
             }
@@ -155,21 +156,26 @@ public class SOSRequestBuilder_200 implements ISOSRequestBuilder {
         return Binding.POX;
     }
 
-    private boolean isBindingParameterSpecified(final ParameterContainer parameters)
-    {
-        return parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING) != null &&
-                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).hasSingleSpecifiedValue() &&
-                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).getSpecifiedValue() instanceof String;
-    }
-
     @Override
-    public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException
-    {
+    public String buildDeleteSensorRequest(final ParameterContainer parameters) throws OXFException {
         final Binding binding = getBinding(parameters);
         if (binding.equals(Binding.POX)) {
             return poxBuilder.buildDeleteSensorRequest(parameters);
         }
-        throw new OXFException(String.format("Building DeleteSensor request not supported via binding '%s'!",binding.toString()));
+        throw createOperationNotSupportedByBindingException("DeleteSensor", binding);
+    }
+
+    private OXFException createOperationNotSupportedByBindingException(final String operation, final Binding binding) {
+        return new OXFException(String.format("Building '%s' request not supported via binding '%s'!",
+                operation,
+                binding.toString()));
+    }
+
+    private boolean isBindingParameterSpecified(final ParameterContainer parameters) {
+        return parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING) != null &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING).hasSingleSpecifiedValue() &&
+                parameters.getParameterShellWithCommonName(ISOSRequestBuilder.BINDING)
+                        .getSpecifiedValue() instanceof String;
     }
 
 }
