@@ -83,7 +83,7 @@ public class InsertObservationParameters extends org.n52.oxf.sos.request.InsertO
     }
 
     public OmParameter[] getOmParameter() {
-        return omParameters;
+        return omParameters.clone();
     }
 
 }
