@@ -44,11 +44,11 @@
     <distributionManagement>
         <repository>
             <id>n52-releases</id>
-            <url>http://52north.org/maven/repo/releases/</url>
+            <url>dav:https://52north.org/maven/repo/releases/</url>
         </repository>
         <snapshotRepository>
             <id>n52-snapshots</id>
-            <url>http://52north.org/maven/repo/snapshots/</url>
+            <url>dav:https://52north.org/maven/repo/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
