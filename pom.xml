@@ -38,17 +38,17 @@
         <connection>scm:git:git://github.com/52North/OX-Framework.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/52North/OX-Framework.git</developerConnection>
         <url>https://github.com/52North/OX-Framework</url>
-      <tag>release-2.0.0</tag>
-  </scm>
+        <tag>release-2.0.0</tag>
+    </scm>
 
     <distributionManagement>
         <repository>
             <id>n52-releases</id>
-            <url>http://52north.org/maven/repo/releases/</url>
+            <url>dav:https://52north.org/maven/repo/releases/</url>
         </repository>
         <snapshotRepository>
             <id>n52-snapshots</id>
-            <url>http://52north.org/maven/repo/snapshots/</url>
+            <url>dav:https://52north.org/maven/repo/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
