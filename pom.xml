@@ -38,7 +38,8 @@
         <connection>scm:git:git://github.com/52North/OX-Framework.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/52North/OX-Framework.git</developerConnection>
         <url>https://github.com/52North/OX-Framework</url>
-    </scm>
+      <tag>release-2.0.0</tag>
+  </scm>
 
     <distributionManagement>
         <repository>
