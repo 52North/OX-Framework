@@ -1,0 +1,119 @@
+        <wsnt:MessageContent Dialect="http://www.opengis.net/ses/filter/level3">
+          <eml:EML xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:eml="http://www.opengis.net/eml/0.0.2" xmlns:swe="http://www.opengis.net/swe/1.0.1">
+
+           <eml:SimplePatterns>
+             <eml:SimplePattern patternID="select_aircraft_updates">
+                <eml:SelectFunctions>
+                  <eml:SelectFunction newEventName="aircraftPositionStream">
+                    <eml:SelectEvent eventName="dynamic_filter_stream"/>
+                  </eml:SelectFunction>
+                </eml:SelectFunctions>
+                <!-- no GUARD needed -->
+                <eml:PropertyRestrictions>
+                    <!-- use the CallSign to determine the needed position updates -->
+                  <eml:PropertyRestriction>
+                    <eml:name>dynamic_filter_stream/callSign</eml:name>
+                    <eml:value>OWS-8_A</eml:value>
+                  </eml:PropertyRestriction>
+                </eml:PropertyRestrictions>
+                <eml:Input>
+                  <eml:ExternalInput>dynamic_filter_stream</eml:ExternalInput>
+                </eml:Input>
+              </eml:SimplePattern>
+             <eml:SimplePattern patternID="select_all_data">
+                <eml:SelectFunctions>
+                  <eml:SelectFunction newEventName="allData">
+                    <eml:SelectEvent eventName="dynamic_filter_stream"/>
+                  </eml:SelectFunction>
+                </eml:SelectFunctions>
+                <!-- no GUARD needed -->
+                <eml:PropertyRestrictions/>
+                <eml:Input>
+                  <eml:ExternalInput>dynamic_filter_stream</eml:ExternalInput>
+                </eml:Input>
+              </eml:SimplePattern>
+            </eml:SimplePatterns>
+
+            <eml:ComplexPatterns>
+             <eml:ComplexPattern patternID="dynamic_buffer_using_aircraft_positions">
+                <!-- select function to select the current and former aircraft position-->
+                <eml:SelectFunctions>
+                  <eml:SelectFunction newEventName="geometry_in_dynamic_buffer" outputName="geometry_in_dynamic_buffer_stream">
+                    <eml:UserDefinedSelectFunction name="SelectGeometryInDynamicBuffer">
+                      <eml:FunctionParameters>
+                        <!-- set the former_position = current_position -->
+                        <eml:FunctionParameter>
+                          <eml:UserParameterName>former_position</eml:UserParameterName>
+                          <eml:UserParameterValue>current_position</eml:UserParameterValue>
+                        </eml:FunctionParameter>
+                        <!-- set the current_position = new position input -->
+                        <eml:FunctionParameter>
+                          <eml:UserParameterName>current_position</eml:UserParameterName>
+                          <eml:UserParameterValue>aircraftPositionStream/gml:pos</eml:UserParameterValue>
+                        </eml:FunctionParameter>
+                      </eml:FunctionParameters>
+                    </eml:UserDefinedSelectFunction>
+                  </eml:SelectFunction>
+                </eml:SelectFunctions>
+                <!-- the Gerenic view -->
+                <eml:View>
+                  <eml:GenericView>
+                    <eml:ParameterDefinitions>
+                      <!-- which parameters affect the view? -->
+                      <eml:ParameterDefinition>
+                        <eml:ParameterIdentifier>aircraftPositionStream/aircraftPosition</eml:ParameterIdentifier>
+                      </eml:ParameterDefinition>
+                      <eml:ParameterDefinition>
+                        <eml:ParameterIdentifier>allData/geometry</eml:ParameterIdentifier>
+                      </eml:ParameterDefinition>
+                    </eml:ParameterDefinitions>
+                    <eml:InsertCriteria>
+                      <eml:InsertCriterion>
+                        <fes:Filter>
+                          <fes:DWithin>
+                            <fes:ValueReference>//schema-element(gml:AbstractGeometricPrimitive)</fes:ValueReference>
+                            <!-- the static flight route -->
+                            <gml:LineString gml:id="Line123" srsName="urn:ogc:def:crs:OGC:1.3:CRS84" xmlns:gml="http://www.opengis.net/gml/3.2">
+                              <gml:coordinates cs="," decimal="." ts=" ">24.8242444289068,59.41329527536156 22.00955429139818,60.55568837842758 13.57086833230175,63.241724360746 4.88401227224838,65.1515146724381 -3.507708719454087,66.30275141608156 -17.53692633122141,67.16461625473551 -31.72457917954707,66.73130130098598 -44.6807355717464,65.12705051406769 -63.06606371673376,60.00026106914039 -76.0641148009131,52.86950705137267 -83.14971393903835,46.84182411878225 -87.90381968189912,41.97626011616167 -91.71439112139989,41.9186412983481 -99.48768611048676,41.79093129013146 -108.7872859091402,40.95656190437868 -122.865863180691,38.11105628425819 -136.3350865412636,33.38265392854471 -148.3295471649739,27.51276651362295 -157.91798998500212,21.322043902734308</gml:coordinates>
+                            </gml:LineString>
+                            <fes:Distance uom="[nmi_i]">500</fes:Distance>
+                          </fes:DWithin>
+                        </fes:Filter>
+                      </eml:InsertCriterion>
+                    </eml:InsertCriteria>
+                    <eml:ReleaseCriteria>
+                      <eml:ReleaseCriterion>
+                        <eml:ReleaseCondition>
+                          <fes:Filter>
+                            <!-- only one element (the last event) should be in the view -->
+                            <fes:PropertyIsGreaterThan>
+                              <fes:Literal>
+                                <swe:Quantity>
+                                  <swe:value>1</swe:value>
+                                </swe:Quantity>
+                              </fes:Literal>
+                              <fes:ValueReference>viewContent</fes:ValueReference>
+                            </fes:PropertyIsGreaterThan>
+                          </fes:Filter>
+                        </eml:ReleaseCondition>
+                      </eml:ReleaseCriterion>
+                    </eml:ReleaseCriteria>
+                  </eml:GenericView>
+                </eml:View>
+                <!-- no GUARD needed -->
+                <eml:OR/>
+                <eml:FirstPattern>
+                <eml:PatternReference>select_aircraft_updates</eml:PatternReference>
+                <eml:SelectFunctionNumber>0</eml:SelectFunctionNumber>
+                </eml:FirstPattern>
+                <eml:SecondPattern>
+                <eml:PatternReference>select_all_data</eml:PatternReference>
+                <eml:SelectFunctionNumber>0</eml:SelectFunctionNumber>
+                </eml:SecondPattern>
+              </eml:ComplexPattern>
+            </eml:ComplexPatterns>
+
+            <eml:TimerPatterns/>
+            <eml:RepetitivePatterns/>
+          </eml:EML>
+        </wsnt:MessageContent>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<aixm:RouteSegment gml:id="J523_17"
+	xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1"
+	xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:message="http://www.aixm.aero/schema/5.1/message"
+	xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmd="http://www.isotc211.org/2005/gmd"
+	xmlns:gco="http://www.isotc211.org/2005/gco" xmlns:gss="http://www.isotc211.org/2005/gss"
+	xmlns:gts="http://www.isotc211.org/2005/gts" xmlns:gsr="http://www.isotc211.org/2005/gsr"
+	xmlns:aixm="http://www.aixm.aero/schema/5.1"
+	xsi:schemaLocation="http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.aixm.aero/schema/5.1 http://www.aixm.aero/schema/5.1/AIXM_Features.xsd">
+	<gml:identifier codeSpace="snowflake">J523_17</gml:identifier>
+	<gml:boundedBy>
+		<gml:Envelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">
+			<gml:lowerCorner>4.65 52.0</gml:lowerCorner>
+			<gml:upperCorner>5.0 51.0</gml:upperCorner>
+		</gml:Envelope>
+	</gml:boundedBy>
+	<aixm:featureMetadata>
+		<gmd:MD_Metadata>
+			<gmd:contact gco:nilReason="inapplicable" />
+			<gmd:dateStamp>
+				<gco:DateTime>2010-01-01T00:00:00.000Z</gco:DateTime>
+			</gmd:dateStamp>
+			<gmd:identificationInfo gco:nilReason="inapplicable" />
+		</gmd:MD_Metadata>
+	</aixm:featureMetadata>
+	<aixm:timeSlice>
+            <aixm:RouteSegmentTimeSlice gml:id="route-id-1">
+                <gml:validTime>
+                  <gml:TimePeriod gml:id="time-id-1">
+                    <gml:beginPosition>2012-11-13T15:06:59.944+01:00</gml:beginPosition>
+                    <gml:endPosition>2012-11-13T15:07:00.111+01:00</gml:endPosition>
+                  </gml:TimePeriod>
+                </gml:validTime>
+                <aixm:interpretation>BASELINE</aixm:interpretation>
+                <aixm:sequenceNumber>1</aixm:sequenceNumber>
+                <aixm:correctionNumber>0</aixm:correctionNumber>
+                <aixm:upperLimit uom="FL">260</aixm:upperLimit>
+                <aixm:upperLimitReference>STD</aixm:upperLimitReference>
+                <aixm:lowerLimit uom="FL">100</aixm:lowerLimit>
+                <aixm:lowerLimitReference>STD</aixm:lowerLimitReference>
+                <aixm:curveExtent>
+                  <aixm:Curve gml:id="curve-id-1" srsName="urn:ogc:def:crs:OGC:1.3:CRS84">
+                    <gml:segments>
+                      <gml:LineStringSegment>
+                        <gml:posList srsDimension="2">
+                        6.478475 53.494366667
+                        7.478475 49.494366667
+                        8.228444444 48.970891667
+                        9.228444444 45.970891667</gml:posList>
+                      </gml:LineStringSegment>
+                    </gml:segments>
+                  </aixm:Curve>
+                </aixm:curveExtent>
+              </aixm:RouteSegmentTimeSlice>
+	</aixm:timeSlice>
+</aixm:RouteSegment>

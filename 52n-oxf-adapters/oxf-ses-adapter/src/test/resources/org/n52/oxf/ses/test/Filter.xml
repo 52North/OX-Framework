@@ -1,0 +1,90 @@
+<EML xmlns="http://www.opengis.net/eml/0.0.1">
+	<SimplePatterns>
+		<SimplePattern inputName="input" patternID="threshold_overshoot_stream">
+			<SelectFunctions>
+				<SelectFunction createCausality="false" newEventName="threshold_overshoot">
+					<SelectEvent eventName="input" />
+				</SelectFunction>
+			</SelectFunctions>
+			<View>
+				<LengthView>
+					<EventCount>1</EventCount>
+				</LengthView>
+			</View>
+			<Guard>
+				<fes:Filter xmlns:fes="http://www.opengis.net/fes/2.0">
+					<fes:PropertyIsGreaterThan>
+						<fes:ValueReference>input/doubleValue</fes:ValueReference>
+						<fes:Literal>0.5</fes:Literal>
+					</fes:PropertyIsGreaterThan>
+				</fes:Filter>
+			</Guard>
+			<PropertyRestrictions>
+				<PropertyRestriction>
+					<name>observedProperty</name>
+					<value>water_gauge</value>
+				</PropertyRestriction>
+				<PropertyRestriction>
+					<name>sensorID</name>
+					<value>water_gauge_sensor-1</value>
+				</PropertyRestriction>
+			</PropertyRestrictions>
+		</SimplePattern>
+		<SimplePattern inputName="input" patternID="threshold_undershoot_stream">
+			<SelectFunctions>
+				<SelectFunction createCausality="false"
+					newEventName="threshold_undershoot">
+					<SelectEvent eventName="input" />
+				</SelectFunction>
+			</SelectFunctions>
+			<View>
+				<LengthView>
+					<EventCount>1</EventCount>
+				</LengthView>
+			</View>
+			<Guard>
+				<fes:Filter xmlns:fes="http://www.opengis.net/fes/2.0">
+					<fes:PropertyIsLessThanOrEqualTo>
+						<fes:ValueReference>input/doubleValue</fes:ValueReference>
+						<fes:Literal>0.5</fes:Literal>
+					</fes:PropertyIsLessThanOrEqualTo>
+				</fes:Filter>
+			</Guard>
+			<PropertyRestrictions>
+				<PropertyRestriction>
+					<name>observedProperty</name>
+					<value>water_gauge</value>
+				</PropertyRestriction>
+				<PropertyRestriction>
+					<name>sensorID</name>
+					<value>water_gauge_sensor-1</value>
+				</PropertyRestriction>
+			</PropertyRestrictions>
+		</SimplePattern>
+	</SimplePatterns>
+	<ComplexPatterns>
+		<ComplexPattern patternID="overshoot_notification_stream">
+			<SelectFunctions>
+				<SelectFunction createCausality="true"
+					newEventName="overshoot_notification" outputName="overshoot_notification_output">
+					<NotifyOnSelect>
+						<Message>Overshoot!</Message>
+					</NotifyOnSelect>
+				</SelectFunction>
+			</SelectFunctions>
+			<StructuralOperator>
+				<BEFORE />
+			</StructuralOperator>
+			<FirstPattern>
+				<PatternReference>threshold_undershoot_stream</PatternReference>
+				<SelectFunctionNumber>0</SelectFunctionNumber>
+			</FirstPattern>
+			<SecondPattern>
+				<PatternReference>threshold_overshoot_stream</PatternReference>
+				<SelectFunctionNumber>0</SelectFunctionNumber>
+			</SecondPattern>
+		</ComplexPattern>
+	</ComplexPatterns>
+	<TimerPatterns />
+	<RepetitivePatterns />
+</EML>

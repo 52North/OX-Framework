@@ -1,0 +1,1005 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sos:Capabilities version="1.0.0" xsi:schemaLocation="http://www.opengis.net/sos/1.0 http://schemas.opengis.net/sos/1.0.0/sosAll.xsd" xmlns:sos="http://www.opengis.net/sos/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ogc="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
+  <ows:ServiceIdentification>
+    <ows:Title>IFGI WeatherSOS</ows:Title>
+    <ows:Abstract>SOS for weather observations at IFGI, Muenster, Germany (SVN: 9075 @ 2010-10-06 11:44:30)</ows:Abstract>
+    <ows:Keywords>
+      <ows:Keyword>temperature, humidity, wind speed, luminance, wind, wind direction, rain, pressure, weather</ows:Keyword>
+    </ows:Keywords>
+    <ows:ServiceType codeSpace="http://opengeospatial.net">OGC:SOS</ows:ServiceType>
+    <ows:ServiceTypeVersion>1.0.0</ows:ServiceTypeVersion>
+    <ows:Fees>NONE</ows:Fees>
+    <ows:AccessConstraints>NONE</ows:AccessConstraints>
+  </ows:ServiceIdentification>
+  <ows:ServiceProvider>
+    <ows:ProviderName>52North</ows:ProviderName>
+    <ows:ProviderSite xlink:href="http://52north.org/swe"/>
+    <ows:ServiceContact>
+      <ows:IndividualName>Daniel Nuest, Felix Bache</ows:IndividualName>
+      <ows:PositionName>Developer</ows:PositionName>
+      <ows:ContactInfo>
+        <ows:Phone>
+          <ows:Voice>+49(0)251/396 371-0</ows:Voice>
+        </ows:Phone>
+        <ows:Address>
+          <ows:DeliveryPoint>Marin-Luther-King-Weg 24</ows:DeliveryPoint>
+          <ows:City>Muenster</ows:City>
+          <ows:AdministrativeArea>North Rhine-Westphalia</ows:AdministrativeArea>
+          <ows:PostalCode>48155</ows:PostalCode>
+          <ows:Country>Germany</ows:Country>
+          <ows:ElectronicMailAddress>info@52north.org</ows:ElectronicMailAddress>
+        </ows:Address>
+      </ows:ContactInfo>
+      <ows:Role/>
+    </ows:ServiceContact>
+  </ows:ServiceProvider>
+  <ows:OperationsMetadata>
+    <ows:Operation name="GetCapabilities">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:href="http://v-swe.uni-muenster.de:8080/WeatherSOS/sos?"/>
+          <ows:Post xlink:href="http://v-swe.uni-muenster.de:8080/WeatherSOS/sos"/>
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="updateSequence">
+        <ows:AnyValue/>
+      </ows:Parameter>
+      <ows:Parameter name="AcceptVersions">
+        <ows:AllowedValues>
+          <ows:Value>1.0.0</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="Sections">
+        <ows:AllowedValues>
+          <ows:Value>ServiceIdentification</ows:Value>
+          <ows:Value>ServiceProvider</ows:Value>
+          <ows:Value>OperationsMetadata</ows:Value>
+          <ows:Value>Filter_Capabilities</ows:Value>
+          <ows:Value>Contents</ows:Value>
+          <ows:Value>All</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="AcceptFormats">
+        <ows:AllowedValues>
+          <ows:Value>text/xml</ows:Value>
+          <ows:Value>application/zip</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="GetObservation">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:href="http://v-swe.uni-muenster.de:8080/WeatherSOS/sos?"/>
+          <ows:Post xlink:href="http://v-swe.uni-muenster.de:8080/WeatherSOS/sos"/>
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="srsName">
+        <ows:AnyValue/>
+      </ows:Parameter>
+      <ows:Parameter name="offering">
+        <ows:AllowedValues>
+          <ows:Value>RAIN_GAUGE</ows:Value>
+          <ows:Value>LUMINANCE</ows:Value>
+          <ows:Value>HUMIDITY</ows:Value>
+          <ows:Value>ATMOSPHERIC_PRESSURE</ows:Value>
+          <ows:Value>ATMOSPHERIC_TEMPERATURE</ows:Value>
+          <ows:Value>WIND_SPEED</ows:Value>
+          <ows:Value>WIND_DIRECTION</ows:Value>
+          <ows:Value>VISIBILITY</ows:Value>
+          <ows:Value>WEATHER_CODE</ows:Value>
+          <ows:Value>voltage</ows:Value>
+          <ows:Value>electric_current</ows:Value>
+          <ows:Value>PatientCondition</ows:Value>
+          <ows:Value>TEMPERATURE</ows:Value>
+          <ows:Value>GAUGE_HEIGHT</ows:Value>
+          <ows:Value>phyto</ows:Value>
+          <ows:Value>China</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="eventTime">
+        <ows:AllowedValues>
+          <ows:Range>
+            <ows:MinimumValue>2008-02-14T11:03:02.000+01:00</ows:MinimumValue>
+            <ows:MaximumValue>2012-08-23T11:50:00.000+02:00</ows:MaximumValue>
+          </ows:Range>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="procedure">
+        <ows:AllowedValues>
+          <ows:Value>PowerEdgePress-Device0</ows:Value>
+          <ows:Value>lulong</ows:Value>
+          <ows:Value>patient_059345457</ows:Value>
+          <ows:Value>patient_A</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:2f673b97-c7ce-48df-b2d2-10b4ecf0cf85</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:33df75fe-1f7c-4ed3-8062-01d49a134257</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:4fdde076-8080-43b0-9efa-4e3efd4fcc8e</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:55f02637-e61f-41f4-b1d3-452816197ee5</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:75e85e64-2d9f-48a9-90c6-8f0008c74ff4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b3f0384c-6aa8-48e5-9dda-d537029b7a95</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:Derwent-Station-Earthquakelevel1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-3</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:ISE:SamplingCountingMethodPhyto01</ows:Value>
+          <ows:Value>urn:ogc:object:feature:kli:1</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="observedProperty">
+        <ows:AllowedValues>
+          <ows:Value>urn:x-ogc:def:property:OGC::Precipitation1Hour</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::Precipitation1Hour</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::Luminance</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::Luminance</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::RelativeHumidity</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::RelativeHumidity</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::BarometricPressure</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::BarometricPressure</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::Temperature</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::Temperature</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::AirTemperature</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::WindSpeed</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::WindSpeed</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::WindDirection</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::WindDirection</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::visibilityRange</ows:Value>
+          <ows:Value>http://booty.org.uk/booty.weather/metinfo/codes/Code_4680.htm</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:voltage</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:current</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:patientCondition</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:temperature</ows:Value>
+          <ows:Value>lulong:waterlevel</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:waterlevel1</ows:Value>
+          <ows:Value>urn:lsid:catalogueoflife.org:taxon:ecca8714-29c1-102b-9a4a-00304854f820:col20101221</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC:1.0.30:aphanizomenon_flos-aquae_biomass</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC:1.0.30:aphanizomenon_flos-aquae_density</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC:1.0.30:aphanizomenon_flos-aquae_depht</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:earthquakelevel</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:latitude</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:longitude</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="featureOfInterest">
+        <ows:AllowedValues>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111</ows:Value>
+          <ows:Value>urn:ogc:object:feature:kli:1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601</ows:Value>
+          <ows:Value>foi_1001</ows:Value>
+          <ows:Value>foi_2001</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="result">
+        <ows:AnyValue/>
+      </ows:Parameter>
+      <ows:Parameter name="responseFormat">
+        <ows:AllowedValues>
+          <ows:Value>text/xml;subtype="om/1.0.0"</ows:Value>
+          <ows:Value>application/zip</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="resultModel">
+        <ows:AllowedValues>
+          <ows:Value>om:Observation</ows:Value>
+          <ows:Value>om:Measurement</ows:Value>
+          <ows:Value>om:CategoryObservation</ows:Value>
+          <ows:Value>om:SpatialObservation</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="responseMode">
+        <ows:AllowedValues>
+          <ows:Value>inline</ows:Value>
+          <ows:Value>resultTemplate</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="DescribeSensor">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:href="http://v-swe.uni-muenster.de:8080/WeatherSOS/sos?"/>
+          <ows:Post xlink:href="http://v-swe.uni-muenster.de:8080/WeatherSOS/sos"/>
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="procedure">
+        <ows:AllowedValues>
+          <ows:Value>PowerEdgePress-Device0</ows:Value>
+          <ows:Value>lulong</ows:Value>
+          <ows:Value>patient_059345457</ows:Value>
+          <ows:Value>patient_A</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:2f673b97-c7ce-48df-b2d2-10b4ecf0cf85</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:33df75fe-1f7c-4ed3-8062-01d49a134257</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:4fdde076-8080-43b0-9efa-4e3efd4fcc8e</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:55f02637-e61f-41f4-b1d3-452816197ee5</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:75e85e64-2d9f-48a9-90c6-8f0008c74ff4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b3f0384c-6aa8-48e5-9dda-d537029b7a95</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:Derwent-Station-Earthquakelevel1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-3</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:ISE:SamplingCountingMethodPhyto01</ows:Value>
+          <ows:Value>urn:ogc:object:feature:kli:1</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="outputFormat">
+        <ows:AllowedValues>
+          <ows:Value>text/xml;subtype="sensorML/1.0.1"</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="GetFeatureOfInterest">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Post xlink:href="http://v-swe.uni-muenster.de:8080/WeatherSOS/sos"/>
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="featureOfInterestID">
+        <ows:AllowedValues>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111</ows:Value>
+          <ows:Value>urn:ogc:object:feature:kli:1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601</ows:Value>
+          <ows:Value>foi_1001</ows:Value>
+          <ows:Value>foi_2001</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="location">
+        <ows:AnyValue/>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="RegisterSensor">
+      <ows:DCP>
+        <ows:HTTP/>
+      </ows:DCP>
+      <ows:Parameter name="SensorDescription">
+        <ows:AllowedValues>
+          <ows:Value>sml:System</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="ObservationTemplate">
+        <ows:AllowedValues>
+          <ows:Value>om:Observation</ows:Value>
+          <ows:Value>om:Measurement</ows:Value>
+          <ows:Value>om:CategoryObservation</ows:Value>
+          <ows:Value>om:SpatialObservation</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="InsertObservation">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Post xlink:href="http://v-swe.uni-muenster.de:8080/WeatherSOS/sos"/>
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="AssignedSensorId">
+        <ows:AllowedValues>
+          <ows:Value>PowerEdgePress-Device0</ows:Value>
+          <ows:Value>lulong</ows:Value>
+          <ows:Value>patient_059345457</ows:Value>
+          <ows:Value>patient_A</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:2f673b97-c7ce-48df-b2d2-10b4ecf0cf85</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:33df75fe-1f7c-4ed3-8062-01d49a134257</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:4fdde076-8080-43b0-9efa-4e3efd4fcc8e</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:55f02637-e61f-41f4-b1d3-452816197ee5</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:75e85e64-2d9f-48a9-90c6-8f0008c74ff4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b3f0384c-6aa8-48e5-9dda-d537029b7a95</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:Derwent-Station-Earthquakelevel1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-3</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:ISE:SamplingCountingMethodPhyto01</ows:Value>
+          <ows:Value>urn:ogc:object:feature:kli:1</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="Observation">
+        <ows:AllowedValues>
+          <ows:Value>om:Observation</ows:Value>
+          <ows:Value>om:Measurement</ows:Value>
+          <ows:Value>om:CategoryObservation</ows:Value>
+          <ows:Value>om:SpatialObservation</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="GetFeatureOfInterestTime">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Post xlink:href="http://v-swe.uni-muenster.de:8080/WeatherSOS/sos"/>
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="featureOfInterestID">
+        <ows:AllowedValues>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111</ows:Value>
+          <ows:Value>urn:ogc:object:feature:kli:1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601</ows:Value>
+          <ows:Value>foi_1001</ows:Value>
+          <ows:Value>foi_2001</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="location">
+        <ows:AnyValue/>
+      </ows:Parameter>
+      <ows:Parameter name="procedure">
+        <ows:AllowedValues>
+          <ows:Value>PowerEdgePress-Device0</ows:Value>
+          <ows:Value>lulong</ows:Value>
+          <ows:Value>patient_059345457</ows:Value>
+          <ows:Value>patient_A</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:2f673b97-c7ce-48df-b2d2-10b4ecf0cf85</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:33df75fe-1f7c-4ed3-8062-01d49a134257</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:4fdde076-8080-43b0-9efa-4e3efd4fcc8e</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:55f02637-e61f-41f4-b1d3-452816197ee5</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:75e85e64-2d9f-48a9-90c6-8f0008c74ff4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b3f0384c-6aa8-48e5-9dda-d537029b7a95</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:Derwent-Station-Earthquakelevel1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-3</ows:Value>
+          <ows:Value>urn:ogc:object:feature:Sensor:ISE:SamplingCountingMethodPhyto01</ows:Value>
+          <ows:Value>urn:ogc:object:feature:kli:1</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="observedProperty">
+        <ows:AllowedValues>
+          <ows:Value>urn:x-ogc:def:property:OGC::Precipitation1Hour</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::Precipitation1Hour</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::Luminance</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::Luminance</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::RelativeHumidity</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::RelativeHumidity</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::BarometricPressure</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::BarometricPressure</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::Temperature</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::Temperature</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::AirTemperature</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::WindSpeed</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::WindSpeed</ows:Value>
+          <ows:Value>urn:x-ogc:def:property:OGC::WindDirection</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::WindDirection</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC::visibilityRange</ows:Value>
+          <ows:Value>http://booty.org.uk/booty.weather/metinfo/codes/Code_4680.htm</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:voltage</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:current</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:patientCondition</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:temperature</ows:Value>
+          <ows:Value>lulong:waterlevel</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:waterlevel1</ows:Value>
+          <ows:Value>urn:lsid:catalogueoflife.org:taxon:ecca8714-29c1-102b-9a4a-00304854f820:col20101221</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC:1.0.30:aphanizomenon_flos-aquae_biomass</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC:1.0.30:aphanizomenon_flos-aquae_density</ows:Value>
+          <ows:Value>urn:ogc:def:property:OGC:1.0.30:aphanizomenon_flos-aquae_depht</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:earthquakelevel</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:latitude</ows:Value>
+          <ows:Value>urn:ogc:def:phenomenon:OGC:1.0.30:longitude</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="GetObservationById">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Post xlink:href="http://v-swe.uni-muenster.de:8080/WeatherSOS/sos"/>
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="ObservationId">
+        <ows:AllowedValues>
+          <ows:Range>
+            <ows:MinimumValue>1</ows:MinimumValue>
+            <ows:MinimumValue>6403689</ows:MinimumValue>
+          </ows:Range>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="srsName">
+        <ows:AnyValue/>
+      </ows:Parameter>
+      <ows:Parameter name="responseFormat">
+        <ows:AllowedValues>
+          <ows:Value>text/xml;subtype="om/1.0.0"</ows:Value>
+          <ows:Value>application/zip</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="resultModel">
+        <ows:AllowedValues>
+          <ows:Value>om:Observation</ows:Value>
+          <ows:Value>om:Measurement</ows:Value>
+          <ows:Value>om:CategoryObservation</ows:Value>
+          <ows:Value>om:SpatialObservation</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="responseMode">
+        <ows:AllowedValues>
+          <ows:Value>inline</ows:Value>
+          <ows:Value>resultTemplate</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="GetResult">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Post xlink:href="http://v-swe.uni-muenster.de:8080/WeatherSOS/sos"/>
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="ObservationTemplateId">
+        <ows:AnyValue/>
+      </ows:Parameter>
+      <ows:Parameter name="eventTime">
+        <ows:AllowedValues>
+          <ows:Range>
+            <ows:MinimumValue>2008-02-14T11:03:02.000+01:00</ows:MinimumValue>
+            <ows:MaximumValue>2012-08-23T11:50:00.000+02:00</ows:MaximumValue>
+          </ows:Range>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="DescribeFeatureOfInterest">
+      <ows:DCP>
+        <ows:HTTP/>
+      </ows:DCP>
+      <ows:Parameter name="FeatureId">
+        <ows:AllowedValues>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111</ows:Value>
+          <ows:Value>urn:ogc:object:feature:kli:1</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4</ows:Value>
+          <ows:Value>urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601</ows:Value>
+          <ows:Value>foi_1001</ows:Value>
+          <ows:Value>foi_2001</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Parameter name="service">
+      <ows:AllowedValues>
+        <ows:Value>SOS</ows:Value>
+      </ows:AllowedValues>
+    </ows:Parameter>
+    <ows:Parameter name="version">
+      <ows:AllowedValues>
+        <ows:Value>1.0.0</ows:Value>
+      </ows:AllowedValues>
+    </ows:Parameter>
+  </ows:OperationsMetadata>
+  <sos:Filter_Capabilities>
+    <ogc:Spatial_Capabilities>
+      <ogc:GeometryOperands>
+        <ogc:GeometryOperand>gml:Envelope</ogc:GeometryOperand>
+        <ogc:GeometryOperand>gml:Point</ogc:GeometryOperand>
+        <ogc:GeometryOperand>gml:LineString</ogc:GeometryOperand>
+        <ogc:GeometryOperand>gml:Polygon</ogc:GeometryOperand>
+      </ogc:GeometryOperands>
+      <ogc:SpatialOperators>
+        <ogc:SpatialOperator name="BBOX">
+          <ogc:GeometryOperands>
+            <ogc:GeometryOperand>gml:Envelope</ogc:GeometryOperand>
+          </ogc:GeometryOperands>
+        </ogc:SpatialOperator>
+        <ogc:SpatialOperator name="Contains">
+          <ogc:GeometryOperands>
+            <ogc:GeometryOperand>gml:Point</ogc:GeometryOperand>
+            <ogc:GeometryOperand>gml:LineString</ogc:GeometryOperand>
+            <ogc:GeometryOperand>gml:Polygon</ogc:GeometryOperand>
+          </ogc:GeometryOperands>
+        </ogc:SpatialOperator>
+        <ogc:SpatialOperator name="Intersects">
+          <ogc:GeometryOperands>
+            <ogc:GeometryOperand>gml:Point</ogc:GeometryOperand>
+            <ogc:GeometryOperand>gml:LineString</ogc:GeometryOperand>
+            <ogc:GeometryOperand>gml:Polygon</ogc:GeometryOperand>
+          </ogc:GeometryOperands>
+        </ogc:SpatialOperator>
+        <ogc:SpatialOperator name="Overlaps">
+          <ogc:GeometryOperands>
+            <ogc:GeometryOperand>gml:Point</ogc:GeometryOperand>
+            <ogc:GeometryOperand>gml:LineString</ogc:GeometryOperand>
+            <ogc:GeometryOperand>gml:Polygon</ogc:GeometryOperand>
+          </ogc:GeometryOperands>
+        </ogc:SpatialOperator>
+      </ogc:SpatialOperators>
+    </ogc:Spatial_Capabilities>
+    <ogc:Temporal_Capabilities>
+      <ogc:TemporalOperands>
+        <ogc:TemporalOperand>gml:TimePeriod</ogc:TemporalOperand>
+        <ogc:TemporalOperand>gml:TimeInstant</ogc:TemporalOperand>
+      </ogc:TemporalOperands>
+      <ogc:TemporalOperators>
+        <ogc:TemporalOperator name="TM_During">
+          <ogc:TemporalOperands>
+            <ogc:TemporalOperand>gml:TimePeriod</ogc:TemporalOperand>
+          </ogc:TemporalOperands>
+        </ogc:TemporalOperator>
+        <ogc:TemporalOperator name="TM_Equals">
+          <ogc:TemporalOperands>
+            <ogc:TemporalOperand>gml:TimeInstant</ogc:TemporalOperand>
+          </ogc:TemporalOperands>
+        </ogc:TemporalOperator>
+        <ogc:TemporalOperator name="TM_After">
+          <ogc:TemporalOperands>
+            <ogc:TemporalOperand>gml:TimeInstant</ogc:TemporalOperand>
+          </ogc:TemporalOperands>
+        </ogc:TemporalOperator>
+        <ogc:TemporalOperator name="TM_Before">
+          <ogc:TemporalOperands>
+            <ogc:TemporalOperand>gml:TimeInstant</ogc:TemporalOperand>
+          </ogc:TemporalOperands>
+        </ogc:TemporalOperator>
+      </ogc:TemporalOperators>
+    </ogc:Temporal_Capabilities>
+    <ogc:Scalar_Capabilities>
+      <ogc:ComparisonOperators>
+        <ogc:ComparisonOperator>Between</ogc:ComparisonOperator>
+        <ogc:ComparisonOperator>EqualTo</ogc:ComparisonOperator>
+        <ogc:ComparisonOperator>NotEqualTo</ogc:ComparisonOperator>
+        <ogc:ComparisonOperator>LessThan</ogc:ComparisonOperator>
+        <ogc:ComparisonOperator>LessThanEqualTo</ogc:ComparisonOperator>
+        <ogc:ComparisonOperator>GreaterThan</ogc:ComparisonOperator>
+        <ogc:ComparisonOperator>GreaterThanEqualTo</ogc:ComparisonOperator>
+        <ogc:ComparisonOperator>Like</ogc:ComparisonOperator>
+      </ogc:ComparisonOperators>
+    </ogc:Scalar_Capabilities>
+    <ogc:Id_Capabilities>
+      <ogc:FID/>
+      <ogc:EID/>
+    </ogc:Id_Capabilities>
+  </sos:Filter_Capabilities>
+  <sos:Contents>
+    <sos:ObservationOfferingList>
+      <sos:ObservationOffering gml:id="RAIN_GAUGE">
+        <gml:name>Rain</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
+            <gml:lowerCorner>46.611644 7.6103</gml:lowerCorner>
+            <gml:upperCorner>51.9412 13.883498</gml:upperCorner>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod xsi:type="gml:TimePeriodType">
+            <gml:beginPosition>2008-11-20T15:35:22.000+01:00</gml:beginPosition>
+            <gml:endPosition>2012-08-23T11:50:00.000+02:00</gml:endPosition>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:2f673b97-c7ce-48df-b2d2-10b4ecf0cf85"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:33df75fe-1f7c-4ed3-8062-01d49a134257"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:4fdde076-8080-43b0-9efa-4e3efd4fcc8e"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:55f02637-e61f-41f4-b1d3-452816197ee5"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:75e85e64-2d9f-48a9-90c6-8f0008c74ff4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b3f0384c-6aa8-48e5-9dda-d537029b7a95"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:observedProperty xlink:href="urn:x-ogc:def:property:OGC::Precipitation1Hour"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:property:OGC::Precipitation1Hour"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="LUMINANCE">
+        <gml:name>Luminance</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
+            <gml:lowerCorner>46.611644 7.6103</gml:lowerCorner>
+            <gml:upperCorner>51.9412 13.883498</gml:upperCorner>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod xsi:type="gml:TimePeriodType">
+            <gml:beginPosition>2008-11-20T15:20:22.000+01:00</gml:beginPosition>
+            <gml:endPosition>2012-08-23T11:50:00.000+02:00</gml:endPosition>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:2f673b97-c7ce-48df-b2d2-10b4ecf0cf85"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:33df75fe-1f7c-4ed3-8062-01d49a134257"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:4fdde076-8080-43b0-9efa-4e3efd4fcc8e"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:55f02637-e61f-41f4-b1d3-452816197ee5"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:75e85e64-2d9f-48a9-90c6-8f0008c74ff4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b3f0384c-6aa8-48e5-9dda-d537029b7a95"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:property:OGC::Luminance"/>
+        <sos:observedProperty xlink:href="urn:x-ogc:def:property:OGC::Luminance"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="HUMIDITY">
+        <gml:name>Humidity of the atmosphere</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
+            <gml:lowerCorner>46.611644 7.6103</gml:lowerCorner>
+            <gml:upperCorner>51.9412 13.883498</gml:upperCorner>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod xsi:type="gml:TimePeriodType">
+            <gml:beginPosition>2008-02-14T11:03:02.000+01:00</gml:beginPosition>
+            <gml:endPosition>2012-08-23T11:50:00.000+02:00</gml:endPosition>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:2f673b97-c7ce-48df-b2d2-10b4ecf0cf85"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:33df75fe-1f7c-4ed3-8062-01d49a134257"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:4fdde076-8080-43b0-9efa-4e3efd4fcc8e"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:55f02637-e61f-41f4-b1d3-452816197ee5"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:75e85e64-2d9f-48a9-90c6-8f0008c74ff4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b3f0384c-6aa8-48e5-9dda-d537029b7a95"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:kli:1"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:property:OGC::RelativeHumidity"/>
+        <sos:observedProperty xlink:href="urn:x-ogc:def:property:OGC::RelativeHumidity"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="ATMOSPHERIC_PRESSURE">
+        <gml:name>Pressure of the atmosphere</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
+            <gml:lowerCorner>46.611644 7.6103</gml:lowerCorner>
+            <gml:upperCorner>51.9412 13.883498</gml:upperCorner>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod xsi:type="gml:TimePeriodType">
+            <gml:beginPosition>2008-12-20T02:29:27.000+01:00</gml:beginPosition>
+            <gml:endPosition>2012-08-23T11:50:00.000+02:00</gml:endPosition>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:2f673b97-c7ce-48df-b2d2-10b4ecf0cf85"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:33df75fe-1f7c-4ed3-8062-01d49a134257"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:4fdde076-8080-43b0-9efa-4e3efd4fcc8e"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:55f02637-e61f-41f4-b1d3-452816197ee5"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:75e85e64-2d9f-48a9-90c6-8f0008c74ff4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b3f0384c-6aa8-48e5-9dda-d537029b7a95"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:kli:1"/>
+        <sos:observedProperty xlink:href="urn:x-ogc:def:property:OGC::BarometricPressure"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:property:OGC::BarometricPressure"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="ATMOSPHERIC_TEMPERATURE">
+        <gml:name>Temperature of the atmosphere</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
+            <gml:lowerCorner>46.611644 7.6103</gml:lowerCorner>
+            <gml:upperCorner>51.9412 13.883498</gml:upperCorner>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod xsi:type="gml:TimePeriodType">
+            <gml:beginPosition>2008-11-20T15:20:22.000+01:00</gml:beginPosition>
+            <gml:endPosition>2012-08-23T11:50:00.000+02:00</gml:endPosition>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:2f673b97-c7ce-48df-b2d2-10b4ecf0cf85"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:33df75fe-1f7c-4ed3-8062-01d49a134257"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:4fdde076-8080-43b0-9efa-4e3efd4fcc8e"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:55f02637-e61f-41f4-b1d3-452816197ee5"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:75e85e64-2d9f-48a9-90c6-8f0008c74ff4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b3f0384c-6aa8-48e5-9dda-d537029b7a95"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:kli:1"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:property:OGC::Temperature"/>
+        <sos:observedProperty xlink:href="urn:x-ogc:def:property:OGC::Temperature"/>
+        <sos:observedProperty xlink:href="urn:x-ogc:def:property:OGC::AirTemperature"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="WIND_SPEED">
+        <gml:name>Speed of the wind</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
+            <gml:lowerCorner>46.611644 4.5</gml:lowerCorner>
+            <gml:upperCorner>52.0 13.883498</gml:upperCorner>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod xsi:type="gml:TimePeriodType">
+            <gml:beginPosition>2008-11-20T15:20:22.000+01:00</gml:beginPosition>
+            <gml:endPosition>2012-08-23T11:50:00.000+02:00</gml:endPosition>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:2f673b97-c7ce-48df-b2d2-10b4ecf0cf85"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:33df75fe-1f7c-4ed3-8062-01d49a134257"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:4fdde076-8080-43b0-9efa-4e3efd4fcc8e"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:55f02637-e61f-41f4-b1d3-452816197ee5"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:75e85e64-2d9f-48a9-90c6-8f0008c74ff4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b3f0384c-6aa8-48e5-9dda-d537029b7a95"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:kli:1"/>
+        <sos:observedProperty xlink:href="urn:x-ogc:def:property:OGC::WindSpeed"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:property:OGC::WindSpeed"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="WIND_DIRECTION">
+        <gml:name>Direction of the wind</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
+            <gml:lowerCorner>46.611644 7.6103</gml:lowerCorner>
+            <gml:upperCorner>51.9412 13.883498</gml:upperCorner>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod xsi:type="gml:TimePeriodType">
+            <gml:beginPosition>2008-11-20T15:20:22.000+01:00</gml:beginPosition>
+            <gml:endPosition>2012-08-23T11:50:00.000+02:00</gml:endPosition>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:2f673b97-c7ce-48df-b2d2-10b4ecf0cf85"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:302ab595-5840-41b1-a11b-a0cb14fc3df4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:33df75fe-1f7c-4ed3-8062-01d49a134257"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:4fdde076-8080-43b0-9efa-4e3efd4fcc8e"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:55f02637-e61f-41f4-b1d3-452816197ee5"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:75e85e64-2d9f-48a9-90c6-8f0008c74ff4"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b3f0384c-6aa8-48e5-9dda-d537029b7a95"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:b4b9d260-f238-456a-b5cb-ca9dc0564601"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:kli:1"/>
+        <sos:observedProperty xlink:href="urn:x-ogc:def:property:OGC::WindDirection"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:property:OGC::WindDirection"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:3d3b239f-7696-4864-9d07-15447eae2b93"/>
+        <sos:featureOfInterest xlink:href="urn:ogc:object:feature:OSIRIS-HWS:efeb807b-bd24-4128-a920-f6729bcdd111"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="VISIBILITY">
+        <gml:name>Visibility range in the atmosphere</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope>
+            <gml:lowerCorner/>
+            <gml:upperCorner/>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod xsi:type="gml:TimePeriodType">
+            <gml:beginPosition>2011-01-01T11:20:00.000+01:00</gml:beginPosition>
+            <gml:endPosition>2011-01-01T11:20:00.000+01:00</gml:endPosition>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="urn:ogc:object:feature:kli:1"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:property:OGC::visibilityRange"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="WEATHER_CODE">
+        <gml:name>WMO 4680 weather code</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope>
+            <gml:lowerCorner/>
+            <gml:upperCorner/>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod xsi:type="gml:TimePeriodType">
+            <gml:beginPosition>2011-01-01T11:20:00.000+01:00</gml:beginPosition>
+            <gml:endPosition>2011-01-01T11:20:00.000+01:00</gml:endPosition>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="urn:ogc:object:feature:kli:1"/>
+        <sos:observedProperty xlink:href="http://booty.org.uk/booty.weather/metinfo/codes/Code_4680.htm"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="voltage">
+        <gml:name>voltage in Device0</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope>
+            <gml:lowerCorner/>
+            <gml:upperCorner/>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time/>
+        <sos:procedure xlink:href="PowerEdgePress-Device0"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:phenomenon:OGC:1.0.30:voltage"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:CategoryObservation</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="electric_current">
+        <gml:name>electric current in Deviceo</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope>
+            <gml:lowerCorner/>
+            <gml:upperCorner/>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time/>
+        <sos:procedure xlink:href="PowerEdgePress-Device0"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:phenomenon:OGC:1.0.30:current"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:CategoryObservation</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="PatientCondition">
+        <gml:name>Condition of patient</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
+            <gml:lowerCorner>51.7167 8.76667</gml:lowerCorner>
+            <gml:upperCorner>51.7167 8.76667</gml:upperCorner>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod xsi:type="gml:TimePeriodType">
+            <gml:beginPosition>2008-04-02T17:44:15.000+02:00</gml:beginPosition>
+            <gml:endPosition>2008-04-02T17:44:15.000+02:00</gml:endPosition>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="patient_059345457"/>
+        <sos:procedure xlink:href="patient_A"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:phenomenon:OGC:1.0.30:patientCondition"/>
+        <sos:featureOfInterest xlink:href="foi_2001"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:CategoryObservation</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="TEMPERATURE">
+        <gml:name>Weather in Muenster</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope>
+            <gml:lowerCorner/>
+            <gml:upperCorner/>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-3"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:phenomenon:OGC:1.0.30:temperature"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="GAUGE_HEIGHT">
+        <gml:name>gauge height in Muenster</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope srsName="urn:ogc:def:crs:EPSG:4326">
+            <gml:lowerCorner>121.4688 31.2409</gml:lowerCorner>
+            <gml:upperCorner>121.4688 31.2409</gml:upperCorner>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time>
+          <gml:TimePeriod xsi:type="gml:TimePeriodType">
+            <gml:beginPosition>2008-04-01T19:44:15.000+02:00</gml:beginPosition>
+            <gml:endPosition>2008-04-01T19:44:15.000+02:00</gml:endPosition>
+          </gml:TimePeriod>
+        </sos:time>
+        <sos:procedure xlink:href="lulong"/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:Sensor:IFGI:ifgi-sensor-1"/>
+        <sos:observedProperty xlink:href="lulong:waterlevel"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:phenomenon:OGC:1.0.30:waterlevel1"/>
+        <sos:featureOfInterest xlink:href="foi_1001"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="phyto">
+        <gml:name>Phytoplankton</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope>
+            <gml:lowerCorner/>
+            <gml:upperCorner/>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:Sensor:ISE:SamplingCountingMethodPhyto01"/>
+        <sos:observedProperty xlink:href="urn:lsid:catalogueoflife.org:taxon:ecca8714-29c1-102b-9a4a-00304854f820:col20101221"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:property:OGC:1.0.30:aphanizomenon_flos-aquae_biomass"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:property:OGC:1.0.30:aphanizomenon_flos-aquae_density"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:property:OGC:1.0.30:aphanizomenon_flos-aquae_depht"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:CategoryObservation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+      <sos:ObservationOffering gml:id="China">
+        <gml:name>Gauge and earthquake level</gml:name>
+        <gml:boundedBy>
+          <gml:Envelope>
+            <gml:lowerCorner/>
+            <gml:upperCorner/>
+          </gml:Envelope>
+        </gml:boundedBy>
+        <sos:time/>
+        <sos:procedure xlink:href="urn:ogc:object:feature:Sensor:Derwent-Station-Earthquakelevel1"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:phenomenon:OGC:1.0.30:earthquakelevel"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:phenomenon:OGC:1.0.30:latitude"/>
+        <sos:observedProperty xlink:href="urn:ogc:def:phenomenon:OGC:1.0.30:longitude"/>
+        <sos:responseFormat>text/xml;subtype="om/1.0.0"</sos:responseFormat>
+        <sos:responseFormat>application/zip</sos:responseFormat>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Measurement</sos:resultModel>
+        <sos:resultModel xmlns:ns="http://www.opengis.net/om/1.0">ns:Observation</sos:resultModel>
+        <sos:responseMode>inline</sos:responseMode>
+        <sos:responseMode>resultTemplate</sos:responseMode>
+      </sos:ObservationOffering>
+    </sos:ObservationOfferingList>
+  </sos:Contents>
+</sos:Capabilities>

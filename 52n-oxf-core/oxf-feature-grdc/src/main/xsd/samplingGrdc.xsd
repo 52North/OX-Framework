@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns:gml="http://www.opengis.net/gml" xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:grdc="http://www.bafg.de/grdc/sampling/1.0" xmlns:sa="http://www.opengis.net/sampling/1.0"
+	xmlns:swe="http://www.opengis.net/swe/1.0.1" targetNamespace="http://www.bafg.de/grdc/sampling/1.0"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	version="1.0.0">
+	<annotation>
+		<documentation>samplingGrdc.xsd 
+			This schema defines a GrdcSamplingPoint, an extension of SamplingFeature, to represent an
+			GRDC station. Link to GRDC:
+			http://www.bafg.de/GRDC/EN/Home/homepage__node.html 
+			
+			Sampling is an OGC Standard. Copyright (c) 2007,2010 Open Geospatial Consortium,
+			Inc. All Rights Reserved. To obtain additional rights of use, visit
+			http://www.opengeospatial.org/legal/ .</documentation>
+	</annotation>
+	<!-- ====================================================================== -->
+	<!-- bring in other schemas -->
+	<import namespace="http://www.opengis.net/gml"
+		schemaLocation="http://schemas.opengis.net/gml/3.1.1/base/gml.xsd" />
+	<import namespace="http://www.opengis.net/sampling/1.0"
+		schemaLocation="http://schemas.opengis.net/sampling/1.0.0/samplingManifold.xsd" />
+	<import namespace="http://www.opengis.net/swe/1.0.1"
+		schemaLocation="http://schemas.opengis.net/sweCommon/1.0.1/simpleTypes.xsd" />
+	<!-- ====================================================================== -->
+	<!-- ====================================================================== -->
+	<!-- 0-D sampling regimes -->
+	<!-- ====================================================================== -->
+	<complexType name="GrdcSamplingPointType">
+		<annotation>
+			<documentation>A "GrdcSamplingPoint" is an identified position (0-D
+				geospatial feature) that represents an GRDC station. It may be
+				revisited for various purposes, in particular to retrieve multiple
+				specimens or make repeated or complementary observations. The
+				position property of the GrdcSamplingPoint provides the value of the
+				position property of observations an specimens associated with the
+				GrdcSamplingPoint. By using the GrdcSamplingPoint feature, this
+				position information and any metadata associated with it may be
+				encoded in one place, i.e. normalised, and then re-used _by
+				reference_ on other feature instances associated with it.
+			</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="sa:SamplingPointType">
+				<sequence>
+					<element name="catchmentArea" type="grdc:CatchmentAreaType" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<!-- .................. -->
+	<element name="GrdcSamplingPoint" type="grdc:GrdcSamplingPointType"
+		substitutionGroup="sa:SamplingPoint" />
+	<!-- .................. -->
+	<complexType name="GrdcSamplingPointPropertyType">
+		<sequence minOccurs="0">
+			<element ref="grdc:GrdcSamplingPoint" />
+		</sequence>
+		<attributeGroup ref="gml:AssociationAttributeGroup" />
+	</complexType>
+	<complexType name="CatchmentAreaType">
+		<complexContent>
+			<extension base="swe:AbstractDataComponentType">
+				<sequence>
+					<element name="uom" type="swe:UomPropertyType">
+						<annotation>
+							<documentation>Unit of measure</documentation>
+						</annotation>
+					</element>
+					<element name="value" type="double">
+						<annotation>
+							<documentation>Size of catchment area</documentation>
+						</annotation>
+					</element>
+				</sequence>
+				<attributeGroup ref="swe:SimpleComponentAttributeGroup" />
+			</extension>
+		</complexContent>
+	</complexType>
+</schema>

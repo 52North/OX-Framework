@@ -1,0 +1,5 @@
+
+Tests evaluate a new _suggested_ interface by wrapping the old soft-typed SOSAdapter.
+
+NOTE: the new interface is in development. The tests in this packages do not tend 
+to demonstrate a stable state of the new interface!

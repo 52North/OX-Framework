@@ -1,0 +1,27 @@
+Release Notes for OX-Framework 2.0.0
+====================================
+
+Features:
+---------
+ * New 52n-oxf-conversion module
+ * sos-adapter: SOS 2.0 support for InsertObservation and InsertSensor (via RegisterSensor)
+ * 52n-oxf-xmlbeans: added DependenLaxValidationCase for handling interrelated Xml(Validation)Errors
+ * #57: Feature om parameter in sos wrapper
+ * #56: Feature om:parameter support in SOS v2.0 insert observation
+ * #51: Feature/authentication
+
+
+Changes:
+--------
+ * Removed old modules
+   * =oxf-wms-adapter= (unresolved dependencies) 
+   * =52n-oxf-client= (not applicable for a middleware framework)
+   * =52n-oxf-utilities= (was empty)
+
+
+Bugfixes:
+---------
+ * #55: Fix duplicate prefix in srs name
+ * #40: No Support for transactional token in SOSWrapper
+ * #52: Add fix for NPE in TimePosition.toISO8601Format()
+ * #48: Add fix when content section is not available
