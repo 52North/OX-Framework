@@ -31,10 +31,11 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 import static org.n52.oxf.sos.adapter.ISOSRequestBuilder.*;
 import static org.n52.oxf.xml.XMLConstants.*;
 import net.opengis.gml.x32.DirectPositionType;
+import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.gml.x32.MeasureType;
 import net.opengis.gml.x32.PointType;
 import net.opengis.gml.x32.ReferenceType;
@@ -762,6 +763,28 @@ public class SOSRequestBuilder200POXTest {
         MeasureType xb2 = (MeasureType) parameterArray[1].getNamedValue().getValue();
         assertThat(xb2.getUom(), is(p2.getUOM()));
         assertThat(xb2.getDoubleValue(), is(p2.getValue()));
+    }
+
+    @Test
+    public void buildInsertObservation_should_add_parent_feature_as_sampled_feature()
+            throws OXFException, XmlException {
+        addServiceAndVersion();
+        addObservationValues();
+        addNewFoiValues();
+
+        final String insertObservation = builder.buildInsertObservationRequest(parameters);
+        FeaturePropertyType feature =
+                SFSpatialSamplingFeatureDocument.Factory.parse(
+                        InsertObservationDocument.Factory.parse(insertObservation)
+                .getInsertObservation()
+                .getObservationArray(0)
+                .getOMObservation()
+                .getFeatureOfInterest()
+                .xmlText())
+                .getSFSpatialSamplingFeature()
+                .getSampledFeature();
+
+        assertThat(feature.getHref(), is(newFoiParentFeatureId));
     }
 
     private void removeObservationTypeAndMeasurementResult() {
