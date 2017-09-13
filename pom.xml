@@ -594,6 +594,7 @@
                     <artifactId>maven-checkstyle-plugin</artifactId>
                     <configuration>
                         <failOnViolation>false</failOnViolation>
+                        <logViolationsToConsole>false</logViolationsToConsole>
                     </configuration>
                 </plugin>
 
