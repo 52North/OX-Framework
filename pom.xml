@@ -38,8 +38,8 @@
         <connection>scm:git:git://github.com/52North/OX-Framework.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/52North/OX-Framework.git</developerConnection>
         <url>https://github.com/52North/OX-Framework</url>
-      <tag>HEAD</tag>
-  </scm>
+      <tag>v2.1.0</tag>
+    </scm>
 
     <distributionManagement>
         <repository>
@@ -535,7 +535,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
@@ -543,7 +542,6 @@
                 <version>1.0-beta-7</version>
             </extension>
         </extensions>
-
         <pluginManagement>
             <plugins>
                 <plugin>
