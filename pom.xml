@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.n52.sensorweb</groupId>
     <artifactId>52n-oxf</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>2.1.0</version>
     <description>Provides middleware components for 52North Sensor Web architecture</description>
     <organization>
         <name>52North Initiative for Geospatial Open Source Software GmbH</name>
@@ -653,7 +653,24 @@
             </plugins>
         </pluginManagement>
         <plugins>
-
+            <!-- Start new release: mvn jgitflow:release-start -DautoVersionSubmodules=true -->
+            <!-- Finish new release: mvn jgitflow:release-finish -->
+            <plugin>
+                <groupId>external.atlassian.jgitflow</groupId>
+                <artifactId>jgitflow-maven-plugin</artifactId>
+                <version>1.0-m5.1</version>
+                <configuration>
+                    <flowInitContext>
+                        <masterBranchName>master</masterBranchName>
+                        <developBranchName>develop</developBranchName>
+                        <featureBranchPrefix>feature/</featureBranchPrefix>
+                        <releaseBranchPrefix>release/</releaseBranchPrefix>
+                        <hotfixBranchPrefix>fix/</hotfixBranchPrefix>
+                        <versionTagPrefix>v</versionTagPrefix>
+                    </flowInitContext>
+                    <useReleaseProfile>false</useReleaseProfile>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
