@@ -44,7 +44,6 @@ import net.opengis.om.x20.NamedValuePropertyType;
 import net.opengis.om.x20.OMObservationType;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
-import net.opengis.samplingSpatial.x20.ShapeType;
 import net.opengis.sensorML.x101.SensorMLDocument;
 import net.opengis.sensorML.x101.SystemType;
 import net.opengis.sos.x20.GetObservationByIdDocument;
@@ -243,7 +242,7 @@ public class SOSRequestBuilder200POXTest {
             builder.buildRegisterSensorRequest(parameters);
         } catch (final Exception e) {
             assertThat(e,is(instanceOf(OXFException.class)));
-            assertThat(e.getCause(),(is(instanceOf(XmlException.class))));
+            assertThat(e.getCause(),is(instanceOf(XmlException.class)));
             assertThat(e.getMessage(),is("Error while parsing MANDATORY parameter 'procedure description'!"));
         }
     }
@@ -479,7 +478,7 @@ public class SOSRequestBuilder200POXTest {
         assertThat(feature.getNameArray(0).getStringValue(), is(newFoiName));
         assertThat(feature.getType().getHref(), is(OGC_OM_2_0_SF_SAMPLING_POINT));
         assertThat(feature.getSampledFeature().getHref(), is(newFoiParentFeatureId));
-        assertThat(((PointType)((ShapeType)feature.getShape()).getAbstractGeometry()).getPos().getSrsName(),
+        assertThat(((PointType)feature.getShape().getAbstractGeometry()).getPos().getSrsName(),
                 is("http://www.opengis.net/def/crs/EPSG/0/4326"));
 
         final DirectPositionType pos = ((PointType)feature.getShape().getAbstractGeometry()).getPos();
@@ -524,7 +523,7 @@ public class SOSRequestBuilder200POXTest {
                 .getSFSpatialSamplingFeature();
 
         assertThat(
-            ((PointType)((ShapeType)feature.getShape()).getAbstractGeometry()).getPos().getSrsName(),
+            ((PointType)feature.getShape().getAbstractGeometry()).getPos().getSrsName(),
             is("http://www.opengis.net/def/crs/EPSG/0/4326"));
 
         parameters.removeParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS);
@@ -542,7 +541,7 @@ public class SOSRequestBuilder200POXTest {
                 .getSFSpatialSamplingFeature();
 
         assertThat(
-                ((PointType)((ShapeType)feature.getShape()).getAbstractGeometry()).getPos().getSrsName(),
+                ((PointType)feature.getShape().getAbstractGeometry()).getPos().getSrsName(),
                 is("http://www.opengis.net/def/crs/EPSG/0/4326"));
     }
 
@@ -773,11 +772,11 @@ public class SOSRequestBuilder200POXTest {
 
     private void addNewFoiValues() throws OXFException {
         parameters.removeParameterShell(INSERT_OBSERVATION_FOI_ID_PARAMETER);
-        parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER,foiId);
-        parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_NAME,newFoiName);
-        parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION,newFoiPositionString );
-        parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS,newFoiEpsgCode );
-        parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_PARENT_FEATURE_ID,newFoiParentFeatureId);
+        parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER, foiId);
+        parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_NAME, newFoiName);
+        parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION, newFoiPositionString );
+        parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS, newFoiEpsgCode );
+        parameters.addParameterShell(INSERT_OBSERVATION_NEW_FOI_PARENT_FEATURE_ID, newFoiParentFeatureId);
     }
 
     private void addObservationValues() throws OXFException {
