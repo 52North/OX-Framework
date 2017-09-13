@@ -42,7 +42,7 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
 
     private final QName type;
 
-    protected ObservationParameters(final QName type) {
+    protected ObservationParameters(QName type) {
         this.type = type;
     }
 
@@ -63,14 +63,14 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
     // be careful when changing following methods
     // begin -> parameter methods necessary for: MeasurementObservationParameters and CategoryObservationBuilder
 
-    public void addSamplingTime(final String samplingTime) {
+    public void addSamplingTime(String samplingTime) {
     }
 
     /**
      * SOS 2.0 specific
      * @param resultTime
      */
-    public void addResultTime(final String resultTime) {
+    public void addResultTime(String resultTime) {
         addNonEmpty(INSERT_OBSERVATION_RESULT_TIME, resultTime);
     }
 
@@ -78,7 +78,7 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
      * SOS 2.0 specific
      * @param phenomenonTime
      */
-    public void addPhenomenonTime(final String phenomenonTime) {
+    public void addPhenomenonTime(String phenomenonTime) {
         addNonEmpty(INSERT_OBSERVATION_PHENOMENON_TIME, phenomenonTime);
     }
 
@@ -86,43 +86,47 @@ public abstract class ObservationParameters extends MultiValueRequestParameters 
      * SOS 2.0 specific
      * @param omParameterXML
      */
-    public void addOmParameter(final String... omParameterXML) {
+    public void addOmParameter(String... omParameterXML) {
     addNonEmpty(INSERT_OBSERVATION_OM_PARAMETER_PARAMETERS, Arrays.asList(omParameterXML));
     }
 
-    public void addExtension(final String... anyXML) {
+    public void addExtension(String... anyXML) {
         addNonEmpty(EXTENSION, Arrays.asList(anyXML));
     }
 
-    public void addFoiId(final String foiId) {
+    public void addFoiId(String foiId) {
         addNonEmpty(INSERT_OBSERVATION_FOI_ID_PARAMETER, foiId);
     }
 
-    public void addNewFoiId(final String foiId) {
+    public void addNewFoiId(String foiId) {
         addNonEmpty(INSERT_OBSERVATION_NEW_FOI_ID_PARAMETER, foiId);
     }
 
-    public void addNewFoiName(final String foiName) {
+    public void addNewFoiName(String foiName) {
         addNonEmpty(INSERT_OBSERVATION_NEW_FOI_NAME, foiName);
     }
 
-    public void addFoiDescription(final String foiDescription) {
+    public void addFoiDescription(String foiDescription) {
         addNonEmpty(INSERT_OBSERVATION_NEW_FOI_DESC, foiDescription);
     }
 
-    public void addFoiPosition(final String foiPosition) {
+    public void addFoiPosition(String foiPosition) {
         addNonEmpty(INSERT_OBSERVATION_NEW_FOI_POSITION, foiPosition);
     }
 
-    public void addSrsPosition(final String srsPosition) {
+    public void addFoiSampleFeature(String foiSampledFeatureIdentifier) {
+        addNonEmpty(INSERT_OBSERVATION_NEW_FOI_PARENT_FEATURE_ID, foiSampledFeatureIdentifier);
+    }
+
+    public void addSrsPosition(String srsPosition) {
         addNonEmpty(INSERT_OBSERVATION_NEW_FOI_POSITION_SRS, srsPosition);
     }
 
-    public void addObservedProperty(final String observedProperty) {
+    public void addObservedProperty(String observedProperty) {
         addNonEmpty(INSERT_OBSERVATION_OBSERVED_PROPERTY_PARAMETER, observedProperty);
     }
 
-    public void addProcedure(final String procedureId) {
+    public void addProcedure(String procedureId) {
         addNonEmpty(INSERT_OBSERVATION_PROCEDURE_PARAMETER, procedureId);
     }
 

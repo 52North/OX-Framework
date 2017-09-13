@@ -361,7 +361,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
         addResult(parameters,xbObservation);
     }
 
-        private void addOMParameters(ParameterContainer parameters, OMObservationType xbObservation) {
+    private void addOMParameters(ParameterContainer parameters, OMObservationType xbObservation) {
         final ParameterShell omParameters = parameters.getParameterShellWithServiceSidedName(INSERT_OBSERVATION_OM_PARAMETER_PARAMETERS);
         if (omParameters == null) {
             // optional parameter
@@ -666,7 +666,7 @@ public class SOSRequestBuilder200POX implements ISOSRequestBuilder {
             // add to xbObservation
             xbObservation.addNewFeatureOfInterest().set(xbFeatureDoc);
         }
-            }
+    }
 
     private void addOfferings(final ParameterContainer parameters,
             final InsertObservationType xbInsertObservationType) {
