@@ -28,15 +28,14 @@
 package org.n52.oxf.valueDomains.time;
 
 import com.google.common.collect.Maps;
+
 import java.util.Map;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.Is;
 import org.joda.time.DateTime;
 import org.junit.Assert;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -44,7 +43,7 @@ import org.slf4j.LoggerFactory;
  */
 public class TimePositionTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TimePositionTest.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(TimePositionTest.class);
 
     @Test
     public void testTimePositionBeforeDaylightSavingSwitch() {
@@ -80,7 +79,8 @@ public class TimePositionTest {
         Assert.assertTrue(oxfAtSwitch.before(oxfAfterSwitch));
     }
 
-    @Test public void testIfCalendarCompareDoesRespectTimezone() {
+    @Test
+    public void testIfCalendarCompareDoesRespectTimezone() {
 
         String timeBeforeDaylightSwitch = "2007-10-28T02:55:00.000+02:00";
         String timeAtDaylightSwitch = "2007-10-28T02:00:00.000+01:00";
@@ -90,38 +90,43 @@ public class TimePositionTest {
         TimePosition oxfTimeAtSwitch = new TimePosition(timeAtDaylightSwitch);
         TimePosition oxfTimeAfterSwitch = new TimePosition(timeAfterDaylightSwitch);
 
-        assertTrue(oxfTimeBeforeSwitch.getCalendar().before(oxfTimeAtSwitch.getCalendar()));
-        assertTrue(oxfTimeBeforeSwitch.getCalendar().before(oxfTimeAfterSwitch.getCalendar()));
-        assertTrue(oxfTimeAtSwitch.getCalendar().before(oxfTimeAfterSwitch.getCalendar()));
+        Assert.assertTrue(oxfTimeBeforeSwitch.getCalendar().before(oxfTimeAtSwitch.getCalendar()));
+        Assert.assertTrue(oxfTimeBeforeSwitch.getCalendar().before(oxfTimeAfterSwitch.getCalendar()));
+        Assert.assertTrue(oxfTimeAtSwitch.getCalendar().before(oxfTimeAfterSwitch.getCalendar()));
 
     }
 
-    @Test public void testCreateITimeFromISO8601WithZuluOffset() {
+    @Test
+    public void testCreateITimeFromISO8601WithZuluOffset() {
         TimePosition withoutOffset = new TimePosition("2014-03-30T02:05:20.000");
         TimePosition withZulu = new TimePosition("2014-03-30T02:05:20.000Z");
         withoutOffset.equals(withZulu);
     }
 
-    @Test public void parseDateCorrectly() {
+    @Test
+    public void parseDateCorrectly() {
         TimePosition withoutOffset = new TimePosition("2014-03-30T02:05:20.000");
         Assert.assertThat(withoutOffset.getDay(), Matchers.is(30));
         Assert.assertThat(withoutOffset.getMonth(), Matchers.is(03));
         Assert.assertThat(withoutOffset.getYear(), Matchers.is(2014L));
     }
 
-    @Test public void parseTimeCorrectly() {
+    @Test
+    public void parseTimeCorrectly() {
         TimePosition withoutOffset = new TimePosition("2014-03-30T02:05:20.000");
         Assert.assertThat(withoutOffset.getHour(), Matchers.is(02));
         Assert.assertThat(withoutOffset.getMinute(), Matchers.is(05));
         Assert.assertThat((double)withoutOffset.getSecond(), Matchers.closeTo(20.0, 0.001));
     }
 
-    @Test public void parseTimeZoneCorrectly() {
+    @Test
+    public void parseTimeZoneCorrectly() {
         TimePosition withoutOffset = new TimePosition("2014-03-30T02:05:20.000");
         Assert.assertThat(withoutOffset.getTimezone(), Matchers.is("Z"));
     }
 
-    @Test public void createIsoDateWithTimezoneNull() {
+    @Test
+    public void createIsoDateWithTimezoneNull() {
         Map<String, String> testCases = Maps.newHashMap();
         testCases.put("2014-03-30T02:05:20.000", "2014-03-30T02:05:20");
         testCases.put("2014-03-30T02:05:20.000Z", "2014-03-30T02:05:20");
@@ -131,5 +136,17 @@ public class TimePositionTest {
             String isoString = time.toISO8601Format();
         Assert.assertThat(isoString, Matchers.is(testCases.get(key)));
         }
+    }
+
+    @Test
+    public void shouldCreateTimePositionFromStringWithMicros() {
+        TimePosition tp = new TimePosition("2017-08-31T22:04:06.600000+00:00");
+        Assert.assertThat(tp.toISO8601Format(), Is.is("2017-08-31T22:04:06.600+00:00"));
+    }
+
+    @Test
+    public void shouldCreateTimePositionFromStringWithTimeZone() {
+        TimePosition tp = new TimePosition("2017-08-31T22:04:06+11:30");
+        Assert.assertThat(tp.toISO8601Format(), Is.is("2017-08-31T22:04:06+11:30"));
     }
 }

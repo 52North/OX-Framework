@@ -59,15 +59,17 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
     public static final String DAY_PATTERN = "0*\\d?\\d";
     public static final String HOUR_PATTERN = "0*\\d?\\d";
     public static final String MINUTE_PATTERN = "0*\\d?\\d";
-    public static final String SECOND_PATTERN = "0*\\d?\\d(.\\d)?\\d?\\d?";
+    public static final String SECOND_PATTERN = "0*\\d?\\d(.\\d)?\\d*";
     public static final String UTC_PATTERN = "\\d+(Z|[+-]\\d\\d([:]?(\\d\\d))?)?";
+
+    private static final long serialVersionUID = 1L;
 
     private long year;
     private int month = NOT_SET;
     private int day = NOT_SET;
     private int hour = NOT_SET;
     private int minute = NOT_SET;
-    private float second = NOT_SET;
+    private double second = NOT_SET;
     private String timeZone = "Z";
 
     private boolean isDateComplete = false;
@@ -115,7 +117,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
             throw new IllegalArgumentException("date contains only \"-\"");
         }
         final String[] dateArray = date.split("-");
-        if ( ( !dateArray[0].equalsIgnoreCase("") && dateArray.length > 3) || dateArray[0].equalsIgnoreCase("")
+        if ( !dateArray[0].equalsIgnoreCase("") && dateArray.length > 3 || dateArray[0].equalsIgnoreCase("")
                 && dateArray.length > 4) {
             throw new IllegalArgumentException("date contains more than 3 parts");
         }
@@ -124,10 +126,10 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
             negativeOffset = 1;
         }
         setYear(dateArray[0 + negativeOffset]);
-        if (dateArray.length >= (2 + negativeOffset)) {
+        if (dateArray.length >= 2 + negativeOffset) {
             setMonth(dateArray[1 + negativeOffset]);
         }
-        if (dateArray.length == (3 + negativeOffset)) {
+        if (dateArray.length == 3 + negativeOffset) {
             setDay(dateArray[2 + negativeOffset]);
             isDateComplete = true;
         }
@@ -184,6 +186,9 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
                     setSecond(secondAndTimeZoneMinus[0]);
                     timeZone = "-" + secondAndTimeZoneMinus[1];
                 }
+                if (timeArray.length == 4 && timeArray[3] != null && !timeArray[3].isEmpty()) {
+                    timeZone += ":" + timeArray[3];
+                }
             }
 
         }
@@ -208,7 +213,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
         int minutes, hours;
         minutes = offsetInMilliseconds / (1000 * 60);
         hours = minutes / 60;
-        minutes = minutes - (hours * 60);
+        minutes = minutes - hours * 60;
         String tz = "";
         if (offsetInMilliseconds >= 0) {
             tz += "+";
@@ -309,7 +314,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
          */
 
         if (Pattern.matches(SECOND_PATTERN, second)) {
-            this.setSecond(Float.parseFloat(second));
+            this.setSecond(Double.parseDouble(second));
         }
         else {
             throw new IllegalArgumentException("second does not match pattern: applied Pattern: " + SECOND_PATTERN);
@@ -317,7 +322,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
 
     }
 
-    private void setSecond(final float second) throws IllegalArgumentException {
+    private void setSecond(final double second) throws IllegalArgumentException {
         if (second >= 0 && second < 60) {
             this.second = second;
         }
@@ -354,7 +359,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
 
     @Override
     public float getSecond() {
-        return second;
+        return (float) second;
     }
 
     private String getTimeZone() {
@@ -365,6 +370,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
      * @deprecated Returned value was always null because it could never been set.
      *  Will be remove in next major version.
      */
+    @Deprecated
     public ITimeResolution getTimeResolution() {
         return /*timeRes*/null;
     }
@@ -418,13 +424,9 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
             if (getSecond() < 10) {
                 isoDate.append("0");
             }
-            // isoDate.append(new Double(this.getSecond()).intValue());
-            String fullSec = Double.toString(getSecond());
-            //3 internal decimal places allowed
+            String fullSec = Double.toString(second);
+            // 3 internal decimal places allowed
             int end = fullSec.indexOf(".")+4;
-            if(end > fullSec.length()){
-                end = fullSec.length();
-            }
             // remove internal decimal places if not required
             if(fullSec.endsWith(".0")){
                 // replaceAll with .0 leads to problems
@@ -432,6 +434,14 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
                 fullSec = fullSec.substring(0, fullSec.length()-2);
                 // fullSec = fullSec.replaceAll(".0", "");
                 end -=2;
+            } else if (fullSec.contains(".")){
+                String start = fullSec.substring(0, fullSec.indexOf("."));
+                String decimalplaces = String.format("%-3s",
+                        fullSec.substring(fullSec.indexOf(".")+1)).replace(' ', '0');
+                fullSec = new StringBuilder(start).append(".").append(decimalplaces).toString();
+            }
+            if(end > fullSec.length()){
+                end = fullSec.length();
             }
             isoDate.append(fullSec.substring(0,end));
         }
@@ -493,7 +503,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
             ordinaryDate.append("?");
         }
         if (getSecond() != NOT_SET) {
-            ordinaryDate.append(getSecond());
+            ordinaryDate.append(second);
         }
         else {
             ordinaryDate.append("?");
@@ -508,53 +518,76 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + (int) (this.year ^ (this.year >>> 32));
-        hash = 29 * hash + this.month;
-        hash = 29 * hash + this.day;
-        hash = 29 * hash + this.hour;
-        hash = 29 * hash + this.minute;
-        hash = 29 * hash + Float.floatToIntBits(this.second);
-        hash = 29 * hash + (this.timeZone != null ? this.timeZone.hashCode() : 0);
-        return hash;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + day;
+        result = prime * result + hour;
+        result = prime * result + (isDateComplete ? 1231 : 1237);
+        result = prime * result + minute;
+        result = prime * result + month;
+        long temp;
+        temp = Double.doubleToLongBits(second);
+        result = prime * result + (int) (temp ^ temp >>> 32);
+        result = prime * result + (timePos == null ? 0 : timePos.hashCode());
+        result = prime * result + (timeZone == null ? 0 : timeZone.hashCode());
+        result = prime * result + (int) (year ^ year >>> 32);
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
         if (obj == null) {
             return false;
         }
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final TimePosition other = (TimePosition) obj;
-        if (this.year != other.year) {
+        TimePosition other = (TimePosition) obj;
+        if (day != other.day) {
             return false;
         }
-        if (this.month != other.month) {
+        if (hour != other.hour) {
             return false;
         }
-        if (this.day != other.day) {
+        if (isDateComplete != other.isDateComplete) {
             return false;
         }
-        if (this.hour != other.hour) {
+        if (minute != other.minute) {
             return false;
         }
-        if (this.minute != other.minute) {
+        if (month != other.month) {
             return false;
         }
-        if (Float.floatToIntBits(this.second) != Float.floatToIntBits(other.second)) {
+        if (Double.doubleToLongBits(second) != Double.doubleToLongBits(other.second)) {
             return false;
         }
-        if ((this.timeZone == null) ? (other.timeZone != null) : !this.timeZone.equals(other.timeZone)) {
+        if (timePos == null) {
+            if (other.timePos != null) {
+                return false;
+            }
+        } else if (!timePos.equals(other.timePos)) {
+            return false;
+        }
+        if (timeZone == null) {
+            if (other.timeZone != null) {
+                return false;
+            }
+        } else if (!timeZone.equals(other.timeZone)) {
+            return false;
+        }
+        if (year != other.year) {
             return false;
         }
         return true;
     }
 
+    @Override
     public int compareTo(final ITimePosition timePosP) {
 
-        DateTime thisTimePosition = DateTime.parse(this.toISO8601Format());
+        DateTime thisTimePosition = DateTime.parse(toISO8601Format());
         DateTime theOtherTimePosition = DateTime.parse(timePosP.toISO8601Format());
 
         return !thisTimePosition.isEqual(theOtherTimePosition)
@@ -580,7 +613,7 @@ public class TimePosition implements ITimePosition, Comparable<ITimePosition>, S
 
     @Override
     public Calendar getCalendar() {
-        DateTime dateTime = DateTime.parse(this.toISO8601Format());
+        DateTime dateTime = DateTime.parse(toISO8601Format());
         return dateTime.toGregorianCalendar();
     }
 
