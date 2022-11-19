@@ -15,6 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -696,7 +697,7 @@ public class NanoHTTPD
             {
                 String tmpdir = System.getProperty("java.io.tmpdir");
                 try {
-                    File temp = File.createTempFile("NanoHTTPD", "", new File(tmpdir));
+                    File temp = Files.createTempFile(new File(tmpdir).toPath(), "NanoHTTPD", "").toFile();
                     try (OutputStream fstream = new FileOutputStream(temp)) {
                         fstream.write(b, offset, len);
                     }
