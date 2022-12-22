@@ -1,3 +1,7 @@
+**THIS PROJECT IS ARCHIVED!**
+**THIS PROJECT IS ARCHIVED!**
+**THIS PROJECT IS ARCHIVED!**
+
 - Develop: [![Build Status](https://travis-ci.org/52North/OX-Framework.svg?branch=develop)](https://travis-ci.org/52North/OX-Framework)
 - Master:  [![Build Status](https://travis-ci.org/52North/OX-Framework.svg?branch=master)](https://travis-ci.org/52North/OX-Framework)
 
